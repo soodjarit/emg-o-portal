@@ -1,0 +1,921 @@
+<title>คู่มือการใช้งาน EMG-O — Stone Slab Inventory</title>
+<style>
+:root{
+  --bg:#f2f1ec;
+  --surface:#ffffff;
+  --surface-2:#e9e7e0;
+  --ink:#211f1c;
+  --muted:#6b675f;
+  --border:#dcd8cf;
+  --accent:#2f6e68;
+  --accent-ink:#ffffff;
+  --accent-2:#a8791f;
+  --danger:#a23b32;
+  --danger-bg:#f7e9e7;
+  --success:#3f7d52;
+  --success-bg:#e9f2ec;
+  --info-bg:#e8eeee;
+  --warning-bg:#f6efe0;
+  --tip-bg:#eef0e6;
+  --code-bg:#eae7de;
+  --shadow: 0 1px 2px rgba(30,28,25,.06), 0 6px 20px rgba(30,28,25,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#15171a; --surface:#1d2023; --surface-2:#252a2d; --ink:#e8e6e0;
+    --muted:#9d9a92; --border:#33373a; --accent:#5fa39d; --accent-ink:#0d1614;
+    --accent-2:#d3a542; --danger:#d97468; --danger-bg:#3a2622; --success:#74b98a;
+    --success-bg:#1f2f24; --info-bg:#1f2729; --warning-bg:#2f2a1c; --tip-bg:#222720;
+    --code-bg:#282c2f; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171a; --surface:#1d2023; --surface-2:#252a2d; --ink:#e8e6e0;
+  --muted:#9d9a92; --border:#33373a; --accent:#5fa39d; --accent-ink:#0d1614;
+  --accent-2:#d3a542; --danger:#d97468; --danger-bg:#3a2622; --success:#74b98a;
+  --success-bg:#1f2f24; --info-bg:#1f2729; --warning-bg:#2f2a1c; --tip-bg:#222720;
+  --code-bg:#282c2f; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --bg:#f2f1ec; --surface:#ffffff; --surface-2:#e9e7e0; --ink:#211f1c;
+  --muted:#6b675f; --border:#dcd8cf; --accent:#2f6e68; --accent-ink:#ffffff;
+  --accent-2:#a8791f; --danger:#a23b32; --danger-bg:#f7e9e7; --success:#3f7d52;
+  --success-bg:#e9f2ec; --info-bg:#e8eeee; --warning-bg:#f6efe0; --tip-bg:#eef0e6;
+  --code-bg:#eae7de; --shadow:0 1px 2px rgba(30,28,25,.06),0 6px 20px rgba(30,28,25,.06);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai","Leelawadee UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere;
+}
+a{color:var(--accent);}
+code, .step-num, .chapter-num, .nav-num{font-family:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;}
+code{background:var(--code-bg); padding:.12em .4em; border-radius:4px; font-size:.9em; overflow-wrap:anywhere;}
+
+.wrap{display:grid; grid-template-columns:272px 1fr; max-width:1180px; margin:0 auto; min-height:100vh;}
+@media (max-width:860px){ .wrap{grid-template-columns:1fr;} }
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  border-right:1px solid var(--border);
+  padding:28px 18px 60px;
+}
+@media (max-width:860px){
+  .sidebar{border-right:none; border-bottom:1px solid var(--border); position:static; max-height:none;}
+}
+.brand{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+.brand-mark{
+  width:34px; height:34px; border-radius:7px; background:var(--accent); color:var(--accent-ink);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; letter-spacing:.02em;
+  flex:none;
+}
+.brand-name{font-weight:700; font-size:15px; letter-spacing:.01em;}
+.brand-sub{color:var(--muted); font-size:12.5px; margin:2px 0 22px 44px;}
+
+.nav-section{
+  text-transform:uppercase; letter-spacing:.08em; font-size:11px; font-weight:700;
+  color:var(--muted); margin:20px 0 6px; padding-left:10px;
+}
+.nav-section:first-of-type{margin-top:4px;}
+.nav-link{
+  display:flex; align-items:baseline; gap:9px; text-decoration:none; color:var(--ink);
+  padding:6px 10px; border-radius:7px; font-size:13.6px; line-height:1.35;
+}
+.nav-link:hover{background:var(--surface-2);}
+.nav-num{color:var(--muted); font-size:11.5px; flex:none; min-width:1.4em;}
+
+/* ---------- Main / Hero ---------- */
+main{padding:0 0 80px; min-width:0;}
+.hero{
+  padding:46px 40px 30px; border-bottom:1px solid var(--border);
+}
+.hero-eyebrow{
+  text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; color:var(--accent);
+}
+.hero h1{
+  font-size:32px; margin:10px 0 8px; text-wrap:balance; letter-spacing:-.01em;
+}
+.hero p{color:var(--muted); font-size:15px; max-width:60ch; margin:0;}
+.hero-meta{
+  display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; font-size:13px; color:var(--muted);
+}
+.hero-meta b{color:var(--ink);}
+
+.content{padding:8px 40px 0;}
+@media (max-width:640px){ .hero{padding:32px 20px 24px;} .content{padding:8px 20px 0;} }
+
+/* ---------- Chapters ---------- */
+.chapter{padding:44px 0 8px; border-bottom:1px solid var(--border); scroll-margin-top:20px;}
+.chapter:last-child{border-bottom:none;}
+.chapter-title{
+  display:flex; align-items:baseline; gap:14px; font-size:24px; margin:0 0 20px; text-wrap:balance;
+}
+.chapter-num{
+  color:var(--accent); font-size:14px; font-weight:700; background:var(--surface-2);
+  border-radius:6px; padding:3px 8px; flex:none;
+}
+.chapter h3{font-size:18px; margin:30px 0 10px;}
+.chapter p{margin:0 0 14px;}
+.chapter ul{margin:0 0 14px; padding-left:1.3em;}
+.chapter li{margin:0 0 6px;}
+.xref{font-weight:600; text-decoration:none; border-bottom:1px solid currentColor;}
+.xref-external{color:var(--muted); font-style:italic;}
+mark{background:var(--warning-bg); color:inherit; padding:.05em .15em; border-radius:3px;}
+hr{border:none; border-top:1px solid var(--border); margin:32px 0;}
+
+/* steps */
+.steps{margin:0 0 16px; display:flex; flex-direction:column; gap:2px;}
+.step{display:flex; gap:14px; padding:6px 0;}
+.step-num{
+  flex:none; width:26px; height:26px; border-radius:50%; background:var(--accent); color:var(--accent-ink);
+  display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:700; margin-top:1px;
+}
+.step-body{padding-top:2px;}
+
+/* callouts */
+.callout{
+  border-left:3px solid var(--muted); background:var(--surface-2); border-radius:0 8px 8px 0;
+  padding:12px 16px; margin:0 0 16px;
+}
+.callout-note{border-color:var(--accent); background:var(--info-bg);}
+.callout-tip{border-color:var(--success); background:var(--tip-bg);}
+.callout-warning{border-color:var(--accent-2); background:var(--warning-bg);}
+.callout-bug{border-color:var(--danger); background:var(--danger-bg);}
+.callout-success{border-color:var(--success); background:var(--success-bg);}
+.callout-info{border-color:var(--accent); background:var(--info-bg);}
+.callout-head{display:flex; align-items:center; gap:10px; margin-bottom:4px;}
+.callout-tag{
+  text-transform:uppercase; letter-spacing:.06em; font-size:10.5px; font-weight:700; color:var(--muted);
+}
+.callout-title{font-weight:700; font-size:14.5px;}
+.callout-body{font-size:14.5px; color:var(--ink);}
+.callout-body :last-child{margin-bottom:0;}
+
+/* tables */
+.table-wrap{overflow-x:auto; margin:0 0 18px; border:1px solid var(--border); border-radius:8px;}
+table{border-collapse:collapse; width:100%; font-size:14px;}
+th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top;}
+th{background:var(--surface-2); font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:700;}
+tr:last-child td{border-bottom:none;}
+
+/* figures */
+figure{margin:0 0 20px;}
+figure img{max-width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--border);}
+figure.screenshot img{box-shadow:var(--shadow);}
+figure.diagram{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px;}
+.diagram-row{display:flex; gap:16px; flex-wrap:wrap; margin:0 0 20px;}
+.diagram-row figure{flex:1 1 320px; margin:0; min-width:0;}
+figure.diagram img{border:none; border-radius:4px;}
+.media-note{
+  font-size:13px; color:var(--muted); font-style:italic; border:1px dashed var(--border);
+  border-radius:8px; padding:10px 14px; margin:0 0 16px;
+}
+
+::selection{background:var(--accent); color:var(--accent-ink);}
+</style>
+
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">Stone Slab Inventory</div>
+    <div class="nav-section">ภาพรวม</div>
+<a href="#ch-01" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+<div class="nav-section">รับสินค้า &amp; สต็อก</div>
+<a href="#ch-02" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+<a href="#ch-03" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+<div class="nav-section">โหมดการขาย</div>
+<a href="#ch-04" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+<a href="#ch-05" class="nav-link"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+<div class="nav-section">ส่งของ &amp; ต้นทุน</div>
+<a href="#ch-06" class="nav-link"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+<a href="#ch-07" class="nav-link"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+<div class="nav-section">โหมดการขาย</div>
+<a href="#ch-08" class="nav-link"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+<div class="nav-section">ฟีเจอร์เสริม</div>
+<a href="#ch-09" class="nav-link"><span class="nav-num">09</span>eCommerce Catalog (`/stone-catalog`)</a>
+<a href="#ch-11" class="nav-link"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+<a href="#ch-12" class="nav-link"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+<div class="nav-section">โหมดการขาย</div>
+<a href="#ch-13" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+<a href="#ch-14" class="nav-link"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+<div class="nav-section">การจัดซื้อ</div>
+<a href="#ch-15" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+<div class="nav-section">BOQ &amp; ใบเสนอราคาตัวอย่าง</div>
+<a href="#ch-16" class="nav-link"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+<a href="#ch-17" class="nav-link"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+<a href="#ch-18" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+<a href="#ch-19" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+<a href="#ch-20" class="nav-link"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+<a href="#ch-21" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+<a href="#ch-22" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+<div class="nav-section">คืนสินค้า</div>
+<a href="#ch-23" class="nav-link"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+<div class="nav-section">BOQ &amp; ใบเสนอราคาตัวอย่าง</div>
+<a href="#ch-24" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+<a href="#ch-25" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+  </nav>
+  <main>
+    <div class="hero">
+      <div class="hero-eyebrow">คู่มือการใช้งานระบบ</div>
+      <h1>EMG-O — Stone Slab Inventory</h1>
+      <p>คู่มือการใช้งานระบบบริหารสต็อกแผ่นหิน สำหรับ Empire Granite / Empire Stone ครอบคลุมตั้งแต่รับหินเข้าคลัง ตัดแผ่น ขายทั้ง 4 รูปแบบ ไปจนถึงส่งของและวางบิล</p>
+      <div class="hero-meta">
+        <span><b>24</b> บท</span>
+        <span><b>Odoo 19</b> · stone_slab_inventory</span>
+        <span>อัปเดต 22 กรกฎาคม 2026</span>
+      </div>
+    </div>
+    <div class="content">
+      <section class="chapter" id="ch-01">
+<h2 class="chapter-title"><span class="chapter-num">01</span>ภาพรวมระบบ</h2>
+<p>ข้อมูลใน EMG-O จัดเรียงเป็นลำดับชั้น: <strong>Material → Block → Bundle → Slab</strong></p>
+<ul><li><strong>Material</strong> = ชนิดหิน เช่น Emperador Grey Light (1 Material = 1 Product ใน Odoo ไม่ใช้ Variants)</li><li><strong>Block</strong> = ก้อนหินดิบจากเหมือง ซื้อเป็นหน่วย m³ (CBM) — มี Product แยกต่างหากจาก Slab (Phase 12)</li><li><strong>Bundle</strong> = ชุดหินที่มาด้วยกัน 1 lot ผูกกับทั้ง Block (CBM) และ Slab (แผ่น) ของ material เดียวกัน</li><li><strong>Slab</strong> = แผ่นเดี่ยวแต่ละแผ่นที่ตัดออกจาก Block ในบันเดิลนั้น แต่ละแผ่น track แยกกันด้วย:</li><li><strong>Serial Number (Lot) เฉพาะแผ่น</strong> — 1 แผ่น = 1 lot (ตั้งแต่ ADR-009) เพื่อสแกนยืนยันตอนส่งของได้</li><li><strong>Slab No.</strong> — เลขลำดับแผ่นในบันเดิล ไม่ซ้ำกันเสมอ (auto-assign)</li><li><strong>สถานะ</strong>: Available / Hold / Consigned / Sold / Cut-Loss / Remnant</li></ul>
+<p>ดู diagram เต็ม:</p>
+<div class="diagram-row"><figure class="diagram"><img src="assets/excalidraw-preview-hierarchy.webp" alt="EMG-O Data Hierarchy Overview"/></figure><figure class="diagram"><img src="assets/excalidraw-preview-status.webp" alt="EMG-O Data Hierarchy Overview"/></figure></div>
+<p><strong>ตัวอย่างหน้าจอ Bundle Kanban</strong> (มุมมองภาพรวมของทุก Bundle พร้อม stats):</p>
+<figure class="screenshot"><img src="assets/01-bundle-kanban.webp" alt="01-bundle-kanban.png"/></figure>
+<p>การ์ดแต่ละใบแสดง Warehouse, Material, สถานะแผ่น (Available/Hold/Consigned/Sold) และ sqmt รวม</p>
+<h3>Workflow การเปลี่ยนสถานะแผ่น</h3>
+<ul><li><strong>Available → Hold</strong>: อัตโนมัติเมื่อ SO confirm (ลูกค้าจอง ผ่าน Select Slabs wizard)</li><li><strong>Hold → Available</strong>: อัตโนมัติเมื่อ unreserve / ยกเลิก SO / ยกเลิก line</li><li><strong>Hold → Sold</strong>: อัตโนมัติเมื่อ Delivery Order validate (ผ่านการสแกนยืนยัน Serial ก่อนเสมอ — ดู <a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</li><li><strong>Available → Consigned</strong>: Internal Transfer ไปยัง location Consigned</li><li><strong>Consigned → Sold</strong>: Transfer จาก Consigned ตอนขายได้จริง</li><li><strong>Hold → Available (fabrication cancel)</strong>: ถ้ายกเลิก Repair Order ที่ผูกกับแผ่น ระบบจะปล่อยแผ่นคืนอัตโนมัติ</li></ul>
+<h3>2 Flow การขายหลัก</h3>
+<p>ระบบรองรับการขาย 2 แบบ ต่างกันตรงมีขั้นตอนแปรรูป (fabrication) แทรกหรือไม่:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ขายเป็นแผ่นเฉยๆ</strong> — ดู <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a></div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>ขายพร้อมเจาะช่องอ่างล้างหน้า</strong> — ดู <a href="#ch-05" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a></div></div></div>
+<p>ทั้งสองแบบใช้ขั้นตอนรับสินค้า/ตัดแผ่น/เก็บสต็อกเดียวกันทั้งหมด (หัวข้อ 2-3) และจบด้วยขั้นตอนส่งของ/สแกน/เซ็นรับของเดียวกัน (หัวข้อ 6)</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-02">
+<h2 class="chapter-title"><span class="chapter-num">02</span>รับสินค้าเข้าคลัง</h2>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">หน้านี้พูดถึงการซื้อ**หิน**เท่านั้น</span></div><div class="callout-body">ถ้าซื้อของอย่างอื่นที่ไม่ใช่หิน (อุปกรณ์, วัสดุสิ้นเปลือง, บริการ ฯลฯ) ไม่ต้องผูก Bundle — ใช้ขั้นตอน Purchase มาตรฐานของ Odoo ตรงๆ ดู <a href="#ch-15" class="xref">บทที่ 15: การจัดซื้อ</a></div></div>
+<h3>ภาพรวม Flow</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch02.webp" alt="EMG-O Flow - รับสินค้าเข้าคลัง (Purchase to Bundle)"/></figure>
+<h3>วิธีซื้อ + รับก้อนหินเข้าคลัง (คลิปสาธิตเต็ม flow)</h3>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>ก่อนสร้าง Bundle ต้องมี <strong>Purchase Order จริงที่ Confirm แล้ว</strong> ก่อนเสมอ (ดูเหตุผลใน warning ด้านล่าง) — ขั้นตอนเต็มตามคลิป:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Purchase → New</strong> → เลือก Vendor (ตัวอย่างคลิป: Demo Supplier - Global Stone Quarry)</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก <strong>Block Product</strong> ของวัสดุนั้น (เช่น "Rosa Portogallo Granite Block") → กรอก Quantity เป็น<strong>คิว (m³)</strong> ที่ซื้อจริง (ตัวอย่าง 5 m³) + ราคาต่อคิว (ตัวอย่าง 8,000/m³)</div></div><div class="step"><span class="step-num">3</span><div class="step-body">Save → <strong>Confirm Order</strong> — PO เปลี่ยนสถานะเป็น Purchase Order (ยืนยันแล้ว)</div></div><div class="step"><span class="step-num">4</span><div class="step-body">ไปที่ <strong>Stone Slab → Bundles → New</strong> → กรอก Bundle Number + เลือก Material → section "2. รับสต็อกก้อน (CBM)" จะโผล่มา</div></div><div class="step"><span class="step-num">5</span><div class="step-body">ช่อง <strong>Purchase Order Line</strong> — ระบบกรองให้เหลือเฉพาะ PO Line ของ Block Product วัสดุนี้ที่ Confirm แล้วเท่านั้น (ไม่ต้องไล่หาใน PO Line ทั้งระบบ) → เลือก PO ที่เพิ่งสร้าง</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>Supplier + Total CBM กรอกให้อัตโนมัติ</strong> จาก PO Line ที่เลือก (ตัวอย่าง Total CBM = 5.00 ตรงกับ PO) — เหลือแค่กรอก <strong>Thickness (M)</strong> เอง (ค่านี้ไม่ได้อยู่บน PO เพราะเป็นความหนาที่จะตัดแผ่น ไม่ใช่คุณสมบัติของก้อนดิบ)</div></div><div class="step"><span class="step-num">7</span><div class="step-body">เลือก <strong>Warehouse</strong> → Save — ระบบสร้าง <code>Block Stock Lot</code> ให้อัตโนมัติ และ <strong>Remaining CBM</strong> จะคำนวณสดตรงกับที่ซื้อจริงทันที</div></div></div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">อัปเดต 2026-07-19</span></div><div class="callout-body">ก่อนหน้านี้ช่อง Purchase Order Line ไม่มีการกรอง (โชว์ PO Line ทั้งระบบทุก vendor/ทุกสินค้า) และต้องกรอก Supplier + Total CBM ซ้ำเองทั้งที่มีอยู่แล้วบน PO — แก้แล้ว (ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span> ถ้าต้องการ technical detail)</div></div>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">อัปเดต 2026-07-20 — ระบบกันสต็อกซ้ำจากใบรับสินค้าอัตโนมัติแล้ว</span></div><div class="callout-body">สต็อกก้อนหิน/แผ่นหินทั้งหมดถูกจัดการโดยโมดูลนี้เอง <strong>ไม่ผ่านขั้นตอน "รับสินค้า" (Receipt) ปกติของ Odoo</strong> — เดิมพนักงานต้องจำเองว่าห้ามกด Validate ใบรับสินค้าของ PO มิเช่นนั้นสต็อกจะถูกนับซ้ำ 2 เท่า ตอนนี้ระบบป้องกันให้อัตโนมัติ 2 ชั้นแล้ว: 1. พอ Bundle ผูกกับ Purchase Order Line เสร็จ (ขั้นตอนที่ 5-6 ด้านบน) ใบรับสินค้าของ PO นั้นจะถูก <strong>ยกเลิกให้อัตโนมัติ</strong> — ไม่มีอะไรค้างให้กด Validate 2. ถ้ามีใครพยายามกด Validate ใบรับสินค้าของสินค้าหินอยู่ดี ระบบจะฟ้อง error ไม่ให้ผ่าน (กันสต็อกซ้ำแม้จะลืม)  พนักงานไม่ต้องจำกฎนี้เองอีกต่อไป — ถ้าเห็นใบรับสินค้าของ PO หินขึ้นสถานะ <strong>Cancelled</strong> ไปเอง เป็นเรื่องปกติ ไม่ใช่บั๊ก</div></div>
+<p>ภาพจริงจากการทดสอบบน production:</p>
+<figure class="screenshot"><img src="assets/46-receipt-hardblock-error.webp" alt="46-receipt-hardblock-error.png"/></figure>
+<p>*ถ้าพยายามกด Validate ใบรับสินค้าของสินค้าหินด้วยมือ (ก่อนหรือหลังมี Bundle ก็ตาม) ระบบจะฟ้อง error แบบนี้ทันที*</p>
+<figure class="screenshot"><img src="assets/47-receipt-auto-cancelled.webp" alt="47-receipt-auto-cancelled.png"/></figure>
+<p>*ใบรับสินค้าเดียวกัน หลังจากสร้าง Bundle ผูกกับ Purchase Order Line นี้แล้ว — สถานะเปลี่ยนเป็น Cancelled ให้อัตโนมัติ (ดู log ทางขวา: "Ready → Cancelled")*</p>
+<h3>สร้าง Bundle (รายละเอียด field)</h3>
+<p>เมื่อสินค้าเข้าคลัง ให้สร้าง <strong>Bundle</strong> ใหม่ผ่านเมนู Stone Slab → Bundles → New</p>
+<figure class="screenshot"><img src="assets/03-new-bundle-form.webp" alt="03-new-bundle-form.png"/></figure>
+<p>กรอกข้อมูลหลัก:</p>
+<ul><li><strong>Bundle Number</strong> — เลข lot</li><li><strong>Material</strong> — เลือกชนิดหินจาก dropdown (ถ้ายังไม่มีในระบบ สร้างใหม่ได้จากช่องนี้เลย)</li></ul>
+<figure class="screenshot"><img src="assets/04-material-dropdown.webp" alt="04-material-dropdown.png"/></figure>
+<ul><li><strong>Supplier</strong>, <strong>Warehouse</strong> (กำหนดว่า Bundle นี้อยู่ WH ไหน/บริษัทไหน — EG หรือ ES)</li><li>ราคาขาย (Sales Price / Sq.Mt.)</li></ul>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ข้อควรระวัง</span></div><div class="callout-body">การสร้าง Bundle ผ่านปุ่ม "New" ตรงๆ <strong>จะไม่ผูก Product อัตโนมัติ</strong> ถ้า Bundle ไม่ได้มาจากการรับสินค้าผ่าน PO จริง อาจทำให้ปุ่ม "Select Slabs" ในขั้นตอนขายหาแผ่นไม่เจอ — เป็น known limitation (ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>) ให้ผ่าน flow รับสินค้าจริงผ่าน PO เสมอ ไม่ควรสร้าง Bundle ลอยๆ ในหน้างานจริง</div></div>
+<h3>รับก้อนหิน (Block, CBM) — เฉพาะ Material ที่มี Block Product</h3>
+<p>ถ้า Material นั้นมี Block Product ผูกอยู่ (<code>material_id.product_id_block</code>) ฟอร์ม Bundle จะบังคับให้กรอก section CBM เพิ่ม:</p>
+<ul><li><strong>Total CBM</strong> — ปริมาตรก้อนหินทั้งหมดตามที่ซื้อจริง (m³)</li><li><strong>Thickness (M)</strong> — ความหนาแผ่นมาตรฐานที่จะตัดจากก้อนนี้ (ใช้คำนวณหัก CBM อัตโนมัติตอนเพิ่มแผ่น)</li><li><strong>Analytic Account</strong> — สำหรับ tag ต้นทุนแรงงาน/ค่าตัด (ตาม ADR-008 pattern เดียวกับ ADR-010 fabrication)</li></ul>
+<p>เมื่อ Save ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">สร้าง <code>block_lot_id</code> (lot แยกต่างหากจาก lot ของแผ่น — 1 lot ผูกได้แค่ 1 product เท่านั้น)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง stock.move รับก้อนหินเข้า location "Stone Available" ของ Warehouse นั้นให้อัตโนมัติ</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Remaining CBM</strong> จะคำนวณสดจากสต็อกจริง (ไม่ใช่ field ธรรมดา) เพื่อกันปัญหาค่าค้าง (stale-store)</div></div></div>
+<figure class="screenshot"><img src="assets/06-bundle-saved.webp" alt="06-bundle-saved.png"/></figure>
+<h3>Container (ถ้ามีหลาย Bundle มาด้วยกัน 1 ตู้)</h3>
+<p>เมนู Stone Slab → Containers ใช้จัดกลุ่ม Bundle ที่มาด้วยกัน 1 container/shipment เดียวกัน — ใช้สำหรับกระจาย <strong>Landed Cost</strong> ตามสัดส่วน Sq.Mt. ของแต่ละ Bundle (ดู <a href="#ch-07" class="xref">บทที่ 07: ต้นทุนสินค้า</a>)</p>
+<figure class="screenshot"><img src="assets/15-containers-list.webp" alt="15-containers-list.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-03">
+<h2 class="chapter-title"><span class="chapter-num">03</span>ตัดแผ่นและจัดการสต็อก</h2>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch03.webp" alt="EMG-O Flow - ตัดแผ่นและจัดการสต็อก (Add Slab Line)"/></figure>
+<h3>ตัดแผ่น (Add Slab Line)</h3>
+<p>ในฟอร์ม Bundle → tab <strong>Slabs</strong> → "Add a line" เพื่อเพิ่มแผ่นทีละแผ่น กรอกขนาด (Slab L, Slab H) ระบบจะคำนวณ Slab Sqmt ให้อัตโนมัติ สถานะเริ่มต้นของแผ่นใหม่จะเป็น <strong>Available</strong></p>
+<figure class="screenshot"><img src="assets/05-slab-line-add.webp" alt="05-slab-line-add.png"/></figure>
+<p>เมื่อกด Save ระบบจะทำงานอัตโนมัติหลายอย่างพร้อมกัน:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>หัก CBM จากก้อนหิน</strong> (<code>slab_sqmt × thickness_m</code>) — ถ้า Material นั้นมี Block Product ผูกอยู่ (กัน CBM ติดลบด้วย guard)</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>สร้าง Serial Number (Lot) เฉพาะแผ่นนั้น</strong> (ADR-009) — 1 แผ่น = 1 lot จริง เพื่อพิมพ์ป้ายและสแกนยืนยันตอนส่งของได้ (native lot label wizard ของ Odoo)</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>กำหนดเลข "Slab No." ไม่ซ้ำกันอัตโนมัติ</strong> ภายในบันเดิลเดียวกัน (Session 25) — ถึงจะเพิ่มหลายแผ่นพร้อมกันในหน้าจอเดียวก่อน Save ก็ไม่ชนกัน</div></div><div class="step"><span class="step-num">4</span><div class="step-body">สร้าง stock.move รับแผ่นเข้า location "Stone Available" ของ Warehouse นั้น</div></div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ทำไมต้องมี Serial Number ต่อแผ่น</span></div><div class="callout-body">แผ่นหินแต่ละแผ่นในบันเดิลเดียวกันมีขนาด/ผิวหน้าต่างกัน ลูกค้าอาจเลือกแผ่นเฉพาะเจาะจง — serial number ทำให้พนักงานสแกนยืนยันได้ตอนส่งของว่าหยิบแผ่นถูกจริง ไม่ใช่แผ่นอื่นในบันเดิลเดียวกัน (ดู <a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</div></div>
+<h3>Slab Kanban Board (Trello-style)</h3>
+<p>เมนู Stone Slab → Slabs จะเปิดเป็น Kanban board แบ่งคอลัมน์ตามสถานะ ลาก-วาง (drag &amp; drop) การ์ดข้ามคอลัมน์เพื่อเปลี่ยนสถานะได้เลย ระบบจะ sync stock.move ให้อัตโนมัติเบื้องหลัง</p>
+<figure class="screenshot"><img src="assets/07-slab-kanban-board.webp" alt="07-slab-kanban-board.png"/></figure>
+<h3>Slab List View</h3>
+<p>ดูรายละเอียดทุกแผ่นแบบตารางได้ที่ปุ่มสลับมุมมอง (ขวาบน) — เห็น Bundle, Slab No., ขนาด, สถานะ, ลูกค้า, เลข Sale Order, และ Serial Number ที่ผูกอยู่</p>
+<figure class="screenshot"><img src="assets/08-slab-list-view.webp" alt="08-slab-list-view.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-04">
+<h2 class="chapter-title"><span class="chapter-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</h2>
+<p>Flow นี้ใช้เมื่อลูกค้าซื้อแผ่นหินไปติดตั้งเองเลย ไม่ต้องการให้ทางร้านเจาะ/ตัดอะไรเพิ่ม</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-slabonly.webp" alt="EMG-O Flow - ขายเป็นแผ่น (Slab Only)"/></figure>
+<h3>ขั้นตอน</h3>
+<p>จากหน้า Sales Order ปกติ เพิ่ม Order Line เลือก Product ที่เป็นวัสดุหิน (stone material) — ระบบจะแสดงปุ่ม <strong>"Select Slabs"</strong> ต่อท้ายชื่อสินค้าในบรรทัดนั้นให้อัตโนมัติ</p>
+<figure class="screenshot"><img src="assets/09-so-select-slabs-button.webp" alt="09-so-select-slabs-button.png"/></figure>
+<p>คลิก "Select Slabs" จะเปิด wizard ขึ้นมา:</p>
+<figure class="screenshot"><img src="assets/10-wizard-open.webp" alt="10-wizard-open.png"/></figure>
+<p>กด "Add a line" → เลือก Bundle → ระบบจะแสดงเฉพาะแผ่นที่สถานะ <strong>Available</strong> และตรงกับ Product ของบรรทัดนั้นเท่านั้น (รวมทุก Warehouse ที่มีสิทธิ์เห็น รวมถึงข้ามบริษัท EG/ES — ดู <a href="#ch-08" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a>):</p>
+<figure class="screenshot"><img src="assets/11-wizard-available-slabs.webp" alt="11-wizard-available-slabs.png"/></figure>
+<p>เลือกแผ่นที่ต้องการ (เลือกได้หลายแผ่น) แล้วกด Select → แผ่นจะถูกเพิ่มเข้า wizard:</p>
+<figure class="screenshot"><img src="assets/12-wizard-lines-selected.webp" alt="12-wizard-lines-selected.png"/></figure>
+<p>กด "Confirm Selection" — จำนวน (Quantity) บน Order Line จะอัปเดตตามจำนวนแผ่นที่เลือกอัตโนมัติ:</p>
+<figure class="screenshot"><img src="assets/13-so-qty-updated.webp" alt="13-so-qty-updated.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">เปิด wizard ซ้ำได้ (Session 25)</span></div><div class="callout-body">ถ้ากลับมาเปิด "Select Slabs" ซ้ำบน line ที่มีแผ่น hold ไว้แล้ว (เช่น ลูกค้าสั่งผ่านเว็บ eCommerce มาก่อน — ดู <a href="#ch-09" class="xref">บทที่ 09: eCommerce Catalog (`/stone-catalog`)</a>) ระบบจะโชว์แผ่นที่ hold ไว้แล้วให้เห็นในลิสต์ด้วย (คอลัมน์ Status บอกว่า Available/Hold) สามารถเพิ่มแผ่นใหม่หรือเอาแผ่นเดิมออก (จะคืนสถานะเป็น Available อัตโนมัติ) ได้จากหน้าเดียวกันเลย</div></div>
+<p>กด <strong>Confirm</strong> เพื่อยืนยัน SO — ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปลี่ยนสถานะแผ่นที่เลือกจาก Available → <strong>Hold</strong> ทันที พร้อมผูก Customer + เลข SO</div></div><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง Delivery Order ให้อัตโนมัติ (smart button "Delivery" ที่มุมบน)</div></div></div>
+<figure class="screenshot"><img src="assets/14-so-confirmed-delivery.webp" alt="14-so-confirmed-delivery.png"/></figure>
+<p>ขั้นตอนต่อไป (สแกนยืนยัน + ส่งของ + เซ็นรับ) ดูที่ <a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a></p>
+<hr/>
+</section>
+<section class="chapter" id="ch-05">
+<h2 class="chapter-title"><span class="chapter-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</h2>
+<p>Flow นี้ใช้เมื่อลูกค้าต้องการให้ทางร้านแปรรูปแผ่นก่อนส่ง (เช่น เจาะรูสำหรับวางอ่างล้างหน้า/อ่างล้างจาน) — เป็น ADR-010 <strong>"Slab Fabrication"</strong> ใช้ Odoo <strong>Repair Order</strong> ไม่ใช่ MRP เพราะแผ่นหินตัวเดิมเข้า-ออกเป็นชิ้นเดียวกัน ไม่ใช่การผลิตสินค้าใหม่</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-fab.webp" alt="EMG-O Flow - ขายพร้อมเจาะช่องอ่างล้างหน้า (Fabrication)"/></figure>
+<h3>ขั้นตอน</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ทำตาม <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a> ข้อ 1-4 ก่อน (เพิ่ม Order Line สินค้าหิน → "Select Slabs" → เลือกแผ่น → Confirm Selection) — <strong>ต้อง hold แผ่นให้เสร็จก่อน</strong> ถึงจะไปขั้นตอนถัดไปได้</div></div></div>
+<figure class="screenshot"><img src="assets/16-wizard-slab-selected.webp" alt="16-wizard-slab-selected.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">เพิ่ม <strong>Order Line ที่ 2</strong> ในใบเดียวกัน — เลือก Product = <strong>"Slab Fabrication Service"</strong></div></div><div class="step"><span class="step-num">3</span><div class="step-body">field <strong>"Slab to Fabricate"</strong> จะโผล่ในบรรทัดนี้ — คลิกเลือก แล้วจะเห็นเฉพาะแผ่นที่ <strong>hold ไว้แล้วในออเดอร์นี้เท่านั้น</strong> (ถ้ายังไม่เห็นตัวเลือก แปลว่ายังไม่ได้ hold แผ่นจาก line แรก — กลับไปทำข้อ 1 ก่อน)</div></div></div>
+<figure class="screenshot"><img src="assets/17-so-fabrication-slab-dropdown.webp" alt="17-so-fabrication-slab-dropdown.png"/></figure>
+<p>หลังเลือกแล้ว:</p>
+<figure class="screenshot"><img src="assets/18-so-fabrication-slab-filled.webp" alt="18-so-fabrication-slab-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">กด <strong>Confirm</strong> SO — ระบบจะสร้างให้อัตโนมัติ:</div></div></div>
+<ul><li><strong>Repair Order</strong> ผูกกับ lot ของแผ่นที่เลือก (ทั้งต้นทางและปลายทาง = location Stone Hold)</li><li><strong>Delivery Order</strong> สำหรับ Order Line ที่ 1 (ตัวแผ่นหิน) เหมือน flow ปกติ</li></ul>
+<p>สังเกต smart button "Delivery" และ "Repairs" ที่มุมบนหลัง confirm:</p>
+<figure class="screenshot"><img src="assets/19-so-confirmed-smartbuttons.webp" alt="19-so-confirmed-smartbuttons.png"/></figure>
+<h3>ทำงานแปรรูปจริง (ก่อนส่งของเสมอ)</h3>
+<p>เปิด <strong>Repair Order</strong> ที่ถูกสร้างขึ้น (คลิก smart button "Repairs" บน Sale Order) — จะเห็น <strong>Lot/Serial</strong> ของแผ่นเป้าหมายชัดเจน (ต้องเปิดสิทธิ์ "Lots &amp; Serial Numbers" ก่อน ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>):</p>
+<figure class="screenshot"><img src="assets/20-repair-order-confirmed.webp" alt="20-repair-order-confirmed.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">กด <strong>Start Repair</strong> — สถานะเปลี่ยนเป็น Under Repair:</div></div></div>
+<figure class="screenshot"><img src="assets/21-repair-order-under-repair.webp" alt="21-repair-order-under-repair.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">ทำงานเจาะ/ตัดจริงที่คลัง</div></div><div class="step"><span class="step-num">3</span><div class="step-body">กด <strong>End Repair</strong> — สถานะขึ้นเป็น <strong>Repaired</strong> (= done) พร้อม log แสดง stock move จริง (Stone Hold → Stone Hold):</div></div></div>
+<figure class="screenshot"><img src="assets/22-repair-order-done.webp" alt="22-repair-order-done.png"/></figure>
+<div class="callout callout-danger"><div class="callout-head"><span class="callout-tag">danger</span><span class="callout-title">ต้องเจาะให้เสร็จ (End Repair) ก่อน Validate Delivery Order เสมอ</span></div><div class="callout-body">Repair Order ออกแบบให้ทำ stock move ของตัวเอง (Stone Hold → Stone Hold, net-zero แต่เป็น audit trail จริง) ซึ่งต้องการให้แผ่นยังอยู่ที่ Stone Hold ตอนกด End Repair — ถ้า validate Delivery Order (ซึ่งย้ายแผ่นออกจาก Stone Hold ไปแล้ว) ก่อน อาจทำให้ End Repair หาสต็อกไม่เจอ/error  <strong>ลำดับที่ถูกต้องเสมอ: เจาะให้เสร็จ (End Repair) → แล้วค่อย Validate Delivery Order</strong>  พบและยืนยันจริงจากออเดอร์ S54264 (2026-07-05) และทดสอบซ้ำอีกครั้งกับออเดอร์ทดสอบ S54270 (2026-07-06) — ทำตามลำดับนี้แล้วผ่านราบรื่นทั้งสองครั้ง</div></div>
+<p>หมายเหตุ: เมื่อ Repair Order ถึงสถานะ <strong>Done</strong> แล้ว Odoo จะไม่อนุญาตให้ยกเลิก/ลบอีก (by design เพื่อเก็บ audit trail) — เป็นพฤติกรรมปกติ ไม่ใช่บั๊ก</p>
+<h3>ต้นทุนงานแปรรูป</h3>
+<p>field <strong>Analytic Account</strong> บน Repair Order (auto-fill จาก Bundle ถ้ามีตั้งไว้) ใช้ให้ฝ่ายบัญชี tag ค่าแรง/ค่าเครื่องมือด้วยมือ ตามรูปแบบเดียวกับ ADR-008 (ไม่มี auto-costing อัตโนมัติ)</p>
+<h3>ขั้นตอนต่อไป</h3>
+<p>หลัง End Repair แล้ว ไปทำ <a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a> ต่อได้เลย (สแกนยืนยัน Serial → Validate Delivery → เซ็นรับของ → พิมพ์ PDF) — ใบแจ้งหนี้จะรวมทั้งค่าแผ่นหินและค่าบริการเจาะในใบเดียวกัน</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-06">
+<h2 class="chapter-title"><span class="chapter-num">06</span>ส่งของและยืนยันการรับ</h2>
+<p>ขั้นตอนนี้ใช้ต่อจาก <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a> หรือ <a href="#ch-05" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a> — เหมือนกันทั้ง 2 flow</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch06.webp" alt="EMG-O Flow - ส่งของและยืนยันการรับ (Delivery Confirm)"/></figure>
+<h3>สแกนยืนยัน Serial (ADR-009)</h3>
+<p>ทุกครั้งที่จะ <strong>Validate</strong> Delivery Order ที่มีสินค้าหิน ระบบจะบังคับตรวจสอบก่อนเสมอ (fail-closed guard): field <strong>"Scanned Serial"</strong> ของแต่ละแผ่นต้องตรงกับ <strong>Lot/Serial Number</strong> จริงของแผ่นนั้น ถ้าไม่ตรง/ไม่ได้กรอก จะขึ้น error "Scan verification failed" ทันที กด Validate ไม่ผ่าน</p>
+<p><strong>วิธีกรอก/สแกน:</strong> เปิด Delivery Order → กดปุ่ม <strong>"Moves"</strong> (มุมขวาบน) หรือ <strong>"Details"</strong> ที่บรรทัดสินค้า (ทั้งสองจุดมี field นี้ให้กรอกเหมือนกัน) → คลิกช่อง "Scanned Serial" → สแกนด้วยเครื่องสแกนจริง (ถ้ามี) หรือเลือกจาก dropdown ให้ตรงกับ Lot/Serial Number ที่โชว์อยู่แล้ว</p>
+<p>ก่อนกรอก (ช่องว่าง):</p>
+<figure class="screenshot"><img src="assets/23-delivery-moves-scanned-serial-empty.webp" alt="23-delivery-moves-scanned-serial-empty.png"/></figure>
+<p>หลังกรอกตรงกับ Lot จริง:</p>
+<figure class="screenshot"><img src="assets/24-delivery-moves-scanned-serial-filled.webp" alt="24-delivery-moves-scanned-serial-filled.png"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยังไม่มีเครื่องสแกนจริง (ข้อจำกัดปัจจุบัน)</span></div><div class="callout-body">ตอนนี้พนักงานยังต้องเลือกจาก dropdown ด้วยมือแทนการสแกนจริง — ระบบรองรับกล้องสแกนบนมือถือ/แท็บเล็ต หรือเครื่องสแกน USB/Bluetooth ได้ทันทีที่มีอุปกรณ์ (ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>)</div></div>
+<p>กด <strong>Validate</strong> — เมื่อผ่านการสแกนยืนยันแล้ว ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ย้ายสต็อกจริงจาก Stone Hold → Customers</div></div><div class="step"><span class="step-num">2</span><div class="step-body">แผ่น Hold → <strong>Sold</strong> อัตโนมัติ พร้อมผูก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/25-delivery-done.webp" alt="25-delivery-done.png"/></figure>
+<h3>เซ็นรับของ (Proof of Delivery)</h3>
+<p>ในหน้า Delivery Order มีแท็บ <strong>"Customer Signature"</strong> (โชว์เฉพาะใบส่งของ/outgoing):</p>
+<figure class="screenshot"><img src="assets/26-signature-tab-empty.webp" alt="26-signature-tab-empty.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">กรอกชื่อผู้รับใน <strong>"Received By"</strong></div></div><div class="step"><span class="step-num">2</span><div class="step-body">คลิกช่อง <strong>"Customer Signature"</strong> → เปิดกระดานเซ็นลายเซ็นต์ → ยื่นให้ลูกค้าเซ็นบนหน้าจอ (ใช้ได้ทั้งนิ้ว/ปากกาบนแท็บเล็ต-มือถือ หรือเมาส์บนคอม) — เลือกแท็บ "Draw" เพื่อวาดลายเซ็นจริงแทนฟอนต์ auto</div></div><div class="step"><span class="step-num">3</span><div class="step-body">บันทึก — ระบบจะ stamp วันเวลา <strong>"Signed On"</strong> ให้อัตโนมัติทันที</div></div></div>
+<figure class="screenshot"><img src="assets/27-signature-signed.webp" alt="27-signature-signed.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่บังคับต้องเซ็นก่อน Validate</span></div><div class="callout-body">การเซ็นเป็น optional ไม่บล็อกการ Validate Delivery Order — จะเซ็นก่อนหรือหลัง Validate ก็ได้ตามความสะดวกหน้างาน</div></div>
+<h3>พิมพ์ Proof of Delivery (PDF)</h3>
+<p>หลังจากมีลายเซ็นแล้ว ปุ่ม <strong>"Print Proof of Delivery"</strong> จะโผล่ขึ้นในแท็บเดียวกัน (เห็นในภาพด้านบน) — กดเพื่อพิมพ์เอกสารสรุป: เลข Delivery Order, ลูกค้า, วันที่ส่ง, รายการสินค้า/Serial/จำนวน, ชื่อผู้รับ, วันที่เซ็น, และรูปลายเซ็นจริง — ใช้เป็นหลักฐานยืนยันการส่งของ (แยกจากใบ Delivery Slip ปกติของ Odoo)</p>
+<p>ตัวอย่าง PDF จริงที่พิมพ์ออกมา: <span class="xref-external">proof-of-delivery-sample.pdf</span></p>
+<hr/>
+</section>
+<section class="chapter" id="ch-07">
+<h2 class="chapter-title"><span class="chapter-num">07</span>ต้นทุนสินค้า</h2>
+<p>เปิดฟอร์ม Bundle จะเห็น section <strong>Pricing &amp; Cost</strong>:</p>
+<figure class="screenshot"><img src="assets/02-bundle-form-cost.webp" alt="02-bundle-form-cost.png"/></figure>
+<p>สูตรคำนวณ:</p>
+<ul><li><strong>PO Cost / Sq.Mt.</strong> = ราคาจาก Purchase Order Line (<code>purchase_line_id.price_unit / total_sqmt</code> หรือ <code>price_subtotal</code> สำหรับ PO แบบ CBM) — PO เป็นแบบ lump sum ต่อ Bundle</li><li><strong>Landed Cost / Sq.Mt.</strong> = <code>container.landed_cost_total</code> กระจายตามสัดส่วน sqmt ของแต่ละ Bundle ใน container นั้น (คำนวณเอง ไม่ผ่านโมดูล <code>stock_landed_costs</code> มาตรฐาน เพราะ native split method เป็นระดับ product ไม่ใช่ระดับ slab)</li><li><strong>Cost / Sq.Mt.</strong> = PO Cost + Landed Cost</li><li><strong>slab.cost</strong> = <code>bundle.cost_sqmt × slab.slab_sqmt</code> (คำนวณแยกทุกแผ่น)</li><li><strong>slab.sale_price</strong> = <code>bundle.sales_price_sqmt × slab.purchased_sqmt</code> (ใช้แสดงราคาในหน้าเว็บ eCommerce ด้วย — ดู <a href="#ch-09" class="xref">บทที่ 09: eCommerce Catalog (`/stone-catalog`)</a>)</li></ul>
+<p>Section <strong>SQ.MT. STATS</strong> ด้านล่างสรุปพื้นที่รวมแยกตามสถานะ (Total / Available / Hold / Sold) ให้เห็นภาพรวมมูลค่าสต็อกทันที</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-08">
+<h2 class="chapter-title"><span class="chapter-num">08</span>ขายข้ามบริษัท (EG↔ES)</h2>
+<p>Empire Stone มี 2 บริษัทแยกกัน (Company EG และ Company ES) แต่ละบริษัทมี Warehouse ของตัวเอง (WH-EG, WH-ES) เมื่อพนักงานฝั่ง EG เปิด SO แล้วเลือกแผ่นที่อยู่ในสต็อกของ ES (หรือกลับกัน) ระบบจะจัดการ intercompany trade ให้อัตโนมัติทั้งหมด โดยพนักงานไม่ต้องทำอะไรเพิ่ม</p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">✅ Validated live end-to-end (2026-07-22)</span></div><div class="callout-body">ทดสอบจริงผ่านหน้าเว็บทั้งกระบวนการ (ไม่ใช่แค่ odoo shell): สร้างสต็อกใหม่จริงฝั่ง ES ผ่าน PO → เปิด SO ฝั่ง EG → Select Slabs เห็นสต็อก ES ปนมาด้วยจริง → Confirm SO → Internal SO [S54390](https://odoo19-mbxai.mx-erp.com/odoo/sales/60136)/PO P00055 สร้างอัตโนมัติ ราคาตรงสูตร markup 10% เป๊ะ (cost 13,714.29 × 1.10 = 15,085.71, รวม VAT 16,141.71) → Delivery Order ES (ESWH/OUT/00010) ตัดตรงจาก Stone Hold → Customers แบบ drop-ship จริง → Draft Invoice/Bill ออกอัตโนมัติ → ขึ้นการ์ดใหม่ใน Intercompany Reconciliation dashboard ครบ ระหว่างทางเจอบั๊กจริง 1 ตัว แก้แล้ว (ดูหัวข้อด้านล่าง)</div></div>
+<figure class="diagram"><img src="assets/excalidraw-preview-intercompany.webp" alt="EMG-O Intercompany Trade Flow (EG-ES)"/></figure>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายข้ามบริษัทจริง)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>*คลิปนี้คือ session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้ในตัวสลับบริษัท) เปิด SO ใหม่ → เลือกสินค้าหิน → Select Slabs เห็นสต็อก ES ปนมาให้เลือก → Confirm Selection → Confirm SO ทั้งใบ → เปิดดู Delivery ที่ตัดตรงจากคลัง ES → ไปดู Intercompany Reconciliation dashboard เห็นแถวใหม่ขึ้นจริง ทั้งหมดในเทคเดียวไม่มีตัดต่อ (บันทึกหลังแก้บั๊ก sudo() ด้านล่างแล้ว)*</p>
+<p>สรุปขั้นตอนที่ระบบทำให้อัตโนมัติ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">พนักงาน EG เปิด SO ให้ลูกค้า แล้วเลือกแผ่นผ่าน "Select Slabs" Wizard ตามปกติ (ดู <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) — wizard จะโชว์แผ่น Available ทั้งจาก WH-EG และ WH-ES ให้เลือกรวมกัน</div></div></div>
+<figure class="screenshot"><img src="assets/114-intercompany-select-slabs-cross-company.webp" alt="114-intercompany-select-slabs-cross-company.png"/></figure>
+<p>*สต็อก ES-B-0001 (ฝั่ง ES) ขึ้นในลิสต์ให้เลือกจริง ทั้งที่ SO นี้เปิดอยู่ใต้ Company EG*</p>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">ถ้าเลือกแผ่นที่อยู่ WH-ES ทั้งที่ SO เปิดอยู่ใต้ Company EG ระบบจะตรวจพบว่า Company ของ Bundle (ES) ไม่ตรงกับ Company ของ SO (EG)</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ระบบสร้างเอกสารภายในให้อัตโนมัติ:</div></div></div>
+<ul><li><strong>Internal SO</strong> (ES ขายให้ EG) ราคา = cost_sqmt × 1.10 (markup 10% ตาม config <code>res.company.stone_intercompany_markup_pct</code>)</li><li><strong>Internal PO</strong> คู่กัน (EG ซื้อจาก ES) — auto-confirm ให้เลย</li></ul>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ใช้วิธี <strong>Drop-ship</strong>: Delivery Order จริงจะถูกส่งตรงจาก WH-ES ไปยังที่อยู่ลูกค้าปลายทางเลย ไม่มีการย้ายสต็อกเข้า WH-EG จริง (เพื่อไม่ให้กระทบ inventory integrity ของบริษัทผู้ขาย — ไม่ใช้ native Odoo Dropship mechanism)</div></div></div>
+<figure class="screenshot"><img src="assets/115-intercompany-so-confirmed-dropship.webp" alt="115-intercompany-so-confirmed-dropship.png"/></figure>
+<p>*SO S54389 confirm สำเร็จ ไม่มี error — smart button "Delivery 1" คือใบส่งของจริงที่ตัดตรงจากคลัง ES*</p>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">SO เดิม (EG → ลูกค้า) จะ invoice ลูกค้าตามราคาขายเต็มตามปกติ ส่วน Internal SO/PO ที่สร้างอัตโนมัติใช้สำหรับการบันทึกบัญชี intercompany เท่านั้น</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>(ใหม่ 2026-07-07, ADR-014)</strong> ทันทีที่ Internal SO/PO confirm ระบบจะออก <strong>draft invoice</strong> (ฝั่ง ES ขาย) และ <strong>draft vendor bill</strong> (ฝั่ง EG ซื้อ) ให้อัตโนมัติทันที — ยังไม่ post เข้าบัญชี ต้องให้ฝ่ายบัญชีเข้าไปตรวจตัวเลข/วันที่แล้ว post เองอีกที (เจตนาให้ตรวจก่อนเสมอ ไม่ auto-post)</div></div><div class="step"><span class="step-num">7</span><div class="step-body"><strong>(ใหม่ 2026-07-07, ADR-014 Phase 2)</strong> ดูสรุปทุกรายการซื้อขายข้ามบริษัทได้ที่เมนู <strong>Stone Slab → Intercompany Reconciliation</strong> — การ์ดแยกตามทิศทาง (เช่น ES → EG) พร้อม badge "รอตรวจสอบ"/"Post แล้ว" คลิกการ์ดเพื่อดูรายการ แล้วคลิกที่ invoice/bill ในตารางเพื่อเปิดเอกสารจริงไปตรวจ/post ได้ทันที</div></div></div>
+<figure class="screenshot"><img src="assets/116-intercompany-reconciliation-dashboard.webp" alt="116-intercompany-reconciliation-dashboard.png"/></figure>
+<p>*แถวใหม่ S54389 → S54390 → P00055 ขึ้นในตารางจริง cross-check ยอด 16,141.71 ตรงกับ Internal SO/PO/Invoice/Bill ทุกจุด*</p>
+<h3>🐛 บั๊กที่พบ+แก้ระหว่าง validate (2026-07-22)</h3>
+<p><strong>ปุ่ม Confirm Selection ใน Select Slabs wizard ขึ้น Access Error ทันทีที่ hold แผ่นข้ามบริษัท</strong> — ทดสอบจริงครั้งแรกด้วย session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้ใน company selector มุมขวาบน ซึ่งเป็นสภาพจริงของพนักงานทั่วไปที่ไม่เคยต้องสลับบริษัทเอง) พบ error ทันที:</p>
+<p>&gt; Sorry, emg_demo doesn't have 'read' access to: Warehouse (stock.warehouse)</p>
+<p><strong>Root cause:</strong> <code>stone.slab.write()</code> เรียก <code>_stock_move_status_change()</code> → <code>_get_bucket_location()</code> ทุกครั้งที่ status เปลี่ยน (เช่นตอน hold) ซึ่งอ่าน <code>bundle.warehouse_id</code> ของ ES โดยไม่ได้ sudo() — เมธอดนี้อยู่ใน <code>write()</code> กลาง ซึ่งเป็น code path ที่ทุกโหมดการขาย (1-4) ใช้ร่วมกันทั้งหมด ไม่ใช่แค่ Select Slabs</p>
+<p><strong>แก้แล้ว:</strong> เพิ่ม <code>.sudo()</code> ตรงจุดเรียก <code>_stock_move_status_change()</code> ใน <code>write()</code> (commit <code>58fa4df</code> บน <code>project/emg-o</code>) — ตรรกะเดียวกับที่ใช้แก้ปัญหาคล้ายกันมาก่อนแล้วใน <code>_compute_stone_slab_count</code>/<code>action_cancel</code>/<code>_process_stone_intercompany_trade</code> re-test ผ่านทั้ง <code>odoo shell</code> (จำลอง session พนักงาน EG เป๊ะๆ) และผ่านหน้าเว็บจริงซ้ำจนยืนยันว่า hold สำเร็จ ไม่มี error แล้ว</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ยังไม่ได้ไล่ทดสอบ Mode 1/3/4 ข้ามบริษัทซ้ำ</span></div><div class="callout-body">บั๊กนี้อยู่ใน <code>write()</code> กลางที่ทุกโหมดใช้ร่วมกัน จึงมีโอกาสสูงว่า Mode 1 (Select Block)/Mode 3 (Cut to Order)/Mode 4 (Project) ก็เจอ error เดียวกันถ้าเคยลองข้ามบริษัทมาก่อนหน้านี้ — Session นี้ validate เจาะจงแค่เส้นทาง Select Slabs (โหมดแผ่นสำเร็จรูป) เท่านั้น ยังไม่ได้ไล่ทดสอบโหมดอื่นซ้ำหลังแก้</div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ข้อจำกัดที่ทราบอยู่แล้ว</span></div><div class="callout-body">- Delivery เดิมของฝั่งขาย (ก่อนสลับเป็น drop-ship) จะถูก cancel ตรงๆ ไม่ผ่าน backorder wizard ปกติ - Fiscal Position ระหว่าง EG↔ES ไม่ได้ทำ เพราะทั้งคู่เป็นบริษัทไทย VAT 7% เท่ากัน - Dashboard เฉพาะแสดงรายการที่เกิดผ่านระบบนี้เท่านั้น — เจอรายการเก่าจาก 2026-07-01 (ก่อนมี ADR-014) ที่ไม่เคยมี invoice/bill เลย ต้องให้ฝ่ายบัญชีตรวจเองว่าจะย้อนออกเอกสารให้หรือไม่</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-09">
+<h2 class="chapter-title"><span class="chapter-num">09</span>eCommerce Catalog (`/stone-catalog`)</h2>
+<p>หน้าเว็บสาธารณะ <strong>empiregranite.net/stone-catalog</strong> (ADR-011) ให้ลูกค้าเรียกดูแผ่นหินจริงที่มีในสต็อกและสั่งซื้อได้เอง โดยไม่ต้องผ่านพนักงานก่อน — สร้างแบบ custom controller ทั้งหมด ไม่ใช้ <code>website_sale</code> เพราะแผ่นหินแต่ละแผ่นเป็นชิ้นเดียวไม่ซ้ำ (unique unit) ไม่ใช่สินค้านับจำนวนทั่วไป และไม่ต้องการระบบชำระเงินออนไลน์</p>
+<h3>UX 2 ระดับ</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Level 1 (หน้ารวม Material)</strong> — แสดงเป็นการ์ดตาม Material พร้อมรูป, จำนวนแผ่นพร้อมขาย ("N แผ่นพร้อมขาย"), และช่วงราคา</div></div></div>
+<figure class="screenshot"><img src="assets/29-catalog-level1.webp" alt="29-catalog-level1.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Level 2 (คลิกเข้าไปดูแผ่นจริง)</strong> — แสดงรายการแผ่นจริงแต่ละแผ่นในนั้น (ขนาด, ราคา, รูปจริง) ให้เลือกเพิ่มลงตะกร้าได้ทีละแผ่น</div></div></div>
+<figure class="screenshot"><img src="assets/30-catalog-level2.webp" alt="30-catalog-level2.png"/></figure>
+<p>(ออกแบบ 2 ระดับนี้ตาม feedback ลูกค้า — ดูแบบ flat list เดียวจะสับสนว่าทำไมมี 2 รายการที่หน้าตาคล้ายกัน)</p>
+<h3>ตะกร้า &amp; ยืนยันคำสั่งซื้อ</h3>
+<ul><li>ตะกร้าเป็น client-side (<code>localStorage</code>) ไม่มี server cart model</li><li>ยืนยันคำสั่งซื้อ → ระบบ find-or-create ลูกค้า (<code>res.partner</code>) จากเบอร์โทร/อีเมล (normalize ก่อนเทียบ กันสร้างซ้ำ) → สร้าง <strong>Quotation แบบ draft</strong> ให้ทันที (ยังไม่ confirm — พนักงานต้อง review ก่อนเสมอ)</li><li>ถ้าแผ่นที่ลูกค้าเลือกถูกคนอื่น hold ไปก่อนพอดี (race condition) ระบบจะแจ้ง error ทันที ไม่มี record ค้าง</li></ul>
+<h3>เมื่อออเดอร์จาก Catalog เข้ามาถึงพนักงาน</h3>
+<p>Quotation ที่สร้างจาก Catalog จะมีแผ่นถูก hold ไว้แล้ว (status = Hold) — เมื่อพนักงานเปิดดู Order Line แล้วกด <strong>"Select Slabs"</strong> จะเห็นแผ่นที่ลูกค้าเลือกไว้แล้วในลิสต์ทันที (ตาม Session 25 fix — ดู <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) พนักงานตรวจสอบแล้วกด Confirm SO ต่อได้เลยตาม flow ปกติ</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ข้อมูลราคา</span></div><div class="callout-body">ตอนนี้มีแค่บางแผ่นที่กรอกราคาขายจริงแล้ว (<code>purchased_l/h</code> + <code>sales_price_sqmt</code>) แผ่นอื่นที่ยังไม่กรอกจะโชว์ราคา ฿0 ในหน้าเว็บ — ต้องกรอกให้ครบก่อนเปิดขายจริงวงกว้าง (ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>)</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-11">
+<h2 class="chapter-title"><span class="chapter-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</h2>
+<p>หน้านี้เป็นเครื่องมือแยกต่างหาก <strong>ไม่ใช่หน้าจอในระบบ Odoo ปกติ</strong> — สร้างขึ้นมาเพื่อให้พนักงานคลังใช้เครื่องสแกนบาร์โค้ด (Bluetooth/USB) ทำงานหน้างานได้เร็ว โดยไม่ต้อง login เข้า Odoo แล้วไล่หาเมนู Inventory (ADR-013) มี 2 โหมด: <strong>เช็คสต็อก</strong> (นับของจริง) และ <strong>ย้ายสต็อก</strong> (ย้ายแผ่นระหว่าง Available/Hold/Consigned)</p>
+<h3>เข้าใช้งาน</h3>
+<p>ไปที่ URL <code>https://odoo19-mbxai.mx-erp.com/stone-scan</code> (หรือกดเมนู <strong>Stone Slab → Scan Station</strong> จาก backend) — ต้อง login ด้วยบัญชีพนักงานตัวเองก่อนเสมอ (เพื่อบันทึกว่าใครเป็นคนทำ) ถ้ายังไม่ login ระบบจะพาไปหน้า login อัตโนมัติ</p>
+<p>หน้าแรกมีปุ่มสลับโหมด 2 ปุ่มด้านบน กดสลับได้ทันทีไม่ต้องโหลดหน้าใหม่ (ปุ่มสีน้ำเงิน = โหมดที่ใช้งานอยู่):</p>
+<figure class="screenshot"><img src="assets/31-scan-station-location-prompt.webp" alt="31-scan-station-location-prompt.png"/></figure>
+<h3>โหมดเช็คสต็อก (นับของจริง)</h3>
+<h3>ขั้นตอนที่ 1 — สแกน Location ที่จะนับ</h3>
+<p>หน้าจอจะบอกให้ "สแกน Location ที่จะนับ" — ยิงบาร์โค้ดที่ติดอยู่หน้าโซนจัดเก็บจริง (Available/Hold/Consigned ของแต่ละโกดัง) ระบบจะเปิด "รอบนับ" ใหม่ทันที และเปลี่ยน prompt เป็น "สแกนแผ่นที่เจอจริง"</p>
+<figure class="screenshot"><img src="assets/32-scan-station-take-started.webp" alt="32-scan-station-take-started.png"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยิง location ผิด หรือ location ที่ไม่ใช่ Stone Location</span></div><div class="callout-body">ระบบจะขึ้นข้อความแดงทันที ("ไม่พบตำแหน่งนี้ในระบบ" / "ตำแหน่งนี้ไม่ใช่ Stone Location") ไม่ทำอะไรต่อ ยิงใหม่ได้เลย</div></div>
+<h3>ขั้นตอนที่ 2 — สแกนแผ่นที่เจอจริงในโซนนั้น</h3>
+<p>เดินยิงบาร์โค้ดของทุกแผ่นที่เจอจริงในโซนนั้นไปเรื่อยๆ (บาร์โค้ดเดียวกับที่พิมพ์ติดแผ่นตอนตัด ดู <a href="#ch-03" class="xref">บทที่ 03: ตัดแผ่นและจัดการสต็อก</a>) แต่ละครั้งที่ยิงสำเร็จ จะขึ้นชื่อแผ่นในลิสต์ + ตัวนับอัปเดตทันที</p>
+<figure class="screenshot"><img src="assets/33-scan-station-slab-scanned.webp" alt="33-scan-station-slab-scanned.png"/></figure>
+<ul><li>ยิงแผ่นเดิมซ้ำ — ระบบรู้ว่าซ้ำ ไม่นับเพิ่ม ขึ้น "สแกนซ้ำ ไม่นับเพิ่ม"</li><li>ยิงบาร์โค้ดที่ไม่มีในระบบ — ขึ้น "ไม่พบแผ่นนี้ในระบบ" ไม่กระทบตัวนับ</li></ul>
+<h3>ขั้นตอนที่ 3 — จบรอบนับ + ดูผล</h3>
+<p>เมื่อสแกนครบทุกแผ่นในโซนแล้ว กดปุ่ม <strong>"จบรอบนับ"</strong> ระบบจะเทียบสิ่งที่สแกนเจอ กับสิ่งที่ระบบคิดว่าควรอยู่ตรงนั้น แล้วสรุป:</p>
+<ul><li><strong>หาย</strong> — ระบบว่าควรอยู่ที่นี่ แต่ไม่ถูกสแกนพบรอบนี้</li><li><strong>เกิน/ผิดที่</strong> — สแกนเจอจริง แต่ระบบว่าไม่ควรอยู่ตรงนี้ (เช่น สถานะจริงคนละอัน)</li></ul>
+<figure class="screenshot"><img src="assets/34-scan-station-summary.webp" alt="34-scan-station-summary.png"/></figure>
+<div class="callout callout-important"><div class="callout-head"><span class="callout-tag">important</span><span class="callout-title">ระบบไม่แก้ข้อมูลให้อัตโนมัติ</span></div><div class="callout-body">ผลลัพธ์ "หาย"/"เกิน" เป็นแค่รายงานให้ดู — ต้องตรวจสอบเองแล้วไปแก้สถานะแผ่นในระบบด้วยมือ (ผ่านหน้า Bundle/Slab ปกติ) ไม่มีการเขียนทับสต็อกอัตโนมัติจากหน้านี้</div></div>
+<h3>Export Excel</h3>
+<p>กดปุ่ม <strong>"Export Excel"</strong> เพื่อโหลดไฟล์ .xlsx (2 ชีท: Missing, Extra — มี Bundle, Slab #, Product, สถานะในระบบ, Location ที่ควรอยู่) ใช้ส่งต่อให้หัวหน้าคลังตรวจสอบ หรือเก็บเป็นหลักฐานการนับสต็อกประจำงวด</p>
+<p>ต้องการดูประวัติการนับย้อนหลัง หรือ export ซ้ำ ไปที่เมนู <strong>Stone Slab → Stock Takes</strong> ในหน้า backend ปกติ (ดูได้ทุกรอบที่เคยนับ ไม่ใช่แค่รอบล่าสุด)</p>
+<h3>โหมดย้ายสต็อก (relocate)</h3>
+<p>กดปุ่ม <strong>"ย้ายสต็อก"</strong> ด้านบนเพื่อสลับโหมด — ใช้ตอนต้องย้ายแผ่นจริงระหว่าง Available/Hold/Consigned (เช่น กันแผ่นไว้ให้ลูกค้าที่มาดูของหน้าร้านโดยยังไม่ผ่าน SO, หรือคืนแผ่นที่กันไว้กลับ Available)</p>
+<figure class="screenshot"><img src="assets/35-scan-station-move-mode.webp" alt="35-scan-station-move-mode.png"/></figure>
+<p><strong>ขั้นตอนที่ 1 — สแกน Location ปลายทาง</strong> (ที่ต้องการย้ายแผ่นไปอยู่)</p>
+<figure class="screenshot"><img src="assets/36-scan-station-move-destination-set.webp" alt="36-scan-station-move-destination-set.png"/></figure>
+<p><strong>ขั้นตอนที่ 2 — สแกนแผ่นที่จะย้ายไปทีละแผ่น</strong> ระบบย้ายให้ทันทีที่สแกนสำเร็จ (ไม่ต้องกดยืนยันซ้ำ) ขึ้นชื่อแผ่น + ตัวนับสะสมในหน้าเดียวกัน</p>
+<p>จะเปลี่ยนปลายทางเมื่อไหร่ก็สแกน Location ใหม่ได้เลย ไม่ต้องกดปุ่มไหนก่อน</p>
+<div class="callout callout-important"><div class="callout-head"><span class="callout-tag">important</span><span class="callout-title">ขอบเขตที่ตั้งใจไว้ (ป้องกันย้ายผิดพลาด)</span></div><div class="callout-body">- ปลายทางสแกนได้แค่ <strong>Available / Hold / Consigned</strong> เท่านั้น — "Sold" มาจาก Delivery จริงเท่านั้น และ "Cut Loss" ต้องตัดสินใจแยกต่างหาก ไม่ให้สแกนสุ่มได้จากหน้านี้ - แผ่นที่สถานะปัจจุบันเป็น <strong>Sold หรือ Cut Loss แล้ว ย้ายจากหน้านี้ไม่ได้</strong> ระบบขึ้น error ทันที ป้องกันการย้อนสถานะการขาย/ตัดขาดทุนโดยไม่ตั้งใจ - ย้ายข้ามคลัง (เช่น แผ่นของ EG ไปสแกนที่ location ของ ES) ระบบบล็อกด้วย — ปลายทางต้องเป็นคลังเดียวกับที่แผ่นนั้นสังกัดอยู่ - สแกนแผ่นที่อยู่ตำแหน่งนั้นอยู่แล้ว ระบบขึ้น "อยู่ตำแหน่งนี้อยู่แล้ว" เฉยๆ ไม่ทำอะไรซ้ำ</div></div>
+<p><strong>Verified จริง (2026-07-07):</strong> ย้ายแผ่นจริง EMG-B-0003 #1 ไป-กลับ Available↔Hold ผ่านหน้านี้ ตรวจ stock quant จริงว่าย้ายถูกทิศทางทุกครั้ง แล้วคืนสถานะเดิมครบ</p>
+<h3>ข้อจำกัดปัจจุบัน</h3>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยังไม่มีเครื่องสแกนจริงมาทดสอบ</span></div><div class="callout-body">Flow ทั้ง 2 โหมดถูก build และ verify ผ่าน HTTP จริงแล้ว (ไม่ใช่แค่จำลอง) แต่ยังไม่เคยทดสอบกับเครื่องสแกน Bluetooth จริงหน้างาน — ถ้ายิงแล้วพฤติกรรมไม่ตรง (เช่น ค่าที่ยิงมีอักขระเกิน) แจ้งได้เลยเพื่อปรับ</div></div>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">แคช Cloudflare หน้านี้ 7 วัน</span></div><div class="callout-body">ถ้าเคยเข้าหน้านี้มาก่อนแล้วรู้สึกว่าปุ่ม/ฟีเจอร์ใหม่ไม่ขึ้น ให้ลอง refresh แบบ hard refresh (Ctrl+Shift+R) — เว็บใช้ Cloudflare cache ไฟล์ JS/CSS ไว้นานสูงสุด 7 วัน ถ้ายังไม่ขึ้นแจ้งได้เลย</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-12">
+<h2 class="chapter-title"><span class="chapter-num">12</span>กำไรรายโครงการ (Analytic Accounting)</h2>
+<p>สำหรับงานแบบ "โครงการ" ที่ลูกค้าซื้อหินไปทำหลายจุด (เช่น ครัว + ห้องน้ำในบ้านหลังเดียวกัน หรือหลายยูนิตในคอนโดเดียวกัน) ระบบให้ผูก <strong>บัญชีวิเคราะห์ต้นทุน (Analytic Account)</strong> เข้ากับ Bundle ที่ซื้อมาโดยเฉพาะสำหรับงานนั้น เพื่อให้ดูได้ทีเดียวว่าโครงการนั้น<strong>กำไรหรือขาดทุนเท่าไหร่</strong> — ต้นทุนหิน (และแรงงานแปรรูปถ้ามี) เทียบกับยอดขายจริง</p>
+<p><strong>ข้อสำคัญ: นี่คือคนละเรื่องกับ Odoo Project app</strong> (โมดูล Task/Kanban board บริหารงาน) — ระบบนี้ไม่ได้ใช้ Project app เลย ใช้แค่ Analytic Accounting ซึ่งบังเอิญ Odoo ตั้งชื่อ Plan เริ่มต้นว่า "Project" เฉยๆ</p>
+<h3>วิธีใช้งาน</h3>
+<p><strong>ขั้นที่ 1 — สร้าง Analytic Account สำหรับโครงการ</strong></p>
+<p>ไปที่ <strong>Invoicing → Configuration → Analytic Accounts</strong> → New → ตั้งชื่อโครงการ (เช่น "โครงการบ้านประชาชื่น") → เลือก Plan = "Project" (ค่า default)</p>
+<figure class="screenshot"><img src="assets/38-analytic-accounts-list.webp" alt="38-analytic-accounts-list.png"/></figure>
+<p>⚠️ <strong>ต้องเช็ค Company ก่อนกดสร้างเสมอ</strong> — Odoo จะผูก Analytic Account เข้ากับบริษัทที่ Active อยู่ตอนนั้นโดยอัตโนมัติ (ดูที่มุมขวาบน) ถ้าเผลอสร้างตอน Active Company ผิด จะสร้างปัญหาตอนออกบิลข้ามบริษัท</p>
+<p><strong>ขั้นที่ 2 — ผูก Analytic Account เข้ากับ Bundle ที่ซื้อสำหรับโครงการนี้</strong></p>
+<p>เปิดฟอร์ม Bundle (ก้อนหินที่ซื้อมาเฉพาะงานนี้) → เลื่อนลงมาที่ field <strong>Analytic Account</strong> (อยู่ท้ายๆ ส่วน "ข้อมูลเสริม") → เลือกโครงการที่สร้างไว้</p>
+<figure class="screenshot"><img src="assets/37-bundle-analytic-account.webp" alt="37-bundle-analytic-account.png"/></figure>
+<p>จากนั้นระบบจะแปะป้ายให้อัตโนมัติทั้งสายงาน — ไม่ต้องทำอะไรเพิ่ม:</p>
+<ul><li><strong>ต้นทุนวัสดุ</strong>: ตอนสร้าง PO + ผูก Bundle เข้ากับ PO Line ระบบจะแปะ Analytic Account ลง PO Line ให้เอง → บิลผู้ขายที่สร้างจาก PO Line นั้นจะติดป้ายมาด้วย (กลไก native ของ Odoo เอง)</li><li><strong>รายได้จากการขายแผ่น</strong>: ตอนกด "Select Slabs" เลือกแผ่นจากบันเดิลนี้ไปใส่ในใบขาย ระบบจะแปะ Analytic Account ลงบรรทัดขายให้เอง <strong>แต่จะแปะให้ก็ต่อเมื่อแผ่นทุกแผ่นในบรรทัดนั้นมาจากบันเดิลที่มี Analytic Account เดียวกันทั้งหมด</strong> — ถ้าผสมแผ่นจากหลายโครงการในบรรทัดเดียว ระบบจะปล่อยว่างไว้ให้บัญชีมาแท็กเอง ไม่เดาให้</li><li><strong>รายได้จากค่าแรงแปรรูป</strong> (ถ้ามีเจาะช่องอ่างล้างหน้า ฯลฯ ตาม <a href="#ch-05" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>): แท็กจากบันเดิลของแผ่นที่ถูกแปรรูปเช่นกัน</li></ul>
+<p><strong>ขั้นที่ 3 — ดูกำไร/ขาดทุนของโครงการ</strong></p>
+<p>ไปที่ <strong>Invoicing → Configuration → Analytic Accounts</strong> จะเห็นคอลัมน์ <strong>Balance</strong> สรุปยอดสุทธิของแต่ละโครงการทันที (ลบ = ยังขาดทุน/มีแต่ต้นทุน, บวก = กำไรแล้ว)</p>
+<p>ต้องการดูรายละเอียดทีละบรรทัด (อะไรคือต้นทุน อะไรคือรายได้) ให้เปิด URL ตรง <code>/odoo/action-154</code> (เมนู "Analytic Items" ไม่โผล่ในแถบเมนูของผู้ใช้ทั่วไป เพราะอยู่ใต้กลุ่มสิทธิ์ "Show Accounting Features" — ถ้าต้องการให้ทุกคนกดเข้าเองได้ ต้องให้ผู้ดูแลระบบเปิดสิทธิ์นี้เพิ่ม) แล้วพิมพ์ชื่อโครงการในช่องค้นหา (Description) หรือกด Group By → Project</p>
+<figure class="screenshot"><img src="assets/39-analytic-items-project.webp" alt="39-analytic-items-project.png"/></figure>
+<p>ตัวอย่างข้างบน: โครงการ "โครงการบ้านประชาชื่น" ยังอยู่ระหว่างขั้นตอน — มีแค่ต้นทุนวัสดุ -฿3,750 เพราะยังไม่ส่งของ/ออกใบแจ้งหนี้ (รายได้จะขึ้นก็ต่อเมื่อใบแจ้งหนี้ถูกโพสต์แล้วเท่านั้น)</p>
+<h3>ตัวอย่างโครงการที่ครบวงจร (ต้นทุน + รายได้ + กำไรจริง)</h3>
+<p>โครงการ "โครงการคอนโดบางโพ" (Empire Stone) ทำครบทุกขั้นแล้ว — ซื้อก้อนหิน → บิลผู้ขายโพสต์แล้ว (ต้นทุน -฿2,800) → ตัดแผ่น → ขาย → ส่งของ → ออกใบแจ้งหนี้โพสต์แล้ว (รายได้ +฿16,000) → รับชำระเงินครบแล้ว ผลคือ Analytic Items ของโครงการนี้แสดง <strong>กำไรสุทธิ +฿13,200</strong> ตรงตามที่ควรจะเป็น</p>
+<p>*(ตัวอย่างนี้ดูผ่านหน้าเว็บไม่ได้ด้วย login <code>emgdemo</code> เพราะ login นี้ผูกกับบริษัท Empire Granite เท่านั้น ไม่เห็นข้อมูลฝั่ง Empire Stone — ต้อง login ด้วยผู้ใช้ที่มีสิทธิ์ทั้ง 2 บริษัทถึงจะเห็น)*</p>
+<h3>ข้อควรระวัง</h3>
+<ul><li><strong>ถ้าตั้งราคาขายเองต่อแผ่น (price_unit) ในบรรทัดใบขาย ให้ตั้งราคา *หลัง* กด "Select Slabs" เสร็จแล้วเท่านั้น</strong> — ถ้าตั้งราคาไว้ก่อน แล้วค่อยกดเลือกแผ่น ราคาที่ตั้งไว้จะถูกรีเซ็ตกลับเป็นราคามาตรฐานของสินค้าโดยอัตโนมัติ (พฤติกรรมของ Odoo เอง ไม่ใช่บั๊กของโมดูลนี้)</li><li>แผ่นที่เหลือค้างในบันเดิล (ตัดไปใช้ไม่หมด) ก็ยังถูกนับเป็นต้นทุนเต็มจำนวนของโครงการนั้น แม้จะยังไม่ได้ตัดมาใช้จริง — ถ้าซื้อก้อนใหญ่ไว้เผื่องานหลายโครงการในอนาคต ให้แยกซื้อเป็นคนละ PO/บันเดิลต่อโครงการแทน ไม่ควรใช้ก้อนเดียวกันแปะหลายโครงการ</li></ul>
+<hr/>
+</section>
+<section class="chapter" id="ch-13">
+<h2 class="chapter-title"><span class="chapter-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</h2>
+<p>หลังลูกค้า (Empire Stone) กลับมาต่องาน กลางทาง ได้ reframe requirement ใหม่เป็น <strong>4 โหมดการขาย</strong> ครอบคลุมสินค้าและวิธีขายที่ต่างกันของธุรกิจหิน — เอกสารนี้อธิบาย <strong>concept</strong> ของแต่ละประเภท พร้อมตัวอย่างจริงจากระบบ demo และ workflow เต็มตั้งแต่ <strong>ซื้อ → (แปรรูปถ้ามี) → ขาย → ส่งของ → ลงบัญชี</strong></p>
+<p>ทุกโหมดใช้โครงสร้างข้อมูลเดียวกัน (ดู <a href="#ch-01" class="xref">บทที่ 01: ภาพรวมระบบ</a>: Material → Block → Bundle → Slab) แค่ต่างกันที่ <strong>ขายอะไร</strong> และ <strong>ตัดสต็อกยังไง</strong> เท่านั้น — ไม่ใช่ระบบแยกกันคนละชุด</p>
+<h3>ภาพรวมเปรียบเทียบ 4 ประเภท</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>ประเภท (ชื่อลูกค้าเรียก)</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th><th>ADR อ้างอิง</th></tr></thead><tbody><tr><td>1</td><td>หินก้อนนำเข้า (Imported Block)</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td><td>ADR-019</td></tr><tr><td>2</td><td>แผ่นหินสำเร็จรูป (Ready-Made Slab)</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บสต็อกรอขาย</td><td>แพง = รายแผ่น (Serial) / ถูก = รวมเป็นล็อต (ตร.ม.)</td><td>ADR-002/006/009 (เดิม) + ADR-020</td></tr><tr><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง ลูกค้าสั่งขนาด+Finish เอง</td><td>ตัดหลังลูกค้ายืนยัน SO (ผ่าน MRP)</td><td>รายแผ่น (Serial) เหมือนกัน</td><td>ADR-018</td></tr><tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ) ของงานเดียว</td><td>แล้วแต่รายการ (ผสมโหมด 1-3 ได้)</td><td>ติดตามที่ระดับโครงการผ่าน Analytic Account</td><td>ADR-017 + ADR-021</td></tr></tbody></table></div>
+<p><strong>หลักคิดสำคัญ:</strong> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</p>
+<hr/>
+<h3>ประเภท 1: หินก้อนนำเข้า (Imported Stone Block)</h3>
+<h4>Concept</h4>
+<p>ขาย<strong>ก้อนหินทั้งก้อน</strong>โดยไม่ตัดแปรรูปเลย — หน่วยนับเป็น <strong>CBM (m³)</strong> ไม่ใช่ตารางเมตร ใช้ตอนลูกค้าต้องการซื้อวัตถุดิบไปตัดเอง (เช่น โรงงานอื่น หรือ intercompany ระหว่าง Empire Granite ↔ Empire Stone)</p>
+<p>สินค้าคนละ SKU กับแผ่น (<code>product_id_block</code> แยกจาก <code>product_id</code>) แต่เป็น Material เดียวกัน — ระบบไม่ต้องผ่าน wizard เลือกแผ่นใดๆ เพราะขายทั้งก้อน ใช้ flow ขายมาตรฐานของ Odoo ปกติ</p>
+<h4>วิธีสร้าง Product ประเภทนี้ (คลิปสาธิต)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>คลิปนี้คือการสร้าง Material ใหม่ตั้งแต่ต้นจนบันทึกสำเร็จ (ทดสอบจริงบน production 2026-07-19, ลบข้อมูลทดสอบออกหลังอัดเสร็จ) — สรุปขั้นตอน:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Configuration → Materials → New</strong> — ตั้งชื่อ, Category, Origin Country ตามปกติ</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Slab Product</strong> (บังคับกรอกเสมอ) — พิมพ์ชื่อสินค้าใหม่ → <strong>Create and edit...</strong> → ตั้ง Sales Price/Cost → เปิด <strong>Track Inventory</strong> → เลือก <strong>By Unique Serial Number</strong> (หินทุกแผ่น track แยกกัน) → Save</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Block Product</strong> (ทางเลือก — <strong>field นี้แหละที่เปิดใช้ Mode 1</strong>, ถ้าไม่กรอกวัสดุนี้จะขายได้แต่แผ่นเท่านั้น) → Create and edit... → ตั้ง Sales Price/Cost → เปิด Track Inventory → <strong>เปลี่ยนหน่วยเป็น m³</strong> (ก้อนหินนับเป็นปริมาตร ไม่ใช่นับชิ้น) → Tracking เลือก <strong>By Lots</strong> (ก้อนนับเป็นล็อต ไม่ใช่ serial รายชิ้นแบบแผ่น) → Save</div></div><div class="step"><span class="step-num">4</span><div class="step-body">กลับมาหน้า Material → กด Save อีกครั้งให้บันทึกตัว Material เอง</div></div></div>
+<p><strong>หมายเหตุ (พบระหว่างเตรียมคลิป 2026-07-19):</strong> ฟีเจอร์ <strong>"Units of Measure"</strong> (Inventory → Configuration → Settings) ต้องเปิดก่อน ไม่งั้น field หน่วยนับ (m³) จะไม่โผล่ในฟอร์มสินค้าเลย — Block Product ตัวเก่าที่มี m³ อยู่แล้วถูกตั้งผ่านโค้ด/backend ตอนพัฒนา ไม่ได้ผ่าน UI จริง จึงไม่เคยเจอจุดนี้มาก่อน เปิดฟีเจอร์นี้ให้แล้วบน production (เป็น setting มาตรฐานของ Odoo ไม่กระทบข้อมูลเดิม)</p>
+<h4>ตัวอย่างจริง</h4>
+<p>Bundle <strong>EMG-B-0003</strong> (Emperador Grey Light Marble) มี CBM คงเหลือในสต็อก → กด "ขายทั้งก้อน" บน SO line เปิด Select Block Wizard → เลือก Bundle → ระบบตั้ง qty = <code>remaining_cbm</code> ทั้งหมดอัตโนมัติ (ขายทั้งก้อน ไม่แบ่งขายบางส่วนแบบโหมด 2) → ยืนยัน SO จริงกับลูกค้าที่มีอยู่แล้ว</p>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายจริง)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>ใช้ Bundle จริงที่มีสต็อกอยู่แล้ว (EMG-B-0003, เหลือ 2.65 m³) — ไม่ต้องสร้างสต็อกใหม่:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">Sales → New Quotation → เลือกลูกค้า (ตัวอย่าง: Demo Customer - Grand Interior)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">Add a product → เลือก <strong>Emperador Grey Light Marble Block</strong> (ตัว Block Product ของวัสดุนั้น) → ปุ่ม <strong>"Sell Whole Block"</strong> จะโผล่ที่บรรทัดทันที</div></div><div class="step"><span class="step-num">3</span><div class="step-body">Save SO ก่อน (wizard ต้องการให้ SO บันทึกแล้ว) → กด Sell Whole Block → <strong>Select Block wizard</strong> เปิดขึ้น</div></div><div class="step"><span class="step-num">4</span><div class="step-body">เลือก Bundle → ระบบเติม <strong>Remaining CBM</strong> ให้อัตโนมัติ → กด Confirm Selection</div></div><div class="step"><span class="step-num">5</span><div class="step-body">กลับมาที่ SO line: <strong>Quantity เปลี่ยนเป็น 2.65 (เต็มจำนวนคงเหลือ) โดยอัตโนมัติ</strong>, คอลัมน์ Block/Lot โชว์ชื่อ Bundle ที่เลือก, ราคารวมคำนวณใหม่ถูกต้อง (2.65 × 3,500 = 9,275) — <strong>ตัวอย่างนี้บันทึกไว้เป็น Quotation ฉบับร่างเท่านั้น ไม่ได้กด Confirm</strong> เพื่อไม่ให้สต็อกจริงถูกตัดจริง (ตาม convention การทดสอบของโปรเจกต์นี้)</div></div></div>
+<h4>Workflow: ซื้อ → ขาย → บัญชี</h4>
+<figure class="diagram"><img src="assets/excalidraw-preview-type1.webp" alt="EMG-O Flow - Type1 หินก้อนนำเข้า (Block Sale)"/></figure>
+<p><strong>รายละเอียดแต่ละขั้น:</strong></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ซื้อ (PO):</strong> เปิด PO ซื้อก้อนหิน หน่วย m³ ราคา/m³ → ต้นทุนต่อก้อน (<code>cost_cbm</code>) มาจาก PO Price × CBM</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>รับเข้าคลัง:</strong> รับของเข้า Block Stock — สต็อกจริงของ <code>product_id_block</code> (ไม่ผ่านการ validate receipt ปกติของ Odoo — ใบรับสินค้าจะถูกยกเลิกอัตโนมัติเมื่อ Bundle ผูกกับ PO Line + มี hard-block กันสต็อกซ้ำถ้าใครพยายาม validate เอง ดู <a href="#ch-02" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a>)</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>ขาย:</strong> SO line กด "ขายทั้งก้อน" → Select Block Wizard → เลือกก้อนที่มี → qty เต็มจำนวนอัตโนมัติ</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>ส่งของ:</strong> Delivery เดียว เต็มจำนวน บังคับ lot ตรงก้อนที่เลือก (ไม่ใช่การส่งทีละหน่วยเหมือนแผ่น)</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>บัญชี:</strong> ออก Invoice ปกติ VAT 7% — ต้นทุนตัดจ่ายตาม AVCO ที่ <code>cost_cbm</code></div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>ถ้าขายข้ามบริษัท (EG↔ES):</strong> ระบบ auto สร้าง Internal SO (ฝั่งบริษัทเจ้าของก้อน) + Internal PO (ฝั่งบริษัทที่เปิด SO ให้ลูกค้าจริง) → Transfer Price = ต้นทุน + Markup 10% → ทั้งคู่สร้างเป็น <strong>Draft Invoice/Bill</strong> ให้บัญชี review ก่อน post เอง ไม่ auto-post (<a href="#ch-08" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a>)</div></div></div>
+<hr/>
+<h3>ประเภท 2: แผ่นหินสำเร็จรูป (Ready-Made Slab)</h3>
+<h4>Concept</h4>
+<p>ขาย<strong>แผ่นที่ตัดสำรองไว้แล้ว</strong> อยู่ในสต็อกพร้อมขายทันที — แบ่งเป็น 2 ระดับความละเอียดตามมูลค่าหิน (ตั้งค่าที่ระดับ Material, <code>pricing_mode</code>, ล็อกทันทีที่มี Bundle แรกเกิดขึ้น เปลี่ยนภายหลังไม่ได้):</p>
+<ul><li><strong>หินแพง (Serial ต่อแผ่น):</strong> ทุกแผ่น = 1 Lot/Serial แยกกัน ลูกค้าเลือกแผ่นจริงจากลาย/ขนาดที่เห็น ผ่าน Select Slabs Wizard — เหมาะกับหินที่ทุกแผ่นไม่เหมือนกัน ราคาแพง ต้องรู้ว่าส่งแผ่นไหนจริงไปให้ลูกค้าคนไหน (มี scan ยืนยันตอนส่งของ)</li><li><strong>หินถูก (รวมเป็นล็อต):</strong> ไม่ผูก Serial รายแผ่น สต็อกจริงอยู่ที่ระดับ Bundle (<code>remaining_sqmt</code>) ขายเป็นจำนวนตร.ม.บางส่วนได้ (Partial Quantity) — เหมาะกับหินมาตรฐานที่แผ่นแทบไม่ต่างกัน ไม่คุ้มจะ track รายแผ่น</li></ul>
+<h4>วิธีสร้าง Product ประเภทนี้ (คลิปสาธิต — หินถูก/Lot mode)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>หินแพง (Serial) สร้างเหมือนประเภท 1 ทุกอย่าง (ดูคลิปในหัวข้อก่อนหน้า) — คลิปนี้โฟกัสเฉพาะจุดต่างของ <strong>หินถูก (Lot mode)</strong>:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">Materials → New → กรอก Name/Category/Origin ตามปกติ</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Pricing Mode → เลือก "Lot (aggregate, cheap stone)"</strong> — นี่คือจุดเดียวที่ต่างจากประเภท 1</div></div><div class="step"><span class="step-num">3</span><div class="step-body">Slab Product → Create and edit... → ตั้งราคา → เปิด Track Inventory → <strong>ตั้งใจปล่อย Tracking ไว้ที่ค่า default "By Quantity" โดยไม่แตะ</strong> → Save</div></div><div class="step"><span class="step-num">4</span><div class="step-body">Save Material</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>เปิดสินค้ากลับมาดูอีกครั้ง</strong> — Tracking เปลี่ยนเป็น <strong>"By Lots" เองอัตโนมัติ</strong> (ไม่ต้องตั้งเอง) เพราะระบบมีกลไก <code>_ensure_pricing_mode_tracking()</code> ที่บังคับ sync ให้ตรงกับ Pricing Mode ของ Material เสมอ — กันไม่ให้ผู้ใช้ตั้งค่าไม่ตรงกันโดยไม่ตั้งใจ</div></div></div>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายจริง — หินถูก/Lot mode)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>ไม่มี Bundle Lot-mode เดิมอยู่ในระบบมาก่อน (วัสดุเดิมทั้งหมดเป็น Serial) คลิปนี้เลยครอบคลุมทั้ง 2 ขั้นตอนต่อกัน — <strong>สร้างสต็อกเข้าใหม่ + ขายบางส่วน</strong>:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Stone Slab → Bundles → New</strong> — ตั้ง Bundle Number, Supplier, เลือก Material (Bianco Perla), Warehouse</div></div><div class="step"><span class="step-num">2</span><div class="step-body">แท็บ <strong>Slabs → Add a line</strong> → กรอกขนาดแผ่น (Slab L × Slab H เป็นเมตร เช่น 3×2 = 6 ตร.ม.) → <strong>ไม่ต้องผูก Lot/Serial รายแผ่นเอง</strong> ระบบรวมเป็นสต็อกก้อนเดียวที่ระดับ Bundle ให้อัตโนมัติ (ดูฟิลด์ "Lot-Mode Stock Lot" กับ "Remaining Sq.Mt. (Lot)" ที่เกิดขึ้นเองหลัง Save) → Save</div></div><div class="step"><span class="step-num">3</span><div class="step-body">Sales → New Quotation → เลือกลูกค้า → Add a product → เลือก <strong>Bianco Perla Marble Slab</strong> → ปุ่ม <strong>"Select Lot Stock"</strong> โผล่ที่บรรทัด</div></div><div class="step"><span class="step-num">4</span><div class="step-body">Save SO → กด Select Lot Stock → เลือก Bundle → ระบบโชว์ <strong>Remaining Sq.Mt. (Lot)</strong> ให้ดูก่อนตัดสินใจ</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>แก้ "Quantity to Sell" เป็นตัวเลขที่ต้องการ (ตัวอย่าง 2.5 จาก 6.0)</strong> — ต่างจากประเภท 1 ตรงนี้ที่แก้ได้เอง ไม่ถูกบังคับเต็มจำนวน → Confirm Selection → SO line อัปเดต Quantity ตามที่กรอก ราคารวมคำนวณใหม่ถูกต้อง</div></div></div>
+<p><strong>บั๊กที่เจอ+แก้ระหว่างอัดคลิปนี้ (2026-07-19):</strong> สร้าง Bundle ใหม่พร้อม Slab line ในการ Save ครั้งเดียวเจอ error "You need to supply a Lot/Serial Number" — เป็น bug จริงใน <code>stone_slab.py</code> ที่ไม่เคยถูกทดสอบเส้นทางนี้มาก่อน (<code>_ensure_lot_material_stock_received()</code> ถูกเรียกก่อนที่ <code>_ensure_material_lot()</code> จะสร้าง Lot ให้) แก้แล้ว push ขึ้น <code>main</code> แล้ว (commit <code>4600440</code>) — รายละเอียดทางเทคนิคดู <code>project_odoo19_community_mbx_git</code>/decisions.md</p>
+<h4>ตัวอย่างจริง</h4>
+<ul><li><strong>หินแพง:</strong> EMG-B-0001 (5 แผ่น, Lot id=1) — ลูกค้าเปิด SO S54245 → Select Slabs Wizard → เห็น list แผ่นจริงพร้อมขนาด → เลือกเฉพาะแผ่นที่ต้องการ → ส่งของต้องสแกน Serial ตรงกับแผ่นที่เลือกก่อน validate ได้</li><li><strong>หินถูก:</strong> ทดสอบขายบางส่วน 2.5 จาก 6.0 ตร.ม. ที่มีในสต็อก ผ่าน Select Lot Stock Wizard — ลูกค้าไม่จำเป็นต้องซื้อยกล็อต</li></ul>
+<h4>Workflow: ซื้อ → ตัด → ขาย → บัญชี</h4>
+<figure class="diagram"><img src="assets/excalidraw-preview-type2.webp" alt="EMG-O Flow - Type2 แผ่นหินสำเร็จรูป (Ready-Made Slab)"/></figure>
+<p><strong>รายละเอียดแต่ละขั้น:</strong></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ซื้อ (PO) + รับเข้าคลัง:</strong> เหมือนประเภท 1 — รับก้อนหินเป็น Block Stock ก่อน</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>ตัดแผ่น (Add Slab Line):</strong> เบิก CBM จากก้อน → ผลิตแผ่นเข้าสต็อก (Custom Transformation ไม่ใช่ MRP — ดู <a href="#ch-03" class="xref">บทที่ 03: ตัดแผ่นและจัดการสต็อก</a>) ต้นทุนต่อแผ่นคำนวณจาก <code>cost_sqmt</code> ของ Bundle</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>แยกเส้นทางตามราคาหิน:</strong></div></div></div>
+<ul><li>หินแพง → สร้าง Serial Lot ต่อแผ่นทันที</li><li>หินถูก → เก็บเป็น record บรรยาย ไม่มี Lot แยก สต็อกจริงรวมที่ Bundle</li></ul>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body"><strong>ขาย:</strong> เลือก Wizard ตามเส้นทาง (Select Slabs สำหรับแพง / Select Lot Stock สำหรับถูก ระบุจำนวนได้)</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ส่งของ:</strong> ทั้ง 2 เส้นทางต้องสแกนยืนยัน Lot ก่อน validate ได้ (การ์ดกันส่งผิดแผ่น/ผิดล็อต) + เซ็นรับพร้อมพิมพ์ Proof of Delivery (<a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>บัญชี:</strong> ออก Invoice VAT 7% ต้นทุนตัดจ่ายตาม <code>cost_sqmt</code> ที่คำนวณจากราคาก้อน+ Landed Cost (<a href="#ch-07" class="xref">บทที่ 07: ต้นทุนสินค้า</a>) — ถ้าขายข้ามบริษัทใช้กลไก Markup 10% เดียวกับประเภท 1</div></div></div>
+<hr/>
+<h3>ประเภท 3: ตัดตามสั่ง (Cut-to-Order)</h3>
+<h4>Concept</h4>
+<p>ลูกค้าสั่ง<strong>แผ่นที่ยังไม่มีอยู่จริง</strong> — เลือก Finish (ขัดเงา/ด้าน/ฯลฯ) และขนาดที่ต้องการบน SO เอง ระบบสร้าง <strong>Manufacturing Order (MRP)</strong> จริงเพื่อเบิก CBM จากก้อนแล้วผลิตแผ่นใหม่ตามสั่ง ต่างจากประเภท 2 ตรงที่ <strong>ไม่มีสต็อกแผ่นรอไว้ล่วงหน้า</strong> — ตัดเมื่อมี order เข้ามาเท่านั้น</p>
+<p>นี่เป็นโหมดเดียวที่ใช้ Odoo MRP จริง (Work Center "Stone Cutting" เฉพาะ) ส่วนโหมด 2 การ "ตัด" เป็น custom transformation ธรรมดา (ดูเหตุผลใน ADR-008 vs ADR-018)</p>
+<h4>วิธีสร้าง Product ประเภทนี้ (คลิปสาธิต — ตั้ง Finish ให้เลือกได้)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>Slab Product ของประเภทนี้สร้างเหมือนประเภท 1/2 ทุกอย่าง (Material → Slab Product → Serial tracking) — สิ่งที่ต่างออกไปคือต้องตั้ง <strong>Finish attribute</strong> เพิ่มบน<strong>ตัว Product Template เอง</strong> (ไม่ใช่บนฟอร์ม Material) ถึงจะมีตัวเลือก Finish ให้ลูกค้าสั่งได้จริงตอนเปิด Cut Order wizard:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">สร้าง Material + Slab Product ตามปกติ (ดูขั้นตอนในประเภท 1)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">เปิดสินค้าแบบฟอร์มเต็ม ผ่าน <strong>Sales → Products → Products</strong> (ค้นหาชื่อ Slab Product) — ฟอร์มนี้มีแท็บ <strong>Attributes &amp; Variants</strong> ที่ฟอร์มลัดจาก Material ไม่มี</div></div><div class="step"><span class="step-num">3</span><div class="step-body">แท็บ Attributes &amp; Variants → <strong>Add a line</strong> → เลือก attribute <strong>"Finish"</strong> (มีอยู่แล้วในระบบ ไม่ต้องสร้างใหม่ — เตรียมไว้ล่วงหน้าด้วย 5 ค่า: Polished/Honed/Brushed/Sandblasted/Other ตาม ADR-018)</div></div><div class="step"><span class="step-num">4</span><div class="step-body">เลือกค่าที่วัสดุนี้รองรับจริง (ตัวอย่างในคลิปเลือก <strong>Polished + Honed</strong> 2 ค่า) → Save</div></div><div class="step"><span class="step-num">5</span><div class="step-body">สังเกต smart button <strong>"Variants"</strong> ที่มุมบนแสดงจำนวน = ระบบสร้าง product.product variant แยกตามค่า Finish ให้อัตโนมัติ — ตอนนี้ Cut Order wizard จะมีตัวเลือก Finish ให้ลูกค้าเลือกจริงแล้ว</div></div></div>
+<p><strong>หมายเหตุ (พบระหว่างเตรียมคลิป 2026-07-19):</strong> ฟีเจอร์ <strong>"Variants"</strong> (Sales → Configuration → Settings) ก็ต้องเปิดก่อนเหมือนกัน ไม่งั้นแท็บ Attributes &amp; Variants จะไม่โผล่ในฟอร์มสินค้าเลย — เปิดให้แล้วบน production (มาตรฐานของ Odoo ไม่กระทบข้อมูลเดิม เหมือนกรณี Units of Measure ในประเภท 1) จุดนี้อธิบายว่าทำไม 4 วัสดุเดิมที่มีอยู่ (Emperador Grey Light ฯลฯ) ยังไม่มีใครตั้ง Finish variant ไว้เลยสักตัว — เพราะ UI ทางนี้ไม่เคยถูกเปิดให้ใช้งานมาก่อน</p>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายจริง — Cut to Order MRP)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">SO line: เพิ่ม "Rosa Portogallo Granite Slab" → Sales Product Configurator ให้เลือก Finish (ตัวอย่างคลิปเลือก <strong>Honed</strong>) → Save</div></div><div class="step"><span class="step-num">2</span><div class="step-body">ปุ่ม <strong>"Cut to Order"</strong> โผล่บนบรรทัดปกติ (พร้อม "Select Slabs" คู่กัน) → คลิก</div></div><div class="step"><span class="step-num">3</span><div class="step-body">Wizard "Create Cut Order": Material/Cut From Block auto-fill ตามวัสดุที่เลือก → กรอก Target L/H → <strong>Create Cut Order</strong> → ระบบเปิด Manufacturing Order ให้ทันที</div></div><div class="step"><span class="step-num">4</span><div class="step-body">บน MO: กด <strong>"Complete Cut"</strong> → ระบบสร้างแผ่นใหม่พร้อม Serial Lot ที่ตรงกับ <strong>Finish ที่ลูกค้าสั่งจริง</strong> (Honed) ไม่ใช่ Finish ตั้งต้นของ Bundle</div></div></div>
+<h4>🐛 บั๊กที่พบ+แก้แล้ว (2026-07-19)</h4>
+<p>ตอนเตรียมคลิปด้านบน เจอบั๊กจริง 3 ชั้น ทั้งหมดแก้แล้วและ verify ผ่านจริงด้วย Playwright (commit <code>86aa151</code> + fast-follow ต่อจากนั้นในวันเดียวกัน):</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ปุ่ม "Cut to Order"/"Select Slabs" หายไปเลย</strong> เมื่อวัสดุมี Finish variant จริง — <code>is_stone_material</code>/<code>is_stone_block</code>/<code>is_stone_lot_material</code> เทียบ <code>line.product_id</code> (variant เป๊ะๆ ที่ลูกค้าเลือก) กับ <code>stone.bundle.product_id</code> (variant ฐานที่ <strong>Odoo archive ทิ้งอัตโนมัติ</strong> ทันทีที่ template มีหลาย variant จริง) — เทียบกันไม่ตรงเลยสักครั้ง ตั้งแต่มี Finish attribute → แก้ให้เทียบที่ <code>product_tmpl_id</code> แทน (ไม่สนว่า variant ไหน แค่รู้ว่า "นี่คือวัสดุหินของเรา")</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>"Select Slabs" wizard หาแผ่นไม่เจอเลย</strong> แม้ปุ่มจะโผล่แล้ว — domain เดิมเทียบ <code>bundle_id.product_id</code> (variant ฐานที่ archive แล้ว) ต้องเปลี่ยนไปเทียบ <code>bundle_id.variant_id</code> (field ที่มีอยู่แล้วในระบบ resolve Finish ที่ถูกต้องจริง ใช้อยู่แล้วใน Cut Order wizard)</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>สต็อกจริงของแผ่นถูกผูกกับ product ที่ archive ไปแล้ว</strong> (<code>_move_stock</code>/<code>_ensure_lot</code> ใน <code>stone_slab.py</code>) — แผ่นมีอยู่ในระบบแต่สต็อกไม่โชว์กับ variant ที่ขายได้จริงเลย</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>(บั๊กที่ 2 ซ้อนอยู่) Cut Order wizard ผลิตผิด Finish</strong> — <code>action_create_cut_order</code> เดิม derive Finish จาก <code>bundle.finish</code> (ค่าตายตัวต่อ Bundle) แทนที่จะเชื่อ <code>order_line_id.product_id</code> (สิ่งที่ลูกค้าเลือกจริงบน SO line) — พอ Bundle เดียวเริ่มถูกใช้ตัด "หลาย Finish" (ตามที่ Cut-to-Order ควรทำได้) ระบบจะผลิตผิด Finish เงียบๆ ทุกครั้งที่ finish ที่สั่งไม่ตรงกับ default ของ Bundle → แก้ให้ <code>_move_stock</code> เชื่อ <code>self.lot_id.product_id</code> (ของแผ่นเอง) แทน <code>bundle.variant_id</code> (ค่าเดียวต่อ Bundle) ด้วย เพื่อรองรับ 1 Bundle ผลิตได้หลาย Finish จริง</div></div></div>
+<p><strong>บทเรียน:</strong> <code>stone.bundle</code> (ก้อน/ล็อตวัตถุดิบ) ไม่ควรถือว่ามี "Finish เดียว" ตายตัว — ของจริงคือ 1 ก้อนวัตถุดิบตัดออกมาได้หลาย Finish ตามที่ลูกค้าสั่งแต่ละครั้ง ต้องเชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Bundle</p>
+<h4>Workflow: ซื้อ → ตัด (MRP) → ขาย → บัญชี</h4>
+<figure class="diagram"><img src="assets/excalidraw-preview-type3.webp" alt="EMG-O Flow - Type3 ตัดตามสั่ง (Cut-to-Order MRP)"/></figure>
+<p><strong>รายละเอียดแต่ละขั้น:</strong></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ซื้อ + รับเข้าคลัง:</strong> เหมือนประเภท 1-2 — มีก้อนหินในสต็อกรอถูกเบิกไปตัด</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>ลูกค้าสั่ง:</strong> SO line เลือก Finish + ขนาดที่ต้องการ — ยังไม่มีแผ่นจริงในระบบตอนนี้</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>ยืนยัน SO:</strong> ระบบสร้าง Manufacturing Order อัตโนมัติ ผูกกับ Work Center "Stone Cutting" ของ Warehouse/บริษัทนั้น</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>ผลิต:</strong> MO เบิก CBM จากก้อนจริง (ผ่านกลไก MRP มาตรฐาน ไม่ใช่ custom transformation แบบประเภท 2) → Mark Done → สร้างแผ่นใหม่พร้อม Serial Lot ที่ pre-generate ไว้ก่อนแล้ว</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ส่งของ:</strong> เหมือนประเภท 2 — สแกนยืนยัน + เซ็นรับ</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>บัญชี:</strong> ออก Invoice VAT 7% ตามปกติ — <strong>ข้อจำกัดที่ทราบ:</strong> ต้นทุนที่บันทึกตอนนี้คือต้นทุนวัสดุ (CBM ที่เบิก) เท่านั้น <strong>ยังไม่มีการคิดต้นทุนค่าแรง/Analytic แยกรายตัว MO</strong> (เจตนา trim scope ไว้ก่อน เป็น fast-follow ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>) ถ้าต้องการรู้ต้นทุนค่าแรงจริงต่องาน แนะนำให้ผูก Analytic Account แบบประเภท 4 แทนในเคสนี้</div></div></div>
+<hr/>
+<h3>ประเภท 4: งานโครงการ (Sold-as-Project)</h3>
+<h4>Concept</h4>
+<p>ขายเป็น <strong>ชุดงาน (BOQ)</strong> ที่มีหลายรายการรวมกัน (วัสดุหลายชิ้น + ค่าแรงติดตั้ง/แปรรูป) ของโปรเจกต์เดียว — เช่น "ชุดครัว+เคาน์เตอร์บาร์+ผนังห้องน้ำ" ของบ้านหลังเดียว ไม่ใช่การขายสินค้าชิ้นเดียว</p>
+<p>จุดต่างจากประเภท 1-3: โหมดนี้ไม่ได้กำหนดว่าตัดสต็อกยังไง (แต่ละบรรทัด BOQ ยังใช้กลไกประเภท 1-3 ได้ตามสินค้านั้นๆ) แต่เพิ่ม <strong>3 อย่างที่ประเภทอื่นไม่มี:</strong></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Project + Task + Gantt</strong> อัตโนมัติ (1 Task ต่อ 1 บรรทัด BOQ)</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>การวางบิลเป็นงวด</strong> (Down Payment 30/40/30%) แยกจากการส่งของจริง</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>ติดตามกำไรจริงระดับโครงการ</strong> ผ่าน Analytic Account (ต้นทุนวัสดุทุกใบสั่งซื้อ + ค่าแรงทุกใบ รวมกันเทียบกับรายได้ทุกใบแจ้งหนี้ของโครงการนั้น)</div></div></div>
+<h4>วิธีสร้าง Product ประเภทนี้ (คลิปสาธิต — สินค้าประเภทค่าแรง/บริการ)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>ประเภท 4 ไม่มี "Product type" ของตัวเองแบบประเภท 1-3 (ไม่ผ่านฟอร์ม Material เลย) — BOQ คือการเอาสินค้าจากประเภท 1-3 มารวมกับ<strong>สินค้าประเภทค่าแรง/บริการ</strong>ในใบขายเดียวกัน คลิปนี้โฟกัสวิธีสร้างสินค้าค่าแรงตัวนั้น:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → Products → Products → New</strong> (ไม่ผ่าน Material form เพราะไม่ใช่หินที่ต้องคุมสต็อก)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">ตั้งชื่อ เช่น "ค่าแรงติดตั้งหน้างาน"</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Product Type → เลือก "Service"</strong> (ต่างจาก Goods ที่ใช้กับหินทุกประเภท — Service ไม่มี Track Inventory ให้ตั้งเลย เพราะไม่มีสต็อกสินค้าจริง)</div></div><div class="step"><span class="step-num">4</span><div class="step-body">ตั้ง Sales Price → Save</div></div><div class="step"><span class="step-num">5</span><div class="step-body">เอาสินค้า Service นี้ไปใส่เป็นอีกบรรทัดหนึ่งใน SO เดียวกับบรรทัดวัสดุ (Block/Slab/Cut-to-Order) → กด <strong>"ขายแบบโครงการ" (is_project_sale)</strong> ตอนยืนยัน SO → ระบบจะสร้าง Project + Task ให้ทุกบรรทัด และผูก Analytic Account ให้ค่าแรงกับต้นทุนวัสดุมารวมกันดูกำไรได้ที่โครงการเดียว</div></div></div>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายจริง — BOQ → Project)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">Sales → New Quotation → เลือกลูกค้า → Add a product 2 บรรทัด: วัสดุ (เช่น Verde Guatemala Granite Slab) + สินค้าบริการค่าแรง (ค่าแรงติดตั้งหน้างาน)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">แท็บ <strong>Other Info → ติ๊ก "Sold as Project"</strong> (คือ field <code>is_project_sale</code>) → Save</div></div><div class="step"><span class="step-num">3</span><div class="step-body">กด <strong>Confirm</strong> — SO กลายเป็น Sales Order จริง พร้อม smart button ใหม่ 2 อัน: <strong>"1 Projects"</strong> และ field <strong>Project</strong> โผล่ในแท็บ Other Info ชื่อ <code>&lt;ลูกค้า&gt; - &lt;เลข SO&gt;</code> อัตโนมัติ</div></div><div class="step"><span class="step-num">4</span><div class="step-body">เข้า Project app → Projects → เปิดโปรเจกต์นั้น → ปุ่ม <strong>More → Gantt Chart</strong> (ถูกยุบไว้ใน dropdown "More" ไม่ได้อยู่แถวปุ่มหลัก) → ถ้ายังไม่ตั้งวันที่ Planned Start/End ให้ Task จะเห็นข้อความ "No tasks with planned dates yet" — ตั้งวันที่ในฟอร์ม Task ก่อนถึงจะเห็นแท่ง Gantt จริง</div></div></div>
+<h4>ตัวอย่างจริง</h4>
+<p><strong>"โครงการคอนโดบางโพ"</strong> (Empire Stone) — ลูกค้าผู้รับเหมาต่อเติม ซื้อ top หลายห้อง: Analytic Account → Bundle EMG-B-0008 (1.0 m³) → PO ฿2,800 (auto-tag ติดโครงการ) → 8 แผ่น (6 top อ่างล้างหน้า + 2 top ครัว) → SO S54278 → ส่งของจริง (สแกนครบ) → Invoice+Post ฿17,120 → รับชำระเต็ม → <strong>กำไรสุทธิที่เห็นจริงใน Analytic Items = +฿13,200</strong> (รายได้ ฿16,000 หักต้นทุนวัสดุ ฿2,800)</p>
+<h4>Workflow: ซื้อ (ผูกโครงการ) → ขาย (BOQ) → ส่งของ → บัญชีงวด → ดูกำไร</h4>
+<figure class="diagram"><img src="assets/excalidraw-preview-type4.webp" alt="EMG-O Flow - Type4 งานโครงการ (Sold-as-Project BOQ)"/></figure>
+<p><strong>รายละเอียดแต่ละขั้น:</strong></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ซื้อวัสดุ ผูกโครงการ:</strong> สร้าง Analytic Account 1 อัน = 1 โครงการ → ตั้งที่ Bundle → ระบบ auto propagate ไปที่ PO Line ของ Bundle นั้น</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>รับเข้าคลัง + Vendor Bill:</strong> ใบสั่งซื้อ/บิลผู้ขายที่มาจาก Bundle นี้ ติด Tag โครงการอัตโนมัติ — ต้นทุนวัสดุเข้า Analytic Items ทันทีตอน post บิล</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>เปิด SO แบบ BOQ:</strong> ใส่หลายบรรทัด (วัสดุ + บริการค่าแรง/แปรรูป) ของงานเดียวกัน</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>ติ๊ก "ขายแบบโครงการ" ตอนยืนยัน (Opt-in):</strong> ไม่ได้เกิดอัตโนมัติทุก SO — ต้องเลือกเองว่า SO นี้เป็นงานโครงการ</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ระบบสร้าง Project + Gantt:</strong> 1 Task ต่อ 1 บรรทัด BOQ อัตโนมัติ พร้อม Gantt Chart (วันที่แก้ผ่านฟอร์ม Task ไม่มี drag-to-reschedule ใน v1)</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>Milestone 30/40/30:</strong> ใช้ติดตามความคืบหน้างานเท่านั้น (ติ๊ก "ถึงแล้ว") <strong>ไม่ผูกกับการวางบิล</strong> — คนละกลไกกันโดยเจตนา</div></div><div class="step"><span class="step-num">7</span><div class="step-body"><strong>วางบิลเป็นงวด:</strong> ใช้ Native Down Payment (Percentage) Invoice Wizard ที่สัดส่วนเดียวกัน 30/40/30% — ออกใบแจ้งหนี้ตามงวดเวลา ไม่รอส่งของจริงก่อน</div></div><div class="step"><span class="step-num">8</span><div class="step-body"><strong>ส่งของแต่ละรายการเมื่อพร้อม:</strong> ทุกบรรทัดที่เป็นสินค้าจริง (แผ่น/ก้อน) ยังคงต้องสแกนยืนยัน+เซ็นรับตามปกติ ไม่เกี่ยวกับจังหวะวางบิล</div></div><div class="step"><span class="step-num">9</span><div class="step-body"><strong>ดูกำไรจริงที่ Analytic Items:</strong> ต้นทุนวัสดุทุกใบ (จาก step 2) + ค่าแรงทุกใบที่ tag เอง เทียบกับรายได้ทุกใบแจ้งหนี้ (จาก step 7) ของ Analytic Account เดียวกัน — เห็นกำไร/ขาดทุนจริงต่อโครงการ ไม่ใช่แค่ต่อ SO เดียว (<a href="#ch-12" class="xref">บทที่ 12: กำไรรายโครงการ (Analytic Accounting)</a>)</div></div></div>
+<p><strong>ข้อจำกัดที่ทราบ:</strong> ถ้าแผ่นในบรรทัดเดียวมาจาก Bundle คนละ Analytic Account กัน ระบบจะไม่เดาเอง ปล่อยบรรทัดนั้นไม่ติด Tag ให้บัญชีจัดการเองภายหลัง</p>
+<hr/>
+<h3>สรุปด้านบัญชีที่ต่างกันของ 4 ประเภท</h3>
+<div class="table-wrap"><table><thead><tr><th>ด้านบัญชี</th><th>ประเภท 1 (ก้อน)</th><th>ประเภท 2 (สำเร็จรูป)</th><th>ประเภท 3 (ตัดตามสั่ง)</th><th>ประเภท 4 (โครงการ)</th></tr></thead><tbody><tr><td>ต้นทุนอ้างอิงจาก</td><td><code>cost_cbm</code></td><td><code>cost_sqmt</code></td><td>ต้นทุนวัสดุจาก MRP เท่านั้น</td><td>รวมทุกใบที่ tag Analytic Account</td></tr><tr><td>ต้นทุนค่าแรงแยกราย order?</td><td>ไม่มี (ไม่มีการแปรรูป)</td><td>ไม่มี (ตัดล่วงหน้า ไม่ผูกกับ order)</td><td><strong>ยังไม่มี</strong> (fast-follow)</td><td><strong>มี</strong> ถ้า tag ค่าแรงเข้า Analytic เอง</td></tr><tr><td>VAT</td><td>7% มาตรฐานทุกประเภท</td><td>7%</td><td>7%</td><td>7% ต่อใบ (มีได้หลายใบ)</td></tr><tr><td>จังหวะออก Invoice</td><td>ตอน confirm/deliver ปกติ</td><td>ตอน confirm/deliver ปกติ</td><td>ตอน confirm/deliver ปกติ</td><td><strong>แยกเป็นงวด</strong> ไม่รอส่งของ</td></tr><tr><td>ขายข้ามบริษัท (EG↔ES)</td><td>รองรับ (Markup 10%)</td><td>รองรับ (Markup 10%)</td><td>ยังไม่ได้ทดสอบ cross-company</td><td>รองรับต่อบรรทัดตามประเภทสินค้านั้น</td></tr><tr><td>ดูกำไรรวมได้ที่</td><td>Financial Reports Dashboard (<a href="#ch-07" class="xref">บทที่ 07: ต้นทุนสินค้า</a>)</td><td>เหมือนกัน</td><td>เหมือนกัน</td><td><strong>Analytic Items แยกรายโครงการ</strong></td></tr></tbody></table></div>
+<hr/>
+<p>*อ้างอิงจาก build+verify จริงบน production (odoo19-mbxai), 4 โหมดครบทุกโหมด commit e00aac1/e6b0535/efe65db/4ec252d (2026-07-13/14) — รายละเอียดทางเทคนิคเต็มดู decisions.md ADR-018 ถึง ADR-021 (claude-knowledge vault)*</p>
+</section>
+<section class="chapter" id="ch-14">
+<h2 class="chapter-title"><span class="chapter-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</h2>
+<p>บทนี้ครอบคลุมเฉพาะ<strong>ขั้นตอนการผลิต (MRP)</strong> ของประเภทสินค้าที่ 3 — "ตัดตามสั่ง" (ดู concept รวมที่ <a href="#ch-13" class="xref">บทที่ 13: 4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>) นี่เป็นโหมดเดียวใน 4 โหมดที่ใช้ Odoo <strong>Manufacturing (MRP)</strong> จริง — โหมดอื่นๆ ตัดแผ่นด้วย custom transformation ธรรมดา ไม่ผ่านระบบผลิต</p>
+<p>จัดหน้านี้ใหม่ (2026-07-22) ให้<strong>แยกตามฝ่ายที่รับผิดชอบแต่ละขั้นตอน</strong>แทนลำดับ step 1-5 แบบเดิม — เพื่อให้พนักงานแต่ละฝ่ายเปิดอ่านเฉพาะส่วนของตัวเองได้เลย ลำดับงานจริงคือ <strong>ฝ่ายขาย → ฝ่ายคลัง/ผลิต → ฝ่ายส่งของ → ฝ่ายบัญชี</strong></p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">✅ Validated live end-to-end รวมข้ามบริษัท (2026-07-22)</span></div><div class="callout-body">เดิม screenshot ทุกภาพในบทนี้ถ่ายจาก production จริงอยู่แล้ว (2026-07-14/15) แต่เป็นกรณีเดียวบริษัทเดียว (EG) — วันนี้ทดสอบเพิ่มกรณี <strong>Cut to Order ข้ามบริษัท</strong> (พนักงาน EG ตัดจากก้อนหินที่อยู่ในคลัง ES) เป็นครั้งแรก เจอบั๊กจริง <strong>3 ตัว</strong> ระหว่างทาง แก้ครบแล้วทั้งหมด (ดู "🐛 บั๊กที่พบ+แก้" ด้านล่าง) — ทดสอบซ้ำหลังแก้ผ่านหน้าเว็บจริงจนจบ flow ครบ (Cut Order → Complete Cut → Confirm SO → Internal SO/PO/Delivery/Invoice/Bill อัตโนมัติ)</div></div>
+<h3>ภาพรวม Flow</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-type3.webp" alt="EMG-O Flow - Type3 ตัดตามสั่ง (Cut-to-Order MRP)"/></figure>
+<p><strong>อัปเดต 2026-07-15:</strong> หลัง "Complete Cut" เสร็จ ระบบจะ <strong>ผูกแผ่นใหม่เข้ากับ SO บรรทัดเดิมให้อัตโนมัติทันที</strong> (สถานะเปลี่ยนเป็น "Hold" + ปุ่ม "Slabs" smart button ขึ้นบน Quotation เลย) ไม่ต้องกลับไปกด Select Slabs ซ้ำอีกแล้วเหมือนเดิม — ดูหัวข้อฝ่ายคลัง/ผลิตด้านล่าง</p>
+<h4>🎬 คลิปสาธิต: Cut to Order ข้ามบริษัท (EG ตัดจากก้อน ES)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>*session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้) เปิด Quotation → เพิ่มสินค้าหิน → Cut to Order เลือกก้อน ES-B-0001 (อยู่คนละบริษัท) → Create Cut Order → Complete Cut → กลับมา Confirm SO ทั้งใบ ทั้งหมดในเทคเดียวไม่มีตัดต่อ (บันทึกหลังแก้บั๊กทั้ง 3 ตัวแล้ว)*</p>
+<hr/>
+<h3>👤 ฝ่ายขาย — เปิด Quotation แล้วเลือกวิธีจัดหาแผ่น</h3>
+<p>เปิด Quotation ใหม่ตามปกติ เลือกลูกค้า แล้วเพิ่มสินค้าประเภทแผ่นหิน (เช่น "Emperador Grey Light Marble Slab") — เมื่อ save แล้ว บรรทัดสินค้าจะมีปุ่ม <strong>"Select Slabs"</strong> และ <strong>"Cut to Order"</strong> ให้เลือกทั้งคู่ (ถ้าไม่มีแผ่นพร้อมขายเลย ก็ยังกด Cut to Order ได้ทันที)</p>
+<figure class="screenshot"><img src="assets/40-so-line-cutorder-buttons.webp" alt="40-so-line-cutorder-buttons.png"/></figure>
+<p>พนักงานขายกด <strong>Cut to Order</strong> ตรงนี้เมื่อไม่มีแผ่นสำเร็จรูปพอดีขนาดในสต็อก (ถ้ามีอยู่แล้วให้กด Select Slabs แทน ดู <a href="#ch-04" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) — จากนี้ไปเป็นหน้าที่ฝ่ายคลัง/ผลิตรับช่วงต่อ</p>
+<hr/>
+<h3>👷 ฝ่ายคลัง/ผลิต — สร้าง Cut Order, ตัดจริง, Complete Cut</h3>
+<p>กดปุ่ม Cut to Order เปิด wizard "Create Cut Order" — ระบบ pre-fill ช่อง Material ให้อัตโนมัติจากสินค้าที่เลือกไว้ในบรรทัด</p>
+<figure class="screenshot"><img src="assets/41-cutorder-wizard-empty.webp" alt="41-cutorder-wizard-empty.png"/></figure>
+<p>กรอกให้ครบ:</p>
+<ul><li><strong>Cut From Block</strong> — เลือกก้อนหิน (Bundle) ที่จะเบิก CBM มาตัด ระบบกรองให้เห็นเฉพาะ Bundle ของ Material เดียวกัน <strong>รวมก้อนของอีกบริษัทด้วย</strong> (เช่น พนักงาน EG เลือกก้อนที่อยู่คลัง ES ได้เลย — ระบบจัดการ intercompany ให้อัตโนมัติเหมือน Select Slabs ดู <a href="#ch-08" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a>)</li><li><strong>Target L (M)</strong> / <strong>Target H (M)</strong> — ขนาดแผ่นที่ต้องการเป็นเมตร ระบบคำนวณ CBM ที่ต้องเบิก = L × H × ความหนาของก้อนนั้น แล้วเช็คว่าก้อนมี CBM เหลือพอไหมก่อนให้กด Create ได้</li></ul>
+<figure class="screenshot"><img src="assets/42-cutorder-wizard-filled.webp" alt="42-cutorder-wizard-filled.png"/></figure>
+<p>กด Create Cut Order ระบบจะสร้าง MO (Manufacturing Order, รหัสขึ้นต้นตาม warehouse ของก้อนนั้นจริง เช่น <code>EGWH/STCUT/</code> หรือ <code>ESWH/STCUT/</code>) ให้อัตโนมัติ พร้อมยืนยัน (Confirm) ให้เสร็จในทีเดียว — เปิดมาจะเห็นสถานะ "Confirmed" คอลัมน์ <strong>To Consume / Consumed</strong> แสดง CBM จริงที่จะเบิกจากก้อน (คำนวณจาก L×H×ความหนา) และปุ่มพิเศษของโมดูลนี้ <strong>"Complete Cut"</strong> (ข้าง Produce All / Plan / Start / Cancel ที่เป็นปุ่มมาตรฐาน MRP)</p>
+<figure class="screenshot"><img src="assets/43-mo-confirmed.webp" alt="43-mo-confirmed.png"/></figure>
+<p><strong>หมายเหตุ:</strong> MO นี้จะโผล่เป็น breadcrumb เชื่อมกลับไปที่ Quotation ต้นทาง — ตามหาได้ง่ายถ้าต้องเช็คย้อนหลังว่า MO ไหนมาจาก SO ไหน</p>
+<p>พนักงานคลังกดปุ่ม <strong>Complete Cut</strong> (ไม่ใช่ปุ่ม "Produce All" มาตรฐานของ Odoo — โมดูลนี้เขียนปุ่มเฉพาะทับ เพราะต้องสร้าง Lot/Serial ให้แผ่นใหม่ก่อนแล้วค่อยเรียกกลไก mark-done มาตรฐานต่อ) ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เบิก CBM จากก้อนจริง (real stock.move ไม่ใช่แค่ field คำนวณ)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง Lot/Serial ใหม่ให้แผ่น ตั้งชื่อตาม convention <code>&lt;ชื่อ Bundle&gt;-&lt;ลำดับ&gt;</code> (เช่น <code>EMG-B-0003-4</code>)</div></div><div class="step"><span class="step-num">3</span><div class="step-body">สร้าง record <code>stone.slab</code> ใหม่เข้าระบบ</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>(อัปเดต 2026-07-15)</strong> ถ้า Cut Order นี้เปิดมาจากบรรทัดขายจริง — ผูกแผ่นใหม่เข้ากับบรรทัดนั้นให้อัตโนมัติ (status → "Hold") <strong>และ</strong>บันทึกค่าแรงตัดโดยประมาณเป็นต้นทุนเข้า Analytic Account (รายละเอียดดูหัวข้อฝ่ายบัญชีด้านล่าง)</div></div></div>
+<p>MO เปลี่ยนสถานะเป็น <strong>Done</strong> ทันที เห็น Lot/Serial Number ที่สร้างขึ้นในฟอร์ม, field ใหม่ <strong>"For Sale Order Line"</strong> ชี้กลับไปบรรทัดขายต้นทาง, และปุ่ม <strong>Unbuild</strong> โผล่ขึ้นมา (ปุ่มมาตรฐานของ Odoo MRP สำหรับย้อนกลับ MO ที่ทำเสร็จแล้ว — ใช้กรณีตัดผิดขนาดแล้วต้องแก้ไข)</p>
+<figure class="screenshot"><img src="assets/44-mo-done-lot-assigned.webp" alt="44-mo-done-lot-assigned.png"/></figure>
+<p>กลับไปที่ Quotation ต้นทาง (คลิก breadcrumb) — จะเห็นปุ่ม <strong>"Slabs" smart button (1)</strong> ปรากฏขึ้นเองทันที ไม่ต้องกด Select Slabs ซ้ำแบบเดิมอีกแล้ว (ตรวจสอบจริงผ่าน backend: แผ่นใหม่มี <code>status='hold'</code>, <code>sale_order_id</code>/<code>sale_line_id</code> ชี้กลับมาที่ Quotation/บรรทัดนี้ทันทีหลัง Complete Cut) — จากจุดนี้ส่งกลับให้ฝ่ายขายกด Confirm SO ต่อ</p>
+<figure class="screenshot"><img src="assets/45-so-autoheld-smartbutton.webp" alt="45-so-autoheld-smartbutton.png"/></figure>
+<hr/>
+<h3>🚚 ฝ่ายส่งของ</h3>
+<p>จากจุดที่ฝ่ายขาย Confirm SO แล้ว flow ที่เหลือ (ส่งของ สแกนยืนยัน Serial, เซ็นรับ) <strong>เหมือนกับประเภท 2 (แผ่นหินสำเร็จรูป) ทุกประการ</strong> — ดูรายละเอียดที่ <a href="#ch-06" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a></p>
+<p><strong>ถ้าเป็น Cut to Order ข้ามบริษัท</strong> (ตัดจากก้อนอีกบริษัทหนึ่ง) — Delivery Order จริงจะเปลี่ยนเป็น <strong>Drop-ship</strong> ตัดตรงจากคลังของบริษัทเจ้าของก้อนไปหาลูกค้าเลย ไม่ผ่านคลังของบริษัทที่เปิด SO — กลไกเดียวกับ Select Slabs ข้ามบริษัท ดู <a href="#ch-08" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a></p>
+<hr/>
+<h3>💰 ฝ่ายบัญชี</h3>
+<ul><li><strong>ต้นทุนวัตถุดิบ</strong> (ราคาก้อนหิน สัดส่วน CBM ที่ใช้จริง) ผูกเข้า Analytic Account ของ SO line โดยอัตโนมัติผ่านกลไกเดียวกับ Select Slabs</li><li><strong>ค่าแรงตัดโดยประมาณ</strong> (จาก Stone Cutting workcenter <code>costs_hour</code> × เวลามาตรฐาน) บันทึกเป็นต้นทุนเพิ่มเข้า Analytic Account เดียวกัน — เห็นได้ที่ <strong>Invoicing &gt; Reporting &gt; Analytic Items</strong></li><li><strong>ถ้าข้ามบริษัท:</strong> ระบบออก <strong>draft invoice</strong>/<strong>draft vendor bill</strong> ให้อัตโนมัติทันทีที่ Confirm SO (ADR-014) — ต้องเข้าไปตรวจตัวเลข/วันที่แล้ว post เองอีกที ดูสรุปที่เมนู <strong>Stone Slab → Intercompany Reconciliation</strong> — รายละเอียดเต็มที่ <a href="#ch-08" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a></li></ul>
+<hr/>
+<h3>🐛 บั๊กที่พบ+แก้ระหว่าง validate ข้ามบริษัท (2026-07-22)</h3>
+<p>ทดสอบ Cut to Order ข้ามบริษัทเป็นครั้งแรก (ก่อนหน้านี้ไม่เคยทดสอบ) เจอบั๊กจริง 3 ตัวเรียงกัน ทั้งหมดเป็นกลุ่มเดียวกัน — โค้ดอ่าน/สร้าง record ของอีกบริษัทโดยไม่ <code>sudo()</code>/<code>with_company()</code> ทั้งที่ฟีเจอร์ตั้งใจให้ข้ามบริษัทได้โดยไม่ต้องพนักงานทำอะไรเพิ่ม:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Access Error อ่าน Warehouse</strong> ตอนกด Create Cut Order — <code>warehouse = self.bundle_id.warehouse_id</code> ไม่ได้ sudo ก่อนส่งเข้า <code>_ensure_stone_bom()</code> ซึ่งอ่าน <code>warehouse.company_id</code> ทันที</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>"Not enough block stock left: need 0.030 m3, only 0.000 m3 remaining"</strong> ทั้งที่ก้อนจริงเหลือ 2.91 m³ — <code>_compute_remaining_cbm()</code>/<code>_compute_remaining_sqmt()</code> ค้นหา <code>stock.quant</code> โดยไม่ sudo บั๊กนี้อันตรายกว่า 2 ตัวอื่นเพราะ<strong>ไม่ error ให้เห็น</strong> แค่คำนวณผิดเงียบๆ เป็น 0 เสมอ</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Access Error สร้าง Manufacturing Order ไม่ได้เลย</strong> ("doesn't have 'create' access") — <code>action_create_cut_order()</code> สร้าง <code>mrp.production</code> ตรงๆ ไม่ผ่าน sudo/with_company และหลังแก้ข้อนี้ยังเจอต่อว่า BOM/Workcenter/Picking Type ที่ระบบ find-or-create ให้ ผูกกับบริษัทแรกที่เคยใช้ฟีเจอร์นี้เท่านั้น (<code>_ensure_stone_bom()</code> ค้นหาด้วย <code>product_id</code> อย่างเดียว ไม่กรองบริษัท) ทำให้ Odoo เองฟ้อง "no company crossover is allowed" — ต้องแก้ให้แต่ละบริษัทมี BOM ของตัวเอง</div></div></div>
+<p>แก้ครบทั้ง 3 จุดแล้ว (commit <code>58fa4df</code>, <code>e8fd272</code>, <code>af12efb</code> บน <code>project/emg-o</code>, ยังไม่ merge <code>main</code>) ทดสอบซ้ำผ่านหน้าเว็บจริงจนจบ flow ครบทุกขั้นตอนไม่มี error แล้ว (ดูคลิปด้านบน)</p>
+<hr/>
+<h3>ข้อจำกัดที่ทราบ (Known Limitations)</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ไม่มี Byproduct/เศษหิน (remnant) wiring — ยืนยันแล้วว่าไม่ต้องทำ (2026-07-15):</strong> ตรวจสอบกับข้อมูลจริงของหน้างานแล้วว่าไม่มีเศษเหลือจากใบเลื่อยที่มีนัยสำคัญ (kerf loss) และเศษที่เหลือจากการตัดเป็นแค่ก้อนที่เล็กลง ไม่ใช่ชิ้นแยกที่ขายต่อได้ — กลไก <code>remaining_cbm</code> ต่อก้อนที่มีอยู่แล้วครอบคลุมกรณีนี้ถูกต้องอยู่แล้ว ไม่ใช่ gap</div></div><div class="step"><span class="step-num">2</span><div class="step-body">~~Cross-company ยังไม่ทดสอบ~~ <strong>✅ ทดสอบแล้ว 2026-07-22</strong> — เจอ+แก้ 3 บั๊ก ดูหัวข้อด้านบน</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>ค่าแรงที่ tag เป็นค่าประมาณการ ไม่ใช่ต้นทุนจริงตามขนาดงาน</strong> — คำนวณจาก workcenter <code>costs_hour</code> × เวลามาตรฐานต่อครั้ง (<code>time_cycle_manual</code> บน BOM Operation, ตอนนี้ตั้งคงที่ 60 นาทีทุกครั้งไม่ว่าแผ่นเล็กหรือใหญ่) ปรับทั้งคู่ได้ผ่าน Manufacturing &gt; Work Centers / Bills of Materials ตามปกติ แต่ยังไม่แปรผันตามขนาดจริงของงาน</div></div></div>
+<p>*อ้างอิงทางเทคนิคเต็ม: decisions.md ADR-018 (claude-knowledge vault) — Finish Attribute/Variant infra + Mode 3 (MRP Cut-to-Order), รวม addendum 2026-07-15 (auto-hold + labor cost tagging + byproduct decision) และ log.md 2026-07-22 (intercompany bug fixes)*</p>
+</section>
+<section class="chapter" id="ch-15">
+<h2 class="chapter-title"><span class="chapter-num">15</span>การจัดซื้อ</h2>
+<p>ระบบมี <strong>2 เส้นทางซื้อ</strong> แยกกันชัดเจน ขึ้นอยู่กับว่าซื้ออะไร:</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>ซื้อหิน (Material)</th><th>ซื้อของทั่วไป (ไม่ใช่หิน)</th></tr></thead><tbody><tr><td>ตัวอย่าง</td><td>Block/Slab หินดิบ, วัสดุที่ตั้งเป็น Stone Material ในระบบ</td><td>อุปกรณ์เซฟตี้, วัสดุสิ้นเปลือง, อะไหล่เครื่องตัด, บริการช่างนอก ฯลฯ</td></tr><tr><td>ขั้นตอน</td><td>PO → <strong>ผูก Bundle</strong> → ใบรับสินค้าเดิม<strong>ถูกยกเลิกอัตโนมัติ</strong> (สต็อกจัดการโดย Bundle ไม่ใช่ Receipt)</td><td>PO → <strong>รับสินค้าปกติผ่าน Receipt</strong> เหมือน Odoo มาตรฐานทุกอย่าง ไม่มีการแทรกแซง</td></tr><tr><td>อนุมัติก่อนซื้อ</td><td>ไม่มี (ยืนยัน PO ได้ทันทีทั้ง 2 บริษัท)</td><td>ไม่มี (เหมือนกัน)</td></tr><tr><td>รายละเอียดเต็ม</td><td><a href="#ch-02" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a></td><td>หน้านี้</td></tr></tbody></table></div>
+<p>ทั้งสองเส้นทางเริ่มจากเมนู <strong>Purchase</strong> เดียวกัน — ระบบแยกพฤติกรรมให้อัตโนมัติตามว่า product ที่ซื้อถูกตั้งเป็น Stone Material หรือไม่ (เช็คจาก <code>stone.material</code> ทุก record) พนักงานไม่ต้องเลือกโหมดเอง</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch15.webp" alt="EMG-O Flow - การจัดซื้อ (Purchasing)"/></figure>
+<h3>ซื้อหิน (สรุปสั้น)</h3>
+<p>ผูกกับ Bundle เสมอ — ห้ามกด Validate ใบรับสินค้าด้วยมือ (ระบบยกเลิกให้อัตโนมัติ + มี hard-block กันพลาด) ดูขั้นตอนเต็มที่ <a href="#ch-02" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a></p>
+<h3>ซื้อของทั่วไป (ไม่ใช่หิน)</h3>
+<p>ใช้ขั้นตอน Purchase มาตรฐานของ Odoo ล้วนๆ — โมดูล EMG-O <strong>ไม่แตะต้องอะไรเลย</strong> เพราะโค้ด custom ทั้งหมด (auto-cancel/hard-block ใน <a href="#ch-02" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a>) เช็คก่อนว่าสินค้านั้นเป็นหินหรือไม่ ถ้าไม่ใช่ ปล่อยผ่านให้ Odoo จัดการเองทั้ง flow</p>
+<p>ตัวอย่างจริงจากการทดสอบบน production (ซื้อถุงมือกันบาด PPE จาก Demo Supplier):</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Purchase → New</strong> → เลือก Vendor (ตัวอย่าง: Demo Supplier - อุปกรณ์เซฟตี้และวัสดุสิ้นเปลือง)</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือกสินค้าที่ต้องการ (ไม่ต้องเป็น Block/Slab) → กรอก Quantity + ราคาต่อหน่วยเอง (ราคาจะเป็น 0 ถ้าไม่เคยตั้ง Vendor Price ไว้ก่อน — แก้ในบรรทัดนี้ได้เลย)</div></div></div>
+<figure class="screenshot"><img src="assets/48-purchase-general-rfq-filled.webp" alt="48-purchase-general-rfq-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Save → <strong>Confirm Order</strong> — PO เปลี่ยนเป็น Purchase Order ทันที เหมือนซื้อหินทุกอย่าง</div></div></div>
+<figure class="screenshot"><img src="assets/49-purchase-general-po-confirmed.webp" alt="49-purchase-general-po-confirmed.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">กดปุ่ม <strong>Receipt</strong> (smart button มุมขวาบน) → เปิดใบรับสินค้า</div></div></div>
+<figure class="screenshot"><img src="assets/50-purchase-general-receipt-form.webp" alt="50-purchase-general-receipt-form.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">กด <strong>Validate</strong> ตามปกติ — <strong>ไม่มี auto-cancel, ไม่มี error ใดๆ</strong> (ต่างจากใบรับสินค้าของหินโดยสิ้นเชิง) ใบรับสินค้าจบสถานะ Done ปกติ ยอดรับตรงกับที่สั่ง</div></div></div>
+<figure class="screenshot"><img src="assets/51-purchase-general-received.webp" alt="51-purchase-general-received.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">ขั้นตอนถัดไป (สร้าง Vendor Bill/บันทึกบัญชี) เป็นงานฝั่งบัญชี ทำผ่าน Accounting app ตาม flow มาตรฐานของ Odoo — ผู้ใช้คลัง (สิทธิ์ <code>emgdemo</code>) ไม่มีสิทธิ์เข้า Accounting app โดยตรง</div></div></div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ทำไมถึงมั่นใจว่าไม่ชนกัน</span></div><div class="callout-body">โค้ด <code>stock_move.py._action_done()</code> เช็คว่า <code>product_id</code> อยู่ใน <code>stone.material</code> list หรือไม่ก่อนบล็อกทุกครั้ง (ดู <span class="xref-external">10-ข้อจำกัดและบั๊กที่ทราบ</span>) ของที่ไม่ใช่หินจะไม่ตรงเงื่อนไขนี้เลย — ทดสอบจริงแล้ว 2026-07-20 ผ่าน Playwright บน production (PO ตัวอย่างด้านบนเก็บไว้เป็น demo fixture ถาวร ไม่ใช่ข้อมูลทดสอบที่ต้องลบ)</div></div>
+<h3>ข้อจำกัดปัจจุบัน (ตั้งใจ ไม่ใช่บั๊ก)</h3>
+<ul><li><strong>ไม่มีขั้นตอนอนุมัติก่อนซื้อ (PR)</strong> — ทั้ง 2 บริษัท (Empire Granite, Empire Stone) ตั้งค่า <code>po_double_validation = one_step</code> คนที่มีสิทธิ์ confirm PO ยืนยันซื้อได้เลยไม่ว่าวงเงินเท่าไหร่ ไม่มีคนที่สองอนุมัติ และไม่มี module "ใบขอซื้อ" (Purchase Request แยกจาก PO) ติดตั้งอยู่</li><li>ถ้าต้องการภายหลัง มี 2 ทางเลือก (ตัดสินใจไว้แล้วว่ายังไม่ทำตอนนี้ — 2026-07-20): เปิด 2-step approval + ตั้งวงเงิน (ใช้ของที่ Odoo มีอยู่แล้ว ไม่ต้องเพิ่ม module) หรือติดตั้ง module ใบขอซื้อแยกต่างหาก (งานใหญ่กว่า ต้องออกแบบ workflow ใหม่ทั้งหมด)</li></ul>
+<hr/>
+</section>
+<section class="chapter" id="ch-16">
+<h2 class="chapter-title"><span class="chapter-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ลูกค้าส่งใบเสนอราคาโครงการ <strong>"The Residences 38"</strong> — ขอราคาหิน <strong>Ocean black (ผิว Leather)</strong> ตัดตามขนาดหน้างานหลายจุด (ผนังหน้าลิฟต์, ธรณีประตู, พื้นบันได ฯลฯ) รวม 8 รายการ ราคา <strong>3,900 บาท/SQM</strong> บวกค่าบริการเพิ่มเติมคิดตาม<strong>พื้นที่รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ):</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Dry Lay (วางเรียงก่อนติดตั้งจริง)</td><td>ต่อ SQM รวม</td><td>250</td></tr><tr><td>Coating (เคลือบผิว)</td><td>ต่อ SQM รวม</td><td>300</td></tr><tr><td>Delivery + Packing</td><td>ต่อ SQM รวม</td><td>200</td></tr></tbody></table></div>
+<p>ชำระเงิน 30% มัดจำ / 70% ส่งของ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/55-f2-customer.webp" alt="55-f2-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือกวัสดุหิน (Ocean black Granite Slab) — ปุ่ม <strong>Select Slabs</strong> จะโผล่มาอัตโนมัติทันทีที่เลือกวัสดุหิน</div></div></div>
+<figure class="screenshot"><img src="assets/56-f2-product-select-slabs-btn.webp" alt="56-f2-product-select-slabs-btn.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต้อง Save ก่อนกด Select Slabs เสมอ</span></div><div class="callout-body">ถ้ากด Select Slabs บนใบที่ยังไม่เคย Save (สถานะยังเป็น "New") ระบบจะฟ้อง "Please save your changes first" — กด Save (ไอคอนรูปเมฆมุมซ้ายบน) ก่อนเสมอในใบเสนอราคาใหม่</div></div>
+<figure class="screenshot"><img src="assets/57-f2-must-save-warning.webp" alt="57-f2-must-save-warning.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Save แล้วกด <strong>Select Slabs</strong> — wizard จะเปิดรายการแผ่นที่ Available ของวัสดุนี้ทั้งหมด</div></div></div>
+<figure class="screenshot"><img src="assets/58-f2-wizard-slab-picker.webp" alt="58-f2-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่นที่ต้องการ (ติ๊กช่องซ้ายมือ) → กด <strong>Select</strong> → <strong>Confirm</strong> — Quantity บน Order Line จะอัปเดตตามจำนวนแผ่นที่เลือกอัตโนมัติ</div></div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ตั้งราคาเอง</strong> — ระบบไม่คำนวณราคาให้อัตโนมัติจาก SQM × ราคา/SQM ต้องกรอกเองที่ช่อง Unit Price (คำนวณ: SQM ของแผ่นที่เลือก × 3,900 บาท)</div></div></div>
+<figure class="screenshot"><img src="assets/59-f2-price-set.webp" alt="59-f2-price-set.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">วิธีคำนวณราคาเร็ว</span></div><div class="callout-body">เปิด Bundle ของวัสดุนั้นดู SQM ต่อแผ่น (หรือดูจาก Select Slabs wizard คอลัมน์ "Purchased ...") แล้วคูณด้วยราคา/SQM ที่ตกลงกับลูกค้าเอง — ไม่มี auto-calculate ในขั้นนี้ (ดู gap #2 ใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body"><strong>Add a product</strong> อีกครั้งเพื่อเพิ่มค่าบริการ (Dry Lay/Coating/Delivery) — กรอก Quantity เป็น <strong>SQM รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ) และราคาต่อ SQM</div></div></div>
+<figure class="screenshot"><img src="assets/60-f2-fee-line-added.webp" alt="60-f2-fee-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">7</span><div class="step-body">ทำซ้ำสำหรับ Coating และ Delivery + Packing แล้ว Save — ยอดรวมจะคำนวณอัตโนมัติ</div></div></div>
+<figure class="screenshot"><img src="assets/61-f2-final-total.webp" alt="61-f2-final-total.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-17">
+<h2 class="chapter-title"><span class="chapter-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>โครงการ <strong>"Sale Gallery"</strong> — ขาย Slab <strong>Light Classico (Honed)</strong> ผนัง ST-108 พร้อม<strong>บริการเสริมผูกกับหินเส้นนั้นโดยเฉพาะ</strong>: ค่าตัด, Coating (นับเป็น<strong>ขวด</strong> ไม่ใช่ SQM), ค่าแรงติดตั้ง — และมีเงื่อนไขการเงินที่ซับซ้อนกว่าปกติ:</p>
+<ul><li>ชำระค่าหิน 40% ทันที / 60% เครดิต 30 วัน หลังส่งของ</li><li>ชำระค่าแรง 40% ทันที / 60% เครดิต 30 วัน หลังส่งของ</li><li><strong>หัก Retention 5% คืนใน 365 วัน</strong> (มาตรฐานงานก่อสร้าง)</li><li>ให้ลูกค้าออก PO มาที่ Empire Granite โดยตรง</li></ul>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer → <strong>ตั้ง Payment Terms</strong> เป็นแบบมีเงื่อนไขหลายงวด (สร้างครั้งเดียวใช้ซ้ำได้): Configuration → Payment Terms → New → ใส่ 3 บรรทัด (40% ทันที, 55% ที่ 30 วัน, 5% ที่ 365 วัน = Retention)</div></div></div>
+<figure class="screenshot"><img src="assets/62-f3-customer.webp" alt="62-f3-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก Light Classico Marble Slab → Save → <strong>Select Slabs</strong></div></div></div>
+<figure class="screenshot"><img src="assets/63-f3-product-select-slabs-btn.webp" alt="63-f3-product-select-slabs-btn.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Wizard เปิดรายการแผ่น Available ของ Light Classico</div></div></div>
+<figure class="screenshot"><img src="assets/64-f3-wizard-slab-picker.webp" alt="64-f3-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่น → Select → Confirm → <strong>ตั้งราคาเอง</strong> (SQM ของแผ่น × ราคา/SQM ที่ตกลงกับลูกค้า)</div></div></div>
+<figure class="screenshot"><img src="assets/65-f3-price-set.webp" alt="65-f3-price-set.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> เพิ่มค่าตัด (Slab Fabrication Service — ใช้ product ที่มีอยู่แล้วในระบบ ไม่ต้องสร้างใหม่)</div></div></div>
+<figure class="screenshot"><img src="assets/66-f3-fee-line-added.webp" alt="66-f3-fee-line-added.png"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">Coating คิดเป็นขวดในไฟล์นี้</span></div><div class="callout-body">ต่างจากไฟล์ 2 ที่ Coating คิดต่อ SQM รวม — ไฟล์นี้ระบุเป็น <strong>4 ขวด</strong> ราคาต่อขวด ควรสร้าง product แยกชื่อชัดเจนว่า "Coating (ต่อขวด)" กับ "Coating (ต่อ SQM)" คนละตัว กันสับสนตอนออกใบเสนอราคาจริง (ดู gap #4 ใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">Save — ยอดรวมคำนวณอัตโนมัติ, Payment Terms แสดง "Retention 5%" ที่เลือกไว้ตอนต้น</div></div></div>
+<figure class="screenshot"><img src="assets/67-f3-final-total.webp" alt="67-f3-final-total.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-18">
+<h2 class="chapter-title"><span class="chapter-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>โครงการ <strong>CIRA Residences</strong> — <strong>ไม่มีการขายหินเลย</strong> ลูกค้าซื้อหินเอง จ้างแค่<strong>ค่าแรงติดตั้ง</strong> ไฟล์ต้นฉบับมี 439 แถว แจกแจงละเอียดถึงระดับ Plot → บ้าน → ห้อง → ชนิดหิน/ตำแหน่งติดตั้ง (ท๊อป, ลูกตั้ง, ธรณี, ผนัง, ปูนกาว) แต่<strong>ราคาคิดเป็นเหมาต่อห้อง</strong> ไม่ได้แยกราคาแต่ละบรรทัดย่อย เช่น:</p>
+<div class="table-wrap"><table><thead><tr><th>ห้อง</th><th>รายละเอียด (ข้อมูลประกอบ ไม่ใช่ราคาแยก)</th><th>ราคาเหมา</th></tr></thead><tbody><tr><td>T102-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ผนัง+ปูนกาว</td><td>27,750</td></tr><tr><td>T202-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ปูนกาว</td><td>5,150</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p><strong>จุดสำคัญ:</strong> งานแบบนี้<strong>ไม่แตะโมดูล stone_slab_inventory เลย</strong> เป็น Sale Order มาตรฐานของ Odoo ล้วนๆ — ไม่มีปุ่ม Select Slabs เพราะไม่มี product หินอยู่ในใบเลย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/74-f4-customer.webp" alt="74-f4-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมาต่อห้อง)" → ตั้งชื่อบรรทัด (แก้ข้อความ) ให้ระบุห้อง/รายละเอียดที่มาของราคา เช่น "ค่าแรงติดตั้งหิน — PLOT-1 / T202-POWDER" → ใส่ราคาเหมาตามห้องนั้น</div></div></div>
+<figure class="screenshot"><img src="assets/75-f4-line-added.webp" alt="75-f4-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ทำซ้ำเป็นบรรทัดใหม่สำหรับแต่ละห้อง (ไฟล์จริงมีหลายสิบห้อง — ตัวอย่างนี้แสดงเพียง 1 ห้องเพื่อพิสูจน์ pattern) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/76-f4-final-total.webp" alt="76-f4-final-total.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ยังไม่มีคู่มือ/pattern มาตรฐานสำหรับงานแรงงานล้วน</span></div><div class="callout-body">ทำได้ทางเทคนิคแน่นอน (พิสูจน์แล้วในหน้านี้) แต่พนักงานควรรู้ว่างานแบบนี้ข้ามขั้นตอน Select Slabs/Bundle ไปเลย ไม่ใช่ลืมทำ — ถ้ามีงานแบบนี้บ่อย ควรตกลงกันว่าจะตั้งชื่อ/จัดหมวด service product อย่างไรให้เป็นมาตรฐานเดียวกันทุกโครงการ</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-19">
+<h2 class="chapter-title"><span class="chapter-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>งาน <strong>"ค่าแรง ซุ้ม ก ไก่ และ บัวบน (หลังที่ 18-24)"</strong> — ค่าแรงติดตั้งหินอย่างเดียว (Moleanos Beige ขัดเรียบ) ไม่มีขายหิน เหมือนไฟล์ 4 แต่<strong>เรียบง่ายกว่ามาก</strong>: ราคาต้นฉบับเป็น <strong>เหมารวมทั้งงานบรรทัดเดียว</strong> (980,710.64 บาท) ไม่มีราคาย่อยให้แยกเลยแม้แต่ระดับห้อง — รายละเอียดพื้นที่ (ผนัง 287 SQM, ผนังใต้ซุ้มโค้ง 7 SQM, Straight Profile 7 ม., ผนังบัวบน 68.6 SQM) เป็นแค่ข้อมูลอธิบายประกอบ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>นี่คือกรณีที่<strong>ง่ายที่สุด</strong>ในกลุ่มตัวอย่างทั้งหมด — เพราะไม่มีทั้งหินและไม่มีการแยกราคาย่อย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/77-f5-customer.webp" alt="77-f5-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมางาน)" → ตั้งชื่อบรรทัดให้ครบตามงาน → ใส่ราคาเหมาทั้งก้อน (980,710.64) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/78-f5-line-added.webp" alt="78-f5-line-added.png"/></figure>
+<p>ยอดรวม (รวม VAT 7%) ออกมาตรงตามที่ลูกค้าขอ</p>
+<figure class="screenshot"><img src="assets/79-f5-final-total.webp" alt="79-f5-final-total.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ใส่รายละเอียดพื้นที่ไว้ใน Description ของบรรทัด</span></div><div class="callout-body">ถ้าอยากเก็บรายละเอียดต้นฉบับ (287 SQM ผนัง, 7 SQM ผนังใต้ซุ้มโค้ง ฯลฯ) ไว้อ้างอิงในอนาคต ใส่เป็นข้อความในชื่อบรรทัด/note ได้เลย ไม่กระทบราคาเพราะไม่มีผลต่อการคำนวณ (เหมาทั้งก้อนอยู่แล้ว)</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-20">
+<h2 class="chapter-title"><span class="chapter-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ใบเสนอราคาย่อย — ขาย Slab <strong>Ceppo (ขัดเรียบ)</strong> 1 แผ่น (3.23 SQM) ราคา 3,800/SQM พร้อมบริการเสริม 4 รายการ ที่น่าสนใจคือ<strong>หน่วยราคาไม่เหมือนกันในใบเดียว</strong>:</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Drawing (ทำแบบ)</td><td>ต่อ SQM</td><td>500</td></tr><tr><td>ลบมุม 2mm 1 ด้าน</td><td><strong>ต่อเมตร (ความยาวขอบ)</strong></td><td>200</td></tr><tr><td>ค่าน้ำยากันซึม</td><td>เหมา (LS)</td><td>200</td></tr><tr><td>ค่าขนส่ง</td><td>เหมา (LS)</td><td>500</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/68-f8-customer.webp" alt="68-f8-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก Ceppo Marble Slab → Save → <strong>Select Slabs</strong></div></div></div>
+<figure class="screenshot"><img src="assets/69-f8-product-select-slabs-btn.webp" alt="69-f8-product-select-slabs-btn.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Wizard เปิดรายการแผ่น Available ของ Ceppo</div></div></div>
+<figure class="screenshot"><img src="assets/70-f8-wizard-slab-picker.webp" alt="70-f8-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่น → Select → Confirm → ตั้งราคาเอง (3.23 SQM × 3,800 = 12,274)</div></div></div>
+<figure class="screenshot"><img src="assets/71-f8-price-set.webp" alt="71-f8-price-set.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> เพิ่มบริการเสริม — จุดสำคัญคือรายการ <strong>"ลบมุม 2mm"</strong> ต้องตั้ง <strong>UoM เป็น "m" (เมตร)</strong> ไม่ใช่ Units เหมือนรายการอื่น</div></div></div>
+<figure class="screenshot"><img src="assets/72-f8-fee-line-added.webp" alt="72-f8-fee-line-added.png"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ไม่ต้องสร้าง UoM ใหม่</span></div><div class="callout-body">Odoo มี UoM "m" (เมตร) อยู่แล้วในระบบเป็นค่าเริ่มต้น (Settings → Technical → Units of Measure) แค่ตั้ง product ตัวนี้ให้ default UoM เป็น "m" ตอนสร้าง product ก็ใช้ได้ทันที ไม่ใช่ gap ที่ต้องพัฒนาเพิ่ม</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">เพิ่ม Drawing (ต่อ SQM), ค่าน้ำยากันซึม, ค่าขนส่ง (เหมา) แล้ว Save</div></div></div>
+<figure class="screenshot"><img src="assets/73-f8-final-total.webp" alt="73-f8-final-total.png"/></figure>
+<p>ยอดรวมตัวอย่างนี้ (16,070.33 บาท) <strong>ตรงกับ NET TOTAL ในไฟล์ต้นฉบับเป๊ะ</strong> — พิสูจน์ว่า reproduce ใบเสนอราคาจริงได้ครบถ้วนโดยไม่ต้องแก้โค้ดอะไรเลย</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-21">
+<h2 class="chapter-title"><span class="chapter-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</h2>
+<h3>โจทย์</h3>
+<p>ลูกค้าหลายรายส่งใบเสนอราคาที่มีทั้ง<strong>ค่าหิน (material)</strong> และ<strong>ค่าแรงติดตั้ง (labor)</strong> อยู่ในใบเดียวกัน แต่ต้องการเงื่อนไขผ่อนชำระคนละแบบ เช่น:</p>
+<ul><li>ค่าหิน: มัดจำ 40% / ส่งของ 55% / กันเงินประกันผลงาน (Retention) 5% คืนใน 365 วัน</li><li>ค่าแรง: มัดจำ 30% / จ่ายส่วนที่เหลือ 60 วันหลังส่งมอบ</li></ul>
+<p>คำถาม: ต้องออกเป็น <strong>2 ใบเสนอราคาแยกกัน</strong> เพื่อให้ตั้งเงื่อนไขคนละอัตราได้ หรือทำในใบเดียวได้?</p>
+<p><strong>คำตอบที่พิสูจน์แล้ว: ทำในใบเดียวได้</strong> — ไม่ต้องแยก SO เพราะ Odoo ผูก Payment Terms ไว้ที่ระดับ <strong>Invoice</strong> ไม่ใช่ระดับ SO ดังนั้นแค่ตัดบิลออกเป็น 2 ใบแจ้งหนี้จาก SO เดียวกัน แต่ละใบตั้งเงื่อนไขของตัวเองได้อิสระ</p>
+<h3>วิธีทำใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">สร้าง Sale Order ตามปกติ ใส่บรรทัดค่าหินและค่าแรงในใบเดียวกัน แล้ว Confirm ให้เป็น Sales Order</div></div></div>
+<figure class="screenshot"><img src="assets/83-gap2-so-two-lines.webp" alt="83-gap2-so-two-lines.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">กด <strong>Create Invoice</strong> — เลือก "Regular invoice" → <strong>Create Draft</strong></div></div></div>
+<figure class="screenshot"><img src="assets/84-gap2-create-invoice-wizard.webp" alt="84-gap2-create-invoice-wizard.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">Wizard นี้ไม่มีให้เลือกบรรทัด</span></div><div class="callout-body">กด Create Draft แล้วระบบจะดึง<strong>ทุกบรรทัดที่ยังไม่เคยตัดบิล</strong>มาไว้ในใบแจ้งหนี้เดียวกันเสมอ ไม่มีตัวเลือก "invoice เฉพาะบรรทัดนี้" ในหน้าต่างนี้ — ต้องไปตัดบรรทัดออกเองในขั้นตอนถัดไป</div></div>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ใบแจ้งหนี้ที่สร้างจะมีทั้ง 2 บรรทัดอยู่ (สถานะ Draft) — ลบบรรทัดที่ยังไม่อยากตัดบิลตอนนี้ออก (คลิกไอคอนถังขยะท้ายแถว) ให้เหลือแค่บรรทัดที่ต้องการ</div></div></div>
+<figure class="screenshot"><img src="assets/85-gap2-draft-invoice-both-lines.webp" alt="85-gap2-draft-invoice-both-lines.png"/></figure>
+<figure class="screenshot"><img src="assets/86-gap2-remove-labor-line.webp" alt="86-gap2-remove-labor-line.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ตั้ง <strong>Payment Terms</strong> ของใบแจ้งหนี้นี้ (เฉพาะใบนี้ ไม่กระทบ SO ต้นทาง) แล้ว Save + Confirm</div></div></div>
+<figure class="screenshot"><img src="assets/87-gap2-set-payment-term.webp" alt="87-gap2-set-payment-term.png"/></figure>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">เจอ warning "bank account not trusted" ตอน Confirm</span></div><div class="callout-body">เป็น safety check มาตรฐานของ Odoo (ไม่เกี่ยวกับ payment term) — เตือนว่าเลขบัญชีธนาคารบนใบแจ้งหนี้ยังไม่ได้ยืนยันตัวตนผ่าน "Send Money" กด Close แล้ว Confirm อีกครั้งได้ปกติ ในระบบจริงควรตั้งค่าธนาคารให้ trusted ไว้ล่วงหน้าเพื่อไม่ให้ค้าง step นี้ทุกใบ</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">กลับไปที่ SO ต้นทาง — บรรทัดที่ถูกตัดบิลไปแล้วจะขึ้น Invoiced เต็ม ส่วนบรรทัดที่ถูกลบออกจากใบแรกจะยังค้างสถานะ "ยังไม่ตัดบิล" ตามปกติ</div></div></div>
+<figure class="screenshot"><img src="assets/88-gap2-so-after-invoice1.webp" alt="88-gap2-so-after-invoice1.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">กด <strong>Create Invoice</strong> อีกครั้ง — ครั้งนี้ระบบจะสร้างใบแจ้งหนี้ใหม่ให้เฉพาะบรรทัดที่เหลือ (ค่าแรง) เพราะบรรทัดหินถูกตัดบิลไปเต็มจำนวนแล้ว ตั้ง Payment Terms ของใบนี้เป็นอีกแบบหนึ่ง แล้ว Confirm</div></div></div>
+<div class="steps"><div class="step"><span class="step-num">7</span><div class="step-body">กลับไปดู SO — smart button "Invoices" จะขึ้นเลข 2 ยืนยันว่าตัดบิลออกเป็น 2 ใบจากใบเสนอราคาเดียวกันจริง</div></div></div>
+<figure class="screenshot"><img src="assets/80-gap2-so-two-invoices.webp" alt="80-gap2-so-two-invoices.png"/></figure>
+<h3>ผลจริงจาก production (SO S54370)</h3>
+<div class="table-wrap"><table><thead><tr><th>Invoice</th><th>บรรทัด</th><th>Payment Terms</th><th>ยอดรวม</th><th>ตารางผ่อนชำระที่ระบบคำนวณเอง</th></tr></thead><tbody><tr><td>[INV/2026/00005](https://odoo19-mbxai.mx-erp.com/odoo/sales/60116/invoicing/323)</td><td>ค่าหิน</td><td>EG มัดจำ 40/55 + Retention 5% (365 วัน)</td><td>฿107,000</td><td>40% วันนี้ (฿42,800) → 55% +30 วัน (฿58,850) → 5% +365 วัน (฿5,350)</td></tr><tr><td>[INV/2026/00006](https://odoo19-mbxai.mx-erp.com/odoo/sales/60116/invoicing/324)</td><td>ค่าแรง</td><td>30% Now, Balance 60 Days</td><td>฿53,500</td><td>30% วันนี้ (฿16,050) → 70% +60 วัน (฿37,450)</td></tr></tbody></table></div>
+<figure class="screenshot"><img src="assets/81-gap2-invoice1-material-retention.webp" alt="81-gap2-invoice1-material-retention.png"/></figure>
+<figure class="screenshot"><img src="assets/82-gap2-invoice2-labor-3070.webp" alt="82-gap2-invoice2-labor-3070.png"/></figure>
+<h3>สรุป</h3>
+<p>ลูกค้าได้รับใบเสนอราคาใบเดียว (SO S54370) ตามที่ต้องการเห็น แต่ฝ่ายบัญชีตัดบิลออกเป็น 2 ใบแจ้งหนี้คนละตารางผ่อนชำระได้จริง — ไม่ต้องแก้โค้ด ไม่ต้องแยก SO เป็นมาตรฐานของ Odoo ล้วนๆ (ดู gap #2 ที่แก้แล้วใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-22">
+<h2 class="chapter-title"><span class="chapter-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</h2>
+<h3>โจทย์</h3>
+<p>ลูกค้าทำ BOQ งานประมูลใหญ่ (เช่นไฟล์ "BOQ-ZoneXX") ใน Excel — แต่ละ Zone (L2 Main Lobby, L4 Main Lobby ฯลฯ) มีรายการหิน+rate ของตัวเอง แล้วรวมยอดที่ sheet "Final Summary" บวก Preliminaries/Overhead &amp; Profit/Performance Security เป็นราคาประมูลสุดท้าย</p>
+<p>ปัญหาเดิม: rate ของแต่ละ item (เช่น "ST1 Black emperador polished") ถูกพิมพ์ซ้ำในทุกไฟล์ที่ใช้หินตัวนั้น พอราคาต้นทุนเปลี่ยน ต้องไล่แก้ทุกไฟล์เอง ไม่มี single source of truth — โมดูล <strong>BOQ Estimation</strong> ที่สร้างขึ้นใหม่แก้ปัญหานี้โดยตรง</p>
+<p>คลิปนี้จำลองข้อมูลจริงบางส่วนจากไฟล์ BOQ-ZoneXX (Zone L2 + L4 Main Lobby):</p>
+<div class="table-wrap"><table><thead><tr><th>Zone</th><th>Item</th><th>Qty (m²)</th><th>Rate/Unit</th></tr></thead><tbody><tr><td>L2 Main Lobby</td><td>ST1 Black emperador polished</td><td>159</td><td>7,080</td></tr><tr><td>L2 Main Lobby</td><td>ST2 White Sivec honed</td><td>91</td><td>9,980</td></tr><tr><td>L4 Main Lobby</td><td>ST1 Black emperador polished</td><td>1,114</td><td>7,080</td></tr><tr><td>L4 Main Lobby</td><td>ST2 White Sivec honed</td><td>18</td><td>9,980</td></tr></tbody></table></div>
+<h3>คลิป: สร้าง Rate → สร้าง BOQ → กดเป็นใบเสนอราคา</h3>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<h3>วิธีทำทีละขั้น</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปิดแอป <strong>BOQ Estimation → Rate Library</strong> → กด New → กรอก Item Code, Description, Unit, Material Cost, Labour Cost — ราคา/หน่วยรวม (Total Rate) คำนวณให้อัตโนมัติ</div></div></div>
+<figure class="screenshot"><img src="assets/89-boq-rate-library-empty.webp" alt="89-boq-rate-library-empty.png"/></figure>
+<figure class="screenshot"><img src="assets/90-boq-rate-st1-filled.webp" alt="90-boq-rate-st1-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">เพิ่ม Rate ตัวที่สองแบบเดียวกัน (ST2) แล้ว Save — ตอนนี้มี Rate 2 ตัวพร้อมใช้ซ้ำได้ไม่จำกัดจำนวนครั้ง</div></div></div>
+<figure class="screenshot"><img src="assets/91-boq-rate-st2-filled.webp" alt="91-boq-rate-st2-filled.png"/></figure>
+<figure class="screenshot"><img src="assets/92-boq-rate-library-2-items.webp" alt="92-boq-rate-library-2-items.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ไปที่ <strong>BOQ Documents → New</strong> → กรอก Customer, Company, และ % (Preliminaries/Overhead &amp; Profit/Performance Security) ตามเงื่อนไขโปรเจกต์</div></div></div>
+<figure class="screenshot"><img src="assets/93-boq-doc-new.webp" alt="93-boq-doc-new.png"/></figure>
+<figure class="screenshot"><img src="assets/94-boq-doc-header-filled.webp" alt="94-boq-doc-header-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">แท็บ <strong>BOQ Lines → Add a line</strong> → ใส่ชื่อ Zone ที่ช่อง "Schedule / Zone" (ใช้ชื่อเดียวกันซ้ำได้ในหลายบรรทัด — ระบบจะรวมยอดตามชื่อนี้ตอนสร้างใบเสนอราคา) → เลือก Rate Library Item → ใส่ Quantity — ราคา/หน่วยและยอดรวมกรอกให้อัตโนมัติจาก Rate ที่เลือก</div></div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">Schedule/Zone คือ key สำหรับรวมยอด</span></div><div class="callout-body">พิมพ์ "L2 Main Lobby" ซ้ำในหลายบรรทัดได้ตามใจ — ตอนกด "สร้างใบเสนอราคา" ระบบจะรวมทุกบรรทัดที่มีชื่อ Zone เดียวกันเป็น 1 บรรทัดสรุปในใบเสนอราคาอัตโนมัติ ตรงกับที่ไฟล์ Excel ทำใน sheet "รวมเป็นเงิน" อยู่แล้ว</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">ทำซ้ำจนครบ 4 บรรทัด (2 Zone × 2 item) แล้ว Save — เช็คยอด Amount Direct Cost/Preliminaries/Overhead Profit/Performance Security/Total ที่ด้านล่างฟอร์ม</div></div></div>
+<figure class="screenshot"><img src="assets/95-boq-lines-added.webp" alt="95-boq-lines-added.png"/></figure>
+<figure class="screenshot"><img src="assets/96-boq-doc-saved.webp" alt="96-boq-doc-saved.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">กดปุ่ม <strong>"สร้างใบเสนอราคา"</strong> — ระบบสร้าง Sale Order ใหม่ทันที มี section header ตาม Zone + บรรทัดสรุปยอดต่อ Zone + Preliminaries/Overhead &amp; Profit/Performance Security เป็นบรรทัดแยก ผูกกลับมาที่ BOQ Document ต้นทาง (เห็นจากช่อง "BOQ Document" บนใบเสนอราคา)</div></div></div>
+<figure class="screenshot"><img src="assets/97-boq-quotation-generated.webp" alt="97-boq-quotation-generated.png"/></figure>
+<h3>ผลจริงจากคลิปนี้ (BOQ0002 → S54372)</h3>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>ยอด</th></tr></thead><tbody><tr><td>L2 Main Lobby (159×7,080 + 91×9,980)</td><td>2,033,900.00</td></tr><tr><td>L4 Main Lobby (1,114×7,080 + 18×9,980)</td><td>8,066,760.00</td></tr><tr><td><strong>Amount Direct Cost</strong></td><td><strong>10,100,660.00</strong></td></tr><tr><td>Preliminaries 2%</td><td>202,013.20</td></tr><tr><td>Overhead &amp; Profit 10%</td><td>1,010,066.00</td></tr><tr><td>Performance Security 2%</td><td>202,013.20</td></tr><tr><td><strong>Amount Total (ก่อน VAT)</strong></td><td><strong>11,514,752.40</strong></td></tr></tbody></table></div>
+<p>ยอด L2 และ L4 ในตารางนี้ <strong>ตรงกับตัวเลขจริงในไฟล์ BOQ-ZoneXX ต้นฉบับเป๊ะ</strong> (2,033,900 และ 8,066,760) — ยืนยันว่า logic การคำนวณของโมดูลถูกต้องตรงกับวิธีที่ฝ่าย estimate ใช้อยู่ในปัจจุบัน</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">BOQ0002 นี้จำลองแค่ 2 Zone จาก 6 Zone ในไฟล์จริง</span></div><div class="callout-body">คลิป/ตารางด้านบนตั้งใจเลือกมาแค่ L2 + L4 Main Lobby เพื่อให้สอนทำสั้นกระชับ — ไฟล์ BOQ-ZoneXX จริงมี Door + Lift Lobby อีก 3 Zone ที่ไม่ได้รวมไว้ตอนนั้น ภายหลัง (2026-07-21) ได้ขยาย BOQ0002 ให้ครบทุกรายการเพื่อใช้เทียบกับลูกค้าโดยตรง — ดูหัวข้อ <strong>"เวอร์ชันเต็ม"</strong> ด้านล่าง</div></div>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">- แก้แล้ว (2026-07-21): บรรทัดสรุปเคยแสดงแค่ "BOQ Summary Line" ไม่มีคำอธิบายจริง</span></div><div class="callout-body">เดิมบรรทัดสรุปในใบเสนอราคา (Preliminaries/Overhead &amp; Profit/Performance Security รวมถึงบรรทัดสรุปแต่ละ Zone) แสดงชื่อ product "BOQ Summary Line" เฉยๆ ไม่มีคำอธิบายรองให้เห็นเลยว่าบรรทัดไหนคือ Zone ไหน — สาเหตุจริง: widget ของ Odoo (<code>SaleOrderLineProductField</code>) จะโชว์คำอธิบายรองใต้ชื่อ product ก็ต่อเมื่อข้อความ description <strong>ขึ้นต้นด้วยชื่อ product เป๊ะๆ</strong> เท่านั้น ถ้าไม่ตรงเงื่อนไขนี้จะไม่โชว์อะไรเลยแทนที่จะโชว์คำอธิบายแบบเดิม (ไม่ใช่แค่ "ไม่สวย" แต่เป็นบั๊กจริงของการต่อ text ที่แก้ได้) แก้โดยเติมชื่อ product นำหน้า description เสมอ (<code>"BOQ Summary Line\nSchedule No.1 Guestrooms"</code> แทนที่จะเป็นแค่ <code>"Schedule No.1 Guestrooms"</code> เฉยๆ) — ทำให้ widget แสดงคำอธิบายรองถูกต้อง ตอนนี้ทุกบรรทัดสรุปมีคำอธิบายตัวเอียงใต้ชื่อ product แล้ว (ทั้งเอกสารใหม่ที่จะสร้างต่อไป และเอกสารเก่า BOQ0001/0002 ที่ patch ข้อมูลย้อนหลังให้ตรงกันแล้ว)</div></div>
+<figure class="screenshot"><img src="assets/111-boq-summary-line-description-fixed.webp" alt="111-boq-summary-line-description-fixed.png"/></figure>
+<h3>Addendum (2026-07-21): เปลี่ยนบรรทัดหินให้เป็นสินค้าจริง — ฝ่ายปฏิบัติงานกดทำงานต่อได้เลย</h3>
+<p><strong>ปัญหาเดิม:</strong> โฟลว์ด้านบนทำให้ทุกบรรทัดในใบเสนอราคา (รวมถึงบรรทัดหิน) เป็น placeholder "BOQ Summary Line" ทั้งหมด — พอลูกค้า confirm แล้ว ฝ่ายปฏิบัติงานไม่มีปุ่มอะไรให้กดต่อ ต้องย้อนกลับไปเปิด BOQ Document หรือ Excel ต้นทางเพื่อไปหาทางจัดซื้อ/ตัดหินเอง</p>
+<p><strong>แก้แล้ว:</strong> เพิ่มช่อง <strong>Product</strong> ใน Rate Library — ถ้าผูก Rate item กับสินค้าจริง (เช่นหิน SKU ที่มีอยู่ในระบบ) ตอนกด "สร้างใบเสนอราคา" ระบบจะสร้างบรรทัดสินค้าจริงแทน placeholder ให้อัตโนมัติ พร้อมปุ่ม Select Slabs/Cut to Order แบบเดียวกับงานขายหินปกติทุกประการ (ใช้กลไก Mode 3 เดิมซ้ำ ไม่มีของใหม่) ส่วน Rate item ที่ไม่ได้ผูก Product ยังคงแสดงเป็น placeholder เหมือนเดิม ไม่พังอะไร</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปิด <strong>Rate Library</strong> → คลิกช่อง <strong>Product</strong> ของ Rate item ที่ต้องการ → เลือกสินค้าจริง (สำหรับหิน เลือก Finish variant ของ Material นั้น) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/106-boq-rate-linked-product.webp" alt="106-boq-rate-linked-product.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง BOQ Document ตามปกติ (บรรทัดที่ผูก Product ไว้ + บรรทัดที่ไม่ได้ผูกในโซนเดียวกัน) → กด "สร้างใบเสนอราคา" — บรรทัดที่ผูก Product กลายเป็นสินค้าจริงพร้อมปุ่ม <strong>Select Slabs / Cut to Order / Recompute Price (BOQ)</strong> ทันที ส่วนบรรทัดที่ไม่ได้ผูกยัง fallback เป็น "BOQ Summary Line" เหมือนเดิม (เห็นในภาพ: 3 บรรทัด BOQ Summary Line คือรายการที่ไม่ได้ผูก + Preliminaries + Overhead &amp; Profit)</div></div></div>
+<figure class="screenshot"><img src="assets/107-boq-so-generated-real-line.webp" alt="107-boq-so-generated-real-line.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ทำไมจำนวน (Quantity) ของบรรทัดหินถึงเป็น 1 เสมอตอนสร้างใหม่</span></div><div class="callout-body">หินขายเป็น "แผ่น" (Units) ไม่ใช่ ตร.ม. — ใส่ qty=1 + ราคารวมทั้งก้อนไปก่อน (ตัวเลข ตร.ม. จริงจาก takeoff ยังโชว์อยู่ในคำอธิบายบรรทัด) รอ Select Slabs/Cut to Order เปลี่ยนจำนวนเป็นแผ่นจริงให้เองทีหลัง</div></div>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">เมื่อฝ่ายปฏิบัติงานกด <strong>Select Slabs</strong> เลือกแผ่นจริงแล้ว Confirm — จำนวนอัปเดตเป็นแผ่นที่ hold จริง แต่ <strong>ราคาต่อหน่วยจะถูก Odoo เขียนทับด้วยราคามาตรฐานของสินค้าเองโดยอัตโนมัติทันที</strong> (เห็นในภาพ ยอดรวมตกจาก 309,470.75 ฿ เหลือ 49,995.75 ฿ ทันทีที่ confirm) — เป็นพฤติกรรม compute field มาตรฐานของ Odoo ที่ผูกราคาไว้กับ pricelist ทุกครั้งที่จำนวนเปลี่ยน ไม่ใช่บั๊กของ BOQ module แต่เป็นเหตุผลที่ต้องมีปุ่มถัดไป</div></div></div>
+<figure class="screenshot"><img src="assets/108-boq-select-slabs-confirmed.webp" alt="108-boq-select-slabs-confirmed.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">กดปุ่ม <strong>"Recompute Price (BOQ)"</strong> ที่บรรทัดนั้น — ราคาต่อหน่วยคำนวณใหม่จาก (Rate/Unit เดิมจาก BOQ) × (ตร.ม. ของแผ่นที่ hold จริง) กลับมาถูกต้องทันที (76,722.26 ฿)</div></div></div>
+<figure class="screenshot"><img src="assets/109-boq-recompute-price.webp" alt="109-boq-recompute-price.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต้องกด Recompute ทุกครั้งหลัง Select Slabs/Cut to Order</span></div><div class="callout-body">ราคาจะถูก Odoo เขียนทับอัตโนมัติทุกครั้งที่จำนวนเปลี่ยน (ไม่ใช่แค่ครั้งแรก) — ถ้าลืมกด Recompute ใบเสนอราคาจะใช้ราคาสินค้ามาตรฐาน ไม่ใช่ราคาที่ตกลงกับลูกค้าไว้ใน BOQ</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">ถ้ากด <strong>Cut to Order</strong> แทน (กรณีไม่มีแผ่นที่ใช้ได้ใน stock) ระบบจะเช็คให้อัตโนมัติว่ามีแผ่นขนาดตรงกันอยู่ใน stock อยู่แล้วหรือเปล่า (รวมแผ่นเศษ/remnant ด้วย) — ถ้ามี จะเตือนแบบ popup ที่ปิดได้ ไม่บล็อกการทำงาน (พนักงานยังกด Create Cut Order ต่อได้ถ้ามั่นใจว่าต้องการตัดใหม่จริงๆ)</div></div></div>
+<figure class="screenshot"><img src="assets/110-boq-cutorder-warning.webp" alt="110-boq-cutorder-warning.png"/></figure>
+<h3>เวอร์ชันเต็ม (2026-07-21): BOQ0002 ขยายให้ตรงกับไฟล์ BOQ-ZoneXX จริงทั้งหมด — สำหรับเทียบกับลูกค้า</h3>
+<p>BOQ0002 ด้านบนจำลองแค่ 2 Zone (L2, L4) — ขยายให้ครบทั้ง 6 Zone ตามไฟล์จริงแล้ว เพื่อใช้เป็นเอกสารเทียบให้ลูกค้าดูโดยตรงว่าระบบคำนวณตรงกับ Excel เป๊ะแค่ไหน</p>
+<p><strong>ขอบเขต:</strong> ทำเฉพาะฝั่ง <strong>EG (ค่าวัสดุ)</strong> — ไฟล์จริงมีอีกฝั่งคือ <strong>TCR (ค่าแรง/subcontractor คนละนิติบุคคล)</strong> ซึ่งตั้งใจไม่รวม เพราะต้อง design เรื่อง company แยกใหม่ทั้งหมด (ตัดสินใจตอนปิดไฟล์นี้ครั้งแรกแล้วว่า treat TCR เหมือนไม่มีอยู่)</p>
+<h4>รายการที่เพิ่มเข้าไป (10 บรรทัดใหม่ รวมเป็น 14 บรรทัด)</h4>
+<div class="table-wrap"><table><thead><tr><th>Zone</th><th>รายการ</th><th>ยอด (บาท)</th></tr></thead><tbody><tr><td>L2 Main Lobby</td><td>ST1, ST2 (เดิม)</td><td>2,033,900.00</td></tr><tr><td>L4 Main Lobby</td><td>ST1, ST2 (เดิม)</td><td>8,066,760.00</td></tr><tr><td><strong>Door</strong> (ใหม่)</td><td>K-SD2, K-SD3, K-SD4, K-SD10, K-SD11, K-SD12, K-SD13 (บานประตูอลูมิเนียมรังผึ้ง 7 แบบ)</td><td>247,163.86</td></tr><tr><td><strong>Lift Lobby (Low Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 580 ตร.ม.</td><td>2,320,000.00</td></tr><tr><td><strong>Lift Lobby (Mid Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 682 ตร.ม.</td><td>2,728,000.00</td></tr><tr><td><strong>Lift Lobby (High Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 594 ตร.ม.</td><td>2,376,000.00</td></tr></tbody></table></div>
+<p>รายการ Door เป็นรายการเฉพาะโปรเจกต์ (ไม่ reusable ข้ามงาน) เลยไม่ได้สร้างเป็น Rate Library item ใหม่ 7 ตัว — ใส่ตรงในบรรทัด BOQ Line โดยไม่ผูก Rate Library Item เลย (ปล่อยว่างได้ ไม่บังคับ) ส่วน ST7 สร้างเป็น Rate ใหม่ในคลัง (ใช้ซ้ำได้ต่อไป)</p>
+<figure class="screenshot"><img src="assets/112-boq0002-full-14-lines.webp" alt="112-boq0002-full-14-lines.png"/></figure>
+<h4>เทียบยอดรวม: Odoo vs ไฟล์ Excel จริง</h4>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>Odoo</th><th>ไฟล์ Excel จริง</th><th>ต่างกัน</th></tr></thead><tbody><tr><td>Amount Direct Cost</td><td>17,771,823.86</td><td>17,771,823.868</td><td>0.8 สตางค์ (rounding)</td></tr><tr><td>Preliminaries</td><td>425,033.55</td><td>425,033.549</td><td>ตรงเป๊ะ</td></tr><tr><td>Overhead &amp; Profit (10%)</td><td>1,777,182.39</td><td>1,777,182.387</td><td>ตรงเป๊ะ</td></tr><tr><td>Performance Security</td><td>53,315.47</td><td>53,315.472</td><td>ตรงเป๊ะ</td></tr><tr><td><strong>รวมก่อน VAT</strong></td><td><strong>20,027,355.27</strong></td><td><strong>20,027,355.276</strong></td><td>0.6 สตางค์ (rounding)</td></tr></tbody></table></div>
+<p>สร้างเป็นใบเสนอราคาใหม่ <strong>S54388</strong> (ใบเดิม S54372 จากตอนสอนทำด้านบนยังเก็บไว้เหมือนเดิม ไม่แตะ — ระบบสร้างใบใหม่ทุกครั้งที่กด "สร้างใบเสนอราคา" ไม่ overwrite ใบเก่า)</p>
+<figure class="screenshot"><img src="assets/113-so-s54388-complete.webp" alt="113-so-s54388-complete.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">2 จุดที่ยังไม่ตรง 100% กับไฟล์จริง — ต้องบอกลูกค้าตรงๆ</span></div><div class="callout-body">1. <strong>Preliminaries/Performance Security ในไฟล์จริงคำนวณซับซ้อนกว่า % ธรรมดา</strong> (มีคอลัมน์ RATE/PERIOD/PORTION แยกกัน ไม่ใช่ % คูณ Direct Cost ตรงๆ) — เลข % ที่ใส่ในเอกสารนี้ (Preliminaries 2.39161%, Performance Security 0.3%) คำนวณย้อนกลับมาให้ได้ยอดเงินตรงกับไฟล์จริงพอดี ไม่ใช่ว่าระบบรองรับสูตรคำนวณแบบไฟล์จริงจริงๆ — ถ้าลูกค้าเปลี่ยนเงื่อนไขโปรเจกต์ ต้องคำนวณ % ใหม่เองทุกครั้ง ไม่ auto 2. <strong>ไฟล์จริงมี "Final Discount" 116,796.19 บาทท้ายสุด</strong> (ยอดจริงหลังหักส่วนลด = 19,910,559.08) — โมดูลนี้ยังไม่มีช่องสำหรับส่วนลดท้ายบิลแบบนี้ ตัวเลข 20,027,355.27 ที่ระบบโชว์คือ<strong>ก่อนหักส่วนลด</strong></div></div>
+<h3>พิมพ์ PDF / Export Excel</h3>
+<p>จาก BOQ Document เดียวกันนี้ กดปุ่ม <strong>"พิมพ์ PDF"</strong> หรือ <strong>"Export Excel"</strong> ได้ทันที — ทั้งสองแบบจัดกลุ่มตาม Schedule/Zone พร้อม Sub-Total ต่อ Zone และสรุป Direct Cost/Preliminaries/Overhead &amp; Profit/Performance Security/Total เหมือนกัน (Excel export ใช้ <code>xlsxwriter</code> สร้างไฟล์จริง ไม่ใช่ export ดิบจาก list view)</p>
+<figure class="screenshot"><img src="assets/98-boq-print-export-buttons.webp" alt="98-boq-print-export-buttons.png"/></figure>
+<p>ตัวอย่างไฟล์จริงที่พิมพ์ออกมาจาก BOQ0002 ในคลิปด้านบน: <span class="xref-external">boq-sample-print.pdf</span> · <span class="xref-external">boq-sample-export.xlsx</span></p>
+<hr/>
+</section>
+<section class="chapter" id="ch-23">
+<h2 class="chapter-title"><span class="chapter-num">23</span>การคืนสินค้า (Returns / RMA)</h2>
+<h3>โจทย์</h3>
+<p>ก่อนหน้านี้ระบบไม่มีการจัดการการคืนสินค้าเลย — สถานะแผ่นหิน (<code>stone.slab.status</code>) มีแค่ available/hold/consigned/cut_loss/sold/remnant ไม่มีทางย้อนกลับจาก "Sold" เลย ถ้าลูกค้าคืนแผ่นหิน (ผิดขนาด/ชำรุดจากขนส่ง/ยกเลิกงาน) แล้วพนักงานใช้ปุ่ม Return มาตรฐานของ Odoo สต็อกจริงจะถูกต้อง แต่แผ่นนั้นจะค้างสถานะ "Sold" ตลอดไปในสายตาโมดูล — มองไม่เห็นใน Select Slabs wizard, ตัวนับ Bundle, หรือ Stock Take ทั้งที่ของจริงกลับเข้าคลังแล้ว</p>
+<h3>วิธีทำงานตอนนี้</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch23.webp" alt="EMG-O Flow - การคืนสินค้า (Returns RMA)"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ลูกค้าคืนแผ่นหิน — พนักงานใช้ปุ่ม <strong>Return</strong> มาตรฐานของ Odoo จากใบส่งของเดิม (Delivery Order → Return)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">Validate ใบรับคืน — ระบบตรวจจับอัตโนมัติว่าเป็นการคืนสินค้าจริง (ไม่ใช่ใบรับสินค้าทั่วไป) แล้วเปลี่ยนสถานะแผ่นเป็น <strong>"Returned - Pending Inspection"</strong> ทันที</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ไปที่เมนู <strong>Stone Slab → Slabs Pending Inspection</strong> เพื่อดูรายการแผ่นที่รอตรวจสอบทั้งหมด (ข้าม Bundle ได้ ไม่ต้องเปิดทีละ Bundle)</div></div></div>
+<figure class="screenshot"><img src="assets/100-returns-pending-inspection-list.webp" alt="100-returns-pending-inspection-list.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ตรวจสอบสภาพแผ่นจริง แล้วกดปุ่มตัดสินใจ — ในหน้า list กดได้ตรงแถวเลย หรือเปิดฟอร์มแผ่นแล้วกดปุ่มบนหัว</div></div></div>
+<figure class="screenshot"><img src="assets/101-returns-slab-form-pending.webp" alt="101-returns-slab-form-pending.png"/></figure>
+<ul><li><strong>"ตรวจแล้ว: ขายต่อได้ (Available)"</strong> — แผ่นสภาพดี ขายต่อได้ทันที ล้างข้อมูลลูกค้า/SO เดิมออก กลับไปเป็น Available ปกติ</li><li><strong>"ตรวจแล้ว: ชำรุด (Cut Loss)"</strong> — แผ่นเสียหาย ไม่สามารถขายต่อได้ เข้ากลุ่มเดียวกับของเสียจากการตัด</li></ul>
+<figure class="screenshot"><img src="assets/102-returns-slab-resolved-available.webp" alt="102-returns-slab-resolved-available.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">Bundle แต่ละใบมีปุ่ม <strong>"Returned"</strong> (smart button) โชว์จำนวนแผ่นที่รอตรวจสอบของ Bundle นั้นด้วย ถ้ามี</div></div></div>
+<figure class="screenshot"><img src="assets/99-returns-bundle-smart-button.webp" alt="99-returns-bundle-smart-button.png"/></figure>
+<h3>ข้อควรรู้ (เจอจากการทดสอบจริง)</h3>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">Native Return ของ Odoo ไม่ได้คืนของเข้า "Stone Hold"</span></div><div class="callout-body">ตอนออกแบบครั้งแรกคิดว่า Return จะคืนของกลับเข้าตำแหน่งเดิม (Stone Hold) แต่ทดสอบจริงแล้วพบว่า Odoo คืนเข้า warehouse Stock ทั่วไปแทน (picking type สำหรับรับของใช้ร่วมกับใบรับสินค้าทั่วไป ชี้ไปที่ Stone Hold ตรงๆ ไม่ได้ ไม่งั้นจะกระทบการซื้อของทั่วไป ดู <a href="#ch-15" class="xref">บทที่ 15: การจัดซื้อ</a>) ระบบเลยบันทึกตำแหน่งจริงที่ของไปตกไว้ (ไม่ใช่เดาตายตัว) แล้วดึงสต็อกจากตำแหน่งจริงตอนพนักงานกดปุ่มตัดสินใจ — พิสูจน์แล้วด้วยการอ่าน stock move ledger จริง ไม่ใช่แค่เดา</div></div>
+<h3>สรุป</h3>
+<p>Gap ที่เจอจากการอ่านโค้ดจริง (ไม่มีทางย้อนสถานะจาก Sold เลย) แก้แล้วครบ: ตรวจจับอัตโนมัติ + ขั้นตอนตรวจสอบก่อนตัดสินใจ (ตามที่ user เลือก ไม่ใช่ auto-resolve ทันที เพราะแผ่นหินอาจชำรุดจากการขนส่งจริง) + เมนูรวมให้พนักงานตามงานได้ง่าย ทดสอบจริงผ่าน browser ครบวงจร (ขาย → ส่งของ → คืนสินค้า → ตรวจสอบ → ตัดสินใจ)</p>
+<hr/>
+</section>
+<section class="chapter" id="ch-24">
+<h2 class="chapter-title"><span class="chapter-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>งาน <strong>"Sky Lounge"</strong> (โครงการ SCOPE LANGSUAN) — ขาย <strong>Silver Sky Marble</strong> ตัดขนาด 94×114.7cm (Honed) 2 แผ่น @ 4,500 บาท/SQM + ปูนกาว+ยาแนว (เหมา) + ค่าแรง 2 รายการ (รื้อติดตั้ง, ค่าขนหินขึ้นชั้นบน/ขนขยะ) + Overhead 10% แยกคิดทั้งฝั่งวัสดุและฝั่งแรงงาน</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แก้ไขจากบันทึกเดิม</span></div><div class="callout-body">วิเคราะห์รอบแรกเข้าใจว่ามี 2 บรรทัด (รื้อติดตั้ง/ค่าขนหิน) ยังไม่มีราคา — เปิดไฟล์ต้นฉบับดูใหม่จริงๆ พบว่า<strong>มีราคาระบุไว้ครบแล้ว</strong> (รื้อติดตั้ง 12,000 / ค่าขนหิน 4,000) ใช้ตัวเลขนี้เป็น reference ตรงๆ ได้เลย ไม่ต้องรอลูกค้า</div></div>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>จำนวน/หน่วย</th><th>ราคา</th><th>ยอดรวม</th></tr></thead><tbody><tr><td>Silver Sky Marble Slab (SL-1)</td><td>1.08 SQM</td><td>4,500/SQM</td><td>4,860</td></tr><tr><td>Silver Sky Marble Slab (SL-7)</td><td>1.08 SQM</td><td>4,500/SQM</td><td>4,860</td></tr><tr><td>ปูนกาว + ยาแนว</td><td>1 LS</td><td>1,800</td><td>1,800</td></tr><tr><td>รื้อติดตั้ง</td><td>1 LS</td><td>12,000</td><td>12,000</td></tr><tr><td>ค่าขนหินขึ้นชั้นบน / ขนขยะ</td><td>1 LS</td><td>4,000</td><td>4,000</td></tr><tr><td>Overhead 10% (ค่าหิน)</td><td>1 LS</td><td>1,152</td><td>1,152</td></tr><tr><td>Overhead 10% (ค่าแรง)</td><td>1 LS</td><td>1,600</td><td>1,600</td></tr></tbody></table></div>
+<p>NET TOTAL ต้นฉบับ (รวม VAT) = 32,391.04 บาท</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>Silver Sky เป็นวัสดุใหม่ (ไม่เคยมีในระบบ) — ต้องสร้าง Material ก่อน แล้วใช้ flow เดิมทุกอย่างเหมือน <a href="#ch-16" class="xref">บทที่ 16: ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a> บวกกับ fee line แบบ <a href="#ch-19" class="xref">บทที่ 19: ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Stone Slab → Materials → New</strong> — สร้าง Material "Silver Sky" (ประเภท Marble) ระบบจะสร้าง Product ให้อัตโนมัติ</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>สร้าง Bundle</strong> ผูกกับ Material นี้ (Supplier, Warehouse, Finish = Honed, Sales Price/Sq.Mt. = 4,500) แล้วเพิ่ม Slab 2 แผ่น ขนาด 0.94 × 1.147 ม. — ระบบรับสต็อกเข้า Available ให้อัตโนมัติ</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer → Save</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>Add a product</strong> → เลือก Silver Sky Marble Slab → <strong>Select Slabs</strong> → เลือกแผ่น SL-1 → Confirm → ตั้ง Unit Price เอง (คำนวณจาก SQM จริง × 4,500) → ทำซ้ำสำหรับ SL-7</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> อีก 5 ครั้งสำหรับ: ปูนกาว+ยาแนว, รื้อติดตั้ง, ค่าขนส่ง (ใช้ product ค่าขนส่งเดิม ตั้งชื่อบรรทัดใหม่ว่า "ค่าขนหินขึ้นชั้นบน / ขนขยะ"), Overhead 10% ×2 (ค่าหิน/ค่าแรง แยกบรรทัด) — ใส่ราคาตามตาราง Save</div></div></div>
+<figure class="screenshot"><img src="assets/103-f1-so-lines.webp" alt="103-f1-so-lines.png"/></figure>
+<p>*บรรทัดครบทั้ง 7 รายการ — 2 บรรทัดหินมีปุ่ม Select Slabs/Cut to Order โผล่ปกติ ส่วนบรรทัด fee เป็น service/consu ธรรมดา*</p>
+<figure class="screenshot"><img src="assets/104-f1-so-totals.webp" alt="104-f1-so-totals.png"/></figure>
+<p>*ยอดรวม: Untaxed 30,255.62 / VAT 2,117.89 / Total 32,373.51 บาท*</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต่างจากต้นฉบับ ~17 บาท เพราะปัดเศษ SQM</span></div><div class="callout-body">ไฟล์ต้นฉบับปัดขนาดแผ่นเป็น 1.08 SQM พอดีก่อนคูณราคา (0.94×114.7cm ปัดเศษ) ส่วน Odoo คำนวณจากขนาดจริง 94×114.7cm = 1.07818 SQM — ต่างกันไม่ถึง 20 บาทจากยอดรวม 3 หมื่นกว่า เป็น rounding เดียวกับที่เจอในไฟล์ 3 ไม่ใช่บั๊ก</div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">Product column แสดงชื่อ Product ไม่ใช่ชื่อบรรทัดเสมอ</span></div><div class="callout-body">บรรทัด "ค่าขนหินขึ้นชั้นบน / ขนขยะ" ใน List View จะโชว์แค่ "ค่าขนส่ง" (ชื่อ Product) เพราะชื่อบรรทัดที่ตั้งเองไม่ได้ขึ้นต้นด้วยชื่อ Product — รายละเอียดเต็มยังอยู่ถูกต้องในฟิลด์ Description ของบรรทัด (เปิดบรรทัดดูหรือดูใน Print PDF จะเห็นข้อความเต็ม)</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-25">
+<h2 class="chapter-title"><span class="chapter-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ใบเสนอราคางาน<strong>ป้าย</strong> โครงการ VIA ARI — 5 รายการชิ้นป้าย (ขนาด/จำนวนต่างกัน ระบุตามรูปแนบ ไม่มีคำอธิบายเป็นข้อความในไฟล์) ไม่มีหินเข้ามาเกี่ยวข้องเลย:</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>ขนาด</th><th>จำนวน</th><th>หน่วย</th><th>ราคา</th><th>ยอดรวม</th></tr></thead><tbody><tr><td>1</td><td>60×200cm</td><td>1</td><td>SET</td><td>900</td><td>900</td></tr><tr><td>2</td><td>สูง 100cm</td><td>2</td><td>ตัว</td><td>1,200</td><td>2,400</td></tr><tr><td>3</td><td>260×67cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr><tr><td>4</td><td>260×67cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr><tr><td>5</td><td>182×133cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr></tbody></table></div>
+<p>TOTAL 7,800 + VAT 7% (546) = NET TOTAL 8,346 บาท (ไม่มี Overhead)</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>เหมือน <a href="#ch-19" class="xref">บทที่ 19: ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a> — <strong>ไม่ต้องแตะ <code>stone_slab_inventory</code> เลย</strong> เป็น Sale Order ธรรมดา 100% เพราะงานป้ายไม่ใช่หิน ยืนยันสมมติฐานที่ตั้งไว้ในวิเคราะห์เดิมว่า "ใช้ flow ที่มีอยู่ได้" ถูกต้อง</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service/consu product "งานป้าย (Signage)" (product ใหม่ ใช้ซ้ำได้ทุกบรรทัด) → ตั้งชื่อบรรทัดระบุขนาด/รายการ (เช่น "งานป้าย รายการ 1 — 60×200 CM (SET)") → ใส่ Quantity + Unit Price ตามตาราง</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ทำซ้ำให้ครบทั้ง 5 รายการ → Save</div></div></div>
+<figure class="screenshot"><img src="assets/105-f9-so-lines-totals.webp" alt="105-f9-so-lines-totals.png"/></figure>
+<p>*5 บรรทัดครบ + ยอดรวม Untaxed 7,800.00 / VAT 546.00 / Total 8,346.00 บาท — <strong>ตรงกับต้นฉบับเป๊ะทุกบาท</strong> เพราะตัวเลขต้นฉบับเป็นจำนวนเต็มอยู่แล้ว ไม่มีปัดเศษเหมือนไฟล์หิน*</p>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่มี Overhead ในไฟล์นี้</span></div><div class="callout-body">ต่างจากไฟล์ 1 ที่มี Overhead 10% แยกบรรทัด ไฟล์นี้ลูกค้าใส่ Overhead = 0 มาเลย เพราะงั้นไม่ต้องเพิ่มบรรทัด Overhead ถ้าลูกค้าระบุไม่มี</div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ถ้าต้องใช้จริง ควรทำ Product แยกตามประเภทงานป้าย</span></div><div class="callout-body">ตัวอย่างนี้ใช้ product "งานป้าย (Signage)" ตัวเดียวใช้ซ้ำทั้ง 5 บรรทัด (เหมือน pattern ค่าแรงทั่วไป) — ถ้าจะใช้งานจริงต่อเนื่อง ควรพิจารณาว่าจะแยก Product ตามวัสดุ/ประเภทป้าย (อะคริลิค, สแตนเลส ฯลฯ) เพื่อดู margin แยกได้ไหม เป็นการตัดสินใจ scope ที่ยังไม่ต้องทำตอนนี้ (ดู Next Steps ใน progress.md)</div></div>
+<hr/>
+</section>
+    </div>
+  </main>
+</div>

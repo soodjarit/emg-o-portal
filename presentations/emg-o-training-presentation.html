@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>คู่มือการใช้งานระบบ EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:56px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .chip-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+  .status-chip{padding:7px 14px;border-radius:8px;font-size:13.5px;font-weight:700;color:#fff;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .thumb-grid{display:flex;gap:16px;}
+  .thumb-grid .shot-wrap{flex:1;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">คู่มือการใช้งาน<br>ระบบ EMG-O</div>
+    <div class="big-sub">สอนขั้นตอนใช้งานจริงตั้งแต่รับหินเข้าคลัง จนถึงส่งของให้ลูกค้า — ยกตัวอย่างสถานการณ์จริงก่อน แล้วค่อยพาไปดูหน้าจอทีละขั้นตอน</div>
+    <div class="stamp">EMG-O Manual · ฉบับอบรมผู้ใช้งาน</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวมระบบ</div>
+    <h2 class="slide-title">หินหนึ่งก้อน กลายเป็นแผ่นได้หลายแผ่น — ระบบตามรอยยังไง</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ร้านรับหินอ่อนล็อตใหม่เข้ามา 1 ก้อน แล้วตัดออกมาได้ 6 แผ่น ขนาดไม่เท่ากันสักแผ่นเดียว — จะรู้ได้ยังไงว่าแผ่นไหนขายไปแล้ว แผ่นไหนยังอยู่ในคลัง แผ่นไหนถูกจองไว้ให้ลูกค้าคนไหน</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Material</div><div class="hdesc">ชนิดหิน เช่น Emperador Grey</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Block</div><div class="hdesc">ก้อนหินดิบจากเหมือง วัดเป็น m³</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Bundle</div><div class="hdesc">ล็อตหินที่มาด้วยกัน 1 ครั้ง</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Slab</div><div class="hdesc">แผ่นเดี่ยว — มีเลขประจำตัวแผ่นละเลข</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="case-text-label" style="margin-bottom:8px;">สถานะของแผ่นหิน</div>
+        <div class="chip-row">
+          <span class="status-chip" style="background:#4C9F70;">Available — พร้อมขาย</span>
+          <span class="status-chip" style="background:#C99A3A;">Hold — ถูกจองไว้</span>
+          <span class="status-chip" style="background:#5B7FA6;">Consigned — ฝากขาย</span>
+          <span class="status-chip" style="background:#33424B;">Sold — ขายแล้ว</span>
+          <span class="status-chip" style="background:#A24C4C;">Cut-Loss / Remnant</span>
+        </div>
+        <div class="note-box"><b>จำง่ายๆ:</b> ทุกแผ่นมีเลขซีเรียลเฉพาะตัว ระบบเปลี่ยนสถานะให้อัตโนมัติทุกครั้งที่มีการจอง ยกเลิก หรือส่งของจริง ไม่ต้องนับสต็อกเอง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/01-bundle-kanban.png"><div class="shot-cap">หน้าจอ Bundle ภาพรวม — เห็นสถานะแผ่นทั้งหมดในล็อตเดียว</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: รับสินค้าเข้าคลัง -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · รับสินค้าเข้าคลัง</div>
+    <h2 class="slide-title">ซื้อหินเข้ามาแล้ว บันทึกเข้าระบบยังไง</h2>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ร้านสั่งซื้อหินแกรนิต Rosa Portogallo จาก Global Stone Quarry จำนวน 5 คิว (m³) ของมาถึงคลังแล้ว ต้องเปิดระบบบันทึกก้อนหินนี้เข้าสต็อก</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">ออก PO → Confirm</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สร้าง Bundle ใหม่</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือก PO Line ที่ Confirm แล้ว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอกความหนา (Thickness)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">บันทึก</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Purchase Order ใหม่ เลือก Vendor แล้วเลือก Block Product ของหินชนิดนั้น ใส่จำนวนคิว (m³) และราคา แล้วกด Confirm Order</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ไปที่เมนู Stone Slab → Bundles → New ตั้งเลข Bundle และเลือกชนิดหิน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เลือก PO Line ที่เพิ่ง Confirm — ระบบจะกรอก Supplier และ Total CBM ให้อัตโนมัติ เหลือแค่กรอกความหนาที่จะตัดแผ่น</span></li>
+          <li><span class="step-num">4</span><span class="step-text">เลือก Warehouse แล้วกด Save — ระบบสร้างสต็อกก้อนหินให้ทันที</span></li>
+        </ul>
+        <div class="note-box"><b>ข้อควรรู้:</b> ไม่ต้องกดยืนยันใบรับสินค้าปกติของ Odoo อีก — ระบบจะยกเลิกใบรับสินค้านั้นให้อัตโนมัติเมื่อสร้าง Bundle เสร็จ เพื่อกันสต็อกถูกนับซ้ำสองเท่า</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/03-new-bundle-form.png"><div class="shot-cap">สร้าง Bundle ใหม่</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/06-bundle-saved.png"><div class="shot-cap">บันทึกสำเร็จ — CBM คำนวณให้อัตโนมัติ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: ตัดแผ่น -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · ตัดแผ่นและจัดการสต็อก</div>
+    <h2 class="slide-title">ตัดก้อนหินเป็นแผ่นแล้ว บันทึกแต่ละแผ่นยังไง</h2>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ก้อนหิน Rosa Portogallo 5 คิวที่รับเข้ามา ถูกตัดออกมาได้ 6 แผ่น แต่ละแผ่นขนาดไม่เท่ากันเลย ต้องบันทึกแยกทีละแผ่นให้ระบบตามรอยได้</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด Bundle</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">แท็บ Slabs → Add a line</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอกขนาดแผ่น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">บันทึก</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Bundle ไปที่แท็บ Slabs แล้วกด "Add a line" เพิ่มทีละแผ่น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กรอกความกว้าง-ยาวของแผ่น ระบบคำนวณพื้นที่ (ตร.ม.) ให้อัตโนมัติ</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด Save — ระบบทำให้อัตโนมัติทันที: หัก CBM จากก้อนหิน, สร้างเลขซีเรียลประจำแผ่น, ตั้งเลขลำดับแผ่นไม่ให้ซ้ำกัน</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ดูภาพรวมทุกแผ่นได้ที่เมนู Stone Slab → Slabs แบบ Kanban ลากการ์ดเปลี่ยนสถานะได้เลย</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/05-slab-line-add.png"><div class="shot-cap">เพิ่มแผ่นทีละแผ่นในฟอร์ม Bundle</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/07-slab-kanban-board.png"><div class="shot-cap">Kanban board ดูสถานะทุกแผ่นในมุมเดียว</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: ขายเป็นแผ่น -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · ขายเป็นแผ่น (ไม่แปรรูป)</div>
+    <h2 class="slide-title">ลูกค้าซื้อไปติดตั้งเอง ไม่ต้องเจาะอะไรเพิ่ม</h2>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าต้องการซื้อหินแกรนิต 3 แผ่น เอาไปติดตั้งเองที่หน้างาน ไม่ต้องให้ร้านตัดหรือเจาะอะไรเพิ่ม</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด Sale Order</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกสินค้าหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด Select Slabs</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกแผ่น → Confirm Selection</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm SO</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เพิ่มบรรทัดสินค้าหินใน Sale Order — ปุ่ม "Select Slabs" จะโผล่มาให้เองต่อท้ายบรรทัด</span></li>
+          <li><span class="step-num">2</span><span class="step-text">คลิก Select Slabs ระบบจะโชว์เฉพาะแผ่นที่ยังว่าง (Available) และตรงกับชนิดหินนั้นเท่านั้น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เลือกแผ่นที่ต้องการ (เลือกได้หลายแผ่น) แล้วกด Confirm Selection — จำนวนในออเดอร์จะอัปเดตให้เอง</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด Confirm ทั้งใบ — แผ่นที่เลือกจะถูกจอง (Hold) ให้ลูกค้าคนนี้ทันที พร้อมสร้างใบส่งของให้อัตโนมัติ</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/11-wizard-available-slabs.png"><div class="shot-cap">เลือกแผ่นที่ต้องการจากรายการที่ว่างอยู่</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/14-so-confirmed-delivery.png"><div class="shot-cap">ยืนยันออเดอร์แล้ว — พร้อมส่งของ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: ขายพร้อมแปรรูป -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ขายพร้อมแปรรูป</div>
+    <h2 class="slide-title">ลูกค้าอยากให้ร้านเจาะช่องอ่างล้างหน้าให้ก่อนส่ง</h2>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าซื้อหิน 1 แผ่น แต่อยากให้ร้านเจาะช่องสำหรับวางอ่างล้างหน้าให้เสร็จก่อนส่งมอบ</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เลือกแผ่นตามปกติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เพิ่มบริการ "Slab Fabrication"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Start Repair → เจาะจริง → End Repair</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ส่งของ</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ทำตามขั้นตอน "ขายเป็นแผ่น" ให้ครบก่อน (เลือกแผ่น + Confirm Selection) ต้องจองแผ่นเสร็จก่อนเสมอ</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เพิ่มบรรทัดที่ 2 เลือกสินค้า "Slab Fabrication Service" แล้วเลือกแผ่นที่จะเจาะจากช่อง "Slab to Fabricate"</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด Confirm ทั้งใบ — ระบบสร้างใบสั่งงานเจาะ (Repair Order) ให้อัตโนมัติ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">เปิด Repair Order กด Start Repair → ทำงานเจาะจริงที่คลัง → กด End Repair เมื่อเสร็จ</span></li>
+        </ul>
+        <div class="note-box"><b>สำคัญ:</b> ต้องกด End Repair ให้เสร็จก่อนกด Validate ใบส่งของเสมอ ไม่งั้นระบบจะหาสต็อกไม่เจอ — เจาะให้เสร็จก่อน แล้วค่อยส่งของทีหลัง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/17-so-fabrication-slab-dropdown.png"><div class="shot-cap">เลือกแผ่นที่จะเจาะในบริการแปรรูป</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/22-repair-order-done.png"><div class="shot-cap">งานเจาะเสร็จแล้ว — พร้อมส่งของ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: ส่งของ -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นตอนที่ 5 · ส่งของและยืนยันการรับ</div>
+    <h2 class="slide-title">ส่งของให้ลูกค้า จะรู้ได้ยังไงว่าหยิบแผ่นถูก</h2>
+    <div class="case-box">
+      <div class="case-icon">5</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ถึงเวลาส่งแผ่นหินให้ลูกค้า ต้องมั่นใจว่าหยิบแผ่นที่ถูกต้องจริง ไม่ใช่แผ่นอื่นในล็อตเดียวกัน แล้วต้องมีหลักฐานว่าลูกค้ารับของแล้วจริง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิดใบส่งของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอก/สแกน Scanned Serial</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Validate</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ลูกค้าเซ็นรับของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">พิมพ์ใบยืนยันการส่ง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดใบส่งของ กดปุ่ม Moves หรือ Details ที่บรรทัดสินค้า จะเห็นช่อง "Scanned Serial"</span></li>
+          <li><span class="step-num">2</span><span class="step-text">สแกน (หรือเลือกจาก dropdown) ให้ตรงกับเลขซีเรียลของแผ่นจริง — ถ้าไม่ตรง ระบบจะไม่ยอมให้ Validate ผ่าน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด Validate — แผ่นเปลี่ยนสถานะเป็น Sold ทันที</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ให้ลูกค้าเซ็นชื่อรับของในแท็บ Customer Signature แล้วกดพิมพ์ Proof of Delivery เป็นหลักฐาน</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/24-delivery-moves-scanned-serial-filled.png"><div class="shot-cap">สแกนยืนยันแผ่นตรงกับเลขซีเรียลจริง</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/27-signature-signed.png"><div class="shot-cap">ลูกค้าเซ็นชื่อรับของ พร้อมวันเวลา</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ต้นทุนสินค้า -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ขั้นตอนที่ 6 · ต้นทุนสินค้า</div>
+    <h2 class="slide-title">หินล็อตนี้ กำไรเท่าไหร่ต่อตารางเมตร</h2>
+    <div class="case-box">
+      <div class="case-icon">6</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">หัวหน้าอยากรู้ว่าหินล็อตนี้ ซื้อมาต้นทุนเท่าไหร่ต่อตารางเมตร รวมค่าขนส่งแล้วขายไปกำไรเท่าไหร่ ไม่อยากมานั่งคำนวณเอง</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Bundle จะเห็นส่วน "Pricing & Cost" ทันที ไม่ต้องคำนวณเอง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ระบบรวมราคาซื้อจาก Purchase Order + ค่าขนส่ง (Landed Cost) แล้วหารเป็นต้นทุนต่อตารางเมตรให้อัตโนมัติ</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ต้นทุนของแต่ละแผ่นก็คำนวณแยกให้เองตามขนาดจริงของแผ่นนั้น</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ด้านล่างฟอร์มสรุปพื้นที่รวมแยกตามสถานะ (พร้อมขาย/ถูกจอง/ขายแล้ว) เห็นภาพรวมมูลค่าสต็อกได้ทันที</span></li>
+        </ul>
+        <div class="note-box"><b>จำง่ายๆ:</b> ต้นทุนต่อตารางเมตร = ราคาซื้อ + ค่าขนส่งที่กระจายตามสัดส่วนพื้นที่ — พนักงานไม่ต้องคำนวณเอง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/02-bundle-form-cost.png"><div class="shot-cap">ส่วน Pricing & Cost ในฟอร์ม Bundle</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: ขายข้ามบริษัท -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ขั้นตอนที่ 7 · ขายข้ามบริษัท (EG ↔ ES)</div>
+    <h2 class="slide-title">ของอยู่คลังอีกบริษัทหนึ่ง ยังขายให้ลูกค้าได้ไหม</h2>
+    <div class="case-box">
+      <div class="case-icon">7</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าของบริษัท EG อยากได้แผ่นหินที่ดันไปอยู่ในสต็อกของบริษัท ES (อีกบริษัทในเครือ) พนักงาน EG จะขายให้ลูกค้าได้ไหม</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด SO ตามปกติ (ฝั่ง EG)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Select Slabs เห็นสต็อก ES ปนมาด้วย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกได้เลย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ระบบออกเอกสารซื้อ-ขายภายในให้เอง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ส่งของตรงจากคลัง ES</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">พนักงาน EG เปิด Sale Order ให้ลูกค้าตามปกติ แล้วกด Select Slabs</span></li>
+          <li><span class="step-num">2</span><span class="step-text">หน้าต่างเลือกแผ่นจะโชว์สต็อกของทั้ง EG และ ES รวมกัน — เลือกแผ่นของ ES ได้เหมือนแผ่นปกติ ไม่ต้องสลับบริษัทเอง</span></li>
+          <li><span class="step-num">3</span><span class="step-text">พอ Confirm ออเดอร์ ระบบจะสร้างเอกสารซื้อ-ขายภายในระหว่าง 2 บริษัทให้อัตโนมัติ (ราคาทุนบวก 10%)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ของจะถูกส่งตรงจากคลัง ES ไปหาลูกค้าเลย ไม่ต้องขนย้ายเข้าคลัง EG ก่อน</span></li>
+        </ul>
+        <div class="note-box"><b>สรุป:</b> พนักงานหน้างานไม่ต้องทำอะไรเพิ่มเอง ระบบจัดการเอกสารบัญชีข้ามบริษัทให้ทั้งหมด ฝ่ายบัญชีเป็นคนตรวจสอบและยืนยันบัญชีอีกที</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/114-intercompany-select-slabs-cross-company.png"><div class="shot-cap">เห็นสต็อกของ ES ปนมาให้เลือกได้เลย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/116-intercompany-reconciliation-dashboard.png"><div class="shot-cap">แดชบอร์ดสรุปรายการซื้อ-ขายข้ามบริษัท</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: eCommerce -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ขั้นตอนที่ 8 · หน้าเว็บให้ลูกค้าเลือกแผ่นเอง</div>
+    <h2 class="slide-title">ลูกค้าอยากดูก่อนว่ามีหินที่ต้องการไหม ก่อนโทรมาสั่ง</h2>
+    <div class="case-box">
+      <div class="case-icon">8</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าอยากดูก่อนว่าร้านมีหินสีที่ต้องการอยู่ในสต็อกจริงไหม ก่อนโทรหรือเดินทางมาที่ร้าน</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">ลูกค้าเข้าเว็บ /stone-catalog</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกชนิดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดูแผ่นจริงแต่ละแผ่น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ใส่ตะกร้า → ยืนยัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">พนักงานตรวจสอบต่อ</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ลูกค้าเข้าเว็บ เห็นหน้ารวมชนิดหินพร้อมรูป จำนวนแผ่นที่พร้อมขาย และช่วงราคา</span></li>
+          <li><span class="step-num">2</span><span class="step-text">คลิกเข้าไปดูแผ่นจริงแต่ละแผ่น (ขนาด ราคา รูปจริง) เลือกใส่ตะกร้าได้ทีละแผ่น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ยืนยันคำสั่งซื้อ — ระบบสร้างใบเสนอราคาแบบร่างให้ทันที (ยังไม่ยืนยัน รอพนักงานตรวจก่อน)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">พนักงานเปิดออเดอร์นั้น กด Select Slabs จะเห็นแผ่นที่ลูกค้าเลือกไว้แล้ว ตรวจสอบแล้วกด Confirm ต่อได้เลยตามขั้นตอนปกติ</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/29-catalog-level1.png"><div class="shot-cap">หน้ารวมชนิดหินที่มีในสต็อก</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/30-catalog-level2.png"><div class="shot-cap">ดูแผ่นจริงแต่ละแผ่น เลือกใส่ตะกร้าได้เลย</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Summary -->
+  <section class="slide dark" id="slide-10">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">Flow หลักทั้งหมด ตั้งแต่ต้นจนจบ</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">รับหินเข้าคลัง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ตัดแผ่น เก็บสต็อก</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ลูกค้าสั่งซื้อ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เลือกแผ่น / ยืนยัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">(ถ้ามีเจาะ ตัด ก่อน)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ส่งของ สแกน+เซ็นรับ</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">แบบที่ 1 — ขายเป็นแผ่นเฉยๆ</div>
+          <div style="font-size:14.5px;line-height:1.6;">รับหิน → ตัดแผ่น → เก็บสต็อก → ลูกค้าสั่งซื้อ → เลือกแผ่น → ยืนยัน → ส่งของ (สแกน + เซ็นรับ)</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">แบบที่ 2 — ขายพร้อมเจาะช่องอ่างล้างหน้า</div>
+          <div style="font-size:14.5px;line-height:1.6;">เหมือนแบบที่ 1 + เพิ่มขั้นตอนเจาะให้เสร็จก่อนเสมอ ก่อนจะส่งของได้</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>

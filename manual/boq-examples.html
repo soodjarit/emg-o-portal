@@ -1,0 +1,202 @@
+<title>ตัวอย่างใบเสนอราคา EMG-O — 5 แบบ</title>
+<style>
+:root{
+  --bg:#f2f1ec; --surface:#ffffff; --surface-2:#e9e7e0; --ink:#211f1c;
+  --muted:#6b675f; --border:#dcd8cf; --accent:#2f6e68; --accent-ink:#ffffff;
+  --accent-2:#a8791f; --code-bg:#eae7de;
+  --shadow: 0 1px 2px rgba(30,28,25,.06), 0 6px 20px rgba(30,28,25,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#15171a; --surface:#1d2023; --surface-2:#252a2d; --ink:#e8e6e0;
+  --muted:#9d9a92; --border:#33373a; --accent:#5fa39d; --accent-ink:#0d1614;
+  --accent-2:#d3a542; --code-bg:#282c2f; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35); }
+}
+:root[data-theme="dark"]{ --bg:#15171a; --surface:#1d2023; --surface-2:#252a2d; --ink:#e8e6e0;
+  --muted:#9d9a92; --border:#33373a; --accent:#5fa39d; --accent-ink:#0d1614;
+  --accent-2:#d3a542; --code-bg:#282c2f; --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35); }
+:root[data-theme="light"]{ --bg:#f2f1ec; --surface:#ffffff; --surface-2:#e9e7e0; --ink:#211f1c;
+  --muted:#6b675f; --border:#dcd8cf; --accent:#2f6e68; --accent-ink:#ffffff;
+  --accent-2:#a8791f; --code-bg:#eae7de; --shadow:0 1px 2px rgba(30,28,25,.06),0 6px 20px rgba(30,28,25,.06); }
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{ margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai","Leelawadee UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.7; overflow-wrap:anywhere; }
+a{color:var(--accent);}
+code{background:var(--code-bg); padding:.12em .4em; border-radius:4px; font-size:.9em; overflow-wrap:anywhere;
+  font-family:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;}
+
+.wrap{max-width:900px; margin:0 auto; padding:0 40px 80px;}
+@media (max-width:640px){ .wrap{padding:0 20px 60px;} }
+.hero{padding:46px 0 30px; border-bottom:1px solid var(--border);}
+.hero-eyebrow{text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; color:var(--accent);}
+.hero h1{font-size:30px; margin:10px 0 8px; text-wrap:balance; letter-spacing:-.01em;}
+.hero p{color:var(--muted); font-size:15px; max-width:65ch; margin:0;}
+
+.tabs{display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 0;}
+.tabs a{background:var(--surface-2); color:var(--ink); text-decoration:none; font-size:13px; font-weight:600;
+  padding:7px 14px; border-radius:20px;}
+.tabs a:hover{background:var(--accent); color:var(--accent-ink);}
+
+.chapter{padding:44px 0 8px; border-bottom:1px solid var(--border); scroll-margin-top:20px;}
+.chapter:last-child{border-bottom:none;}
+.chapter-title{display:flex; align-items:baseline; gap:14px; font-size:24px; margin:0 0 20px; text-wrap:balance;}
+.chapter-num{color:var(--accent); font-size:14px; font-weight:700; background:var(--surface-2);
+  border-radius:6px; padding:3px 8px; flex:none;}
+.chapter h3{font-size:18px; margin:30px 0 10px;}
+.chapter p{margin:0 0 14px;}
+.chapter ul{margin:0 0 14px; padding-left:1.3em;}
+.chapter li{margin:0 0 6px;}
+.xref{font-weight:600; text-decoration:none; border-bottom:1px solid currentColor;}
+.xref-external{color:var(--muted); font-style:italic;}
+mark{background:#f6efe0; color:inherit; padding:.05em .15em; border-radius:3px;}
+hr{border:none; border-top:1px solid var(--border); margin:32px 0;}
+
+.steps{margin:0 0 16px; display:flex; flex-direction:column; gap:2px;}
+.step{display:flex; gap:14px; padding:6px 0;}
+.step-num{flex:none; width:26px; height:26px; border-radius:50%; background:var(--accent); color:var(--accent-ink);
+  display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:700; margin-top:1px;
+  font-family:ui-monospace,monospace;}
+.step-body{padding-top:2px;}
+
+.callout{border-left:3px solid var(--muted); background:var(--surface-2); border-radius:0 8px 8px 0;
+  padding:12px 16px; margin:0 0 16px;}
+.callout-note{border-color:var(--accent);}
+.callout-tip{border-color:#3f7d52;}
+.callout-warning{border-color:var(--accent-2);}
+.callout-bug{border-color:#a23b32;}
+.callout-head{display:flex; align-items:center; gap:10px; margin-bottom:4px;}
+.callout-tag{text-transform:uppercase; letter-spacing:.06em; font-size:10.5px; font-weight:700; color:var(--muted);}
+.callout-title{font-weight:700; font-size:14.5px;}
+.callout-body{font-size:14.5px; color:var(--ink);}
+
+.table-wrap{overflow-x:auto; margin:0 0 18px; border:1px solid var(--border); border-radius:8px;}
+table{border-collapse:collapse; width:100%; font-size:14px;}
+th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top;
+  font-variant-numeric:tabular-nums;}
+th{background:var(--surface-2); font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:700;}
+tr:last-child td{border-bottom:none;}
+
+figure{margin:0 0 20px;}
+figure img{max-width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--border);}
+figure.screenshot img{box-shadow:var(--shadow);}
+.media-note{font-size:13px; color:var(--muted); font-style:italic; border:1px dashed var(--border);
+  border-radius:8px; padding:10px 14px; margin:0 0 16px;}
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow">EMG-O — ตัวอย่างประกอบ</div>
+    <h1>ตัวอย่างใบเสนอราคาจริง 5 แบบ</h1>
+    <p>ตัวอย่างใบเสนอราคาจากงานหน้างานประเภทต่างๆ — ใช้เทียบเคียงตอนออกใบเสนอราคาจริงว่าจะเลือกวิธีคิดแบบไหน</p>
+    <div class="tabs">
+<a href="#ch-16">ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+<a href="#ch-17">ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+<a href="#ch-18">ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+<a href="#ch-19">ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+<a href="#ch-20">ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    </div>
+  </div>
+  <div class="content">
+<section class="chapter" id="ch-16">
+<h2 class="chapter-title"><span class="chapter-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ลูกค้าส่งใบเสนอราคาโครงการ <strong>"The Residences 38"</strong> — ขอราคาหิน <strong>Ocean black (ผิว Leather)</strong> ตัดตามขนาดหน้างานหลายจุด (ผนังหน้าลิฟต์, ธรณีประตู, พื้นบันได ฯลฯ) รวม 8 รายการ ราคา <strong>3,900 บาท/SQM</strong> บวกค่าบริการเพิ่มเติมคิดตาม<strong>พื้นที่รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ):</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Dry Lay (วางเรียงก่อนติดตั้งจริง)</td><td>ต่อ SQM รวม</td><td>250</td></tr><tr><td>Coating (เคลือบผิว)</td><td>ต่อ SQM รวม</td><td>300</td></tr><tr><td>Delivery + Packing</td><td>ต่อ SQM รวม</td><td>200</td></tr></tbody></table></div>
+<p>ชำระเงิน 30% มัดจำ / 70% ส่งของ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/55-f2-customer.webp" alt="55-f2-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือกวัสดุหิน (Ocean black Granite Slab) — ปุ่ม <strong>Select Slabs</strong> จะโผล่มาอัตโนมัติทันทีที่เลือกวัสดุหิน</div></div></div>
+<figure class="screenshot"><img src="assets/56-f2-product-select-slabs-btn.webp" alt="56-f2-product-select-slabs-btn.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต้อง Save ก่อนกด Select Slabs เสมอ</span></div><div class="callout-body">ถ้ากด Select Slabs บนใบที่ยังไม่เคย Save (สถานะยังเป็น "New") ระบบจะฟ้อง "Please save your changes first" — กด Save (ไอคอนรูปเมฆมุมซ้ายบน) ก่อนเสมอในใบเสนอราคาใหม่</div></div>
+<figure class="screenshot"><img src="assets/57-f2-must-save-warning.webp" alt="57-f2-must-save-warning.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Save แล้วกด <strong>Select Slabs</strong> — wizard จะเปิดรายการแผ่นที่ Available ของวัสดุนี้ทั้งหมด</div></div></div>
+<figure class="screenshot"><img src="assets/58-f2-wizard-slab-picker.webp" alt="58-f2-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่นที่ต้องการ (ติ๊กช่องซ้ายมือ) → กด <strong>Select</strong> → <strong>Confirm</strong> — Quantity บน Order Line จะอัปเดตตามจำนวนแผ่นที่เลือกอัตโนมัติ</div></div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ตั้งราคาเอง</strong> — ระบบไม่คำนวณราคาให้อัตโนมัติจาก SQM × ราคา/SQM ต้องกรอกเองที่ช่อง Unit Price (คำนวณ: SQM ของแผ่นที่เลือก × 3,900 บาท)</div></div></div>
+<figure class="screenshot"><img src="assets/59-f2-price-set.webp" alt="59-f2-price-set.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">วิธีคำนวณราคาเร็ว</span></div><div class="callout-body">เปิด Bundle ของวัสดุนั้นดู SQM ต่อแผ่น (หรือดูจาก Select Slabs wizard คอลัมน์ "Purchased ...") แล้วคูณด้วยราคา/SQM ที่ตกลงกับลูกค้าเอง — ไม่มี auto-calculate ในขั้นนี้ (ดู gap #2 ใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body"><strong>Add a product</strong> อีกครั้งเพื่อเพิ่มค่าบริการ (Dry Lay/Coating/Delivery) — กรอก Quantity เป็น <strong>SQM รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ) และราคาต่อ SQM</div></div></div>
+<figure class="screenshot"><img src="assets/60-f2-fee-line-added.webp" alt="60-f2-fee-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">7</span><div class="step-body">ทำซ้ำสำหรับ Coating และ Delivery + Packing แล้ว Save — ยอดรวมจะคำนวณอัตโนมัติ</div></div></div>
+<figure class="screenshot"><img src="assets/61-f2-final-total.webp" alt="61-f2-final-total.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-17">
+<h2 class="chapter-title"><span class="chapter-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>โครงการ <strong>"Sale Gallery"</strong> — ขาย Slab <strong>Light Classico (Honed)</strong> ผนัง ST-108 พร้อม<strong>บริการเสริมผูกกับหินเส้นนั้นโดยเฉพาะ</strong>: ค่าตัด, Coating (นับเป็น<strong>ขวด</strong> ไม่ใช่ SQM), ค่าแรงติดตั้ง — และมีเงื่อนไขการเงินที่ซับซ้อนกว่าปกติ:</p>
+<ul><li>ชำระค่าหิน 40% ทันที / 60% เครดิต 30 วัน หลังส่งของ</li><li>ชำระค่าแรง 40% ทันที / 60% เครดิต 30 วัน หลังส่งของ</li><li><strong>หัก Retention 5% คืนใน 365 วัน</strong> (มาตรฐานงานก่อสร้าง)</li><li>ให้ลูกค้าออก PO มาที่ Empire Granite โดยตรง</li></ul>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer → <strong>ตั้ง Payment Terms</strong> เป็นแบบมีเงื่อนไขหลายงวด (สร้างครั้งเดียวใช้ซ้ำได้): Configuration → Payment Terms → New → ใส่ 3 บรรทัด (40% ทันที, 55% ที่ 30 วัน, 5% ที่ 365 วัน = Retention)</div></div></div>
+<figure class="screenshot"><img src="assets/62-f3-customer.webp" alt="62-f3-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก Light Classico Marble Slab → Save → <strong>Select Slabs</strong></div></div></div>
+<figure class="screenshot"><img src="assets/63-f3-product-select-slabs-btn.webp" alt="63-f3-product-select-slabs-btn.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Wizard เปิดรายการแผ่น Available ของ Light Classico</div></div></div>
+<figure class="screenshot"><img src="assets/64-f3-wizard-slab-picker.webp" alt="64-f3-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่น → Select → Confirm → <strong>ตั้งราคาเอง</strong> (SQM ของแผ่น × ราคา/SQM ที่ตกลงกับลูกค้า)</div></div></div>
+<figure class="screenshot"><img src="assets/65-f3-price-set.webp" alt="65-f3-price-set.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> เพิ่มค่าตัด (Slab Fabrication Service — ใช้ product ที่มีอยู่แล้วในระบบ ไม่ต้องสร้างใหม่)</div></div></div>
+<figure class="screenshot"><img src="assets/66-f3-fee-line-added.webp" alt="66-f3-fee-line-added.png"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">Coating คิดเป็นขวดในไฟล์นี้</span></div><div class="callout-body">ต่างจากไฟล์ 2 ที่ Coating คิดต่อ SQM รวม — ไฟล์นี้ระบุเป็น <strong>4 ขวด</strong> ราคาต่อขวด ควรสร้าง product แยกชื่อชัดเจนว่า "Coating (ต่อขวด)" กับ "Coating (ต่อ SQM)" คนละตัว กันสับสนตอนออกใบเสนอราคาจริง (ดู gap #4 ใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">Save — ยอดรวมคำนวณอัตโนมัติ, Payment Terms แสดง "Retention 5%" ที่เลือกไว้ตอนต้น</div></div></div>
+<figure class="screenshot"><img src="assets/67-f3-final-total.webp" alt="67-f3-final-total.png"/></figure>
+<hr/>
+</section>
+<section class="chapter" id="ch-18">
+<h2 class="chapter-title"><span class="chapter-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>โครงการ <strong>CIRA Residences</strong> — <strong>ไม่มีการขายหินเลย</strong> ลูกค้าซื้อหินเอง จ้างแค่<strong>ค่าแรงติดตั้ง</strong> ไฟล์ต้นฉบับมี 439 แถว แจกแจงละเอียดถึงระดับ Plot → บ้าน → ห้อง → ชนิดหิน/ตำแหน่งติดตั้ง (ท๊อป, ลูกตั้ง, ธรณี, ผนัง, ปูนกาว) แต่<strong>ราคาคิดเป็นเหมาต่อห้อง</strong> ไม่ได้แยกราคาแต่ละบรรทัดย่อย เช่น:</p>
+<div class="table-wrap"><table><thead><tr><th>ห้อง</th><th>รายละเอียด (ข้อมูลประกอบ ไม่ใช่ราคาแยก)</th><th>ราคาเหมา</th></tr></thead><tbody><tr><td>T102-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ผนัง+ปูนกาว</td><td>27,750</td></tr><tr><td>T202-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ปูนกาว</td><td>5,150</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p><strong>จุดสำคัญ:</strong> งานแบบนี้<strong>ไม่แตะโมดูล stone_slab_inventory เลย</strong> เป็น Sale Order มาตรฐานของ Odoo ล้วนๆ — ไม่มีปุ่ม Select Slabs เพราะไม่มี product หินอยู่ในใบเลย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/74-f4-customer.webp" alt="74-f4-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมาต่อห้อง)" → ตั้งชื่อบรรทัด (แก้ข้อความ) ให้ระบุห้อง/รายละเอียดที่มาของราคา เช่น "ค่าแรงติดตั้งหิน — PLOT-1 / T202-POWDER" → ใส่ราคาเหมาตามห้องนั้น</div></div></div>
+<figure class="screenshot"><img src="assets/75-f4-line-added.webp" alt="75-f4-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ทำซ้ำเป็นบรรทัดใหม่สำหรับแต่ละห้อง (ไฟล์จริงมีหลายสิบห้อง — ตัวอย่างนี้แสดงเพียง 1 ห้องเพื่อพิสูจน์ pattern) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/76-f4-final-total.webp" alt="76-f4-final-total.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ยังไม่มีคู่มือ/pattern มาตรฐานสำหรับงานแรงงานล้วน</span></div><div class="callout-body">ทำได้ทางเทคนิคแน่นอน (พิสูจน์แล้วในหน้านี้) แต่พนักงานควรรู้ว่างานแบบนี้ข้ามขั้นตอน Select Slabs/Bundle ไปเลย ไม่ใช่ลืมทำ — ถ้ามีงานแบบนี้บ่อย ควรตกลงกันว่าจะตั้งชื่อ/จัดหมวด service product อย่างไรให้เป็นมาตรฐานเดียวกันทุกโครงการ</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-19">
+<h2 class="chapter-title"><span class="chapter-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>งาน <strong>"ค่าแรง ซุ้ม ก ไก่ และ บัวบน (หลังที่ 18-24)"</strong> — ค่าแรงติดตั้งหินอย่างเดียว (Moleanos Beige ขัดเรียบ) ไม่มีขายหิน เหมือนไฟล์ 4 แต่<strong>เรียบง่ายกว่ามาก</strong>: ราคาต้นฉบับเป็น <strong>เหมารวมทั้งงานบรรทัดเดียว</strong> (980,710.64 บาท) ไม่มีราคาย่อยให้แยกเลยแม้แต่ระดับห้อง — รายละเอียดพื้นที่ (ผนัง 287 SQM, ผนังใต้ซุ้มโค้ง 7 SQM, Straight Profile 7 ม., ผนังบัวบน 68.6 SQM) เป็นแค่ข้อมูลอธิบายประกอบ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>นี่คือกรณีที่<strong>ง่ายที่สุด</strong>ในกลุ่มตัวอย่างทั้งหมด — เพราะไม่มีทั้งหินและไม่มีการแยกราคาย่อย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/77-f5-customer.webp" alt="77-f5-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมางาน)" → ตั้งชื่อบรรทัดให้ครบตามงาน → ใส่ราคาเหมาทั้งก้อน (980,710.64) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/78-f5-line-added.webp" alt="78-f5-line-added.png"/></figure>
+<p>ยอดรวม (รวม VAT 7%) ออกมาตรงตามที่ลูกค้าขอ</p>
+<figure class="screenshot"><img src="assets/79-f5-final-total.webp" alt="79-f5-final-total.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ใส่รายละเอียดพื้นที่ไว้ใน Description ของบรรทัด</span></div><div class="callout-body">ถ้าอยากเก็บรายละเอียดต้นฉบับ (287 SQM ผนัง, 7 SQM ผนังใต้ซุ้มโค้ง ฯลฯ) ไว้อ้างอิงในอนาคต ใส่เป็นข้อความในชื่อบรรทัด/note ได้เลย ไม่กระทบราคาเพราะไม่มีผลต่อการคำนวณ (เหมาทั้งก้อนอยู่แล้ว)</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-20">
+<h2 class="chapter-title"><span class="chapter-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</h2>
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ใบเสนอราคาย่อย — ขาย Slab <strong>Ceppo (ขัดเรียบ)</strong> 1 แผ่น (3.23 SQM) ราคา 3,800/SQM พร้อมบริการเสริม 4 รายการ ที่น่าสนใจคือ<strong>หน่วยราคาไม่เหมือนกันในใบเดียว</strong>:</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Drawing (ทำแบบ)</td><td>ต่อ SQM</td><td>500</td></tr><tr><td>ลบมุม 2mm 1 ด้าน</td><td><strong>ต่อเมตร (ความยาวขอบ)</strong></td><td>200</td></tr><tr><td>ค่าน้ำยากันซึม</td><td>เหมา (LS)</td><td>200</td></tr><tr><td>ค่าขนส่ง</td><td>เหมา (LS)</td><td>500</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/68-f8-customer.webp" alt="68-f8-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก Ceppo Marble Slab → Save → <strong>Select Slabs</strong></div></div></div>
+<figure class="screenshot"><img src="assets/69-f8-product-select-slabs-btn.webp" alt="69-f8-product-select-slabs-btn.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Wizard เปิดรายการแผ่น Available ของ Ceppo</div></div></div>
+<figure class="screenshot"><img src="assets/70-f8-wizard-slab-picker.webp" alt="70-f8-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่น → Select → Confirm → ตั้งราคาเอง (3.23 SQM × 3,800 = 12,274)</div></div></div>
+<figure class="screenshot"><img src="assets/71-f8-price-set.webp" alt="71-f8-price-set.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> เพิ่มบริการเสริม — จุดสำคัญคือรายการ <strong>"ลบมุม 2mm"</strong> ต้องตั้ง <strong>UoM เป็น "m" (เมตร)</strong> ไม่ใช่ Units เหมือนรายการอื่น</div></div></div>
+<figure class="screenshot"><img src="assets/72-f8-fee-line-added.webp" alt="72-f8-fee-line-added.png"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ไม่ต้องสร้าง UoM ใหม่</span></div><div class="callout-body">Odoo มี UoM "m" (เมตร) อยู่แล้วในระบบเป็นค่าเริ่มต้น (Settings → Technical → Units of Measure) แค่ตั้ง product ตัวนี้ให้ default UoM เป็น "m" ตอนสร้าง product ก็ใช้ได้ทันที ไม่ใช่ gap ที่ต้องพัฒนาเพิ่ม</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">เพิ่ม Drawing (ต่อ SQM), ค่าน้ำยากันซึม, ค่าขนส่ง (เหมา) แล้ว Save</div></div></div>
+<figure class="screenshot"><img src="assets/73-f8-final-total.webp" alt="73-f8-final-total.png"/></figure>
+<p>ยอดรวมตัวอย่างนี้ (16,070.33 บาท) <strong>ตรงกับ NET TOTAL ในไฟล์ต้นฉบับเป๊ะ</strong> — พิสูจน์ว่า reproduce ใบเสนอราคาจริงได้ครบถ้วนโดยไม่ต้องแก้โค้ดอะไรเลย</p>
+<hr/>
+</section>
+  </div>
+</div>
