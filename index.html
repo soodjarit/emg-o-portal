@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empire Stone — Odoo System Portal</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  .wrap{max-width:880px;margin:0 auto;padding:64px 24px 100px;}
+  header{margin-bottom:48px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:36px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:16px;color:#6B6E70;line-height:1.6;max-width:620px;}
+  .group{margin-bottom:40px;}
+  .group-title{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:14px;}
+  .card{
+    display:flex;align-items:center;gap:18px;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;text-decoration:none;color:inherit;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .icon{
+    flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:700;font-family:Cambria,serif;
+  }
+  .card-title{font-size:17px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
+  .card-desc{font-size:14px;color:#787B7D;line-height:1.5;}
+  .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite</div>
+    <h1>ระบบ Odoo — เอกสารและคู่มือ</h1>
+    <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว กดดูได้ทันทีจากลิงก์ด้านล่าง — หน้านี้จะอัปเดตทุกครั้งที่มีเอกสารใหม่</div>
+  </header>
+
+  <div class="group">
+    <div class="group-title">คู่มือการใช้งาน</div>
+    <a class="card" href="https://claude.ai/code/artifact/4598031c-c86f-4132-8072-c5f92db3111b" target="_blank" rel="noopener">
+      <div class="icon">M</div>
+      <div>
+        <div class="card-title">คู่มือฉบับเต็ม (24 บท)</div>
+        <div class="card-desc">ทุกโหมดการขาย, การจัดซื้อ, BOQ, Intercompany, Scan Station — พร้อม screenshot ทุกขั้นตอน</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="group">
+    <div class="group-title">สไลด์อบรม (Training Presentation)</div>
+    <a class="card" href="presentations/boq-sold-as-project.html">
+      <div class="icon">1</div>
+      <div>
+        <div class="card-title">BOQ Estimation + Sold-as-Project</div>
+        <div class="card-desc">Rate Library → BOQ Document → ใบเสนอราคา → ผูกสินค้าจริง → Project + Gantt + วางบิลเป็นงวด → ดูกำไรจริง</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="group">
+    <div class="group-title">ตัวอย่างประกอบ (Examples)</div>
+    <a class="card" href="https://claude.ai/code/artifact/99de8c7c-3f9f-4614-b3d3-ce368b2e4e87" target="_blank" rel="noopener">
+      <div class="icon">5</div>
+      <div>
+        <div class="card-title">ตัวอย่าง BOQ 5 แบบ</div>
+        <div class="card-desc">ตัวอย่างใบเสนอราคาจริงจากงานหน้างานประเภทต่างๆ</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน</footer>
+</div>
+</body>
+</html>

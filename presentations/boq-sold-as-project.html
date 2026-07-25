@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ขายงานโครงการด้วย BOQ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:56px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .chip-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+  .status-chip{padding:7px 14px;border-radius:8px;font-size:13.5px;font-weight:700;color:#fff;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .result-table td{padding:8px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:12px;}
+  .result-table tr.subtotal td{font-weight:700;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">ขายงานโครงการ<br>ด้วย BOQ</div>
+    <div class="big-sub">จาก BOQ Excel ของลูกค้า → ใบเสนอราคาอัตโนมัติ → ผูกสินค้าจริง → ติดตามกำไรจริงรายโครงการ</div>
+    <div class="stamp">EMG-O Manual · BOQ Estimation + Sold-as-Project</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · BOQ Estimation + Sold-as-Project</div>
+    <h2 class="slide-title">ขายงานโครงการใหญ่ด้วย BOQ — จาก Excel ถึงกำไรจริงรายโครงการ</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">ลูกค้าทำ BOQ งานประมูลใหญ่ใน Excel — แต่ละ Zone มีรายการหิน+rate ของตัวเอง ปัญหาเดิม: rate ของแต่ละรายการถูกพิมพ์ซ้ำทุกไฟล์ที่ใช้หินตัวนั้น พอต้นทุนเปลี่ยนต้องไล่แก้เองทุกไฟล์ ไม่มี single source of truth</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Rate Library</div><div class="hdesc">รายการ+ราคา ใช้ซ้ำได้ไม่จำกัด</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">BOQ Document</div><div class="hdesc">จัดกลุ่มเป็น Zone ตามหน้างาน</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Sale Order</div><div class="hdesc">สร้างอัตโนมัติ สรุปยอดต่อ Zone</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Project</div><div class="hdesc">ติ๊ก Sold as Project → ดูกำไรจริง</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="note-box"><b>หลักคิด:</b> โมดูล BOQ Estimation แก้ปัญหา rate ซ้ำซ้อนด้วย single source of truth ส่วน Sold-as-Project ทำให้เห็นกำไรจริงของงานทั้งก้อน ไม่ใช่แค่ต่อบรรทัดสินค้า — สองส่วนนี้ทำงานต่อกันได้ แต่แยกใช้อิสระได้เช่นกัน</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/89-boq-rate-library-empty.png"><div class="shot-cap">หน้าจอ Rate Library — จุดเริ่มต้นของทุกอย่าง</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Rate Library -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · สร้าง Rate Library</div>
+    <h2 class="slide-title">ตั้งราคาต้นทุน+ขายไว้ครั้งเดียว ใช้ซ้ำได้ทุกโปรเจกต์</h2>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ทีม estimate มีรายการหิน "ST1 Black Emperador polished" ที่ใช้ซ้ำในหลายโปรเจกต์ ราคาต้นทุน 7,080 บาท/ตร.ม. — ถ้าต้นทุนเปลี่ยน ไม่อยากไล่แก้ทุกไฟล์ Excel เอง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด Rate Library → New</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอก Item/Unit/Cost</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Total Rate คำนวณอัตโนมัติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">บันทึก ใช้ซ้ำได้เลย</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด BOQ Estimation → Rate Library → กด New</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กรอก Item Code, Description, Unit, Material Cost, Labour Cost — ราคา/หน่วยรวม (Total Rate) คำนวณให้อัตโนมัติ</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เพิ่ม Rate ตัวที่สอง (เช่น ST2 White Sivec honed) แบบเดียวกัน แล้ว Save</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ตอนนี้มี Rate พร้อมใช้ซ้ำได้ไม่จำกัดจำนวนครั้งในทุก BOQ Document ต่อไป</span></li>
+        </ul>
+        <div class="note-box"><b>จำง่ายๆ:</b> แก้ราคาที่ Rate Library ที่เดียว ทุก BOQ Document ใหม่ที่ผูก Rate นี้จะได้ราคาที่อัปเดตทันที ไม่ต้องไล่แก้ทีละไฟล์เหมือน Excel</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/90-boq-rate-st1-filled.png"><div class="shot-cap">กรอก Rate ST1 — Total Rate คำนวณอัตโนมัติ</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/92-boq-rate-library-2-items.png"><div class="shot-cap">มี Rate พร้อมใช้ซ้ำได้ 2 ตัวแล้ว</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: BOQ Document -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · สร้าง BOQ Document</div>
+    <h2 class="slide-title">ใส่รายการทีละ Zone เหมือนที่ทำใน Excel</h2>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ไฟล์ BOQ-ZoneXX มีหลาย Zone (L2 Main Lobby, L4 Main Lobby ฯลฯ) แต่ละ Zone มีรายการหิน+จำนวนของตัวเอง ต้องรวมยอดแยกตาม Zone เหมือนที่ทำใน sheet "รวมเป็นเงิน"</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">BOQ Documents → New</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอก Customer + %</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">BOQ Lines: Zone+Rate+Qty</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Save</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ไปที่ BOQ Documents → New → กรอก Customer, Company และ % ตามเงื่อนไขโปรเจกต์</span></li>
+          <li><span class="step-num">2</span><span class="step-text">แท็บ BOQ Lines → Add a line → ใส่ชื่อ Zone → เลือก Rate Library Item → ใส่ Quantity</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ราคา/หน่วยและยอดรวมกรอกอัตโนมัติจาก Rate ที่เลือก ไม่ต้องคำนวณเอง</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ทำซ้ำจนครบทุก Zone แล้ว Save — เช็คยอดสรุปด้านล่างฟอร์ม</span></li>
+        </ul>
+        <div class="note-box"><b>Schedule/Zone คือ key รวมยอด:</b> พิมพ์ชื่อ Zone ซ้ำได้หลายบรรทัด — ตอนสร้างใบเสนอราคาระบบจะรวมเป็น 1 บรรทัดสรุปให้อัตโนมัติ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/94-boq-doc-header-filled.png"><div class="shot-cap">กรอก Customer + % เงื่อนไขโปรเจกต์</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/95-boq-lines-added.png"><div class="shot-cap">เพิ่ม BOQ Lines ผูก Zone + Rate + Quantity</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: สร้างใบเสนอราคา -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · สร้างใบเสนอราคาอัตโนมัติ</div>
+    <h2 class="slide-title">กดปุ่มเดียว ได้ใบเสนอราคาตรงกับ Excel เป๊ะ</h2>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">BOQ0002 จำลอง 2 Zone จากไฟล์จริง (L2+L4 Main Lobby) — ทดสอบว่าโมดูลคำนวณตรงกับไฟล์ Excel ต้นฉบับหรือไม่ ก่อนเอาไปใช้กับงานจริง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">กด "สร้างใบเสนอราคา"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Sale Order ใหม่ทันที</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Section header ตาม Zone</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูกกลับ BOQ Document ต้นทาง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="case-text-label" style="margin-bottom:10px;">ผลจริงจากคลิปนี้ (BOQ0002 → S54372)</div>
+        <table class="result-table">
+          <tr><td>L2 Main Lobby</td><td>2,033,900.00</td></tr>
+          <tr><td>L4 Main Lobby</td><td>8,066,760.00</td></tr>
+          <tr class="subtotal"><td>Amount Direct Cost</td><td>10,100,660.00</td></tr>
+          <tr><td>Preliminaries 2%</td><td>202,013.20</td></tr>
+          <tr><td>Overhead & Profit 10%</td><td>1,010,066.00</td></tr>
+          <tr class="total"><td>Amount Total (ก่อน VAT)</td><td>11,514,752.40</td></tr>
+        </table>
+        <div class="note-box"><b>ยืนยันแล้ว:</b> ยอด L2 และ L4 ในตารางนี้ตรงกับตัวเลขจริงในไฟล์ BOQ-ZoneXX ต้นฉบับเป๊ะ — logic การคำนวณตรงกับวิธีที่ฝ่าย estimate ใช้อยู่ในปัจจุบัน</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/97-boq-quotation-generated.png"><div class="shot-cap">ใบเสนอราคาที่สร้างอัตโนมัติ — แบ่ง section ตาม Zone</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: ผูกสินค้าจริง -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ผูกบรรทัดหินกับสินค้าจริง</div>
+    <h2 class="slide-title">ฝ่ายปฏิบัติงานกดทำงานต่อได้เลย ไม่ต้องย้อนกลับไปหา Excel</h2>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">เดิมทุกบรรทัดในใบเสนอราคาเป็น placeholder "BOQ Summary Line" — พอลูกค้า confirm แล้ว ฝ่ายปฏิบัติงานไม่มีปุ่มอะไรให้กดต่อ ต้องย้อนกลับไปเปิด BOQ Document หรือ Excel ต้นทางเองทุกครั้ง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">Rate Library → ผูก Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สร้าง BOQ Document ปกติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กดสร้างใบเสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">บรรทัดกลายเป็นสินค้าจริง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Rate Library → คลิกช่อง "Product" ของ Rate item ที่ต้องการ → เลือกสินค้าจริง (สำหรับหิน เลือก Finish variant ของ Material นั้น) → Save</span></li>
+          <li><span class="step-num">2</span><span class="step-text">สร้าง BOQ Document ตามปกติ (ใช้ Rate ที่ผูก Product ไว้แล้ว) → กด "สร้างใบเสนอราคา"</span></li>
+          <li><span class="step-num">3</span><span class="step-text">บรรทัดที่ผูก Product กลายเป็นสินค้าจริงทันที พร้อมปุ่ม Select Slabs / Cut to Order / Recompute Price (BOQ) เหมือนงานขายหินปกติทุกประการ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">บรรทัดที่ไม่ได้ผูก Product ยัง fallback เป็น placeholder เหมือนเดิม ไม่พังอะไร</span></li>
+        </ul>
+        <div class="note-box"><b>ทำไม Quantity เป็น 1 เสมอตอนสร้างใหม่:</b> หินขายเป็น "แผ่น" ไม่ใช่ ตร.ม. — ตัวเลข ตร.ม.จริงยังโชว์อยู่ในคำอธิบายบรรทัด รอ Select Slabs/Cut to Order เปลี่ยนจำนวนเป็นแผ่นจริงให้เองทีหลัง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/106-boq-rate-linked-product.png"><div class="shot-cap">ผูก Rate item กับสินค้าจริงใน Rate Library</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/107-boq-so-generated-real-line.png"><div class="shot-cap">บรรทัดหินกลายเป็นสินค้าจริง มีปุ่ม Select Slabs</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Recompute Price -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นตอนที่ 5 · อย่าลืมกด Recompute Price</div>
+    <h2 class="slide-title">เลือกแผ่นจริงแล้ว ราคาเพี้ยน ต้องกดปุ่มนี้ทุกครั้ง</h2>
+    <div class="case-box">
+      <div class="case-icon">5</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ฝ่ายปฏิบัติงานกด Select Slabs เลือกแผ่นจริงแล้ว Confirm — ราคาต่อหน่วยถูก Odoo เขียนทับด้วยราคามาตรฐานของสินค้าทันที ยอดรวมตกฮวบจาก 309,470.75 ฿ เหลือ 49,995.75 ฿</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">Select Slabs → Confirm</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคาเพี้ยนตามมาตรฐาน Odoo</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด "Recompute Price (BOQ)"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคากลับมาถูกต้อง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">กด Select Slabs เลือกแผ่นจริงแล้ว Confirm — จำนวนอัปเดตเป็นแผ่นที่ hold จริง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ราคาต่อหน่วยเปลี่ยนเป็นราคามาตรฐานสินค้าทันที — พฤติกรรมมาตรฐานของ Odoo ไม่ใช่บั๊ก</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด "Recompute Price (BOQ)" — คำนวณใหม่จาก Rate เดิม × ตร.ม. ของแผ่นที่ hold จริง กลับมาถูกต้องทันที</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ถ้ากด Cut to Order แทน ระบบเช็คแผ่นเศษให้อัตโนมัติ เตือนแบบ popup ไม่บล็อกการทำงาน</span></li>
+        </ul>
+        <div class="note-box"><b>สำคัญ:</b> ต้องกด Recompute ทุกครั้งหลัง Select Slabs/Cut to Order ไม่ใช่แค่ครั้งแรก — ลืมกดแล้วใบเสนอราคาจะใช้ราคาสินค้ามาตรฐาน ไม่ใช่ราคาที่ตกลงกับลูกค้า</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/108-boq-select-slabs-confirmed.png"><div class="shot-cap">เลือกแผ่นจริงแล้ว — ราคาเพี้ยนไปตามราคามาตรฐาน Odoo ชั่วคราว</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/109-boq-recompute-price.png"><div class="shot-cap">กด Recompute Price (BOQ) — ราคากลับมาถูกต้อง</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Print / Export -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">เอกสารส่งลูกค้า</div>
+    <h2 class="slide-title">พิมพ์ PDF หรือ Export Excel ได้จาก BOQ Document เดียวกัน</h2>
+    <div class="case-box">
+      <div class="case-icon">6</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ต้องส่งเอกสารสรุป BOQ ให้ลูกค้าหรือทีมงานเปรียบเทียบราคา ไม่อยากพิมพ์สกรีนหรือทำตารางเองใหม่ทุกครั้ง</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">จาก BOQ Document เดียวกัน กดปุ่ม "พิมพ์ PDF" หรือ "Export Excel" ได้ทันที</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ทั้งสองแบบจัดกลุ่มตาม Schedule/Zone พร้อม Sub-Total ต่อ Zone</span></li>
+          <li><span class="step-num">3</span><span class="step-text">สรุป Direct Cost/Preliminaries/Overhead & Profit/Performance Security/Total ท้ายเอกสารเหมือนกันทั้งสองแบบ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Excel export ใช้ xlsxwriter สร้างไฟล์จริง ไม่ใช่ export ดิบจาก list view — เปิดแล้วจัดรูปแบบสวยพร้อมส่งลูกค้าได้ทันที</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/98-boq-print-export-buttons.png"><div class="shot-cap">ปุ่มพิมพ์ PDF / Export Excel บน BOQ Document</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Sold as Project -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ขั้นตอนที่ 6 · เปิดโหมด "ขายแบบโครงการ"</div>
+    <h2 class="slide-title">งานเดียวมีทั้งวัสดุ+ค่าแรง ต้องดูเป็นโครงการเดียวกัน</h2>
+    <div class="case-box">
+      <div class="case-icon">7</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">งานติดตั้ง Top หินหลายห้อง มีทั้งบรรทัดวัสดุ (หิน) และบรรทัดค่าแรงติดตั้งหน้างาน — อยากรู้กำไรที่แท้จริงของงานนี้รวมกันทั้งก้อน ไม่ใช่แยกดูทีละบรรทัด</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เพิ่มบรรทัดวัสดุ+ค่าแรง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Other Info → ติ๊ก "Sold as Project"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">สร้างสินค้าประเภทค่าแรง/บริการ (Product Type = Service) เช่น "ค่าแรงติดตั้งหน้างาน" — ไม่ผ่านฟอร์ม Material เพราะไม่ใช่หินที่ต้องคุมสต็อก</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Sales → New Quotation → เพิ่ม 2 บรรทัด: วัสดุ (หิน) + สินค้าบริการค่าแรง ในใบขายเดียวกัน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">แท็บ Other Info → ติ๊ก "Sold as Project" (field is_project_sale)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด Confirm — SO กลายเป็น Sales Order จริง พร้อม smart button ใหม่ "Projects" และ "Tasks"</span></li>
+        </ul>
+        <div class="note-box"><b>เป็น opt-in เสมอ:</b> ไม่ได้เกิดอัตโนมัติทุก SO ต้องเลือกเองว่า SO นี้เป็นงานโครงการ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-service-product-form.png"><div class="shot-cap">สร้างสินค้าบริการค่าแรง (Product Type = Service)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/type4-sold-as-project-checkbox.png"><div class="shot-cap">แท็บ Other Info → ติ๊ก "Sold as Project"</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: ผลลัพธ์ Project+Gantt+กำไร -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ผลลัพธ์ · Project + Gantt + วางบิลเป็นงวด + ดูกำไรจริง</div>
+    <h2 class="slide-title">เห็นภาพรวมงาน ควบคุมบิล และรู้กำไรจริงในที่เดียว</h2>
+    <div class="case-box">
+      <div class="case-icon">8</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง — โครงการคอนโดบางโพ (Empire Stone)</div>
+        <div class="case-text">Bundle ผูก Analytic Account → PO ซื้อวัสดุ ฿2,800 (auto-tag ติดโครงการ) → ส่งของจริง 8 แผ่น → Invoice ฿17,120 → กำไรสุทธิที่เห็นจริงใน Analytic Items = <b>+฿13,200</b></div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">Confirm SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Project+Task+Gantt อัตโนมัติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">วางบิลเป็นงวด 30/40/30%</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ส่งของแต่ละรายการ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดูกำไรที่ Analytic Items</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ระบบสร้าง Project + Task ให้ทุกบรรทัด BOQ อัตโนมัติ พร้อม Gantt — ต้องตั้งวันที่ Task ก่อนถึงเห็นแท่งงาน</span></li>
+          <li><span class="step-num">2</span><span class="step-text">วางบิลเป็นงวดด้วย Down Payment Wizard สัดส่วน 30/40/30% — ออกใบแจ้งหนี้ตามงวด ไม่รอส่งของก่อน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Milestone 30/40/30 ใช้ติดตามความคืบหน้างานเท่านั้น ไม่ผูกกับการวางบิล — คนละกลไกกันโดยเจตนา</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ต้นทุนวัสดุ+ค่าแรงเทียบกับรายได้ ที่ Analytic Account เดียวกัน — เห็นกำไรจริงต่อโครงการ ไม่ใช่แค่ต่อ SO</span></li>
+        </ul>
+        <div class="note-box"><b>ข้อจำกัดที่ทราบ:</b> ถ้าแผ่นในบรรทัดเดียวมาจาก Bundle คนละ Analytic Account ระบบไม่เดาเอง ต้อง tag เองภายหลัง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-so-confirmed-project-smartbutton.png"><div class="shot-cap">SO ยืนยันแล้ว — smart button Projects/Tasks + Sold as Project</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/type4-gantt-chart-live.png"><div class="shot-cap">Gantt Chart จริง — แท่งงานขึ้นตามวันที่ตั้งไว้</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Summary -->
+  <section class="slide dark" id="slide-10">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">จาก Excel BOQ ถึงกำไรจริงรายโครงการ — Flow เดียวจบ</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">Rate Library</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">BOQ Document (Zone)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">สร้างใบเสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ผูกสินค้าจริง+Recompute</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ติ๊ก Sold as Project</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ดูกำไรที่ Analytic Items</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">แบบที่ 1 — เฉพาะ BOQ Estimation</div>
+          <div style="font-size:14.5px;line-height:1.6;">Rate Library → BOQ Document → สร้างใบเสนอราคาอัตโนมัติ → พิมพ์ PDF/Export ส่งลูกค้า (ยังไม่ผูก Project)</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">แบบที่ 2 — BOQ + Sold as Project</div>
+          <div style="font-size:14.5px;line-height:1.6;">เหมือนแบบที่ 1 + ผูกสินค้าจริง + ติ๊ก Sold as Project → ได้ Project/Gantt/วางบิลเป็นงวด/ดูกำไรจริงรายโครงการ</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
