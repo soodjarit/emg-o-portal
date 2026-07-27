@@ -219,6 +219,8 @@ figure.diagram img{border:none; border-radius:4px;}
 <div class="nav-section">BOQ &amp; ใบเสนอราคาตัวอย่าง</div>
 <a href="#ch-24" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
 <a href="#ch-25" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+<div class="nav-section">CRM &amp; ลูกค้า</div>
+<a href="#ch-26" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
   </nav>
   <main>
     <div class="hero">
@@ -226,9 +228,9 @@ figure.diagram img{border:none; border-radius:4px;}
       <h1>EMG-O — Stone Slab Inventory</h1>
       <p>คู่มือการใช้งานระบบบริหารสต็อกแผ่นหิน สำหรับ Empire Granite / Empire Stone ครอบคลุมตั้งแต่รับหินเข้าคลัง ตัดแผ่น ขายทั้ง 4 รูปแบบ ไปจนถึงส่งของและวางบิล</p>
       <div class="hero-meta">
-        <span><b>24</b> บท</span>
+        <span><b>25</b> บท</span>
         <span><b>Odoo 19</b> · stone_slab_inventory</span>
-        <span>อัปเดต 22 กรกฎาคม 2026</span>
+        <span>อัปเดต 27 กรกฎาคม 2026</span>
       </div>
     </div>
     <div class="content">
@@ -914,6 +916,34 @@ figure.diagram img{border:none; border-radius:4px;}
 <p>*5 บรรทัดครบ + ยอดรวม Untaxed 7,800.00 / VAT 546.00 / Total 8,346.00 บาท — <strong>ตรงกับต้นฉบับเป๊ะทุกบาท</strong> เพราะตัวเลขต้นฉบับเป็นจำนวนเต็มอยู่แล้ว ไม่มีปัดเศษเหมือนไฟล์หิน*</p>
 <div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่มี Overhead ในไฟล์นี้</span></div><div class="callout-body">ต่างจากไฟล์ 1 ที่มี Overhead 10% แยกบรรทัด ไฟล์นี้ลูกค้าใส่ Overhead = 0 มาเลย เพราะงั้นไม่ต้องเพิ่มบรรทัด Overhead ถ้าลูกค้าระบุไม่มี</div></div>
 <div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ถ้าต้องใช้จริง ควรทำ Product แยกตามประเภทงานป้าย</span></div><div class="callout-body">ตัวอย่างนี้ใช้ product "งานป้าย (Signage)" ตัวเดียวใช้ซ้ำทั้ง 5 บรรทัด (เหมือน pattern ค่าแรงทั่วไป) — ถ้าจะใช้งานจริงต่อเนื่อง ควรพิจารณาว่าจะแยก Product ตามวัสดุ/ประเภทป้าย (อะคริลิค, สแตนเลส ฯลฯ) เพื่อดู margin แยกได้ไหม เป็นการตัดสินใจ scope ที่ยังไม่ต้องทำตอนนี้ (ดู Next Steps ใน progress.md)</div></div>
+<hr/>
+</section>
+<section class="chapter" id="ch-26">
+<h2 class="chapter-title"><span class="chapter-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</h2>
+<p>ลูกค้าที่สนใจสั่งซื้อสามารถกรอกฟอร์ม <strong>"Contact us"</strong> บนเว็บไซต์ได้เอง — ระบบจะสร้าง <strong>Opportunity</strong> ในปุ๊บ CRM ให้อัตโนมัติ พร้อมสร้าง (หรือเชื่อมกับ) <strong>Contact</strong> ของลูกค้าคนนั้นให้ทันที ไม่ต้องพิมพ์ข้อมูลซ้ำเอง — งานของพนักงานขายคือเข้ามาดู Opportunity ใหม่ใน pipeline แล้วติดตามลูกค้าต่อ</p>
+<h3>ภาพรวม Flow</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ลูกค้ากรอกฟอร์มที่หน้า <strong>empiregranite.net/contactus</strong></div></div><div class="step"><span class="step-num">2</span><div class="step-body">ระบบสร้าง <strong>Opportunity</strong> ใหม่ในทีมขาย <strong>"Empire Granite - Website"</strong> สถานะเริ่มต้น = <strong>"สนใจสอบถาม"</strong></div></div><div class="step"><span class="step-num">3</span><div class="step-body">ระบบค้นหา Contact จากอีเมลที่กรอก — ถ้ายังไม่มีในระบบจะ <strong>สร้างใหม่อัตโนมัติ</strong>, ถ้ามีอยู่แล้วจะ <strong>เชื่อมกับ Contact เดิม</strong> (ไม่สร้างซ้ำ)</div></div><div class="step"><span class="step-num">4</span><div class="step-body">พนักงานขายเข้ามาดู Opportunity ใน <strong>CRM → Pipeline</strong> แล้วลาก/เปลี่ยนสถานะไปตามขั้นตอนการขายจริงจนปิดการขาย</div></div></div>
+<h3>1. ฟอร์มบนหน้าเว็บ</h3>
+<p>หน้า Contact us มีฟิลด์: ชื่อ, เบอร์โทร, อีเมล, ชื่อบริษัท (ถ้ามี), หัวข้อที่สนใจ (Subject), และรายละเอียดที่ต้องการ (Question)</p>
+<figure class="screenshot"><img src="assets/117-crm-contactus-form.webp" alt="117-crm-contactus-form.png"/></figure>
+<p>ลูกค้ากด <strong>Submit</strong> แล้วจะเห็นหน้า "Thank You" ยืนยันว่าข้อความถูกส่งแล้ว — ไม่ต้องรอ Sign in หรือสร้างบัญชีก่อน</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ทุกช่องที่มีเครื่องหมาย * (Name, Email, Subject, Question) เป็นช่องบังคับกรอก — Phone และ Company กรอกหรือไม่ก็ได้</span></div><div class="callout-body"></div></div>
+<h3>2. Opportunity ใหม่เข้า Pipeline อัตโนมัติ</h3>
+<p>เมื่อลูกค้ากด Submit ระบบจะสร้าง Opportunity ใหม่ ปรากฏใน <strong>CRM → Pipeline</strong> ของทีม <strong>"Empire Granite - Website"</strong> ทันที ที่คอลัมน์แรกสุด <strong>"สนใจสอบถาม"</strong></p>
+<figure class="screenshot"><img src="assets/118-crm-pipeline-stages.webp" alt="118-crm-pipeline-stages.png"/></figure>
+<p>Pipeline นี้มี 5 ขั้นตอน (stage) เรียงตามลำดับการขาย:</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Stage</th><th>ความหมาย</th></tr></thead><tbody><tr><td>1</td><td>สนใจสอบถาม</td><td>Opportunity ใหม่จากฟอร์มเว็บ ยังไม่ได้ติดต่อกลับ</td></tr><tr><td>2</td><td>ติดต่อ/นัดดูตัวอย่าง</td><td>เซลล์ติดต่อกลับแล้ว/นัดลูกค้าดูตัวอย่างหิน</td></tr><tr><td>3</td><td>เสนอราคา</td><td>ส่งใบเสนอราคาให้ลูกค้าแล้ว</td></tr><tr><td>4</td><td>เจรจาต่อรอง</td><td>อยู่ระหว่างต่อรองราคา/เงื่อนไข</td></tr><tr><td>5</td><td>ปิดการขาย</td><td>ปิดดีลสำเร็จ (Won)</td></tr></tbody></table></div>
+<p>พนักงานขายลากการ์ดข้ามคอลัมน์ได้เลยเหมือน Kanban ทั่วไป เพื่ออัปเดตความคืบหน้าของแต่ละดีล</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">Pipeline นี้เห็นเฉพาะทีม Empire Granite - Website เท่านั้น</span></div><div class="callout-body">ทีมขายอื่นๆ ในระบบ (Sales ของบริษัทอื่น) มี stage และ pipeline แยกกันคนละชุด ไม่ปนกัน — เห็นเฉพาะ Opportunity ของ Empire Granite เท่านั้นเมื่อสลับมาที่ทีมนี้</div></div>
+<h3>3. เปิดดู Opportunity</h3>
+<p>คลิกที่การ์ดเพื่อเปิดดูรายละเอียด — ด้านบนมีแถบ stage ให้กดเปลี่ยนสถานะได้โดยตรง (หรือกด <strong>Won</strong>/<strong>Lost</strong> เมื่อจบดีล) ข้อมูลที่ลูกค้ากรอกจากฟอร์มจะโชว์ครบ: ชื่อผู้ติดต่อ, อีเมล, เบอร์โทร, และรายละเอียดที่ลูกค้าต้องการ (ช่อง Notes)</p>
+<figure class="screenshot"><img src="assets/119-crm-opportunity-form.webp" alt="119-crm-opportunity-form.png"/></figure>
+<h3>4. Contact ที่สร้าง/เชื่อมให้อัตโนมัติ</h3>
+<p>ระบบค้นหา Contact (<code>res.partner</code>) ที่มีอีเมลตรงกับที่ลูกค้ากรอกในฟอร์ม:</p>
+<ul><li><strong>ถ้ายังไม่มี</strong> → สร้าง Contact ใหม่ให้อัตโนมัติ (ชื่อ+อีเมล+เบอร์โทรตามที่กรอก)</li><li><strong>ถ้ามีอยู่แล้ว</strong> (เช่นลูกค้าเก่าเคยกรอกฟอร์มมาก่อน หรือมีอยู่ในระบบจากช่องทางอื่น) → เชื่อม Opportunity เข้ากับ Contact เดิม ไม่สร้างซ้ำ</li></ul>
+<p>เข้าไปดูที่ <strong>Contacts app</strong> จะเห็น Contact ของลูกค้า พร้อมปุ่ม <strong>"Opportunities"</strong> ที่มุมบนบอกจำนวนดีลที่ผูกกับลูกค้าคนนี้ — กดเพื่อดูย้อนกลับไปที่ Opportunity ได้เลย</p>
+<figure class="screenshot"><img src="assets/120-crm-contact-linked.webp" alt="120-crm-contact-linked.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ใช้ค้นประวัติลูกค้า</span></div><div class="callout-body">ถ้าลูกค้าติดต่อเข้ามาหลายรอบ (กรอกฟอร์มซ้ำ/โทรเข้ามา) ให้เปิด Contact ของลูกค้าคนนั้นแล้วดูปุ่ม Opportunities จะเห็นทุกดีลที่เคยคุยกันมาในที่เดียว</div></div>
 <hr/>
 </section>
     </div>
