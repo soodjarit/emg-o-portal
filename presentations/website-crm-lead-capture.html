@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ติดต่อลูกค้าและ CRM — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:56px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .result-table td{padding:10px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;padding-right:16px;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:12px;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Website Lead Capture</div>
+    <div class="big-title">ติดต่อลูกค้า<br>และ CRM</div>
+    <div class="big-sub">จากฟอร์มหน้าเว็บ → Opportunity เข้า Pipeline อัตโนมัติ → Contact ผูกให้เอง ไม่ต้องพิมพ์ข้อมูลซ้ำ</div>
+    <div class="stamp">EMG-O Manual · Website → Contact → Sales Pipeline (บทที่ 26)</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · Website → CRM</div>
+    <h2 class="slide-title">ลูกค้ากรอกฟอร์มเอง ระบบสร้าง Opportunity + Contact ให้อัตโนมัติ</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">ลูกค้าที่สนใจสั่งซื้อกรอกฟอร์ม "Contact us" บนเว็บไซต์เอง — เดิมฟอร์มนี้แค่ส่งอีเมล ไม่เข้า CRM เลย พนักงานขายต้องคอยเช็คอีเมลเอง ไม่มีที่รวมศูนย์ติดตามสถานะดีลแต่ละราย</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">ฟอร์มเว็บ</div><div class="hdesc">ลูกค้ากรอกเอง ไม่ต้อง Sign in</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Opportunity</div><div class="hdesc">เข้า Pipeline อัตโนมัติ</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Contact</div><div class="hdesc">สร้างใหม่/เชื่อมของเดิม ไม่ซ้ำ</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">พนักงานขาย</div><div class="hdesc">ติดตามใน Pipeline จนปิดการขาย</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="note-box"><b>หลักคิด:</b> ฟอร์มหน้าเว็บผูกตรงกับ Opportunity (crm.lead) ของทีม Empire Granite - Website ไม่ใช่แค่ส่งอีเมลอีกต่อไป — ทุก lead ที่เข้ามาอยู่ใน pipeline เดียว ไม่หลุดหาย</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/117-crm-contactus-form.png"><div class="shot-cap">หน้าฟอร์ม Contact us ของ Empire Granite</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: ฟอร์มบนหน้าเว็บ -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · ลูกค้ากรอกฟอร์มหน้าเว็บ</div>
+    <h2 class="slide-title">ฟอร์ม Contact us — กรอกแล้ว Submit ได้เลย ไม่ต้องสมัครสมาชิก</h2>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าเข้าเว็บอยากสอบถามราคาหิน แต่ไม่อยากโทรหรือแชทตอนนี้ — กรอกฟอร์มทิ้งไว้แทน รอเซลล์ติดต่อกลับ</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">เข้าหน้า /contactus</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอกชื่อ/เบอร์/อีเมล/หัวข้อ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด Submit</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เห็นหน้า Thank You</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ฟิลด์ในฟอร์ม: ชื่อ, เบอร์โทร, อีเมล, ชื่อบริษัท (ถ้ามี), หัวข้อที่สนใจ, รายละเอียดที่ต้องการ</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ช่องที่มี * (ชื่อ/อีเมล/หัวข้อ/รายละเอียด) บังคับกรอก — เบอร์โทรและบริษัทกรอกหรือไม่ก็ได้</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด Submit แล้วเห็นหน้า "Thank You" ยืนยันทันที ไม่ต้อง Sign in หรือสร้างบัญชีก่อน</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ข้อมูลที่กรอกทั้งหมดไหลตรงเข้า CRM โดยไม่มีใครต้องพิมพ์ซ้ำ</span></li>
+        </ul>
+        <div class="note-box"><b>เปลี่ยนจากเดิม:</b> ฟอร์มนี้เคยส่งแค่อีเมล ตอนนี้ผูกตรงเข้า Opportunity ของทีม "Empire Granite - Website" แล้ว</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/117-crm-contactus-form.png"><div class="shot-cap">ฟอร์ม Contact us — ชื่อ/เบอร์/อีเมล/หัวข้อ/รายละเอียด</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Opportunity เข้า Pipeline อัตโนมัติ -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · Opportunity ใหม่เข้า Pipeline อัตโนมัติ</div>
+    <h2 class="slide-title">กด Submit ปุ๊บ การ์ดใหม่โผล่ใน Pipeline ทันที</h2>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">พนักงานขายไม่ต้องคอยเช็คอีเมลเอง — เปิด CRM → Pipeline ของทีม "Empire Granite - Website" ก็เห็น lead ใหม่รออยู่ที่คอลัมน์แรกทันที</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <table class="result-table">
+          <tr><td>1. สนใจสอบถาม</td><td>Opportunity ใหม่จากฟอร์มเว็บ ยังไม่ได้ติดต่อกลับ</td></tr>
+          <tr><td>2. ติดต่อ/นัดดูตัวอย่าง</td><td>เซลล์ติดต่อกลับแล้ว/นัดลูกค้าดูตัวอย่างหิน</td></tr>
+          <tr><td>3. เสนอราคา</td><td>ส่งใบเสนอราคาให้ลูกค้าแล้ว</td></tr>
+          <tr><td>4. เจรจาต่อรอง</td><td>อยู่ระหว่างต่อรองราคา/เงื่อนไข</td></tr>
+          <tr class="total"><td>5. ปิดการขาย</td><td>ปิดดีลสำเร็จ (Won)</td></tr>
+        </table>
+        <div class="note-box"><b>เห็นเฉพาะทีมนี้:</b> Pipeline นี้เห็นเฉพาะทีม Empire Granite - Website เท่านั้น ทีมขายบริษัทอื่นในระบบมี stage และ pipeline แยกกันคนละชุด ไม่ปนกัน</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/118-crm-pipeline-stages.png"><div class="shot-cap">Pipeline ทีม Empire Granite - Website — การ์ดใหม่อยู่คอลัมน์แรก "สนใจสอบถาม"</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: เปิดดู Opportunity -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · เปิดดู Opportunity</div>
+    <h2 class="slide-title">คลิกการ์ด เห็นข้อมูลลูกค้าครบ กดเปลี่ยนสถานะได้ทันที</h2>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">เซลล์คลิกเปิดการ์ดที่ลูกค้าเพิ่งกรอกมา อยากเห็นรายละเอียดที่ลูกค้าต้องการก่อนโทรกลับไปคุย</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">คลิกการ์ดจาก Pipeline</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เห็นชื่อ/เบอร์/อีเมล/รายละเอียด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กดแถบ stage เปลี่ยนสถานะ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">หรือกด Won/Lost ปิดดีล</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดจาก Pipeline คลิกที่การ์ดโดยตรง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ด้านบนฟอร์มมีแถบ stage กดเปลี่ยนสถานะได้เลย ไม่ต้องลากการ์ดกลับไป Pipeline</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ข้อมูลจากฟอร์มโชว์ครบ: ชื่อผู้ติดต่อ, อีเมล, เบอร์โทร, รายละเอียดที่ลูกค้าต้องการ (ช่อง Notes)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ปิดดีลกด Won (สำเร็จ) หรือ Lost (ไม่สำเร็จ) ได้จากปุ่มเดียวกัน</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/119-crm-opportunity-form.png"><div class="shot-cap">หน้ารายละเอียด Opportunity — ข้อมูลจากฟอร์มโชว์ครบ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Contact สร้าง/เชื่อมอัตโนมัติ -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · Contact สร้าง/เชื่อมให้อัตโนมัติ</div>
+    <h2 class="slide-title">อีเมลซ้ำ = คนเดิม ระบบไม่สร้าง Contact ซ้ำให้</h2>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าเก่าเคยกรอกฟอร์มมาก่อน แล้วกรอกซ้ำอีกรอบด้วยอีเมลเดิม — ไม่อยากให้เกิด Contact ซ้ำสองใบในระบบ</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">ระบบเช็คอีเมลที่กรอก</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เจอเดิม → เชื่อมเข้าด้วยกัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ไม่เจอ → สร้างใหม่</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดูได้ที่ Contacts app</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ระบบค้นหา Contact (res.partner) จากอีเมลที่กรอกในฟอร์มทุกครั้ง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ถ้ายังไม่มี → สร้าง Contact ใหม่อัตโนมัติ (ชื่อ+อีเมล+เบอร์ตามที่กรอก)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ถ้ามีอยู่แล้ว → เชื่อม Opportunity เข้ากับ Contact เดิม ไม่สร้างซ้ำ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">เปิด Contact จะเห็นปุ่ม "Opportunities" บอกจำนวนดีลทั้งหมดของลูกค้าคนนี้</span></li>
+        </ul>
+        <div class="note-box"><b>ใช้ค้นประวัติลูกค้า:</b> ลูกค้าติดต่อหลายรอบ (กรอกฟอร์มซ้ำ/โทรเข้ามา) เปิด Contact แล้วดูปุ่ม Opportunities จะเห็นทุกดีลที่เคยคุยกันมาในที่เดียว</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/120-crm-contact-linked.png"><div class="shot-cap">Contact ที่เชื่อมกับ Opportunity แล้ว — ปุ่ม Opportunities บอกจำนวนดีล</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Summary -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">ฟอร์มเว็บเดียว จบครบ ตั้งแต่ Lead ถึงปิดการขาย</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">ลูกค้ากรอกฟอร์ม</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Opportunity เข้า Pipeline</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Contact สร้าง/เชื่อมอัตโนมัติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เซลล์ติดตามใน Pipeline</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ปิดการขาย (Won)</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ขอบเขตตอนนี้</div>
+          <div style="font-size:14.5px;line-height:1.6;">ผูกกับฟอร์ม /contactus บนเว็บ Empire Granite เท่านั้น เข้าทีมขาย+pipeline "Empire Granite - Website" โดยเฉพาะ — บริษัทอื่นในระบบไม่กระทบ</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าอยากขยายต่อ</div>
+          <div style="font-size:14.5px;line-height:1.6;">เพิ่มทีม/pipeline แบบเดียวกันให้บริษัทอื่นที่มีเว็บของตัวเอง หรือเพิ่ม automation แจ้งเตือนเซลล์ทันทีที่มี lead ใหม่เข้ามา</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 7</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
