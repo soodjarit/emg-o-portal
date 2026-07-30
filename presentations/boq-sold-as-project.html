@@ -379,12 +379,88 @@
     </div>
   </section>
 
+  <!-- SLIDE 8a: BOQ ครบกระบวนการ -> Gantt ตรงกับรายละเอียด -->
+  <section class="slide" id="slide-8a">
+    <div class="eyebrow">ผลลัพธ์ · BOQ ครบกระบวนการ → Gantt ตรงกับทุกรายละเอียด</div>
+    <h2 class="slide-title">BOQ ยิ่งละเอียด Gantt ก็ยิ่งครบ — 1 บรรทัด BOQ = 1 แท่งงานบน Gantt เสมอ</h2>
+    <div class="case-box" style="padding:18px 26px;margin-bottom:16px;">
+      <div class="case-icon">9</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง — Demo Customer, The Riverside Residence</div>
+        <div class="case-text" style="font-size:15.5px;">BOQ แตก 8 ขั้นตอนครบกระบวนการ — Confirm ครั้งเดียว ระบบสร้าง Task+Gantt ให้ครบทุกบรรทัดอัตโนมัติ</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <table class="result-table" style="font-size:13.5px;">
+          <tr><td style="padding:5px 0;">1. สำรวจหน้างานและวัดขนาด</td><td>8,000</td></tr>
+          <tr><td style="padding:5px 0;">2. จัดหา/สั่งซื้อ Block หินแกรนิต</td><td>180,000</td></tr>
+          <tr><td style="padding:5px 0;">3. ตัดแผ่นหินตามขนาด (Cut-to-Order)</td><td>45,000</td></tr>
+          <tr><td style="padding:5px 0;">4. ขัดผิวและเจียรขอบ</td><td>25,000</td></tr>
+          <tr><td style="padding:5px 0;">5. บรรจุและจัดส่ง</td><td>12,000</td></tr>
+          <tr><td style="padding:5px 0;">6. ติดตั้งหน้างาน</td><td>60,000</td></tr>
+          <tr><td style="padding:5px 0;">7. ยาแนวและเคลือบผิวกันซึม</td><td>15,000</td></tr>
+          <tr><td style="padding:5px 0;">8. ตรวจรับงานและส่งมอบ</td><td>5,000</td></tr>
+          <tr class="total"><td style="padding-top:8px;">Amount Total (รวม Overhead 10%)</td><td style="padding-top:8px;">385,000</td></tr>
+        </table>
+        <div class="note-box" style="padding:10px 16px;margin-top:8px;font-size:13px;"><b>ตรงกันเสมอ:</b> 1 บรรทัด BOQ = 1 Task บน Gantt เสมอ ไม่ต้องพิมพ์ตารางงานแยกอีกชุด</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-boq-8phase-document.png"><div class="shot-cap">BOQ Document จริง — 8 รายการ จัดกลุ่มเป็น 3 ช่วงงาน</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8b: Gantt เต็มรูปแบบ -->
+  <section class="slide" id="slide-8b">
+    <div class="eyebrow">Gantt Chart · มองเห็นภาพรวมทั้งโครงการในหน้าจอเดียว</div>
+    <h2 class="slide-title">แท่งงานเรียงตามลำดับจริง เห็นวันนี้อยู่ตรงไหนของงาน</h2>
+    <div class="case-box">
+      <div class="case-icon">10</div>
+      <div>
+        <div class="case-text-label">อ่านยังไง</div>
+        <div class="case-text">แต่ละแท่ง = 1 ขั้นตอนจาก BOQ พร้อมวันเริ่ม-วันจบจริง เส้นประสีแดง = วันนี้ ลูกค้าเห็นได้ทันทีว่างานถึงขั้นตอนไหนแล้ว ไม่ต้องถามทีมงาน</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left" style="flex:1;">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-gantt-8phase-full.png"><div class="shot-cap">Gantt Chart จริง — 8 แท่งงานเรียงตามลำดับ BOQ ทุกขั้นตอน</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8c: Milestone ตาม % งาน -->
+  <section class="slide" id="slide-8c">
+    <div class="eyebrow">วางบิลเป็นงวด · Milestone ตาม % ความสำเร็จของงาน</div>
+    <h2 class="slide-title">3 งวดงาน 30/40/30% ผูกกับจังหวะงานจริง ไม่ใช่วันที่สุ่มเดา</h2>
+    <div class="case-box">
+      <div class="case-icon">11</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง — เดียวกับ Riverside Residence</div>
+        <div class="case-text">ทุกโปรเจกต์ที่ติ๊ก Sold as Project จะได้ 3 งวดงานนี้อัตโนมัติเสมอ — ทีมงานกำหนด deadline ของแต่ละงวดให้ตรงกับจังหวะงานจริงจาก Gantt ได้เอง ไม่ใช่ค่าคงที่ตายตัว</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <table class="result-table">
+          <tr><td>🚩 เงินมัดจำ (30%)</td><td>เริ่มงาน — <b style="color:#2E7D32;">รับแล้ว ✓</b></td></tr>
+          <tr><td>🚩 งวดกลาง (40%)</td><td>ก่อนเริ่มขั้นตอนติดตั้ง</td></tr>
+          <tr><td>🚩 งวดส่งมอบ (30%)</td><td>วันส่งมอบงาน</td></tr>
+        </table>
+        <div class="note-box"><b>แยกจากใบแจ้งหนี้โดยเจตนา:</b> Milestone ใช้ติดตาม "ความคืบหน้า" งานเท่านั้น ส่วนการวางบิลจริงใช้ Down Payment Wizard สัดส่วนเดียวกัน (30/40/30%) แยกกลไกกัน — ปรับงวดบิลได้อิสระโดยไม่กระทบสถานะความคืบหน้าที่ทีมงานกำลังติดตามอยู่</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-milestone-kanban-badge.png" style="max-width:340px;"><div class="shot-cap">แสดงบนการ์ดโปรเจกต์ทันที — 🚩 1/3 = รับมัดจำแล้ว 1 จาก 3 งวด</div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SLIDE 9: ผลลัพธ์ Project+Gantt+กำไร -->
   <section class="slide" id="slide-9">
-    <div class="eyebrow">ผลลัพธ์ · Project + Gantt + วางบิลเป็นงวด + ดูกำไรจริง</div>
-    <h2 class="slide-title">เห็นภาพรวมงาน ควบคุมบิล และรู้กำไรจริงในที่เดียว</h2>
+    <div class="eyebrow">ผลลัพธ์สุดท้าย · ดูกำไรจริงรายโครงการที่ Analytic Account</div>
+    <h2 class="slide-title">เห็นกำไรจริงรายโครงการ ไม่ใช่แค่ประมาณการ</h2>
     <div class="case-box">
-      <div class="case-icon">8</div>
+      <div class="case-icon">12</div>
       <div>
         <div class="case-text-label">ตัวอย่างจริง — โครงการคอนโดบางโพ (Empire Stone)</div>
         <div class="case-text">Bundle ผูก Analytic Account → PO ซื้อวัสดุ ฿2,800 (auto-tag ติดโครงการ) → ส่งของจริง 8 แผ่น → Invoice ฿17,120 → กำไรสุทธิที่เห็นจริงใน Analytic Items = <b>+฿13,200</b></div>
@@ -447,7 +523,7 @@
 
 <div id="nav">
   <button onclick="go(-1)">‹</button>
-  <span id="pagecount">1 / 11</span>
+  <span id="pagecount">1 / 14</span>
   <button onclick="go(1)">›</button>
 </div>
 
