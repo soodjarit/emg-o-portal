@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>กำไรรายโครงการ (Analytic Accounting) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .warn-box{background:#FDECEA;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#7A2E22;margin-top:10px;}
+  .warn-box b{color:#B3261E;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+  .data-map.alert{border-left-color:#B3261E;}
+  .data-map.alert .data-map-label{color:#B3261E;}
+  .data-map.alert .data-map-table td:last-child{color:#B3261E;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">฿</div>
+    <div class="eyebrow">Empire Granite · Management &amp; Accounting</div>
+    <div class="big-title">กำไรรายโครงการ<br>(Analytic Accounting)</div>
+    <div class="big-sub">ผูกครั้งเดียวตอนต้น — ต้นทุนและรายได้ทั้งสายแปะป้ายให้อัตโนมัติ จนเห็นกำไรจริงของแต่ละโครงการ</div>
+    <div class="stamp">EMG-O Overview · กำไรรายโครงการ</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · โจทย์คืออะไร</div>
+    <h2 class="slide-title">งานที่ขายไปหลายจุด อยากรู้ว่า "งานนี้" กำไรเท่าไหร่</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">ลูกค้าซื้อหินไปทำหลายจุดในงานเดียวกัน (เช่น ครัว+ห้องน้ำในบ้านหลังเดียว หรือหลายยูนิตในคอนโดเดียวกัน) — เจ้าของธุรกิจอยากรู้ว่า "งานนี้ทั้งงาน" ต้นทุนหินรวมเท่าไหร่ เทียบกับยอดขายจริงแล้วกำไรหรือขาดทุนเท่าไหร่ ไม่ใช่ดูแยกเป็นรายบิล</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อควรรู้ก่อนเริ่ม</div>
+      <table class="data-map-table">
+        <tr><th>เรื่อง</th><th>รายละเอียด</th></tr>
+        <tr><td>ไม่ใช่ Project app</td><td>ระบบนี้<b>ไม่ได้ใช้ Odoo Project app</b> (Task/Kanban บริหารงาน) เลย — ใช้แค่ <b>Analytic Accounting</b> ซึ่งบังเอิญ Odoo ตั้งชื่อ Plan เริ่มต้นว่า "Project" เฉยๆ อย่าสับสน 2 เรื่องนี้เวลาคุยกับลูกค้า</td></tr>
+        <tr><td>ใช้ได้กับใคร</td><td>งานแบบ "โครงการ" ที่อยากแยกกำไรเป็นก้อนๆ เท่านั้น — งานขายแผ่นปกติรายวันไม่จำเป็นต้องผูก</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Step 1 — สร้าง Analytic Account (manual) -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นที่ 1 (ทำเอง) · สร้าง Analytic Account สำหรับโครงการ</div>
+    <h2 class="slide-title">ทำครั้งเดียวตอนเริ่มโครงการ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ไปที่ <b>Invoicing → Configuration → Analytic Accounts → New</b></span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตั้งชื่อโครงการ (เช่น "โครงการบ้านประชาชื่น") — Plan ปล่อยเป็นค่า default "Project" ได้เลย</span></li>
+        </ul>
+        <div class="warn-box"><b>ต้องเช็ค Company ก่อนกดสร้างเสมอ</b> — Odoo จะผูก Analytic Account เข้ากับบริษัทที่ Active อยู่ตอนนั้นโดยอัตโนมัติ (มุมขวาบน) ถ้าเผลอสร้างตอน Active Company ผิด จะมีปัญหาตอนออกบิลข้ามบริษัททันที</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/38-analytic-accounts-list.png"><div class="shot-cap">รายชื่อ Analytic Accounts — แต่ละแถวคือ 1 โครงการ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Step 2 — ผูกกับ Bundle (manual, จุดเริ่มของ auto) -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นที่ 2 (ทำเอง — ครั้งเดียวจบ) · ผูก Analytic Account เข้ากับ Bundle</div>
+    <h2 class="slide-title">คลิกเดียวตรงนี้ ระบบแปะป้ายให้อัตโนมัติทั้งสายที่เหลือ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Bundle (ก้อนหินที่ซื้อมาเฉพาะงานนี้)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลื่อนลงส่วน "ข้อมูลเสริม" → field <b>Analytic Account</b> → เลือกโครงการที่สร้างไว้ในขั้นที่ 1</span></li>
+        </ul>
+        <div class="note-box"><b>นี่คือจุดเดียวที่ต้องกดเอง</b> — จากนี้ไปทั้งต้นทุนวัสดุ รายได้จากขายแผ่น และรายได้ค่าแรงแปรรูปจากบันเดิลนี้ จะถูกแปะป้ายโครงการนี้ให้อัตโนมัติทุกจุด ไม่ต้องกลับมาผูกซ้ำอีก</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/37-bundle-analytic-account.png"><div class="shot-cap">field Analytic Account ในฟอร์ม Bundle</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Auto propagation overview -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">จากนี้ไป · อัตโนมัติทั้งหมด</div>
+    <h2 class="slide-title">ผูก 1 ครั้งที่ Bundle → ป้ายกระจายไปทั้งสายต้นทุน+รายได้</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Bundle มี Analytic Account แล้ว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ต้นทุนวัสดุ (บิลผู้ขาย)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">รายได้ขายแผ่น (Select Slabs)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">รายได้ค่าแรงแปรรูป</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">✓</div>
+      <div>
+        <div class="case-text-label">พูดกับลูกค้าอย่างนี้ได้เลย</div>
+        <div class="case-text">"ผูกแค่ครั้งเดียวตอนสร้าง Bundle ที่เหลือทั้งหมด — ต้นทุนตอนซื้อ, รายได้ตอนขาย, รายได้ตอนแปรรูป — ระบบแปะป้ายให้เองหมด บัญชีไม่ต้องมานั่งไล่แปะทีละบิลทีละใบขาย"</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">2 สไลด์ถัดไป — รายละเอียดว่าแต่ละจุด auto ยังไง</div>
+      <table class="data-map-table">
+        <tr><th>จุดที่แปะป้ายอัตโนมัติ</th><th>กลไก</th></tr>
+        <tr><td>ต้นทุนวัสดุ</td><td>ผ่าน PO Line → Vendor Bill (กลไก native ของ Odoo เอง)</td></tr>
+        <tr><td>รายได้ (ขายแผ่น + ค่าแรงแปรรูป)</td><td>ผ่านปุ่ม "Select Slabs" ตอนใส่แผ่นลงใบขาย — มีเงื่อนไขที่ต้องรู้</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Auto — ต้นทุนวัสดุ -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">อัตโนมัติ จุดที่ 1 · ต้นทุนวัสดุ</div>
+    <h2 class="slide-title">PO Line → Vendor Bill แปะป้ายให้เองตามกลไก Odoo มาตรฐาน</h2>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูล → เกิดตรงไหน → auto ยังไง</div>
+      <table class="data-map-table">
+        <tr><th>ขั้นตอน</th><th>เกิดที่ไหน</th><th>ผลลัพธ์อัตโนมัติ</th></tr>
+        <tr><td>สร้าง PO + ผูก Bundle เข้ากับ PO Line</td><td>ขั้นตอนซื้อหินปกติ (ดู "การจัดซื้อ")</td><td>Analytic Account ของ Bundle ถูกแปะลง PO Line ให้เอง</td></tr>
+        <tr><td>สร้าง Vendor Bill จาก PO Line นั้น</td><td>Accounting — ขั้นตอนบัญชีปกติ</td><td>บิลผู้ขายติดป้ายโครงการมาด้วยอัตโนมัติ — ไม่ต้องเลือกเอง</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ไม่มีโค้ดพิเศษของ EMG-O ตรงจุดนี้เลย</b> — เป็นกลไก analytic distribution มาตรฐานของ Odoo เอง แค่ต้นทางมี Analytic Account ติดมาแล้วตั้งแต่ PO Line</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Auto — รายได้ -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">อัตโนมัติ จุดที่ 2 · รายได้จากขายแผ่น + ค่าแรงแปรรูป</div>
+    <h2 class="slide-title">แปะป้ายตอนกด "Select Slabs" — แต่มีเงื่อนไขที่ต้องรู้</h2>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูล → เกิดตรงไหน → auto ยังไง</div>
+      <table class="data-map-table">
+        <tr><th>ขั้นตอน</th><th>เกิดที่ไหน</th><th>ผลลัพธ์อัตโนมัติ</th></tr>
+        <tr><td>รายได้ขายแผ่น</td><td>กด "Select Slabs" เลือกแผ่นจากบันเดิลใส่ในใบขาย</td><td>แปะ Analytic Account ลงบรรทัดขายให้เองทันที</td></tr>
+        <tr><td>รายได้ค่าแรงแปรรูป</td><td>เจาะช่องอ่างล้างหน้า / งานแปรรูปอื่นๆ</td><td>แท็กจากบันเดิลของแผ่นที่ถูกแปรรูปเช่นกัน — auto เหมือนกัน</td></tr>
+      </table>
+    </div>
+    <div class="data-map alert">
+      <div class="data-map-label">⚠️ เงื่อนไขเดียวที่ทำให้ auto ไม่ทำงาน</div>
+      <table class="data-map-table">
+        <tr><th>สถานการณ์</th><th>ผลลัพธ์</th></tr>
+        <tr><td>ทุกแผ่นในบรรทัดขายมาจากบันเดิลที่มี Analytic Account <b>เดียวกัน</b></td><td>แปะป้ายให้อัตโนมัติ ✓</td></tr>
+        <tr><td>ผสมแผ่นจาก<b>หลายโครงการ</b>ในบรรทัดขายเดียวกัน</td><td>ระบบปล่อยว่างไว้ให้บัญชีมาแท็กเอง — <b>ไม่เดาให้</b> เพื่อกันแปะผิด</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ดูกำไร/ขาดทุน -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ขั้นที่ 3 (ทำเอง) · ดูกำไร/ขาดทุนของโครงการ</div>
+    <h2 class="slide-title">เปิดหน้าเดียว เห็นยอดสุทธิทุกโครงการทันที</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ไปที่ <b>Invoicing → Configuration → Analytic Accounts</b> — คอลัมน์ <b>Balance</b> สรุปยอดสุทธิของแต่ละโครงการทันที (ลบ = ยังขาดทุน/มีแต่ต้นทุน, บวก = กำไรแล้ว)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ต้องการดูรายละเอียดทีละบรรทัด → เปิด URL <code>/odoo/action-154</code> ("Analytic Items") → พิมพ์ชื่อโครงการค้นหา หรือ Group By → Project</span></li>
+        </ul>
+        <div class="note-box"><b>เมนู "Analytic Items" ไม่โผล่ในแถบเมนูผู้ใช้ทั่วไป</b> เพราะอยู่ใต้กลุ่มสิทธิ์ "Show Accounting Features" — ถ้าอยากให้ทุกคนกดเข้าเองได้ ต้องให้ผู้ดูแลระบบเปิดสิทธิ์นี้เพิ่ม</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/39-analytic-items-project.png"><div class="shot-cap">Analytic Items กรองตามโครงการ — เห็นทุกบรรทัดต้นทุน/รายได้</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: ตัวอย่างจริงครบวงจร -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">ตัวอย่างจริง · ครบวงจรตั้งแต่ต้นทุนถึงกำไร</div>
+    <h2 class="slide-title" style="color:#fff;">โครงการคอนโดบางโพ (Empire Stone)</h2>
+    <div class="flow-bar">
+      <span class="flow-chip" style="background:var(--copper);">ซื้อก้อนหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">บิลผู้ขายโพสต์ (-฿2,800)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ตัดแผ่น → ขาย → ส่งของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ใบแจ้งหนี้โพสต์ (+฿16,000)</span>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:18px;">ทำครบทุกขั้นแล้ว รับชำระเงินครบ</div>
+          <div style="font-size:15px;line-height:1.7;">ต้นทุนวัสดุ <b>-฿2,800</b><br>รายได้จากใบแจ้งหนี้ <b>+฿16,000</b><br>ไม่ต้องแปะป้ายเอง — ระบบไล่มาให้ตั้งแต่ Bundle</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;text-align:center;">
+          <div style="font-size:14px;color:#B9C2C8;margin-bottom:8px;">กำไรสุทธิที่ Analytic Items แสดงให้ทันที</div>
+          <div style="font-size:44px;font-weight:700;color:#D9A465;font-family:Cambria,serif;">+฿13,200</div>
+        </div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:16px;background:rgba(255,255,255,.08);color:#CBD3D8;"><b style="color:#D9A465;">หมายเหตุ:</b> ตัวอย่างนี้ดูผ่านเว็บด้วย login <code>emgdemo</code> ไม่ได้ เพราะ login นี้ผูกกับบริษัท Empire Granite เท่านั้น — ต้อง login ด้วยผู้ใช้ที่มีสิทธิ์ทั้ง 2 บริษัทถึงจะเห็นฝั่ง Empire Stone</div>
+  </section>
+
+  <!-- SLIDE 9: ข้อควรระวัง -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ข้อควรระวัง</div>
+    <h2 class="slide-title">2 เรื่องที่ทีมขาย/บัญชีต้องรู้ล่วงหน้า</h2>
+    <div class="data-map alert">
+      <div class="data-map-label">พฤติกรรมที่อาจทำให้ตัวเลขคลาดเคลื่อน</div>
+      <table class="data-map-table">
+        <tr><th>สถานการณ์</th><th>สิ่งที่เกิดขึ้น</th><th>วิธีป้องกัน</th></tr>
+        <tr><td>ตั้งราคาขายเอง (price_unit) ในบรรทัดใบขาย <b>ก่อน</b>กด Select Slabs</td><td>ราคาที่ตั้งไว้ถูกรีเซ็ตกลับเป็นราคามาตรฐานสินค้าอัตโนมัติ (พฤติกรรมของ Odoo เอง ไม่ใช่บั๊ก)</td><td>ตั้งราคาเอง <b>หลัง</b>กด Select Slabs เสร็จแล้วเท่านั้น</td></tr>
+        <tr><td>แผ่นเหลือค้างในบันเดิล (ตัดไปใช้ไม่หมด)</td><td>ถูกนับเป็นต้นทุนเต็มจำนวนของโครงการนั้น แม้ยังไม่ได้ตัดมาใช้จริง</td><td>ถ้าซื้อก้อนใหญ่ไว้เผื่องานหลายโครงการในอนาคต ให้แยกซื้อเป็นคนละ PO/บันเดิลต่อโครงการแทน ไม่ใช้ก้อนเดียวกันแปะหลายโครงการ</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Summary -->
+  <section class="slide dark" id="slide-10">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">ผูกเอง 2 จุด — ที่เหลือระบบแปะป้ายให้อัตโนมัติ</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">1. สร้าง Analytic Account</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">2. ผูกกับ Bundle</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ต้นทุน+รายได้ auto ทั้งสาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ดู Balance เห็นกำไรทันที</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
+          <div style="font-size:14.5px;line-height:1.6;">เช็ค Active Company ก่อนสร้าง Analytic Account ทุกครั้ง — ผูกผิดบริษัทจะมีปัญหาตอนออกบิลข้ามบริษัท</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าถามว่า "ต้องแปะป้ายทุกบิลเองไหม"</div>
+          <div style="font-size:14.5px;line-height:1.6;">ไม่ต้อง — ผูกแค่ตอนสร้าง Bundle ครั้งเดียว ต้นทุนและรายได้ทั้งสายที่มาจากบันเดิลนั้นแปะป้ายให้เองหมด ยกเว้นกรณีผสมแผ่นจากหลายโครงการในบรรทัดเดียว</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
