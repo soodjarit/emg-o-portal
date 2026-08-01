@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BOQ สำหรับทีมขายมือใหม่ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .result-table td{padding:8px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:12px;}
+  .result-table tr.subtotal td{font-weight:700;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+
+  .not-your-job-row{display:flex;gap:18px;margin-top:8px;}
+  .njob-card{flex:1;background:var(--card);border-radius:14px;padding:22px 20px;position:relative;}
+  .njob-card .njob-x{position:absolute;top:16px;right:18px;width:26px;height:26px;border-radius:50%;background:#D9534F;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .njob-card .njob-title{font-size:16px;font-weight:700;color:var(--charcoal);margin-bottom:8px;padding-right:30px;}
+  .njob-card .njob-desc{font-size:13.5px;line-height:1.5;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · สำหรับทีมขายมือใหม่</div>
+    <div class="big-title">สร้างใบเสนอราคา BOQ<br>ได้เองใน 3 ขั้นตอน</div>
+    <div class="big-sub">ราคาทุกอย่างมีทีม estimate เตรียมไว้ให้แล้ว — คุณแค่หยิบมาใช้ ไม่ต้องคำนวณเอง</div>
+    <div class="stamp">EMG-O Quickstart · BOQ สำหรับทีมขาย</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · งานของคุณมีแค่ 3 ขั้นตอน</div>
+    <h2 class="slide-title">ไม่ต้องรู้เรื่องต้นทุน ไม่ต้องคำนวณเอง — กดตามขั้นตอนได้เลย</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">ลูกค้าขอใบเสนอราคาโครงการคอนโด/อาคารใหม่ — คุณเพิ่งเริ่มงาน ไม่เคยทำ BOQ มาก่อน กลัวคำนวณราคาผิดหรือลืมขั้นตอน</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Rate Library</div><div class="hdesc">ทีม estimate เตรียมไว้ให้แล้ว</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">BOQ Document</div><div class="hdesc">คุณเลือก Rate มาใส่ตามโซน</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">ใบเสนอราคา</div><div class="hdesc">กดปุ่มเดียว สร้างให้อัตโนมัติ</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">พิมพ์/ส่งออก</div><div class="hdesc">ส่งลูกค้าได้ทันที</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="note-box"><b>หลักคิด:</b> คุณไม่ได้เริ่มจากศูนย์ — ราคาต้นทุน+ราคาขายของหินทุกแบบมีคนตั้งไว้ให้แล้วใน Rate Library งานของคุณคือ "หยิบมาประกอบ" ให้ตรงกับที่ลูกค้าต้องการเท่านั้น</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/92-boq-rate-library-2-items.png"><div class="shot-cap">Rate Library — มีราคาพร้อมใช้อยู่แล้ว หน้าที่คุณคือค้นหาแล้วเลือก</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 1b: สิ่งที่ไม่ต้องทำ -->
+  <section class="slide" id="slide-1b">
+    <div class="eyebrow">ก่อนเริ่ม · สิ่งที่ "ไม่ใช่" งานของคุณ</div>
+    <h2 class="slide-title">3 อย่างนี้มีคนอื่นทำให้แล้ว ไม่ต้องกังวล</h2>
+    <div class="not-your-job-row">
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">ตั้งราคาต้นทุน/สร้าง Rate ใหม่</div>
+        <div class="njob-desc">ทีม estimate เป็นคนคำนวณและตั้งราคาไว้ล่วงหน้าใน Rate Library — ถ้าหา Rate ที่ต้องการไม่เจอ แจ้งทีม estimate ให้เพิ่มให้ อย่าพิมพ์ราคาเองมือ</div>
+      </div>
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">ผูก Rate กับสินค้าจริง</div>
+        <div class="njob-desc">ทีมปฏิบัติงานเป็นคนผูก Rate แต่ละตัวกับสินค้าจริงในคลังไว้ล่วงหน้า — คุณแค่เลือก Rate มาใช้ ไม่ต้องผูกเอง</div>
+      </div>
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">เลือกแผ่นจริง / คำนวณราคาใหม่</div>
+        <div class="njob-desc">Select Slabs และ Recompute Price เป็นขั้นตอนที่ฝ่ายปฏิบัติงานทำ "หลัง" ลูกค้าตกลงซื้อแล้วเท่านั้น ไม่ใช่ตอนเสนอราคา</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:22px;"><b>สรุป:</b> งานของคุณคือแค่ประกอบ BOQ Document ให้ถูกต้อง แล้วส่งใบเสนอราคาให้ลูกค้าทันเวลา — แค่นั้นจบ</div>
+  </section>
+
+  <!-- SLIDE 2: เปิดเอกสาร — บริบท -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เปิด BOQ Document + กรอกลูกค้า</div>
+    <h2 class="slide-title">เริ่มจากเปิดเอกสารใหม่ ใส่ชื่อลูกค้า</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">BOQ Documents → New</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอก Customer + Company</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">% ปล่อย default ได้ถ้าไม่แน่ใจ</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าใหม่ "ตึกอาคาร ABC" ขอใบเสนอราคาโครงการ — ต้องเปิดเอกสารใบแรกก่อนเริ่มใส่รายการหิน</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Customer</td><td>ชื่อลูกค้าจริง</td><td>BOQ Estimation → BOQ Documents → New</td></tr>
+        <tr><td>Company</td><td>ปกติค่า default ถูกต้องอยู่แล้ว</td><td>หัวฟอร์มเดียวกัน</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ไม่แน่ใจ % Preliminaries/Overhead?</b> ปล่อยเป็นค่า default ไปก่อนได้ ถามหัวหน้าทีมทีหลังได้ ไม่บล็อกการทำงาน</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2b: เปิดเอกสาร — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-2b">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เปิด BOQ Document + กรอกลูกค้า</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด BOQ Estimation → BOQ Documents → กด New</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กรอกชื่อ Customer + เลือก Company (ปกติเลือกถูกอยู่แล้วเป็นค่า default)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ค่า % Preliminaries/Overhead ปล่อยตามค่าเดิมได้ถ้าไม่มีเงื่อนไขพิเศษจากลูกค้า</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Save เอกสาร แล้วไปขั้นตอนถัดไปได้เลย</span></li>
+        </ul>
+        <div class="note-box"><b>จำง่ายๆ:</b> หน้านี้เป็นแค่ "ใบปะหน้า" ของเอกสาร รายการหินจริงไปกรอกในขั้นตอนถัดไป</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/94-boq-doc-header-filled.png"><div class="shot-cap">กรอก Customer — เปิดเอกสารใบแรก</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: ใส่รายการ — บริบท -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · ใส่รายการ (เลือก Rate ที่มีอยู่แล้ว)</div>
+    <h2 class="slide-title">ไม่ต้องคำนวณราคาเอง แค่ค้นหาแล้วเลือก</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Add a line</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">พิมพ์ชื่อ Zone</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ค้นหา Rate จาก dropdown</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ใส่ Quantity</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าส่งแบบมาแยกเป็นโซน (เช่น "ชั้น 2 Lobby") อยากได้ราคาหินแยกตามโซน — แต่คุณไม่รู้ราคาต้นทุนของหินแต่ละแบบเลย</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Zone (Schedule)</td><td>พิมพ์ชื่อโซนเอง เช่น "ชั้น 2 Lobby"</td><td>แท็บ BOQ Lines → คอลัมน์ Schedule/Zone</td></tr>
+        <tr><td>Rate</td><td>พิมพ์ค้นหาชื่อหิน เช่น "ST1" แล้วเลือกจาก list</td><td>แท็บ BOQ Lines → คอลัมน์ Rate (ค้นหาอย่างเดียว ไม่สร้างใหม่)</td></tr>
+        <tr><td>Quantity</td><td>ตามพื้นที่หน้างานจริง</td><td>แท็บ BOQ Lines → คอลัมน์ Quantity</td></tr>
+        <tr><td>ราคา/หน่วย + ยอดรวม</td><td>เติมให้อัตโนมัติ</td><td>ไม่ต้องกรอกเอง — ระบบดึงจาก Rate ที่เลือก</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 3b: ใส่รายการ — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-3b">
+    <div class="eyebrow">ขั้นตอนที่ 2 · ใส่รายการ (เลือก Rate ที่มีอยู่แล้ว)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">แท็บ BOQ Lines → Add a line</span></li>
+          <li><span class="step-num">2</span><span class="step-text">พิมพ์ชื่อ Zone ตามหน้างานจริง (พิมพ์ซ้ำได้หลายบรรทัดถ้าโซนเดียวกันมีหลายรายการ)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">คลิกช่อง Rate → พิมพ์ค้นหาชื่อหิน → เลือกจากลิสต์ที่มีอยู่แล้ว</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ใส่ Quantity ตามหน้างานจริง — ราคา/หน่วยและยอดรวมขึ้นให้อัตโนมัติ ทำซ้ำจนครบทุก Zone แล้ว Save</span></li>
+        </ul>
+        <div class="note-box"><b>หา Rate ไม่เจอในลิสต์?</b> แจ้งทีม estimate ให้เพิ่มให้ — อย่าพิมพ์ราคาเองมือ เพราะจะไม่มี single source of truth เหมือนเดิม</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/95-boq-lines-added.png"><div class="shot-cap">เพิ่ม BOQ Lines — เลือก Zone + Rate ที่มีอยู่แล้ว + Quantity</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: สร้างใบเสนอราคา — บริบท -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · กดสร้างใบเสนอราคา</div>
+    <h2 class="slide-title">ปุ่มเดียว จบ — ได้ใบเสนอราคาพร้อมส่งลูกค้าทันที</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">กด "สร้างใบเสนอราคา"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Sale Order ใหม่ทันที</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตรวจยอดสรุป</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">พร้อมพิมพ์/ส่งออก</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">กรอก BOQ Document ครบทุก Zone แล้ว — ไม่ต้องมานั่งพิมพ์ใบเสนอราคาเองใน Word/Excel อีกชุด ระบบสร้างให้จากข้อมูลที่กรอกไว้แล้ว</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลบน BOQ Document → ไป Key ที่ไหนบนใบเสนอราคา</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูลต้นทาง</th><th>ปรากฏยังไง</th><th>ตำแหน่งบนใบเสนอราคา</th></tr>
+        <tr><td>Zone (Schedule)</td><td>รวมยอดต่อ Zone ให้เอง</td><td>Order Lines → Section header</td></tr>
+        <tr><td>Rate × Quantity</td><td>รวมเป็น 1 บรรทัดสรุปต่อ Zone</td><td>Order Lines → บรรทัด "BOQ Summary Line"</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ก่อนส่งลูกค้า:</b> ตรวจยอดสรุปให้ตรงกับที่คุยกับลูกค้าไว้ก่อนเสมอ — ถ้าตัวเลขดูแปลก แจ้งหัวหน้าทีมก่อน อย่าแก้ตัวเลขเอง</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4b: สร้างใบเสนอราคา — ภาพหน้าจอ -->
+  <section class="slide" id="slide-4b">
+    <div class="eyebrow">ขั้นตอนที่ 3 · กดสร้างใบเสนอราคา</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">กลับไปที่ BOQ Document ที่กรอกไว้</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กดปุ่ม "สร้างใบเสนอราคา" ที่หัวฟอร์ม</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ระบบสร้าง Sale Order ใหม่ทันที แบ่ง section ตาม Zone ให้เอง</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ตรวจสอบยอดสรุปด้านล่างให้ตรงกับที่คุยกับลูกค้าไว้ ก่อนพิมพ์ส่ง</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/97-boq-quotation-generated.png"><div class="shot-cap">ใบเสนอราคาที่สร้างอัตโนมัติ — แบ่ง section ตาม Zone</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: พิมพ์/ส่งออก -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · พิมพ์/ส่งออกให้ลูกค้า</div>
+    <h2 class="slide-title">จบงานของคุณแค่นี้ — ที่เหลือทีมปฏิบัติงานรับช่วงต่อ</h2>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าอยากได้เอกสารสรุปราคาไว้เปรียบเทียบกับผู้รับเหมารายอื่น ก่อนตัดสินใจ</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ต้องกดปุ่มไหน → อยู่ตรงไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ต้องทำ</th><th>ได้อะไร</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>พิมพ์ PDF</td><td>เอกสารพร้อมส่งลูกค้าทันที</td><td>BOQ Document → ปุ่ม "Print"</td></tr>
+        <tr><td>Export Excel</td><td>ไฟล์ .xlsx ให้ลูกค้าเปิดเปรียบเทียบเอง</td><td>BOQ Document → ปุ่ม "Export Excel"</td></tr>
+      </table>
+    </div>
+    <div class="two-col" style="margin-top:14px;">
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/98-boq-print-export-buttons.png"><div class="shot-cap">ปุ่มพิมพ์ PDF / Export Excel บน BOQ Document</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Summary -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">3 ขั้นตอนของคุณจบแค่นี้ — ที่เหลือทีมปฏิบัติงานทำต่อ</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">เปิด BOQ Document</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เลือก Rate ที่มีอยู่แล้ว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">กดสร้างใบเสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">พิมพ์/Export ส่งลูกค้า</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าตกลงซื้อ</div>
+          <div style="font-size:14.5px;line-height:1.6;">ทีมปฏิบัติงานจะเลือกแผ่นจริง (Select Slabs) / คำนวณราคาใหม่ (Recompute Price) / จัดส่งของเอง — ไม่ใช่หน้าที่ของคุณแล้ว</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ติดปัญหาระหว่างทำ</div>
+          <div style="font-size:14.5px;line-height:1.6;">หา Rate ไม่เจอ / ไม่แน่ใจ % ต่างๆ / ตัวเลขดูแปลก — ถามหัวหน้าทีมหรือทีม estimate ได้เสมอ อย่าเดาเอง</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
