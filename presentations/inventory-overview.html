@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>การจัดการสต็อก (Inventory) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .warn-box{background:#FDECEA;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#7A2E22;margin-top:10px;}
+  .warn-box b{color:#B3261E;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;flex-wrap:wrap;}
+  .hier-card{flex:1;min-width:140px;background:var(--card);border-radius:12px;padding:16px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:13px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:20px;font-weight:700;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+  .data-map.alert{border-left-color:#B3261E;}
+  .data-map.alert .data-map-label{color:#B3261E;}
+  .data-map.alert .data-map-table td:last-child{color:#B3261E;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Ensure Supply</div>
+    <div class="big-title">การจัดการสต็อก<br>(Inventory)</div>
+    <div class="big-sub">ตั้งแต่ตัดแผ่นเข้าคลัง เช็คสต็อกหน้างานด้วยเครื่องสแกน จนถึงรับคืนสินค้า</div>
+    <div class="stamp">EMG-O Overview · การจัดการสต็อก</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · สถานะแผ่นหิน (Slab Status)</div>
+    <h2 class="slide-title">แผ่นหินแต่ละแผ่น ต้องรู้ตลอดเวลาว่าอยู่สถานะไหน</h2>
+    <div class="case-box" style="padding:16px 26px;margin-bottom:14px;">
+      <div class="case-icon" style="width:40px;height:40px;font-size:19px;">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text" style="font-size:15.5px;">พนักงานคลังต้องรู้ว่าแผ่นหินแต่ละแผ่นอยู่ที่ไหน สถานะอะไร ตลอดเวลา — ไม่ใช่แค่ตอนขาย เพราะแผ่นเดียวกันอาจถูกกัน (Hold), ฝากขาย (Consigned), ขายแล้ว, หรือถูกลูกค้าคืนกลับมาก็ได้</div>
+      </div>
+    </div>
+    <div class="hier-row" style="margin:0 0 12px 0;">
+      <div class="hier-card" style="padding:10px;"><div class="hlabel">Available</div><div class="hdesc">พร้อมขาย</div></div>
+      <div class="hier-arrow">⇄</div>
+      <div class="hier-card" style="padding:10px;"><div class="hlabel">Hold / Consigned</div><div class="hdesc">กันไว้ให้ลูกค้า / ฝากขาย</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card" style="padding:10px;"><div class="hlabel">Sold</div><div class="hdesc">ขายและส่งของแล้ว</div></div>
+      <div class="hier-arrow">⇄</div>
+      <div class="hier-card" style="padding:10px;"><div class="hlabel">Returned Pending Inspection</div><div class="hdesc">ลูกค้าคืน รอตรวจสอบ</div></div>
+    </div>
+    <div class="data-map" style="padding:10px 22px;margin-top:0;">
+      <div class="data-map-label" style="margin-bottom:4px;">สถานะ → ความหมาย</div>
+      <table class="data-map-table" style="font-size:12.5px;">
+        <tr><th style="padding-bottom:3px;">สถานะ</th><th>ความหมาย</th><th>เปลี่ยนได้จากไหน</th></tr>
+        <tr><td style="padding:4px 10px 4px 0;">Available</td><td>พร้อมขาย</td><td>Kanban ลาก-วาง / Scan Station ย้ายสต็อก</td></tr>
+        <tr><td style="padding:4px 10px 4px 0;">Hold / Consigned</td><td>กันไว้ให้ลูกค้าที่ยังไม่ผ่าน SO / ฝากขาย</td><td>Kanban ลาก-วาง / Scan Station ย้ายสต็อก</td></tr>
+        <tr><td style="padding:4px 10px 4px 0;">Sold</td><td>ขายและส่งของแล้ว — ย้ายจากหน้า Scan Station ไม่ได้</td><td>Delivery จริงเท่านั้น</td></tr>
+        <tr><td style="padding:4px 10px 4px 0;">Cut Loss</td><td>เศษ/ของเสียจากการตัด หรือแผ่นคืนที่ชำรุด</td><td>ตอนตัด หรือหน้า Returns หลังตรวจสอบ</td></tr>
+        <tr><td style="padding:4px 10px 4px 0;">Returned - Pending Inspection</td><td>ลูกค้าคืน รอพนักงานตรวจสภาพก่อนตัดสินใจ</td><td>อัตโนมัติเมื่อ Validate ใบรับคืน</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: ตัดแผ่น — บริบท -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · ตัดแผ่น (Add Slab Line)</div>
+    <h2 class="slide-title">1 แผ่น = 1 Serial Number จริง ไม่ใช่แค่ตัวเลขนับ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Bundle → tab Slabs</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Add a line</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กรอกขนาด (L, H)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Save</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ก้อนหินมาถึงคลังแล้ว (มี Bundle จาก PO ตาม deck การจัดซื้อ) ต้องตัดแผ่นจริงแล้วบันทึกเข้าระบบทีละแผ่น — แต่ละแผ่นในบันเดิลเดียวกันขนาด/ผิวหน้าต่างกัน ลูกค้าอาจเลือกแผ่นเฉพาะเจาะจง</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Slab L / Slab H</td><td>ขนาดจริงที่วัดได้</td><td>Bundle → tab Slabs → Add a line</td></tr>
+        <tr><td>Slab Sqmt</td><td>คำนวณให้อัตโนมัติ</td><td>ฟอร์มเดียวกัน (readonly)</td></tr>
+        <tr><td>Serial Number (Lot)</td><td>สร้างให้อัตโนมัติ — 1 แผ่น = 1 lot จริง</td><td>ไม่ต้องกรอก — ใช้พิมพ์ป้าย/สแกนยืนยันตอนส่งของ</td></tr>
+        <tr><td>Slab No.</td><td>กำหนดไม่ซ้ำกันอัตโนมัติในบันเดิลเดียวกัน</td><td>ไม่ต้องกรอก — ถึงเพิ่มหลายแผ่นพร้อมกันก็ไม่ชนกัน</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2b: ตัดแผ่น — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-2b">
+    <div class="eyebrow">ขั้นตอนที่ 1 · ตัดแผ่น (Add Slab Line)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Bundle → tab "Slabs" → "Add a line"</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กรอกขนาด Slab L / Slab H — Slab Sqmt คำนวณให้อัตโนมัติ สถานะเริ่มต้นเป็น "Available"</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Save — ระบบหัก CBM จากก้อนหินให้อัตโนมัติ (ถ้า Material นั้นมี Block Product ผูกอยู่ มี guard กัน CBM ติดลบ)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ระบบสร้าง Serial Number + Slab No. + stock.move รับแผ่นเข้า location "Stone Available" ให้ครบอัตโนมัติ</span></li>
+        </ul>
+        <div class="note-box"><b>ทำไมต้องมี Serial Number ต่อแผ่น:</b> พนักงานสแกนยืนยันได้ตอนส่งของว่าหยิบแผ่นถูกจริง ไม่ใช่แผ่นอื่นในบันเดิลเดียวกัน</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/05-slab-line-add.png"><div class="shot-cap">เพิ่มแผ่นใหม่ — กรอกขนาด ระบบคำนวณ Sqmt ให้</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/07-slab-kanban-board.png"><div class="shot-cap">Slab Kanban Board — แผ่นใหม่ขึ้นในคอลัมน์ Available</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Kanban/List — ดูภาพรวม -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · ดูภาพรวมสต็อก (Kanban / List)</div>
+    <h2 class="slide-title">ลาก-วางเปลี่ยนสถานะได้เลย ไม่ต้องเปิดฟอร์มทีละแผ่น</h2>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">หัวหน้าคลังอยากเห็นภาพรวมสต็อกทั้งหมดแบบเร็วๆ — ทั้งดูสถานะรวม และดูรายละเอียดของแผ่นใดแผ่นหนึ่งที่ผูกกับลูกค้า/SO ไหนอยู่</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">มุมมอง → ใช้ตอนไหน</div>
+      <table class="data-map-table">
+        <tr><th>มุมมอง</th><th>ใช้ตอนไหน</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Kanban Board</td><td>เปลี่ยนสถานะเร็วๆ แบบ Trello — ลาก-วางการ์ดข้ามคอลัมน์ ระบบ sync stock.move ให้เอง</td><td>Stone Slab → Slabs (ค่าเริ่มต้น)</td></tr>
+        <tr><td>List View</td><td>ดูรายละเอียดทุกแผ่น — Bundle, Slab No., ขนาด, สถานะ, ลูกค้า, เลข SO, Serial Number</td><td>ปุ่มสลับมุมมอง (ขวาบน)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Scan Station เช็คสต็อก — บริบท -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · Scan Station — เช็คสต็อก (นับของจริง)</div>
+    <h2 class="slide-title">เครื่องมือแยกต่างหาก ไม่ต้อง login เข้า Odoo เต็มระบบ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">เข้า /stone-scan</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สแกน Location</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สแกนแผ่นที่เจอจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">"จบรอบนับ" → ดูผล</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">หัวหน้าคลังต้องนับสต็อกจริงประจำงวด เทียบกับที่ระบบคิดว่าควรมี — ใช้เครื่องสแกนบาร์โค้ด (Bluetooth/USB) หน้างานได้เร็ว โดยไม่ต้องไล่หาเมนู Inventory ปกติ</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่สแกน → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่าง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Location</td><td>บาร์โค้ดหน้าโซนจัดเก็บจริง (Available/Hold/Consigned)</td><td>หน้า /stone-scan → โหมดเช็คสต็อก</td></tr>
+        <tr><td>แผ่นที่เจอจริง</td><td>บาร์โค้ดเดียวกับที่พิมพ์ติดแผ่นตอนตัด</td><td>หน้าเดียวกัน — สแกนต่อเนื่องได้เรื่อยๆ</td></tr>
+        <tr><td>ผลลัพธ์</td><td>หาย / เกิน-ผิดที่</td><td>กด "จบรอบนับ" → ดูสรุป หรือ Export Excel</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ระบบไม่แก้ข้อมูลให้อัตโนมัติ:</b> ผลลัพธ์เป็นแค่รายงาน ต้องตรวจสอบเองแล้วไปแก้สถานะแผ่นด้วยมือผ่านหน้า Bundle/Slab ปกติ</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4b: Scan Station เช็คสต็อก — ภาพหน้าจอ -->
+  <section class="slide" id="slide-4b">
+    <div class="eyebrow">ขั้นตอนที่ 3 · Scan Station — เช็คสต็อก (นับของจริง)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เข้า `/stone-scan` (หรือเมนู Stone Slab → Scan Station) → login ด้วยบัญชีตัวเอง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">สแกน Location ที่จะนับ — ระบบเปิด "รอบนับ" ใหม่ทันที</span></li>
+          <li><span class="step-num">3</span><span class="step-text">สแกนแผ่นที่เจอจริงในโซนนั้นไปเรื่อยๆ — สแกนซ้ำไม่นับเพิ่ม, บาร์โค้ดที่ไม่มีในระบบขึ้นแจ้งเตือนไม่กระทบตัวนับ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด "จบรอบนับ" — ดูสรุป Missing/Extra หรือกด Export Excel เก็บเป็นหลักฐาน</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/32-scan-station-take-started.png"><div class="shot-cap">เริ่มรอบนับแล้ว — พร้อมสแกนแผ่นที่เจอจริง</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/34-scan-station-summary.png"><div class="shot-cap">สรุปผล — Missing / Extra เทียบกับที่ระบบคาดไว้</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Scan Station ย้ายสต็อก — บริบท -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · Scan Station — ย้ายสต็อก (Relocate)</div>
+    <h2 class="slide-title">ย้ายแผ่นจริงหน้างาน ระบบกันย้ายผิดพลาดให้ครบ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">สลับโหมด "ย้ายสต็อก"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สแกน Location ปลายทาง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สแกนแผ่นที่จะย้ายทีละแผ่น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ย้ายทันที</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ต้องกันแผ่นไว้ให้ลูกค้าที่มาดูของหน้าร้านโดยยังไม่ผ่าน SO — ย้าย Available → Hold เร็วๆ หน้างาน หรือคืนแผ่นที่กันไว้กลับ Available เมื่อลูกค้าไม่เอาแล้ว</div>
+      </div>
+    </div>
+    <div class="data-map alert">
+      <div class="data-map-label">ขอบเขตที่ตั้งใจไว้ (ป้องกันย้ายผิดพลาด)</div>
+      <table class="data-map-table">
+        <tr><th>กฎ</th><th>รายละเอียด</th></tr>
+        <tr><td>ปลายทางที่สแกนได้</td><td>Available / Hold / Consigned เท่านั้น — Sold มาจาก Delivery จริงเท่านั้น, Cut Loss ต้องตัดสินใจแยกต่างหาก</td></tr>
+        <tr><td>แผ่น Sold / Cut Loss แล้ว</td><td>ย้ายจากหน้านี้ไม่ได้ — ระบบขึ้น error ทันที กันย้อนสถานะขาย/ตัดขาดทุนโดยไม่ตั้งใจ</td></tr>
+        <tr><td>ย้ายข้ามคลัง</td><td>ระบบบล็อก — ปลายทางต้องเป็นคลังเดียวกับที่แผ่นนั้นสังกัดอยู่</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 5b: Scan Station ย้ายสต็อก — ภาพหน้าจอ -->
+  <section class="slide" id="slide-5b">
+    <div class="eyebrow">ขั้นตอนที่ 4 · Scan Station — ย้ายสต็อก (Relocate)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">กดปุ่ม "ย้ายสต็อก" ด้านบนเพื่อสลับโหมด</span></li>
+          <li><span class="step-num">2</span><span class="step-text">สแกน Location ปลายทางที่ต้องการย้ายแผ่นไปอยู่</span></li>
+          <li><span class="step-num">3</span><span class="step-text">สแกนแผ่นที่จะย้ายไปทีละแผ่น — ระบบย้ายให้ทันทีที่สแกนสำเร็จ ไม่ต้องกดยืนยันซ้ำ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">เปลี่ยนปลายทางเมื่อไหร่ก็สแกน Location ใหม่ได้เลย</span></li>
+        </ul>
+        <div class="note-box"><b>สแกนแผ่นที่อยู่ตำแหน่งนั้นอยู่แล้ว?</b> ระบบขึ้น "อยู่ตำแหน่งนี้อยู่แล้ว" เฉยๆ ไม่ทำอะไรซ้ำ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/35-scan-station-move-mode.png"><div class="shot-cap">โหมดย้ายสต็อก</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/36-scan-station-move-destination-set.png"><div class="shot-cap">ตั้ง Location ปลายทางแล้ว — พร้อมสแกนแผ่นที่จะย้าย</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Returns/RMA — บริบท -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นตอนที่ 5 · การคืนสินค้า (Returns / RMA)</div>
+    <h2 class="slide-title">ทางย้อนกลับจาก "Sold" ที่ไม่เคยมีมาก่อน</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">กด Return จากใบส่งของเดิม</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Validate</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สถานะ "Returned - Pending Inspection"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตรวจสอบ + ตัดสินใจ</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">5</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าคืนแผ่นหิน (ผิดขนาด/ชำรุดจากขนส่ง/ยกเลิกงาน) — เดิมสถานะแผ่นค้างเป็น "Sold" ตลอดไป มองไม่เห็นใน Select Slabs wizard ทั้งที่ของจริงกลับเข้าคลังแล้ว</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่ต้องทำ → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ต้องทำยังไง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Return</td><td>ใช้ปุ่ม Return มาตรฐานของ Odoo</td><td>Delivery Order เดิม → ปุ่ม "Return"</td></tr>
+        <tr><td>ตรวจสอบรายการรอตรวจ</td><td>ดูทุกแผ่นที่รอตรวจสอบ ข้าม Bundle ได้ ไม่ต้องเปิดทีละใบ</td><td>Stone Slab → Slabs Pending Inspection</td></tr>
+        <tr><td>ตัดสินใจ</td><td>"ตรวจแล้ว: ขายต่อได้" (→ Available) หรือ "ตรวจแล้ว: ชำรุด" (→ Cut Loss)</td><td>ปุ่มในหน้า list หรือฟอร์มแผ่น</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 6b: Returns/RMA — ภาพหน้าจอ -->
+  <section class="slide" id="slide-6b">
+    <div class="eyebrow">ขั้นตอนที่ 5 · การคืนสินค้า (Returns / RMA)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">พนักงานกดปุ่ม Return มาตรฐานจากใบส่งของเดิม (Delivery Order → Return)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Validate ใบรับคืน — ระบบตรวจจับอัตโนมัติว่าเป็นการคืนสินค้าจริง แล้วเปลี่ยนสถานะแผ่นเป็น "Returned - Pending Inspection" ทันที</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ไปเมนู Slabs Pending Inspection → ตรวจสอบสภาพแผ่นจริง</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กดปุ่มตัดสินใจ — Bundle แต่ละใบก็มีปุ่ม "Returned" (smart button) โชว์จำนวนที่รอตรวจของ Bundle นั้นด้วย</span></li>
+        </ul>
+        <div class="note-box"><b>ทำไมต้องมีขั้นตอนตรวจสอบ ไม่ auto-resolve ทันที:</b> แผ่นหินอาจชำรุดจากการขนส่งจริง ต้องให้คนตรวจสภาพก่อนตัดสินใจเสมอ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/100-returns-pending-inspection-list.png"><div class="shot-cap">รายการแผ่นที่รอตรวจสอบทั้งหมด ข้าม Bundle ได้</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/102-returns-slab-resolved-available.png"><div class="shot-cap">ตรวจแล้ว: ขายต่อได้ — กลับเป็น Available ปกติ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Summary -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">จากตัดแผ่นแรก ถึงรับคืนสินค้า — ครบวงจรสต็อก</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">ตัดแผ่น (Slab)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ดูภาพรวม (Kanban)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เช็ค/ย้ายสต็อก (Scan Station)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">รับคืนสินค้า (Returns)</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
+          <div style="font-size:14.5px;line-height:1.6;">Scan Station ย้ายสต็อกได้เฉพาะ Available/Hold/Consigned — แผ่น Sold/Cut Loss ต้องผ่าน Delivery หรือ Returns เท่านั้น</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ผลนับสต็อกไม่ตรง?</div>
+          <div style="font-size:14.5px;line-height:1.6;">ระบบไม่แก้ให้อัตโนมัติ — Export Excel ส่งหัวหน้าคลังตรวจสอบ แล้วไปแก้เองที่ Bundle/Slab</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 12</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
