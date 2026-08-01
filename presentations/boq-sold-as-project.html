@@ -84,6 +84,15 @@
   .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:12px;}
   .result-table tr.subtotal td{font-weight:700;}
 
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+
   .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
   .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
 
@@ -147,23 +156,40 @@
     </div>
   </section>
 
-  <!-- SLIDE 2: Rate Library -->
+  <!-- SLIDE 2: Rate Library — บริบท -->
   <section class="slide" id="slide-2">
     <div class="eyebrow">ขั้นตอนที่ 1 · สร้าง Rate Library</div>
     <h2 class="slide-title">ตั้งราคาต้นทุน+ขายไว้ครั้งเดียว ใช้ซ้ำได้ทุกโปรเจกต์</h2>
-    <div class="case-box">
-      <div class="case-icon">1</div>
-      <div>
-        <div class="case-text-label">สถานการณ์จริง</div>
-        <div class="case-text">ทีม estimate มีรายการหิน "ST1 Black Emperador polished" ที่ใช้ซ้ำในหลายโปรเจกต์ ราคาต้นทุน 7,080 บาท/ตร.ม. — ถ้าต้นทุนเปลี่ยน ไม่อยากไล่แก้ทุกไฟล์ Excel เอง</div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">เปิด Rate Library → New</span><span class="flow-arrow">→</span>
       <span class="flow-chip">กรอก Item/Unit/Cost</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Total Rate คำนวณอัตโนมัติ</span><span class="flow-arrow">→</span>
       <span class="flow-chip">บันทึก ใช้ซ้ำได้เลย</span>
     </div>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ทีม estimate มีรายการหิน "ST1 Black Emperador polished" ที่ใช้ซ้ำในหลายโปรเจกต์ ราคาต้นทุน 7,080 บาท/ตร.ม. — เดิมพิมพ์ราคานี้ซ้ำในทุกไฟล์ Excel ที่ใช้หินตัวนี้ พอต้นทุนเปลี่ยนต้องไล่เปิดแก้เองทุกไฟล์ เสี่ยงพิมพ์ตกหรือลืมแก้บางไฟล์</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Item Code</td><td>ST1</td><td>BOQ Estimation → Rate Library → New</td></tr>
+        <tr><td>Description</td><td>Black Emperador polished</td><td>ฟอร์มเดียวกัน — ช่อง Description</td></tr>
+        <tr><td>Unit</td><td>ตร.ม.</td><td>ฟอร์มเดียวกัน — ช่อง Unit</td></tr>
+        <tr><td>Material Cost</td><td>7,080 บาท</td><td>ฟอร์มเดียวกัน — ช่อง Material Cost</td></tr>
+        <tr><td>Total Rate</td><td>คำนวณให้อัตโนมัติ</td><td>ฟอร์มเดียวกัน — ช่อง Total Rate (readonly)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2b: Rate Library — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-2b">
+    <div class="eyebrow">ขั้นตอนที่ 1 · สร้าง Rate Library</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
@@ -181,23 +207,41 @@
     </div>
   </section>
 
-  <!-- SLIDE 3: BOQ Document -->
+  <!-- SLIDE 3: BOQ Document — บริบท -->
   <section class="slide" id="slide-3">
     <div class="eyebrow">ขั้นตอนที่ 2 · สร้าง BOQ Document</div>
     <h2 class="slide-title">ใส่รายการทีละ Zone เหมือนที่ทำใน Excel</h2>
-    <div class="case-box">
-      <div class="case-icon">2</div>
-      <div>
-        <div class="case-text-label">สถานการณ์จริง</div>
-        <div class="case-text">ไฟล์ BOQ-ZoneXX มีหลาย Zone (L2 Main Lobby, L4 Main Lobby ฯลฯ) แต่ละ Zone มีรายการหิน+จำนวนของตัวเอง ต้องรวมยอดแยกตาม Zone เหมือนที่ทำใน sheet "รวมเป็นเงิน"</div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">BOQ Documents → New</span><span class="flow-arrow">→</span>
       <span class="flow-chip">กรอก Customer + %</span><span class="flow-arrow">→</span>
       <span class="flow-chip">BOQ Lines: Zone+Rate+Qty</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Save</span>
     </div>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ไฟล์ BOQ-ZoneXX มีหลาย Zone (L2 Main Lobby, L4 Main Lobby ฯลฯ) แต่ละ Zone มีรายการหิน+จำนวนของตัวเอง เดิมต้องรวมยอดแยกตาม Zone เองใน sheet "รวมเป็นเงิน" — พิมพ์สูตรผิดหรือลืมอัปเดตแถวใหม่ก็เกิดขึ้นได้ง่าย</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Customer / Company</td><td>ตามลูกค้าจริง</td><td>BOQ Estimation → BOQ Documents → New — หัวฟอร์ม</td></tr>
+        <tr><td>Preliminaries %</td><td>2%</td><td>หัวฟอร์มเดียวกัน</td></tr>
+        <tr><td>Overhead & Profit %</td><td>10%</td><td>หัวฟอร์มเดียวกัน</td></tr>
+        <tr><td>Zone (Schedule)</td><td>L2 Main Lobby / L4 Main Lobby</td><td>แท็บ BOQ Lines → คอลัมน์ Schedule/Zone</td></tr>
+        <tr><td>Rate Library Item</td><td>ST1 / ST2</td><td>แท็บ BOQ Lines → คอลัมน์ Rate</td></tr>
+        <tr><td>Quantity</td><td>ตร.ม. ตามหน้างานจริง</td><td>แท็บ BOQ Lines → คอลัมน์ Quantity</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 3b: BOQ Document — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-3b">
+    <div class="eyebrow">ขั้นตอนที่ 2 · สร้าง BOQ Document</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
@@ -215,26 +259,40 @@
     </div>
   </section>
 
-  <!-- SLIDE 4: สร้างใบเสนอราคา -->
+  <!-- SLIDE 4: สร้างใบเสนอราคา — บริบท -->
   <section class="slide" id="slide-4">
     <div class="eyebrow">ขั้นตอนที่ 3 · สร้างใบเสนอราคาอัตโนมัติ</div>
     <h2 class="slide-title">กดปุ่มเดียว ได้ใบเสนอราคาตรงกับ Excel เป๊ะ</h2>
-    <div class="case-box">
-      <div class="case-icon">3</div>
-      <div>
-        <div class="case-text-label">สถานการณ์จริง</div>
-        <div class="case-text">BOQ0002 จำลอง 2 Zone จากไฟล์จริง (L2+L4 Main Lobby) — ทดสอบว่าโมดูลคำนวณตรงกับไฟล์ Excel ต้นฉบับหรือไม่ ก่อนเอาไปใช้กับงานจริง</div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">กด "สร้างใบเสนอราคา"</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Sale Order ใหม่ทันที</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Section header ตาม Zone</span><span class="flow-arrow">→</span>
       <span class="flow-chip">ผูกกลับ BOQ Document ต้นทาง</span>
     </div>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">BOQ0002 จำลอง 2 Zone จากไฟล์จริง (L2+L4 Main Lobby) — ทดสอบว่าโมดูลคำนวณตรงกับไฟล์ Excel ต้นฉบับหรือไม่ ก่อนเอาไปใช้กับงานจริง ผลคือยอด L2/L4 ตรงกับไฟล์ต้นฉบับทุกบาท</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลบน BOQ Document → ไป Key ที่ไหนบนใบเสนอราคา</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูลต้นทาง</th><th>ปรากฏยังไง</th><th>ตำแหน่งบนใบเสนอราคา</th></tr>
+        <tr><td>Zone (Schedule)</td><td>รวมยอดต่อ Zone ให้เอง</td><td>Order Lines → Section header</td></tr>
+        <tr><td>Rate × Quantity</td><td>รวมเป็น 1 บรรทัดสรุปต่อ Zone</td><td>Order Lines → บรรทัด "BOQ Summary Line"</td></tr>
+        <tr><td>BOQ Document ต้นทาง</td><td>ผูกกลับอัตโนมัติ (ซ่อนอยู่หลังบ้าน)</td><td>field boq_line_id บนแต่ละบรรทัด</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 4b: สร้างใบเสนอราคา — ผลจริง+ภาพหน้าจอ -->
+  <section class="slide" id="slide-4b">
+    <div class="eyebrow">ขั้นตอนที่ 3 · สร้างใบเสนอราคาอัตโนมัติ</div>
+    <h2 class="slide-title">ผลจริงจากคลิปนี้ (BOQ0002 → S54372)</h2>
     <div class="two-col">
       <div class="col-left">
-        <div class="case-text-label" style="margin-bottom:10px;">ผลจริงจากคลิปนี้ (BOQ0002 → S54372)</div>
         <table class="result-table">
           <tr><td>L2 Main Lobby</td><td>2,033,900.00</td></tr>
           <tr><td>L4 Main Lobby</td><td>8,066,760.00</td></tr>
@@ -251,23 +309,37 @@
     </div>
   </section>
 
-  <!-- SLIDE 5: ผูกสินค้าจริง -->
+  <!-- SLIDE 5: ผูกสินค้าจริง — บริบท -->
   <section class="slide" id="slide-5">
     <div class="eyebrow">ขั้นตอนที่ 4 · ผูกบรรทัดหินกับสินค้าจริง</div>
     <h2 class="slide-title">ฝ่ายปฏิบัติงานกดทำงานต่อได้เลย ไม่ต้องย้อนกลับไปหา Excel</h2>
-    <div class="case-box">
-      <div class="case-icon">4</div>
-      <div>
-        <div class="case-text-label">สถานการณ์จริง</div>
-        <div class="case-text">เดิมทุกบรรทัดในใบเสนอราคาเป็น placeholder "BOQ Summary Line" — พอลูกค้า confirm แล้ว ฝ่ายปฏิบัติงานไม่มีปุ่มอะไรให้กดต่อ ต้องย้อนกลับไปเปิด BOQ Document หรือ Excel ต้นทางเองทุกครั้ง</div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">Rate Library → ผูก Product</span><span class="flow-arrow">→</span>
       <span class="flow-chip">สร้าง BOQ Document ปกติ</span><span class="flow-arrow">→</span>
       <span class="flow-chip">กดสร้างใบเสนอราคา</span><span class="flow-arrow">→</span>
       <span class="flow-chip">บรรทัดกลายเป็นสินค้าจริง</span>
     </div>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">เดิมทุกบรรทัดในใบเสนอราคาเป็น placeholder "BOQ Summary Line" — พอลูกค้า confirm แล้ว ฝ่ายปฏิบัติงานไม่มีปุ่มอะไรให้กดต่อ ต้องย้อนกลับไปเปิด BOQ Document หรือ Excel ต้นทางเองทุกครั้ง เสียเวลาและเสี่ยงหยิบผิดรุ่น</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Product</td><td>Finish variant ของ Material นั้น</td><td>Rate Library → แถว Rate item → ช่อง Product</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ผลที่ตามมาอัตโนมัติ:</b> BOQ Document ใหม่ที่ใช้ Rate นี้ → กด "สร้างใบเสนอราคา" → บรรทัดกลายเป็นสินค้าจริงทันที ไม่ต้องผูกซ้ำทีละใบ</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5b: ผูกสินค้าจริง — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-5b">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ผูกบรรทัดหินกับสินค้าจริง</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
@@ -285,10 +357,16 @@
     </div>
   </section>
 
-  <!-- SLIDE 6: Recompute Price -->
+  <!-- SLIDE 6: Recompute Price — บริบท -->
   <section class="slide" id="slide-6">
     <div class="eyebrow">ขั้นตอนที่ 5 · อย่าลืมกด Recompute Price</div>
     <h2 class="slide-title">เลือกแผ่นจริงแล้ว ราคาเพี้ยน ต้องกดปุ่มนี้ทุกครั้ง</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Select Slabs → Confirm</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคาเพี้ยนตามมาตรฐาน Odoo</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด "Recompute Price (BOQ)"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคากลับมาถูกต้อง</span>
+    </div>
     <div class="case-box">
       <div class="case-icon">5</div>
       <div>
@@ -296,12 +374,20 @@
         <div class="case-text">ฝ่ายปฏิบัติงานกด Select Slabs เลือกแผ่นจริงแล้ว Confirm — ราคาต่อหน่วยถูก Odoo เขียนทับด้วยราคามาตรฐานของสินค้าทันที ยอดรวมตกฮวบจาก 309,470.75 ฿ เหลือ 49,995.75 ฿</div>
       </div>
     </div>
-    <div class="flow-bar">
-      <span class="flow-chip">Select Slabs → Confirm</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">ราคาเพี้ยนตามมาตรฐาน Odoo</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">กด "Recompute Price (BOQ)"</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">ราคากลับมาถูกต้อง</span>
+    <div class="data-map">
+      <div class="data-map-label">ต้องกดปุ่มไหน → อยู่ตรงไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ต้องทำ</th><th>ผลที่เกิด</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Select Slabs / Cut to Order</td><td>จำนวนอัปเดตเป็นแผ่นที่ hold จริง แต่ราคาเพี้ยนชั่วคราว</td><td>Sale Order Line → ปุ่ม "Select Slabs"</td></tr>
+        <tr><td>Recompute Price (BOQ)</td><td>คำนวณใหม่จาก Rate เดิม × ตร.ม.จริง ราคากลับมาถูก</td><td>Sale Order Line → ปุ่ม "Recompute Price (BOQ)"</td></tr>
+      </table>
     </div>
+  </section>
+
+  <!-- SLIDE 6b: Recompute Price — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-6b">
+    <div class="eyebrow">ขั้นตอนที่ 5 · อย่าลืมกด Recompute Price</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
@@ -330,13 +416,20 @@
         <div class="case-text">ต้องส่งเอกสารสรุป BOQ ให้ลูกค้าหรือทีมงานเปรียบเทียบราคา ไม่อยากพิมพ์สกรีนหรือทำตารางเองใหม่ทุกครั้ง</div>
       </div>
     </div>
+    <div class="data-map">
+      <div class="data-map-label">ต้องกดปุ่มไหน → อยู่ตรงไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ต้องทำ</th><th>ได้อะไร</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>พิมพ์ PDF</td><td>เอกสารจัดกลุ่มตาม Zone พร้อม Sub-Total</td><td>BOQ Document → ปุ่ม "Print"</td></tr>
+        <tr><td>Export Excel</td><td>ไฟล์ .xlsx จัดรูปแบบสวย พร้อมส่งลูกค้า</td><td>BOQ Document → ปุ่ม "Export Excel"</td></tr>
+      </table>
+    </div>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">จาก BOQ Document เดียวกัน กดปุ่ม "พิมพ์ PDF" หรือ "Export Excel" ได้ทันที</span></li>
           <li><span class="step-num">2</span><span class="step-text">ทั้งสองแบบจัดกลุ่มตาม Schedule/Zone พร้อม Sub-Total ต่อ Zone</span></li>
           <li><span class="step-num">3</span><span class="step-text">สรุป Direct Cost/Preliminaries/Overhead & Profit/Performance Security/Total ท้ายเอกสารเหมือนกันทั้งสองแบบ</span></li>
-          <li><span class="step-num">4</span><span class="step-text">Excel export ใช้ xlsxwriter สร้างไฟล์จริง ไม่ใช่ export ดิบจาก list view — เปิดแล้วจัดรูปแบบสวยพร้อมส่งลูกค้าได้ทันที</span></li>
         </ul>
       </div>
       <div class="col-right">
@@ -345,23 +438,38 @@
     </div>
   </section>
 
-  <!-- SLIDE 8: Sold as Project -->
+  <!-- SLIDE 8: Sold as Project — บริบท -->
   <section class="slide" id="slide-8">
     <div class="eyebrow">ขั้นตอนที่ 6 · เปิดโหมด "ขายแบบโครงการ"</div>
     <h2 class="slide-title">งานเดียวมีทั้งวัสดุ+ค่าแรง ต้องดูเป็นโครงการเดียวกัน</h2>
-    <div class="case-box">
-      <div class="case-icon">7</div>
-      <div>
-        <div class="case-text-label">สถานการณ์จริง</div>
-        <div class="case-text">งานติดตั้ง Top หินหลายห้อง มีทั้งบรรทัดวัสดุ (หิน) และบรรทัดค่าแรงติดตั้งหน้างาน — อยากรู้กำไรที่แท้จริงของงานนี้รวมกันทั้งก้อน ไม่ใช่แยกดูทีละบรรทัด</div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">เปิด SO</span><span class="flow-arrow">→</span>
       <span class="flow-chip">เพิ่มบรรทัดวัสดุ+ค่าแรง</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Other Info → ติ๊ก "Sold as Project"</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Confirm</span>
     </div>
+    <div class="case-box">
+      <div class="case-icon">7</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">งานติดตั้ง Top หินหลายห้อง มีทั้งบรรทัดวัสดุ (หิน) และบรรทัดค่าแรงติดตั้งหน้างาน — อยากรู้กำไรที่แท้จริงของงานนี้รวมกันทั้งก้อน ไม่ใช่แยกดูทีละบรรทัดเหมือนใบขายทั่วไป</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่กรอก → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่างค่าจริง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>สินค้าบริการค่าแรง</td><td>"ค่าแรงติดตั้งหน้างาน" (Product Type = Service)</td><td>Sales → Products → New</td></tr>
+        <tr><td>บรรทัดวัสดุ+ค่าแรง</td><td>2 บรรทัดในใบขายเดียวกัน</td><td>Quotation → Order Lines</td></tr>
+        <tr><td>Sold as Project</td><td>ติ๊ก ✓</td><td>Quotation → แท็บ Other Info → checkbox "Sold as Project"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 8b: Sold as Project — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-8b">
+    <div class="eyebrow">ขั้นตอนที่ 6 · เปิดโหมด "ขายแบบโครงการ"</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
@@ -379,8 +487,8 @@
     </div>
   </section>
 
-  <!-- SLIDE 8a: BOQ ครบกระบวนการ -> Gantt ตรงกับรายละเอียด -->
-  <section class="slide" id="slide-8a">
+  <!-- SLIDE 8c: BOQ ครบกระบวนการ -> Gantt ตรงกับรายละเอียด -->
+  <section class="slide" id="slide-8c">
     <div class="eyebrow">ผลลัพธ์ · BOQ ครบกระบวนการ → Gantt ตรงกับทุกรายละเอียด</div>
     <h2 class="slide-title">BOQ ยิ่งละเอียด Gantt ก็ยิ่งครบ — 1 บรรทัด BOQ = 1 แท่งงานบน Gantt เสมอ</h2>
     <div class="case-box" style="padding:18px 26px;margin-bottom:16px;">
@@ -411,8 +519,8 @@
     </div>
   </section>
 
-  <!-- SLIDE 8b: Gantt เต็มรูปแบบ -->
-  <section class="slide" id="slide-8b">
+  <!-- SLIDE 8d: Gantt เต็มรูปแบบ -->
+  <section class="slide" id="slide-8d">
     <div class="eyebrow">Gantt Chart · มองเห็นภาพรวมทั้งโครงการในหน้าจอเดียว</div>
     <h2 class="slide-title">แท่งงานเรียงตามลำดับจริง เห็นวันนี้อยู่ตรงไหนของงาน</h2>
     <div class="case-box">
@@ -429,8 +537,8 @@
     </div>
   </section>
 
-  <!-- SLIDE 8c: Milestone ตาม % งาน -->
-  <section class="slide" id="slide-8c">
+  <!-- SLIDE 8e: Milestone ตาม % งาน -->
+  <section class="slide" id="slide-8e">
     <div class="eyebrow">วางบิลเป็นงวด · Milestone ตาม % ความสำเร็จของงาน</div>
     <h2 class="slide-title">3 งวดงาน 30/40/30% ผูกกับจังหวะงานจริง ไม่ใช่วันที่สุ่มเดา</h2>
     <div class="case-box">
@@ -459,19 +567,19 @@
   <section class="slide" id="slide-9">
     <div class="eyebrow">ผลลัพธ์สุดท้าย · ดูกำไรจริงรายโครงการที่ Analytic Account</div>
     <h2 class="slide-title">เห็นกำไรจริงรายโครงการ ไม่ใช่แค่ประมาณการ</h2>
-    <div class="case-box">
-      <div class="case-icon">12</div>
-      <div>
-        <div class="case-text-label">ตัวอย่างจริง — โครงการคอนโดบางโพ (Empire Stone)</div>
-        <div class="case-text">Bundle ผูก Analytic Account → PO ซื้อวัสดุ ฿2,800 (auto-tag ติดโครงการ) → ส่งของจริง 8 แผ่น → Invoice ฿17,120 → กำไรสุทธิที่เห็นจริงใน Analytic Items = <b>+฿13,200</b></div>
-      </div>
-    </div>
     <div class="flow-bar">
       <span class="flow-chip">Confirm SO</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Project+Task+Gantt อัตโนมัติ</span><span class="flow-arrow">→</span>
       <span class="flow-chip">วางบิลเป็นงวด 30/40/30%</span><span class="flow-arrow">→</span>
       <span class="flow-chip">ส่งของแต่ละรายการ</span><span class="flow-arrow">→</span>
       <span class="flow-chip">ดูกำไรที่ Analytic Items</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">12</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง — โครงการคอนโดบางโพ (Empire Stone)</div>
+        <div class="case-text">Bundle ผูก Analytic Account → PO ซื้อวัสดุ ฿2,800 (auto-tag ติดโครงการ) → ส่งของจริง 8 แผ่น → Invoice ฿17,120 → กำไรสุทธิที่เห็นจริงใน Analytic Items = <b>+฿13,200</b></div>
+      </div>
     </div>
     <div class="two-col">
       <div class="col-left">
@@ -523,7 +631,7 @@
 
 <div id="nav">
   <button onclick="go(-1)">‹</button>
-  <span id="pagecount">1 / 14</span>
+  <span id="pagecount">1 / 20</span>
   <button onclick="go(1)">›</button>
 </div>
 
