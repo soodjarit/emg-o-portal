@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BOQ สำหรับทีม Operation หลังลูกค้าตกลงซื้อ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+
+  .not-your-job-row{display:flex;gap:18px;margin-top:8px;}
+  .njob-card{flex:1;background:var(--card);border-radius:14px;padding:22px 20px;position:relative;}
+  .njob-card .njob-x{position:absolute;top:16px;right:18px;width:26px;height:26px;border-radius:50%;background:#D9534F;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .njob-card .njob-title{font-size:16px;font-weight:700;color:var(--charcoal);margin-bottom:8px;padding-right:30px;}
+  .njob-card .njob-desc{font-size:13.5px;line-height:1.5;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · สำหรับทีม Operation</div>
+    <div class="big-title">ลูกค้าตกลงซื้อแล้ว<br>งานของทีม Operation คืออะไร</div>
+    <div class="big-sub">จากใบเสนอราคาที่ Confirm แล้ว ถึงส่งของจริงและออกใบแจ้งหนี้เก็บเงิน</div>
+    <div class="stamp">EMG-O Quickstart · BOQ สำหรับทีม Operation</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · งานของคุณเริ่มหลัง SO Confirmed</div>
+    <h2 class="slide-title">ตัวเลขในใบเสนอราคา ต้องกลายเป็นของจริงในมือลูกค้า</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">ใบเสนอราคาที่ทีมขายปิดงานได้ ถูกลูกค้า confirm แล้ว — แต่บรรทัดยังเป็นแค่ตัวเลขจากใบเสนอราคา ยังไม่ได้ผูกกับแผ่นหินจริงในคลังเลย</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">เลือกแผ่นจริง</div><div class="hdesc">Select Slabs / Cut to Order</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Recompute Price</div><div class="hdesc">แก้ราคาที่เพี้ยนให้ถูกต้อง</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">ส่งของ</div><div class="hdesc">Delivery + สแกน Lot/Serial</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card"><div class="hlabel">Invoice</div><div class="hdesc">ออกใบแจ้งหนี้เก็บเงิน</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="note-box"><b>หลักคิด:</b> ราคาที่ตกลงกับลูกค้าปิดไว้แล้วโดยทีมขาย — งานของคุณคือทำให้ "ของจริง" ตรงกับ "ตัวเลขที่ขายไว้" ทุกขั้นตอน ไม่ใช่คิดราคาใหม่</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/97-boq-quotation-generated.png"><div class="shot-cap">จุดเริ่มต้นของทีม Operation — ใบเสนอราคาที่ลูกค้า confirm แล้ว</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 1b: สิ่งที่ไม่ต้องทำ -->
+  <section class="slide" id="slide-1b">
+    <div class="eyebrow">ก่อนเริ่ม · สิ่งที่ "ไม่ใช่" งานของคุณ</div>
+    <h2 class="slide-title">3 อย่างนี้ทีมอื่นทำไว้ให้แล้ว ไม่ต้องกังวล</h2>
+    <div class="not-your-job-row">
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">คิดราคาขายเอง</div>
+        <div class="njob-desc">ทีมขายปิดราคากับลูกค้าไว้แล้วในใบเสนอราคา — คุณไม่ต้องคำนวณหรือต่อรองราคาใหม่ ทำตามตัวเลขที่ confirm มา</div>
+      </div>
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">ตั้ง Rate หรือสร้างใบเสนอราคาใหม่</div>
+        <div class="njob-desc">Rate Library และ BOQ Document เป็นงานของทีม estimate/ขาย — งานคุณเริ่มหลัง SO confirmed แล้วเท่านั้น</div>
+      </div>
+      <div class="njob-card">
+        <div class="njob-x">✕</div>
+        <div class="njob-title">แก้ตัวเลขในใบเสนอราคาเอง</div>
+        <div class="njob-desc">ถ้าตัวเลขดูแปลกหรือของจริงไม่พอ อย่าแก้ราคา/จำนวนในเอกสารเอง แจ้งหัวหน้าทีมหรือทีมขายให้ตรวจสอบก่อน</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:22px;"><b>สรุป:</b> งานของคุณคือทำให้ของจริงตรงกับตัวเลขในใบเสนอราคา ตั้งแต่เลือกแผ่นจนถึงส่งของและออกใบแจ้งหนี้</div>
+  </section>
+
+  <!-- SLIDE 2: เลือกแผ่นจริง — บริบท -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เลือกแผ่นจริง (Select Slabs / Cut to Order)</div>
+    <h2 class="slide-title">ผูกบรรทัดในใบเสนอราคากับแผ่นจริงในคลัง</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">เปิด SO ที่ Confirm แล้ว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด Select Slabs / Cut to Order</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกแผ่น/สั่งตัด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้าซื้อหิน ST1 จำนวน 8 ตร.ม. ตามใบเสนอราคา — ต้องไปหาแผ่นจริงในคลังมาผูกกับบรรทัดนี้ให้ตรงกับที่ขายไว้ ก่อนจะส่งของได้</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ต้องกดปุ่มไหน → อยู่ตรงไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ต้องทำ</th><th>เมื่อไหร่</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Select Slabs</td><td>มีแผ่นสำเร็จรูปอยู่ในคลังแล้ว</td><td>Sale Order Line → ปุ่ม "Select Slabs"</td></tr>
+        <tr><td>Cut to Order</td><td>ต้องตัดจาก Block ใหม่</td><td>Sale Order Line → ปุ่ม "Cut to Order"</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ตร.ม.ไม่พอดี?</b> เลือกแผ่นที่ใกล้เคียงที่สุด แล้วแจ้งทีมขายถ้าจำนวนจริงต่างจากที่ขายไว้มาก อย่าตัดสินใจเปลี่ยนจำนวนเอง</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2b: เลือกแผ่นจริง — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-2b">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เลือกแผ่นจริง (Select Slabs / Cut to Order)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Sale Order ที่ลูกค้า confirm แล้ว</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ที่บรรทัดหิน กด "Select Slabs" (ถ้ามีแผ่นสำเร็จรูปในคลัง) หรือ "Cut to Order" (ถ้าต้องตัดจาก Block)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เลือกแผ่นที่ต้องการจาก wizard — ระบบโชว์ ตร.ม./สถานะของแต่ละแผ่นให้เลือกตรง</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด Confirm — จำนวนบนบรรทัดอัปเดตเป็นแผ่นที่ hold จริงทันที</span></li>
+        </ul>
+        <div class="note-box"><b>สังเกต:</b> พอเลือกแผ่นเสร็จ ราคาต่อหน่วยจะเปลี่ยนไปเป็นราคามาตรฐานสินค้าชั่วคราว — เป็นเรื่องปกติ ไปแก้ที่ขั้นตอนถัดไป</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/108-boq-select-slabs-confirmed.png"><div class="shot-cap">เลือกแผ่นจริงแล้ว — จำนวนอัปเดตเป็นแผ่นที่ hold จริง</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Recompute Price — บริบท -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · อย่าลืมกด Recompute Price</div>
+    <h2 class="slide-title">เลือกแผ่นจริงแล้ว ราคาเพี้ยน ต้องกดปุ่มนี้ทุกครั้ง</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Select Slabs → Confirm</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคาเพี้ยนตามมาตรฐาน Odoo</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด "Recompute Price (BOQ)"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ราคากลับมาถูกต้อง</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">2</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">พอเลือกแผ่นจริงและ Confirm แล้ว ราคาต่อหน่วยถูก Odoo เขียนทับด้วยราคามาตรฐานของสินค้าทันที ยอดรวมตกฮวบจาก 309,470.75 ฿ เหลือ 49,995.75 ฿ — ถ้าไม่แก้ ใบแจ้งหนี้จะผิดจากที่ตกลงกับลูกค้า</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ต้องกดปุ่มไหน → อยู่ตรงไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ต้องทำ</th><th>ผลที่เกิด</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Recompute Price (BOQ)</td><td>คำนวณใหม่จาก Rate เดิม × ตร.ม.จริง ราคากลับมาถูก</td><td>Sale Order Line → ปุ่ม "Recompute Price (BOQ)"</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>สำคัญที่สุดในทั้งขั้นตอน:</b> ต้องกดทุกครั้งหลัง Select Slabs/Cut to Order — ลืมกดแล้วส่งของ/ออก Invoice ต่อ ลูกค้าจะโดนเรียกเก็บผิดราคา</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3b: Recompute Price — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-3b">
+    <div class="eyebrow">ขั้นตอนที่ 2 · อย่าลืมกด Recompute Price</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">หลัง Select Slabs/Cut to Order เสร็จ ให้เช็คราคาต่อหน่วยทันที — ถ้าเปลี่ยนไปจากที่ควรจะเป็น ให้ทำขั้นต่อไป</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กดปุ่ม "Recompute Price (BOQ)" ที่บรรทัดเดียวกัน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ราคากลับมาตรงกับ Rate เดิม × ตร.ม.ของแผ่นที่ hold จริงทันที</span></li>
+          <li><span class="step-num">4</span><span class="step-text">เช็คยอดรวมท้ายใบเสนอราคาอีกครั้งก่อนไปขั้นตอนส่งของ</span></li>
+        </ul>
+        <div class="note-box"><b>ทำเป็นนิสัย:</b> ทุกครั้งที่กด Select Slabs/Cut to Order ให้กด Recompute Price ตามทันทีเป็นคู่กันเสมอ ไม่ใช่แค่ครั้งแรก</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/109-boq-recompute-price.png"><div class="shot-cap">กด Recompute Price (BOQ) — ราคากลับมาถูกต้อง</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: ส่งของ — บริบท -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · ส่งของ (Delivery)</div>
+    <h2 class="slide-title">ยืนยันว่าแผ่นที่ส่งจริง ตรงกับที่ระบบ hold ไว้</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">SO → smart button "Delivery"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สแกน Lot/Serial</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตรวจให้ตรงทุกแผ่น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Validate</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ลูกค้านัดรับของหน้างาน — ต้องยืนยันว่าแผ่นที่ส่งจริงตรงกับที่ hold ไว้ในระบบทีละแผ่น (แต่ละแผ่นมี Lot/Serial ของตัวเอง ไม่ใช่สินค้าทั่วไปที่สลับกันได้)</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่ต้องทำ → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ต้องทำยังไง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Delivery</td><td>สร้างอัตโนมัติหลัง SO Confirm</td><td>Sale Order → smart button "Delivery"</td></tr>
+        <tr><td>Lot / Serial</td><td>สแกน/เลือกแผ่นจริงให้ตรงกับที่ระบบ hold</td><td>Delivery → Detailed Operations → ช่อง Lot/Serial</td></tr>
+        <tr><td>Validate</td><td>กดยืนยันหลังตรวจครบทุกแผ่น</td><td>Delivery → ปุ่ม "Validate"</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 4b: ส่งของ — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-4b">
+    <div class="eyebrow">ขั้นตอนที่ 3 · ส่งของ (Delivery)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Sale Order → กด smart button "Delivery"</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ในแท็บ Detailed Operations สแกนหรือเลือก Lot/Serial ของแต่ละแผ่นให้ตรงกับที่ hold ไว้จริง</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ถ้า Serial ว่าง/ไม่ตรง ห้ามกด Validate ทันที — ตรวจสอบแผ่นจริงกับระบบก่อน</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ครบทุกแผ่นแล้วกด "Validate" — สถานะ Delivery เปลี่ยนเป็น Done</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/14-so-confirmed-delivery.png"><div class="shot-cap">SO confirmed พร้อม smart button Delivery</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/24-delivery-moves-scanned-serial-filled.png"><div class="shot-cap">สแกน Serial ครบแล้ว พร้อม Validate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Invoice — บริบท -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ออกใบแจ้งหนี้ (Invoice)</div>
+    <h2 class="slide-title">ส่งของแล้ว ต้องออกใบแจ้งหนี้เพื่อเก็บเงินจริง</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">SO → ปุ่ม "Create Invoice"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกโหมด Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตรวจยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm ส่งลูกค้า</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ส่งของครบแล้ว ฝ่ายบัญชีรอใบแจ้งหนี้เพื่อเก็บเงินจากลูกค้า — บางงานเก็บเต็มจำนวนครั้งเดียว บางงานแบ่งเก็บเป็นงวด</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่ต้องทำ → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่าง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>Create Invoice</td><td>กดหลังส่งของแล้ว</td><td>Sale Order → ปุ่ม "Create Invoice"</td></tr>
+        <tr><td>โหมด Invoice</td><td>Regular (เต็มจำนวน) หรือ Down Payment (แบ่งงวด)</td><td>Wizard ที่เด้งขึ้นมาตอนกดปุ่ม</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>ไม่แน่ใจว่าต้องแบ่งงวดไหม?</b> เช็คเงื่อนไขการชำระที่ตกลงกับลูกค้าในใบเสนอราคา หรือถามทีมขาย/บัญชีก่อนออกจริง</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5b: Invoice — ขั้นตอน+ภาพหน้าจอ -->
+  <section class="slide" id="slide-5b">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ออกใบแจ้งหนี้ (Invoice)</div>
+    <h2 class="slide-title">รายละเอียดขั้นตอน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Sale Order ที่ส่งของแล้ว → กดปุ่ม "Create Invoice"</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือกโหมด Regular Invoice หรือ Down Payment ตามเงื่อนไขที่ตกลงกับลูกค้า</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ตรวจยอดในหน้า Draft Invoice ให้ตรงกับใบเสนอราคาก่อน Confirm</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Confirm แล้วส่งให้ลูกค้า — จบงานของทีม Operation สำหรับบรรทัดนี้</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/84-gap2-create-invoice-wizard.png"><div class="shot-cap">Wizard ตอนกด Create Invoice — เลือกโหมด Invoice</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: ถ้าเป็นงานโครงการ -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ถ้างานนี้ติ๊ก Sold as Project ไว้</div>
+    <h2 class="slide-title">มีอีก 2 อย่างเพิ่ม — ติดตาม Gantt + วางบิลเป็นงวด</h2>
+    <div class="case-box">
+      <div class="case-icon">+</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">งานติดตั้งใหญ่ที่ทีมขายติ๊ก "Sold as Project" ไว้ตอนขาย — นอกจากเลือกแผ่น+ส่งของ+Invoice แล้ว ยังต้องตั้งวันงานให้ขึ้น Gantt และวางบิลเป็นงวดตามที่ตกลง</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อมูลที่ต้องทำ → Key ที่ไหนใน Odoo</div>
+      <table class="data-map-table">
+        <tr><th>ข้อมูล</th><th>ตัวอย่าง</th><th>ตำแหน่งใน Odoo</th></tr>
+        <tr><td>วันเริ่ม/จบของแต่ละ Task</td><td>ตามแผนงานหน้างานจริง</td><td>Project → Task → ช่อง Start/End Date (ต้องตั้งก่อนถึงขึ้น Gantt)</td></tr>
+        <tr><td>วางบิลเป็นงวด</td><td>เช่น 30/40/30%</td><td>Sale Order → Create Invoice → Down Payment Wizard</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>Milestone ≠ ใบแจ้งหนี้:</b> Milestone badge บนการ์ดโปรเจกต์ใช้ติดตามความคืบหน้าเท่านั้น การวางบิลจริงต้องทำผ่าน Down Payment Wizard แยกกัน</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Summary -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">4 ขั้นตอนของทีม Operation — จากใบเสนอราคาถึงเก็บเงินจริง</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">เลือกแผ่นจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Recompute Price</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ส่งของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Invoice</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ห้ามลืมเด็ดขาด</div>
+          <div style="font-size:14.5px;line-height:1.6;">กด Recompute Price ทุกครั้งหลัง Select Slabs/Cut to Order — ลืมกดแล้วลูกค้าจะโดนเรียกเก็บผิดราคาจากที่ตกลงกันไว้</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ติดปัญหาระหว่างทำ</div>
+          <div style="font-size:14.5px;line-height:1.6;">ตร.ม.ไม่พอ / Serial ไม่ตรง / ไม่แน่ใจโหมด Invoice — แจ้งหัวหน้าทีมหรือทีมขายได้เสมอ อย่าตัดสินใจเปลี่ยนตัวเลขเอง</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 13</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
