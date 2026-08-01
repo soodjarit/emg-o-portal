@@ -21,8 +21,20 @@
   .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
   h1{font-size:36px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
   .sub{font-size:16px;color:#6B6E70;line-height:1.6;max-width:620px;}
+
   .group{margin-bottom:40px;}
   .group-title{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:14px;}
+
+  .category{margin-bottom:56px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:23px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:14px;color:#9A9D9F;}
+  .category-empty{background:var(--card);border:1.5px dashed var(--border);border-radius:14px;padding:22px;font-size:14px;color:#9A9D9F;text-align:center;}
+
+  .subgroup{margin:22px 0 4px 0;padding-left:16px;border-left:3px solid var(--copper);}
+  .subgroup-title{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:12px;}
+  .subgroup-sub{font-size:12.5px;color:#9A9D9F;font-weight:400;text-transform:none;letter-spacing:0;margin-left:6px;}
+
   .card{
     display:flex;align-items:center;gap:18px;
     background:var(--card);border:1px solid var(--border);border-radius:14px;
@@ -33,8 +45,9 @@
   .icon{
     flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);
     color:#fff;display:flex;align-items:center;justify-content:center;
-    font-size:18px;font-weight:700;font-family:Cambria,serif;
+    font-size:16px;font-weight:700;font-family:Cambria,serif;
   }
+  .subgroup .icon{background:var(--charcoal);}
   .card-title{font-size:17px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
   .card-desc{font-size:14px;color:#787B7D;line-height:1.5;}
   .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
@@ -50,7 +63,7 @@
   </header>
 
   <div class="group">
-    <div class="group-title">คู่มือการใช้งาน</div>
+    <div class="group-title">ภาพรวม</div>
     <a class="card" href="manual/emg-o-manual.html">
       <div class="icon">M</div>
       <div>
@@ -59,78 +72,98 @@
       </div>
       <div class="arrow">→</div>
     </a>
-  </div>
-
-  <div class="group">
-    <div class="group-title">สไลด์อบรม (Training Presentation)</div>
     <a class="card" href="presentations/emg-o-training-presentation.html">
-      <div class="icon">1</div>
+      <div class="icon">O</div>
       <div>
         <div class="card-title">ภาพรวมระบบ EMG-O</div>
         <div class="card-desc">รับหินเข้าคลัง → ตัดแผ่น → ขาย → ส่งของ — ยกตัวอย่างสถานการณ์จริงก่อน แล้วค่อยพาไปดูหน้าจอทีละขั้นตอน</div>
       </div>
       <div class="arrow">→</div>
     </a>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <div class="category-title">Demand Generation</div>
+      <div class="category-sub">สร้างดีมานด์ — การตลาด, CRM, เสนอราคา, ปิดการขาย</div>
+    </div>
+
     <a class="card" href="presentations/product-concepts.html">
-      <div class="icon">2</div>
+      <div class="icon">1</div>
       <div>
         <div class="card-title">4 โหมดการขาย (Product Concepts)</div>
         <div class="card-desc">หินก้อนนำเข้า / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ BOQ — พร้อมตัวอย่างจริงและกำไรจริงรายโครงการ</div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/boq-sold-as-project.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">BOQ Estimation + Sold-as-Project</div>
-        <div class="card-desc">Rate Library → BOQ Document → ใบเสนอราคา → ผูกสินค้าจริง → Project + Gantt + วางบิลเป็นงวด → ดูกำไรจริง</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="presentations/website-crm-lead-capture.html">
-      <div class="icon">4</div>
+      <div class="icon">2</div>
       <div>
         <div class="card-title">ติดต่อลูกค้าและ CRM</div>
         <div class="card-desc">ฟอร์มหน้าเว็บ → Opportunity เข้า Pipeline อัตโนมัติ → Contact สร้าง/เชื่อมให้เอง — ไม่ต้องพิมพ์ข้อมูลซ้ำ</div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/boq-quickstart-sales.html">
-      <div class="icon">5</div>
-      <div>
-        <div class="card-title">BOQ สำหรับทีมขายมือใหม่ (Quickstart)</div>
-        <div class="card-desc">สมมติว่า Rate Library มีคนเตรียมไว้ให้หมดแล้ว — เหลือแค่ 3 ขั้นตอนที่ sale ต้องทำจริง จนถึงพิมพ์/ส่งออกให้ลูกค้า</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/boq-quickstart-operations.html">
-      <div class="icon">6</div>
-      <div>
-        <div class="card-title">BOQ สำหรับทีม Operation (หลังลูกค้าตกลงซื้อ)</div>
-        <div class="card-desc">เลือกแผ่นจริง → Recompute Price → ส่งของ → ออกใบแจ้งหนี้ — งานต่อจากที่ทีมขายส่งมอบมา</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/boq-quickstart-setup.html">
-      <div class="icon">7</div>
-      <div>
-        <div class="card-title">เตรียมระบบ BOQ ให้ทีมขายใช้งานได้ (สำหรับ Estimate)</div>
-        <div class="card-desc">ตั้ง Rate Library → ผูก Product → ทดสอบก่อนปล่อยใช้จริง — สิ่งที่ต้องทำก่อนทีมขายจะเริ่มใช้ deck Quickstart ได้</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
+
+    <div class="subgroup">
+      <div class="subgroup-title">BOQ Estimation <span class="subgroup-sub">— ตั้งแต่เตรียมระบบ ปิดการขาย จนถึงส่งมอบ</span></div>
+      <a class="card" href="presentations/boq-sold-as-project.html">
+        <div class="icon">B1</div>
+        <div>
+          <div class="card-title">BOQ Estimation + Sold-as-Project (ฉบับเต็ม)</div>
+          <div class="card-desc">Rate Library → BOQ Document → ใบเสนอราคา → ผูกสินค้าจริง → Project + Gantt + วางบิลเป็นงวด → ดูกำไรจริง</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="presentations/boq-quickstart-sales.html">
+        <div class="icon">B2</div>
+        <div>
+          <div class="card-title">สำหรับทีมขายมือใหม่ (Quickstart)</div>
+          <div class="card-desc">สมมติว่า Rate Library มีคนเตรียมไว้ให้หมดแล้ว — เหลือแค่ 3 ขั้นตอนที่ sale ต้องทำจริง จนถึงพิมพ์/ส่งออกให้ลูกค้า</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="presentations/boq-quickstart-operations.html">
+        <div class="icon">B3</div>
+        <div>
+          <div class="card-title">สำหรับทีม Operation (หลังลูกค้าตกลงซื้อ)</div>
+          <div class="card-desc">เลือกแผ่นจริง → Recompute Price → ส่งของ → ออกใบแจ้งหนี้ — งานต่อจากที่ทีมขายส่งมอบมา</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="presentations/boq-quickstart-setup.html">
+        <div class="icon">B4</div>
+        <div>
+          <div class="card-title">เตรียมระบบให้ทีมขายใช้งานได้ (สำหรับ Estimate)</div>
+          <div class="card-desc">ตั้ง Rate Library → ผูก Product → ทดสอบก่อนปล่อยใช้จริง — สิ่งที่ต้องทำก่อนทีมขายจะเริ่มใช้ deck Quickstart ได้</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="manual/boq-examples.html">
+        <div class="icon">B5</div>
+        <div>
+          <div class="card-title">ตัวอย่าง BOQ 5 แบบ</div>
+          <div class="card-desc">ตัวอย่างใบเสนอราคาจริงจากงานหน้างานประเภทต่างๆ</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
   </div>
 
-  <div class="group">
-    <div class="group-title">ตัวอย่างประกอบ (Examples)</div>
-    <a class="card" href="manual/boq-examples.html">
-      <div class="icon">8</div>
-      <div>
-        <div class="card-title">ตัวอย่าง BOQ 5 แบบ</div>
-        <div class="card-desc">ตัวอย่างใบเสนอราคาจริงจากงานหน้างานประเภทต่างๆ</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
+  <div class="category">
+    <div class="category-header">
+      <div class="category-title">Ensure Supply</div>
+      <div class="category-sub">จัดหาและบริหารสต็อกให้พร้อมส่งมอบ</div>
+    </div>
+    <div class="category-empty">ยังไม่มีสไลด์ในหมวดนี้ — จะทยอยเพิ่มเร็วๆ นี้</div>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <div class="category-title">Management &amp; Accounting</div>
+      <div class="category-sub">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
+    </div>
+    <div class="category-empty">ยังไม่มีสไลด์ในหมวดนี้ — จะทยอยเพิ่มเร็วๆ นี้</div>
   </div>
 
   <footer>Empire Stone Internal System — จัดทำโดยทีมงาน</footer>
