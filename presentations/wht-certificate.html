@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .warn-box{background:#FDECEA;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#7A2E22;margin-top:10px;}
+  .warn-box b{color:#B3261E;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:14px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+  .data-map.alert{border-left-color:#B3261E;}
+  .data-map.alert .data-map-label{color:#B3261E;}
+  .data-map.alert .data-map-table td:last-child{color:#B3261E;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">50<span style="font-size:14px;">ทวิ</span></div>
+    <div class="eyebrow">Empire Granite · Management &amp; Accounting</div>
+    <div class="big-title">ใบรับรองหัก ณ ที่จ่าย<br>(WHT Certificate)</div>
+    <div class="big-sub">พิมพ์แบบ 50 ทวิ ได้จากบิลผู้ขายโดยตรง — ไม่ต้องตั้งค่าอัตราภาษีเพิ่ม เพราะมีอยู่ในระบบแล้ว</div>
+    <div class="stamp">EMG-O Overview · WHT Certificate</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · โจทย์คืออะไร</div>
+    <h2 class="slide-title">หักภาษีลูกค้าแล้ว ต้องมีหลักฐานให้ผู้รับเงิน</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">เวลาบริษัทจ่ายเงินค่าบริการ/ค่าเช่า/ค่าจ้างทำของ แล้วต้อง<b>หักภาษี ณ ที่จ่าย</b>ตามกฎหมาย ผู้จ่ายเงินมีหน้าที่ออก<b>หนังสือรับรองการหักภาษี ณ ที่จ่าย (แบบ 50 ทวิ)</b> ให้ผู้รับเงินไว้เป็นหลักฐานเสมอ — เดิมไม่มีปุ่มพิมพ์เอกสารนี้ ต้องทำมือแยกนอกระบบ</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ข้อควรรู้ก่อนเริ่ม</div>
+      <table class="data-map-table">
+        <tr><th>เรื่อง</th><th>รายละเอียด</th></tr>
+        <tr><td>อัตราภาษีมีอยู่แล้ว</td><td>1% / 2% / 3% / 5% ทั้งแบบนิติบุคคล (PND53) และบุคคลธรรมดา (PND3) — เป็นของมาตรฐาน Odoo (l10n_th) อยู่แล้ว <b>ไม่ต้องตั้งค่าเพิ่ม</b></td></tr>
+        <tr><td>สิ่งที่เพิ่มเข้ามา</td><td>แค่<b>ปุ่มพิมพ์เอกสาร</b>บนบิลผู้ขาย — ดึงข้อมูลที่มีอยู่แล้วมาจัดฟอร์มให้ครบตามกฎหมาย</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Flow overview -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ภาพรวม Flow</div>
+    <h2 class="slide-title">บันทึกบิลปกติ → Post → กดพิมพ์ได้เลย</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">บันทึกบิล + เลือกภาษี WHT</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Post บิล</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปุ่ม "Print WHT Certificate" โผล่</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด → ได้ PDF ทันที</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">✓</div>
+      <div>
+        <div class="case-text-label">พูดกับลูกค้าอย่างนี้ได้เลย</div>
+        <div class="case-text">"ไม่ต้องเปิดฟอร์มแยกไปกรอกซ้ำ — บันทึกบิลผู้ขายเหมือนเดิมทุกอย่าง แค่เลือกภาษีหัก ณ ที่จ่ายที่มีอยู่แล้วให้ถูกอัตรา ระบบจะจัดฟอร์ม 50 ทวิ ให้พร้อมพิมพ์เอง ไม่ต้องคีย์ข้อมูลซ้ำที่ไหนอีก"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: อัตราภาษีที่มีอยู่แล้ว -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นที่ 1 · อัตราภาษีที่มีอยู่แล้ว</div>
+    <h2 class="slide-title">เลือกอัตราให้ตรงตอนบันทึกบิล — ไม่ต้องตั้งค่าเพิ่ม</h2>
+    <div class="data-map">
+      <div class="data-map-label">อัตราหัก ณ ที่จ่าย ที่มีอยู่ในระบบ</div>
+      <table class="data-map-table">
+        <tr><th>อัตรา</th><th>ใช้กับ</th></tr>
+        <tr><td>1%</td><td>ค่าขนส่ง</td></tr>
+        <tr><td>2%</td><td>ค่าโฆษณา</td></tr>
+        <tr><td>3%</td><td>ค่าจ้างทำของ / ค่าบริการ</td></tr>
+        <tr><td>5%</td><td>ค่าเช่า</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>แต่ละอัตรามี 2 เวอร์ชัน</b> — นิติบุคคล (PND53) กับบุคคลธรรมดา (PND3) — เลือกให้ตรงกับสถานะผู้รับเงินตอนกรอกบรรทัดสินค้า/บริการในบิล</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: บันทึกบิลผู้ขาย -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นที่ 2 · บันทึกบิลผู้ขาย</div>
+    <h2 class="slide-title">ตัวอย่างจริง: ค่าจ้างขัดผิวหน้าหิน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">บันทึกบิลผู้ขายตามปกติ — บิลนี้: ค่าจ้างขัดผิวหน้าหิน ฿15,000 จาก "ช่างขัดหินไทย" (บุคคลธรรมดา รับจ้างบริการ)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือกภาษี VAT 7% + ภาษีหัก ณ ที่จ่าย "3% WH" ในบรรทัดสินค้า</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด Confirm/Post ตามปกติ</span></li>
+        </ul>
+        <div class="note-box"><b>ผลลัพธ์ทางบัญชีถูกต้องอัตโนมัติ:</b> ยอดที่ต้องจ่ายจริง (Amount Due) หักลบด้วย WHT ให้เอง — ตัด Trade Payables ออก (ยอดรวม + VAT − WHT) พร้อมลงบัญชี "ภาษีหัก ณ ที่จ่ายค้างนำส่ง" แยกไว้อีกบัญชี ตรงตามหลักบัญชีภาษีไทย ไม่ต้องปรับเอง</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/121-wht-vendor-bill-form.png"><div class="shot-cap">บิลผู้ขาย Posted แล้ว — เห็นภาษี WHT 3% + ปุ่ม "Print WHT Certificate"</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: พิมพ์หนังสือรับรอง -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นที่ 3 · พิมพ์หนังสือรับรอง</div>
+    <h2 class="slide-title">กดปุ่มเดียว ได้ PDF ครบทุกช่องทันที</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="data-map" style="margin-top:0;">
+          <div class="data-map-label">ข้อมูลที่กรอกให้อัตโนมัติ</div>
+          <table class="data-map-table">
+            <tr><th>ช่องในเอกสาร</th><th>ที่มา</th></tr>
+            <tr><td>เลขที่หนังสือรับรอง</td><td>เลขรันอัตโนมัติ (เช่น WHT-2026-0002)</td></tr>
+            <tr><td>ผู้จ่าย/ผู้รับเงิน</td><td>บริษัท + Vendor ในบิล (ชื่อ/ที่อยู่/เลขผู้เสียภาษี)</td></tr>
+            <tr><td>จำนวนเงิน/อัตรา/ภาษีที่หัก</td><td>คำนวณจากบรรทัดสินค้าที่ติดภาษี WHT</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/122-wht-certificate-printed.png"><div class="shot-cap">PDF หนังสือรับรองหัก ณ ที่จ่าย ตามแบบ 50 ทวิ — พิมพ์ให้ผู้รับเงินได้ทันที</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: เลขที่หนังสือรับรอง -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">เกร็ดที่ควรรู้ · เลขที่หนังสือรับรอง</div>
+    <h2 class="slide-title">เลขรันกลาง ไม่แยกตามบริษัท (ตั้งใจ)</h2>
+    <div class="data-map">
+      <div class="data-map-label">ทำไมถึงต่างจากเลขที่ใบแจ้งหนี้/PO</div>
+      <table class="data-map-table">
+        <tr><th>เอกสาร</th><th>รูปแบบเลขรัน</th></tr>
+        <tr><td>ใบแจ้งหนี้ / PO</td><td>แยกเลขรันตามบริษัท (Empire Granite, Empire Stone คนละชุด)</td></tr>
+        <tr><td>หนังสือรับรอง WHT</td><td>เลขรันกลางชุดเดียว (เช่น <b>WHT-2026-0002</b>) — ไม่แยกตามบริษัท</td></tr>
+      </table>
+      <div class="note-box" style="margin-top:12px;"><b>เหตุผล:</b> กฎหมายไม่ได้บังคับให้เลขหนังสือรับรองต้องแยกเป็นชุดต่อบริษัท และการทำเป็นเลขรันกลางยังช่วยกันปัญหาเลขรันสร้างผิดบริษัทแบบที่เคยเจอกับเอกสารอื่นในระบบมาก่อนด้วย</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ข้อควรระวัง -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ข้อควรระวัง</div>
+    <h2 class="slide-title">2 เรื่องที่ทีมบัญชีต้องรู้ล่วงหน้า</h2>
+    <div class="data-map alert">
+      <div class="data-map-label">⚠️ ต้องเช็คก่อนใช้เอกสารจริง</div>
+      <table class="data-map-table">
+        <tr><th>เรื่อง</th><th>รายละเอียด</th></tr>
+        <tr><td>"ประเภทเงินได้" เป็นการเดา</td><td>ระบบอ่านตัวอักษรท้ายชื่อภาษี (T/A/S/R) แปลเป็นหมวดค่าขนส่ง/โฆษณา/บริการ/เช่าให้อัตโนมัติ — เป็นการอนุมานตามรูปแบบชื่อภาษีในระบบนี้เท่านั้น <b>ไม่ใช่การจัดหมวดตามกฎหมายที่ครบถ้วน</b> นักบัญชีต้องตรวจทานช่องนี้ทุกครั้งก่อนใช้กับสรรพากรจริง</td></tr>
+        <tr><td>ปุ่มพิมพ์ไม่โผล่ 2 กรณี</td><td>(1) บิลยังเป็น Draft (ยังไม่ Post) หรือ (2) บิลนี้ไม่มีบรรทัดไหนติดภาษี WHT เลย — ทั้ง 2 กรณีถือว่าปกติ ไม่ใช่บั๊ก</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Summary -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">บันทึกบิลปกติ — พิมพ์ 50 ทวิ ได้จากปุ่มเดียว</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">เลือกภาษี WHT ที่มีอยู่แล้ว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Post บิล</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">กด Print WHT Certificate</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">PDF พร้อมพิมพ์</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
+          <div style="font-size:14.5px;line-height:1.6;">ตรวจสอบช่อง "ประเภทเงินได้" ทุกครั้งก่อนส่งเอกสารจริง — ระบบเดาจากชื่อภาษี ไม่ใช่การจัดหมวดตามกฎหมายที่สมบูรณ์</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าถามว่า "ต้องตั้งค่าอัตราภาษีเองไหม"</div>
+          <div style="font-size:14.5px;line-height:1.6;">ไม่ต้อง — อัตรา 1/2/3/5% ทั้ง PND53/PND3 มีอยู่ในระบบพร้อมใช้แล้ว เลือกให้ตรงตอนบันทึกบิลได้เลย</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
