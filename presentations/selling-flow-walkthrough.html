@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ขายแผ่นสำเร็จรูป — ขั้นตอน Live Demo — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:32px;margin:0 0 22px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:56px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:26px 30px;margin-bottom:24px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
+
+  /* Flow bar */
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:22px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13.5px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-chip.hl{background:var(--copper);}
+  .flow-arrow{color:var(--copper);font-size:18px;margin:0 8px;font-weight:700;}
+
+  /* Body two-col */
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15.5px;line-height:1.5;padding-top:3px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:16px 20px;font-size:14.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+
+  .hier-row{display:flex;gap:14px;margin:18px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;}
+  .hier-card .hlabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:14px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .result-table td{padding:8px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;font-variant-numeric:tabular-nums;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:12px;}
+
+  .doc-chain{display:flex;align-items:center;gap:0;margin:22px 0;flex-wrap:wrap;}
+  .doc-card{background:var(--card);border-radius:12px;padding:16px 20px;text-align:center;min-width:140px;}
+  .doc-card .dlabel{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .doc-card .dval{font-size:16px;font-weight:700;color:var(--text);}
+  .doc-card .dsub{font-size:12px;color:var(--muted);margin-top:4px;}
+  .doc-arrow{color:var(--copper);font-size:22px;font-weight:700;margin:0 14px;}
+
+  .checklist{list-style:none;margin:0;padding:0;}
+  .checklist li{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;background:rgba(255,255,255,.06);border-radius:12px;padding:16px 20px;}
+  .checklist .num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--copper);color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Cambria,serif;}
+  .checklist .ctext{font-size:15.5px;line-height:1.5;color:var(--stone);}
+  .checklist .ctext b{color:#D9A465;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">พาลูกค้าดูสด<br>ขายแผ่นสำเร็จรูป</div>
+    <div class="big-sub">คู่มือขั้นตอนสำหรับพรีเซนต์กับลูกค้า — ตั้งแต่เลือกแผ่นในสต็อกจริง จนถึงส่งของและเซ็นรับ พร้อมจุดที่ห้ามลืมระหว่างทาง</div>
+    <div class="stamp">EMG-O Manual ch.4-6 · Select Slabs → Confirm → Invoice → Delivery</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · สิ่งที่จะโชว์ลูกค้าวันนี้</div>
+    <h2 class="slide-title">1 วงจรต่อเนื่อง จากใบเสนอราคา ถึงส่งของถึงมือลูกค้า</h2>
+    <div class="case-box">
+      <div class="case-icon">i</div>
+      <div>
+        <div class="case-text-label">ทำไมควรโชว์ครบวงจรในครั้งเดียว</div>
+        <div class="case-text">ลูกค้าจะเห็นว่าทุกขั้นตอน — เลือกแผ่นจริงจากสต็อก, ตั้งราคา, ออกใบแจ้งหนี้, จนถึงส่งของ — เชื่อมกันเป็นเรื่องเดียว ไม่มีจุดไหนต้องกรอกซ้ำหรือกระทบยอดเอง ทุกตัวเลขตรงกันตลอดสาย</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">1. เพิ่มสินค้าในใบเสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">2. Select Slabs</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">3. Confirm SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">4. Create Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">5. ส่งของ + สแกน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">6. เซ็นรับ</span>
+    </div>
+    <div class="note-box"><b>มีจุดต้องระวัง 3 จุด</b> ระหว่างทางที่พรีเซนเตอร์ควรรู้ล่วงหน้า (สรุปรวมไว้ในสไลด์สุดท้าย) — จะได้อธิบายลูกค้าได้ทันทีว่าเป็นเรื่องปกติ ไม่ใช่ระบบมีปัญหา</div>
+  </section>
+
+  <!-- SLIDE 2: Step 1 -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เพิ่มสินค้าในใบเสนอราคา</div>
+    <h2 class="slide-title">เลือกสินค้าเป็นวัสดุหิน — ปุ่ม "Select Slabs" จะโผล่ให้เองอัตโนมัติ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Sales Order ใหม่ ใส่ลูกค้า</span></li>
+          <li><span class="step-num">2</span><span class="step-text">"Add a product" เลือกสินค้าที่เป็นวัสดุหิน (เช่น "Emperador Grey Light Marble Slab")</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ระบบรู้เองว่าเป็นวัสดุหิน แสดงปุ่ม <b>"Select Slabs"</b> ต่อท้ายชื่อสินค้าในบรรทัดทันที — ไม่ต้องตั้งค่าอะไรเพิ่ม</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="note-box good"><b>จุดขาย:</b> ระบบแยกอัตโนมัติว่าสินค้าไหนต้องเลือกแผ่นจริง สินค้าไหนเป็นค่าแรง/บริการทั่วไป — พนักงานไม่ต้องจำเองว่าบรรทัดไหนต้องทำอะไรต่อ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Step 2 -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · เลือกแผ่นจริงจากสต็อก</div>
+    <h2 class="slide-title">กด "Select Slabs" — เห็นเฉพาะแผ่นที่มีอยู่จริง พร้อมขาย</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">คลิก "Select Slabs" → เปิด wizard เลือกแผ่น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">"Add a line" → เลือก Bundle — ระบบกรองให้เห็นเฉพาะแผ่นสถานะ <b>Available</b> ของสินค้านั้น (รวมทุกคลัง/ข้ามบริษัทที่มีสิทธิ์เห็น)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เลือกแผ่นที่ต้องการ (เลือกได้หลายแผ่น) → กด <b>"Confirm Selection"</b></span></li>
+          <li><span class="step-num">4</span><span class="step-text">จำนวนและ<b>ราคาต่อหน่วย</b>บน Order Line อัปเดตให้อัตโนมัติทันที</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="note-box bad">⚠️ <b>ก่อนขายทุกครั้ง เช็ค "Sales Price / Sq.Mt." ที่หน้า Bundle ก่อนเสมอ</b><br>ราคาต่อหน่วยที่ขึ้นบน Order Line คำนวณจากค่านี้ × พื้นที่จริงของแผ่น — ถ้ายังไม่กรอกไว้ (0.00) ราคาที่ได้จะเป็น 0.00 ด้วย</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Step 3 -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ขั้นตอนที่ 3 · ยืนยันใบสั่งขาย</div>
+    <h2 class="slide-title">กด Confirm — ระบบ Hold แผ่น + สร้างใบส่งของให้เองทันที</h2>
+    <div class="case-box">
+      <div class="case-icon">3</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง (S108339)</div>
+        <div class="case-text">แผ่น Emperador Grey Light (Bundle EMB-B-7778) ถูกเลือก 1 แผ่น พื้นที่ 2.40 ตร.ม. — กด Confirm แล้วราคาต่อหน่วยขึ้น 3,600.00 บาท ตรงตาม Sales Price/Sq.Mt. ที่ตั้งไว้ (1,500 × 2.40)</div>
+      </div>
+    </div>
+    <div class="doc-chain">
+      <div class="doc-card"><div class="dlabel">แผ่นที่เลือก</div><div class="dval">Available</div><div class="dsub">→ เปลี่ยนเป็น</div></div>
+      <div class="doc-arrow">→</div>
+      <div class="doc-card"><div class="dlabel">สถานะแผ่น</div><div class="dval">Hold</div><div class="dsub">ผูก Customer + เลข SO ทันที</div></div>
+      <div class="doc-arrow">→</div>
+      <div class="doc-card"><div class="dlabel">Delivery Order</div><div class="dval">สร้างอัตโนมัติ</div><div class="dsub">smart button "Delivery" มุมบน</div></div>
+    </div>
+    <div class="note-box good"><b>จุดขาย:</b> พนักงานไม่ต้องไปสร้างใบส่งของเองแยกต่างหาก ระบบผูกทุกอย่างให้ตั้งแต่กด Confirm บรรทัดเดียว</div>
+  </section>
+
+  <!-- SLIDE 5: Step 4 -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ออกใบแจ้งหนี้</div>
+    <h2 class="slide-title">Create Invoice → Regular Invoice → Confirm</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">จากหน้า SO ที่ Confirm แล้ว กด <b>"Create Invoice"</b></span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือก <b>"Regular Invoice"</b> → "Create and View Invoice"</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ตรวจราคา/ยอดรวมอีกครั้งบนหน้า Draft Invoice</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด <b>Confirm</b> เพื่อ Post ใบแจ้งหนี้เข้าระบบบัญชี</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="note-box bad">⚠️ <b>ครั้งแรกที่ใช้บัญชีธนาคารบริษัทกับใบแจ้งหนี้ จะมีเตือน "not trusted"</b><br>เป็นระบบป้องกันการโกงของ Odoo เอง ไม่ใช่บั๊ก — แก้ครั้งเดียว: Bank Settings → toggle เป็น "Trusted" → Save → กลับมา Confirm ใหม่ ครั้งต่อไปจะไม่เตือนอีก</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Step 5 -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นตอนที่ 5 · ส่งของ (Delivery)</div>
+    <h2 class="slide-title">สแกน/เลือกยืนยัน Lot ให้ตรงก่อน Validate เสมอ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Delivery Order (smart button "Delivery" บนหน้า SO)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ที่บรรทัดสินค้า กด <b>"Details"</b> → เจอช่อง <b>"Scanned Lot"</b></span></li>
+          <li><span class="step-num">3</span><span class="step-text">สแกนด้วยเครื่องจริง (ถ้ามี) หรือเลือกจาก dropdown ให้ตรงกับ Lot/Serial ของแผ่นจริงที่หยิบ</span></li>
+          <li><span class="step-num">4</span><span class="step-text">กด <b>Validate</b> — สต็อกย้ายจาก Stone Hold → Customer, แผ่นเปลี่ยนเป็น Sold</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="note-box bad">⚠️ <b>ข้ามขั้นตอนนี้ไม่ได้ — ระบบบล็อกทันที</b><br>ถ้า Scanned Lot ไม่ตรงกับ Lot จริง (หรือไม่ได้กรอก) กด Validate จะขึ้น "Scan verification failed" — ป้องกันหยิบแผ่นผิดส่งให้ลูกค้า เป็นฟีเจอร์ตั้งใจ (ADR-009)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Step 6 -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ขั้นตอนที่ 6 · เซ็นรับของ (ไม่บังคับ)</div>
+    <h2 class="slide-title">Proof of Delivery พร้อมลายเซ็นจริงของลูกค้า</h2>
+    <div class="case-box">
+      <div class="case-icon">6</div>
+      <div>
+        <div class="case-text-label">ทางเลือกเสริมที่ลูกค้ามักชอบเห็น</div>
+        <div class="case-text">ในแท็บ "Customer Signature" กรอกชื่อผู้รับ ("Received By") แล้วให้ลูกค้าเซ็นบนหน้าจอ (นิ้ว/ปากกา/เมาส์ก็ได้) ระบบ stamp วันเวลาให้อัตโนมัติ จากนั้นพิมพ์ "Proof of Delivery" เป็น PDF สรุปสินค้า+Serial+ลายเซ็นจริง เก็บเป็นหลักฐานได้ทันที</div>
+      </div>
+    </div>
+    <div class="note-box"><b>หมายเหตุ:</b> การเซ็นเป็น optional ไม่บล็อกการ Validate — จะเซ็นก่อนหรือหลังก็ได้ตามความสะดวกหน้างาน</div>
+  </section>
+
+  <!-- SLIDE 8: Cheat sheet -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุปด่วน · ก่อนขึ้นพรีเซนต์จริง</div>
+    <h2 class="slide-title" style="color:#fff;">3 จุดห้ามลืม ระหว่างพรีเซนต์สด</h2>
+    <ul class="checklist">
+      <li><span class="num">1</span><span class="ctext"><b>เช็ค Sales Price / Sq.Mt.</b> ของทุก Bundle ที่จะใช้เดโม่ไว้ล่วงหน้า — ไม่งั้นราคาตอน Select Slabs จะขึ้น 0.00 ต่อหน้าลูกค้า</span></li>
+      <li><span class="num">2</span><span class="ctext"><b>บัญชีธนาคารที่จะใช้ในเดโม่ ตั้ง "Trusted" ไว้ล่วงหน้า</b> (Accounting → Bank Accounts) — กันไม่ให้เจอป็อปอัพเตือนกลางที่พรีเซนต์</span></li>
+      <li><span class="num">3</span><span class="ctext"><b>อย่าลืมกรอก "Scanned Lot"</b> ก่อนกด Validate ที่ Delivery Order เสมอ — ถ้าลืม ระบบจะบล็อกทันที ให้อธิบายลูกค้าได้เลยว่านี่คือมาตรการกันหยิบแผ่นผิด ไม่ใช่ระบบค้าง</span></li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 9: Closing -->
+  <section class="slide dark" id="slide-9">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">1 วงจรต่อเนื่อง โปร่งใสทุกขั้นตอน ตั้งแต่เลือกแผ่นถึงส่งของ</h2>
+    <div class="flow-bar" style="margin-bottom:30px;">
+      <span class="flow-chip" style="background:var(--copper);">เลือกแผ่นจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ราคาคำนวณอัตโนมัติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ใบแจ้งหนี้</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">สแกนยืนยันก่อนส่ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เซ็นรับ + PDF</span>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;">
+      <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">สิ่งที่ลูกค้าเห็นวันนี้</div>
+      <div style="font-size:15px;line-height:1.6;">ทุกขั้นตอนเชื่อมกันเป็นเรื่องเดียว ไม่มีการกรอกซ้ำ ไม่มีตัวเลขที่ต้องกระทบยอดเอง และมีมาตรการป้องกันความผิดพลาด (ราคา, บัญชีธนาคาร, หยิบแผ่นผิด) ฝังอยู่ในตัวระบบเอง</div>
+    </div>
+    <div style="margin-top:34px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 10</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
