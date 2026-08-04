@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>E2E - Select Lot Stock (Mode 2) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:29px;margin:0 0 18px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.25;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:20px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:22px 28px;margin-bottom:18px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:16.5px;line-height:1.5;color:var(--text);}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:18px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;margin-bottom:6px;}
+  .flow-chip.hl{background:var(--copper);}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 6px;font-weight:700;}
+
+  .two-col{display:flex;gap:32px;align-items:flex-start;flex:1;min-height:0;}
+  .two-col:has(.shot-wrap){align-items:stretch;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:14px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:13px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--copper);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14.5px;line-height:1.48;padding-top:2px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .thumb-grid{display:flex;gap:14px;flex:1;min-height:0;}
+  .thumb-grid .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .thumb-grid .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+
+  .outcome-row{display:flex;gap:14px;margin-bottom:14px;}
+  .outcome-box{flex:1;border-radius:12px;padding:14px 16px;}
+  .outcome-box.goal{background:#EAF3EA;}
+  .outcome-box.caution{background:#FBEAE7;}
+  .outcome-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
+  .outcome-box.goal .outcome-label{color:#3D7A45;}
+  .outcome-box.caution .outcome-label{color:#A6432D;}
+  .outcome-text{font-size:13px;line-height:1.45;color:var(--text);}
+
+  .doc-chain{display:flex;align-items:center;gap:0;margin:18px 0;flex-wrap:wrap;}
+  .doc-card{background:var(--card);border-radius:12px;padding:14px 18px;text-align:center;min-width:120px;}
+  .doc-card .dlabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .doc-card .dval{font-size:15px;font-weight:700;color:var(--text);}
+  .doc-card .dsub{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .doc-arrow{color:var(--copper);font-size:20px;font-weight:700;margin:0 12px;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .result-table td{padding:7px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;font-variant-numeric:tabular-nums;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:10px;font-size:16px;}
+
+  .checklist{list-style:none;margin:0;padding:0;}
+  .checklist li{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;background:rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;}
+  .checklist .num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--copper);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Cambria,serif;}
+  .checklist .ctext{font-size:14.5px;line-height:1.48;color:var(--stone);}
+  .checklist .ctext b{color:#D9A465;}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:22px;right:64px;font-size:12px;color:var(--muted);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">E2E — Select Lot Stock<br>ขายหินแบบ "ล็อต" (Mode 2) + รับชำระเงิน</div>
+    <div class="big-sub">เดินสด Odoo ครบวงจร ตั้งแต่เปิด Sale Order → เลือกล็อตหินที่ตั้งราคาแบบตารางเมตร (ไม่ใช่แบบนับแผ่น) → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — พร้อมจุดห้ามลืมที่เจอจริงระหว่างเดิน flow</div>
+    <div class="stamp">EMG-O · ADR-020 Mode 2 · ข้อมูลจริงจาก live run บน production 2026-08-04</div>
+  </section>
+
+  <!-- SLIDE 1: Overview / conditions -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · Select Lot Stock คืออะไร</div>
+    <h2 class="slide-title">ไม่ใช่หินทุกชนิดขายแบบนับแผ่น — บางชนิดตั้งราคาเป็น "ตารางเมตรต่อล็อต" แทน</h2>
+    <div class="case-box">
+      <div class="case-icon">i</div>
+      <div>
+        <div class="case-text-label">Mode 2 ต่างจาก Mode ปกติ (Select Slabs) ยังไง</div>
+        <div class="case-text">วัสดุแต่ละชนิดตั้งค่า <b>Pricing Mode</b> ไว้ที่ระดับ Material — ถ้าเป็น <b>Lot</b> (เช่น Bianco Perla) ระบบจะไม่สร้าง <b>stone.slab</b> รายแผ่นให้เลือกทีละแผ่นแบบปกติ แต่ให้เลือก <b>Lot (Block/Bundle)</b> แล้วพิมพ์จำนวนตารางเมตรที่จะขายจากล็อตนั้นได้อิสระ (ขายบางส่วนได้ ไม่ต้องขายทั้งล็อต) เหมาะกับหินที่ import มาเป็นล็อตใหญ่ ไม่ได้ตัดแยกแผ่นไว้ล่วงหน้า</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">1. เปิด SO + เลือกสินค้า</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">2. Select Lot Stock</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">3. ยืนยัน SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">4. ส่งของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip hl">Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip hl">รับเงิน</span>
+    </div>
+    <div class="note-box"><b>หมายเหตุ:</b> Mode 2 (Lot), Mode 1 (Select Block — ขายทั้งก้อน), และโหมดปกติ (Select Slabs — เลือกทีละแผ่น) ใช้กลไก intercompany เดียวกันทั้งหมดถ้าล็อต/บล็อกนั้นเป็นของอีกบริษัท — ดูรายละเอียดใน deck "E2E — Intercompany Trade" แยกต่างหาก</div>
+  </section>
+
+  <!-- SLIDE 2: SO + product -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นตอนที่ 1 · เปิด Sale Order</div>
+    <h2 class="slide-title">เลือกลูกค้า แล้วเพิ่มสินค้าที่เป็น Lot mode</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Sales → New เปิด Quotation ใหม่</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือกลูกค้า</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Add a product → เลือก "Bianco Perla Marble Slab" (วัสดุที่ตั้ง Pricing Mode = Lot)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">บรรทัดสินค้าจะโชว์ลิงก์ <b>Select Lot Stock</b> แทนที่จะเป็น Select Slabs ปกติ — สังเกตความต่างตรงนี้</span></li>
+        </ul>
+        <div class="note-box">ลิงก์ที่ขึ้นในคอลัมน์ "Block / Lot" คือตัวบอกว่าสินค้านี้เป็น Lot mode — ถ้าเห็น "Select Slabs" แทน แปลว่าสินค้าตัวนั้นเป็นโหมดนับแผ่นปกติ ไม่ใช่ Mode 2</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-01-so-product.png"><div class="shot-cap">SO ใหม่ พร้อมสินค้า Bianco Perla + ลิงก์ Select Lot Stock</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: wizard qty -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นตอนที่ 2 · Select Lot Stock Wizard</div>
+    <h2 class="slide-title">เลือกล็อต ระบบโชว์ Sq.Mt. ที่เหลือให้ทันที แล้วพิมพ์จำนวนที่จะขาย</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เลือก <b>Lot (Block/Bundle)</b> — เห็นล็อตที่มีสต็อกจริงเท่านั้น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">"Remaining Sq.Mt. (Lot)" โชว์อัตโนมัติ (ตัวอย่างนี้ = 4.00 ตร.ม. เหลือจากทั้งล็อต 6.00)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">พิมพ์ <b>Quantity to Sell</b> ตามที่ลูกค้าต้องการ — ไม่ต้องขายทั้งล็อต (ตัวอย่างนี้ขาย 1.50 ตร.ม.)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Confirm Selection</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-02-wizard-qty.png"><div class="shot-cap">Wizard: ล็อต BP-B-0001 เหลือ 4.00 ตร.ม. — ขาย 1.50</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: line updated -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ผลลัพธ์ · หลัง Confirm Selection</div>
+    <h2 class="slide-title">บรรทัด SO อัปเดตราคาและจำนวนอัตโนมัติจากล็อตที่เลือก</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="case-box">
+          <div class="case-icon">✓</div>
+          <div>
+            <div class="case-text-label">สิ่งที่ระบบทำให้อัตโนมัติ</div>
+            <div class="case-text">Quantity = 1.50, Block/Lot = BP-B-0001, ราคาต่อหน่วยดึงมาจากสินค้า/ล็อตให้เอง — Total ปรับตามจริงทันที (1,926.00 บาท รวม VAT 7%) ไม่ต้องคำนวณเอง</div>
+          </div>
+        </div>
+        <div class="note-box">จุดนี้เหมือน Mode ปกติทุกประการ — ต่างกันแค่ตอนเลือกสต็อกใน wizard เท่านั้น ขั้นตอนหลังจากนี้ (Confirm SO → Delivery → Invoice → Payment) เดินเหมือนกันทุก Mode</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-03-line-updated.png"><div class="shot-cap">บรรทัด SO หลัง Confirm Selection</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: SO confirmed -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นตอนที่ 3 · ยืนยันการขาย</div>
+    <h2 class="slide-title">กด Confirm — SO กลายเป็น Sales Order พร้อม Delivery อัตโนมัติ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">กด <b>Confirm</b> บน Quotation</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Stage เปลี่ยนเป็น "Sales Order"</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ปุ่ม <b>Delivery</b> ปรากฏที่หัวเอกสาร — ระบบสร้าง Transfer ตัดสต็อกจากล็อตให้อัตโนมัติ</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-04-confirmed.png"><div class="shot-cap">SO ยืนยันแล้ว พร้อมปุ่ม Delivery</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: delivery ready -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นตอนที่ 4 · ส่งของ</div>
+    <h2 class="slide-title">เปิด Delivery — สถานะ Ready พร้อม Validate</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">คลิกปุ่ม Delivery จาก SO</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Source Location = Stone Inventory/Stone Hold, Product Availability = Available</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด <b>Validate</b> เพื่อยืนยันการส่งของจริง</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-05-delivery-ready.png"><div class="shot-cap">Delivery พร้อม Validate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: CAUTION scan error -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">🔴 จุดห้ามลืม · เจอจริงระหว่างเดิน flow</div>
+    <h2 class="slide-title" style="color:#fff;">Validate ตรงๆ แล้วเจอ Error — "Scan verification failed"</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="outcome-row">
+          <div class="outcome-box caution">
+            <div class="outcome-label">สิ่งที่เจอ</div>
+            <div class="outcome-text">กด Validate แล้วระบบไม่ยอมให้ผ่าน ขึ้น "Invalid Operation — Scan verification failed for: BP-B-0001-LOT" ทั้งที่ล็อต/จำนวนถูกต้องอยู่แล้ว</div>
+          </div>
+        </div>
+        <div class="note-box bad"><b>สาเหตุ:</b> ระบบ requires การ "scan" ยืนยัน Lot/Serial ก่อน Validate เสมอ แม้ว่า Lot ที่ถูกต้องจะถูกกำหนดไว้ล่วงหน้าโดยอัตโนมัติแล้วก็ตาม (Odoo เตรียม quantity ให้ แต่ยังไม่ mark ว่า "scanned/picked") — เจอทั้งใน Mode ปกติ (per-slab) และ Mode 2 (lot) เหมือนกัน ไม่ใช่บั๊กเฉพาะ Mode นี้</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-06-scan-error.png"><div class="shot-cap">Error จริงที่เจอบน production</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: FIX -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">✅ วิธีแก้ · ทำตามทุกครั้งก่อน Validate</div>
+    <h2 class="slide-title">คลิก "Details" ที่บรรทัดสินค้า แล้วเลือก Lot ในช่อง Scanned Serial</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ที่หน้า Delivery คลิก <b>Details</b> ตรงบรรทัดสินค้า</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เห็นคอลัมน์ "Scanned Serial" ว่างอยู่ — ทั้งที่ "Pick From" ระบุ Lot ถูกต้องแล้ว</span></li>
+          <li><span class="step-num">3</span><span class="step-text">คลิกช่อง Scanned Serial แล้วพิมพ์/เลือกชื่อ Lot เดียวกัน (เช่น BP-B-0001-LOT)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Save → กลับไป Validate อีกครั้ง — ผ่านทันที</span></li>
+        </ul>
+        <div class="note-box good"><b>จำไว้:</b> ทุกครั้งที่เจอ "Scan verification failed" ให้เปิด Details แล้วกรอก Scanned Serial ด้วยชื่อ Lot เดิม ไม่ต้องเปลี่ยนอะไรอย่างอื่น</div>
+      </div>
+      <div class="col-right">
+        <div class="thumb-grid">
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-07-details-empty.png"><div class="shot-cap">ก่อนแก้ — Scanned Serial ว่าง</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-08-scanned-filled.png"><div class="shot-cap">หลังแก้ — กรอกชื่อ Lot แล้ว</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: delivery done -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ผลลัพธ์ · หลังแก้แล้ว Validate</div>
+    <h2 class="slide-title">Delivery จบสมบูรณ์ — สถานะ Done</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="case-box">
+          <div class="case-icon">✓</div>
+          <div>
+            <div class="case-text-label">ยืนยันจากฐานข้อมูลจริง</div>
+            <div class="case-text">Stock ตัดจาก "Stone Inventory/Stone Hold" ไปยัง "Customers" ถูกต้องตามจำนวนที่ขาย (1.50 ตร.ม.) — ล็อตเดิมยังเหลือส่วนที่ไม่ได้ขายไว้ให้ขายต่อได้ปกติ</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-09-delivery-done.png"><div class="shot-cap">Delivery — Done</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: invoice draft+posted -->
+  <section class="slide" id="slide-10">
+    <div class="eyebrow">ขั้นตอนที่ 5 · Invoice</div>
+    <h2 class="slide-title">Create Invoice จาก SO แล้ว Confirm (Post)</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">กลับไปที่ SO → กด <b>Create Invoice</b> → เลือก Regular Invoice → Create Draft</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตรวจสอบยอด/สินค้าให้ตรงกับ SO ก่อน Confirm</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด <b>Confirm</b> เพื่อ Post ใบแจ้งหนี้ (ได้เลขที่ INV/2026/00016)</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="thumb-grid">
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-10-invoice-draft.png"><div class="shot-cap">Draft — ก่อน Confirm</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-11-invoice-posted.png"><div class="shot-cap">Posted — เลขที่ออกแล้ว</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: pay dialog -->
+  <section class="slide" id="slide-11">
+    <div class="eyebrow">ขั้นตอนที่ 6 · รับชำระเงิน</div>
+    <h2 class="slide-title">กด Pay แล้วยืนยัน Create Payment</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">บนใบ Invoice ที่ Post แล้ว กด <b>Pay</b></span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตรวจ Journal/ยอด/บัญชีธนาคารให้ถูกต้อง</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด <b>Create Payment</b></span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-12-pay-dialog.png"><div class="shot-cap">Pay dialog — 1,926.00 บาท</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: final paid -->
+  <section class="slide" id="slide-12">
+    <div class="eyebrow">ผลลัพธ์สุดท้าย</div>
+    <h2 class="slide-title">Invoice ขึ้นตรา PAID — จบ loop ครบวงจร</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="doc-chain">
+          <div class="doc-card"><div class="dlabel">SO</div><div class="dval">S108370</div><div class="dsub">Sales Order</div></div>
+          <div class="doc-arrow">→</div>
+          <div class="doc-card"><div class="dlabel">Delivery</div><div class="dval">EGWH/OUT<br>/00068</div><div class="dsub">Done</div></div>
+          <div class="doc-arrow">→</div>
+          <div class="doc-card"><div class="dlabel">Invoice</div><div class="dval">INV/2026<br>/00016</div><div class="dsub">Posted, Paid</div></div>
+        </div>
+        <table class="result-table">
+          <tr><td>Bianco Perla Marble Slab — 1.50 Sq.Mt. × 1,200.00</td><td>1,800.00 ฿</td></tr>
+          <tr><td>VAT 7%</td><td>126.00 ฿</td></tr>
+          <tr class="total"><td>Total (Paid)</td><td>1,926.00 ฿</td></tr>
+        </table>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-13-paid-final.png"><div class="shot-cap">Invoice PAID — Amount Due 0.00</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: cheat sheet -->
+  <section class="slide dark" id="slide-13">
+    <div class="eyebrow">สรุปสิ่งที่ต้องจำ</div>
+    <h2 class="slide-title" style="color:#fff;">Cheat Sheet — Select Lot Stock (Mode 2)</h2>
+    <ul class="checklist">
+      <li><span class="num">1</span><span class="ctext">ใช้ได้เฉพาะวัสดุที่ตั้ง <b>Pricing Mode = Lot</b> ที่ระดับ Material เท่านั้น — สังเกตจากลิงก์ "Select Lot Stock" บนบรรทัดสินค้า</span></li>
+      <li><span class="num">2</span><span class="ctext">ขายบางส่วนจากล็อตได้อิสระ — Wizard โชว์ "Remaining Sq.Mt." ให้เช็คก่อนพิมพ์จำนวนเสมอ</span></li>
+      <li><span class="num">3</span><span class="ctext">ทุกครั้งที่ Validate Delivery แล้วเจอ <b>"Scan verification failed"</b> — เปิด Details บนบรรทัดสินค้า แล้วกรอก Scanned Serial ด้วยชื่อ Lot เดิมก่อนเสมอ (เจอทั้ง Mode ปกติและ Mode 2)</span></li>
+      <li><span class="num">4</span><span class="ctext">หลังจากผ่าน Wizard แล้ว ขั้นตอน Confirm → Delivery → Invoice → Payment เดินเหมือนทุก Mode อื่นทุกประการ</span></li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 14: closing -->
+  <section class="slide dark" id="slide-14">
+    <div class="eyebrow">สรุปวันนี้</div>
+    <h1 class="title" style="color:#fff;">ครบวงจร Select Lot Stock (Mode 2)</h1>
+    <div class="flow-bar" style="margin-top:18px;">
+      <span class="flow-chip">SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Select Lot Stock</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Confirm</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Delivery</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">รับเงิน</span>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;">
+      <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">สิ่งที่ลูกค้าเห็นวันนี้</div>
+      <div style="font-size:15px;line-height:1.6;">หินที่ import มาเป็นล็อตใหญ่ ไม่ต้องตัดแยกแผ่นไว้ล่วงหน้าก็ขายได้ — เลือกจำนวนตารางเมตรที่ต้องการขายจากล็อตได้อิสระ ราคา/สต็อกตามรอยกันอัตโนมัติ จนถึงรับเงินจริงเข้าบัญชี ครบเหมือน Mode อื่นทุกประการ</div>
+    </div>
+    <div style="margin-top:30px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 15</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
