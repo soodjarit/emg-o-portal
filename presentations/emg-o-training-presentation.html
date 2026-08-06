@@ -32,7 +32,7 @@
   .dark .subtitle{color:#B9C2C8;}
 
   /* Title slide */
-  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0.active{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
   #slide-0 .big-title{font-size:56px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
   #slide-0 .big-sub{font-size:22px;color:#CBD3D8;max-width:820px;line-height:1.5;}
   #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
@@ -102,13 +102,66 @@
     #stage{box-shadow:none;}
     .slide{position:relative;display:block !important;page-break-after:always;}
   }
+
+  /* ERP role diagram (slide-erp-role) */
+  .erp-diagram{position:relative;width:1152px;height:452px;}
+  .erp-group-label{position:absolute;top:0;text-align:center;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;}
+  .erp-sep{position:absolute;top:26px;bottom:0;width:0;border-left:2px dotted #C9AD7C;}
+  .erp-lines{position:absolute;left:0;top:0;width:1152px;height:452px;}
+  .erp-node{position:absolute;width:104px;text-align:center;}
+  .erp-badge{width:64px;height:64px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:Cambria,serif;margin:0 auto 8px auto;box-shadow:0 4px 10px rgba(0,0,0,.15);}
+  .erp-label{font-size:13.5px;color:var(--text);font-weight:600;line-height:1.25;}
 </style>
 </head>
 <body>
 <div id="stage-wrap"><div id="stage">
 
+  <!-- SLIDE ERP-ROLE: ERP System Role - Odoo App -->
+  <section class="slide active" id="slide-erp-role">
+    <div class="eyebrow">ภาพรวมระบบ</div>
+    <h2 class="slide-title">ERP System Role — Odoo App</h2>
+    <div class="subtitle" style="margin-bottom:22px;">แต่ละแอปใน Odoo ทำหน้าที่อะไรบ้าง ในกระบวนการทำงานของ EMG-O ตั้งแต่หาลูกค้าจนถึงปิดบัญชี</div>
+    <div class="erp-diagram">
+      <div class="erp-group-label" style="left:0px;width:530px;">Demand Generation</div>
+      <div class="erp-group-label" style="left:530px;width:400px;">Ensure supply</div>
+      <div class="erp-group-label" style="left:930px;width:222px;">Accounting</div>
+      <div class="erp-sep" style="left:530px;"></div>
+      <div class="erp-sep" style="left:930px;"></div>
+
+      <svg class="erp-lines" viewBox="0 0 1152 452">
+        <defs>
+          <marker id="erpArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#B8763E"></path>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#B8763E" stroke-width="2.5">
+          <path d="M250,110 L250,196" marker-end="url(#erpArrow)"></path>
+          <path d="M102,228 L218,228" marker-end="url(#erpArrow)"></path>
+          <path d="M282,228 L398,228" marker-end="url(#erpArrow)"></path>
+          <path d="M462,228 L598,228" marker-end="url(#erpArrow)"></path>
+          <polyline points="430,196 430,78 598,78" marker-end="url(#erpArrow)"></polyline>
+          <path d="M662,228 L778,228" marker-end="url(#erpArrow)" marker-start="url(#erpArrow)"></path>
+          <path d="M630,260 L630,346" marker-end="url(#erpArrow)"></path>
+          <polyline points="630,346 810,346 810,260" marker-end="url(#erpArrow)"></polyline>
+          <path d="M842,228 L1008,228" marker-end="url(#erpArrow)"></path>
+        </g>
+      </svg>
+
+      <div class="erp-node" style="left:198px;top:46px;"><div class="erp-badge">Web</div><div class="erp-label">Website</div></div>
+      <div class="erp-node" style="left:18px;top:196px;"><div class="erp-badge">Con</div><div class="erp-label">Contact</div></div>
+      <div class="erp-node" style="left:198px;top:196px;"><div class="erp-badge">CRM</div><div class="erp-label">CRM</div></div>
+      <div class="erp-node" style="left:378px;top:196px;"><div class="erp-badge">Sale</div><div class="erp-label">Sale</div></div>
+      <div class="erp-node" style="left:578px;top:46px;"><div class="erp-badge">Proj</div><div class="erp-label">Project</div></div>
+      <div class="erp-node" style="left:758px;top:46px;"><div class="erp-badge">FS</div><div class="erp-label">Field services</div></div>
+      <div class="erp-node" style="left:578px;top:196px;"><div class="erp-badge">Mfg</div><div class="erp-label">Manufacturing</div></div>
+      <div class="erp-node" style="left:758px;top:196px;"><div class="erp-badge">Inv</div><div class="erp-label">Inventory</div></div>
+      <div class="erp-node" style="left:578px;top:346px;"><div class="erp-badge">Pur</div><div class="erp-label">Purchase</div></div>
+      <div class="erp-node" style="left:988px;top:196px;"><div class="erp-badge">Acc</div><div class="erp-label">Accounting</div></div>
+    </div>
+  </section>
+
   <!-- SLIDE 0: Title -->
-  <section class="slide dark active" id="slide-0">
+  <section class="slide dark" id="slide-0">
     <div class="stone-badge">EO</div>
     <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
     <div class="big-title">คู่มือการใช้งาน<br>ระบบ EMG-O</div>
