@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>วิธีสร้าง Product หิน (ก้อน + แผ่น) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:29px;margin:0 0 18px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:54px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:21px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  /* Case box */
+  .case-box{background:var(--card);border-radius:16px;padding:20px 26px;margin-bottom:18px;display:flex;gap:18px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+
+  /* Hierarchy row */
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:18px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+  .hier-card.required{background:#FBF0E2;border:2px solid var(--copper);}
+  .hier-card.optional{background:#EFE8F8;border:2px dashed #6A3FA0;}
+  .hier-card .hlabel{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:13px;color:var(--text);line-height:1.4;}
+  .hier-card .htag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:8px;color:#8F5A2C;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:22px;font-weight:700;flex-shrink:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:13px;margin-bottom:13px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:27px;height:27px;border-radius:50%;background:var(--copper);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14.5px;line-height:1.5;padding-top:2px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .bug-box{background:#F3E7E4;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#6B2E22;margin-top:8px;}
+  .bug-box b{color:#A23B32;}
+  .warn-box{background:#FDECEC;border:1.5px solid #C0392B;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#7A2318;margin-top:8px;}
+  .warn-box b{color:#C0392B;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .result-table td{padding:7px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;font-variant-numeric:tabular-nums;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:10px;font-size:17px;}
+
+  .type-pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:6px 16px 7px;border-radius:99px;font-weight:700;color:#fff;background:var(--copper);margin-bottom:14px;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:18px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:12.5px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 7px;font-weight:700;}
+
+  .two-col{display:flex;gap:32px;align-items:flex-start;}
+
+  /* nav */
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">วิธีสร้าง Product หิน<br>ก้อน + แผ่น</div>
+    <div class="big-sub">เริ่มต้นทุกอย่างจาก "Material" 1 ตัว — ระบบสร้าง Product ที่จำเป็นให้ครบทั้ง Slab และ Block ในฟอร์มเดียว</div>
+    <div class="stamp">EMG-O Manual · บทที่ 13 · ทดสอบจริงบน production 2026-07-19</div>
+  </section>
+
+  <!-- SLIDE 1: Concept overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · เริ่มจากตรงไหน</div>
+    <h2 class="slide-title">1 Material = 1 ชนิดหิน แต่สร้าง Product ได้ถึง 2 ตัว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">ทำไมต้องแยก 2 Product</div>
+        <div class="case-text">หินก้อนกับหินแผ่นคนละหน่วยนับและคนละวิธี track สต็อกกันโดยสิ้นเชิง — ก้อนนับเป็นปริมาตร (m³) และ track เป็น Lot, ส่วนแผ่นนับเป็นชิ้นและ track แบบ Serial Number ต่อแผ่น ระบบเลยแยกเป็นคนละ SKU แต่ผูกกับ Material เดียวกันไว้ ไม่ใช่ระบบแยกกันคนละชุด</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Material</div><div class="hdesc">ชนิดหิน เช่น<br>Emperador Grey Light<br>(1 Material = 1 record)</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card required"><div class="hlabel">Slab Product</div><div class="hdesc">หน่วย: ชิ้น<br>Track: By Unique Serial Number</div><div class="htag">บังคับกรอกเสมอ</div></div>
+      <div class="hier-card optional"><div class="hlabel">Block Product</div><div class="hdesc">หน่วย: m³<br>Track: By Lots</div><div class="htag">ทางเลือก — เปิดโหมด "ขายทั้งก้อน"</div></div>
+    </div>
+    <div class="note-box"><b>ถ้าไม่กรอก Block Product:</b> วัสดุนี้จะขายได้แค่เป็นแผ่นเท่านั้น ขายก้อนทั้งก้อนไม่ได้ — กรอกไว้ตั้งแต่แรกถ้ารู้อยู่แล้วว่าจะขายทั้ง 2 แบบ (แก้เพิ่มทีหลังได้ ไม่บังคับต้องรู้ครบตั้งแต่วันแรก)</div>
+  </section>
+
+  <!-- SLIDE 2: Steps 1-2 -->
+  <section class="slide" id="slide-2">
+    <div class="type-pill">ขั้นตอนที่ 1-2</div>
+    <div class="eyebrow">เริ่มสร้าง Material + Slab Product</div>
+    <h2 class="slide-title">Configuration → Materials → New</h2>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><span class="step-text"><b>Configuration → Materials → New</b> — ตั้งชื่อ, Category, Origin Country ตามปกติ</span></li>
+      <li><span class="step-num">2</span><span class="step-text"><b>Slab Product</b> (บังคับกรอกเสมอ) — พิมพ์ชื่อสินค้าใหม่ในช่องนี้ → กด <b>Create and edit...</b> → ตั้ง Sales Price / Cost → เปิด <b>Track Inventory</b> → เลือก <b>By Unique Serial Number</b> (หินทุกแผ่น track แยกกัน คนละแผ่นคนละ Lot) → Save</span></li>
+    </ul>
+    <div class="note-box"><b>ทำไมต้อง Serial Number:</b> เพราะหินแต่ละแผ่นลาย/ขนาดไม่เหมือนกัน ระบบต้องรู้ว่าส่งแผ่นไหนจริงไปให้ลูกค้าคนไหน — ใช้สแกนยืนยันตอนส่งของกันส่งผิดแผ่นได้ด้วย</div>
+  </section>
+
+  <!-- SLIDE 3: Steps 3-4 + warning -->
+  <section class="slide" id="slide-3">
+    <div class="type-pill">ขั้นตอนที่ 3-4</div>
+    <div class="eyebrow">เปิดโหมด "ขายทั้งก้อน" (ทางเลือก)</div>
+    <h2 class="slide-title">Block Product — ช่องนี้แหละที่เปิดใช้การขายก้อนทั้งก้อน</h2>
+    <ul class="step-list">
+      <li><span class="step-num">3</span><span class="step-text"><b>Block Product</b> (ทางเลือก) → กด <b>Create and edit...</b> → ตั้ง Sales Price / Cost → เปิด <b>Track Inventory</b> → <b>เปลี่ยนหน่วยเป็น m³</b> (ก้อนหินนับเป็นปริมาตร ไม่ใช่นับชิ้น) → Tracking เลือก <b>By Lots</b> (ก้อนนับเป็นล็อต ไม่ใช่ serial รายชิ้นแบบแผ่น) → Save</span></li>
+      <li><span class="step-num">4</span><span class="step-text">กลับมาที่หน้า <b>Material</b> → กด <b>Save</b> อีกครั้งให้บันทึกตัว Material เอง — เสร็จแล้ว ทั้ง 2 Product พร้อมใช้งาน</span></li>
+    </ul>
+    <div class="warn-box"><b>⚠ จุดที่มักพลาด:</b> ต้องเปิดฟีเจอร์ <b>"Units of Measure"</b> ก่อน (Inventory → Configuration → Settings) ไม่งั้นช่องหน่วย m³ จะไม่โผล่ในฟอร์ม Block Product ให้เลือกเลย — เป็น setting มาตรฐานของ Odoo เปิดครั้งเดียวใช้ได้ตลอด ไม่กระทบข้อมูลเดิมที่มีอยู่</div>
+  </section>
+
+  <!-- SLIDE 4: Real example -->
+  <section class="slide" id="slide-4">
+    <div class="type-pill">ตัวอย่างจริง</div>
+    <div class="eyebrow">Bundle EMG-B-0003 · Emperador Grey Light Marble</div>
+    <h2 class="slide-title">จาก Material ที่สร้างไว้ → ขายทั้งก้อนจริงได้เลย</h2>
+    <div class="two-col">
+      <div style="flex:1;">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Sales → New Quotation → เลือกลูกค้า</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Add a product → เลือก <b>Emperador Grey Light Marble Block</b> (ตัว Block Product ที่สร้างไว้) → ปุ่ม <b>"Sell Whole Block"</b> โผล่ที่บรรทัดทันที</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Save SO ก่อน (wizard ต้องการให้ SO บันทึกแล้ว) → กด Sell Whole Block → เลือก Bundle EMG-B-0003 → ระบบเติม Remaining CBM ให้อัตโนมัติ → Confirm Selection</span></li>
+          <li><span class="step-num">4</span><span class="step-text">SO line อัปเดตเอง: Quantity = 2.65 (เต็มจำนวนคงเหลือ, แบ่งขายบางส่วนไม่ได้), คอลัมน์ Block/Lot โชว์ชื่อ Bundle</span></li>
+        </ul>
+      </div>
+      <div style="flex:1;">
+        <table class="result-table">
+          <tr><td>Bundle คงเหลือ</td><td>2.65 m³</td></tr>
+          <tr><td>ราคาต่อ m³</td><td>฿3,500</td></tr>
+          <tr class="total"><td>ราคารวมอัตโนมัติ</td><td>฿9,275</td></tr>
+        </table>
+        <div class="note-box" style="margin-top:16px;">ตัวอย่างนี้เป็น Bundle จริงที่มีสต็อกอยู่แล้วในระบบ — ไม่ต้องสร้างสต็อกใหม่ ระบบคำนวณราคารวมให้ถูกต้องทันทีที่เลือก Bundle เสร็จ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Summary + next -->
+  <section class="slide dark" id="slide-5">
+    <div class="eyebrow">สรุป + ขั้นต่อไป</div>
+    <h2 class="slide-title" style="color:#fff;">สร้าง Product เสร็จแล้ว ยังขายไม่ได้ทันที — ต้องมี Bundle ก่อน</h2>
+    <div class="flow-bar" style="margin-bottom:22px;">
+      <span class="flow-chip" style="background:var(--copper);">สร้าง Material + Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ซื้อ (PO) → สร้าง Bundle</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">มีสต็อกจริง → ขายได้</span>
+    </div>
+    <table class="data-table" style="background:rgba(255,255,255,.04);">
+      <tr style="background:transparent;"><th style="background:rgba(255,255,255,.08);color:#D9A465;">เรื่อง</th><th style="background:rgba(255,255,255,.08);color:#D9A465;">ต้องรู้ก่อนตัดสินใจ</th></tr>
+      <tr style="color:#DDE3E0;"><td>Bundle ต้องมาจากไหน</td><td>ผ่านการรับสินค้าจริงผ่าน PO เท่านั้น — กด "New" สร้าง Bundle ลอยๆ จะไม่ผูก Product อัตโนมัติ ปุ่ม Select Slabs อาจหาแผ่นไม่เจอ</td></tr>
+      <tr style="color:#DDE3E0;"><td>หินแผ่นราคาถูก ไม่อยากแยก Serial รายแผ่น</td><td>ต้องเลือก <b>Pricing Mode = "Lot (aggregate, cheap stone)"</b> ที่ฟอร์ม Material ตั้งแต่ตอนสร้าง — ล็อกทันทีที่มี Bundle แรกเกิดขึ้น เปลี่ยนภายหลังไม่ได้</td></tr>
+      <tr style="color:#DDE3E0;"><td>อยากให้ลูกค้าสั่ง Finish เอง (Cut-to-Order)</td><td>ต้องตั้ง Finish attribute เพิ่มที่ตัว Product Template เอง (Sales → Products → Products) แยกจากฟอร์ม Material</td></tr>
+    </table>
+    <div style="margin-top:22px;font-size:14.5px;color:#B9C2C8;">รายละเอียด 4 โหมดการขายเต็ม ๆ ดูที่ deck "4 โหมดการขาย (Product Concepts)" · อ้างอิงจาก EMG-O Manual บทที่ 13</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 6</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
