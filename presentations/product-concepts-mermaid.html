@@ -58,6 +58,15 @@
   .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
   .col-right .shot{flex:1;min-height:0;object-fit:contain;}
 
+  /* Full-width flow layout: compact text row on top, wide diagram banner below */
+  .flow-layout{display:flex;flex-direction:column;flex:1;min-height:0;}
+  .flow-text-row{display:flex;gap:26px;align-items:flex-start;margin-bottom:12px;}
+  .flow-text-row .step-list{flex:1.3;}
+  .flow-text-row .step-list li{margin-bottom:7px;}
+  .flow-text-row .step-text{font-size:13px;line-height:1.4;}
+  .flow-text-row .note-box,.flow-text-row .bug-box{flex:1;margin-top:0;font-size:12.5px;padding:12px 16px;}
+  .flow-diagram{flex:1;min-height:0;display:flex;flex-direction:column;}
+
   .step-list{list-style:none;margin:0;padding:0;}
   .step-list li{display:flex;gap:13px;margin-bottom:11px;align-items:flex-start;}
   .step-num{flex-shrink:0;width:27px;height:27px;border-radius:50%;background:var(--copper);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
@@ -68,7 +77,7 @@
   .shot-wrap{text-align:center;}
 
   /* Mermaid diagram container (replaces the old broken Excalidraw PNG) */
-  .mermaid-wrap{flex:1;min-height:0;background:#fff;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);position:relative;overflow:auto;padding:10px;}
+  .mermaid-wrap{flex:1;min-height:0;background:#fff;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);position:relative;overflow:auto;padding:10px;cursor:zoom-in;}
   .mermaid-wrap .mermaid{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
 
   .note-box{background:#FBF1E7;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
@@ -156,8 +165,8 @@
     <div class="type-pill">ประเภท 1</div>
     <div class="eyebrow">หินก้อนนำเข้า · Imported Stone Block</div>
     <h2 class="slide-title">ขายทั้งก้อน ไม่ตัด หน่วยเป็น CBM (m³)</h2>
-    <div class="two-col">
-      <div class="col-left">
+    <div class="flow-layout">
+      <div class="flow-text-row">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">ใช้ตอนลูกค้าต้องการวัตถุดิบไปตัดเอง (โรงงานอื่น หรือ intercompany EG↔ES)</span></li>
           <li><span class="step-num">2</span><span class="step-text">สินค้าคนละ SKU กับแผ่น (<code>product_id_block</code>) แต่เป็น Material เดียวกัน — ไม่ผ่าน wizard เลือกแผ่น ใช้ flow ขายมาตรฐานของ Odoo</span></li>
@@ -165,29 +174,28 @@
         </ul>
         <div class="note-box"><b>ตัวอย่างจริง:</b> Bundle EMG-B-0003 (Emperador Grey Light Marble) เหลือ 2.65 m³ → กด Sell Whole Block → Quantity เปลี่ยนเป็น 2.65 อัตโนมัติ → ราคารวม 2.65 × 3,500 = <b>฿9,275</b></div>
       </div>
-      <div class="col-right">
-        <div class="shot-wrap">
-          <div class="mermaid-wrap"><pre class="mermaid">
-flowchart TD
+      <div class="flow-diagram">
+        <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
   subgraph wh["ฝ่ายคลัง/ผลิต"]
-    direction LR
+    direction TB
     A1["PO ซื้อก้อนหิน<br/>「หน่วย m³」"]
     A2["รับเข้าคลัง<br/>Block Stock 「CBM」"]
     A1 --> A2
   end
   subgraph sale["ฝ่ายขาย"]
-    direction LR
+    direction TB
     B1["SO กด ขายทั้งก้อน<br/>「Select Block Wizard」"]
     B2["ยืนยัน SO"]
     B3{"ขายข้ามบริษัท?<br/>「EG ↔ ES」"}
     B1 --> B2 --> B3
   end
   subgraph ship["ฝ่ายส่งของ"]
-    direction LR
+    direction TB
     C1["ส่งของ<br/>「1 Move เต็มก้อน」"]
   end
   subgraph acc["ฝ่ายบัญชี"]
-    direction LR
+    direction TB
     D1["ออก Invoice<br/>VAT 7%"]
     D2["Auto สร้าง Internal SO 「ผู้ขาย」<br/>+ Internal PO 「ผู้ซื้อ」"]
     D3["Draft Invoice+Bill ต้นทุน+Markup 10%<br/>「รอบัญชี Post」"]
@@ -198,13 +206,18 @@ flowchart TD
   B3 -->|ใช่| C1
   C1 --> D1
   B3 -->|ใช่| D2
-  classDef lane fill:#F5F4F2,stroke:#33424B,stroke-width:1.5px,color:#26313A
-  classDef decision fill:#FBF1E7,stroke:#B8763E,stroke-width:2px,color:#6B4423
-  class wh,sale,ship,acc lane
+  classDef laneWh fill:#E8EEF8,stroke:#3B5FA0,stroke-width:1.5px,color:#26313A
+  classDef laneSale fill:#EFE8F8,stroke:#6A3FA0,stroke-width:1.5px,color:#26313A
+  classDef laneShip fill:#E7F5EE,stroke:#2F8F5B,stroke-width:1.5px,color:#26313A
+  classDef laneAcc fill:#FBF0E2,stroke:#C9791E,stroke-width:1.5px,color:#26313A
+  classDef decision fill:#fff,stroke:#6A3FA0,stroke-width:2px,color:#4A2C70
+  class wh laneWh
+  class sale laneSale
+  class ship laneShip
+  class acc laneAcc
   class B3 decision
-          </pre></div>
-          <div class="shot-cap">Workflow: ซื้อ → รับเข้าคลัง → ขายทั้งก้อน → ส่งของ → บัญชี</div>
-        </div>
+        </pre></div>
+        <div class="shot-cap">Workflow: ซื้อ → รับเข้าคลัง → ขายทั้งก้อน → ส่งของ → บัญชี (คลิกที่แผนภาพเพื่อขยาย)</div>
       </div>
     </div>
   </section>
@@ -214,8 +227,8 @@ flowchart TD
     <div class="type-pill">ประเภท 2</div>
     <div class="eyebrow">แผ่นหินสำเร็จรูป · Ready-Made Slab</div>
     <h2 class="slide-title">ตัดสำรองไว้ล่วงหน้า — แยกวิธีคุมสต็อกตามราคาหิน</h2>
-    <div class="two-col">
-      <div class="col-left">
+    <div class="flow-layout">
+      <div class="flow-text-row">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text"><b>หินแพง (Serial ต่อแผ่น):</b> ทุกแผ่น = 1 Lot แยกกัน ลูกค้าเลือกแผ่นจริงจากลาย/ขนาดผ่าน Select Slabs Wizard — มี scan ยืนยันตอนส่งของ</span></li>
           <li><span class="step-num">2</span><span class="step-text"><b>หินถูก (รวมเป็นล็อต):</b> ไม่ผูก Serial รายแผ่น สต็อกอยู่ระดับ Bundle (<code>remaining_sqmt</code>) ขายบางส่วนได้ (Partial Quantity)</span></li>
@@ -223,12 +236,11 @@ flowchart TD
         </ul>
         <div class="note-box"><b>ตัวอย่างจริง 2 แบบ:</b> หินแพง — EMG-B-0001 (5 แผ่น) ลูกค้าเลือกเฉพาะแผ่นที่ต้องการผ่าน Select Slabs · หินถูก — ขายบางส่วน <b>2.5 จาก 6.0 ตร.ม.</b> ผ่าน Select Lot Stock โดยไม่ต้องซื้อยกล็อต</div>
       </div>
-      <div class="col-right">
-        <div class="shot-wrap">
-          <div class="mermaid-wrap"><pre class="mermaid">
-flowchart TD
+      <div class="flow-diagram">
+        <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
   subgraph wh["ฝ่ายคลัง/ผลิต"]
-    direction LR
+    direction TB
     A1["PO ซื้อก้อนหิน<br/>「หน่วย m³」"]
     A2["รับเข้าคลัง<br/>Block Stock 「CBM」"]
     A3["ตัดแผ่น 「Add Slab Line」<br/>เบิก CBM → ผลิตแผ่น"]
@@ -240,7 +252,7 @@ flowchart TD
     A4 -->|ถูก| A6
   end
   subgraph sale["ฝ่ายขาย"]
-    direction LR
+    direction TB
     B1["SO Select Slabs Wizard<br/>「เลือกทีละแผ่น」"]
     B2["SO Select Lot Stock Wizard<br/>「ระบุ ตร.ม. บางส่วนได้」"]
     B3["ยืนยัน SO"]
@@ -248,23 +260,28 @@ flowchart TD
     B2 --> B3
   end
   subgraph ship["ฝ่ายส่งของ"]
-    direction LR
+    direction TB
     C1["ส่งของ<br/>「สแกนยืนยัน Serial + เซ็นรับ」"]
   end
   subgraph acc["ฝ่ายบัญชี"]
-    direction LR
+    direction TB
     D1["ออก Invoice<br/>VAT 7%"]
   end
   A5 --> B1
   A6 --> B2
   B3 --> C1 --> D1
-  classDef lane fill:#F5F4F2,stroke:#33424B,stroke-width:1.5px,color:#26313A
-  classDef decision fill:#FBF1E7,stroke:#B8763E,stroke-width:2px,color:#6B4423
-  class wh,sale,ship,acc lane
+  classDef laneWh fill:#E8EEF8,stroke:#3B5FA0,stroke-width:1.5px,color:#26313A
+  classDef laneSale fill:#EFE8F8,stroke:#6A3FA0,stroke-width:1.5px,color:#26313A
+  classDef laneShip fill:#E7F5EE,stroke:#2F8F5B,stroke-width:1.5px,color:#26313A
+  classDef laneAcc fill:#FBF0E2,stroke:#C9791E,stroke-width:1.5px,color:#26313A
+  classDef decision fill:#fff,stroke:#3B5FA0,stroke-width:2px,color:#1F3968
+  class wh laneWh
+  class sale laneSale
+  class ship laneShip
+  class acc laneAcc
   class A4 decision
-          </pre></div>
-          <div class="shot-cap">Workflow: ซื้อ → ตัด → ขาย (Serial หรือ Lot) → บัญชี</div>
-        </div>
+        </pre></div>
+        <div class="shot-cap">Workflow: ซื้อ → ตัด → ขาย (Serial หรือ Lot) → บัญชี (คลิกที่แผนภาพเพื่อขยาย)</div>
       </div>
     </div>
   </section>
@@ -274,8 +291,8 @@ flowchart TD
     <div class="type-pill">ประเภท 3</div>
     <div class="eyebrow">ตัดตามสั่ง · Cut-to-Order (MRP)</div>
     <h2 class="slide-title">ยังไม่มีแผ่นจริง — ลูกค้าสั่ง Finish+ขนาดเอง แล้วค่อยตัด</h2>
-    <div class="two-col">
-      <div class="col-left">
+    <div class="flow-layout">
+      <div class="flow-text-row">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">โหมดเดียวที่ใช้ Odoo MRP จริง (Work Center "Stone Cutting") — ต่างจากประเภท 2 ที่ "ตัด" เป็น custom transformation ธรรมดา</span></li>
           <li><span class="step-num">2</span><span class="step-text">ต้องตั้ง <b>Finish attribute</b> บน Product Template (Polished/Honed/Brushed/Sandblasted/Other) ก่อนถึงจะมีตัวเลือกให้ลูกค้าสั่งจริง</span></li>
@@ -283,34 +300,33 @@ flowchart TD
         </ul>
         <div class="bug-box"><b>บทเรียนจากบั๊กจริง 3 ชั้น (แก้แล้ว 2026-07-19):</b> ระบบเคยผูก "1 Bundle = 1 Finish เดียว" ทำให้ปุ่มหาย/wizard หาแผ่นไม่เจอ/ผลิตผิด Finish เมื่อ Bundle เดียวถูกสั่งตัดหลาย Finish จริง — แก้ให้เชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Bundle</div>
       </div>
-      <div class="col-right">
-        <div class="shot-wrap">
-          <div class="mermaid-wrap"><pre class="mermaid">
-flowchart TD
+      <div class="flow-diagram">
+        <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
   subgraph wh["ฝ่ายคลัง/ผลิต"]
-    direction LR
+    direction TB
     A1["PO ซื้อก้อนหิน<br/>「หน่วย m³」"]
     A2["รับเข้าคลัง<br/>Block Stock 「CBM」"]
     A1 --> A2
   end
   subgraph sale["ฝ่ายขาย"]
-    direction LR
+    direction TB
     B1["SO เลือก Finish + ขนาดที่ต้องการ<br/>「ยังไม่มีแผ่นจริง」"]
     B2["ยืนยัน SO → สร้าง<br/>Manufacturing Order อัตโนมัติ"]
     B1 --> B2
   end
   subgraph mrp["ฝ่ายคลัง/ผลิต 「MRP」"]
-    direction LR
+    direction TB
     M1["MO เบิก CBM จาก Block<br/>「Stone Cutting Workcenter」"]
     M2["Mark Done → สร้างแผ่นใหม่<br/>+ Serial Lot"]
     M1 --> M2
   end
   subgraph ship["ฝ่ายส่งของ"]
-    direction LR
+    direction TB
     C1["ส่งของ<br/>「สแกนยืนยัน + เซ็นรับ」"]
   end
   subgraph acc["ฝ่ายบัญชี"]
-    direction LR
+    direction TB
     D1["ออก Invoice<br/>VAT 7%"]
     N1["หมายเหตุ ต้นทุนค่าแรง/Analytic<br/>ต่อ MO ยังไม่ auto 「fast-follow」"]
     D1 -.-> N1
@@ -318,13 +334,20 @@ flowchart TD
   A2 --> B1
   B2 --> M1
   M2 --> C1 --> D1
-  classDef lane fill:#F5F4F2,stroke:#33424B,stroke-width:1.5px,color:#26313A
+  classDef laneWh fill:#E8EEF8,stroke:#3B5FA0,stroke-width:1.5px,color:#26313A
+  classDef laneSale fill:#EFE8F8,stroke:#6A3FA0,stroke-width:1.5px,color:#26313A
+  classDef laneMrp fill:#EAF1FB,stroke:#2E6FA3,stroke-width:1.5px,color:#26313A
+  classDef laneShip fill:#E7F5EE,stroke:#2F8F5B,stroke-width:1.5px,color:#26313A
+  classDef laneAcc fill:#FBF0E2,stroke:#C9791E,stroke-width:1.5px,color:#26313A
   classDef note fill:#F3E7E4,stroke:#A23B32,stroke-width:1.5px,color:#6B2E22
-  class wh,sale,mrp,ship,acc lane
+  class wh laneWh
+  class sale laneSale
+  class mrp laneMrp
+  class ship laneShip
+  class acc laneAcc
   class N1 note
-          </pre></div>
-          <div class="shot-cap">Workflow: ซื้อ → ตัดตามสั่ง (MRP) → ขาย → บัญชี</div>
-        </div>
+        </pre></div>
+        <div class="shot-cap">Workflow: ซื้อ → ตัดตามสั่ง (MRP) → ขาย → บัญชี (คลิกที่แผนภาพเพื่อขยาย)</div>
       </div>
     </div>
   </section>
@@ -461,8 +484,33 @@ flowchart TD
     });
   }
 
+  function wireMermaidZoom(){
+    document.querySelectorAll('.mermaid-wrap').forEach(wrap => {
+      const svg = wrap.querySelector('svg');
+      if(!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      const vb = svg.viewBox.baseVal;
+      wrap.addEventListener('click', () => {
+        const clone = svg.cloneNode(true);
+        clone.removeAttribute('style');
+        clone.setAttribute('width', vb.width);
+        clone.setAttribute('height', vb.height);
+        const xml = new XMLSerializer().serializeToString(clone);
+        const svgB64 = btoa(unescape(encodeURIComponent(xml)));
+        const img = document.getElementById('lightbox-img');
+        img.src = 'data:image/svg+xml;base64,' + svgB64;
+        const avW = window.innerWidth - 100;
+        const avH = window.innerHeight - 100;
+        const scale = Math.min(avW / vb.width, avH / vb.height);
+        img.style.width = (vb.width * scale) + 'px';
+        img.style.height = (vb.height * scale) + 'px';
+        document.getElementById('lightbox').classList.add('active');
+      });
+    });
+  }
+
   await mermaid.run();
   fitMermaidSvgs();
+  wireMermaidZoom();
   window.dispatchEvent(new Event('mermaid-ready'));
 </script>
 
