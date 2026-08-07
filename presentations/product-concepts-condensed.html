@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>4 โหมดการขาย — ฉบับย่อ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:28px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:20px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.48;color:var(--text);}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:12.5px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 7px;font-weight:700;}
+
+  .hier-row{display:flex;gap:12px;margin:12px 0;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:14px;text-align:center;}
+  .hier-card .hlabel{font-size:12.5px;letter-spacing:.5px;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .hier-card .hdesc{font-size:12.5px;color:var(--text);line-height:1.35;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13px;line-height:1.46;color:#6B4423;margin-top:6px;}
+  .note-box b{color:#8F5A2C;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:10px;}
+  .data-table th{text-align:left;padding:7px 10px;background:var(--card);color:var(--copper-dark);font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:7px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:7px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:7px 12px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;}
+  .cmp-table tr.hl td{font-weight:700;color:var(--copper-dark);background:#FBF1E7;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.hl:nth-child(even) td{background:#FBF1E7;}
+
+  .result-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .result-table td{padding:6px 0;border-bottom:1px solid #e6e2dc;}
+  .result-table td:last-child{text-align:right;font-variant-numeric:tabular-nums;}
+  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:8px;font-size:16px;}
+
+  .thumb-grid{display:flex;gap:12px;margin-top:4px;}
+  .thumb-grid .shot-wrap{flex:1;text-align:center;}
+  .thumb-grid .shot{height:190px;object-fit:cover;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.16);width:100%;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center;}
+
+  .two-col{display:flex;gap:26px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+  .col-right .shot-wrap{text-align:center;}
+  .col-right .shot{height:220px;object-fit:cover;object-position:top;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.16);width:100%;background:#eee;cursor:zoom-in;border:1px solid var(--stone);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav,#lightbox{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">4 โหมดการขาย<br>ฉบับย่อ</div>
+    <div class="big-sub">โครงสร้างข้อมูลเดียวกันทั้งหมด (Material → Block → Bundle → Slab) — ต่างกันแค่ "ขายอะไร" และ "ตัดสต็อกยังไง"</div>
+    <div class="stamp">EMG-O Manual · บทที่ 13 · ฉบับย่อจาก product-concepts.html (9 สไลด์)</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · ทำไมต้องมี 4 โหมด</div>
+    <h2 class="slide-title">1 โครงสร้างข้อมูล 4 วิธีขาย ไม่ใช่ระบบแยกกันคนละชุด</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">Material</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Block (ก้อน)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Bundle (ล็อต)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Slab (แผ่น)</span>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">ที่มา</div>
+        <div class="case-text">หลังลูกค้า (Empire Stone) กลับมาต่องานกลางทาง ได้ reframe requirement ใหม่เป็น 4 โหมดการขาย ครอบคลุมสินค้า/วิธีขายที่ต่างกันของธุรกิจหิน — ทุกโหมดใช้ Material → Block → Bundle → Slab เดียวกันหมด</div>
+      </div>
+    </div>
+    <table class="data-table">
+      <tr><th>#</th><th>ประเภท</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th></tr>
+      <tr><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td></tr>
+      <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td></tr>
+      <tr><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายแผ่น (Serial)</td></tr>
+      <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ (ผสมโหมด 1-3 ได้)</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
+    </table>
+    <div class="note-box"><b>หลักคิดสำคัญ:</b> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</div>
+  </section>
+
+  <!-- SLIDE 2: Modes 1-3 -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">โหมด 1-3 · ต่างกันที่ตัดสต็อกตอนไหน</div>
+    <h2 class="slide-title">สต็อกพร้อมขาย, ตัดล่วงหน้า, หรือตัดตามสั่ง — เลือกตามชนิดหิน</h2>
+    <div class="thumb-grid">
+      <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type1.png"><div class="shot-cap">1. หินก้อน — ขายทั้งก้อน ไม่ตัด</div></div>
+      <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type2.png"><div class="shot-cap">2. แผ่นสำเร็จรูป — ตัดล่วงหน้า</div></div>
+      <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type3.png"><div class="shot-cap">3. ตัดตามสั่ง — ตัดหลัง SO (MRP)</div></div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">1. หินก้อน</div><div class="hdesc">หน่วย CBM ขายทั้งก้อน แบ่งขายบางส่วนไม่ได้</div></div>
+      <div class="hier-card"><div class="hlabel">2. แผ่นสำเร็จรูป</div><div class="hdesc">แพง = Serial รายแผ่น / ถูก = รวมเป็นล็อต ขายบางส่วนได้</div></div>
+      <div class="hier-card"><div class="hlabel">3. ตัดตามสั่ง</div><div class="hdesc">โหมดเดียวที่ใช้ MRP จริง ลูกค้าเลือก Finish เอง</div></div>
+    </div>
+    <div class="note-box"><b>บทเรียนจากบั๊กจริง (แก้แล้ว 2026-07-19):</b> ระบบเคยผูก "1 Bundle = 1 Finish เดียว" ทำให้ปุ่มหาย/หาแผ่นไม่เจอ/ผลิตผิด Finish เมื่อ Bundle เดียวถูกสั่งตัดหลาย Finish จริง — แก้ให้เชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Bundle</div>
+  </section>
+
+  <!-- SLIDE 3: Mode 4 -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">โหมด 4 · งานโครงการ (Sold-as-Project)</div>
+    <h2 class="slide-title">ขายเป็นชุดงาน — เพิ่ม 3 อย่างที่โหมดอื่นไม่มี</h2>
+    <div class="case-box">
+      <div class="case-icon">4</div>
+      <div>
+        <div class="case-text-label">Concept</div>
+        <div class="case-text">ขายเป็นชุดงาน (BOQ) หลายรายการรวมกัน (วัสดุ+ค่าแรง) ของโปรเจกต์เดียว — แต่ละบรรทัด BOQ ยังใช้กลไกประเภท 1-3 ได้ตามสินค้านั้นๆ</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">1. Project + Gantt</div><div class="hdesc">1 Task ต่อ 1 บรรทัด BOQ อัตโนมัติ</div></div>
+      <div class="hier-card"><div class="hlabel">2. วางบิลเป็นงวด</div><div class="hdesc">Down Payment 30/40/30% แยกจากส่งของจริง</div></div>
+      <div class="hier-card"><div class="hlabel">3. กำไรรายโครงการ</div><div class="hdesc">Analytic Account รวมต้นทุน+ค่าแรงเทียบรายได้</div></div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <table class="result-table">
+          <tr><td>รายได้ (Invoice) — "โครงการคอนโดบางโพ"</td><td>฿16,000</td></tr>
+          <tr><td>ต้นทุนวัสดุ (PO)</td><td>-฿2,800</td></tr>
+          <tr class="total"><td>กำไรสุทธิจริง (Analytic Items)</td><td>+฿13,200</td></tr>
+        </table>
+        <div class="note-box"><b>Milestone 30/40/30%</b> ใช้ติดตามความคืบหน้างานเท่านั้น <b>ไม่ผูกกับการวางบิล</b> — วางบิลจริงใช้ Native Down Payment Invoice Wizard แยกต่างหาก</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/type4-gantt-chart-live.png"><div class="shot-cap">Gantt Chart จริง — 1 Task ต่อ 1 บรรทัด BOQ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Accounting comparison -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">สรุปด้านบัญชีที่ต่างกัน</div>
+    <h2 class="slide-title">ต้นทุน, ค่าแรง, จังหวะ Invoice — ต่างกันยังไงในแต่ละโหมด</h2>
+    <table class="cmp-table">
+      <tr><th></th><th>1. ก้อน</th><th>2. สำเร็จรูป</th><th>3. ตัดตามสั่ง</th><th>4. โครงการ</th></tr>
+      <tr><td>ต้นทุนอ้างอิงจาก</td><td>cost_cbm</td><td>cost_sqmt</td><td>ต้นทุนวัสดุ MRP</td><td>รวมทุกใบ Analytic</td></tr>
+      <tr><td>คิดค่าแรงแยกรายงาน?</td><td>ไม่มี</td><td>ไม่มี</td><td>ยังไม่มี (fast-follow)</td><td>มี ถ้า tag เอง</td></tr>
+      <tr><td>ขายข้ามบริษัท (EG↔ES)</td><td>รองรับ (Markup 10%)</td><td>รองรับ (Markup 10%)</td><td>ยังไม่ได้ทดสอบ</td><td>รองรับต่อบรรทัด</td></tr>
+      <tr class="hl"><td>จังหวะออก Invoice</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td>แยกเป็นงวด 30/40/30</td></tr>
+    </table>
+    <div class="note-box">VAT 7% เหมือนกันทุกโหมด — ความต่างอยู่ที่ "ต้นทุนอ้างอิงจากไหน" กับ "จังหวะออก Invoice" เป็นหลัก</div>
+  </section>
+
+  <!-- SLIDE 5: Summary -->
+  <section class="slide dark" id="slide-5">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">1 โครงสร้างข้อมูล เลือกวิธีขายให้ตรงกับสินค้าจริง</h2>
+    <div class="flow-bar" style="margin-bottom:24px;">
+      <span class="flow-chip" style="background:var(--copper);">Material → Block → Bundle → Slab</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เลือกโหมด 1-4</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ขาย → ส่งของ → บัญชี</span>
+    </div>
+    <table class="data-table" style="background:rgba(255,255,255,.04);">
+      <tr style="background:transparent;"><th style="background:rgba(255,255,255,.08);color:#D9A465;">โหมด</th><th style="background:rgba(255,255,255,.08);color:#D9A465;">ใช้เมื่อ</th></tr>
+      <tr style="color:#DDE3E0;"><td>1. หินก้อนนำเข้า</td><td>ขายวัตถุดิบทั้งก้อน ไม่ตัด</td></tr>
+      <tr style="color:#DDE3E0;"><td>2. แผ่นสำเร็จรูป</td><td>มีสต็อกแผ่นพร้อมขายทันที</td></tr>
+      <tr style="color:#DDE3E0;"><td>3. ตัดตามสั่ง</td><td>ลูกค้าเลือก Finish/ขนาดเอง</td></tr>
+      <tr style="color:#DDE3E0;"><td>4. งานโครงการ</td><td>ขายหลายรายการรวมเป็นงานเดียว ต้องดูกำไรรวม</td></tr>
+    </table>
+    <div style="margin-top:20px;font-size:14px;color:#B9C2C8;">เนื้อหาละเอียดเต็ม 9 สไลด์ ดูที่ product-concepts.html · อ้างอิง EMG-O Manual บทที่ 13</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 6</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
