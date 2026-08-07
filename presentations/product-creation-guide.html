@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เข้าใจ Product หิน — Material, Block, Slab — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:50px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+
+  .type-pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:6px 16px 7px;border-radius:99px;font-weight:700;color:#fff;background:var(--copper);margin-bottom:12px;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:12.5px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 7px;font-weight:700;}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+  .hier-card.required{background:#FBF0E2;border:2px solid var(--copper);}
+  .hier-card.optional{background:#EFE8F8;border:2px dashed #6A3FA0;}
+  .hier-card .hlabel{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:13px;color:var(--text);line-height:1.4;}
+  .hier-card .htag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:8px;color:#8F5A2C;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:20px;font-weight:700;flex-shrink:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14px;line-height:1.48;padding-top:2px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:8px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:8px 12px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+
+  .two-col{display:flex;gap:28px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+  .col-right .shot-wrap{text-align:center;}
+  .col-right .shot{height:280px;object-fit:cover;object-position:top;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.16);width:100%;background:#eee;cursor:zoom-in;border:1px solid var(--stone);}
+  .shot-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center;}
+
+  .thumb-grid{display:flex;gap:12px;margin-top:4px;}
+  .thumb-grid .shot-wrap{flex:1;text-align:center;}
+  .thumb-grid .shot{height:230px;object-fit:cover;object-position:top;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.16);width:100%;background:#eee;cursor:zoom-in;border:1px solid var(--stone);}
+
+  .decision-list{list-style:none;margin:0;padding:0;}
+  .decision-list li{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 16px;margin-bottom:10px;font-size:14px;line-height:1.45;color:#DDE3E0;display:flex;gap:12px;}
+  .decision-list b{color:#D9A465;}
+  .decision-q{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--copper);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav,#lightbox{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">เข้าใจ Product หิน<br>ตั้งแต่ความหมาย ถึงหน้าจอจริง</div>
+    <div class="big-sub">Material, Block, Slab คืออะไร — และขั้นตอนตั้งค่าจริงในระบบ ครบทุกสถานการณ์การขาย พร้อมภาพหน้าจอจริงทุกขั้นตอน</div>
+    <div class="stamp">EMG-O Manual · Product Creation Guide · อ้างอิงจาก production จริง</div>
+  </section>
+
+  <!-- SLIDE 1: Block vs Slab -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">เริ่มจากของจริงก่อน</div>
+    <h2 class="slide-title">หินก้อน กับ หินแผ่น คนละอย่างกันตั้งแต่ต้น</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">ทำไมต้องรู้ก่อน</div>
+        <div class="case-text">ธุรกิจหินขายได้ 2 รูปแบบจากวัตถุดิบเดียวกัน — รู้ความต่างก่อน จะเข้าใจว่าทำไมระบบให้สร้างสินค้าได้ถึง 2 ตัวจากหินชนิดเดียว</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card">
+        <div class="hlabel">หินก้อน (Block)</div>
+        <div class="hdesc">ก้อนหินดิบขนาดใหญ่ ยังไม่ตัดแปรรูป<br>ขายทั้งก้อนไปให้ลูกค้าตัดเอง<br><b>นับเป็นปริมาตร (m³)</b></div>
+      </div>
+      <div class="hier-card">
+        <div class="hlabel">หินแผ่น (Slab)</div>
+        <div class="hdesc">แผ่นที่ตัดออกจากก้อนแล้ว<br>ขายเป็นแผ่นๆ พร้อมใช้งานจริง<br><b>นับเป็นจำนวนแผ่น/ตร.ม.</b></div>
+      </div>
+    </div>
+    <div class="note-box"><b>จำง่ายๆ:</b> ก้อน = วัตถุดิบยังไม่แปรรูป ขายเป็นปริมาตร · แผ่น = แปรรูปแล้ว ขายเป็นชิ้น</div>
+  </section>
+
+  <!-- SLIDE 2: Material concept -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">โครงสร้างของระบบ</div>
+    <h2 class="slide-title">1 ชนิดหิน (Material) ผูกได้ถึง 2 สินค้า</h2>
+    <div class="case-box">
+      <div class="case-icon">M</div>
+      <div>
+        <div class="case-text-label">Material คืออะไร</div>
+        <div class="case-text">คือ "ชนิดหิน" 1 ชนิด เช่น Emperador Grey Light — สร้างครั้งเดียว ระบบพาไปสร้างสินค้าที่ต้องใช้ให้ครบในฟอร์มเดียวกัน ไม่ต้องสร้างแยกทีละหน้า</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Material</div><div class="hdesc">ชนิดหิน เช่น<br>Emperador Grey Light<br>(1 Material = 1 record)</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card required"><div class="hlabel">Slab Product</div><div class="hdesc">สินค้าหินแผ่น</div><div class="htag">บังคับกรอกเสมอ</div></div>
+      <div class="hier-card optional"><div class="hlabel">Block Product</div><div class="hdesc">สินค้าหินก้อน</div><div class="htag">ทางเลือก — เปิดโหมด "ขายทั้งก้อน"</div></div>
+    </div>
+    <div class="note-box"><b>ถ้าไม่กรอก Block Product:</b> วัสดุนี้จะขายได้แค่เป็นแผ่นเท่านั้น — กรอกเพิ่มทีหลังได้ ไม่บังคับต้องรู้ครบตั้งแต่วันแรก</div>
+  </section>
+
+  <!-- SLIDE 3: Why separate units -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ทำไมต้องแยก 2 สินค้า</div>
+    <h2 class="slide-title">หน่วยนับกับวิธีนับสต็อกไม่เหมือนกันเลย</h2>
+    <table class="cmp-table">
+      <tr><th>เรื่อง</th><th>หินแผ่น (Slab)</th><th>หินก้อน (Block)</th></tr>
+      <tr><td>หน่วยนับ</td><td>ชิ้น / ตร.ม.</td><td>m³ (ปริมาตร)</td></tr>
+      <tr><td>วิธี track สต็อก</td><td>Serial Number ต่อแผ่น</td><td>Lot ต่อก้อน</td></tr>
+      <tr><td>ทำไมต้อง track แบบนี้</td><td>แต่ละแผ่นลาย/ขนาดไม่เหมือนกัน ต้องรู้ว่าส่งแผ่นไหนจริงไปให้ใคร</td><td>ขายทั้งก้อน ไม่แบ่งขาย ไม่ต้องแยกละเอียดรายชิ้น</td></tr>
+    </table>
+    <div class="note-box">นี่คือเหตุผลที่ระบบแยกเป็นคนละ SKU (สินค้าคนละตัว) แม้จะเป็นหินชนิดเดียวกัน — เพราะวิธีจัดการสต็อกต่างกันโดยสิ้นเชิง</div>
+  </section>
+
+  <!-- SLIDE 4: Container / Bundle / Lot -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">อีกชั้นที่ควรรู้จัก</div>
+    <h2 class="slide-title">ตู้คอนเทนเนอร์ → ก้อนหิน → ป้ายสต็อก คืออะไร</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="hier-row" style="flex-direction:column;">
+          <div class="hier-card" style="text-align:left;padding:12px 16px;"><div class="hlabel">📦 Container</div><div class="hdesc">ตู้คอนเทนเนอร์ที่ขนส่งมาจริง 1 เที่ยว — เหมือนกล่องพัสดุใบใหญ่ มีวันที่คาดว่าจะถึง/ถึงจริง และค่าขนส่งจริง 1 บิล</div></div>
+          <div class="hier-card" style="text-align:left;padding:12px 16px;"><div class="hlabel">🪨 Bundle</div><div class="hdesc">หินแต่ละก้อนที่อยู่ในตู้นั้น — เหมือนของแต่ละชิ้นในกล่อง นี่คือสิ่งที่พนักงานกรอกข้อมูลจริงตอนรับของ</div></div>
+          <div class="hier-card" style="text-align:left;padding:12px 16px;"><div class="hlabel">🏷️ Lot</div><div class="hdesc">ป้ายที่ระบบสร้างให้อัตโนมัติตอนบันทึก Bundle เพื่อนับสต็อกเบื้องหลัง — พนักงานไม่ต้องสร้างหรือแตะเอง</div></div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap">
+          <img class="shot" src="assets/pc-07-container-bundles.png">
+          <div class="shot-cap">ตัวอย่างจริง: Container EMG-CNT-001 มี 2 Bundle อยู่ข้างใน</div>
+        </div>
+      </div>
+    </div>
+    <div class="note-box"><b>สรุปสั้นๆ:</b> พนักงานเห็นแค่ Container กับ Bundle เท่านั้นในการทำงานจริง — ส่วน Lot เป็นกลไกของ Odoo เองที่ทำงานอยู่เบื้องหลัง</div>
+  </section>
+
+  <!-- SLIDE 5: Roadmap -->
+  <section class="slide dark" id="slide-5">
+    <div class="eyebrow">ตอนที่ 2 — ลงมือสร้างจริง</div>
+    <h2 class="slide-title">5 เงื่อนไขที่ต้องตัดสินใจตอนสร้าง Product</h2>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><span class="step-text" style="color:#DDE3E0;">พื้นฐาน — ทุกวัสดุต้องมี Material + Slab Product เสมอ</span></li>
+      <li><span class="step-num">2</span><span class="step-text" style="color:#DDE3E0;">จะขายทั้งก้อนด้วยไหม? → เปิด Block Product</span></li>
+      <li><span class="step-num">3</span><span class="step-text" style="color:#DDE3E0;">หินราคาถูก/จำนวนมากไหม? → ตั้ง Pricing Mode = Lot</span></li>
+      <li><span class="step-num">4</span><span class="step-text" style="color:#DDE3E0;">ให้ลูกค้าเลือก Finish (ขัดเงา/ด้าน) เองไหม? → เพิ่ม Finish Attribute</span></li>
+      <li><span class="step-num">5</span><span class="step-text" style="color:#DDE3E0;">เป็นงานโครงการที่มีค่าแรงด้วยไหม? → สร้างสินค้าประเภท Service</span></li>
+    </ul>
+    <div class="note-box">แต่ละข้อไม่ต้องเลือกอันเดียว — วัสดุตัวหนึ่งเปิดได้หลายเงื่อนไขพร้อมกัน (เช่น ขายทั้งก้อนได้ และมี Finish ให้เลือกด้วย)</div>
+  </section>
+
+  <!-- SLIDE 6: Basic setup -->
+  <section class="slide" id="slide-6">
+    <div class="type-pill">เงื่อนไขที่ 1 · พื้นฐานทุกวัสดุ</div>
+    <div class="eyebrow">สร้าง Material + Slab Product</div>
+    <h2 class="slide-title">Configuration → Materials → New</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Configuration → Materials → New — ตั้งชื่อ, Category, Origin Country</span></li>
+          <li><span class="step-num">2</span><span class="step-text"><b>Slab Product</b> (บังคับกรอกเสมอ) — พิมพ์ชื่อสินค้าใหม่ → Create and edit... → ตั้ง Sales Price/Cost</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เปิด <b>Track Inventory</b> → เลือก <b>By Unique Serial Number</b> → Save</span></li>
+        </ul>
+        <div class="note-box"><b>ทำไมต้อง Serial:</b> หินแต่ละแผ่นลาย/ขนาดไม่เหมือนกัน ระบบต้องรู้ว่าส่งแผ่นไหนจริงไปให้ลูกค้าคนไหน</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap">
+          <img class="shot" src="assets/pc-02-slab-product-serial.png">
+          <div class="shot-cap">หน้าจอจริง: Slab Product ตั้ง Track Inventory = By Unique Serial Number</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Block product -->
+  <section class="slide" id="slide-7">
+    <div class="type-pill">เงื่อนไขที่ 2 · ทางเลือก</div>
+    <div class="eyebrow">เปิดโหมด "ขายทั้งก้อน"</div>
+    <h2 class="slide-title">Block Product — field นี้แหละที่เปิดการขายก้อนทั้งก้อน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text"><b>Block Product</b> (ทางเลือก) → Create and edit... → ตั้ง Sales Price/Cost</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เปิด Track Inventory → <b>เปลี่ยนหน่วยเป็น m³</b> → Tracking เลือก <b>By Lots</b> → Save</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กลับมาหน้า Material → กด Save อีกครั้ง — เสร็จแล้ว ทั้ง 2 สินค้าพร้อมใช้งาน</span></li>
+        </ul>
+        <div class="note-box"><b>⚠ จุดที่มักพลาด:</b> ต้องเปิดฟีเจอร์ "Units of Measure" ก่อน (Inventory → Configuration → Settings) ไม่งั้นช่องหน่วย m³ จะไม่โผล่ให้เลือก</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap">
+          <img class="shot" src="assets/pc-03-block-product-lots.png">
+          <div class="shot-cap">หน้าจอจริง: Block Product หน่วย m³, Tracking = By Lots</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Lot pricing mode -->
+  <section class="slide" id="slide-8">
+    <div class="type-pill">เงื่อนไขที่ 3 · ทางเลือก</div>
+    <div class="eyebrow">หินราคาถูก / จำนวนมาก</div>
+    <h2 class="slide-title">Pricing Mode = Lot — ไม่ต้องแยก Serial รายแผ่น</h2>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><span class="step-text">Materials → New → กรอก Name/Category ตามปกติ</span></li>
+      <li><span class="step-num">2</span><span class="step-text"><b>Pricing Mode → เลือก "Lot (aggregate, cheap stone)"</b> — จุดเดียวที่ต่างจากหินแพง</span></li>
+      <li><span class="step-num">3</span><span class="step-text">Slab Product → ตั้งราคา → เปิด Track Inventory → ปล่อย Tracking ค่า default ไว้ → Save</span></li>
+    </ul>
+    <div class="thumb-grid">
+      <div class="shot-wrap"><img class="shot" src="assets/pc-04-material-lot-pricing.png"><div class="shot-cap">Pricing Mode = Lot (aggregate, cheap stone)</div></div>
+      <div class="shot-wrap"><img class="shot" src="assets/pc-05-slab-product-autolots.png"><div class="shot-cap">Tracking เปลี่ยนเป็น "By Lots" ให้อัตโนมัติ</div></div>
+    </div>
+    <div class="note-box"><b>เหมาะกับ:</b> หินมาตรฐานที่แผ่นแทบไม่ต่างกัน ราคาถูก ไม่คุ้มจะ track รายแผ่น — เลือกได้ตั้งแต่ตอนสร้าง ล็อกทันทีที่มี Bundle แรกเกิดขึ้น</div>
+  </section>
+
+  <!-- SLIDE 9: Finish attribute -->
+  <section class="slide" id="slide-9">
+    <div class="type-pill">เงื่อนไขที่ 4 · ทางเลือก</div>
+    <div class="eyebrow">ให้ลูกค้าเลือก Finish เอง</div>
+    <h2 class="slide-title">ตั้ง Finish Attribute บนตัว Product Template</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">สร้าง Material + Slab Product ตามปกติ (เหมือนเงื่อนไข 1)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เปิดสินค้าแบบฟอร์มเต็ม ผ่าน <b>Sales → Products → Products</b></span></li>
+          <li><span class="step-num">3</span><span class="step-text">แท็บ <b>Attributes & Variants</b> → Add a line → เลือก "Finish" → เลือกค่าที่รองรับ (เช่น Polished, Honed) → Save</span></li>
+        </ul>
+        <div class="note-box"><b>⚠ ต้องเปิดก่อน:</b> ฟีเจอร์ "Variants" (Sales → Configuration → Settings) ไม่งั้นแท็บนี้จะไม่โผล่เลย</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap">
+          <img class="shot" src="assets/pc-06-finish-attribute.png">
+          <div class="shot-cap">หน้าจอจริง: Rosa Portogallo ตั้ง Finish = Polished + Honed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Service product -->
+  <section class="slide" id="slide-10">
+    <div class="type-pill">เงื่อนไขที่ 5 · ทางเลือก</div>
+    <div class="eyebrow">งานโครงการที่มีค่าแรง</div>
+    <h2 class="slide-title">สินค้าประเภท Service — สำหรับค่าแรง/บริการ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text"><b>Sales → Products → Products → New</b> (ไม่ผ่านฟอร์ม Material เพราะไม่ใช่หินที่ต้องคุมสต็อก)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตั้งชื่อ เช่น "ค่าแรงติดตั้งหน้างาน"</span></li>
+          <li><span class="step-num">3</span><span class="step-text"><b>Product Type → เลือก "Service"</b> — ไม่มี Track Inventory ให้ตั้ง เพราะไม่มีสต็อกจริง → ตั้งราคา → Save</span></li>
+        </ul>
+        <div class="note-box">เอาสินค้า Service นี้ไปใส่รวมกับบรรทัดวัสดุใน SO เดียวกัน แล้วติ๊ก "ขายแบบโครงการ" ตอนยืนยัน — ระบบจะรวมต้นทุน+รายได้ให้ดูกำไรที่โครงการเดียว</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap">
+          <img class="shot" src="assets/type4-service-product-form.png">
+          <div class="shot-cap">หน้าจอจริง: สินค้า Service ตั้ง Product Type = Service</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Decision checklist -->
+  <section class="slide dark" id="slide-11">
+    <div class="eyebrow">สรุป · ก่อนเริ่มสร้าง</div>
+    <h2 class="slide-title">Checklist 5 คำถามก่อนสร้าง Product</h2>
+    <ul class="decision-list">
+      <li><span class="decision-q">1</span>วัสดุนี้เป็นชนิดหินใหม่ที่ยังไม่มีในระบบใช่ไหม? → เริ่มที่ <b>Configuration → Materials → New</b> เสมอ</li>
+      <li><span class="decision-q">2</span>ลูกค้าจะซื้อทั้งก้อนไปตัดเองไหม? → เปิด <b>Block Product</b> ตั้งหน่วย m³</li>
+      <li><span class="decision-q">3</span>เป็นหินราคาถูก ไม่คุ้มแยกรายแผ่นไหม? → <b>Pricing Mode = Lot</b> ตั้งแต่ตอนสร้าง (แก้ทีหลังไม่ได้)</li>
+      <li><span class="decision-q">4</span>อยากให้ลูกค้าเลือกผิว (Finish) เองไหม? → เพิ่ม <b>Finish Attribute</b> ที่ Product Template</li>
+      <li><span class="decision-q">5</span>งานนี้มีค่าแรง/บริการรวมด้วยไหม? → สร้างสินค้า <b>Service</b> แยกต่างหาก</li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 12: Next step -->
+  <section class="slide dark" id="slide-12">
+    <div class="eyebrow">ขั้นต่อไป</div>
+    <h2 class="slide-title" style="color:#fff;">สร้าง Product เสร็จแล้ว ยังขายไม่ได้ทันที — ต้องมี Bundle ก่อน</h2>
+    <div class="flow-bar" style="margin-bottom:22px;">
+      <span class="flow-chip" style="background:var(--copper);">สร้าง Material + Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ซื้อ (PO) → รับเข้า Container/Bundle</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">มีสต็อกจริง → ขายได้</span>
+    </div>
+    <table class="data-table" style="background:rgba(255,255,255,.04);">
+      <tr style="background:transparent;"><th style="background:rgba(255,255,255,.08);color:#D9A465;">เรื่อง</th><th style="background:rgba(255,255,255,.08);color:#D9A465;">ต้องรู้ก่อนตัดสินใจ</th></tr>
+      <tr style="color:#DDE3E0;"><td>Bundle ต้องมาจากไหน</td><td>ผ่านการรับสินค้าจริงผ่าน PO เท่านั้น — สร้าง Bundle ลอยๆ จะไม่ผูก Product อัตโนมัติ</td></tr>
+      <tr style="color:#DDE3E0;"><td>4 โหมดการขายเต็มๆ</td><td>ดูที่ deck "4 โหมดการขาย" (ครอบคลุมวิธีขายจริงของแต่ละเงื่อนไข)</td></tr>
+    </table>
+    <div style="margin-top:22px;font-size:14.5px;color:#B9C2C8;">อ้างอิงจาก EMG-O Manual บทที่ 13 · ทดสอบจริงบน production</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 13</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
