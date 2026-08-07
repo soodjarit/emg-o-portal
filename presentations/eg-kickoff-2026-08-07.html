@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>EG Kick-off Meeting — 2026-08-07</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:28px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:50px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:820px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:16px;line-height:1.5;padding-top:3px;}
+  .step-sub{font-size:13px;color:var(--muted);margin-top:2px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+
+  .img-frame{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card);border-radius:14px;padding:16px;overflow:hidden;min-height:0;}
+  .img-frame img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;}
+
+  .ask-list{list-style:none;margin:0;padding:0;}
+  .ask-list li{background:var(--card);border-radius:12px;padding:14px 18px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;}
+  .ask-icon{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;}
+  .ask-title{font-size:14.5px;font-weight:700;color:var(--charcoal);margin-bottom:2px;}
+  .ask-desc{font-size:13px;color:var(--muted);line-height:1.4;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:13px;padding:9px 16px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:#D9A465;font-size:18px;margin:0 8px;font-weight:700;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav,#lightbox{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EG</div>
+    <div class="eyebrow">Empire Granite Co., Ltd. · ERP Implementation</div>
+    <div class="big-title">Kick-off Meeting<br>โครงการ Empire Granite ERP</div>
+    <div class="big-sub">เริ่มต้นโครงการอย่างเป็นทางการ — ทบทวนขอบเขตงาน แผนงาน และขั้นตอนถัดไปร่วมกัน</div>
+    <div class="stamp">7 สิงหาคม 2026 · EG-KICK-OFF</div>
+  </section>
+
+  <!-- SLIDE 1: Agenda -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">วันนี้เราจะคุยอะไรกันบ้าง</div>
+    <h2 class="slide-title">วาระการประชุม</h2>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><div><div class="step-text">แนะนำทีมงานและบทบาทของแต่ละฝ่าย</div></div></li>
+      <li><span class="step-num">2</span><div><div class="step-text">ทบทวนขอบเขตระบบ (Scope)</div><div class="step-sub">โมดูลและ flow การทำงานที่จะสร้างในระบบ</div></div></li>
+      <li><span class="step-num">3</span><div><div class="step-text">แผนงานและ Timeline</div><div class="step-sub">Phase การทำงานตั้งแต่กรกฎาคม–ธันวาคม 2026</div></div></li>
+      <li><span class="step-num">4</span><div><div class="step-text">สิ่งที่ต้องเตรียมจากฝั่ง Empire Granite</div></div></li>
+      <li><span class="step-num">5</span><div><div class="step-text">ถาม-ตอบ และขั้นตอนถัดไป</div></div></li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 2: Scope -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ภาพรวมขอบเขตระบบ</div>
+    <h2 class="slide-title">3 กลุ่มงานหลัก ครอบคลุมตั้งแต่ขาย จนถึงบัญชี</h2>
+    <div class="img-frame"><img class="shot" src="assets/kickoff-scope.png"></div>
+    <div class="note-box"><b>Demand Generation:</b> Website → CRM → Sale &nbsp;·&nbsp; <b>Ensure Supply:</b> Project / Manufacturing / Purchase / Inventory &nbsp;·&nbsp; <b>Accounting:</b> ปิดจบที่บัญชี — ทุกโมดูลเชื่อมข้อมูลถึงกันอัตโนมัติ ไม่ต้องคีย์ซ้ำ</div>
+  </section>
+
+  <!-- SLIDE 3: Timeline -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">แผนงานโครงการ</div>
+    <h2 class="slide-title">8 Phase หลัก กรกฎาคม–ธันวาคม 2026</h2>
+    <div class="img-frame"><img class="shot" src="assets/kickoff-gantt.png"></div>
+    <div class="note-box">เส้นแดง = วันนี้ · แถบด้านล่างแต่ละ Task = Baseline เทียบแผนเดิม — ใช้ติดตามความคืบหน้าตลอดโครงการ</div>
+  </section>
+
+  <!-- SLIDE 4: What we need from client -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">เพื่อให้โครงการเดินหน้าได้ราบรื่น</div>
+    <h2 class="slide-title">สิ่งที่ต้องการจากฝั่ง Empire Granite</h2>
+    <ul class="ask-list">
+      <li><span class="ask-icon">1</span><div><div class="ask-title">ผู้ประสานงานหลัก (Key Contact)</div><div class="ask-desc">ผู้รับผิดชอบตอบคำถาม/ยืนยันงานแต่ละ Phase ฝั่ง Empire Granite</div></div></li>
+      <li><span class="ask-icon">2</span><div><div class="ask-title">ตารางประชุมติดตามความคืบหน้า</div><div class="ask-desc">ความถี่ที่เหมาะสม (เสนอ: รายสัปดาห์) เพื่อ review ความคืบหน้าตาม Gantt</div></div></li>
+      <li><span class="ask-icon">3</span><div><div class="ask-title">ข้อมูลตั้งต้นของระบบ</div><div class="ask-desc">เช่น รายชื่อสินค้า/วัสดุ, Chart of Accounts, รายชื่อผู้ใช้งานระบบ</div></div></li>
+      <li><span class="ask-icon">4</span><div><div class="ask-title">ช่องทางติดต่อระหว่างการพัฒนา</div><div class="ask-desc">สำหรับคำถามเร่งด่วนนอกรอบประชุมประจำ</div></div></li>
+    </ul>
+    <div class="note-box">รายการนี้เป็นข้อเสนอเบื้องต้น — ปรับตามที่ตกลงกันจริงในที่ประชุม</div>
+  </section>
+
+  <!-- SLIDE 5: Closing -->
+  <section class="slide dark" id="slide-5">
+    <div class="eyebrow">ขั้นตอนถัดไป</div>
+    <h2 class="slide-title" style="color:#fff;">เริ่ม Phase 1 ทันทีหลังจากวันนี้</h2>
+    <div class="flow-bar" style="margin-bottom:26px;">
+      <span class="flow-chip">Kick-off (วันนี้)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Phase 1: Project Preparation</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Phase 2-3: Demand + Supply Setup</span>
+    </div>
+    <div class="note-box" style="font-size:15px;">ขอบคุณที่ร่วมประชุมวันนี้ครับ — มีคำถามหรือข้อเสนอแนะเพิ่มเติม ติดต่อทีมงานได้ตลอดโครงการ</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 6</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
