@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ทำไมต้องมี Bundle — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:48px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .case-box{background:rgba(255,255,255,.06);}
+  .dark .case-text{color:#DDE3E0;}
+  .dark .case-text-label{color:#D9A465;}
+
+  .quote-box{background:var(--charcoal);color:#fff;border-radius:16px;padding:26px 32px;font-size:19px;line-height:1.55;font-family:Cambria,serif;font-style:italic;margin-bottom:18px;position:relative;}
+  .quote-box .qmark{font-size:44px;color:var(--copper);font-family:Georgia,serif;line-height:1;position:absolute;top:8px;left:20px;font-style:normal;opacity:.7;}
+  .quote-box .qtext{padding-left:38px;}
+  .quote-meta{font-size:13px;color:var(--muted);}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+  .hier-card.required{background:#FBF0E2;border:2px solid var(--copper);}
+  .hier-card .hlabel{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:13px;color:var(--text);line-height:1.4;}
+  .hier-card .htag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:8px;color:#8F5A2C;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:20px;font-weight:700;flex-shrink:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14px;line-height:1.48;padding-top:2px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+  .note-box.warn{background:#FBEAE7;color:#7A2E20;}
+  .note-box.warn b{color:#B8432E;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:8px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:8px 12px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;text-align:left;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table td.good{color:#2E7D4F;font-weight:700;}
+  .cmp-table td.bad{color:#B8432E;font-weight:700;}
+
+  .num-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+  .num-table th{text-align:right;padding:9px 14px;background:var(--card);color:var(--copper-dark);font-size:11.5px;letter-spacing:.3px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .num-table th:first-child{text-align:left;}
+  .num-table td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--stone);}
+  .num-table td:first-child{text-align:left;color:var(--text);font-weight:600;}
+  .num-table tr.hl td{font-weight:700;background:#FBF0E2;}
+  .num-table tr.hl td:first-child{color:var(--copper-dark);}
+
+  .two-col{display:flex;gap:28px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+
+  .decision-list{list-style:none;margin:0;padding:0;}
+  .decision-list li{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 16px;margin-bottom:10px;font-size:14px;line-height:1.45;color:#DDE3E0;display:flex;gap:12px;}
+  .decision-list b{color:#D9A465;}
+  .decision-q{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--copper);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+
+  .code-box{background:#1C2529;color:#DDE3E0;border-radius:10px;padding:14px 18px;font-family:Consolas,Menlo,monospace;font-size:12.5px;line-height:1.6;margin:12px 0;white-space:pre;overflow-x:auto;}
+  .code-box .cm{color:#7F8C93;}
+  .code-box .kw{color:#D9A465;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">ทำไมต้องมี Bundle</div>
+    <div class="big-sub">คำตอบเสริมจากคำถามที่ยกขึ้นในที่ประชุม Kick Off — Bundle ทำหน้าที่อะไรจริงๆ และถ้าไม่มี จะกระทบอะไรบ้าง</div>
+    <div class="stamp">EMG-O · Design Discussion · ตอบคำถามจาก Kick Off Meeting 2026-08-07</div>
+  </section>
+
+  <!-- SLIDE 1: Recap the question -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ทบทวนก่อน</div>
+    <h2 class="slide-title">คำถามที่ยกขึ้นมาในที่ประชุม</h2>
+    <div class="quote-box">
+      <span class="qmark">"</span>
+      <div class="qtext">Bundle จำเป็นจริงไหม — ทำไมไม่ใช้ Lot ของ Odoo ตรงๆ ไปเลย</div>
+    </div>
+    <div class="quote-meta">— จากที่ประชุม Kick Off โครงการ ERP, 2026-08-07</div>
+    <div class="case-box" style="margin-top:20px;">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">ทำไมสไลด์นี้ถึงเกิดขึ้น</div>
+        <div class="case-text">เป็นคำถามที่ดีและตรงประเด็นมาก — ตอนอธิบายรอบแรกอาจสื่อสารไม่ครบว่า Bundle ทำหน้าที่อะไรบ้าง สไลด์ต่อจากนี้จะไล่ตั้งแต่ Odoo มาตรฐานให้อะไรมา ไปจนถึงสิ่งที่จะหายไปถ้าตัด Bundle ออก</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: What Odoo native Lot gives -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">เริ่มจากของมาตรฐานก่อน</div>
+    <h2 class="slide-title">Odoo มาตรฐานให้ "Lot" มาแค่ไหน</h2>
+    <div class="case-box">
+      <div class="case-icon">L</div>
+      <div>
+        <div class="case-text-label">Lot คืออะไร</div>
+        <div class="case-text">กลไก track สต็อกเป็นชุด/เป็นชิ้นของ Odoo เอง ใช้ร่วมกันทุกโมดูล ทุกธุรกิจ ไม่ใช่แค่ธุรกิจหิน</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th>Lot มาตรฐานเก็บอะไรได้</th><th>มี</th></tr>
+      <tr><td>ชื่อ/รหัส Lot</td><td class="good">✓</td></tr>
+      <tr><td>สินค้าที่ผูกอยู่ (Product)</td><td class="good">✓</td></tr>
+      <tr><td>วันหมดอายุ (สำหรับสินค้าที่ต้องใช้)</td><td class="good">✓</td></tr>
+      <tr><td>ความหนา / คุณภาพ / Finish เฉพาะรอบนำเข้า</td><td class="bad">✗</td></tr>
+      <tr><td>ต้นทุนจริงต่อรอบนำเข้า (PO + ค่าขนส่งเฉพาะรอบนั้น)</td><td class="bad">✗</td></tr>
+      <tr><td>การเฉลี่ยค่าขนส่งข้ามหลายก้อนในตู้คอนเทนเนอร์เดียวกัน</td><td class="bad">✗</td></tr>
+    </table>
+    <div class="note-box"><b>สรุป:</b> Lot มาตรฐานตอบโจทย์ "นับสต็อกเป็นชุด" ได้ แต่ไม่มีที่เก็บข้อมูลเฉพาะธุรกิจหินที่เราต้องใช้จริงเลย</div>
+  </section>
+
+  <!-- SLIDE 3: Real business scenarios -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">โจทย์จริงของธุรกิจหิน</div>
+    <h2 class="slide-title">4 เหตุการณ์ที่เกิดขึ้นจริงหน้างาน</h2>
+    <div class="case-box">
+      <div class="case-icon">A</div>
+      <div><div class="case-text-label">ต้นทุนต่างกันตามรอบนำเข้า</div><div class="case-text">Emperador Grey ล็อตนี้ค่าขนส่งแพงกว่าล็อตก่อน 2 เดือนที่แล้ว — ต้องรู้ต้นทุนจริงแยกตามรอบ ไม่ใช่เฉลี่ยรวมทั้งหมด</div></div>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">B</div>
+      <div><div class="case-text-label">ลูกค้าต้องการหินจากก้อนเดียวกัน</div><div class="case-text">งานผนังต่อเนื่องผืนใหญ่ ต้องการลาย/สีต่อกัน — ฝ่ายขายต้องเลือกแผ่นจาก "ก้อนเดียวกัน" ได้</div></div>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">C</div>
+      <div><div class="case-text-label">ตู้เดียว หลายก้อน ต้องเฉลี่ยค่าขนส่ง</div><div class="case-text">1 ตู้คอนเทนเนอร์มีหลายก้อน หนา/คุณภาพต่างกัน ค่า Freight+Duty จ่ายทีเดียวทั้งตู้ ต้องเฉลี่ยลงแต่ละก้อนตามสัดส่วนจริง</div></div>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">D</div>
+      <div><div class="case-text-label">คุณภาพต่างกันแต่ละรอบนำเข้า</div><div class="case-text">หินชนิดเดียวกัน แต่ล็อตนี้ลาย/ตำหนิเยอะกว่า ราคาขายเลยต่างกัน — ข้อมูลนี้อยู่ที่ "รอบนำเข้า" ไม่ใช่ที่ "ชนิดหิน"</div></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Bundle solves this - diagram -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">Bundle เข้ามาแก้ตรงไหน</div>
+    <h2 class="slide-title">Container → Bundle → Lot → Slab</h2>
+    <div class="hier-row" style="flex-direction:column;">
+      <div class="hier-card" style="text-align:left;padding:14px 18px;"><div class="hlabel">📦 Container</div><div class="hdesc">ตู้คอนเทนเนอร์ 1 เที่ยวขนส่งจริง — มีค่าขนส่ง+ภาษี 1 บิล ที่ต้องเฉลี่ยลงของข้างในตู้</div></div>
+      <div class="hier-arrow" style="align-self:center;">↓</div>
+      <div class="hier-card required" style="text-align:left;padding:14px 18px;"><div class="hlabel">🪨 Bundle — จุดที่ตอบคำถามนี้</div><div class="hdesc">หินแต่ละก้อนในตู้นั้น — เก็บ Thickness/Quality/Finish/ต้นทุนจริงของก้อนนี้โดยเฉพาะ พนักงานกรอกข้อมูลจริงตรงนี้เพียงจุดเดียว</div></div>
+      <div class="hier-arrow" style="align-self:center;">↓</div>
+      <div class="hier-card" style="text-align:left;padding:14px 18px;"><div class="hlabel">🏷️ Lot (Odoo มาตรฐาน)</div><div class="hdesc">1 แผ่นที่ตัดออกมา = 1 Lot อัตโนมัติ — กลไก track สต็อกของ Odoo เอง พนักงานไม่ต้องสร้าง/แตะเอง</div></div>
+      <div class="hier-arrow" style="align-self:center;">↓</div>
+      <div class="hier-card" style="text-align:left;padding:14px 18px;"><div class="hlabel">🔲 Slab ที่ลูกค้าซื้อ</div><div class="hdesc">แผ่นจริงที่ส่งมอบ — ย้อนกลับไปดูได้เสมอว่ามาจาก Bundle ไหน ก้อนไหน รอบนำเข้าไหน</div></div>
+    </div>
+    <div class="note-box"><b>สรุป:</b> Bundle คือชั้นเดียวที่พนักงานเห็นและกรอกข้อมูลจริง — ส่วน Lot ระดับแผ่นเป็นกลไกอัตโนมัติเบื้องหลังที่ Odoo สร้างให้ ไม่ว่าจะมี Bundle หรือไม่ก็ต้องมี Lot ระดับแผ่นอยู่ดี (ต้องมีเพื่อแยกแต่ละแผ่นออกจากกัน)</div>
+  </section>
+
+  <!-- SLIDE 5: Numeric example -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ตัวอย่างตัวเลข (สมมติ เพื่อประกอบการอธิบาย)</div>
+    <h2 class="slide-title">ต้นทุนเพี้ยนแค่ไหน ถ้าไม่แยกตามรอบนำเข้า</h2>
+    <table class="num-table">
+      <tr><th>รายการ</th><th>ล็อต 1 (ก.ค.)</th><th>ล็อต 2 (ก.ย. ค่าขนส่งขึ้น)</th></tr>
+      <tr><td>ต้นทุนซื้อ (PO) / m³</td><td>4,500 บาท</td><td>4,500 บาท</td></tr>
+      <tr><td>ค่าขนส่ง+ภาษี (Landed Cost) / m³</td><td>800 บาท</td><td>1,400 บาท</td></tr>
+      <tr class="hl"><td>ต้นทุนจริงต่อก้อน / m³</td><td>5,300 บาท</td><td>5,900 บาท</td></tr>
+    </table>
+    <div class="two-col" style="margin-top:18px;">
+      <div class="col-left">
+        <div class="note-box"><b>มี Bundle (ปัจจุบัน):</b> แต่ละก้อนเก็บต้นทุนจริงของตัวเอง — แผ่นจากล็อต 1 ต้นทุน 5,300 แผ่นจากล็อต 2 ต้นทุน 5,900 ตรงตามบิลจริง</div>
+      </div>
+      <div class="col-right">
+        <div class="note-box warn"><b>ถ้าไม่มี Bundle (เฉลี่ยรวมแบบ Odoo มาตรฐาน):</b> ทั้ง 2 ล็อตถูกตีเป็นต้นทุนเดียว 5,600 บาท — ล็อต 1 ถูกบวกต้นทุนเกินจริง 300 บาท ล็อต 2 ถูกตัดต้นทุนขาดไป 300 บาท ต่อ m³</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Doesn't touch native Lot -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">จุดสำคัญด้านวิศวกรรมระบบ</div>
+    <h2 class="slide-title" style="color:#fff;">Bundle ไม่ไปแตะ Lot มาตรฐานของ Odoo เลย</h2>
+    <div class="case-box">
+      <div class="case-icon">✓</div>
+      <div>
+        <div class="case-text-label">ตรวจสอบจากโค้ดจริงแล้ว</div>
+        <div class="case-text">ไม่มีจุดไหนในระบบที่ไปแก้ไข/เพิ่ม field บนตาราง Lot กลางของ Odoo เลยแม้แต่จุดเดียว — Lot ยังเป็นมาตรฐาน 100% ทุก report/ทุกโมดูลอื่นที่ใช้ Lot อยู่ ทำงานปกติ ไม่กระทบ</div>
+      </div>
+    </div>
+    <div class="code-box"><span class="cm"># ค้นทั้งโมดูล — ไม่มีผลลัพธ์ = ไม่มีการแก้ไข stock.lot เลย</span>
+grep <span class="kw">"_inherit = 'stock.lot'"</span> models/*.py
+<span class="cm">→ (ไม่พบ)</span></div>
+    <div class="note-box"><b>ทำไมออกแบบแบบนี้:</b> ถ้าไปเติม field เฉพาะธุรกิจหิน (ความหนา/คุณภาพ/ต้นทุน) ลงบนตาราง Lot ตรงๆ จะกลายเป็นแก้ตารางหลักที่ทุกโมดูลในระบบใช้ร่วมกัน เสี่ยงชนกับพฤติกรรมมาตรฐานและการอัปเดตระบบในอนาคต — Bundle คือพื้นที่แยกต่างหากสำหรับเก็บข้อมูลเฉพาะของหิน โดยไม่ต้องแตะกลไกกลางที่ใช้ร่วมกันทั้งบริษัท</div>
+  </section>
+
+  <!-- SLIDE 7: Comparison table -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">สรุปเทียบให้เห็นภาพ</div>
+    <h2 class="slide-title">มี Bundle vs ไม่มี Bundle</h2>
+    <table class="cmp-table">
+      <tr><th>เรื่อง</th><th>มี Bundle (ปัจจุบัน)</th><th>ตัด Bundle ออก</th></tr>
+      <tr><td>ต้นทุนต่อรอบนำเข้า</td><td class="good">แม่นตามบิลจริง</td><td class="bad">เฉลี่ยรวมทุกรอบ (ไม่แม่น)</td></tr>
+      <tr><td>หาแผ่นจากก้อนเดียวกัน</td><td class="good">กรองได้ตรงๆ</td><td class="bad">ต้องหาที่เก็บข้อมูลนี้ใหม่</td></tr>
+      <tr><td>เฉลี่ยค่าขนส่งข้ามหลายก้อนในตู้เดียว</td><td class="good">มีกลไกรองรับแล้ว</td><td class="bad">ต้องออกแบบใหม่ทั้งหมด</td></tr>
+      <tr><td>Thickness/Quality/Finish ต่อรอบนำเข้า</td><td class="good">มีที่เก็บชัดเจน</td><td class="bad">ไม่มีที่เก็บ (ต้องเพิ่ม field บน Lot กลางแทน)</td></tr>
+      <tr><td>จำนวน concept ที่ต้องเข้าใจ</td><td class="bad">มากกว่า 1 ชั้น</td><td class="good">ดูเรียบง่ายกว่าในหน้าจอ</td></tr>
+    </table>
+    <div class="note-box"><b>สรุปตรงๆ:</b> ข้อดีเดียวของการตัด Bundle คือหน้าจอดูเรียบง่ายขึ้น — แต่ต้องแลกกับความแม่นยำต้นทุนและการตามรอยแผ่นหินย้อนกลับไปที่ก้อนเดิม ซึ่งเป็นของที่ธุรกิจหินมักต้องใช้จริง</div>
+  </section>
+
+  <!-- SLIDE 8: Questions back to client -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">คำถามกลับไปยังลูกค้า</div>
+    <h2 class="slide-title" style="color:#fff;">ช่วยยืนยัน 3 ข้อนี้ เพื่อให้ตัดสินใจตรงจุด</h2>
+    <ul class="decision-list">
+      <li><span class="decision-q">1</span>โอเคไหมถ้าต้นทุนหินแต่ละล็อตถูกเฉลี่ยรวมกัน <b>ไม่แยกตามรอบนำเข้า</b> — ยอมรับความคลาดเคลื่อนของต้นทุนได้แค่ไหน?</li>
+      <li><span class="decision-q">2</span>แคร์ไหมว่าลูกค้าปลายทางจะได้ <b>แผ่นจากก้อนเดียวกัน</b> (ลายต่อเนื่อง) — เป็นเรื่องที่ลูกค้าถามหาบ่อยหรือไม่?</li>
+      <li><span class="decision-q">3</span>ตู้คอนเทนเนอร์ที่นำเข้าปกติ <b>มีกี่ก้อนต่อตู้</b> — ถ้าปกติ 1 ตู้ = 1 ก้อนเสมอ ประเด็นเรื่องเฉลี่ยค่าขนส่งข้ามก้อนอาจไม่ใช่ปัญหาจริงในทางปฏิบัติ</li>
+    </ul>
+    <div class="note-box">คำตอบของ 3 ข้อนี้จะช่วยชี้ว่าจุดไหนที่ Bundle "จำเป็นจริง" กับจุดไหนที่อาจลดความซับซ้อนของหน้าจอลงได้โดยไม่เสียของสำคัญ</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>

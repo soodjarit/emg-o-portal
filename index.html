@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Empire Stone — Odoo System Portal</title>
+<title>EMG-O Project Portal — หน้าแรก</title>
 <style>
   :root{
     --copper:#B8763E;
@@ -13,294 +13,177 @@
     --bg:#F3F1EE;
     --card:#FFFFFF;
     --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
-  .wrap{max-width:880px;margin:0 auto;padding:64px 24px 100px;}
-  header{margin-bottom:48px;}
+  a{color:inherit;}
+
+  .topnav{background:var(--charcoal);padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .topnav-brand{color:#fff;font-family:Cambria,serif;font-weight:700;font-size:17px;padding:16px 0;}
+  .topnav-brand span{color:#9AA0A4;font-family:Calibri,Arial,sans-serif;font-weight:400;font-size:13px;margin-left:8px;}
+  .topnav-links{display:flex;gap:4px;}
+  .tn-link{padding:16px 16px;font-size:14px;color:#C9CDCF;text-decoration:none;border-bottom:3px solid transparent;font-weight:600;}
+  .tn-link:hover{color:#fff;}
+  .tn-link.active{color:#fff;border-bottom-color:var(--copper);}
+
+  .wrap{max-width:880px;margin:0 auto;padding:44px 24px 100px;}
+  header{margin-bottom:36px;}
   .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
-  h1{font-size:36px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
-  .sub{font-size:16px;color:#6B6E70;line-height:1.6;max-width:620px;}
+  h1{font-size:32px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15.5px;color:#6B6E70;line-height:1.6;max-width:640px;}
 
-  .group{margin-bottom:40px;}
-  .group-title{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:14px;}
+  .phase-badge{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--copper);border-radius:99px;padding:8px 18px;font-size:14px;font-weight:700;color:var(--copper-dark);margin-top:14px;}
+  .phase-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--copper);}
 
-  .category{margin-bottom:56px;}
-  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
-  .category-title{font-size:23px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
-  .category-sub{font-size:14px;color:#9A9D9F;}
-  .category-empty{background:var(--card);border:1.5px dashed var(--border);border-radius:14px;padding:22px;font-size:14px;color:#9A9D9F;text-align:center;}
+  .section{margin-bottom:44px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--charcoal);}
+  .section-title{font-size:20px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .section-sub{font-size:13px;color:#9A9D9F;}
+  .section-link{font-size:13.5px;color:var(--copper-dark);text-decoration:none;font-weight:700;white-space:nowrap;}
+  .section-link:hover{text-decoration:underline;}
 
-  .subgroup{margin:22px 0 4px 0;padding-left:16px;border-left:3px solid var(--copper);}
-  .subgroup-title{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:12px;}
-  .subgroup-sub{font-size:12.5px;color:#9A9D9F;font-weight:400;text-transform:none;letter-spacing:0;margin-left:6px;}
+  .item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;}
+  .item a.item-doclink{text-decoration:none;}
+  .tag{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:99px;white-space:nowrap;margin-top:1px;}
+  .tag.open{background:var(--red-bg);color:var(--red);}
+  .tag.pending{background:var(--amber-bg);color:var(--amber);}
+  .tag.done{background:var(--green-bg);color:var(--green);}
+  .item-body{flex:1;}
+  .item-title{font-size:14.5px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
+  .item-desc{font-size:13.5px;color:#787B7D;line-height:1.5;}
+  .item-desc a{color:var(--copper-dark);font-weight:700;text-decoration:none;}
+  .item-desc a:hover{text-decoration:underline;}
 
-  .card{
-    display:flex;align-items:center;gap:18px;
+  .doc-card{
+    display:flex;align-items:center;gap:16px;
     background:var(--card);border:1px solid var(--border);border-radius:14px;
-    padding:20px 22px;margin-bottom:14px;text-decoration:none;color:inherit;
+    padding:17px 20px;margin-bottom:10px;text-decoration:none;color:inherit;
     transition:box-shadow .15s ease, transform .15s ease;
   }
-  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
-  .icon{
-    flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);
-    color:#fff;display:flex;align-items:center;justify-content:center;
-    font-size:16px;font-weight:700;font-family:Cambria,serif;
-  }
-  .subgroup .icon{background:var(--charcoal);}
-  .card-title{font-size:17px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
-  .card-desc{font-size:14px;color:#787B7D;line-height:1.5;}
-  .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
-  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+  .doc-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .doc-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:Cambria,serif;}
+  .doc-title{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:2px;}
+  .doc-desc{font-size:13px;color:#787B7D;line-height:1.4;}
+  .doc-arrow{margin-left:auto;color:var(--copper);font-size:18px;flex-shrink:0;}
+
+  footer{margin-top:48px;font-size:13px;color:#9A9D9F;padding-top:20px;border-top:1px solid var(--border);}
 </style>
 </head>
 <body>
+
+<div class="topnav">
+  <div class="topnav-brand">EMG-O <span>Project Portal</span></div>
+  <div class="topnav-links">
+    <a href="index.html" class="tn-link active">หน้าแรก</a>
+    <a href="decisions.html" class="tn-link">บันทึกการตัดสินใจ</a>
+    <a href="library.html" class="tn-link">คลังเอกสารทั้งหมด</a>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite</div>
-    <h1>ระบบ Odoo — เอกสารและคู่มือ</h1>
-    <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว กดดูได้ทันทีจากลิงก์ด้านล่าง — หน้านี้จะอัปเดตทุกครั้งที่มีเอกสารใหม่</div>
+    <h1>ภาพรวมโครงการ ERP</h1>
+    <div class="sub">พื้นที่กลางระหว่างทีมงานกับลูกค้า — เห็นสถานะล่าสุด สิ่งที่กำลังตัดสินใจร่วมกัน และเอกสารที่เกี่ยวข้องกับงานตอนนี้</div>
+    <div class="phase-badge"><span class="dot"></span>Phase 1 — Demand Generation (Website / CRM / Sales / Product Design)</div>
   </header>
 
-  <div class="group">
-    <div class="group-title">ภาพรวม</div>
-    <a class="card" href="presentations/eg-kickoff-2026-08-07.html">
-      <div class="icon">K</div>
-      <div>
-        <div class="card-title">Kick-off Meeting — 2026-08-07</div>
-        <div class="card-desc">วาระ, ขอบเขตระบบ, Timeline โครงการ — สไลด์เปิดโครงการกับ Empire Granite</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="manual/emg-o-manual.html">
-      <div class="icon">M</div>
-      <div>
-        <div class="card-title">คู่มือฉบับเต็ม (25 บท)</div>
-        <div class="card-desc">ทุกโหมดการขาย, การจัดซื้อ, BOQ, Intercompany, Scan Station — พร้อม screenshot ทุกขั้นตอน</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/emg-o-training-presentation.html">
-      <div class="icon">O</div>
-      <div>
-        <div class="card-title">ภาพรวมระบบ EMG-O</div>
-        <div class="card-desc">รับหินเข้าคลัง → ตัดแผ่น → ขาย → ส่งของ — ยกตัวอย่างสถานการณ์จริงก่อน แล้วค่อยพาไปดูหน้าจอทีละขั้นตอน</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-  </div>
-
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">Demand Generation</div>
-      <div class="category-sub">สร้างดีมานด์ — การตลาด, CRM, เสนอราคา, ปิดการขาย</div>
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">🔴 กำลังหารือ — ขอความเห็นจากลูกค้า</div>
     </div>
-
-    <a class="card" href="presentations/product-concepts.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">4 โหมดการขาย (Product Concepts)</div>
-        <div class="card-desc">หินก้อนนำเข้า / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ BOQ — พร้อมตัวอย่างจริงและกำไรจริงรายโครงการ</div>
+    <div class="item">
+      <span class="tag open">กำลังหารือ</span>
+      <div class="item-body">
+        <div class="item-title">Bundle จำเป็นไหม — ทำไมไม่ใช้ Lot ของ Odoo ตรงๆ</div>
+        <div class="item-desc">คำถามจากที่ประชุม Kick Off — ดูตัวอย่างการใช้งานจริงและสิ่งที่จะเสียไปถ้าตัด Bundle ออก ได้ที่ <a href="presentations/bundle-why-explainer.html">เอกสารอธิบาย Bundle →</a></div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-concepts-condensed.html">
-      <div class="icon">1S</div>
-      <div>
-        <div class="card-title">4 โหมดการขาย — ฉบับย่อ</div>
-        <div class="card-desc">เนื้อหาเดียวกัน ย่อจาก 9 สไลด์เหลือ 6 — ใช้เวลาน้อยกว่าเวลาต้องพรีเซนต์เร็ว</div>
+    </div>
+    <div class="item">
+      <span class="tag pending">รอคำตอบ</span>
+      <div class="item-body">
+        <div class="item-title">หน่วยนับหลักของ Block: "คิว" (CBM) หรือ "ตัน"?</div>
+        <div class="item-desc">ตลาดกำลังเปลี่ยนมาใช้หน่วยตัน — ระบบรองรับได้ทั้งคู่แต่แนะนำเลือกหลักเดียว รอ confirm จากฝั่งลูกค้า</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-concepts-mermaid.html">
-      <div class="icon">1M</div>
-      <div>
-        <div class="card-title">4 โหมดการขาย (Mermaid Draft)</div>
-        <div class="card-desc">เวอร์ชัน flow diagram ใหม่ด้วย Mermaid แทน Excalidraw เดิมที่เส้นขาด — รอ confirm ก่อนใช้แทนของเดิม</div>
+    </div>
+    <div class="item">
+      <span class="tag open">กำลังออกแบบ</span>
+      <div class="item-body">
+        <div class="item-title">ขั้นตอนผลิต Slab → Finished Good (FG) ยังไม่มีระบบรองรับ</div>
+        <div class="item-desc">ปัจจุบันเป็นงาน manual ทั้งหมด (ฝ่ายขายส่งโน้ตให้โรงงาน) — กำลังออกแบบว่าจะเชื่อมเข้าระบบอย่างไร</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/website-crm-lead-capture.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">ติดต่อลูกค้าและ CRM</div>
-        <div class="card-desc">ฟอร์มหน้าเว็บ → Opportunity เข้า Pipeline อัตโนมัติ → Contact สร้าง/เชื่อมให้เอง — ไม่ต้องพิมพ์ข้อมูลซ้ำ</div>
+    </div>
+    <div class="item">
+      <span class="tag open">กำลังออกแบบ</span>
+      <div class="item-body">
+        <div class="item-title">วิธีเก็บสต็อก FG แบบไม่ต้องแม่น 100%</div>
+        <div class="item-desc">ลูกค้าไม่ต้องการเก็บ FG แบบ Serial เต็มรูปแบบ แต่ต้องการเห็นภาพรวมคร่าวๆ — กำลังหาจุดกึ่งกลางที่เหมาะสม</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/selling-flow-walkthrough.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">พาลูกค้าดูสด: ขายแผ่นสำเร็จรูป</div>
-        <div class="card-desc">คู่มือพรีเซนต์ทีละขั้นตอน — เลือกแผ่นจริง → ยืนยัน → ออกใบแจ้งหนี้ → ส่งของ+สแกน → เซ็นรับ พร้อมจุดห้ามลืม 3 จุด</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-    <div class="subgroup">
-      <div class="subgroup-title">BOQ Estimation <span class="subgroup-sub">— ตั้งแต่เตรียมระบบ ปิดการขาย จนถึงส่งมอบ</span></div>
-      <a class="card" href="presentations/boq-sold-as-project.html">
-        <div class="icon">B1</div>
-        <div>
-          <div class="card-title">BOQ Estimation + Sold-as-Project (ฉบับเต็ม)</div>
-          <div class="card-desc">Rate Library → BOQ Document → ใบเสนอราคา → ผูกสินค้าจริง → Project + Gantt + วางบิลเป็นงวด → ดูกำไรจริง</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/boq-quickstart-sales.html">
-        <div class="icon">B2</div>
-        <div>
-          <div class="card-title">สำหรับทีมขายมือใหม่ (Quickstart)</div>
-          <div class="card-desc">สมมติว่า Rate Library มีคนเตรียมไว้ให้หมดแล้ว — เหลือแค่ 3 ขั้นตอนที่ sale ต้องทำจริง จนถึงพิมพ์/ส่งออกให้ลูกค้า</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/boq-quickstart-operations.html">
-        <div class="icon">B3</div>
-        <div>
-          <div class="card-title">สำหรับทีม Operation (หลังลูกค้าตกลงซื้อ)</div>
-          <div class="card-desc">เลือกแผ่นจริง → Recompute Price → ส่งของ → ออกใบแจ้งหนี้ — งานต่อจากที่ทีมขายส่งมอบมา</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/boq-quickstart-setup.html">
-        <div class="icon">B4</div>
-        <div>
-          <div class="card-title">เตรียมระบบให้ทีมขายใช้งานได้ (สำหรับ Estimate)</div>
-          <div class="card-desc">ตั้ง Rate Library → ผูก Product → ทดสอบก่อนปล่อยใช้จริง — สิ่งที่ต้องทำก่อนทีมขายจะเริ่มใช้ deck Quickstart ได้</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="manual/boq-examples.html">
-        <div class="icon">B5</div>
-        <div>
-          <div class="card-title">ตัวอย่าง BOQ 5 แบบ</div>
-          <div class="card-desc">ตัวอย่างใบเสนอราคาจริงจากงานหน้างานประเภทต่างๆ</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
     </div>
   </div>
 
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">Ensure Supply</div>
-      <div class="category-sub">จัดหาและบริหารสต็อกให้พร้อมส่งมอบ</div>
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">📌 สำคัญตอนนี้</div>
+      <div class="section-sub">เอกสารที่เกี่ยวข้องกับงานช่วง Phase 1</div>
     </div>
-    <a class="card" href="presentations/product-creation-guide.html">
-      <div class="icon">0F</div>
-      <div>
-        <div class="card-title">เข้าใจ Product หิน — Material, Block, Slab</div>
-        <div class="card-desc">ปูพื้นความหมาย Material/Block/Slab/Bundle/Lot ก่อน แล้วค่อยลง step ตั้งค่าจริงครบ 5 เงื่อนไข พร้อมภาพหน้าจอจริงทุกขั้นตอน (13 สไลด์)</div>
-      </div>
-      <div class="arrow">→</div>
+    <a class="doc-card" href="presentations/eg-kickoff-2026-08-07.html">
+      <div class="doc-icon">K</div>
+      <div><div class="doc-title">Kick-off Meeting — 2026-08-07</div><div class="doc-desc">วาระ, ขอบเขตระบบ, Timeline โครงการ</div></div>
+      <div class="doc-arrow">→</div>
     </a>
-    <a class="card" href="presentations/product-setup-guide.html">
-      <div class="icon">0</div>
-      <div>
-        <div class="card-title">วิธีสร้าง Product (ก้อน + แผ่น)</div>
-        <div class="card-desc">เริ่มจาก Material 1 ตัว → สร้าง Slab Product (บังคับ) + Block Product (ทางเลือก เปิดโหมดขายทั้งก้อน) พร้อมตัวอย่างจริง</div>
-      </div>
-      <div class="arrow">→</div>
+    <a class="doc-card" href="presentations/product-concepts.html">
+      <div class="doc-icon">1</div>
+      <div><div class="doc-title">4 โหมดการขาย (Product Concepts)</div><div class="doc-desc">หินก้อนนำเข้า / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ BOQ</div></div>
+      <div class="doc-arrow">→</div>
     </a>
-    <a class="card" href="presentations/purchasing-overview.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">การจัดซื้อ (Purchasing)</div>
-        <div class="card-desc">ซื้อหิน (ผูก Bundle) กับซื้อของทั่วไป (Receipt ปกติ) — ระบบแยกเส้นทางให้อัตโนมัติ + กฎห้ามลืมเรื่องใบรับสินค้าของหิน</div>
-      </div>
-      <div class="arrow">→</div>
+    <a class="doc-card" href="presentations/product-creation-guide.html">
+      <div class="doc-icon">P</div>
+      <div><div class="doc-title">เข้าใจ Product หิน — Material, Block, Slab</div><div class="doc-desc">ปูพื้นความหมายก่อนลงรายละเอียดการตั้งค่าจริง</div></div>
+      <div class="doc-arrow">→</div>
     </a>
-    <a class="card" href="presentations/inventory-overview.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">การจัดการสต็อก (Inventory)</div>
-        <div class="card-desc">ตัดแผ่น → ดูภาพรวม Kanban → เช็ค/ย้ายสต็อกด้วย Scan Station → รับคืนสินค้า — ครบวงจรตั้งแต่ก้อนหินถึงคืนสินค้า</div>
-      </div>
-      <div class="arrow">→</div>
+    <a class="doc-card" href="presentations/website-crm-lead-capture.html">
+      <div class="doc-icon">C</div>
+      <div><div class="doc-title">ติดต่อลูกค้าและ CRM</div><div class="doc-desc">ฟอร์มหน้าเว็บ → Opportunity เข้า Pipeline อัตโนมัติ</div></div>
+      <div class="doc-arrow">→</div>
     </a>
   </div>
 
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">Management &amp; Accounting</div>
-      <div class="category-sub">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">✅ ตัดสินใจล่าสุด</div>
+      <a class="section-link" href="decisions.html">ดูประวัติทั้งหมด →</a>
     </div>
-    <a class="card" href="presentations/analytic-accounting.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">กำไรรายโครงการ (Analytic Accounting)</div>
-        <div class="card-desc">ผูก Analytic Account เข้ากับ Bundle ครั้งเดียว — ต้นทุนและรายได้ทั้งสายแปะป้ายให้อัตโนมัติ จนเห็นกำไรจริงของแต่ละโครงการ</div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">เพิ่ม Finished Good (FG) เป็นสินค้าประเภทใหม่ ต่อจาก Slab</div>
+        <div class="item-desc">สำหรับสินค้าที่ตัดตามแบบ/ขัดผิวแล้ว — 2026-08-07</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/wht-certificate.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</div>
-        <div class="card-desc">พิมพ์แบบ 50 ทวิ ได้จากบิลผู้ขายโดยตรง — อัตราภาษีมีอยู่แล้วในระบบ ไม่ต้องตั้งค่าเพิ่ม</div>
+    </div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">Intercompany: Admin คีย์ PO แทนอีกบริษัท ระบบสร้าง SO ให้อัตโนมัติ</div>
+        <div class="item-desc">ไม่ต้องเชื่อมระบบบัญชีข้ามบริษัททันที — 2026-08-07</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/stone-cost-landed-cost.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">ต้นทุนหินก้อน + Landed Cost</div>
-        <div class="card-desc">รู้ต้นทุนจริงตั้งแต่วันนำเข้า ไม่ต้องรอตัดแผ่น — ค่าขนส่งกระจายตามสัดส่วนจริง และตรวจสอบย้อนกลับไปหาบิลจริงได้เสมอ</div>
+    </div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">ประชุมติดตามความคืบหน้าออนไลน์ทุกวันศุกร์ 13:30 น.</div>
+        <div class="item-desc">ใช้เอกสารในพอร์ทัลนี้เป็นหลักในการอัปเดต — 2026-08-07</div>
       </div>
-      <div class="arrow">→</div>
-    </a>
+    </div>
   </div>
 
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">E2E Full Walkthroughs</div>
-      <div class="category-sub">เดินสดครบวงจรตั้งแต่เปิดใบขายจนถึงรับเงิน — ทุก Mode การขาย</div>
-    </div>
-    <a class="card" href="presentations/e2e-po-to-inv.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">E2E — PO to INV (ตัดแผ่นด้วยมือ)</div>
-        <div class="card-desc">เดินสดครบวงจร ตั้งแต่ Purchase Order → Bundle → ตัดแผ่นเอง → ขาย → Invoice → Vendor Bill — ผูก Analytic Account ตัวเดียวตามรอยต้นทุน+กำไรทั้งสาย พร้อมจุดห้ามลืมที่เจอจริง</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/e2e-cut-to-order.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">E2E — Cut to Order (ตัดตามออเดอร์) + รับชำระเงิน</div>
-        <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → สั่งตัดผ่าน Manufacturing Order → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — ไม่ต้องมีสต็อกแผ่นสำเร็จรูปล่วงหน้าก็ขายได้ พร้อมจุดห้ามลืมที่เจอจริง</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/e2e-mode1-block.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">E2E — ขายทั้งก้อน (Sell Whole Block) ข้ามบริษัท</div>
-        <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → เลือกก้อนหินขายทั้งก้อน → ยืนยันขาย → ระบบสร้างเอกสารซื้อ-ขายภายในข้ามบริษัทอัตโนมัติ → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — พร้อมจุดที่ต้องยืนยันดีไซน์กับลูกค้า</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/e2e-intercompany.html">
-      <div class="icon">4</div>
-      <div>
-        <div class="card-title">E2E — Intercompany Trade (Select Slabs ข้ามบริษัท)</div>
-        <div class="card-desc">เงื่อนไขที่ต้องมีให้ขายข้ามบริษัทได้ + เดินสดครบวงจรตั้งแต่เลือกแผ่นข้ามบริษัท → Auto Intercompany → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — รวมจุดที่เผลอ Post/Pay ผิดจริงและวิธีแก้</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/e2e-mode2-lot-stock.html">
-      <div class="icon">5</div>
-      <div>
-        <div class="card-title">E2E — Select Lot Stock (ขายแบบล็อต) + รับชำระเงิน</div>
-        <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → เลือกล็อตหินที่ตั้งราคาแบบตารางเมตร → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — พร้อมจุดห้ามลืมตอน Validate ที่เจอจริง</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-  </div>
-
-  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน</footer>
+  <footer>EMG-O Project Portal — Empire Stone × Empire Granite · <a href="library.html">ดูคลังเอกสารทั้งหมด</a></footer>
 </div>
 </body>
 </html>
-<!-- deploy-kick 20260807T013433Z -->
