@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Material กับ 3 Product Types — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+    --slab:#B8763E;
+    --block:#3F6A6E;
+    --fg:#6A3FA0;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:48px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+
+  .type-pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:6px 16px 7px;border-radius:99px;font-weight:700;color:#fff;margin-bottom:12px;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:12.5px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 7px;font-weight:700;}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+  .hier-card.required{background:#FBF0E2;border:2px solid var(--copper);}
+  .hier-card.optional{background:#E9F1F1;border:2px dashed var(--block);}
+  .hier-card.optional-fg{background:#F1EBFA;border:2px dashed var(--fg);}
+  .hier-card .hlabel{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .hier-card .hdesc{font-size:13px;color:var(--text);line-height:1.4;}
+  .hier-card .htag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:8px;color:#8F5A2C;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:20px;font-weight:700;flex-shrink:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14px;line-height:1.48;padding-top:2px;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:8px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:8px 12px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+
+  .two-col{display:flex;gap:28px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;justify-content:center;}
+
+  .diagram-box{background:var(--card);border-radius:16px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .dbox{width:100%;border-radius:12px;padding:16px 18px;color:#fff;font-weight:700;font-family:Cambria,serif;font-size:16px;text-align:center;}
+  .dbox .sub{display:block;font-family:Calibri,Arial,sans-serif;font-weight:400;font-size:12px;margin-top:4px;color:rgba(255,255,255,.85);}
+  .darrow{color:var(--muted);font-size:20px;font-weight:700;}
+
+  .decision-list{list-style:none;margin:0;padding:0;}
+  .decision-list li{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 16px;margin-bottom:10px;font-size:14px;line-height:1.45;color:#DDE3E0;display:flex;gap:12px;}
+  .decision-list b{color:#D9A465;}
+  .decision-q{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--copper);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">Material กับ 3 Product Types<br>Slab · Block · Finished Good</div>
+    <div class="big-sub">หิน 1 ชนิด (Material) แตกออกเป็นสินค้าได้ถึง 3 ตัวในระบบ — ตัวอย่างจริงจากที่เพิ่งทำกัน: Calacatta Gold</div>
+    <div class="stamp">EMG-O · Quick Concept Explainer · 2026-08-09</div>
+  </section>
+
+  <!-- SLIDE 1: Material = 1 core, 3 product types -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">โครงสร้างหลัก</div>
+    <h2 class="slide-title">Material คือ "ชนิดหิน" — 1 ตัว แตกได้ถึง 3 Product Type</h2>
+    <div class="case-box">
+      <div class="case-icon">M</div>
+      <div>
+        <div class="case-text-label">Material คืออะไร</div>
+        <div class="case-text">สร้างครั้งเดียว ตั้งชื่อชนิดหิน เช่น <b>Calacatta Gold</b> — จากนั้นระบบพาไปสร้าง "สินค้า" (Product) ที่ผูกกับหินชนิดนี้ได้ 3 แบบ แล้วแต่ธุรกิจต้องการขายแบบไหน</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card required"><div class="hlabel" style="color:var(--slab);">① Slab Product</div><div class="hdesc">หินแผ่น<br>ขายเป็นแผ่นๆ</div><div class="htag">บังคับเสมอ</div></div>
+      <div class="hier-card optional"><div class="hlabel" style="color:var(--block);">② Block Product</div><div class="hdesc">หินก้อน<br>ขายทั้งก้อน/ตัดตามสั่ง</div><div class="htag">ทางเลือก</div></div>
+      <div class="hier-card optional-fg"><div class="hlabel" style="color:var(--fg);">③ Finished Good</div><div class="hdesc">ของสำเร็จรูป<br>ตัดจาก Slab อีกที</div><div class="htag">ทางเลือก</div></div>
+    </div>
+    <div class="note-box"><b>1 Material ไม่ต้องมีครบ 3 ตัวเสมอไป:</b> Slab บังคับมีเสมอ ส่วน Block กับ FG เพิ่มได้ทีหลังเมื่อธุรกิจต้องการ — ไม่ต้องรู้ครบตั้งแต่วันแรก</div>
+  </section>
+
+  <!-- SLIDE 2: Type 1 Slab -->
+  <section class="slide" id="slide-2">
+    <div class="type-pill" style="background:var(--slab);">Product Type 1 · บังคับเสมอ</div>
+    <div class="eyebrow">หินแผ่นพร้อมขาย</div>
+    <h2 class="slide-title">Slab Product — แผ่นที่ตัดสำเร็จแล้ว ขายตรงได้เลย</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">มาจากการตัดหินก้อน (Block) หรือรับเข้ามาเป็นแผ่นสำเร็จโดยตรง</span></li>
+          <li><span class="step-num">2</span><span class="step-text">แต่ละแผ่น ลาย/ขนาดไม่เหมือนกัน — ต้อง track แยกเป็น <b>Unique Serial Number</b> ต่อแผ่น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">หน่วยขาย: ชิ้น / ตร.ม.</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างวันนี้:</b> <b>Calacatta Gold - Slab</b> — Track Inventory = By Unique Serial Number</div>
+      </div>
+      <div class="col-right">
+        <div class="diagram-box">
+          <div class="dbox" style="background:var(--slab);">🪨 Slab Product<span class="sub">Track = Serial Number · หน่วย = ชิ้น/ตร.ม.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Type 2 Block -->
+  <section class="slide" id="slide-3">
+    <div class="type-pill" style="background:var(--block);">Product Type 2 · ทางเลือก</div>
+    <div class="eyebrow">หินก้อนดิบ ยังไม่แปรรูป</div>
+    <h2 class="slide-title">Block Product — ต้นทางของ Slab ทุกแผ่น</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ก้อนหินดิบขนาดใหญ่ที่ยังไม่ตัด — นับเป็นปริมาตร <b>m³</b></span></li>
+          <li><span class="step-num">2</span><span class="step-text">Track เป็น <b>Lot</b> ต่อก้อน (ไม่ต้อง Serial รายชิ้นเหมือน Slab)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ขายได้ 2 แบบ: ขายทั้งก้อนไปเลย หรือ "Cut to Order" — ตัดเป็น Slab ตามคำสั่งซื้อ</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างวันนี้:</b> <b>Calacatta Gold - Block</b> — หน่วย m³, Track Inventory = By Lots</div>
+      </div>
+      <div class="col-right">
+        <div class="diagram-box">
+          <div class="dbox" style="background:var(--block);">🧱 Block Product<span class="sub">Track = Lot · หน่วย = m³</span></div>
+          <div class="darrow">↓ ตัด (Cut to Order)</div>
+          <div class="dbox" style="background:var(--slab);opacity:.85;">🪨 กลายเป็น Slab</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Type 3 FG -->
+  <section class="slide" id="slide-4">
+    <div class="type-pill" style="background:var(--fg);">Product Type 3 · ทางเลือก · ล่าสุด</div>
+    <div class="eyebrow">ของสำเร็จรูป ตัดจาก Slab อีกที</div>
+    <h2 class="slide-title">Finished Good (FG) — ไม่ได้ซื้อมาตรงๆ ต้อง "ผลิต" จาก Slab</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ต่างจาก Slab/Block ตรงที่ <b>ไม่มีสต็อกจากการซื้อ</b> — เกิดจากการ "ผลิต" (Produce FG) เท่านั้น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">วัตถุดิบคือ Slab 1 แผ่น → ตัดออกมาเป็นชิ้นสำเร็จรูป 1 หรือหลายชิ้น (เช่น Vanity Top)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ถ้ายังไม่มี Slab พร้อมตัด ระบบพาไปสั่งตัด (Cut to Order) จาก Block ให้อัตโนมัติก่อน</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างวันนี้:</b> <b>Calacatta Gold - Vanity Top</b> — Track Inventory = By Lots, ต้องเปิด "Track Inventory" (is_storable) เองด้วย</div>
+      </div>
+      <div class="col-right">
+        <div class="diagram-box">
+          <div class="dbox" style="background:var(--slab);opacity:.85;">🪨 Slab (1 แผ่น)</div>
+          <div class="darrow">↓ Produce FG</div>
+          <div class="dbox" style="background:var(--fg);">🛁 Finished Good<span class="sub">เช่น Vanity Top · Track = Lot</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Comparison table -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">สรุปเทียบกัน</div>
+    <h2 class="slide-title">3 Product Type ต่างกันตรงไหนบ้าง</h2>
+    <table class="cmp-table">
+      <tr><th>เรื่อง</th><th style="color:#F0C896;">① Slab</th><th style="color:#A9D4D6;">② Block</th><th style="color:#D6C2F0;">③ Finished Good</th></tr>
+      <tr><td>หน่วยนับ</td><td>ชิ้น / ตร.ม.</td><td>m³</td><td>ชิ้น</td></tr>
+      <tr><td>วิธี track สต็อก</td><td>Serial Number ต่อแผ่น</td><td>Lot ต่อก้อน</td><td>Lot ต่อรอบผลิต</td></tr>
+      <tr><td>ที่มาของสต็อก</td><td>ซื้อเข้ามาโดยตรง (PO)</td><td>ซื้อเข้ามาโดยตรง (PO)</td><td>ผลิตจาก Slab เท่านั้น (ไม่ซื้อ)</td></tr>
+      <tr><td>บังคับมีไหม</td><td>บังคับเสมอ</td><td>ทางเลือก</td><td>ทางเลือก</td></tr>
+      <tr><td>ตัวอย่างวันนี้</td><td>Calacatta Gold - Slab</td><td>Calacatta Gold - Block</td><td>Calacatta Gold - Vanity Top</td></tr>
+    </table>
+    <div class="note-box">3 ตัวนี้ผูกกับ Material เดียวกัน (Calacatta Gold) แต่เป็นสินค้าคนละตัวในระบบ (คนละ SKU) — เพราะวิธีนับสต็อกและที่มาต่างกันโดยสิ้นเชิง</div>
+  </section>
+
+  <!-- SLIDE 6: Today's real flow -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">ตัวอย่างจริงที่เพิ่งทำวันนี้</div>
+    <h2 class="slide-title" style="color:#fff;">Calacatta Gold — จาก Material ถึงส่งของจริง</h2>
+    <div class="flow-bar" style="flex-wrap:wrap;">
+      <span class="flow-chip">1. สร้าง Material + Slab + Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">2. รับ Block เข้าสต็อก (Bundle)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">3. สร้าง FG Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">4. SO ลูกค้าสั่งซื้อ FG</span>
+    </div>
+    <div class="flow-bar" style="flex-wrap:wrap;">
+      <span class="flow-chip" style="background:var(--block);">5. ยังไม่มี Slab พร้อม → ตัดจาก Block (Cut to Order)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--fg);">6. Produce FG จาก Slab ที่ตัดได้</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">7. ส่งของ (Delivery)</span>
+    </div>
+    <div class="note-box" style="margin-top:20px;"><b>จุดสำคัญ:</b> ถ้าลูกค้าสั่ง FG แล้วมี Slab พร้อมอยู่แล้ว (เลือกไว้ตั้งแต่ใบเสนอราคา) ระบบข้ามขั้นตอน 5 ไปได้เลย ไม่ต้องตัดใหม่</div>
+  </section>
+
+  <!-- SLIDE 7: Checklist -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">สรุป · ก่อนสร้าง Product</div>
+    <h2 class="slide-title">3 คำถามเช็คว่าต้องเปิด Product Type ไหนบ้าง</h2>
+    <ul class="decision-list">
+      <li><span class="decision-q">1</span>ลูกค้าซื้อเป็นแผ่นเสมอไหม? → <b>Slab Product</b> (บังคับมีอยู่แล้วทุก Material)</li>
+      <li><span class="decision-q">2</span>มีลูกค้าอยากซื้อทั้งก้อน หรือให้ระบบตัดตามสั่ง (Cut to Order) ไหม? → เปิด <b>Block Product</b></li>
+      <li><span class="decision-q">3</span>มีสินค้าสำเร็จรูปที่ต้องตัด/แปรรูปต่อจาก Slab อีกที (เช่น Vanity Top, Countertop) ไหม? → เปิด <b>Finished Good</b></li>
+    </ul>
+    <div class="note-box" style="margin-top:16px;">รายละเอียดขั้นตอนตั้งค่าแบบเต็ม (field, ปุ่ม, จุดที่มักพลาด) → ดูที่ deck "เข้าใจ Product หิน — Material, Block, Slab"</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 8</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
