@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>E2E - Sell Whole Block (Mode 1) — EMG-O</title>
+<title>E2E — โหมด 1: ขายก้อนหินทั้งก้อน (Block Sale) — EMG-O</title>
 <style>
   :root{
     --charcoal:#33424B;
@@ -19,105 +19,70 @@
   html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
   #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
   #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
-  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px 88px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
   .slide.active{display:flex;}
   .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
 
-  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
   .dark .eyebrow{color:#D9A465;}
-  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  h1.title{font-size:38px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
   .dark h1.title{color:var(--white);}
-  h2.slide-title{font-size:29px;margin:0 0 18px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.25;}
-  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  h2.slide-title{font-size:24px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .subtitle{font-size:17px;color:var(--muted);margin-bottom:0;}
   .dark .subtitle{color:#B9C2C8;}
+
+  .step-badge{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 14px 6px;border-radius:99px;font-weight:700;color:#fff;background:var(--charcoal);margin-bottom:10px;}
 
   /* Title slide */
   #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
-  #slide-0 .big-title{font-size:52px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.2;}
-  #slide-0 .big-sub{font-size:20px;color:#CBD3D8;max-width:840px;line-height:1.5;}
-  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
-  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:24px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.1;}
 
-  /* Case box */
-  .case-box{background:var(--card);border-radius:16px;padding:22px 28px;margin-bottom:18px;display:flex;gap:20px;align-items:flex-start;}
-  .case-icon{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
-  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
-  .case-text{font-size:16.5px;line-height:1.5;color:var(--text);}
+  .data-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table tr.hl td{background:#FBF1E7;font-weight:700;}
+  .data-table tr.hl td:first-child{border-left:4px solid var(--copper);}
 
-  /* Flow bar */
-  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:18px;}
-  .flow-chip{background:var(--charcoal);color:#fff;font-size:13px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;margin-bottom:6px;}
-  .flow-chip.hl{background:var(--copper);}
-  .flow-arrow{color:var(--copper);font-size:16px;margin:0 6px;font-weight:700;}
-
-  /* Body two-col */
-  .two-col{display:flex;gap:32px;align-items:flex-start;flex:1;min-height:0;}
-  .two-col:has(.shot-wrap){align-items:stretch;}
-  .col-left{flex:1;}
-  .col-right{flex:1;display:flex;flex-direction:column;gap:14px;justify-content:center;min-height:0;}
+  .two-col{display:flex;gap:26px;align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:0 0 42%;display:flex;flex-direction:column;justify-content:center;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center;min-height:0;}
   .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
   .col-right .shot{flex:1;min-height:0;object-fit:contain;}
-
-  .step-list{list-style:none;margin:0;padding:0;}
-  .step-list li{display:flex;gap:13px;margin-bottom:12px;align-items:flex-start;}
-  .step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--copper);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-  .step-text{font-size:14.5px;line-height:1.48;padding-top:2px;}
 
   .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
   .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
   .shot-wrap{text-align:center;}
+  .flow-thumb{border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.15);width:100%;display:block;cursor:zoom-in;border:1px solid var(--stone);}
+  .flow-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center;}
 
-  .thumb-grid{display:flex;gap:14px;flex:1;min-height:0;}
-  .thumb-grid .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
-  .thumb-grid .shot{flex:1;min-height:0;object-fit:contain;}
-
-  .note-box{background:#FBF1E7;border-radius:12px;padding:14px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box{background:#FBF1E7;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.46;color:#6B4423;margin-top:8px;}
   .note-box b{color:#8F5A2C;}
-  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
-  .note-box.bad b{color:#A6432D;}
-  .note-box.good{background:#EAF3EA;color:#2C5A32;}
-  .note-box.good b{color:#3D7A45;}
-  .note-box.ask{background:#EAF0FB;color:#2C4A7A;}
-  .note-box.ask b{color:#2E5AA6;}
+  .note-box.warn{background:#FDECEC;color:#8A2C2C;}
+  .note-box.warn b{color:#B03A3A;}
 
-  .outcome-row{display:flex;gap:14px;margin-bottom:14px;}
-  .outcome-box{flex:1;border-radius:12px;padding:14px 16px;}
-  .outcome-box.goal{background:#EAF3EA;}
-  .outcome-box.caution{background:#FBEAE7;}
-  .outcome-box.ask{background:#EAF0FB;}
-  .outcome-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
-  .outcome-box.goal .outcome-label{color:#3D7A45;}
-  .outcome-box.caution .outcome-label{color:#A6432D;}
-  .outcome-box.ask .outcome-label{color:#2E5AA6;}
-  .outcome-text{font-size:13px;line-height:1.45;color:var(--text);}
+  .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
+  .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
+  .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
+  .compare-label.no{background:#8A8D8F;}
+  .compare-label.yes{background:var(--copper);}
+  .compare-col .shot-wrap{flex:1;min-height:0;border:1px solid var(--stone);border-top:none;border-radius:0 0 8px 8px;padding:8px;display:flex;flex-direction:column;}
+  .compare-col .shot{flex:1;min-height:0;}
 
-  .doc-chain{display:flex;align-items:center;gap:0;margin:18px 0;flex-wrap:wrap;}
-  .doc-card{background:var(--card);border-radius:12px;padding:14px 18px;text-align:center;min-width:120px;}
-  .doc-card .dlabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
-  .doc-card .dval{font-size:15px;font-weight:700;color:var(--text);}
-  .doc-card .dsub{font-size:11.5px;color:var(--muted);margin-top:3px;}
-  .doc-arrow{color:var(--copper);font-size:20px;font-weight:700;margin:0 12px;}
-
-  .result-table{width:100%;border-collapse:collapse;font-size:14px;}
-  .result-table td{padding:7px 0;border-bottom:1px solid #e6e2dc;}
-  .result-table td:last-child{text-align:right;font-variant-numeric:tabular-nums;}
-  .result-table tr.total td{font-weight:700;color:var(--copper-dark);border-bottom:none;padding-top:10px;font-size:16px;}
-
-  .checklist{list-style:none;margin:0;padding:0;}
-  .checklist li{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;background:rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;}
-  .checklist .num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--copper);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Cambria,serif;}
-  .checklist .ctext{font-size:14.5px;line-height:1.48;color:var(--stone);}
-  .checklist .ctext b{color:#D9A465;}
-
-  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
-  .page-num{position:absolute;bottom:22px;right:64px;font-size:12px;color:var(--muted);}
+  .status-row{display:flex;gap:14px;margin-top:8px;}
+  .status-card{flex:1;background:var(--card);border-radius:12px;padding:16px 18px;}
+  .status-card .slabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .status-card .stext{font-size:13.5px;line-height:1.48;color:var(--text);}
 
   #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
   #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
   #nav button:hover{background:var(--copper-dark);}
   #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
   #nav a:hover{background:var(--copper-dark);}
-  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+  #nav span{color:#fff;font-size:13px;min-width:60px;text-align:center;}
 
   #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
   #lightbox.active{display:flex;}
@@ -136,274 +101,239 @@
 
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
-    <div class="stone-badge">EO</div>
-    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
-    <div class="big-title">E2E — Sell Whole Block<br>ขายทั้งก้อน (Mode 1) + ข้ามบริษัท</div>
-    <div class="big-sub">เดินสด Odoo ครบวงจร ตั้งแต่เปิด Sale Order → เลือกก้อนหินขายทั้งก้อน → ยืนยันขาย → ระบบ auto สร้างเอกสารซื้อ-ขายภายในข้ามบริษัท (EG↔ES) → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — พร้อมจุดที่อยากให้ลูกค้ายืนยันดีไซน์ 1 จุด</div>
-    <div class="stamp">EMG-O · ADR-007 / ADR-019 Mode 1 · ข้อมูลจริงจาก live run บน production 2026-08-03</div>
+    <div class="stone-badge">โหมด<br>1</div>
+    <div class="eyebrow">Empire Stone × Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="big-title">โหมด 1: ขายก้อนหินทั้งก้อน<br>(Block Sale)</div>
+    <div class="big-sub">เดินสดตั้งแต่ซื้อก้อนหินเข้าคลัง จนถึงส่งของและออกใบแจ้งหนี้จริง — ทีละขั้นตอน พร้อมหน้าจอจริงทุกจุด รวมถึงเคสขายข้ามบริษัท (Empire Stone → Empire Granite) ที่เกิดขึ้นอัตโนมัติเบื้องหลัง</div>
+    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13</div>
   </section>
 
-  <!-- SLIDE 1: Overview -->
+  <!-- SLIDE 1: 5 modes overview, highlight row 1 -->
   <section class="slide" id="slide-1">
-    <div class="eyebrow">ภาพรวม · สิ่งที่จะโชว์ลูกค้าวันนี้</div>
-    <h2 class="slide-title">ขายก้อนหินทั้งก้อนได้ในคลิกเดียว — แม้ก้อนนั้นจะอยู่คนละบริษัทกับใบขาย</h2>
-    <div class="case-box">
-      <div class="case-icon">i</div>
-      <div>
-        <div class="case-text-label">Mode 1 คืออะไร ต่างจาก Cut to Order / Select Slabs ยังไง</div>
-        <div class="case-text">บางลูกค้าต้องการซื้อ<b>ก้อนหินทั้งก้อน</b> ไม่ตัดแบ่งขายเป็นแผ่น (เช่น เอาไปแปรรูปเอง) ระบบมีปุ่ม <b>"Sell Whole Block"</b> บนบรรทัดขาย — เลือกก้อนที่จะขาย ระบบตั้งจำนวนขาย = CBM ที่เหลือทั้งหมดให้อัตโนมัติ (ขายเกลี้ยงก้อน ไม่แบ่งขาย) เนื่องจากก้อนหินเก็บสต็อกร่วมกันได้ทั้ง 2 บริษัท (Empire Granite/Empire Stone) ถ้าก้อนที่เลือกอยู่คนละบริษัทกับใบขาย ระบบจะ auto สร้างเอกสารซื้อ-ขายภายในให้เองทันที</div>
-      </div>
-    </div>
-    <div class="flow-bar">
-      <span class="flow-chip">1. เปิด SO + เลือก Block</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">2. Sell Whole Block</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">3. Confirm SO</span><span class="flow-arrow">→</span>
-      <span class="flow-chip hl">4. Intercompany Trade</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">5. ส่งของ (Drop-ship)</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">6. Invoice</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">7. รับชำระเงิน</span>
-    </div>
-    <div class="note-box ask"><b>มี 1 จุดที่อยากให้ยืนยันกับลูกค้าวันนี้</b> — พฤติกรรม auto intercompany + drop-ship ตอนก้อนหินอยู่คนละบริษัทกับใบขาย (สไลด์ที่ 5) ว่าตรงกับที่ลูกค้าคาดหวังมั้ย เก็บไว้เป็นสไลด์เฉพาะให้ถามตรงจุด</div>
+    <div class="eyebrow">ภาพรวมก่อนเริ่ม</div>
+    <h2 class="slide-title">ระบบขายหินมี 5 โหมด — เดโมนี้พาไปดูโหมดที่ 1</h2>
+    <table class="data-table">
+      <tr><th>#</th><th>ประเภท</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th></tr>
+      <tr class="hl"><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td></tr>
+      <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td></tr>
+      <tr><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายแผ่น (Serial)</td></tr>
+      <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
+      <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
+    </table>
+    <div class="note-box"><b>โหมด 1 คือโหมดที่ง่ายที่สุด</b> — ขายทั้งก้อนแบบไม่แบ่ง ไม่ตัด เหมาะกับลูกค้าที่ต้องการก้อนหินไปแปรรูปเอง หรือซื้อเก็บสต็อก</div>
   </section>
 
-  <!-- SLIDE 2: Step 1 -->
+  <!-- SLIDE 2: Full flow diagram -->
   <section class="slide" id="slide-2">
-    <div class="eyebrow">ขั้นตอนที่ 1 · เปิดใบขาย</div>
-    <h2 class="slide-title">เปิด Sale Order → เลือกสินค้า "ก้อน" (Block) → ปุ่ม "Sell Whole Block" โผล่ขึ้นมาเอง</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text"><b>Sales → New</b> → เลือกลูกค้า</span></li>
-          <li><span class="step-num">2</span><span class="step-text">"Add a product" → เลือกสินค้าก้อน (เช่น "Emperador Grey Light Marble Block" — คนละ SKU กับสินค้าแผ่น) → Save</span></li>
-          <li><span class="step-num">3</span><span class="step-text">ระบบโชว์ปุ่ม <b>"Sell Whole Block"</b> บนบรรทัดขายทันที — รู้เองว่าสินค้านี้เป็น Block-tracked</span></li>
-          <li><span class="step-num">4</span><span class="step-text">กดปุ่มนี้เพื่อเลือกว่าจะขายก้อนไหน</span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">ไม่ต้องตั้งค่าอะไรเพิ่ม ระบบแยกสินค้า "ก้อน" กับ "แผ่น" เป็นคนละ SKU ให้ชัดเจนอยู่แล้วตั้งแต่ต้น</div></div>
-          <div class="outcome-box caution"><div class="outcome-label">ข้อควรระวัง</div><div class="outcome-text">ต้อง <b>Save บรรทัดขายก่อน</b> ปุ่มถึงจะโผล่ขึ้นมาให้กด (เหมือนกันกับ Cut to Order)</div></div>
-        </div>
-      </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-01-so-line-block-button.png"><div class="shot-cap">S108361 — บรรทัดขายพร้อมปุ่ม "Sell Whole Block"</div></div>
-      </div>
+    <div class="eyebrow">แผนผังขั้นตอน</div>
+    <h2 class="slide-title">Flow โหมด 1 ทั้งหมด — 4 ฝ่าย 9 ขั้นตอน</h2>
+    <div class="shot-wrap" style="flex:1;min-height:0;">
+      <img class="flow-thumb" src="assets/mode1-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
+    <div class="note-box">สไลด์ถัดไปจะเดินทีละขั้นตอนตามผังนี้ — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ให้เห็นตำแหน่งชัดเจนทุกครั้ง</div>
   </section>
 
-  <!-- SLIDE 3: Step 2 - Wizard -->
+  <!-- SLIDE 3: Step 1 - PO -->
   <section class="slide" id="slide-3">
-    <div class="eyebrow">ขั้นตอนที่ 2 · เลือกก้อนที่จะขาย</div>
-    <h2 class="slide-title">Select Block wizard — เลือกก้อน ระบบโชว์ CBM คงเหลือให้ดูก่อนยืนยัน</h2>
+    <div class="step-badge">ขั้นตอนที่ 1 / 9 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">เปิด Purchase Order ซื้อก้อนหินจาก Supplier</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">Dropdown "Block" กรองให้อัตโนมัติเฉพาะก้อนของ <b>material เดียวกัน</b> กับสินค้าที่เลือก (เช่น Emperador Grey Light เท่านั้น) — กรองข้ามทั้ง 2 บริษัทด้วย ไม่ได้ล็อคแค่บริษัทที่เปิดใบขาย</span></li>
-          <li><span class="step-num">2</span><span class="step-text">เลือกก้อนที่ต้องการ (ตัวอย่าง EMG-B-0008) → ฟิลด์ <b>"Remaining CBM"</b> โชว์ปริมาณคงเหลือจริงให้ดูก่อนตัดสินใจ (0.90 m³)</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>"Confirm Selection"</b></span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">เห็น CBM คงเหลือจริงก่อนกด confirm เสมอ ป้องกันขายเกินสต็อกที่มีจริง</div></div>
-          <div class="outcome-box caution"><div class="outcome-label">ข้อควรระวัง</div><div class="outcome-text">โหมดนี้ <b>ขายทั้งก้อนเท่านั้น ไม่แบ่งขายบางส่วน</b> — ถ้าลูกค้าต้องการซื้อบางส่วน ต้องใช้ Mode 2 (Select Lot Stock) แทน</div></div>
-        </div>
+        <img class="flow-thumb" src="assets/mode1-flow-step1-po-purchase.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-02-wizard-remaining-cbm.png"><div class="shot-cap">Select Block — EMG-B-0008 เหลือ 0.90 m³</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-01-po-confirmed.png"><div class="shot-cap">P00070 — Calacatta Gold (Block) 4.20 m³ × 22,000 บาท ที่ Empire Stone Co., Ltd.</div></div>
       </div>
     </div>
+    <div class="note-box">หน่วยซื้อคือ <b>m³ (คิว)</b> เสมอ — ก้อนหินยังไม่ถูกแบ่งเป็นแผ่น ราคาต่อ m³ ตั้งตามจริงจาก Supplier</div>
   </section>
 
-  <!-- SLIDE 4: Confirmed -->
+  <!-- SLIDE 4: Step 2 - Bundle -->
   <section class="slide" id="slide-4">
-    <div class="eyebrow">ขั้นตอนที่ 3 · ยืนยันใบขาย</div>
-    <h2 class="slide-title">จำนวนขาย = CBM เต็มก้อนอัตโนมัติ → กด Confirm → Delivery สร้างให้เอง</h2>
+    <div class="step-badge">ขั้นตอนที่ 2 / 9 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">รับเข้าคลัง = สร้าง Bundle ผูกกับ PO Line</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">บรรทัดขายเติม <b>Quantity = 0.90 m³</b> ให้อัตโนมัติ (เท่ากับ CBM เต็มของก้อนที่เลือก) — ไม่ต้องพิมพ์เอง</span></li>
-          <li><span class="step-num">2</span><span class="step-text">คอลัมน์ "Block / Lot" โชว์ชื่อก้อนที่ผูกไว้ (EMG-B-0008) ให้เห็นตลอดว่าใบขายนี้ผูกกับก้อนไหน</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>"Confirm"</b> — สถานะเปลี่ยนเป็น Sales Order, Delivery smart button ขึ้นมาทันที</span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">พนักงานไม่ต้องคำนวณหรือพิมพ์จำนวนเอง ลดความเสี่ยงขายผิดจำนวน</div></div>
-        </div>
+        <img class="flow-thumb" src="assets/mode1-flow-step2-receive-stock.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-03-so-confirmed.png"><div class="shot-cap">S108361 — Confirmed, qty 0.90 m³, Delivery (1)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-02-bundle-created.png"><div class="shot-cap">BDL-00013 — ผูกกับ P00070 อัตโนมัติดึง Total CBM 4.20 + Supplier มาให้</div></div>
       </div>
     </div>
+    <div class="note-box warn"><b>ข้อควรระวังจริง:</b> ห้าม Validate ใบรับสินค้า (Purchase Receipt) แบบปกติ — ระบบสต็อกหินทั้งหมดจัดการผ่าน Bundle เท่านั้น ถ้า validate ใบรับด้วยมือ ระบบจะแจ้ง Invalid Operation และยกเลิกใบรับให้เองทันทีที่มี Bundle ผูกกับ PO Line แล้ว</div>
   </section>
 
-  <!-- SLIDE 5: Ask-the-customer - intercompany drop-ship -->
-  <section class="slide dark" id="slide-5">
-    <div class="eyebrow">🔵 จุดที่อยากให้ลูกค้ายืนยันดีไซน์</div>
-    <h2 class="slide-title" style="color:#fff;">ก้อนนี้เป็นของ Empire Stone แต่ใบขายเปิดฝั่ง Empire Granite — ระบบ auto สร้างเอกสารซื้อ-ขายภายในให้เอง</h2>
-    <div class="thumb-grid" style="margin-bottom:6px;">
-      <div class="shot-wrap"><img class="shot" src="assets/mode1-04-delivery-eg-cancelled.png"><div class="shot-cap">Delivery ฝั่ง EG (ผู้เปิดใบขาย) — ถูก "Cancelled" อัตโนมัติ เพราะของจริงไม่ได้อยู่ที่นี่</div></div>
-      <div class="shot-wrap"><img class="shot" src="assets/mode1-05-delivery-es-dropship.png"><div class="shot-cap">Delivery จริง (ESWH/OUT/00015) — ส่งตรงจากคลัง Empire Stone ถึงลูกค้าเลย</div></div>
+  <!-- SLIDE 5: Step 3a - SO line, button appears -->
+  <section class="slide" id="slide-5">
+    <div class="step-badge">ขั้นตอนที่ 3 / 9 · ฝ่ายขาย</div>
+    <h2 class="slide-title">เปิด Sale Order ที่บริษัทลูกค้า → เลือกสินค้า Block</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/mode1-flow-step3-select-block-wizard.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-03-so-line-block-button.png"><div class="shot-cap">S108402 (Empire Granite) — เลือก "Calacatta Gold - Block" ปุ่ม "Sell Whole Block" โผล่ขึ้นมาเอง</div></div>
+      </div>
     </div>
-    <ul class="checklist" style="margin-top:10px;">
-      <li><span class="num">1</span><span class="ctext"><b>ของจริงไม่ต้องย้ายเข้าคลัง EG ก่อน</b> — ระบบส่งตรง (Drop-ship) จากคลังของบริษัทที่ของอยู่จริง (ES) ไปหาลูกค้าเลย ประหยัดเวลา/ค่าขนส่งซ้ำซ้อน</span></li>
-      <li><span class="num">2</span><span class="ctext"><b>เบื้องหลังสร้างเอกสารบัญชีคู่กันให้เอง</b> — Internal SO (ES ขายให้ EG) + Internal PO (EG ซื้อจาก ES) พร้อม draft Invoice/Bill ให้ accountant ตรวจสอบก่อน post เอง (ไม่ auto post) — <b>คำถามให้ถามลูกค้า:</b> พฤติกรรมนี้ตรงกับที่ลูกค้าต้องการมั้ย หรืออยากให้แต่ละบริษัทขายแค่ของบริษัทตัวเองเท่านั้น (ปิด auto-trade)?</span></li>
-    </ul>
+    <div class="note-box">ปุ่มนี้จะขึ้นเฉพาะบรรทัดที่เป็นสินค้าประเภท Block เท่านั้น — ระบบรู้เองว่าต้องเปิด wizard เลือกก้อน</div>
   </section>
 
-  <!-- SLIDE 6: Delivery done -->
+  <!-- SLIDE 6: Step 3b - wizard result -->
   <section class="slide" id="slide-6">
-    <div class="eyebrow">ขั้นตอนที่ 4 · ส่งของสำเร็จ</div>
-    <h2 class="slide-title">Validate ผ่านทันที — ไม่ต้องกรอก Serial (ก้อนหินไม่ track แบบ serial เหมือนแผ่น)</h2>
+    <div class="step-badge">ขั้นตอนที่ 3 / 9 · ฝ่ายขาย (ต่อ)</div>
+    <h2 class="slide-title">Select Block Wizard — เลือกก้อนจริง จำนวนเติมให้อัตโนมัติ</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">เปิด Internal SO ฝั่ง Empire Stone → Delivery smart button → เจอ ESWH/OUT/00015</span></li>
-          <li><span class="step-num">2</span><span class="step-text">กด <b>"Validate"</b> ได้ทันที — สถานะ Ready → Done</span></li>
-          <li><span class="step-num">3</span><span class="step-text">ต่างจาก Mode 3 (แผ่นตัดตามสั่ง) ที่ต้องกรอก "Scanned Serial" ก่อน — ก้อนหิน (Block) เป็นสินค้า lot-tracked แบบ CBM ไม่ใช่ serial ต่อชิ้น จึงไม่เจอ guard เดียวกัน</span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">ขั้นตอนส่งของสั้นกว่าโหมดขายแผ่น — เหมาะกับก้อนที่ลูกค้าซื้อไปแปรรูปเอง ไม่ต้องยุ่งกับ serial ต่อชิ้น</div></div>
-        </div>
+        <img class="flow-thumb" src="assets/mode1-flow-step3-select-block-wizard.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-06-delivery-done.png"><div class="shot-cap">ESWH/OUT/00015 — Done</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-04-so-block-selected.png"><div class="shot-cap">เลือก BDL-00013 → จำนวนขายเติม 4.20 m³ (CBM เต็มก้อน) ให้อัตโนมัติ ราคารวม 157,290 บาท</div></div>
       </div>
     </div>
+    <div class="note-box">โหมด 1 ขาย <b>ทั้งก้อนเสมอ</b> — เลือกก้อนเสร็จ ระบบเติมจำนวนเต็ม CBM ให้ ไม่ต้องพิมพ์เอง ป้องกันขายเกินสต็อกที่มีจริง</div>
   </section>
 
-  <!-- SLIDE 7: Invoice draft -->
+  <!-- SLIDE 7: Step 4 - confirm SO -->
   <section class="slide" id="slide-7">
-    <div class="eyebrow">ขั้นตอนที่ 5 · ออกใบแจ้งหนี้ (ฝั่งลูกค้าจริง)</div>
-    <h2 class="slide-title">กลับมาใบขายจริง (ฝั่ง EG) → Create Invoice ให้ลูกค้าตามปกติ</h2>
+    <div class="step-badge">ขั้นตอนที่ 4 / 9 · ฝ่ายขาย</div>
+    <h2 class="slide-title">กด Confirm ยืนยัน Sale Order</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">Invoice ฉบับนี้ออกจาก <b>ใบขายจริงของลูกค้า (S108361)</b> — คนละใบกับ draft invoice ภายในระหว่าง EG/ES ที่เพิ่งเห็น</span></li>
-          <li><span class="step-num">2</span><span class="step-text">กด <b>"Create Invoice"</b> → "Regular invoice" → "Create Draft" เหมือนใบขายทั่วไป ไม่มีขั้นตอนพิเศษเพิ่ม</span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">ฝั่งลูกค้าไม่เห็น/ไม่ยุ่งกับความซับซ้อนของ intercompany เลย — ได้ใบแจ้งหนี้ปกติ 1 ใบ ราคาต่อ CBM ตามที่ตกลงกับลูกค้าโดยตรง</div></div>
-        </div>
+        <img class="flow-thumb" src="assets/mode1-flow-step4-confirm-so.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-07-invoice-draft.png"><div class="shot-cap">Draft Invoice จาก S108361 — 0.90 m³ × 3,500 บาท</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-05-so-confirmed.png"><div class="shot-cap">S108402 — สถานะ Sales Order, สร้าง Delivery ให้ 1 ใบอัตโนมัติ</div></div>
       </div>
     </div>
+    <div class="note-box">นาทีที่กด Confirm นี้เอง — ระบบเช็คทันทีว่าก้อนที่เลือก (BDL-00013) อยู่คนละบริษัทกับใบขายหรือไม่ ถ้าใช่ จะเริ่มกระบวนการข้ามบริษัทอัตโนมัติในขั้นตอนถัดไป</div>
   </section>
 
-  <!-- SLIDE 8: Invoice posted -->
+  <!-- SLIDE 8: Step 5 - decision -->
   <section class="slide" id="slide-8">
-    <div class="eyebrow">ขั้นตอนที่ 6 · ยืนยันใบแจ้งหนี้</div>
-    <h2 class="slide-title">กด Confirm เพื่อ Post — INV/2026/00012 รวม VAT 3,370.50 บาท</h2>
+    <div class="step-badge">ขั้นตอนที่ 5 / 9 · จุดตัดสินใจ</div>
+    <h2 class="slide-title">ก้อนนี้อยู่คนละบริษัทกับใบขายหรือไม่?</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">ตรวจราคา/จำนวนอีกครั้งก่อน Post: 0.90 m³ × 3,500 บาท = 3,150.00 บาท + VAT 7% = 220.50 บาท</span></li>
-          <li><span class="step-num">2</span><span class="step-text">กด <b>"Confirm"</b> — Draft → Posted, เลข Invoice ออกจริง (INV/2026/00012)</span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box caution"><div class="outcome-label">ข้อควรระวัง</div><div class="outcome-text">Post แล้วแก้ราคาย้อนหลังไม่ได้ ต้องออก Credit Note เหมือนใบแจ้งหนี้ทั่วไป — เช็คให้ชัวร์ก่อน Confirm เสมอ</div></div>
+        <img class="flow-thumb" src="assets/mode1-flow-step5-cross-company-check.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+      </div>
+      <div class="col-right" style="justify-content:center;">
+        <div class="status-row" style="margin-top:0;">
+          <div class="status-card">
+            <div class="slabel">เคสนี้ (ตัวอย่างจริง)</div>
+            <div class="stext">ก้อน BDL-00013 อยู่ที่ <b>Empire Stone Co., Ltd.</b> (ฝ่ายผลิต) แต่ใบขาย S108402 เปิดที่ <b>Empire Granite Co., Ltd.</b> (ฝ่ายขาย) — ต่างบริษัทกัน → เข้าเงื่อนไข "ใช่"</div>
+          </div>
+        </div>
+        <div class="status-row">
+          <div class="status-card">
+            <div class="slabel">ถ้าตอบ "ไม่ใช่"</div>
+            <div class="stext">ก้อนอยู่บริษัทเดียวกับใบขาย → ไปต่อขั้นตอน 6-7 ตามปกติ (ส่งของ+ออก Invoice) ไม่มีเอกสารข้ามบริษัทเพิ่ม</div>
+          </div>
         </div>
       </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-08-invoice-posted.png"><div class="shot-cap">INV/2026/00012 — Posted, Total 3,370.50 บาท</div></div>
-      </div>
     </div>
+    <div class="note-box">การเช็คนี้เกิด<b>อัตโนมัติทันทีที่ Confirm</b> ไม่ต้องมีใครกดอะไรเพิ่ม ระบบดูจาก Company ของ Bundle เทียบกับ Company ของใบขายเอง</div>
   </section>
 
-  <!-- SLIDE 9: Register Payment -->
+  <!-- SLIDE 9: Step 6 - delivery compare -->
   <section class="slide" id="slide-9">
-    <div class="eyebrow">ขั้นตอนที่ 7 · รับชำระเงิน</div>
-    <h2 class="slide-title">กด "Pay" → ยืนยัน → เสร็จในคลิกเดียว เหมือนใบขายทั่วไปทุกจุด</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">จากหน้า Invoice ที่ Posted แล้ว กดปุ่ม <b>"Pay"</b></span></li>
-          <li><span class="step-num">2</span><span class="step-text">Wizard "Register Payment" เติม Journal/Amount เต็มจำนวนให้อัตโนมัติ (3,370.50 บาท)</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>"Create Payment"</b></span></li>
-        </ul>
-        <div class="outcome-row">
-          <div class="outcome-box goal"><div class="outcome-label">Goal</div><div class="outcome-text">ฝั่งลูกค้าใช้ flow เดียวกับการขายแผ่นทุกประการ — ความซับซ้อนของ intercompany อยู่หลังบ้านทั้งหมด</div></div>
-        </div>
+    <div class="step-badge">ขั้นตอนที่ 6 / 9 · ฝ่ายส่งของ</div>
+    <h2 class="slide-title">ส่งของจริง — ยิงตรงจากคลังที่มีของจริง ไม่ใช่บริษัทที่เปิดใบขาย</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label no">Delivery ฝั่ง Empire Granite (ผู้เปิดใบขาย)</div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-06-delivery-cancelled-eg.png"></div>
       </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-09-payment-wizard.png"><div class="shot-cap">Register Payment — Amount เติม 3,370.50 บาทให้อัตโนมัติ</div></div>
+      <div class="compare-col">
+        <div class="compare-label yes">Delivery จริง จาก Empire Stone (คลังที่มีก้อนจริง)</div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-10-real-delivery-es.png"></div>
       </div>
     </div>
+    <div class="note-box">EGWH/OUT/00070 ถูก<b>ยกเลิกอัตโนมัติ</b>เพราะของจริงไม่ได้อยู่ที่ EG — ระบบสร้าง Delivery จริงจาก ES Warehouse (ESWH/OUT/00019) ส่งตรงถึงที่อยู่ลูกค้าปลายทางเลย (dropship) ลูกค้าไม่รู้เลยว่าเบื้องหลังมี 2 บริษัท</div>
   </section>
 
-  <!-- SLIDE 10: Paid -->
+  <!-- SLIDE 10: Step 7 - invoice to real customer -->
   <section class="slide" id="slide-10">
-    <div class="eyebrow">ผลลัพธ์สุดท้าย</div>
-    <h2 class="slide-title">Invoice ขึ้นตรา "PAID" — Amount Due เหลือ 0.00 บาท</h2>
+    <div class="step-badge">ขั้นตอนที่ 7 / 9 · ฝ่ายบัญชี</div>
+    <h2 class="slide-title">ออกใบแจ้งหนี้ให้ลูกค้าจริง — VAT 7% ตามปกติ</h2>
     <div class="two-col">
       <div class="col-left">
-        <table class="result-table">
-          <tr><td>ก้อนหิน 0.90 m³ × 3,500 บาท/m³</td><td>3,150.00 ฿</td></tr>
-          <tr><td>VAT 7%</td><td>220.50 ฿</td></tr>
-          <tr class="total"><td>Total ที่ลูกค้าจ่าย</td><td>3,370.50 ฿</td></tr>
-        </table>
-        <div class="note-box good"><b>ครบวงจรจริง:</b> จากคลิก "Sell Whole Block" แรกสุด (ก้อนอยู่คนละบริษัท) จนถึงรับเงินจริงเข้าบัญชี — ทุกเอกสารซื้อ-ขายภายในระหว่าง 2 บริษัทสร้างให้อัตโนมัติ ฝั่งลูกค้าเห็นแค่ใบขาย/ใบแจ้งหนี้ปกติ 1 ชุดเท่านั้น</div>
+        <img class="flow-thumb" src="assets/mode1-flow-step7-invoice.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-10-invoice-paid.png"><div class="shot-cap">INV/2026/00012 — ตรา PAID, Amount Due 0.00 บาท</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-11-so402-ready-to-invoice.png"><div class="shot-cap">S108402 — พร้อมกด "Create Invoice" เต็มยอด 157,290 บาท (รวม VAT) ให้ Demo Customer - Grand Interior</div></div>
       </div>
     </div>
+    <div class="note-box">ขั้นตอนนี้<b>เหมือนกันทุกกรณี</b> ไม่ว่าจะขายข้ามบริษัทหรือไม่ — ลูกค้าได้รับใบแจ้งหนี้จาก Empire Granite เจ้าเดียว ไม่เห็นเอกสารฝั่ง Empire Stone เลย</div>
   </section>
 
-  <!-- SLIDE 11: Bonus - Intercompany dashboard -->
+  <!-- SLIDE 11: Step 8 - internal SO+PO -->
   <section class="slide" id="slide-11">
-    <div class="eyebrow">โบนัส · ตรวจสอบย้อนหลังได้ตลอด</div>
-    <h2 class="slide-title">ธุรกรรมข้ามบริษัทวันนี้ ตามรอยได้จากหน้า Intercompany Reconciliation</h2>
+    <div class="step-badge">ขั้นตอนที่ 8 / 9 · ฝ่ายบัญชี (เบื้องหลัง)</div>
+    <h2 class="slide-title">Auto สร้าง Internal SO (ผู้ขาย) + Internal PO (ผู้ซื้อ)</h2>
     <div class="two-col">
       <div class="col-left">
-        <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">เมนู <b>Stone Slab → Intercompany Reconciliation</b> — การ์ดสรุปยอดรวมแยกตามทิศทาง (ES→EG / EG→ES)</span></li>
-          <li><span class="step-num">2</span><span class="step-text">คลิกการ์ดเพื่อดูรายการธุรกรรมทั้งหมด พร้อมสถานะ "รอตรวจสอบ" / "Post แล้ว" ของแต่ละใบ</span></li>
-          <li><span class="step-num">3</span><span class="step-text">ธุรกรรมจากเดโม่วันนี้ (S108360, S108362) รวมอยู่ในยอดนี้แล้ว — accountant เข้ามาตรวจ+Post ทีหลังได้จากหน้านี้เลย ไม่ต้องไล่หาทีละใบ</span></li>
-        </ul>
+        <img class="flow-thumb" src="assets/mode1-flow-step8-internal-so-po.png">
+        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-11-intercompany-dashboard.png"><div class="shot-cap">Empire Stone → Empire Granite: 76,656.95 บาท (รอตรวจสอบ 6, Post แล้ว 1)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-08-internal-so-draft-invoice.png"><div class="shot-cap">S108403 (Internal SO ฝั่ง Empire Stone) → Draft Invoice ต้นทุน 22,000 × Markup 10% = 24,200 บาท/m³</div></div>
       </div>
     </div>
+    <div class="note-box">ราคาที่ Empire Stone "ขายภายใน" ให้ Empire Granite คือ<b>ต้นทุนจริง + ค่า Markup ตามอัตราที่ตั้งไว้ (10%)</b> — ไม่ใช่ราคาขายให้ลูกค้าปลายทาง (35,000/m³) ส่วนต่างคือกำไรที่ Empire Granite ได้จากการเป็นตัวแทนขาย</div>
   </section>
 
-  <!-- SLIDE 12: Cheat sheet -->
-  <section class="slide dark" id="slide-12">
-    <div class="eyebrow">สรุปด่วน · ก่อนขึ้นพรีเซนต์จริง</div>
-    <h2 class="slide-title" style="color:#fff;">สิ่งที่ต้องอธิบาย + คำถามที่ต้องถามลูกค้า</h2>
-    <ul class="checklist">
-      <li><span class="num">1</span><span class="ctext"><b>Mode 1 ขายทั้งก้อนเท่านั้น ไม่แบ่งขาย</b> — ถ้าลูกค้าต้องการซื้อบางส่วนของก้อน ต้องใช้ Mode 2 (Select Lot Stock) แทน</span></li>
-      <li><span class="num">2</span><span class="ctext">🔵 <b>ถามลูกค้า:</b> พอใจกับพฤติกรรม auto intercompany + drop-ship ตอนก้อนอยู่คนละบริษัทมั้ย (สไลด์ 5) — หรืออยากให้ระบบจำกัดไม่ให้ขายข้ามบริษัทเลย</span></li>
-      <li><span class="num">3</span><span class="ctext"><b>ใบขายจริงของลูกค้าเห็นแค่ใบขาย/ใบแจ้งหนี้ปกติ 1 ชุด</b> — เอกสารซื้อ-ขายภายในระหว่าง EG/ES (Internal SO/PO + draft invoice/bill) เป็นเรื่องหลังบ้านที่ accountant จัดการ ไม่กระทบประสบการณ์ลูกค้า</span></li>
-      <li><span class="num">4</span><span class="ctext"><b>Drop-ship ประหยัดเวลาจริง</b> — ของไม่ต้องย้ายเข้าคลัง EG ก่อนแล้วค่อยส่งต่อ ส่งตรงจากคลังที่ของอยู่จริงถึงลูกค้าเลย</span></li>
-    </ul>
+  <!-- SLIDE 12: Step 9 - draft invoice+bill, dashboard -->
+  <section class="slide" id="slide-12">
+    <div class="step-badge">ขั้นตอนที่ 9 / 9 · ฝ่ายบัญชี</div>
+    <h2 class="slide-title">Draft Invoice + Bill รอบัญชียืนยัน — เห็นครบใน Dashboard เดียว</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label yes">Draft Bill ฝั่ง Empire Granite (ผู้ซื้อภายใน)</div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-09-internal-po-draft-bill.png"></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label yes">Intercompany Reconciliation Dashboard</div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-07-intercompany-dashboard.png"></div>
+      </div>
+    </div>
+    <div class="note-box">ทั้ง Invoice (ฝั่งขาย) และ Bill (ฝั่งซื้อ) ค้างเป็น <b>Draft</b> รอบัญชีตรวจสอบแล้วค่อย Post — ไม่ Post ให้อัตโนมัติ ป้องกันตัวเลขผิดหลุดเข้าบัญชีจริงโดยไม่มีคนเช็ค ธุรกรรมทั้งหมดของวันไล่ดูได้ที่หน้า Intercompany Reconciliation หน้าเดียว ไม่ต้องไล่เปิดทีละใบ</div>
   </section>
 
-  <!-- SLIDE 13: Closing -->
+  <!-- SLIDE 13: Summary -->
   <section class="slide dark" id="slide-13">
-    <div class="eyebrow">สรุปภาพรวม</div>
-    <h2 class="slide-title" style="color:#fff;">Sell Whole Block → Confirm → Intercompany Trade → ส่งของ → Invoice → รับเงิน</h2>
-    <div class="flow-bar" style="margin-bottom:26px;">
-      <span class="flow-chip" style="background:var(--copper);">SO Line</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">Sell Whole Block</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">Confirm SO</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">Intercompany Trade</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">ส่งของ</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">Invoice</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">รับเงิน</span>
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">โหมด 1 ครบวงจร — 9 ขั้นตอน จากซื้อก้อนถึงออกใบแจ้งหนี้</h2>
+    <div class="status-row">
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ทำเอง</div>
+        <div class="stext">เปิด PO ซื้อก้อน → สร้าง Bundle → เปิด SO เลือกก้อน → Confirm → กด Create Invoice ให้ลูกค้า</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
+        <div class="stext">เช็คข้ามบริษัท → ยกเลิก Delivery ผิดคลัง → สร้าง Delivery จริงแบบ dropship → สร้าง Internal SO/PO/Invoice/Bill ต้นทุน+Markup ให้ครบ</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">ข้อควรระวังจริง</div>
+        <div class="stext">ห้าม validate ใบรับสินค้าปกติ — ต้องสร้าง Bundle ผูกกับ PO Line เท่านั้นถึงจะรับเข้าคลังถูกต้อง</div>
+      </div>
     </div>
-    <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;">
-      <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">สิ่งที่ลูกค้าเห็นวันนี้</div>
-      <div style="font-size:15px;line-height:1.6;">ขายก้อนหินทั้งก้อนได้ในคลิกเดียว แม้ก้อนนั้นจะอยู่คนละบริษัทในเครือ — ระบบจัดการเอกสารซื้อ-ขายภายในให้อัตโนมัติ ฝั่งลูกค้าเห็นแค่ประสบการณ์ซื้อขายปกติ 1 ชุดเดียว</div>
-    </div>
-    <div style="margin-top:30px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · P00070 → BDL-00013 → S108402 → S108403/P00071 · stone_slab_inventory module</div>
   </section>
 
 </div></div>
 
 <div id="nav">
   <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-  <button onclick="go(-1)">‹</button>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
   <span id="pagecount">1 / 14</span>
-  <button onclick="go(1)">›</button>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
 </div>
 
 <div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
@@ -423,8 +353,7 @@
     if(e.key==='ArrowRight'||e.key===' ') go(1);
     if(e.key==='ArrowLeft') go(-1);
   });
-
-  document.querySelectorAll('.shot').forEach(img=>{
+  document.querySelectorAll('.shot, .flow-thumb').forEach(img=>{
     img.addEventListener('click', ()=>{
       document.getElementById('lightbox-img').src = img.src;
       document.getElementById('lightbox').classList.add('active');
