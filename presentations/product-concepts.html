@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>4 โหมดการขาย (Product Concepts) — EMG-O</title>
+<title>5 โหมดการขาย (Product Concepts) — EMG-O</title>
 <style>
   :root{
     --charcoal:#33424B;
@@ -81,6 +81,7 @@
   .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
   .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
   .data-table tr:last-child td{border-bottom:none;}
+  .data-table.compact th,.data-table.compact td{padding:7px 8px;font-size:12px;}
 
   .result-table{width:100%;border-collapse:collapse;font-size:14.5px;}
   .result-table td{padding:7px 0;border-bottom:1px solid #e6e2dc;}
@@ -119,20 +120,20 @@
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">EO</div>
     <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
-    <div class="big-title">4 โหมดการขาย<br>(Product Concepts)</div>
-    <div class="big-sub">โครงสร้างข้อมูลเดียวกันทั้งหมด (Material → Block → Bundle → Slab) — ต่างกันแค่ "ขายอะไร" และ "ตัดสต็อกยังไง"</div>
-    <div class="stamp">EMG-O Manual · บทที่ 13 · build+verify จริงบน production 2026-07-13/14</div>
+    <div class="big-title">5 โหมดการขาย<br>(Product Concepts)</div>
+    <div class="big-sub">โครงสร้างข้อมูลเดียวกันทั้งหมด (Material → Block → Bundle → Slab → Finished Goods) — ต่างกันแค่ "ขายอะไร" และ "ตัดสต็อกยังไง"</div>
+    <div class="stamp">EMG-O Manual · บทที่ 13 · รวม Product Concepts ฉบับเต็ม+ย่อ+FG Production (ADR-029) เป็นไฟล์เดียว · 2026-08-12</div>
   </section>
 
   <!-- SLIDE 1: Overview comparison -->
   <section class="slide" id="slide-1">
-    <div class="eyebrow">ภาพรวม · ทำไมต้องมี 4 โหมด</div>
-    <h2 class="slide-title">1 โครงสร้างข้อมูล 4 วิธีขาย ไม่ใช่ระบบแยกกันคนละชุด</h2>
+    <div class="eyebrow">ภาพรวม · ทำไมต้องมี 5 โหมด</div>
+    <h2 class="slide-title">1 โครงสร้างข้อมูล 5 วิธีขาย ไม่ใช่ระบบแยกกันคนละชุด</h2>
     <div class="case-box">
       <div class="case-icon">?</div>
       <div>
         <div class="case-text-label">ที่มา</div>
-        <div class="case-text">หลังลูกค้า (Empire Stone) กลับมาต่องานกลางทาง ได้ reframe requirement ใหม่เป็น 4 โหมดการขาย ครอบคลุมสินค้า/วิธีขายที่ต่างกันของธุรกิจหิน — ทุกโหมดใช้ Material → Block → Bundle → Slab เดียวกันหมด</div>
+        <div class="case-text">หลังลูกค้า (Empire Stone) กลับมาต่องานกลางทาง ได้ reframe requirement ใหม่เป็น 4 โหมดการขาย ครอบคลุมสินค้า/วิธีขายที่ต่างกันของธุรกิจหิน แล้วภายหลังเพิ่มโหมดที่ 5 (FG Production, ADR-029) — ทุกโหมดใช้ Material → Block → Bundle → Slab เดียวกันหมด</div>
       </div>
     </div>
     <table class="data-table">
@@ -140,9 +141,10 @@
       <tr><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td></tr>
       <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td></tr>
       <tr><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายแผ่น (Serial)</td></tr>
-      <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ (ผสมโหมด 1-3 ได้)</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
+      <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ (ผสมโหมด 1-3/5 ได้)</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
+      <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP เหมือนกัน)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
-    <div class="note-box"><b>หลักคิดสำคัญ:</b> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</div>
+    <div class="note-box"><b>หลักคิดสำคัญ:</b> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" โหมด 5 (FG Production) คือขั้นต่อจากโหมด 2/3 — เอา Slab ที่มีอยู่แล้วมาตัดต่อเป็นสินค้าสำเร็จรูปอีกที ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3/5 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</div>
   </section>
 
   <!-- SLIDE 2: Type 1 -->
@@ -193,7 +195,7 @@
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">โหมดเดียวที่ใช้ Odoo MRP จริง (Work Center "Stone Cutting") — ต่างจากประเภท 2 ที่ "ตัด" เป็น custom transformation ธรรมดา</span></li>
+          <li><span class="step-num">1</span><span class="step-text">ใช้ Odoo MRP จริง (Work Center "Stone Cutting") เหมือนกับประเภท 5 (FG Production) — ต่างจากประเภท 2 ที่ "ตัด" เป็น custom transformation ธรรมดา</span></li>
           <li><span class="step-num">2</span><span class="step-text">ต้องตั้ง <b>Finish attribute</b> บน Product Template (Polished/Honed/Brushed/Sandblasted/Other) ก่อนถึงจะมีตัวเลือกให้ลูกค้าสั่งจริง</span></li>
           <li><span class="step-num">3</span><span class="step-text">SO line เลือก Finish → ปุ่ม "Cut to Order" → Wizard สร้าง Manufacturing Order → Complete Cut → แผ่นใหม่พร้อม Serial Lot ตรง Finish ที่สั่งจริง</span></li>
         </ul>
@@ -214,7 +216,7 @@
       <div class="case-icon">4</div>
       <div>
         <div class="case-text-label">Concept</div>
-        <div class="case-text">ขายเป็นชุดงาน (BOQ) หลายรายการรวมกัน (วัสดุ+ค่าแรง) ของโปรเจกต์เดียว — แต่ละบรรทัด BOQ ยังใช้กลไกประเภท 1-3 ได้ตามสินค้านั้นๆ</div>
+        <div class="case-text">ขายเป็นชุดงาน (BOQ) หลายรายการรวมกัน (วัสดุ+ค่าแรง) ของโปรเจกต์เดียว — แต่ละบรรทัด BOQ ยังใช้กลไกประเภท 1-3/5 ได้ตามสินค้านั้นๆ</div>
       </div>
     </div>
     <div class="hier-row">
@@ -258,28 +260,48 @@
     <div class="note-box"><b>Milestone 30/40/30%</b> ใช้ติดตามความคืบหน้างานเท่านั้น (ติ๊ก "ถึงแล้ว") — <b>ไม่ผูกกับการวางบิล</b> คนละกลไกกันโดยเจตนา วางบิลจริงใช้ Native Down Payment Invoice Wizard แยกต่างหาก</div>
   </section>
 
-  <!-- SLIDE 7: Accounting comparison -->
+  <!-- SLIDE 7: Type 5 FG Production -->
   <section class="slide" id="slide-7">
+    <div class="type-pill">ประเภท 5</div>
+    <div class="eyebrow">FG Production · ผลิตสินค้าสำเร็จรูปจาก Slab (ADR-029)</div>
+    <h2 class="slide-title">มี Slab อยู่แล้ว → ตัดต่อเป็นสินค้าสำเร็จรูปตามแบบ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ใช้เมื่อสินค้าที่ขายไม่ใช่แผ่นเปล่า แต่เป็นชิ้นงานสำเร็จรูป (เช่น Top อ่างล้างหน้าตามแบบ) ที่ต้องตัดต่อจาก Slab อีกที</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ต้องตั้ง <b>FG Raw Material</b> บน Product Template ก่อน ระบบถึงจะรู้ว่าต้องเบิก Slab จาก Material ไหน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">SO line กด "Produce FG" → Wizard เลือก Slab (auto-match ให้ ถ้าไม่มีให้กด Cut to Order ก่อน) → ใส่ผลผลิตทุกชิ้นที่ได้จริง (ชิ้นที่ขาย + เศษที่เหลือเป็น byproduct) → ยืนยัน → สร้าง Manufacturing Order จริง เบิก Slab 1 แผ่น</span></li>
+        </ul>
+        <div class="note-box"><b>ต่างจากประเภท 3 ยังไง:</b> ทั้งคู่ใช้ Odoo MRP จริงเหมือนกัน — ประเภท 3 ตัดจาก Block/Bundle (ยังไม่เคยเป็นแผ่นมาก่อน) ส่วนประเภท 5 ตัดต่อจาก Slab ที่มีอยู่แล้ว (เป็นแผ่นอยู่ก่อนแล้ว ตัดซ้ำอีกทีเป็นชิ้นงาน)</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type5.png"><div class="shot-cap">Workflow: SO → เลือก Slab + Produce FG (MRP) → ส่งของ → บัญชี</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Accounting comparison -->
+  <section class="slide" id="slide-8">
     <div class="eyebrow">สรุปด้านบัญชีที่ต่างกัน</div>
     <h2 class="slide-title">ต้นทุน, VAT, จังหวะ Invoice — ต่างกันยังไงในแต่ละโหมด</h2>
-    <table class="data-table">
-      <tr><th>ด้านบัญชี</th><th>1 (ก้อน)</th><th>2 (สำเร็จรูป)</th><th>3 (ตัดตามสั่ง)</th><th>4 (โครงการ)</th></tr>
-      <tr><td>ต้นทุนอ้างอิงจาก</td><td><code>cost_cbm</code></td><td><code>cost_sqmt</code></td><td>ต้นทุนวัสดุจาก MRP เท่านั้น</td><td>รวมทุกใบที่ tag Analytic Account</td></tr>
-      <tr><td>ต้นทุนค่าแรงแยกราย order?</td><td>ไม่มี</td><td>ไม่มี</td><td><b>ยังไม่มี</b> (fast-follow)</td><td><b>มี</b> ถ้า tag เข้า Analytic เอง</td></tr>
-      <tr><td>จังหวะออก Invoice</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td><b>แยกเป็นงวด</b> ไม่รอส่งของ</td></tr>
-      <tr><td>ขายข้ามบริษัท (EG↔ES)</td><td>รองรับ (Markup 10%)</td><td>รองรับ (Markup 10%)</td><td>ยังไม่ได้ทดสอบ</td><td>รองรับต่อบรรทัดตามประเภทสินค้า</td></tr>
-      <tr><td>ดูกำไรรวมได้ที่</td><td>Financial Reports Dashboard</td><td>เหมือนกัน</td><td>เหมือนกัน</td><td><b>Analytic Items แยกรายโครงการ</b></td></tr>
+    <table class="data-table compact">
+      <tr><th>ด้านบัญชี</th><th>1 (ก้อน)</th><th>2 (สำเร็จรูป)</th><th>3 (ตัดตามสั่ง)</th><th>4 (โครงการ)</th><th>5 (FG Production)</th></tr>
+      <tr><td>ต้นทุนอ้างอิงจาก</td><td><code>cost_cbm</code></td><td><code>cost_sqmt</code></td><td>ต้นทุนวัสดุจาก MRP เท่านั้น</td><td>รวมทุกใบที่ tag Analytic Account</td><td>ต้นทุน Slab ที่เบิกใช้ (MRP)</td></tr>
+      <tr><td>ต้นทุนค่าแรงแยกราย order?</td><td>ไม่มี</td><td>ไม่มี</td><td><b>ยังไม่มี</b> (fast-follow)</td><td><b>มี</b> ถ้า tag เข้า Analytic เอง</td><td><b>ยังไม่มี</b> (fast-follow เหมือนโหมด 3)</td></tr>
+      <tr><td>จังหวะออก Invoice</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td>ตอน confirm/deliver</td><td><b>แยกเป็นงวด</b> ไม่รอส่งของ</td><td>ตอน confirm/deliver</td></tr>
+      <tr><td>ขายข้ามบริษัท (EG↔ES)</td><td>รองรับ (Markup 10%)</td><td>รองรับ (Markup 10%)</td><td>ยังไม่ได้ทดสอบ</td><td>รองรับต่อบรรทัดตามประเภทสินค้า</td><td>รองรับ (by design เหมือนโหมด 3)</td></tr>
+      <tr><td>ดูกำไรรวมได้ที่</td><td>Financial Reports Dashboard</td><td>เหมือนกัน</td><td>เหมือนกัน</td><td><b>Analytic Items แยกรายโครงการ</b></td><td>P&L Dashboard แยกกลุ่ม "FG Production (ADR-029)"</td></tr>
     </table>
     <div class="note-box">VAT 7% เหมือนกันทุกโหมด — ความต่างอยู่ที่ "ต้นทุนอ้างอิงจากไหน" กับ "จังหวะออก Invoice" เป็นหลัก</div>
   </section>
 
-  <!-- SLIDE 8: Summary -->
-  <section class="slide dark" id="slide-8">
+  <!-- SLIDE 9: Summary -->
+  <section class="slide dark" id="slide-9">
     <div class="eyebrow">สรุปภาพรวม</div>
     <h2 class="slide-title" style="color:#fff;">1 โครงสร้างข้อมูล เลือกวิธีขายให้ตรงกับสินค้าจริง</h2>
     <div class="flow-bar" style="margin-bottom:26px;">
-      <span class="flow-chip" style="background:var(--copper);">Material → Block → Bundle → Slab</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">เลือกโหมด 1-4</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Material → Block → Bundle → Slab → Finished Goods</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">เลือกโหมด 1-5</span><span class="flow-arrow">→</span>
       <span class="flow-chip" style="background:var(--copper);">ขาย → ส่งของ → บัญชี</span>
     </div>
     <table class="data-table" style="background:rgba(255,255,255,.04);">
@@ -288,6 +310,7 @@
       <tr style="color:#DDE3E0;"><td>2. แผ่นสำเร็จรูป</td><td>มีสต็อกแผ่นพร้อมขายทันที</td></tr>
       <tr style="color:#DDE3E0;"><td>3. ตัดตามสั่ง</td><td>ลูกค้าเลือก Finish/ขนาดเอง</td></tr>
       <tr style="color:#DDE3E0;"><td>4. งานโครงการ</td><td>ขายหลายรายการรวมเป็นงานเดียว ต้องดูกำไรรวม</td></tr>
+      <tr style="color:#DDE3E0;"><td>5. FG Production</td><td>มี Slab อยู่แล้ว ต้องตัดต่อเป็นสินค้าสำเร็จรูปตามแบบ</td></tr>
     </table>
     <div style="margin-top:24px;font-size:14.5px;color:#B9C2C8;">อ้างอิงจาก build+verify จริงบน production (odoo19-mbxai) · รายละเอียดทางเทคนิคเต็ม: EMG-O Manual บทที่ 13</div>
   </section>
@@ -297,7 +320,7 @@
 <div id="nav">
   <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <button onclick="go(-1)" aria-label="Previous slide">‹</button>
-  <span id="pagecount">1 / 9</span>
+  <span id="pagecount">1 / 10</span>
   <button onclick="go(1)" aria-label="Next slide">›</button>
 </div>
 

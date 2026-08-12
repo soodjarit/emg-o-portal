@@ -84,27 +84,69 @@
     <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว จัดหมวดตามขั้นตอนงาน — สำหรับเจาะลึกเฉพาะเรื่อง ถ้าอยากรู้ว่าตอนนี้ควรดูอะไรก่อน ดูที่ <a href="index.html" style="color:var(--copper-dark);font-weight:700;">หน้าแรก</a></div>
   </header>
 
-  <div class="group">
-    <div class="group-title">ภาพรวม</div>
-    <a class="card" href="manual/emg-o-manual.html">
-      <div class="icon">M</div>
+  <div class="category" id="project-overview">
+    <div class="category-header">
+      <div class="category-title">ภาพรวมโครงการ</div>
+      <div class="category-sub">ปูพื้นก่อนเริ่ม — เข้าใจภาพรวมระบบและโครงสร้างสินค้าหิน</div>
+    </div>
+    <a class="card" href="presentations/product-concept-stone-management.html">
+      <div class="icon">1</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (25 บท)</div>
-        <div class="card-desc">ทุกโหมดการขาย, การจัดซื้อ, BOQ, Intercompany, Scan Station — พร้อม screenshot ทุกขั้นตอน</div>
+        <div class="card-title">โครงสร้างสินค้าหิน & วิธีจัดการบนระบบ</div>
+        <div class="card-desc">ทำไมต้องมีระบบเฉพาะ (ไม่ใช้ Odoo standard) + ภาพรวม Material→Block→Bundle→Slab→Finished Goods + กว้าง×ยาว×หนา อยู่ตรงไหน (12 สไลด์)</div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/emg-o-training-presentation.html">
-      <div class="icon">O</div>
+    <a class="card" href="presentations/bundle-why-explainer.html">
+      <div class="icon">2</div>
       <div>
-        <div class="card-title">ภาพรวมระบบ EMG-O</div>
-        <div class="card-desc">รับหินเข้าคลัง → ตัดแผ่น → ขาย → ส่งของ — ยกตัวอย่างสถานการณ์จริงก่อน แล้วค่อยพาไปดูหน้าจอทีละขั้นตอน</div>
+        <div class="card-title">ทำไมต้องมี Bundle</div>
+        <div class="card-desc">เหตุผลที่ระบบแยก Bundle ออกจาก Block/Slab — ตัวกลางที่ทำให้ต้นทุน+สต็อกตามรอยกันได้ตั้งแต่ซื้อจนถึงตัดแผ่น</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/product-3-types-explainer.html">
+      <div class="icon">3</div>
+      <div>
+        <div class="card-title">Material กับ 3 Product Types (quick)</div>
+        <div class="card-desc">สรุปเร็ว: Slab (บังคับ) / Block (ทางเลือก) / Finished Good (ทางเลือก ตัดจาก Slab อีกที) — พร้อมตัวอย่างจริง Calacatta Gold (8 สไลด์)</div>
       </div>
       <div class="arrow">→</div>
     </a>
   </div>
 
-  <div class="category">
+  <div class="category" id="client-documents">
+    <div class="category-header">
+      <div class="category-title">เอกสารจากลูกค้า</div>
+      <div class="category-sub">เอกสารต้นฉบับที่ลูกค้าส่งมาให้ทีมงานใช้อ้างอิง</div>
+    </div>
+    <a class="card" href="client-docs/EGQ6905137C-138C-supply-install-main-entrance.pdf">
+      <div class="icon">Q</div>
+      <div>
+        <div class="card-title">ใบเสนอราคาต้นฉบับ — Conrad Hotel (Main Entrance)</div>
+        <div class="card-desc">EGQ6905137C (Material) + EGQ6905138C (Labor) — Supply and Install, BENCHASIRI ALLIANCE</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/cut-list-benchasiri.pdf">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">Cut List — Benchasiri</div>
+        <div class="card-desc">รายการตัดแผ่นต้นฉบับจากลูกค้า</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/analytic-dimension-20260807.xlsx">
+      <div class="icon">X</div>
+      <div>
+        <div class="card-title">Analytic Dimension (2026-08-07)</div>
+        <div class="card-desc">ไฟล์ข้อมูล Analytic Dimension ที่ลูกค้าส่งมา</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="category" id="demand-generation">
     <div class="category-header">
       <div class="category-title">Demand Generation</div>
       <div class="category-sub">สร้างดีมานด์ — การตลาด, CRM, เสนอราคา, ปิดการขาย</div>
@@ -113,16 +155,8 @@
     <a class="card" href="presentations/product-concepts.html">
       <div class="icon">1</div>
       <div>
-        <div class="card-title">4 โหมดการขาย (Product Concepts)</div>
-        <div class="card-desc">หินก้อนนำเข้า / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ BOQ — พร้อมตัวอย่างจริงและกำไรจริงรายโครงการ</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-concepts-condensed.html">
-      <div class="icon">1S</div>
-      <div>
-        <div class="card-title">4 โหมดการขาย — ฉบับย่อ</div>
-        <div class="card-desc">เนื้อหาเดียวกัน ย่อจาก 9 สไลด์เหลือ 6 — ใช้เวลาน้อยกว่าเวลาต้องพรีเซนต์เร็ว</div>
+        <div class="card-title">5 โหมดการขาย (Product Concepts)</div>
+        <div class="card-desc">หินก้อนนำเข้า / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ BOQ / FG Production — พร้อมตัวอย่างจริงและกำไรจริงรายโครงการ</div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -134,17 +168,127 @@
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/selling-flow-walkthrough.html">
-      <div class="icon">3</div>
+  </div>
+
+  <div class="category" id="ensure-supply">
+    <div class="category-header">
+      <div class="category-title">Ensure Supply</div>
+      <div class="category-sub">จัดหาและบริหารสต็อกให้พร้อมส่งมอบ</div>
+    </div>
+    <a class="card" href="presentations/inventory-overview.html">
+      <div class="icon">1</div>
       <div>
-        <div class="card-title">พาลูกค้าดูสด: ขายแผ่นสำเร็จรูป</div>
-        <div class="card-desc">คู่มือพรีเซนต์ทีละขั้นตอน — เลือกแผ่นจริง → ยืนยัน → ออกใบแจ้งหนี้ → ส่งของ+สแกน → เซ็นรับ พร้อมจุดห้ามลืม 3 จุด</div>
+        <div class="card-title">การจัดการสต็อก (Inventory)</div>
+        <div class="card-desc">ตัดแผ่น → ดูภาพรวม Kanban → เช็ค/ย้ายสต็อกด้วย Scan Station → รับคืนสินค้า — ครบวงจรตั้งแต่ก้อนหินถึงคืนสินค้า</div>
       </div>
       <div class="arrow">→</div>
     </a>
+  </div>
 
+  <div class="category" id="management-accounting">
+    <div class="category-header">
+      <div class="category-title">Management &amp; Accounting</div>
+      <div class="category-sub">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
+    </div>
+    <a class="card" href="presentations/analytic-accounting.html">
+      <div class="icon">1</div>
+      <div>
+        <div class="card-title">กำไรรายโครงการ (Analytic Accounting)</div>
+        <div class="card-desc">ผูก Analytic Account เข้ากับ Bundle ครั้งเดียว — ต้นทุนและรายได้ทั้งสายแปะป้ายให้อัตโนมัติ จนเห็นกำไรจริงของแต่ละโครงการ</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/wht-certificate.html">
+      <div class="icon">2</div>
+      <div>
+        <div class="card-title">ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</div>
+        <div class="card-desc">พิมพ์แบบ 50 ทวิ ได้จากบิลผู้ขายโดยตรง — อัตราภาษีมีอยู่แล้วในระบบ ไม่ต้องตั้งค่าเพิ่ม</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/stone-cost-landed-cost.html">
+      <div class="icon">3</div>
+      <div>
+        <div class="card-title">ต้นทุนหินก้อน + Landed Cost</div>
+        <div class="card-desc">รู้ต้นทุนจริงตั้งแต่วันนำเข้า ไม่ต้องรอตัดแผ่น — ค่าขนส่งกระจายตามสัดส่วนจริง และตรวจสอบย้อนกลับไปหาบิลจริงได้เสมอ</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/boq-adr031-split-quotation.html">
+      <div class="icon">4</div>
+      <div>
+        <div class="card-title">BOQ Estimation อัปเดต — Cost Component + ใบเสนอราคา 2 คอลัมน์</div>
+        <div class="card-desc">Cost Component Buckets ไม่จำกัดหมวด + Adder % แยกต่อหมวด + Split Material/Labor Quotation + หัก WHT อัตโนมัติ — ตรงกับเอกสาร EGQ จริงของลูกค้า (ADR-031)</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="category" id="working-documents">
+    <div class="category-header">
+      <div class="category-title">เอกสารระหว่างทำงาน</div>
+      <div class="category-sub">เอกสารประกอบการทำงาน ไม่ใช่คู่มือใช้งานฟีเจอร์โดยตรง</div>
+    </div>
+    <a class="card" href="presentations/eg-kickoff-2026-08-07.html">
+      <div class="icon">K</div>
+      <div>
+        <div class="card-title">Kick-off & Roadmap</div>
+        <div class="card-desc">ภาพรวมโครงการทั้งหมด — 3 Phase (Demand Generation → Ensure Supply → Management & Accounting) และแผนงานถัดไป</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="category">
+    <div class="category-header">
+      <div class="category-title">E2E Full Walkthroughs</div>
+      <div class="category-sub">เดินสดครบวงจรตั้งแต่เปิดใบขายจนถึงรับเงิน — อีก 3 Mode รออัปเดตเนื้อหาก่อนเพิ่มกลับเข้ามา</div>
+    </div>
+
+    <div class="subgroup team">
+      <div class="subgroup-title">สำหรับทีมงาน <span class="subgroup-sub">— สคริปต์ซ้อมพรีเซนต์สด/เดโม ไม่จำเป็นต้องอ่านเพื่อใช้งานทั่วไป</span></div>
+      <a class="card" href="presentations/e2e-po-to-inv.html">
+        <div class="icon">1</div>
+        <div>
+          <div class="card-title">E2E — PO to INV (ตัดแผ่นด้วยมือ)</div>
+          <div class="card-desc">เดินสดครบวงจร ตั้งแต่ Purchase Order → Bundle → ตัดแผ่นเอง → ขาย → Invoice → Vendor Bill — ผูก Analytic Account ตัวเดียวตามรอยต้นทุน+กำไรทั้งสาย พร้อมจุดห้ามลืมที่เจอจริง</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="presentations/e2e-intercompany.html">
+        <div class="icon">2</div>
+        <div>
+          <div class="card-title">E2E — Intercompany Trade (Select Slabs ข้ามบริษัท)</div>
+          <div class="card-desc">เงื่อนไขที่ต้องมีให้ขายข้ามบริษัทได้ + เดินสดครบวงจรตั้งแต่เลือกแผ่นข้ามบริษัท → Auto Intercompany → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — รวมจุดที่เผลอ Post/Pay ผิดจริงและวิธีแก้</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="card" href="presentations/e2e-mode2-lot-stock.html">
+        <div class="icon">3</div>
+        <div>
+          <div class="card-title">E2E — Select Lot Stock (ขายแบบล็อต) + รับชำระเงิน</div>
+          <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → เลือกล็อตหินที่ตั้งราคาแบบตารางเมตร → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — พร้อมจุดห้ามลืมตอน Validate ที่เจอจริง</div>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="category" id="draft-document">
+    <div class="category-header">
+      <div class="category-title">Draft Document</div>
+      <div class="category-sub">ฉบับร่าง — ยังไม่ final</div>
+    </div>
+    <a class="card" href="manual/emg-o-manual.html">
+      <div class="icon">M</div>
+      <div>
+        <div class="card-title">คู่มือฉบับเต็ม (25 บท)</div>
+        <div class="card-desc">ทุกโหมดการขาย, การจัดซื้อ, BOQ, Intercompany, Scan Station — พร้อม screenshot ทุกขั้นตอน</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <div class="subgroup">
-      <div class="subgroup-title">BOQ Estimation <span class="subgroup-sub">— ตั้งแต่เตรียมระบบ ปิดการขาย จนถึงส่งมอบ</span></div>
+      <div class="subgroup-title">BOQ Estimation <span class="subgroup-sub">— รอปรับปรุงให้ตรงกับฟีเจอร์ ADR-031 (Cost Component Buckets + Combined Quotation) ก่อน</span></div>
       <a class="card" href="presentations/boq-sold-as-project.html">
         <div class="icon">B1</div>
         <div>
@@ -182,151 +326,6 @@
         <div>
           <div class="card-title">ตัวอย่าง BOQ 5 แบบ</div>
           <div class="card-desc">ตัวอย่างใบเสนอราคาจริงจากงานหน้างานประเภทต่างๆ</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-    </div>
-  </div>
-
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">Ensure Supply</div>
-      <div class="category-sub">จัดหาและบริหารสต็อกให้พร้อมส่งมอบ</div>
-    </div>
-    <a class="card" href="presentations/product-concept-stone-management.html">
-      <div class="icon">0E</div>
-      <div>
-        <div class="card-title">โครงสร้างสินค้าหิน & วิธีจัดการบนระบบ</div>
-        <div class="card-desc">ทำไมต้องมีระบบเฉพาะ (ไม่ใช้ Odoo standard) + ภาพรวม Material→Block→Bundle→Slab→Finished Goods + กว้าง×ยาว×หนา อยู่ตรงไหน (12 สไลด์)</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-creation-guide.html">
-      <div class="icon">0F</div>
-      <div>
-        <div class="card-title">เข้าใจ Product หิน — Material, Block, Slab</div>
-        <div class="card-desc">ปูพื้นความหมาย Material/Block/Slab/Bundle/Lot ก่อน แล้วค่อยลง step ตั้งค่าจริงครบ 5 เงื่อนไข พร้อมภาพหน้าจอจริงทุกขั้นตอน (13 สไลด์)</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-setup-guide.html">
-      <div class="icon">0</div>
-      <div>
-        <div class="card-title">วิธีสร้าง Product (ก้อน + แผ่น)</div>
-        <div class="card-desc">เริ่มจาก Material 1 ตัว → สร้าง Slab Product (บังคับ) + Block Product (ทางเลือก เปิดโหมดขายทั้งก้อน) พร้อมตัวอย่างจริง</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/product-3-types-explainer.html">
-      <div class="icon">0Q</div>
-      <div>
-        <div class="card-title">Material กับ 3 Product Types (quick)</div>
-        <div class="card-desc">สรุปเร็ว: Slab (บังคับ) / Block (ทางเลือก) / Finished Good (ทางเลือก ตัดจาก Slab อีกที) — พร้อมตัวอย่างจริง Calacatta Gold (8 สไลด์)</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/purchasing-overview.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">การจัดซื้อ (Purchasing)</div>
-        <div class="card-desc">ซื้อหิน (ผูก Bundle) กับซื้อของทั่วไป (Receipt ปกติ) — ระบบแยกเส้นทางให้อัตโนมัติ + กฎห้ามลืมเรื่องใบรับสินค้าของหิน</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/inventory-overview.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">การจัดการสต็อก (Inventory)</div>
-        <div class="card-desc">ตัดแผ่น → ดูภาพรวม Kanban → เช็ค/ย้ายสต็อกด้วย Scan Station → รับคืนสินค้า — ครบวงจรตั้งแต่ก้อนหินถึงคืนสินค้า</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-  </div>
-
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">Management &amp; Accounting</div>
-      <div class="category-sub">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
-    </div>
-    <a class="card" href="presentations/analytic-accounting.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">กำไรรายโครงการ (Analytic Accounting)</div>
-        <div class="card-desc">ผูก Analytic Account เข้ากับ Bundle ครั้งเดียว — ต้นทุนและรายได้ทั้งสายแปะป้ายให้อัตโนมัติ จนเห็นกำไรจริงของแต่ละโครงการ</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/wht-certificate.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</div>
-        <div class="card-desc">พิมพ์แบบ 50 ทวิ ได้จากบิลผู้ขายโดยตรง — อัตราภาษีมีอยู่แล้วในระบบ ไม่ต้องตั้งค่าเพิ่ม</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/stone-cost-landed-cost.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">ต้นทุนหินก้อน + Landed Cost</div>
-        <div class="card-desc">รู้ต้นทุนจริงตั้งแต่วันนำเข้า ไม่ต้องรอตัดแผ่น — ค่าขนส่งกระจายตามสัดส่วนจริง และตรวจสอบย้อนกลับไปหาบิลจริงได้เสมอ</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-  </div>
-
-  <div class="category">
-    <div class="category-header">
-      <div class="category-title">E2E Full Walkthroughs</div>
-      <div class="category-sub">เดินสดครบวงจรตั้งแต่เปิดใบขายจนถึงรับเงิน — ทุก Mode การขาย</div>
-    </div>
-
-    <div class="subgroup team">
-      <div class="subgroup-title">สำหรับทีมงาน <span class="subgroup-sub">— สคริปต์ซ้อมพรีเซนต์สด/เดโม ไม่จำเป็นต้องอ่านเพื่อใช้งานทั่วไป</span></div>
-      <a class="card" href="presentations/e2e-po-to-inv.html">
-        <div class="icon">1</div>
-        <div>
-          <div class="card-title">E2E — PO to INV (ตัดแผ่นด้วยมือ)</div>
-          <div class="card-desc">เดินสดครบวงจร ตั้งแต่ Purchase Order → Bundle → ตัดแผ่นเอง → ขาย → Invoice → Vendor Bill — ผูก Analytic Account ตัวเดียวตามรอยต้นทุน+กำไรทั้งสาย พร้อมจุดห้ามลืมที่เจอจริง</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/e2e-cut-to-order.html">
-        <div class="icon">2</div>
-        <div>
-          <div class="card-title">E2E — Cut to Order (ตัดตามออเดอร์) + รับชำระเงิน</div>
-          <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → สั่งตัดผ่าน Manufacturing Order → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — ไม่ต้องมีสต็อกแผ่นสำเร็จรูปล่วงหน้าก็ขายได้ พร้อมจุดห้ามลืมที่เจอจริง</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/e2e-mode1-block.html">
-        <div class="icon">3</div>
-        <div>
-          <div class="card-title">E2E — ขายทั้งก้อน (Sell Whole Block) ข้ามบริษัท</div>
-          <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → เลือกก้อนหินขายทั้งก้อน → ยืนยันขาย → ระบบสร้างเอกสารซื้อ-ขายภายในข้ามบริษัทอัตโนมัติ → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — พร้อมจุดที่ต้องยืนยันดีไซน์กับลูกค้า</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/e2e-intercompany.html">
-        <div class="icon">4</div>
-        <div>
-          <div class="card-title">E2E — Intercompany Trade (Select Slabs ข้ามบริษัท)</div>
-          <div class="card-desc">เงื่อนไขที่ต้องมีให้ขายข้ามบริษัทได้ + เดินสดครบวงจรตั้งแต่เลือกแผ่นข้ามบริษัท → Auto Intercompany → ส่งของตรงถึงลูกค้า → Invoice → รับชำระเงิน — รวมจุดที่เผลอ Post/Pay ผิดจริงและวิธีแก้</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/e2e-mode2-lot-stock.html">
-        <div class="icon">5</div>
-        <div>
-          <div class="card-title">E2E — Select Lot Stock (ขายแบบล็อต) + รับชำระเงิน</div>
-          <div class="card-desc">เดินสดครบวงจร ตั้งแต่เปิดใบขาย → เลือกล็อตหินที่ตั้งราคาแบบตารางเมตร → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — พร้อมจุดห้ามลืมตอน Validate ที่เจอจริง</div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/e2e-adr031-cost-buckets.html">
-        <div class="icon">6</div>
-        <div>
-          <div class="card-title">E2E — N-Component Cost Buckets (ADR-031)</div>
-          <div class="card-desc">เดินสด Rate Library จริง — เพิ่มหมวดต้นทุนที่ 3 (Overhead/Freight/Other) ได้จากหน้าจอโดยไม่ต้องแก้โค้ด ของเดิม (Material/Labour Cost) ยังใช้งานต่อได้ครบ ยังไม่รวม layout ใบเสนอราคาจริงซึ่งรอทีมบัญชี/ประเมินราคา</div>
         </div>
         <div class="arrow">→</div>
       </a>

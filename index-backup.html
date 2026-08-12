@@ -54,16 +54,29 @@
   .section-link{font-size:13.5px;color:var(--copper-dark);text-decoration:none;font-weight:700;white-space:nowrap;}
   .section-link:hover{text-decoration:underline;}
 
-  .placeholder{background:var(--card);border:1.5px dashed var(--border);border-radius:14px;padding:26px 22px;text-align:center;color:#9A9D9F;font-size:13.5px;}
+  .item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;}
+  .item a.item-doclink{text-decoration:none;}
+  .tag{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:99px;white-space:nowrap;margin-top:1px;}
+  .tag.open{background:var(--red-bg);color:var(--red);}
+  .tag.pending{background:var(--amber-bg);color:var(--amber);}
+  .tag.done{background:var(--green-bg);color:var(--green);}
+  .item-body{flex:1;}
+  .item-title{font-size:14.5px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
+  .item-desc{font-size:13.5px;color:#787B7D;line-height:1.5;}
+  .item-desc a{color:var(--copper-dark);font-weight:700;text-decoration:none;}
+  .item-desc a:hover{text-decoration:underline;}
 
-  .cat-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:12px;text-decoration:none;color:inherit;transition:box-shadow .15s ease, transform .15s ease;}
-  .cat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
-  .cat-head{display:flex;align-items:center;gap:14px;}
-  .cat-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:Cambria,serif;}
-  .cat-title{font-size:16px;font-weight:700;color:var(--charcoal);}
-  .cat-count{font-size:12.5px;color:#9A9D9F;margin-top:2px;}
-  .cat-desc{font-size:13.5px;color:#787B7D;line-height:1.5;margin-top:10px;}
-  .cat-arrow{margin-left:auto;color:var(--copper);font-size:18px;flex-shrink:0;}
+  .doc-card{
+    display:flex;align-items:center;gap:16px;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:17px 20px;margin-bottom:10px;text-decoration:none;color:inherit;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .doc-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .doc-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:Cambria,serif;}
+  .doc-title{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:2px;}
+  .doc-desc{font-size:13px;color:#787B7D;line-height:1.4;}
+  .doc-arrow{margin-left:auto;color:var(--copper);font-size:18px;flex-shrink:0;}
 
   .timeline{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:6px 2px 10px;}
   .tl-step{flex:1;min-width:150px;position:relative;padding-right:18px;}
@@ -78,6 +91,15 @@
   .tl-step.upcoming .tl-label{color:#9A9D9F;}
   .tl-date{margin-top:2px;font-size:12px;color:#9A9D9F;}
   .tl-step.current .tl-date{color:var(--copper-dark);font-weight:700;}
+
+  .cat-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:12px;text-decoration:none;color:inherit;transition:box-shadow .15s ease, transform .15s ease;}
+  .cat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .cat-head{display:flex;align-items:center;gap:14px;}
+  .cat-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:Cambria,serif;}
+  .cat-title{font-size:16px;font-weight:700;color:var(--charcoal);}
+  .cat-count{font-size:12.5px;color:#9A9D9F;margin-top:2px;}
+  .cat-desc{font-size:13.5px;color:#787B7D;line-height:1.5;margin-top:10px;}
+  .cat-arrow{margin-left:auto;color:var(--copper);font-size:18px;flex-shrink:0;}
 
   footer{margin-top:48px;font-size:13px;color:#9A9D9F;padding-top:20px;border-top:1px solid var(--border);}
 </style>
@@ -143,17 +165,6 @@
       <div class="section-title">📂 เอกสารตามหมวดหมู่</div>
       <a class="section-link" href="library.html">ดูคลังเอกสารทั้งหมด →</a>
     </div>
-    <a class="cat-card" href="library.html#project-overview">
-      <div class="cat-head">
-        <div class="cat-icon">O</div>
-        <div>
-          <div class="cat-title">ภาพรวมโครงการ</div>
-          <div class="cat-count">3 เอกสาร</div>
-        </div>
-        <div class="cat-arrow">→</div>
-      </div>
-      <div class="cat-desc">ปูพื้นก่อนเริ่ม — เข้าใจภาพรวมระบบและโครงสร้างสินค้าหิน</div>
-    </a>
     <a class="cat-card" href="library.html#client-documents">
       <div class="cat-head">
         <div class="cat-icon">C</div>
@@ -170,7 +181,7 @@
         <div class="cat-icon">1</div>
         <div>
           <div class="cat-title">Demand Generation</div>
-          <div class="cat-count">2 เอกสาร</div>
+          <div class="cat-count">9 เอกสาร</div>
         </div>
         <div class="cat-arrow">→</div>
       </div>
@@ -181,7 +192,7 @@
         <div class="cat-icon">2</div>
         <div>
           <div class="cat-title">Ensure Supply</div>
-          <div class="cat-count">1 เอกสาร</div>
+          <div class="cat-count">6 เอกสาร</div>
         </div>
         <div class="cat-arrow">→</div>
       </div>
@@ -192,33 +203,11 @@
         <div class="cat-icon">3</div>
         <div>
           <div class="cat-title">Management &amp; Accounting</div>
-          <div class="cat-count">4 เอกสาร</div>
+          <div class="cat-count">3 เอกสาร</div>
         </div>
         <div class="cat-arrow">→</div>
       </div>
       <div class="cat-desc">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
-    </a>
-    <a class="cat-card" href="library.html#working-documents">
-      <div class="cat-head">
-        <div class="cat-icon">W</div>
-        <div>
-          <div class="cat-title">เอกสารระหว่างทำงาน</div>
-          <div class="cat-count">1 เอกสาร</div>
-        </div>
-        <div class="cat-arrow">→</div>
-      </div>
-      <div class="cat-desc">เอกสารประกอบการทำงาน ไม่ใช่คู่มือใช้งานฟีเจอร์โดยตรง</div>
-    </a>
-    <a class="cat-card" href="library.html#draft-document">
-      <div class="cat-head">
-        <div class="cat-icon">D</div>
-        <div>
-          <div class="cat-title">Draft Document</div>
-          <div class="cat-count">6 เอกสาร</div>
-        </div>
-        <div class="cat-arrow">→</div>
-      </div>
-      <div class="cat-desc">ฉบับร่าง — ยังไม่ final</div>
     </a>
   </div>
 
@@ -227,7 +216,27 @@
       <div class="section-title">✅ ตัดสินใจล่าสุด</div>
       <a class="section-link" href="decisions.html">ดูประวัติทั้งหมด →</a>
     </div>
-    <div class="placeholder">รอจัดระเบียบรายการตัดสินใจใหม่</div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">เพิ่ม Finished Good (FG) เป็นสินค้าประเภทใหม่ ต่อจาก Slab</div>
+        <div class="item-desc">สำหรับสินค้าที่ตัดตามแบบ/ขัดผิวแล้ว — 2026-08-07</div>
+      </div>
+    </div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">Intercompany: Admin คีย์ PO แทนอีกบริษัท ระบบสร้าง SO ให้อัตโนมัติ</div>
+        <div class="item-desc">ไม่ต้องเชื่อมระบบบัญชีข้ามบริษัททันที — 2026-08-07</div>
+      </div>
+    </div>
+    <div class="item">
+      <span class="tag done">ตกลงแล้ว</span>
+      <div class="item-body">
+        <div class="item-title">ประชุมติดตามความคืบหน้าออนไลน์ทุกวันศุกร์ 13:30 น.</div>
+        <div class="item-desc">ใช้เอกสารในพอร์ทัลนี้เป็นหลักในการอัปเดต — 2026-08-07</div>
+      </div>
+    </div>
   </div>
 
   <footer>EMG-O Project Portal — Empire Stone × Empire Granite · <a href="library.html">ดูคลังเอกสารทั้งหมด</a></footer>

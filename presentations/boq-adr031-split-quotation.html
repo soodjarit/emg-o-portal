@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BOQ Estimation อัปเดต — Cost Component + ใบเสนอราคา 2 คอลัมน์ (ADR-031) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:46px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:26px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.1;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+
+  .two-col{display:flex;gap:28px;align-items:flex-start;flex:1;min-height:0;}
+  .two-col:has(.shot-wrap){align-items:stretch;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:12px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:13px;margin-bottom:10px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14px;line-height:1.45;padding-top:2px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 17px;font-size:13px;line-height:1.46;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .data-table th{text-align:left;padding:7px 9px;background:var(--card);color:var(--copper-dark);font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:7px 9px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table td.num,.data-table th.num{text-align:right;font-variant-numeric:tabular-nums;}
+
+  .type-pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:6px 16px 7px;border-radius:99px;font-weight:700;color:#fff;background:var(--copper);margin-bottom:12px;}
+
+  .compare-row{display:flex;gap:24px;flex:1;min-height:0;}
+  .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
+  .compare-label{font-size:13px;font-weight:700;text-align:center;padding:8px;border-radius:8px 8px 0 0;color:#fff;}
+  .compare-label.before{background:#8A8D8F;}
+  .compare-label.after{background:var(--copper);}
+  .compare-col .shot-wrap{flex:1;min-height:0;border:1px solid var(--stone);border-top:none;border-radius:0 0 8px 8px;padding:8px;display:flex;flex-direction:column;}
+  .compare-col .shot{flex:1;min-height:0;}
+
+  .status-row{display:flex;gap:14px;margin-top:8px;}
+  .status-card{flex:1;background:var(--card);border-radius:12px;padding:16px 18px;}
+  .status-card .slabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .status-card .stext{font-size:13.5px;line-height:1.48;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">ADR<br>031</div>
+    <div class="eyebrow">Empire Granite · BOQ Estimation</div>
+    <div class="big-title">BOQ Estimation อัปเดต<br>Cost Component + ใบเสนอราคา 2 คอลัมน์</div>
+    <div class="big-sub">แก้ปัญหาที่คุยกันไปแล้ว — ใบเสนอราคาที่ระบบสร้างให้ตอนนี้แยก Material/Labor ได้ตรงกับเอกสาร EGQ จริงของ Empire Granite เป๊ะ พร้อมหัก WHT อัตโนมัติ</div>
+    <div class="stamp">EMG-O · boq_estimation module · build+verify จริงบน production (odoo19-mbxai) · 2026-08-12</div>
+  </section>
+
+  <!-- SLIDE 1: Origin/Problem -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ที่มา · ปัญหาเดิม</div>
+    <h2 class="slide-title">เอกสารจริงของลูกค้าแยก 2 ใบเสมอ — ระบบเดิมทำได้แค่ใบเดียว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">สถานการณ์จริง</div>
+        <div class="case-text">ใบเสนอราคาจริงที่ Empire Granite ใช้ (เช่น EGQ 6905137/C + EGQ 6905138/C สำหรับโครงการ Conrad Hotel) แยกเป็น 2 ใบเสมอ — ใบ Material กับใบ Labor คนละเลขที่ คนละยอด และใบ Labor มีการหัก ณ ที่จ่ายด้วย — แต่ก่อนหน้านี้ระบบสร้างใบเสนอราคาได้แค่ใบเดียวรวมกัน ไม่ตรงกับที่ลูกค้าใช้งานจริง</div>
+      </div>
+    </div>
+    <div class="shot-wrap" style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;">
+      <img class="shot" style="max-height:420px;object-fit:contain;" src="assets/gap-a-01-client-real-quotation.png">
+      <div class="shot-cap">เอกสารจริงจากลูกค้า — EGQ 6905137/C (Material) + EGQ 6905138/C (Labor), โครงการ Benchasiri Alliance - Conrad Hotel</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Cost Component Buckets -->
+  <section class="slide" id="slide-2">
+    <div class="type-pill">ส่วนที่ 1</div>
+    <div class="eyebrow">Cost Component Buckets (ใหม่)</div>
+    <h2 class="slide-title">จาก 2 ช่องตายตัว → เพิ่มหมวดต้นทุนได้ไม่จำกัด</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เดิม Rate Library มีแค่ 2 ช่องตายตัว: Material Cost / Labour Cost — ของเดิมยังใช้งานได้ปกติทุกอย่าง ไม่กระทบ BOQ ที่มีอยู่</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตอนนี้เพิ่มหมวดต้นทุนใหม่ได้เอง (Overhead/Freight/Other/... ) ผ่านเมนู "Cost Component Types" — ตั้งต้นมี 5 แบบ: Material, Labour, Overhead, Freight, Other</span></li>
+          <li><span class="step-num">3</span><span class="step-text">แต่ละหมวดตั้งค่าของตัวเองได้ 2 อย่าง: <b>WHT-Relevant</b> (ติ๊กแล้วยอดของหมวดนี้จะไปอยู่ฝั่งใบ Labor) และ <b>Adder %</b> (ตัวคูณ Overhead/Profit เฉพาะของหมวดนั้น)</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างจริง:</b> Material Adder 10% (ไม่ WHT-Relevant → ไปใบ Material), Labour Adder 10% (WHT-Relevant → ไปใบ Labor) — ตั้งต้นเหมือนกันที่ 10% แต่แก้แยกทีละหมวดได้อิสระ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-02-cost-component-types.png"><div class="shot-cap">Cost Component Types — เมนูใหม่ใน BOQ Estimation</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Overhead recompute -->
+  <section class="slide" id="slide-3">
+    <div class="type-pill">ส่วนที่ 1 (ต่อ)</div>
+    <div class="eyebrow">Overhead &amp; Profit คำนวณใหม่</div>
+    <h2 class="slide-title">จาก 1 ตัวเลข % ต่อทั้งเอกสาร → แต่ละหมวดมี Adder % ของตัวเอง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">แต่ละ Rate เพิ่มบรรทัดต้นทุนได้หลายหมวด ("Add a line") — ไม่ต้องยัดทุกอย่างลงในแค่ Material/Labour เหมือนเดิม</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Overhead & Profit ของทั้งบรรทัด BOQ = ผลรวมของ (แต่ละหมวด × Adder % ของหมวดนั้น) ไม่ใช่ % เดียวคูณยอดรวมทั้งก้อนเหมือนเดิม</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างจริงจาก BOQ0024 (JOB A+B):</b> Direct Cost ฝั่ง Material 2,840,845.24 บาท → Overhead (10%) 284,084.52 บาท | ฝั่ง Labour 623,950.00 บาท → Overhead (10%) 62,395.00 บาท — คำนวณแยกฝั่งกันอัตโนมัติ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-03-rate-cost-lines.png"><div class="shot-cap">Rate Library BCH-01 — บรรทัดต้นทุนแยกหมวด พร้อม Adder % ต่อหมวด</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Split Material/Labor -->
+  <section class="slide" id="slide-4">
+    <div class="type-pill">ส่วนที่ 2</div>
+    <div class="eyebrow">เปิดใช้ "Split Material/Labor Quotation"</div>
+    <h2 class="slide-title">ติ๊กเดียว ได้ใบเสนอราคาแยก 2 ใบทันที</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ติ๊ก checkbox "Split Material/Labor Quotation" บน BOQ Document (ปิดไว้เป็นค่าเริ่มต้น — ไม่ติ๊กก็ได้ใบเดียวรวมเหมือนเดิม)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กด "สร้างใบเสนอราคา" → ระบบสร้าง 2 Quotation แยกกันทันที (Material + Labor) แต่ละบรรทัดถูกแบ่งเข้าใบไหนอัตโนมัติตาม WHT-Relevant flag ของหมวดต้นทุนนั้น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ปุ่ม "พิมพ์ PDF" / "Export Excel" เดิมยังใช้ได้ปกติกับทั้ง 2 ใบ — เพิ่มปุ่มใหม่ "พิมพ์ใบเสนอราคา (2 คอลัมน์)" โผล่มาเมื่อสร้างครบ 2 ใบแล้ว</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างจริง BOQ0024:</b> ติ๊ก Split แล้วกด สร้างใบเสนอราคา → ได้ S108400 (Material, 3,343,674.84 บาท) + S108401 (Labor, 734,389.15 บาท) — เห็นใน smart button "Quotations 2"</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-04-boq-document-buttons.png"><div class="shot-cap">BOQ0024 — checkbox Split Material/Labor + ปุ่มใหม่ "พิมพ์ใบเสนอราคา (2 คอลัมน์)"</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: WHT on Labor -->
+  <section class="slide" id="slide-5">
+    <div class="type-pill">ส่วนที่ 2 (ต่อ)</div>
+    <div class="eyebrow">หัก ณ ที่จ่าย (WHT) บนใบ Labor</div>
+    <h2 class="slide-title">ใบ Labor หัก WHT อัตโนมัติ ตรงกับเอกสารจริง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ใบ Labor เท่านั้นที่มีบรรทัดหัก ณ ที่จ่าย — ใบ Material ไม่มี (ตรงกับเอกสารจริงที่หักภาษีเฉพาะค่าจ้าง/บริการ ไม่ใช่ค่าของ)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ช่อง WHT % แก้ได้เองต่อใบ — ค่าเริ่มต้น 3% (อัตราค่าจ้างทำของ/บริการทั่วไป) แต่ไม่ใช่ค่าสุดท้ายตายตัว ต้องเช็คกับทีมบัญชีว่าเข้าเงื่อนไข 1/2/3/5% แบบไหนจริง (อ้างอิง EMG-O Manual บทที่ 27 WHT Certificate)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ท้ายเอกสารมีข้อความ "กรุณาออกใบสั่งซื้อ (PO) แยกต่างหากสำหรับใบเสนอราคานี้โดยเฉพาะ" ต่อใบ — ตรงกับที่เอกสารจริงขอให้ลูกค้าออก PO แยก 2 ใบ</span></li>
+        </ul>
+        <div class="note-box"><b>ตัวอย่างในภาพ:</b> BOQ0024 เป็น record ทดสอบ ตั้ง WHT ไว้ที่ 0% ไว้ก่อน (แก้ได้ตามจริงทุกใบ) — โครงสร้างตารางหัก WHT + NET PAYABLE พร้อมใช้งานแล้ว รอแค่ใส่ % ที่ถูกต้องต่อโครงการ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-07-labor-wht.png"><div class="shot-cap">ใบเสนอราคา — Labor (EGQ0000018) — ตาราง หัก ณ ที่จ่าย + NET PAYABLE</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Combined 2-column print -->
+  <section class="slide" id="slide-6">
+    <div class="type-pill">ส่วนที่ 2 (ต่อ)</div>
+    <div class="eyebrow">พิมพ์ใบเสนอราคา 2 คอลัมน์</div>
+    <h2 class="slide-title">PDF เดียว โชว์ Material/Labor เคียงข้างกัน ตรงกับ EGQ จริง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ปุ่ม "พิมพ์ใบเสนอราคา (2 คอลัมน์)" บน BOQ Document — โผล่เมื่อติ๊ก Split แล้ว และสร้างครบ 2 ใบแล้วเท่านั้น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ดึงข้อมูลจากทั้ง 2 Quotation มาจัดเรียงเป็นตารางเดียว: คอลัมน์เขียว = Material (กรุณาออก PO สั่งซื้อ), คอลัมน์ฟ้า = Labor (กรุณาออก PO สั่งจ้าง) — สีและข้อความ banner ตรงกับเอกสารจริงเป๊ะ</span></li>
+          <li><span class="step-num">3</span><span class="step-text">จัดกลุ่มตาม JOB/Zone เหมือนเดิม พร้อมยอดรวมท้ายเอกสารแยก Material/Labour/Total Project Value</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-05-combined-quotation-p1.png"><div class="shot-cap">PDF ที่ระบบพิมพ์ได้ตอนนี้ — หน้า 1/4 ของ BOQ0024</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Before/After -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">เทียบก่อน-หลัง</div>
+    <h2 class="slide-title">เอกสารจริงของลูกค้า เทียบกับ PDF ที่ระบบพิมพ์ได้ตอนนี้</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label before">เอกสารจริงจากลูกค้า (ต้นแบบ)</div>
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-01-client-real-quotation.png"></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label after">PDF ที่ระบบพิมพ์ได้ตอนนี้</div>
+        <div class="shot-wrap"><img class="shot" src="assets/gap-a-06-combined-quotation-totals.png"></div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:14px;">โครงสร้างตาราง สี banner "กรุณาออก PO" และยอดรวม Total Material/Labour ตรงกับเอกสารต้นฉบับที่ลูกค้าใช้งานจริงอยู่แล้ว</div>
+  </section>
+
+  <!-- SLIDE 8: Status/Summary -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุป / สถานะ</div>
+    <h2 class="slide-title" style="color:#fff;">พร้อมใช้แล้ว — เปิดใช้ต่อ Document ได้เลย ไม่กระทบของเดิม</h2>
+    <div class="status-row">
+      <div class="status-card">
+        <div class="slabel">Off by default</div>
+        <div class="stext">BOQ Document เดิมทุกใบไม่ถูกกระทบ — checkbox Split ปิดไว้เป็นค่าเริ่มต้น ปุ่ม/รายงานเดิมยังทำงานเหมือนเดิมทุกอย่าง</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">เปิดใช้ต่อ Document</div>
+        <div class="stext">ติ๊ก Split Material/Labor Quotation เมื่อไหร่ก็เปิดใช้ได้ทันที ไม่ต้องรอ migrate ข้อมูลเก่า</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">รอทำต่อ</div>
+        <div class="stext">Cut List xlsx import wizard (มากับ commit เดียวกัน) เป็นคนละเรื่อง — แยกทำ deck อธิบายต่างหากทีหลัง</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจาก build+verify จริงบน production (odoo19-mbxai), BOQ0024 · ADR-031 · boq_estimation module</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
