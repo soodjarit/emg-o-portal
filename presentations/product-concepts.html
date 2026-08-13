@@ -146,12 +146,12 @@
     <table class="data-table">
       <tr><th>#</th><th>ประเภท</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th><th>E2E</th></tr>
       <tr><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td><td class="e2e-cell"><a href="e2e-mode1-block.html">ดูจริง →</a></td></tr>
-      <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td><td class="e2e-cell"><a href="e2e-mode2-slab.html">ดูจริง →</a></td></tr>
+      <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td><td class="e2e-cell"><a href="e2e-mode2-slab.html">หินแพง →</a><br><a href="e2e-mode2-lot-stock.html">หินถูก →</a></td></tr>
       <tr><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายแผ่น (Serial)</td><td class="e2e-cell"><a href="e2e-mode3-cut.html">ดูจริง →</a></td></tr>
       <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ (ผสมโหมด 1-3/5 ได้)</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td><td class="e2e-cell"><a href="e2e-mode4-project.html">ดูจริง →</a></td></tr>
-      <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP เหมือนกัน)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td><td class="e2e-cell"><a href="e2e-mode5-fg-production.html">ดูจริง →</a></td></tr>
+      <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP เหมือนกัน)</td><td>รายชิ้น (Lot การผลิต) + อาจมีเศษ/byproduct</td><td class="e2e-cell"><a href="e2e-mode5-fg-production.html">ดูจริง →</a></td></tr>
     </table>
-    <div class="note-box"><b>หลักคิดสำคัญ:</b> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" โหมด 5 (FG Production) คือขั้นต่อจากโหมด 2/3 — เอา Slab ที่มีอยู่แล้วมาตัดต่อเป็นสินค้าสำเร็จรูปอีกที ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3/5 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</div>
+    <div class="note-box"><b>หลักคิดสำคัญ:</b> โหมด 1-3 ตอบคำถาม "ขายสต็อกยังไง" โหมด 5 (FG Production) คือขั้นต่อจากโหมด 2/3 — เอา Slab ที่มีอยู่แล้ว (หรือตัดใหม่ผ่าน Cut to Order แบบเดียวกับโหมด 3 ถ้ายังไม่มี) มาผลิตต่อเป็นสินค้าสำเร็จรูปอีกที ส่วนโหมด 4 เป็นคนละมิติ — คือ "ขายเป็นชุดโครงการ" ซึ่งข้างในแต่ละบรรทัด BOQ ยังใช้กลไกโหมด 1-3/5 อยู่ดี เพียงแต่เพิ่ม Project+Gantt+Billing แบบงวดคลุมทั้งหมด</div>
   </section>
 
   <!-- SLIDE 2: Type 1 -->
@@ -172,7 +172,7 @@
         <div class="note-box"><b>ตัวอย่างจริง:</b> Bundle EMG-B-0003 (Emperador Grey Light Marble) เหลือ 2.65 m³ → กด Sell Whole Block → Quantity เปลี่ยนเป็น 2.65 อัตโนมัติ → ราคารวม 2.65 × 3,500 = <b>฿9,275</b></div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type1.png"><div class="shot-cap">Workflow: ซื้อ → รับเข้าคลัง → ขายทั้งก้อน → ส่งของ → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → รับเข้าคลัง → ขายทั้งก้อน → ส่งของ → บัญชี (ข้ามบริษัทมี Internal SO/PO auto)</div></div>
       </div>
     </div>
   </section>
@@ -181,7 +181,10 @@
   <section class="slide" id="slide-3">
     <div class="pill-row">
       <div class="type-pill">ประเภท 2</div>
-      <a class="e2e-link" href="e2e-mode2-slab.html">ดู E2E เต็ม (Live Walkthrough)<span class="arrow">→</span></a>
+      <div style="display:flex;gap:10px;">
+        <a class="e2e-link" href="e2e-mode2-slab.html">E2E หินแพง (Serial)<span class="arrow">→</span></a>
+        <a class="e2e-link" href="e2e-mode2-lot-stock.html">E2E หินถูก (Lot)<span class="arrow">→</span></a>
+      </div>
     </div>
     <div class="eyebrow">แผ่นหินสำเร็จรูป · Ready-Made Slab</div>
     <h2 class="slide-title">ตัดสำรองไว้ล่วงหน้า — แยกวิธีคุมสต็อกตามราคาหิน</h2>
@@ -195,7 +198,8 @@
         <div class="note-box"><b>ตัวอย่างจริง 2 แบบ:</b> หินแพง — EMG-B-0001 (5 แผ่น) ลูกค้าเลือกเฉพาะแผ่นที่ต้องการผ่าน Select Slabs · หินถูก — ขายบางส่วน <b>2.5 จาก 6.0 ตร.ม.</b> ผ่าน Select Lot Stock โดยไม่ต้องซื้อยกล็อต</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type2.png"><div class="shot-cap">Workflow: ซื้อ → ตัด → ขาย (Serial หรือ Lot) → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview.png"><div class="shot-cap">Workflow หินแพง (Serial) — ซื้อ → ตัด → เลือกแผ่น → ส่งของสแกน Serial → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview-lot.png"><div class="shot-cap">Workflow หินถูก (Lot) — ซื้อ → ตัด → รวมสต็อกที่ Bundle → เลือกล็อตบางส่วน → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -218,7 +222,7 @@
         <div class="bug-box"><b>บทเรียนจากบั๊กจริง 3 ชั้น (แก้แล้ว 2026-07-19):</b> ระบบเคยผูก "1 Bundle = 1 Finish เดียว" ทำให้ปุ่มหาย/wizard หาแผ่นไม่เจอ/ผลิตผิด Finish เมื่อ Bundle เดียวถูกสั่งตัดหลาย Finish จริง — แก้ให้เชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Bundle</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type3.png"><div class="shot-cap">Workflow: ซื้อ → ตัดตามสั่ง (MRP) → ขาย → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → ยืนยัน SO (ยังไม่มีแผ่น) → Factory Worklist → Cut to Order → ส่งของ → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -235,7 +239,7 @@
       <div class="case-icon">4</div>
       <div>
         <div class="case-text-label">Concept</div>
-        <div class="case-text">ขายเป็นชุดงาน (BOQ) หลายรายการรวมกัน (วัสดุ+ค่าแรง) ของโปรเจกต์เดียว — แต่ละบรรทัด BOQ ยังใช้กลไกประเภท 1-3/5 ได้ตามสินค้านั้นๆ</div>
+        <div class="case-text">ทำ BOQ Document หลายรายการ ดึงราคา+ต้นทุนจากคลัง <b>Rate Library</b> อัตโนมัติ → กด "สร้างใบเสนอราคา" ได้ Sale Order ทันที → ติ๊ก "Sold as Project" ตอนยืนยัน ระบบสร้าง Project+Task+Milestone ให้เอง</div>
       </div>
     </div>
     <div class="hier-row">
@@ -245,10 +249,10 @@
     </div>
     <div class="two-col">
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/type4-service-product-form.png"><div class="shot-cap">สร้างสินค้าค่าแรง — Product Type = Service</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-02-boq-lines.png"><div class="shot-cap">BOQ0030 — รายการจากคลัง Rate Library พร้อม Preliminaries/Overhead/Performance Security คำนวณให้อัตโนมัติ</div></div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/type4-sold-as-project-checkbox.png"><div class="shot-cap">ติ๊ก "Sold as Project" ตอนยืนยัน SO (opt-in ไม่อัตโนมัติ)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-04-sold-as-project-confirmed.png"><div class="shot-cap">ติ๊ก "Sold as Project" แล้วยืนยัน SO — ระบบขึ้น Project อัตโนมัติทันที (opt-in ไม่อัตโนมัติถ้าไม่ติ๊ก)</div></div>
       </div>
     </div>
   </section>
@@ -259,27 +263,28 @@
       <div class="type-pill">ประเภท 4 — ตัวอย่างจริง</div>
       <a class="e2e-link" href="e2e-mode4-project.html">ดู E2E เต็ม (Live Walkthrough)<span class="arrow">→</span></a>
     </div>
-    <div class="eyebrow">"โครงการคอนโดบางโพ" · Empire Stone</div>
-    <h2 class="slide-title">ครบทุกขั้น — เห็นกำไรจริงที่ Analytic Items</h2>
+    <div class="eyebrow">BOQ0030 · Demo Customer - Grand Interior</div>
+    <h2 class="slide-title">ครบทุกขั้น — จาก BOQ ถึงวางบิลงวดสุดท้ายอัตโนมัติ</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">สร้าง Analytic Account 1 อัน = 1 โครงการ → ตั้งที่ Bundle EMG-B-0008 (1.0 m³)</span></li>
-          <li><span class="step-num">2</span><span class="step-text">PO ซื้อวัสดุ ฿2,800 — auto-tag ติดโครงการอัตโนมัติจาก Bundle</span></li>
-          <li><span class="step-num">3</span><span class="step-text">ตัด 8 แผ่น (6 top อ่างล้างหน้า + 2 top ครัว) → SO S54278 → ส่งของจริง (สแกนครบ)</span></li>
-          <li><span class="step-num">4</span><span class="step-text">Invoice + Post ฿16,000 → รับชำระเต็ม</span></li>
+          <li><span class="step-num">1</span><span class="step-text">สร้าง BOQ0030 ผูก Analytic Account เฉพาะโครงการ + ตั้ง Preliminaries 5% + Performance Security 5%</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เพิ่ม 3 รายการจาก Rate Library (Wall Finishes 45 ตร.ม., Base Molding 20 ตร.ม., Scaffolding 1 งาน) รวม ฿1,019,700</span></li>
+          <li><span class="step-num">3</span><span class="step-text">กด "สร้างใบเสนอราคา" → S108407 → ติ๊ก Sold as Project → ยืนยัน SO → ระบบสร้าง Project DCGIS4 + 6 Tasks + Milestone 30/40/30 ให้เองทันที</span></li>
+          <li><span class="step-num">4</span><span class="step-text">วางบิลงวด 1 (30%) + งวด 2 (40%) ผ่าน Down Payment Wizard → งวดสุดท้าย (30%) ระบบหักยอดที่จ่ายไปแล้วให้อัตโนมัติ → INV/2026/00019-021</span></li>
         </ul>
       </div>
       <div class="col-right">
         <table class="result-table">
-          <tr><td>รายได้ (Invoice)</td><td>฿16,000</td></tr>
-          <tr><td>ต้นทุนวัสดุ (PO)</td><td>-฿2,800</td></tr>
-          <tr class="total"><td>กำไรสุทธิจริง (Analytic Items)</td><td>+฿13,200</td></tr>
+          <tr><td>ยอดโครงการรวม (BOQ0030)</td><td>฿1,019,700</td></tr>
+          <tr><td>งวด 1 — เงินมัดจำ 30%</td><td>฿305,910</td></tr>
+          <tr><td>งวด 2 — งวดกลาง 40%</td><td>฿407,880</td></tr>
+          <tr class="total"><td>งวด 3 — งวดสุดท้าย 30% (หักอัตโนมัติ)</td><td>฿305,910</td></tr>
         </table>
-        <div class="shot-wrap" style="margin-top:14px;"><img class="shot" src="assets/type4-gantt-chart-live.png"><div class="shot-cap">Gantt Chart จริงของโครงการ — 1 Task ต่อ 1 บรรทัด BOQ</div></div>
+        <div class="shot-wrap" style="margin-top:14px;"><img class="shot" src="assets/mode4-shot-08-milestones-all-done.png"><div class="shot-cap">ติ๊กครบ 3 งวดตามความคืบหน้าจริง — ตาราง Profitability อัปเดตยอด Down Payments ที่วางบิลแล้ว 713,790 บาท (2 งวดแรก) แบบเรียลไทม์</div></div>
       </div>
     </div>
-    <div class="note-box"><b>Milestone 30/40/30%</b> ใช้ติดตามความคืบหน้างานเท่านั้น (ติ๊ก "ถึงแล้ว") — <b>ไม่ผูกกับการวางบิล</b> คนละกลไกกันโดยเจตนา วางบิลจริงใช้ Native Down Payment Invoice Wizard แยกต่างหาก</div>
+    <div class="note-box"><b>Milestone 30/40/30%</b> ใช้ติดตามความคืบหน้างานเท่านั้น (ติ๊กเมื่องานถึงจุดนั้นจริง) — <b>ไม่ผูกกับการวางบิล</b> คนละกลไกกันโดยเจตนา ฝ่ายบัญชีกดวางบิลเองผ่าน Native Down Payment Invoice Wizard แยกต่างหาก</div>
   </section>
 
   <!-- SLIDE 7: Type 5 FG Production -->
@@ -289,18 +294,18 @@
       <a class="e2e-link" href="e2e-mode5-fg-production.html">ดู E2E เต็ม (Live Walkthrough)<span class="arrow">→</span></a>
     </div>
     <div class="eyebrow">FG Production · ผลิตสินค้าสำเร็จรูปจาก Slab (ADR-029)</div>
-    <h2 class="slide-title">มี Slab อยู่แล้ว → ตัดต่อเป็นสินค้าสำเร็จรูปตามแบบ</h2>
+    <h2 class="slide-title">ตัด (หรือใช้ Slab เดิม) → ผลิตต่อเป็นสินค้าสำเร็จรูปตามแบบ</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">ใช้เมื่อสินค้าที่ขายไม่ใช่แผ่นเปล่า แต่เป็นชิ้นงานสำเร็จรูป (เช่น Top อ่างล้างหน้าตามแบบ) ที่ต้องตัดต่อจาก Slab อีกที</span></li>
           <li><span class="step-num">2</span><span class="step-text">ต้องตั้ง <b>FG Raw Material</b> บน Product Template ก่อน ระบบถึงจะรู้ว่าต้องเบิก Slab จาก Material ไหน</span></li>
-          <li><span class="step-num">3</span><span class="step-text">SO line กด "Produce FG" → Wizard เลือก Slab (auto-match ให้ ถ้าไม่มีให้กด Cut to Order ก่อน) → ใส่ผลผลิตทุกชิ้นที่ได้จริง (ชิ้นที่ขาย + เศษที่เหลือเป็น byproduct) → ยืนยัน → สร้าง Manufacturing Order จริง เบิก Slab 1 แผ่น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ยืนยัน SO เข้าคิว <b>Factory Worklist เดียวกับประเภท 3</b> (ราคาคงที่ตั้งแต่ต้น ไม่ต้องรอตัดเหมือนแผ่นดิบ) → ฝ่ายผลิตกด "Produce FG" → Wizard auto-match Slab ที่มีอยู่แล้ว (ถ้าไม่มีให้กด "Cut to Order" ตัด Slab ดิบก่อน เหมือนโหมด 3 ทุกประการ) → ใส่ผลผลิตทุกชิ้นที่ได้จริง (ชิ้นที่ขาย + เศษที่เหลือเป็น byproduct คนละ Lot) → ยืนยัน → สร้าง Manufacturing Order จริง เบิก Slab 1 แผ่น</span></li>
         </ul>
-        <div class="note-box"><b>ต่างจากประเภท 3 ยังไง:</b> ทั้งคู่ใช้ Odoo MRP จริงเหมือนกัน — ประเภท 3 ตัดจาก Block/Bundle (ยังไม่เคยเป็นแผ่นมาก่อน) ส่วนประเภท 5 ตัดต่อจาก Slab ที่มีอยู่แล้ว (เป็นแผ่นอยู่ก่อนแล้ว ตัดซ้ำอีกทีเป็นชิ้นงาน)</div>
+        <div class="note-box"><b>ต่างจากประเภท 3 ยังไง:</b> ทั้งคู่ใช้ Odoo MRP จริงและ Factory Worklist คิวเดียวกัน — ประเภท 3 จบที่ได้ Slab ดิบพร้อมขาย (ติดตามด้วย Serial) ส่วนประเภท 5 ตัดต่ออีกขั้นเป็นสินค้าสำเร็จรูป (ติดตามด้วย Lot ไม่ใช่ Serial, ส่งของไม่ต้องสแกน)</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/excalidraw-preview-type5.png"><div class="shot-cap">Workflow: SO → เลือก Slab + Produce FG (MRP) → ส่งของ → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → ยืนยัน SO (ราคาคงที่) → Factory Worklist → Cut to Order → Produce FG → ส่งของ (ไม่ต้องสแกน) → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -332,10 +337,10 @@
     <table class="data-table" style="background:rgba(255,255,255,.04);">
       <tr style="background:transparent;"><th style="background:rgba(255,255,255,.08);color:#D9A465;">โหมด</th><th style="background:rgba(255,255,255,.08);color:#D9A465;">ใช้เมื่อ</th><th style="background:rgba(255,255,255,.08);color:#D9A465;">E2E</th></tr>
       <tr style="color:#DDE3E0;"><td>1. หินก้อนนำเข้า</td><td>ขายวัตถุดิบทั้งก้อน ไม่ตัด</td><td class="e2e-cell"><a href="e2e-mode1-block.html">ดูจริง →</a></td></tr>
-      <tr style="color:#DDE3E0;"><td>2. แผ่นสำเร็จรูป</td><td>มีสต็อกแผ่นพร้อมขายทันที</td><td class="e2e-cell"><a href="e2e-mode2-slab.html">ดูจริง →</a></td></tr>
+      <tr style="color:#DDE3E0;"><td>2. แผ่นสำเร็จรูป</td><td>มีสต็อกแผ่นพร้อมขายทันที</td><td class="e2e-cell"><a href="e2e-mode2-slab.html">หินแพง →</a><br><a href="e2e-mode2-lot-stock.html">หินถูก →</a></td></tr>
       <tr style="color:#DDE3E0;"><td>3. ตัดตามสั่ง</td><td>ลูกค้าเลือก Finish/ขนาดเอง</td><td class="e2e-cell"><a href="e2e-mode3-cut.html">ดูจริง →</a></td></tr>
       <tr style="color:#DDE3E0;"><td>4. งานโครงการ</td><td>ขายหลายรายการรวมเป็นงานเดียว ต้องดูกำไรรวม</td><td class="e2e-cell"><a href="e2e-mode4-project.html">ดูจริง →</a></td></tr>
-      <tr style="color:#DDE3E0;"><td>5. FG Production</td><td>มี Slab อยู่แล้ว ต้องตัดต่อเป็นสินค้าสำเร็จรูปตามแบบ</td><td class="e2e-cell"><a href="e2e-mode5-fg-production.html">ดูจริง →</a></td></tr>
+      <tr style="color:#DDE3E0;"><td>5. FG Production</td><td>มี Slab อยู่แล้ว หรือตัดใหม่ก่อน (เหมือนโหมด 3) แล้วผลิตต่อเป็นสินค้าสำเร็จรูป</td><td class="e2e-cell"><a href="e2e-mode5-fg-production.html">ดูจริง →</a></td></tr>
     </table>
     <div style="margin-top:24px;font-size:14.5px;color:#B9C2C8;">อ้างอิงจาก build+verify จริงบน production (odoo19-mbxai) · รายละเอียดทางเทคนิคเต็ม: EMG-O Manual บทที่ 13</div>
   </section>
