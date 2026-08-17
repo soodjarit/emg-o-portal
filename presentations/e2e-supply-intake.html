@@ -71,6 +71,13 @@
   .note-box.pending b{color:#8F5A2C;}
   code{background:#EFEAE3;color:var(--copper-dark);padding:1px 6px;border-radius:4px;font-size:.92em;}
 
+  .two-col{display:flex;gap:26px;align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:0 0 38%;display:flex;flex-direction:column;justify-content:center;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+  .shot-wrap{text-align:center;}
+
   .status-row{display:flex;gap:14px;margin-top:8px;}
   .status-card{flex:1;background:var(--card);border-radius:12px;padding:16px 18px;}
   .status-card .slabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
@@ -137,64 +144,86 @@
   <section class="slide" id="slide-3">
     <div class="step-badge">ขั้นตอนที่ 1-2 / 6 · ฝ่ายจัดซื้อ</div>
     <h2 class="slide-title">เปิดและยืนยัน Purchase Order</h2>
-    <div class="center-diagram">
-      <img class="flow-thumb" src="assets/supply-flow-step1.png">
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/supply-flow-step1.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li>เปิด PO กับ Supplier ระบุ Material ที่จะซื้อ + จำนวน CBM</li>
+          <li>Confirm PO ตามปกติของ Odoo Purchase — ยังไม่มีอะไรพิเศษในขั้นนี้</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-po-confirmed.png"><div class="shot-cap">P00004 — Demo Quarry Co., Carrara White - Block 5.00 m³, สถานะ Purchase Order</div></div>
+      </div>
     </div>
-    <ul class="plain-list">
-      <li>เปิด PO กับ Supplier ระบุ Material ที่จะซื้อ + จำนวน CBM</li>
-      <li>Confirm PO ตามปกติของ Odoo Purchase — ยังไม่มีอะไรพิเศษในขั้นนี้</li>
-    </ul>
-    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> เดคนี้ยัง build ต่อไม่ได้ครบ เพราะระบบทดสอบ (<code>eg-odoo19-ee</code>) เข้าไม่ได้ชั่วคราว (dbfilter ไม่ยอมจับคู่ database ตอนเข้าผ่าน IP ตรง) — เนื้อหาขั้นตอนนี้ยืนยันถูกต้องจากโค้ดจริงแล้ว รอแค่ภาพประกอบ</div>
   </section>
 
   <!-- SLIDE 4: Step 3 - create Block -->
   <section class="slide" id="slide-4">
     <div class="step-badge">ขั้นตอนที่ 3 / 6 · ฝ่ายคลัง</div>
     <h2 class="slide-title">สร้าง Block ใหม่ ผูกกับ PO Line</h2>
-    <div class="center-diagram">
-      <img class="flow-thumb" src="assets/supply-flow-step3.png">
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/supply-flow-step3.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li>เข้า Blocks &gt; New เลือก Material ก่อน — ฟิลด์ Purchase Order Line จะโผล่ขึ้นมาเอง</li>
+          <li>เลือก PO Line ที่เพิ่งยืนยัน (P00004) ระบบดึง Supplier + Total CBM มาให้อัตโนมัติทันที (<code>_onchange_purchase_line_id</code>)</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-autofill.png"><div class="shot-cap">เลือก "P00004: Carrara White - Block" → Supplier "Demo Quarry Co." + Total CBM 5.00 เติมเองทันที</div></div>
+      </div>
     </div>
-    <ul class="plain-list">
-      <li>เข้า Blocks &gt; New แล้วเลือก PO Line ที่เพิ่งยืนยัน</li>
-      <li>ระบบดึง Supplier และ Total CBM มาให้อัตโนมัติจาก PO Line ทันที (<code>_onchange_purchase_line_id</code>)</li>
-    </ul>
-    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> ยืนยันจากโค้ด <code>stone_bundle.py</code> โดยตรง — ฟิลด์ <code>purchase_line_id</code> ผูกกับบรรทัด PO และมี onchange auto-fill จริง</div>
   </section>
 
   <!-- SLIDE 5: Step 4 - fill details + auto receive -->
   <section class="slide" id="slide-5">
     <div class="step-badge">ขั้นตอนที่ 4 / 6 · ฝ่ายคลัง</div>
     <h2 class="slide-title">กรอกรายละเอียดก้อน → Save = รับเข้าสต็อกอัตโนมัติ</h2>
-    <div class="center-diagram">
-      <img class="flow-thumb" src="assets/supply-flow-step4.png">
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/supply-flow-step4.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li>กรอก Quality, Warehouse (Company ดึงจาก Warehouse อัตโนมัติ)</li>
+          <li>กด Save — ระบบสร้าง+validate stock receipt ให้เองทันที (<code>_ensure_block_stock_received</code>) ยืนยันด้วย SQL จริง: 5.00 m³ เข้า Stone Available ทันทีที่ Save</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-saved.png"><div class="shot-cap">BLK-26-0005 บันทึกสำเร็จ — Block Code ออกอัตโนมัติ ครบทุกฟิลด์</div></div>
+      </div>
     </div>
-    <ul class="plain-list">
-      <li>กรอก Material, Quality, Warehouse (Company ดึงจาก Warehouse อัตโนมัติ)</li>
-      <li>กด Save — ระบบสร้าง+validate stock receipt ให้เองทันที (<code>_ensure_block_stock_received</code>)</li>
-    </ul>
-    <div class="note-box warn"><b>ข้อควรระวังจริง (ยืนยันจากโค้ด):</b> ห้าม validate ใบรับสินค้า (Purchase Receipt) ปกติซ้ำ — ระบบจะยกเลิกใบรับให้เองทันทีที่มี Block ผูกกับ PO Line แล้ว (<code>_ensure_receipt_cancelled</code>) กันข้อมูลสต็อกชนกัน</div>
+    <div class="note-box warn"><b>ข้อควรระวังจริง (ยืนยันจากทั้งโค้ดและระบบจริง):</b> ห้าม validate ใบรับสินค้า (Purchase Receipt) ปกติซ้ำ — พอมี Block ผูกกับ PO Line แล้ว ระบบยกเลิกใบรับให้เองทันที (<code>_ensure_receipt_cancelled</code>, เห็นสถานะ "Cancelled" จริงใน <code>EG01/IN/00003</code>) กันข้อมูลสต็อกชนกัน</div>
   </section>
 
   <!-- SLIDE 6: Step 5 - add slabs -->
   <section class="slide" id="slide-6">
     <div class="step-badge">ขั้นตอนที่ 5 / 6 · ฝ่ายคลัง</div>
     <h2 class="slide-title">เพิ่มแผ่น Slab ตามที่ตัด/วัดจริง</h2>
-    <div class="center-diagram">
-      <img class="flow-thumb" src="assets/supply-flow-step5.png">
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/supply-flow-step5.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li>กรอกขนาด L × H ทีละแผ่นในแท็บ Slabs ของ Block เดียวกัน</li>
+          <li>แต่ละแผ่นเก็บสถานะของตัวเอง (Available ทันทีที่บันทึก)</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-slab-saved.png"><div class="shot-cap">Slab #1 — 2.80 × 1.60 ม. = 4.48 ตร.ม. สถานะ Available ทันที (Total 1 / Available 1)</div></div>
+      </div>
     </div>
-    <ul class="plain-list">
-      <li>กรอกขนาด L × H ทีละแผ่นในแท็บ Slabs ของ Block เดียวกัน</li>
-      <li>แต่ละแผ่นเก็บสถานะของตัวเอง (Available ทันทีที่บันทึก)</li>
-    </ul>
-    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> รูปแบบตารางยืนยันแล้วจากการเช็คระบบก่อนหน้านี้ (deck "Block คืออะไร") — <code>BLK-26-0004</code> มี 3 แผ่นจริงในสถานะ Available</div>
   </section>
 
   <!-- SLIDE 7: Step 6 - ready -->
   <section class="slide" id="slide-7">
     <div class="step-badge">ขั้นตอนที่ 6 / 6 · ผลลัพธ์</div>
     <h2 class="slide-title">สต็อก Available — พร้อมขายได้ทั้ง 5 โหมด</h2>
-    <div class="center-diagram">
-      <img class="flow-thumb" src="assets/supply-flow-step6.png">
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/supply-flow-step6.png">
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-blocks-list-result.png"><div class="shot-cap">Blocks list — BLK-26-0005 ขึ้น "1 Available" จบ flow ตั้งแต่เปิด PO จนถึงพร้อมขาย</div></div>
+      </div>
     </div>
     <div class="status-row">
       <div class="status-card">
@@ -226,7 +255,7 @@
         <div class="stext">ห้าม validate Purchase Receipt แบบปกติ — ต้องสร้าง Block ผูกกับ PO Line เท่านั้นถึงจะรับเข้าคลังถูกต้อง</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหายืนยันจากโค้ดจริง (stone_bundle.py) — ภาพหน้าจอจริงจะเพิ่มเมื่อเข้าถึง eg-odoo19-ee ได้อีกครั้ง <span class="pending-badge">รอ screenshot จริง</span></div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดยืนยันจากระบบจริงและโค้ดจริง (stone_bundle.py) — เดินสดจริงบน eg-odoo19-ee วันที่ 17 ส.ค. 2026 (PO P00004 → BLK-26-0005)</div>
   </section>
 
 </div></div>
