@@ -128,7 +128,7 @@
     <div class="stone-badge">EO</div>
     <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
     <div class="big-title">5 โหมดการขาย<br>(Product Concepts)</div>
-    <div class="big-sub">โครงสร้างข้อมูลเดียวกันทั้งหมด (Material → Block → Bundle → Slab → Finished Goods) — ต่างกันแค่ "ขายอะไร" และ "ตัดสต็อกยังไง"</div>
+    <div class="big-sub">โครงสร้างข้อมูลเดียวกันทั้งหมด (Material → Block → Slab → Finished Goods) — ต่างกันแค่ "ขายอะไร" และ "ตัดสต็อกยังไง"</div>
     <div class="stamp">EMG-O Manual · บทที่ 13 · รวม Product Concepts ฉบับเต็ม+ย่อ+FG Production (ADR-029) เป็นไฟล์เดียว · 2026-08-12</div>
   </section>
 
@@ -140,7 +140,7 @@
       <div class="case-icon">?</div>
       <div>
         <div class="case-text-label">ที่มา</div>
-        <div class="case-text">หินธรรมชาติแต่ละก้อนไม่เหมือนกัน — ขนาด ลาย และคุณภาพต่างกันทุกก้อน ลูกค้าแต่ละรายก็ซื้อด้วยเหตุผลต่างกัน บางรายอยากได้ก้อนดิบไปตัดเอง บางรายอยากได้แผ่นพร้อมขายทันที บางรายอยากสั่งตัดตามขนาดที่ต้องการเอง บางรายซื้อเป็นโปรเจกต์ทั้งชุด และบางรายต้องการสินค้าสำเร็จรูปพร้อมติดตั้ง ระบบจึงออกแบบเป็น <b>5 วิธีขาย บนโครงสร้างข้อมูลเดียวกัน</b> (Material → Block → Bundle → Slab → Finished Goods) เพื่อให้เลือกวิธีขายที่ตรงกับลักษณะสินค้าและความต้องการของลูกค้าแต่ละราย</div>
+        <div class="case-text">หินธรรมชาติแต่ละก้อนไม่เหมือนกัน — ขนาด ลาย และคุณภาพต่างกันทุกก้อน ลูกค้าแต่ละรายก็ซื้อด้วยเหตุผลต่างกัน บางรายอยากได้ก้อนดิบไปตัดเอง บางรายอยากได้แผ่นพร้อมขายทันที บางรายอยากสั่งตัดตามขนาดที่ต้องการเอง บางรายซื้อเป็นโปรเจกต์ทั้งชุด และบางรายต้องการสินค้าสำเร็จรูปพร้อมติดตั้ง ระบบจึงออกแบบเป็น <b>5 วิธีขาย บนโครงสร้างข้อมูลเดียวกัน</b> (Material → Block → Slab → Finished Goods) เพื่อให้เลือกวิธีขายที่ตรงกับลักษณะสินค้าและความต้องการของลูกค้าแต่ละราย</div>
       </div>
     </div>
     <table class="data-table">
@@ -167,12 +167,12 @@
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">ใช้ตอนลูกค้าต้องการวัตถุดิบไปตัดเอง (โรงงานอื่น หรือ intercompany EG↔ES)</span></li>
           <li><span class="step-num">2</span><span class="step-text">สินค้าคนละ SKU กับแผ่น (<code>product_id_block</code>) แต่เป็น Material เดียวกัน — ไม่ผ่าน wizard เลือกแผ่น ใช้ flow ขายมาตรฐานของ Odoo</span></li>
-          <li><span class="step-num">3</span><span class="step-text">SO line กด "Sell Whole Block" → Select Block Wizard → เลือก Bundle → ระบบตั้ง qty = <code>remaining_cbm</code> ทั้งหมดอัตโนมัติ (ขายทั้งก้อน แบ่งขายบางส่วนไม่ได้)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">SO line กด "Sell Whole Block" → Select Block Wizard → เลือก Block → ระบบตั้ง qty = <code>remaining_cbm</code> ทั้งหมดอัตโนมัติ (ขายทั้งก้อน แบ่งขายบางส่วนไม่ได้)</span></li>
         </ul>
-        <div class="note-box"><b>ตัวอย่างจริง:</b> Bundle EMG-B-0003 (Emperador Grey Light Marble) เหลือ 2.65 m³ → กด Sell Whole Block → Quantity เปลี่ยนเป็น 2.65 อัตโนมัติ → ราคารวม 2.65 × 3,500 = <b>฿9,275</b></div>
+        <div class="note-box"><b>ตัวอย่างจริง:</b> Block EMG-B-0003 (Emperador Grey Light Marble) เหลือ 2.65 m³ → กด Sell Whole Block → Quantity เปลี่ยนเป็น 2.65 อัตโนมัติ → ราคารวม 2.65 × 3,500 = <b>฿9,275</b></div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → รับเข้าคลัง → ขายทั้งก้อน → ส่งของ → บัญชี (ข้ามบริษัทมี Internal SO/PO auto)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-flow-overview.png"><div class="shot-cap">Workflow: เลือก Block ที่มีอยู่แล้ว → ขายทั้งก้อน → ส่งของ → บัญชี (ซื้อ+รับเข้าคลังดูที่เดค Ensure Supply, ข้ามบริษัทมี Internal SO/PO auto)</div></div>
       </div>
     </div>
   </section>
@@ -192,14 +192,14 @@
       <div class="col-left">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text"><b>หินแพง (Serial ต่อแผ่น):</b> ทุกแผ่น = 1 Lot แยกกัน ลูกค้าเลือกแผ่นจริงจากลาย/ขนาดผ่าน Select Slabs Wizard — มี scan ยืนยันตอนส่งของ</span></li>
-          <li><span class="step-num">2</span><span class="step-text"><b>หินถูก (รวมเป็นล็อต):</b> ไม่ผูก Serial รายแผ่น สต็อกอยู่ระดับ Bundle (<code>remaining_sqmt</code>) ขายบางส่วนได้ (Partial Quantity)</span></li>
-          <li><span class="step-num">3</span><span class="step-text"><code>pricing_mode</code> ตั้งที่ระดับ Material — ล็อกทันทีที่มี Bundle แรกเกิดขึ้น เปลี่ยนภายหลังไม่ได้</span></li>
+          <li><span class="step-num">2</span><span class="step-text"><b>หินถูก (รวมเป็นล็อต):</b> ไม่ผูก Serial รายแผ่น สต็อกอยู่ระดับ Block (<code>remaining_sqmt</code>) ขายบางส่วนได้ (Partial Quantity)</span></li>
+          <li><span class="step-num">3</span><span class="step-text"><code>pricing_mode</code> ตั้งที่ระดับ Material — ล็อกทันทีที่มี Block แรกเกิดขึ้น เปลี่ยนภายหลังไม่ได้</span></li>
         </ul>
         <div class="note-box"><b>ตัวอย่างจริง 2 แบบ:</b> หินแพง — EMG-B-0001 (5 แผ่น) ลูกค้าเลือกเฉพาะแผ่นที่ต้องการผ่าน Select Slabs · หินถูก — ขายบางส่วน <b>2.5 จาก 6.0 ตร.ม.</b> ผ่าน Select Lot Stock โดยไม่ต้องซื้อยกล็อต</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview.png"><div class="shot-cap">Workflow หินแพง (Serial) — ซื้อ → ตัด → เลือกแผ่น → ส่งของสแกน Serial → บัญชี</div></div>
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview-lot.png"><div class="shot-cap">Workflow หินถูก (Lot) — ซื้อ → ตัด → รวมสต็อกที่ Bundle → เลือกล็อตบางส่วน → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview.png"><div class="shot-cap">Workflow หินแพง (Serial) — เลือกแผ่นที่มีอยู่แล้ว → ส่งของสแกน Serial → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-flow-overview-lot.png"><div class="shot-cap">Workflow หินถูก (Lot) — เลือกล็อตที่มีอยู่แล้ว → ยืนยัน SO → ส่งของ → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -219,10 +219,10 @@
           <li><span class="step-num">2</span><span class="step-text">ต้องตั้ง <b>Finish attribute</b> บน Product Template (Polished/Honed/Brushed/Sandblasted/Other) ก่อนถึงจะมีตัวเลือกให้ลูกค้าสั่งจริง</span></li>
           <li><span class="step-num">3</span><span class="step-text">SO line เลือก Finish → ปุ่ม "Cut to Order" → Wizard สร้าง Manufacturing Order → Complete Cut → แผ่นใหม่พร้อม Serial Lot ตรง Finish ที่สั่งจริง</span></li>
         </ul>
-        <div class="bug-box"><b>บทเรียนจากบั๊กจริง 3 ชั้น (แก้แล้ว 2026-07-19):</b> ระบบเคยผูก "1 Bundle = 1 Finish เดียว" ทำให้ปุ่มหาย/wizard หาแผ่นไม่เจอ/ผลิตผิด Finish เมื่อ Bundle เดียวถูกสั่งตัดหลาย Finish จริง — แก้ให้เชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Bundle</div>
+        <div class="bug-box"><b>บทเรียนจากบั๊กจริง 3 ชั้น (แก้แล้ว 2026-07-19):</b> ระบบเคยผูก "1 Block = 1 Finish เดียว" ทำให้ปุ่มหาย/wizard หาแผ่นไม่เจอ/ผลิตผิด Finish เมื่อ Block เดียวถูกสั่งตัดหลาย Finish จริง — แก้ให้เชื่อ SO line/Lot ของแต่ละแผ่นเป็นแหล่งความจริง ไม่ใช่ field เดียวบน Block</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → ยืนยัน SO (ยังไม่มีแผ่น) → Factory Worklist → Cut to Order → ส่งของ → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-flow-overview.png"><div class="shot-cap">Workflow: มี Block พร้อมอยู่แล้ว → ยืนยัน SO (ยังไม่มีแผ่น) → Factory Worklist → Cut to Order → ส่งของ → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -305,7 +305,7 @@
         <div class="note-box"><b>ต่างจากประเภท 3 ยังไง:</b> ทั้งคู่ใช้ Odoo MRP จริงและ Factory Worklist คิวเดียวกัน — ประเภท 3 จบที่ได้ Slab ดิบพร้อมขาย (ติดตามด้วย Serial) ส่วนประเภท 5 ตัดต่ออีกขั้นเป็นสินค้าสำเร็จรูป (ติดตามด้วย Lot ไม่ใช่ Serial, ส่งของไม่ต้องสแกน)</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-flow-overview.png"><div class="shot-cap">Workflow: ซื้อ → ยืนยัน SO (ราคาคงที่) → Factory Worklist → Cut to Order → Produce FG → ส่งของ (ไม่ต้องสแกน) → บัญชี</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-flow-overview.png"><div class="shot-cap">Workflow: มี Block พร้อมอยู่แล้ว → ยืนยัน SO (ราคาคงที่) → Factory Worklist → Cut to Order → Produce FG → ส่งของ (ไม่ต้องสแกน) → บัญชี</div></div>
       </div>
     </div>
   </section>
@@ -330,7 +330,7 @@
     <div class="eyebrow">สรุปภาพรวม</div>
     <h2 class="slide-title" style="color:#fff;">1 โครงสร้างข้อมูล เลือกวิธีขายให้ตรงกับสินค้าจริง</h2>
     <div class="flow-bar" style="margin-bottom:26px;">
-      <span class="flow-chip" style="background:var(--copper);">Material → Block → Bundle → Slab → Finished Goods</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">Material → Block → Slab → Finished Goods</span><span class="flow-arrow">→</span>
       <span class="flow-chip" style="background:var(--copper);">เลือกโหมด 1-5</span><span class="flow-arrow">→</span>
       <span class="flow-chip" style="background:var(--copper);">ขาย → ส่งของ → บัญชี</span>
     </div>
