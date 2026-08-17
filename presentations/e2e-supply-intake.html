@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>E2E — รับหินเข้าคลัง (Ensure Supply) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px 88px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:38px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:24px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .subtitle{font-size:17px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  .step-badge{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 14px 6px;border-radius:99px;font-weight:700;color:#fff;background:var(--charcoal);margin-bottom:10px;}
+  .pending-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 12px 5px;border-radius:99px;font-weight:700;color:#8F5A2C;background:#FBF0E2;border:1px solid #E4C98A;margin-left:8px;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:22px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.1;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table tr.hl td{background:#FBF1E7;font-weight:700;}
+  .data-table tr.hl td:first-child{border-left:4px solid var(--copper);}
+
+  .case-box{background:var(--card);border-radius:16px;padding:16px 22px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14px;line-height:1.5;color:var(--text);}
+
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
+  .center-diagram{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
+  .flow-thumb{border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.15);max-width:100%;max-height:100%;display:block;cursor:zoom-in;border:1px solid var(--stone);margin:0 auto;object-fit:contain;}
+  .flow-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.46;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.warn{background:#FDECEC;color:#8A2C2C;}
+  .note-box.warn b{color:#B03A3A;}
+  .note-box.pending{background:#EFEAE3;color:#5B5347;}
+  .note-box.pending b{color:#8F5A2C;}
+  code{background:#EFEAE3;color:var(--copper-dark);padding:1px 6px;border-radius:4px;font-size:.92em;}
+
+  .status-row{display:flex;gap:14px;margin-top:8px;}
+  .status-card{flex:1;background:var(--card);border-radius:12px;padding:16px 18px;}
+  .status-card .slabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .status-card .stext{font-size:13.5px;line-height:1.48;color:var(--text);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:60px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">รับหิน<br>เข้าคลัง</div>
+    <div class="eyebrow">Empire Stone × Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="big-title">รับหินเข้าคลัง<br>(Ensure Supply)</div>
+    <div class="big-sub">ขั้นตอนที่ใช้ร่วมกันก่อนขายทุกโหมด — ตั้งแต่เปิด PO ซื้อก้อนหิน จนถึงสต็อกพร้อมขาย ไม่ว่าจะขายด้วยโหมดไหนใน 5 โหมดก็เริ่มจากจุดนี้เหมือนกัน</div>
+    <div class="stamp">EMG-O · stone_slab_inventory module · อ้างอิงจากโค้ดจริง (stone_bundle.py) · 2026-08-17</div>
+  </section>
+
+  <!-- SLIDE 1: Where this fits -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ก่อนเริ่ม — เดคนี้อยู่ตรงไหน</div>
+    <h2 class="slide-title">Supply (เดคนี้) แยกจาก Demand (5 โหมดขาย)</h2>
+    <div class="case-box">
+      <div class="case-icon">S</div>
+      <div><div class="case-text-label">แนวคิด</div><div class="case-text">ไม่ว่าจะขายแบบทั้งก้อน / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ / ผลิต FG — ทุกโหมดต้องมีของในสต็อกก่อนเสมอ ขั้นตอน "รับเข้าคลัง" จึงเป็น flow เดียว ใช้ร่วมกันหมด ไม่ต้องเล่าซ้ำในแต่ละเดคโหมด</div></div>
+    </div>
+    <table class="data-table">
+      <tr><th>ส่วน</th><th>ครอบคลุมอะไร</th><th>เดคที่เกี่ยวข้อง</th></tr>
+      <tr class="hl"><td>Supply</td><td>PO → รับก้อนเข้าคลัง → Slab พร้อมขาย</td><td>เดคนี้ (1 flow เดียว)</td></tr>
+      <tr><td>Demand</td><td>ขาย 5 โหมด นับจากสต็อกที่มีอยู่แล้ว</td><td>เดค E2E แยกตามโหมด (M1-M5)</td></tr>
+    </table>
+    <div class="note-box">ตรงกับที่ dashboard จริงของระบบแบ่งไว้เอง: "Container → Block → Slab → Finished Goods" (supply side) อยู่คนละส่วนกับ "5 โหมดการขาย" (demand side)</div>
+  </section>
+
+  <!-- SLIDE 2: Full flow diagram -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">แผนผังขั้นตอน</div>
+    <h2 class="slide-title">Flow รับหินเข้าคลัง — 2 ฝ่าย 6 ขั้นตอน</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-overview.png">
+    </div>
+    <div class="note-box">สไลด์ถัดไปจะเดินทีละขั้นตอนตามผังนี้ — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ให้เห็นตำแหน่งชัดเจนทุกครั้ง</div>
+  </section>
+
+  <!-- SLIDE 3: Step 1-2 - PO -->
+  <section class="slide" id="slide-3">
+    <div class="step-badge">ขั้นตอนที่ 1-2 / 6 · ฝ่ายจัดซื้อ</div>
+    <h2 class="slide-title">เปิดและยืนยัน Purchase Order</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-step1.png">
+    </div>
+    <ul class="plain-list">
+      <li>เปิด PO กับ Supplier ระบุ Material ที่จะซื้อ + จำนวน CBM</li>
+      <li>Confirm PO ตามปกติของ Odoo Purchase — ยังไม่มีอะไรพิเศษในขั้นนี้</li>
+    </ul>
+    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> เดคนี้ยัง build ต่อไม่ได้ครบ เพราะระบบทดสอบ (<code>eg-odoo19-ee</code>) เข้าไม่ได้ชั่วคราว (dbfilter ไม่ยอมจับคู่ database ตอนเข้าผ่าน IP ตรง) — เนื้อหาขั้นตอนนี้ยืนยันถูกต้องจากโค้ดจริงแล้ว รอแค่ภาพประกอบ</div>
+  </section>
+
+  <!-- SLIDE 4: Step 3 - create Block -->
+  <section class="slide" id="slide-4">
+    <div class="step-badge">ขั้นตอนที่ 3 / 6 · ฝ่ายคลัง</div>
+    <h2 class="slide-title">สร้าง Block ใหม่ ผูกกับ PO Line</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-step3.png">
+    </div>
+    <ul class="plain-list">
+      <li>เข้า Blocks &gt; New แล้วเลือก PO Line ที่เพิ่งยืนยัน</li>
+      <li>ระบบดึง Supplier และ Total CBM มาให้อัตโนมัติจาก PO Line ทันที (<code>_onchange_purchase_line_id</code>)</li>
+    </ul>
+    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> ยืนยันจากโค้ด <code>stone_bundle.py</code> โดยตรง — ฟิลด์ <code>purchase_line_id</code> ผูกกับบรรทัด PO และมี onchange auto-fill จริง</div>
+  </section>
+
+  <!-- SLIDE 5: Step 4 - fill details + auto receive -->
+  <section class="slide" id="slide-5">
+    <div class="step-badge">ขั้นตอนที่ 4 / 6 · ฝ่ายคลัง</div>
+    <h2 class="slide-title">กรอกรายละเอียดก้อน → Save = รับเข้าสต็อกอัตโนมัติ</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-step4.png">
+    </div>
+    <ul class="plain-list">
+      <li>กรอก Material, Quality, Warehouse (Company ดึงจาก Warehouse อัตโนมัติ)</li>
+      <li>กด Save — ระบบสร้าง+validate stock receipt ให้เองทันที (<code>_ensure_block_stock_received</code>)</li>
+    </ul>
+    <div class="note-box warn"><b>ข้อควรระวังจริง (ยืนยันจากโค้ด):</b> ห้าม validate ใบรับสินค้า (Purchase Receipt) ปกติซ้ำ — ระบบจะยกเลิกใบรับให้เองทันทีที่มี Block ผูกกับ PO Line แล้ว (<code>_ensure_receipt_cancelled</code>) กันข้อมูลสต็อกชนกัน</div>
+  </section>
+
+  <!-- SLIDE 6: Step 5 - add slabs -->
+  <section class="slide" id="slide-6">
+    <div class="step-badge">ขั้นตอนที่ 5 / 6 · ฝ่ายคลัง</div>
+    <h2 class="slide-title">เพิ่มแผ่น Slab ตามที่ตัด/วัดจริง</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-step5.png">
+    </div>
+    <ul class="plain-list">
+      <li>กรอกขนาด L × H ทีละแผ่นในแท็บ Slabs ของ Block เดียวกัน</li>
+      <li>แต่ละแผ่นเก็บสถานะของตัวเอง (Available ทันทีที่บันทึก)</li>
+    </ul>
+    <div class="note-box pending"><b>รอภาพหน้าจอจริง:</b> รูปแบบตารางยืนยันแล้วจากการเช็คระบบก่อนหน้านี้ (deck "Block คืออะไร") — <code>BLK-26-0004</code> มี 3 แผ่นจริงในสถานะ Available</div>
+  </section>
+
+  <!-- SLIDE 7: Step 6 - ready -->
+  <section class="slide" id="slide-7">
+    <div class="step-badge">ขั้นตอนที่ 6 / 6 · ผลลัพธ์</div>
+    <h2 class="slide-title">สต็อก Available — พร้อมขายได้ทั้ง 5 โหมด</h2>
+    <div class="center-diagram">
+      <img class="flow-thumb" src="assets/supply-flow-step6.png">
+    </div>
+    <div class="status-row">
+      <div class="status-card">
+        <div class="slabel">จบตรงนี้ ไม่มีการเลือกโหมดขาย</div>
+        <div class="stext">ตั้งแต่จุดนี้ ระบบไม่สนใจแล้วว่าในที่สุดจะขายแบบไหน — Slab/Block พร้อมให้ทั้ง 5 โหมดหยิบไปใช้เหมือนกันหมด</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">ขั้นตอนถัดไป</div>
+        <div class="stext">ดูเดค E2E แยกตามโหมด (M1-M5) — แต่ละเดคจะเริ่มจาก "สมมติมีของในสต็อกแล้ว" ไม่เล่าขั้นตอนรับเข้าซ้ำอีก</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Summary -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">รับหินเข้าคลัง — 6 ขั้นตอน จาก PO ถึงพร้อมขาย</h2>
+    <div class="status-row">
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ทำเอง</div>
+        <div class="stext">เปิด PO → Confirm → สร้าง Block ผูก PO Line → กรอก Material/Quality/Warehouse → Save → เพิ่มแผ่น Slab</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
+        <div class="stext">ดึง Supplier+CBM จาก PO Line → สร้าง+validate stock receipt → บล็อกใบรับสินค้าปกติไม่ให้ validate ซ้ำ</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">ข้อควรระวังจริง</div>
+        <div class="stext">ห้าม validate Purchase Receipt แบบปกติ — ต้องสร้าง Block ผูกกับ PO Line เท่านั้นถึงจะรับเข้าคลังถูกต้อง</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหายืนยันจากโค้ดจริง (stone_bundle.py) — ภาพหน้าจอจริงจะเพิ่มเมื่อเข้าถึง eg-odoo19-ee ได้อีกครั้ง <span class="pending-badge">รอ screenshot จริง</span></div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  document.querySelectorAll('.shot, .flow-thumb').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
