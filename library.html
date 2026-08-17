@@ -68,6 +68,7 @@
   .status-badge.design{background:#FBF1E7;color:#8F5A2C;}
   .status-badge.confirmed{background:#EAF3EA;color:#3D7A45;}
   .status-badge.built{background:#E7EEF5;color:#2C5A80;}
+  .status-badge.finding{background:#FBEAE7;color:#A6432D;}
   .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
   footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
 </style>
@@ -311,6 +312,15 @@
         <div class="card-title">/stone-scan → Barcode App มาตรฐาน</div>
         <div class="card-desc">เทียบ flow ปัจจุบันกับที่เสนอ จุดไหน standard จุดไหนต้อง custom เพิ่ม พร้อมเหตุผลของแต่ละจุด</div>
         <div class="card-meta"><span class="card-date">16 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/workflow-design/recompute-price-boq-explainer.html">
+      <div class="icon">D2</div>
+      <div>
+        <div class="card-title">"Recompute Price (BOQ)" — ยังต้องใช้ไหม?</div>
+        <div class="card-desc">ทดสอบสดผ่าน Playwright บนข้อมูลจริง (eg-odoo19-ee): ยังต้องใช้ปุ่มนี้อยู่ แต่พบ bug จริง — กดแล้วราคาพุ่งเกือบ 2 เท่าของยอด quote เดิม เพราะ conflict กับ ADR-024 ที่เพิ่มมาทีหลัง พร้อมข้อเสนอแก้สูตร</div>
+        <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span><span class="status-badge finding">พบ Bug จริง — รอแก้</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
