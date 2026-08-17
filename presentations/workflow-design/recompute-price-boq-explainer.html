@@ -34,6 +34,7 @@
   #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
   #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:20px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
   .status-badge{position:absolute;top:64px;right:170px;background:#A6432D;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:14px;}
+  .status-badge.fixed{background:#3D7A45;}
   .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
 
   .case-box{background:var(--card);border-radius:14px;padding:20px 26px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
@@ -67,6 +68,7 @@
   .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
   .dark .cmp-table tr.good td{color:#8FCB8F;background:rgba(61,122,69,.25);}
   .dark .cmp-table tr.bad td{color:#E08A78;background:rgba(166,67,45,.25);}
+  .dark .cmp-table code{background:rgba(255,255,255,.12);color:#E4E8EA;}
 
   .note-box{background:#FBF1E7;border-radius:11px;padding:14px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
   .note-box b{color:#8F5A2C;}
@@ -128,10 +130,10 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="badge">R/P</div>
-    <div class="status-badge">Bug ยืนยันแล้ว</div>
+    <div class="status-badge fixed">พบ Bug + แก้แล้ว</div>
     <div class="eyebrow">Empire Granite · Stone Slab Inventory — Custom Workflow Design</div>
     <div class="big-title">"Recompute Price (BOQ)"<br>ยังต้องใช้อยู่ไหม?</div>
-    <div class="big-sub">คำตอบสั้นๆ: ต้องใช้ — แต่ตัวปุ่มเองมี bug จริงที่ยืนยันแล้วผ่านการทดสอบสด (Playwright, ข้อมูลจริงบน <code>eg-odoo19-ee</code>) กดแล้วราคาจะยิ่งผิดกว่าเดิม ไม่ใช่ถูกกว่าเดิม</div>
+    <div class="big-sub">คำตอบสั้นๆ: ต้องใช้ — เจอ bug จริงที่ยืนยันแล้วผ่านการทดสอบสด (Playwright, ข้อมูลจริงบน <code>eg-odoo19-ee</code>) กดแล้วราคาจะยิ่งผิดกว่าเดิม ไม่ใช่ถูกกว่าเดิม — <b>แก้ไขและ deploy แล้ว</b> (commit <code>7ee18dc</code>) พร้อม re-verify ด้วย Playwright จริงอีกรอบ</div>
     <div class="stamp">EMG-O Custom Workflow Design · Technical Finding</div>
     <div class="date-tag">17 ส.ค. 2026</div>
   </section>
@@ -247,24 +249,38 @@ class SaleOrderLine(models.Model):<br>
       <tr><th>สถานการณ์ทดสอบ</th><th>สูตรเดิม</th><th>สูตรที่เสนอ</th></tr>
       <tr class="bad"><td>2 แผ่น, 2.17 m² รวม, rate 1,200/m²</td><td>2,604 × 2 = <b>5,208</b> ❌</td><td>2,604 ÷ 2 × 2 = <b>2,604</b> ✅</td></tr>
     </table>
-    <div class="note-box good" style="margin-top:14px;"><b>เก็บปุ่มนี้ไว้ — ห้ามลบ:</b> ยังเป็นทางเดียวที่มีอยู่ตอนนี้ที่ดึงราคากลับมาตรงกับ BOQ ที่ quote ลูกค้าไว้ หลัง ADR-024's auto price-write ทับไปแล้ว แค่ต้องแก้สูตรให้รองรับกรณี qty≠1 ก่อนใช้งานจริงกับลูกค้า</div>
+    <div class="note-box good" style="margin-top:14px;"><b>เก็บปุ่มนี้ไว้ — ห้ามลบ:</b> ยังเป็นทางเดียวที่มีอยู่ตอนนี้ที่ดึงราคากลับมาตรงกับ BOQ ที่ quote ลูกค้าไว้ หลัง ADR-024's auto price-write ทับไปแล้ว</div>
+  </section>
+
+  <!-- SLIDE 7b: Fix verified live -->
+  <section class="slide evidence-slide" id="slide-7b">
+    <div class="eyebrow">แก้ไขแล้ว — ทดสอบสดซ้ำอีกรอบ ผ่าน Playwright บน eg-odoo19-ee</div>
+    <h2 class="slide-title">กดปุ่มเดิม บน line เดิม หลังแก้สูตร — กลับมาตรงเป๊ะ</h2>
+    <div class="shot-row">
+      <div class="shot-col"><img class="shot" src="assets/recompute-boq-04-fix-verified.png"></div>
+      <div class="num-col">
+        <div class="metric good"><div class="m-label">หลังแก้สูตร + กด Recompute Price (BOQ)</div><div class="m-value">฿2,882.63</div><div class="m-sub">price_unit 1,302.00 × qty 2.00 = ฿2,604.00 (+ Overhead + VAT) — ตรงกับยอด BOQ quote เดิมทุกสตางค์</div></div>
+        <div class="metric"><div class="m-label">Deploy</div><div class="m-value" style="font-size:15px;">emg-erp-ee commit <code>7ee18dc</code></div><div class="m-sub">module-upgrade + restart บน eg-odoo19-ee แล้ว</div></div>
+      </div>
+    </div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · Recompute Price (BOQ) · chatter log ยืนยัน 2,231.63 → 2,882.63 หลังแก้</div>
   </section>
 
   <!-- SLIDE 8: Summary -->
   <section class="slide dark" id="slide-8">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">ยังต้องใช้ — แต่ต้องแก้สูตรก่อนใช้กับลูกค้าจริง</h2>
+    <h2 class="slide-title" style="color:#fff;">ยังต้องใช้ — เจอ bug จริง แก้แล้ว และ verify ซ้ำแล้วว่าตรงกับ quote เดิม</h2>
     <div class="flow-bar" style="margin-bottom:22px;">
       <span class="flow-chip green">BOQ quote ถูกต้อง</span><span class="flow-arrow">→</span>
       <span class="flow-chip bad">Select Slabs ทำราคาเพี้ยนเงียบๆ (ADR-024)</span><span class="flow-arrow">→</span>
-      <span class="flow-chip bad">กด Recompute Price (BOQ) แล้วแย่กว่าเดิม (bug)</span>
+      <span class="flow-chip green">กด Recompute Price (BOQ) — กลับมาตรงเป๊ะ (แก้แล้ว)</span>
     </div>
     <table class="cmp-table" style="max-width:820px;">
       <tr><th>คำถาม</th><th>คำตอบ</th></tr>
       <tr class="good"><td>ยังต้องใช้ function นี้อยู่ไหม</td><td><b>ใช่ — ห้ามลบ</b></td></tr>
-      <tr class="bad"><td>ใช้งานได้ถูกต้องตอนนี้ไหม</td><td><b>ไม่ — ยืนยันด้วย Playwright สด</b>: กดแล้วราคาพุ่งเกือบ 2 เท่า</td></tr>
+      <tr class="good"><td>ใช้งานได้ถูกต้องตอนนี้ไหม</td><td><b>ใช่ — แก้แล้ว, ยืนยันด้วย Playwright สดซ้ำอีกรอบ</b></td></tr>
       <tr><td>เคยมี test case สำหรับ BOQ line + Slab จริงมาก่อนไหม</td><td>ไม่เคย — BOQ0024/BOQ0008 ที่ทดสอบก่อนหน้าเป็น service line ล้วน ไม่เคยแตะ stone-tracked product เลย</td></tr>
-      <tr><td>ควรทำอะไรต่อ</td><td>แก้สูตรตาม slide ก่อนหน้า แล้ว regression-test อีกรอบก่อนใช้กับ BOQ ลูกค้าจริงที่มีรายการหิน</td></tr>
+      <tr><td>ทำอะไรไปแล้ว</td><td>แก้สูตรใน <code>sale_order_line.py</code>, deploy + module-upgrade บน <code>eg-odoo19-ee</code>, commit <code>7ee18dc</code> บน <code>emg-erp-ee</code>, re-verify ผ่าน Playwright สด</td></tr>
     </table>
     <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">ข้อมูลทดสอบ (BOQ0010 / S00033 / Carrara White Slab #6-#7) เป็นข้อมูลจริงที่ commit ไว้บน <code>eg-odoo19-ee</code> — เก็บไว้เป็น regression fixture ได้เลย ไม่ต้องลบ</div>
   </section>
@@ -274,7 +290,7 @@ class SaleOrderLine(models.Model):<br>
 <div id="nav">
   <a id="home-btn" href="../../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <button onclick="go(-1)">‹</button>
-  <span id="pagecount">1 / 9</span>
+  <span id="pagecount">1 / 10</span>
   <button onclick="go(1)">›</button>
 </div>
 
