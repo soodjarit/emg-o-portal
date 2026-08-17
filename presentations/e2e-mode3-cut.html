@@ -105,8 +105,8 @@
     <div class="stone-badge">โหมด<br>3</div>
     <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
     <div class="big-title">โหมด 3: ตัดตามสั่ง<br>(Cut-to-Order)</div>
-    <div class="big-sub">เดินสดตั้งแต่ซื้อก้อนหิน ยืนยัน SO ทั้งที่ยังไม่มีแผ่นจริง ให้ระบบขึ้นคิวงานอัตโนมัติที่หน้า "Factory Worklist" ให้ฝ่ายผลิตเลือกก้อน+ระบุขนาดตัดเอง ผ่าน Manufacturing Order จนถึงราคาคำนวณอัตโนมัติและออกใบแจ้งหนี้ — ไม่ต้องให้ฝ่ายขายเป็นคนตัดสินใจว่าจะตัดจากก้อนไหน</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13</div>
+    <div class="big-sub">เดินสดตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ยืนยัน SO ทั้งที่ยังไม่มีแผ่นจริง ให้ระบบขึ้นคิวงานอัตโนมัติที่หน้า "Factory Worklist" ให้ฝ่ายผลิตเลือกก้อน+ระบุขนาดตัดเอง ผ่าน Manufacturing Order จนถึงราคาคำนวณอัตโนมัติและออกใบแจ้งหนี้ — ไม่ต้องให้ฝ่ายขายเป็นคนตัดสินใจว่าจะตัดจากก้อนไหน (ขั้นตอนซื้อ+รับหินเข้าคลังดูที่เดค Ensure Supply แยกต่างหาก)</div>
+    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 3 -->
@@ -122,57 +122,26 @@
       <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
     <div class="note-box"><b>โหมด 3 คือหินที่ยังไม่มีแผ่นอยู่จริงตอนขาย</b> — ต่างจากโหมด 2 ตรงที่ไม่มีสต็อกแผ่นสำเร็จรอไว้ ต้องสั่งตัดใหม่ทุกครั้งผ่านใบสั่งผลิต (Manufacturing Order) โดยฝ่ายขายแค่ยืนยัน SO แล้วส่งต่อให้ฝ่ายผลิตเป็นคนตัดสินใจว่าจะตัดจากก้อนไหน ขนาดเท่าไหร่</div>
+    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อก้อนหิน+รับเข้าคลังเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
   <section class="slide" id="slide-2">
     <div class="eyebrow">แผนผังขั้นตอน</div>
-    <h2 class="slide-title">Flow โหมด 3 ทั้งหมด — 4 ฝ่าย 9 ขั้นตอน</h2>
+    <h2 class="slide-title">Flow โหมด 3 ทั้งหมด — 4 ฝ่าย 7 ขั้นตอน</h2>
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode3-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">จุดต่างจากโหมด 2 คือ SO ถูกยืนยันไปก่อนโดยยังไม่มีแผ่นจริง แล้วขั้นตอน "รับช่วงตัด" จะย้อนกลับไปที่ฝ่ายคลัง/ผลิตอีกครั้งผ่านหน้า Factory Worklist — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
+    <div class="note-box">เริ่มนับจากมี Block พร้อมอยู่แล้ว — จุดต่างจากโหมด 2 คือ SO ถูกยืนยันไปก่อนโดยยังไม่มีแผ่นจริง แล้วขั้นตอน "รับช่วงตัด" จะย้อนกลับไปที่ฝ่ายคลัง/ผลิตอีกครั้งผ่านหน้า Factory Worklist — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
   </section>
 
-  <!-- SLIDE 3: Step 1 - PO -->
+  <!-- SLIDE 3: Step 1 - SO add line -->
   <section class="slide" id="slide-3">
-    <div class="step-badge">ขั้นตอนที่ 1 / 9 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">เปิด Purchase Order ซื้อก้อนหินจาก Supplier</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step1-po-purchase.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
-      </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-01-po-confirmed.png"><div class="shot-cap">P00073 — Calacatta Gold (Block) 3.00 m³ × 42,000 บาท ที่ Empire Granite Co., Ltd.</div></div>
-      </div>
-    </div>
-    <div class="note-box">เหมือนโหมด 1 และ 2 ทุกประการ — ซื้อเป็นก้อนดิบ หน่วย m³ ก่อนเสมอ ไม่ว่าจะเอาไปขายทั้งก้อน ตัดล่วงหน้า หรือตัดตามสั่ง</div>
-  </section>
-
-  <!-- SLIDE 4: Step 2 - Bundle -->
-  <section class="slide" id="slide-4">
-    <div class="step-badge">ขั้นตอนที่ 2 / 9 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">รับเข้าคลัง = สร้าง Bundle ผูกกับ PO Line</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step2-receive-bundle.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
-      </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-02-bundle-saved.png"><div class="shot-cap">BDL-00016 — ผูกกับ P00073, ตั้งความหนา (Thickness) และราคาขาย/ตร.ม. ไว้ล่วงหน้า (9,500 บาท) ยังไม่ตัดแผ่นใดๆ — เป็นก้อนสำรองรอคำสั่งตัด</div></div>
-      </div>
-    </div>
-    <div class="note-box">เหมือนโหมด 1/2 — สร้าง Bundle เป็นก้อนเดียวกันก่อนเสมอ ต่างกันตรงที่ก้อนนี้จะไม่ถูกตัดจนกว่าจะมี SO ยืนยันเข้ามาก่อน</div>
-  </section>
-
-  <!-- SLIDE 5: Step 3 - SO add line -->
-  <section class="slide" id="slide-5">
-    <div class="step-badge">ขั้นตอนที่ 3 / 9 · ฝ่ายขาย</div>
+    <div class="step-badge">ขั้นตอนที่ 1 / 7 · ฝ่ายขาย</div>
     <h2 class="slide-title">เปิด Sale Order → เพิ่มบรรทัดสินค้า Slab-tracked</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step3-so-add-line.png">
+        <img class="flow-thumb" src="assets/mode3-flow-step1.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -183,12 +152,12 @@
   </section>
 
   <!-- SLIDE 6: Step 4 - confirm SO, no real price yet -->
-  <section class="slide" id="slide-6">
-    <div class="step-badge">ขั้นตอนที่ 4 / 9 · ฝ่ายขาย</div>
+  <section class="slide" id="slide-4">
+    <div class="step-badge">ขั้นตอนที่ 2 / 7 · ฝ่ายขาย</div>
     <h2 class="slide-title">ยืนยัน SO — ราคาที่เห็นตอนนี้ยังไม่ใช่ราคาจริง</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step4-confirm-so.png">
+        <img class="flow-thumb" src="assets/mode3-flow-step2.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -199,12 +168,12 @@
   </section>
 
   <!-- SLIDE 7: Step 5 - Factory Worklist -->
-  <section class="slide" id="slide-7">
-    <div class="step-badge">ขั้นตอนที่ 5 / 9 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-5">
+    <div class="step-badge">ขั้นตอนที่ 3 / 7 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">Factory Worklist — คิวงานที่ขึ้นอัตโนมัติ ไม่ต้องรอฝ่ายขายบอก</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step5-factory-worklist.png">
+        <img class="flow-thumb" src="assets/mode3-flow-step3.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -215,12 +184,12 @@
   </section>
 
   <!-- SLIDE 8: Step 6 - Cut to Order wizard -->
-  <section class="slide" id="slide-8">
-    <div class="step-badge">ขั้นตอนที่ 6 / 9 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-6">
+    <div class="step-badge">ขั้นตอนที่ 4 / 7 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">กด Cut to Order — เลือกก้อนที่จะตัด + ระบุขนาดที่ต้องการ</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step6-cut-order-wizard.png">
+        <img class="flow-thumb" src="assets/mode3-flow-step4.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -231,8 +200,8 @@
   </section>
 
   <!-- SLIDE 9: Step 7 - MO Mark Done + price auto -->
-  <section class="slide" id="slide-9">
-    <div class="step-badge">ขั้นตอนที่ 7 / 9 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-7">
+    <div class="step-badge">ขั้นตอนที่ 5 / 7 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">ตัดจริง กด "Complete Cut" — ราคา SO คำนวณใหม่อัตโนมัติทันที</h2>
     <div class="compare-row">
       <div class="compare-col">
@@ -248,8 +217,8 @@
   </section>
 
   <!-- SLIDE 10: Step 8 - delivery scan -->
-  <section class="slide" id="slide-10">
-    <div class="step-badge">ขั้นตอนที่ 8 / 9 · ฝ่ายส่งของ</div>
+  <section class="slide" id="slide-8">
+    <div class="step-badge">ขั้นตอนที่ 6 / 7 · ฝ่ายส่งของ</div>
     <h2 class="slide-title">ส่งของ — ต้องสแกน Serial ยืนยันตรงแผ่นก่อน Validate ได้</h2>
     <div class="compare-row">
       <div class="compare-col">
@@ -265,12 +234,12 @@
   </section>
 
   <!-- SLIDE 11: Step 9 - invoice -->
-  <section class="slide" id="slide-11">
-    <div class="step-badge">ขั้นตอนที่ 9 / 9 · ฝ่ายบัญชี</div>
+  <section class="slide" id="slide-9">
+    <div class="step-badge">ขั้นตอนที่ 7 / 7 · ฝ่ายบัญชี</div>
     <h2 class="slide-title">ออกใบแจ้งหนี้ — VAT 7% ตามปกติ</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode3-flow-step9-invoice.png">
+        <img class="flow-thumb" src="assets/mode3-flow-step7.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -280,25 +249,25 @@
     <div class="note-box">หลัง Delivery เสร็จ กด Create Invoice ได้ทันที — ราคาที่คำนวณจากขนาดแผ่นจริงตอนตัดเสร็จไหลมาเป็นยอด Invoice โดยไม่ต้องแก้ไขอะไรเพิ่ม เหมือนโหมด 2</div>
   </section>
 
-  <!-- SLIDE 12: Summary -->
-  <section class="slide dark" id="slide-12">
+  <!-- SLIDE 10: Summary -->
+  <section class="slide dark" id="slide-10">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">โหมด 3 ครบวงจร — 9 ขั้นตอน จากซื้อก้อนถึงออกใบแจ้งหนี้</h2>
+    <h2 class="slide-title" style="color:#fff;">โหมด 3 ครบวงจร — 7 ขั้นตอน จากยืนยัน SO ถึงออกใบแจ้งหนี้</h2>
     <div class="status-row">
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายขายทำ</div>
-        <div class="stext">เปิด SO เลือกสินค้า Slab-tracked → Confirm ได้ทันทีโดยไม่ต้องรู้ขนาดที่จะตัด → จบหน้าที่ตรงนี้</div>
+        <div class="stext">เปิด SO เลือกสินค้า Slab-tracked → Confirm ได้ทันทีโดยไม่ต้องรู้ขนาดที่จะตัด → จบหน้าที่ตรงนี้ (Block ที่จะตัดมีอยู่แล้วในสต็อกจากเดค Ensure Supply)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายผลิตทำ</div>
-        <div class="stext">เปิด PO ซื้อก้อน → สร้าง Bundle → ดูคิวงานที่ Factory Worklist → กด Cut to Order เลือกก้อน+ขนาด → ตัดจริง กด Complete Cut</div>
+        <div class="stext">ดูคิวงานที่ Factory Worklist → กด Cut to Order เลือกก้อน+ขนาด → ตัดจริง กด Complete Cut</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
         <div class="stext">รวมคิวงานที่ Factory Worklist → สร้าง Slab+Serial ใหม่ผูกกับ SO line → คำนวณราคาจากขนาดจริงที่ตัดได้ → บังคับตรวจ Serial ก่อนส่งของ</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · P00073 → BDL-00016 → S108406 → EGWH/STCUT/00030 → INV/2026/00018 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00016 (พร้อมอยู่แล้วในสต็อก) → S108406 → EGWH/STCUT/00030 → INV/2026/00018 · stone_slab_inventory module</div>
   </section>
 
 </div></div>
@@ -306,7 +275,7 @@
 <div id="nav">
   <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <button onclick="go(-1)" aria-label="Previous slide">‹</button>
-  <span id="pagecount">1 / 13</span>
+  <span id="pagecount">1 / 11</span>
   <button onclick="go(1)" aria-label="Next slide">›</button>
   <a id="pdf-btn" href="assets/e2e-mode3-cut.pdf" download="EMG-O-E2E-Mode3-ตัดตามสั่ง.pdf" title="ดาวน์โหลด PDF" aria-label="ดาวน์โหลด PDF"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg></a>
 </div>
