@@ -105,8 +105,8 @@
     <div class="stone-badge">โหมด<br>5</div>
     <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
     <div class="big-title">โหมด 5: ผลิตสินค้าสำเร็จรูป<br>(FG Production)</div>
-    <div class="big-sub">เดินสดตั้งแต่ซื้อก้อนหิน ตัด Slab ดิบ แล้วนำ Slab นั้นเข้ากระบวนการผลิตสินค้าสำเร็จรูป (Top โต๊ะ/เคาน์เตอร์) ผ่าน Manufacturing Order — 1 Slab ตัดได้หลายชิ้น รวมถึงเศษ/byproduct ที่ขายได้จริง จนถึงส่งของและออกใบแจ้งหนี้</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13</div>
+    <div class="big-sub">เดินสดตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ตัด Slab ดิบ แล้วนำ Slab นั้นเข้ากระบวนการผลิตสินค้าสำเร็จรูป (Top โต๊ะ/เคาน์เตอร์) ผ่าน Manufacturing Order — 1 Slab ตัดได้หลายชิ้น รวมถึงเศษ/byproduct ที่ขายได้จริง จนถึงส่งของและออกใบแจ้งหนี้ (ขั้นตอนซื้อ+รับหินเข้าคลังดูที่เดค Ensure Supply แยกต่างหาก)</div>
+    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 5 -->
@@ -122,57 +122,26 @@
       <tr class="hl"><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Lot) + อาจมีเศษ/byproduct</td></tr>
     </table>
     <div class="note-box"><b>โหมด 5 คือสินค้าที่ตัดจาก Slab อีกขั้นหนึ่ง</b> — ต่างจากโหมด 3 ตรงที่ผลผลิตไม่ใช่ Slab เปล่าๆ แต่เป็นสินค้าสำเร็จรูปพร้อมขาย (เช่น Top โต๊ะ/เคาน์เตอร์ครัวขนาดมาตรฐาน) และ 1 Slab สามารถตัดได้หลายชิ้น รวมถึงเศษที่ยังขายเป็นสินค้าอื่นได้ (byproduct)</div>
+    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อก้อนหิน+รับเข้าคลังเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
   <section class="slide" id="slide-2">
     <div class="eyebrow">แผนผังขั้นตอน</div>
-    <h2 class="slide-title">Flow โหมด 5 ทั้งหมด — 4 ฝ่าย 10 ขั้นตอน</h2>
+    <h2 class="slide-title">Flow โหมด 5 ทั้งหมด — 4 ฝ่าย 8 ขั้นตอน</h2>
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode5-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">โครงสร้างคล้ายโหมด 3 (ยืนยัน SO ก่อน แล้วส่งต่อฝ่ายผลิตผ่าน Factory Worklist) แต่มีขั้นตอนเพิ่มอีกชั้น — ตัด Slab ดิบก่อน แล้วค่อยนำ Slab นั้นไปผลิตเป็นสินค้าสำเร็จรูปอีกที — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
+    <div class="note-box">เริ่มนับจากมี Block พร้อมอยู่แล้ว — โครงสร้างคล้ายโหมด 3 (ยืนยัน SO ก่อน แล้วส่งต่อฝ่ายผลิตผ่าน Factory Worklist) แต่มีขั้นตอนเพิ่มอีกชั้น — ตัด Slab ดิบก่อน แล้วค่อยนำ Slab นั้นไปผลิตเป็นสินค้าสำเร็จรูปอีกที — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
   </section>
 
-  <!-- SLIDE 3: Step 1 - PO -->
+  <!-- SLIDE 3: Step 1 - SO add FG line -->
   <section class="slide" id="slide-3">
-    <div class="step-badge">ขั้นตอนที่ 1 / 10 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">เปิด Purchase Order ซื้อก้อนหินจาก Supplier</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step1-po-purchase.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
-      </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-01-po-confirmed.png"><div class="shot-cap">P00074 — Nero Marquina (Block) 2.50 m³ × 40,000 บาท ที่ Empire Granite Co., Ltd.</div></div>
-      </div>
-    </div>
-    <div class="note-box">เหมือนโหมด 1-4 ทุกประการ — ซื้อเป็นก้อนดิบ หน่วย m³ ก่อนเสมอ ไม่ว่าจะเอาไปขายทั้งก้อน ตัดล่วงหน้า ตัดตามสั่ง หรือนำไปผลิตต่อเป็นสินค้าสำเร็จรูป</div>
-  </section>
-
-  <!-- SLIDE 4: Step 2 - Bundle -->
-  <section class="slide" id="slide-4">
-    <div class="step-badge">ขั้นตอนที่ 2 / 10 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">รับเข้าคลัง = สร้าง Bundle ผูกกับ PO Line</h2>
-    <div class="two-col">
-      <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step2-receive-bundle.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
-      </div>
-      <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-02-bundle-saved.png"><div class="shot-cap">BDL-00017 — ผูกกับ P00074, ตั้งความหนา (Thickness) และราคาขาย/ตร.ม. ไว้ล่วงหน้า (11,000 บาท) เป็นก้อนสำรองรอคำสั่งตัด</div></div>
-      </div>
-    </div>
-    <div class="note-box">เหมือนโหมด 1-4 — สร้าง Bundle เป็นก้อนเดียวกันก่อนเสมอ ไม่ว่าปลายทางจะเป็นแผ่นเปล่าหรือสินค้าสำเร็จรูป</div>
-  </section>
-
-  <!-- SLIDE 5: Step 3 - SO add FG line -->
-  <section class="slide" id="slide-5">
-    <div class="step-badge">ขั้นตอนที่ 3 / 10 · ฝ่ายขาย</div>
+    <div class="step-badge">ขั้นตอนที่ 1 / 8 · ฝ่ายขาย</div>
     <h2 class="slide-title">เปิด Sale Order → เพิ่มบรรทัดสินค้าสำเร็จรูป (FG)</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step3-so-add-line.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step1.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -183,12 +152,12 @@
   </section>
 
   <!-- SLIDE 6: Step 4 - confirm SO -->
-  <section class="slide" id="slide-6">
-    <div class="step-badge">ขั้นตอนที่ 4 / 10 · ฝ่ายขาย</div>
+  <section class="slide" id="slide-4">
+    <div class="step-badge">ขั้นตอนที่ 2 / 8 · ฝ่ายขาย</div>
     <h2 class="slide-title">ยืนยัน SO — ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step4-confirm-so.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step2.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -199,12 +168,12 @@
   </section>
 
   <!-- SLIDE 7: Step 5 - Factory Worklist -->
-  <section class="slide" id="slide-7">
-    <div class="step-badge">ขั้นตอนที่ 5 / 10 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-5">
+    <div class="step-badge">ขั้นตอนที่ 3 / 8 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">Factory Worklist — คิวเดียวกัน ใช้ได้ทั้งตัดแผ่นและผลิต FG</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step5-factory-worklist.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step3.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -215,8 +184,8 @@
   </section>
 
   <!-- SLIDE 8: Step 6 - Cut Slab first -->
-  <section class="slide" id="slide-8">
-    <div class="step-badge">ขั้นตอนที่ 6 / 10 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-6">
+    <div class="step-badge">ขั้นตอนที่ 4 / 8 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">ยังไม่มี Slab ในสต็อก — ตัด Slab ดิบก่อนด้วย Cut to Order</h2>
     <div class="compare-row">
       <div class="compare-col">
@@ -232,12 +201,12 @@
   </section>
 
   <!-- SLIDE 9: Step 7 - Produce FG wizard -->
-  <section class="slide" id="slide-9">
-    <div class="step-badge">ขั้นตอนที่ 7 / 10 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-7">
+    <div class="step-badge">ขั้นตอนที่ 5 / 8 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">กด Produce FG — เลือก Slab + ระบุผลผลิตทุกชิ้นที่ตัดได้จริง</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step7-produce-fg-wizard.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step5.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -248,8 +217,8 @@
   </section>
 
   <!-- SLIDE 10: Step 8 - Complete FG Production -->
-  <section class="slide" id="slide-10">
-    <div class="step-badge">ขั้นตอนที่ 8 / 10 · ฝ่ายคลัง/ผลิต</div>
+  <section class="slide" id="slide-8">
+    <div class="step-badge">ขั้นตอนที่ 6 / 8 · ฝ่ายคลัง/ผลิต</div>
     <h2 class="slide-title">กด "Complete FG Production" — ได้ทั้งสินค้าหลักและเศษ/byproduct จริง</h2>
     <div class="compare-row">
       <div class="compare-col">
@@ -265,28 +234,28 @@
   </section>
 
   <!-- SLIDE 11: Step 9 - Delivery, no scan gate -->
-  <section class="slide" id="slide-11">
-    <div class="step-badge">ขั้นตอนที่ 9 / 10 · ฝ่ายส่งของ</div>
+  <section class="slide" id="slide-9">
+    <div class="step-badge">ขั้นตอนที่ 7 / 8 · ฝ่ายส่งของ</div>
     <h2 class="slide-title">ส่งของ — ไม่ต้องสแกน Serial เหมือนโหมด 2-3</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step9-delivery.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step7.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
         <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-11-delivery-done.png"><div class="shot-cap">EGWH/OUT/00073 — กด Validate แล้วเสร็จทันที ไม่มีข้อความเตือนให้สแกน Serial เหมือนขั้นตอนส่งแผ่นในโหมด 2-3</div></div>
       </div>
     </div>
-    <div class="note-box">สินค้าสำเร็จรูปติดตามด้วย Lot (ล็อตการผลิต) ไม่ใช่ Serial รายชิ้นเหมือน Slab — ระบบบังคับสแกนเฉพาะสินค้าที่มี Bundle ผูกอยู่ (แผ่น/ก้อนดิบ) เท่านั้น สินค้าสำเร็จรูปจึงส่งของได้ตรงไปตรงมากว่า</div>
+    <div class="note-box">สินค้าสำเร็จรูปติดตามด้วย Lot (ล็อตการผลิต) ไม่ใช่ Serial รายชิ้นเหมือน Slab — ระบบบังคับสแกนเฉพาะสินค้าที่มี Block ผูกอยู่ (แผ่น/ก้อนดิบ) เท่านั้น สินค้าสำเร็จรูปจึงส่งของได้ตรงไปตรงมากว่า</div>
   </section>
 
-  <!-- SLIDE 12: Step 10 - invoice -->
-  <section class="slide" id="slide-12">
-    <div class="step-badge">ขั้นตอนที่ 10 / 10 · ฝ่ายบัญชี</div>
+  <!-- SLIDE 10: Step 8 - invoice -->
+  <section class="slide" id="slide-10">
+    <div class="step-badge">ขั้นตอนที่ 8 / 8 · ฝ่ายบัญชี</div>
     <h2 class="slide-title">ออกใบแจ้งหนี้ — VAT 7% ตามปกติ</h2>
     <div class="two-col">
       <div class="col-left">
-        <img class="flow-thumb" src="assets/mode5-flow-step10-invoice.png">
+        <img class="flow-thumb" src="assets/mode5-flow-step8.png">
         <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
       </div>
       <div class="col-right">
@@ -296,25 +265,25 @@
     <div class="note-box">หลัง Delivery เสร็จ กด Create Invoice ได้ทันที — เพราะราคาคงที่ตั้งแต่ตอนยืนยัน SO ไม่มีขั้นตอนคำนวณราคาใหม่แบบโหมด 3 เลย</div>
   </section>
 
-  <!-- SLIDE 13: Summary -->
-  <section class="slide dark" id="slide-13">
+  <!-- SLIDE 11: Summary -->
+  <section class="slide dark" id="slide-11">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">โหมด 5 ครบวงจร — 10 ขั้นตอน จากซื้อก้อนถึงออกใบแจ้งหนี้</h2>
+    <h2 class="slide-title" style="color:#fff;">โหมด 5 ครบวงจร — 8 ขั้นตอน จากยืนยัน SO ถึงออกใบแจ้งหนี้</h2>
     <div class="status-row">
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายขายทำ</div>
-        <div class="stext">เปิด SO เลือกสินค้าสำเร็จรูป (FG) → Confirm ได้ทันที ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด</div>
+        <div class="stext">เปิด SO เลือกสินค้าสำเร็จรูป (FG) → Confirm ได้ทันที ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด (Block ที่จะตัดมีอยู่แล้วในสต็อกจากเดค Ensure Supply)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายผลิตทำ</div>
-        <div class="stext">เปิด PO ซื้อก้อน → สร้าง Bundle → ดูคิวที่ Factory Worklist → ตัด Slab ดิบก่อน (ถ้ายังไม่มี) → Produce FG ระบุผลผลิตทุกชิ้น → Complete FG Production</div>
+        <div class="stext">ดูคิวที่ Factory Worklist → ตัด Slab ดิบก่อน (ถ้ายังไม่มี) → Produce FG ระบุผลผลิตทุกชิ้น → Complete FG Production</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
         <div class="stext">จับคู่ Slab ที่มีให้เอง → สร้างสต็อกสินค้าหลัก+byproduct พร้อม Lot แยกกัน → ส่งของไม่ต้องสแกน Serial เหมือนแผ่นดิบ</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · P00074 → BDL-00017 → S108408 → EGWH/STCUT/00031 → EGWH/STFG/00002 → INV/2026/00022 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00017 (พร้อมอยู่แล้วในสต็อก) → S108408 → EGWH/STCUT/00031 → EGWH/STFG/00002 → INV/2026/00022 · stone_slab_inventory module</div>
     <div style="margin-top:14px;font-size:14px;color:#D9A465;">ครบทั้ง 5 โหมดการขายแล้ว — <a href="product-concepts.html" style="color:#D9A465;font-weight:700;">ดู product-concepts.html สำหรับภาพรวมทุกโหมด →</a></div>
   </section>
 
@@ -323,7 +292,7 @@
 <div id="nav">
   <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <button onclick="go(-1)" aria-label="Previous slide">‹</button>
-  <span id="pagecount">1 / 14</span>
+  <span id="pagecount">1 / 12</span>
   <button onclick="go(1)" aria-label="Next slide">›</button>
   <a id="pdf-btn" href="assets/e2e-mode5-fg-production.pdf" download="EMG-O-E2E-Mode5-FG-Production.pdf" title="ดาวน์โหลด PDF" aria-label="ดาวน์โหลด PDF"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg></a>
 </div>
