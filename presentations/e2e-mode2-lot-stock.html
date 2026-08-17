@@ -143,7 +143,7 @@
       <div class="case-icon">i</div>
       <div>
         <div class="case-text-label">Mode 2 ต่างจาก Mode ปกติ (Select Slabs) ยังไง</div>
-        <div class="case-text">วัสดุแต่ละชนิดตั้งค่า <b>Pricing Mode</b> ไว้ที่ระดับ Material — ถ้าเป็น <b>Lot</b> (เช่น Bianco Perla) ระบบจะไม่สร้าง <b>stone.slab</b> รายแผ่นให้เลือกทีละแผ่นแบบปกติ แต่ให้เลือก <b>Lot (Block/Bundle)</b> แล้วพิมพ์จำนวนตารางเมตรที่จะขายจากล็อตนั้นได้อิสระ (ขายบางส่วนได้ ไม่ต้องขายทั้งล็อต) เหมาะกับหินที่ import มาเป็นล็อตใหญ่ ไม่ได้ตัดแยกแผ่นไว้ล่วงหน้า</div>
+        <div class="case-text">วัสดุแต่ละชนิดตั้งค่า <b>Pricing Mode</b> ไว้ที่ระดับ Material — ถ้าเป็น <b>Lot</b> (เช่น Bianco Perla) ระบบจะไม่สร้าง <b>stone.slab</b> รายแผ่นให้เลือกทีละแผ่นแบบปกติ แต่ให้เลือก <b>Lot (Block)</b> แล้วพิมพ์จำนวนตารางเมตรที่จะขายจากล็อตนั้นได้อิสระ (ขายบางส่วนได้ ไม่ต้องขายทั้งล็อต) เหมาะกับหินที่ import มาเป็นล็อตใหญ่ ไม่ได้ตัดแยกแผ่นไว้ล่วงหน้า</div>
       </div>
     </div>
     <div class="flow-bar">
@@ -154,7 +154,8 @@
       <span class="flow-chip hl">Invoice</span><span class="flow-arrow">→</span>
       <span class="flow-chip hl">รับเงิน</span>
     </div>
-    <div class="note-box"><b>หมายเหตุ:</b> Mode 2 (Lot), Mode 1 (Select Block — ขายทั้งก้อน), และโหมดปกติ (Select Slabs — เลือกทีละแผ่น) ใช้กลไก intercompany เดียวกันทั้งหมดถ้าล็อต/บล็อกนั้นเป็นของอีกบริษัท — ดูรายละเอียดใน deck "E2E — Intercompany Trade" แยกต่างหาก</div>
+    <div class="note-box"><b>หมายเหตุ:</b> Mode 2 (Lot), Mode 1 (Select Block — ขายทั้งก้อน), และโหมดปกติ (Select Slabs — เลือกทีละแผ่น) ใช้กลไก intercompany เดียวกันทั้งหมดถ้าล็อต/บล็อกนั้นเป็นของอีกบริษัท — เช็คในขั้นตอน Confirm SO ของแต่ละโหมดได้เลย ไม่มีเดคแยกอีกแล้ว</div>
+    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block (Lot) พร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อ+รับเข้าคลังดูที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: SO + product -->
@@ -184,7 +185,7 @@
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">เลือก <b>Lot (Block/Bundle)</b> — เห็นล็อตที่มีสต็อกจริงเท่านั้น</span></li>
+          <li><span class="step-num">1</span><span class="step-text">เลือก <b>Lot (Block)</b> — เห็นล็อตที่มีสต็อกจริงเท่านั้น</span></li>
           <li><span class="step-num">2</span><span class="step-text">"Remaining Sq.Mt. (Lot)" โชว์อัตโนมัติ (ตัวอย่างนี้ = 4.00 ตร.ม. เหลือจากทั้งล็อต 6.00)</span></li>
           <li><span class="step-num">3</span><span class="step-text">พิมพ์ <b>Quantity to Sell</b> ตามที่ลูกค้าต้องการ — ไม่ต้องขายทั้งล็อต (ตัวอย่างนี้ขาย 1.50 ตร.ม.)</span></li>
           <li><span class="step-num">4</span><span class="step-text">Confirm Selection</span></li>
