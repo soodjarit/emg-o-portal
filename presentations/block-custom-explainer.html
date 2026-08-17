@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Block คืออะไร — โครงสร้างและส่วนที่ Custom — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .case-box{background:rgba(255,255,255,.06);}
+  .dark .case-text{color:#DDE3E0;}
+  .dark .case-text-label{color:#D9A465;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+  .note-box.warn{background:#FBEAE7;color:#7A2E20;}
+  .note-box.warn b{color:#B8432E;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:8px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:8px 12px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;text-align:left;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table td.good{color:#2E7D4F;font-weight:700;}
+  .cmp-table td.bad{color:#B8432E;font-weight:700;}
+  .dark .cmp-table td{color:#DDE3E0;}
+  .dark .cmp-table td:first-child{color:#D9A465;}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.06);}
+
+  .num-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+  .num-table th{text-align:left;padding:9px 14px;background:var(--card);color:var(--copper-dark);font-size:11.5px;letter-spacing:.3px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .num-table td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--stone);}
+  .num-table td:first-child{font-weight:700;color:var(--copper-dark);}
+  .num-table tr.hl td{font-weight:700;background:#FBF0E2;}
+
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:10px;font-size:14.5px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+  .dark .plain-list li{color:#DDE3E0;}
+
+  .diagram-frame{width:100%;border-radius:14px;border:1px solid var(--stone);box-shadow:0 4px 18px rgba(0,0,0,.08);overflow:hidden;background:#fff;}
+  .diagram-frame img{display:block;width:100%;height:auto;}
+
+  code{background:#EFEAE3;color:var(--copper-dark);padding:1px 6px;border-radius:4px;font-size:.92em;}
+  .dark code{background:rgba(255,255,255,.12);color:#D9A465;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">Block คืออะไร<br>โครงสร้างและส่วนที่ Custom</div>
+    <div class="big-sub">เจาะลึกฟิลด์/แท็บทั้งหมดของ Block, สูตรต้นทุนที่ระบบคำนวณให้อัตโนมัติ และข้อจำกัดที่ทีมงานต้องรู้ — อธิบายจากโค้ดจริงและหน้าจอจริงของระบบ</div>
+    <div class="stamp">EMG-O · Block Deep Dive · สำหรับลูกค้าและทีมงาน</div>
+  </section>
+
+  <!-- SLIDE 1: 4-tab structure -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">โครงสร้างฟิลด์ทั้งหมดของ Block</div>
+    <h2 class="slide-title">4 แท็บ: Block/Slab &times; Required/Optional</h2>
+    <ul class="plain-list">
+      <li><b>Block (Required)</b> &mdash; ต้องกรอกตอนรับก้อนเข้าคลัง: รหัสก้อน, Material, Quality, Supplier, Warehouse</li>
+      <li><b>Block (Optional)</b> &mdash; รายละเอียดเสริมของก้อนดิบ: Block Number (เลขจริงจากเหมือง), Container ที่มาด้วย, Rack Location, วันที่คาด/รับจริง</li>
+      <li><b>Slab (Required)</b> &mdash; Finish + ราคาขาย/ตร.ม. ของแผ่นที่จะตัดจากก้อนนี้</li>
+      <li><b>Slab (Optional)</b> &mdash; ต้นทุน/ตร.ม. ทุกชั้น (PO/Landed/รวม), ลิงก์ไปยัง Stock Lot ของ Odoo มาตรฐาน, สถิติพื้นที่รวม</li>
+    </ul>
+    <div class="diagram-frame"><img src="assets/block-custom-tabs.png" alt="หน้าจอจริง Block (Optional) tab แสดง Block Number, Container, Rack Location"></div>
+    <div class="note-box"><b>ทำไมแยก Required/Optional:</b> กันพนักงานหน้างานสับสน &mdash; ตอนรับของจริงกรอกแค่ Required ก็เพียงพอ ส่วน Optional เป็นข้อมูลที่ทยอยเติมได้ทีหลังหรือใช้เฉพาะบางเคส</div>
+  </section>
+
+  <!-- SLIDE 2: Block Code vs Block Number -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">จุดที่ทีมงานเคยสับสน</div>
+    <h2 class="slide-title">Block Code กับ Block Number คนละอันกัน</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div><div class="case-text-label">ทำไมมี 2 ฟิลด์ที่ดูคล้ายกัน</div><div class="case-text">"Block Code" (เช่น <code>BLK-26-0004</code>) คือรหัสที่ระบบออกให้อัตโนมัติ ส่วน "Block Number" คือเลขก้อนจริงจากเหมืองหิน (เช่น <code>E2111-260</code>) &mdash; คนละที่มา คนละเลข</div></div>
+    </div>
+    <ul class="plain-list">
+      <li><b>Block Code</b> ออกอัตโนมัติจากเลขรัน (<code>BLK-%(y)s-</code> + เลข 4 หลัก รีเซ็ตทุกปี) &mdash; พนักงานพิมพ์เองแทนได้ถ้าต้องการคงเลขเดิมจากโปรเจกต์เก่า ระบบจะออกเลขให้เฉพาะตอนเว้นว่างไว้</li>
+      <li><b>Block Number</b> เป็นช่องอิสระ ไว้บันทึกเลขก้อนจริงที่เหมืองสลักมาให้ &mdash; ไม่ผูกกับการออกเลขอัตโนมัติใดๆ</li>
+      <li>ก่อนหน้านี้ระบบเคยติดป้ายชนกัน (ทั้งคู่ใช้คำว่า "Block Number") จนเจอ warning ตอนอัปเกรด 2026-08-16 &mdash; แก้แล้วโดยเปลี่ยนรหัสอัตโนมัติเป็น "Block Code"</li>
+    </ul>
+    <div class="note-box"><b>รูปแบบเลขเก่า:</b> ก้อนที่รับเข้าก่อน 2026-08-16 ยังคงใช้รหัส <code>BDL-xxxxx</code> เดิม &mdash; ระบบไม่ไปแก้เลขที่ออกไปแล้ว เปลี่ยนแค่รูปแบบเลขใหม่ที่จะออกต่อจากนี้</div>
+  </section>
+
+  <!-- SLIDE 3: Traceability + cost formula -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ส่วนที่ custom เพิ่มจาก Odoo มาตรฐาน</div>
+    <h2 class="slide-title">ต้นทุนต่อตร.ม. คำนวณอัตโนมัติจาก Block เดียว</h2>
+    <div class="diagram-frame"><img src="assets/block-custom-cost.png" alt="หน้าจอจริงแสดงต้นทุนต่อตร.ม. และ Lot-Mode Stock Lot ที่ผูกกับ Block"></div>
+    <table class="num-table" style="margin-top:14px;">
+      <tr><th>สูตร</th><th>คำนวณจาก</th></tr>
+      <tr class="hl"><td>Cost / Sq.Mt.</td><td>Cost / CBM &times; Thickness (m) &mdash; ค่าเดียวทั้ง Block</td></tr>
+      <tr><td>PO Cost / Sq.Mt.</td><td>ราคาซื้อจาก PO / CBM &times; Thickness</td></tr>
+      <tr><td>Landed Cost / Sq.Mt.</td><td>รวมค่าขนส่ง+ภาษีนำเข้าที่กระจายสัดส่วนแล้ว / CBM &times; Thickness</td></tr>
+    </table>
+    <div class="note-box"><b>ส่วนที่เป็น Odoo มาตรฐาน:</b> ทุก Block ผูกกับ <code>stock.lot</code> จริงของ Odoo อัตโนมัติ (เช่น <code>BLK-26-0004-LOT</code>) &mdash; ใช้ระบบติดตาม Lot/Serial มาตรฐานเป็นฐาน ส่วนสูตรต้นทุนต่อตร.ม.และการรวมยอด Available/Hold/Sold Sqmt คือโค้ด custom ที่สร้างเพิ่มบนฐานนั้น</div>
+  </section>
+
+  <!-- SLIDE 4: One thickness per Block -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ข้อจำกัดที่ทีมงานต้องรู้</div>
+    <h2 class="slide-title">1 Block เก็บได้แค่ 1 ความหนา</h2>
+    <div class="case-box">
+      <div class="case-icon">!</div>
+      <div><div class="case-text-label">สาเหตุทางเทคนิค</div><div class="case-text"><code>thickness_m</code> เป็นฟิลด์เดียวอยู่บนตัว Block เอง (ไม่ใช่ต่อแผ่น) &mdash; ทุกแผ่นที่ตัดจาก Block เดียวกันจึงต้องหนาเท่ากันหมด เพราะสูตรต้นทุนทั้งหมดอ้างอิงความหนานี้ค่าเดียว</div></div>
+    </div>
+    <ul class="plain-list">
+      <li>ถ้าต้องการตัดก้อนเดียวกันหลายความหนา (เช่น 2cm สำหรับ Countertop, 3cm สำหรับพื้น) &mdash; ต้องแยกสร้างเป็น 2 Block รายการจากก้อนหินตั้งต้นเดียวกัน แบ่งโควตา CBM ให้แต่ละรายการ</li>
+      <li>เป็นการตัดสินใจทางออกแบบ ไม่ใช่ข้อจำกัดที่แก้ไม่ได้ &mdash; เลือกทำแบบนี้เพื่อให้สูตรต้นทุนต่อตร.ม.เรียบง่ายและตรวจสอบย้อนกลับได้ชัดเจนต่อ 1 รายการ</li>
+      <li>ทีมงานต้องตัดสินใจแบ่งความหนาตั้งแต่ขั้นรับก้อนเข้าคลัง ไม่ใช่ทีหลัง</li>
+    </ul>
+    <div class="note-box warn"><b>ถ้าลูกค้ามีเคสนี้บ่อย:</b> ทีมจะเตรียมคำแนะนำการตั้งค่าและอาจพิจารณาทำ wizard ช่วยแบ่ง Block อัตโนมัติในอนาคต</div>
+  </section>
+
+  <!-- SLIDE 5: Standard vs Custom cheat sheet -->
+  <section class="slide dark" id="slide-5">
+    <div class="eyebrow">สรุปทั้งหมดในหน้าเดียว</div>
+    <h2 class="slide-title" style="color:#fff;">อะไร standard อะไร custom</h2>
+    <table class="cmp-table">
+      <tr><th>ส่วนของระบบ</th><th>Odoo standard</th><th>Custom สร้างเพิ่ม</th></tr>
+      <tr><td>การรับสต็อกเข้า</td><td class="good">stock.move / stock.lot</td><td>&mdash;</td></tr>
+      <tr><td>รหัสก้อน BLK-26-xxxx</td><td>&mdash;</td><td class="bad">ir.sequence + logic กันชนป้าย</td></tr>
+      <tr><td>ต้นทุนต่อตร.ม. (PO/Landed/รวม)</td><td>&mdash;</td><td class="bad">สูตรคำนวณจาก CBM &times; ความหนา</td></tr>
+      <tr><td>สถิติ Available/Hold/Sold Sqmt</td><td>&mdash;</td><td class="bad">รวมยอดจากแผ่นย่อยแบบ real-time</td></tr>
+      <tr><td>Finish/Material variant</td><td class="good">product.product attribute</td><td>&mdash;</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:14px;">จำสั้นๆ: การ &quot;เก็บของ&quot; ใช้ฐาน Odoo มาตรฐานเต็มที่ &mdash; ส่วนที่ custom คือ &quot;ตีความและคำนวณ&quot; ให้ตรงกับธุรกิจหินโดยเฉพาะ</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 6</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
