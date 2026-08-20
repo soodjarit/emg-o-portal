@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11. Scan Station — เช็คสต็อก + ย้ายสต็อก — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 11 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">11</span> Scan Station — เช็คสต็อก + ย้ายสต็อก</h1>
+  </div>
+  <div class="page-content">
+<p>หน้านี้เป็นเครื่องมือแยกต่างหาก <strong>ไม่ใช่หน้าจอในระบบ Odoo ปกติ</strong> — สร้างขึ้นมาเพื่อให้พนักงานคลังใช้เครื่องสแกนบาร์โค้ด (Bluetooth/USB) ทำงานหน้างานได้เร็ว โดยไม่ต้อง login เข้า Odoo แล้วไล่หาเมนู Inventory (ADR-013) มี 2 โหมด: <strong>เช็คสต็อก</strong> (นับของจริง) และ <strong>ย้ายสต็อก</strong> (ย้ายแผ่นระหว่าง Available/Hold/Consigned)</p>
+<h3>เข้าใช้งาน</h3>
+<p>ไปที่ URL <code>https://odoo19-mbxai.mx-erp.com/stone-scan</code> (หรือกดเมนู <strong>Stone Slab → Scan Station</strong> จาก backend) — ต้อง login ด้วยบัญชีพนักงานตัวเองก่อนเสมอ (เพื่อบันทึกว่าใครเป็นคนทำ) ถ้ายังไม่ login ระบบจะพาไปหน้า login อัตโนมัติ</p>
+<p>หน้าแรกมีปุ่มสลับโหมด 2 ปุ่มด้านบน กดสลับได้ทันทีไม่ต้องโหลดหน้าใหม่ (ปุ่มสีน้ำเงิน = โหมดที่ใช้งานอยู่):</p>
+<figure class="screenshot"><img src="assets/31-scan-station-location-prompt.webp" alt="31-scan-station-location-prompt.png"/></figure>
+<h3>โหมดเช็คสต็อก (นับของจริง)</h3>
+<h3>ขั้นตอนที่ 1 — สแกน Location ที่จะนับ</h3>
+<p>หน้าจอจะบอกให้ "สแกน Location ที่จะนับ" — ยิงบาร์โค้ดที่ติดอยู่หน้าโซนจัดเก็บจริง (Available/Hold/Consigned ของแต่ละโกดัง) ระบบจะเปิด "รอบนับ" ใหม่ทันที และเปลี่ยน prompt เป็น "สแกนแผ่นที่เจอจริง"</p>
+<figure class="screenshot"><img src="assets/32-scan-station-take-started.webp" alt="32-scan-station-take-started.png"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยิง location ผิด หรือ location ที่ไม่ใช่ Stone Location</span></div><div class="callout-body">ระบบจะขึ้นข้อความแดงทันที ("ไม่พบตำแหน่งนี้ในระบบ" / "ตำแหน่งนี้ไม่ใช่ Stone Location") ไม่ทำอะไรต่อ ยิงใหม่ได้เลย</div></div>
+<h3>ขั้นตอนที่ 2 — สแกนแผ่นที่เจอจริงในโซนนั้น</h3>
+<p>เดินยิงบาร์โค้ดของทุกแผ่นที่เจอจริงในโซนนั้นไปเรื่อยๆ (บาร์โค้ดเดียวกับที่พิมพ์ติดแผ่นตอนตัด ดู <a href="03-cutting-stock.html" class="xref">บทที่ 03: ตัดแผ่นและจัดการสต็อก</a>) แต่ละครั้งที่ยิงสำเร็จ จะขึ้นชื่อแผ่นในลิสต์ + ตัวนับอัปเดตทันที</p>
+<figure class="screenshot"><img src="assets/33-scan-station-slab-scanned.webp" alt="33-scan-station-slab-scanned.png"/></figure>
+<ul><li>ยิงแผ่นเดิมซ้ำ — ระบบรู้ว่าซ้ำ ไม่นับเพิ่ม ขึ้น "สแกนซ้ำ ไม่นับเพิ่ม"</li><li>ยิงบาร์โค้ดที่ไม่มีในระบบ — ขึ้น "ไม่พบแผ่นนี้ในระบบ" ไม่กระทบตัวนับ</li></ul>
+<h3>ขั้นตอนที่ 3 — จบรอบนับ + ดูผล</h3>
+<p>เมื่อสแกนครบทุกแผ่นในโซนแล้ว กดปุ่ม <strong>"จบรอบนับ"</strong> ระบบจะเทียบสิ่งที่สแกนเจอ กับสิ่งที่ระบบคิดว่าควรอยู่ตรงนั้น แล้วสรุป:</p>
+<ul><li><strong>หาย</strong> — ระบบว่าควรอยู่ที่นี่ แต่ไม่ถูกสแกนพบรอบนี้</li><li><strong>เกิน/ผิดที่</strong> — สแกนเจอจริง แต่ระบบว่าไม่ควรอยู่ตรงนี้ (เช่น สถานะจริงคนละอัน)</li></ul>
+<figure class="screenshot"><img src="assets/34-scan-station-summary.webp" alt="34-scan-station-summary.png"/></figure>
+<div class="callout callout-important"><div class="callout-head"><span class="callout-tag">important</span><span class="callout-title">ระบบไม่แก้ข้อมูลให้อัตโนมัติ</span></div><div class="callout-body">ผลลัพธ์ "หาย"/"เกิน" เป็นแค่รายงานให้ดู — ต้องตรวจสอบเองแล้วไปแก้สถานะแผ่นในระบบด้วยมือ (ผ่านหน้า Block/Slab ปกติ) ไม่มีการเขียนทับสต็อกอัตโนมัติจากหน้านี้</div></div>
+<h3>Export Excel</h3>
+<p>กดปุ่ม <strong>"Export Excel"</strong> เพื่อโหลดไฟล์ .xlsx (2 ชีท: Missing, Extra — มี Block, Slab #, Product, สถานะในระบบ, Location ที่ควรอยู่) ใช้ส่งต่อให้หัวหน้าคลังตรวจสอบ หรือเก็บเป็นหลักฐานการนับสต็อกประจำงวด</p>
+<p>ต้องการดูประวัติการนับย้อนหลัง หรือ export ซ้ำ ไปที่เมนู <strong>Stone Slab → Stock Takes</strong> ในหน้า backend ปกติ (ดูได้ทุกรอบที่เคยนับ ไม่ใช่แค่รอบล่าสุด)</p>
+<h3>โหมดย้ายสต็อก (relocate)</h3>
+<p>กดปุ่ม <strong>"ย้ายสต็อก"</strong> ด้านบนเพื่อสลับโหมด — ใช้ตอนต้องย้ายแผ่นจริงระหว่าง Available/Hold/Consigned (เช่น กันแผ่นไว้ให้ลูกค้าที่มาดูของหน้าร้านโดยยังไม่ผ่าน SO, หรือคืนแผ่นที่กันไว้กลับ Available)</p>
+<figure class="screenshot"><img src="assets/35-scan-station-move-mode.webp" alt="35-scan-station-move-mode.png"/></figure>
+<p><strong>ขั้นตอนที่ 1 — สแกน Location ปลายทาง</strong> (ที่ต้องการย้ายแผ่นไปอยู่)</p>
+<figure class="screenshot"><img src="assets/36-scan-station-move-destination-set.webp" alt="36-scan-station-move-destination-set.png"/></figure>
+<p><strong>ขั้นตอนที่ 2 — สแกนแผ่นที่จะย้ายไปทีละแผ่น</strong> ระบบย้ายให้ทันทีที่สแกนสำเร็จ (ไม่ต้องกดยืนยันซ้ำ) ขึ้นชื่อแผ่น + ตัวนับสะสมในหน้าเดียวกัน</p>
+<p>จะเปลี่ยนปลายทางเมื่อไหร่ก็สแกน Location ใหม่ได้เลย ไม่ต้องกดปุ่มไหนก่อน</p>
+<div class="callout callout-important"><div class="callout-head"><span class="callout-tag">important</span><span class="callout-title">ขอบเขตที่ตั้งใจไว้ (ป้องกันย้ายผิดพลาด)</span></div><div class="callout-body">- ปลายทางสแกนได้แค่ <strong>Available / Hold / Consigned</strong> เท่านั้น — "Sold" มาจาก Delivery จริงเท่านั้น และ "Cut Loss" ต้องตัดสินใจแยกต่างหาก ไม่ให้สแกนสุ่มได้จากหน้านี้ - แผ่นที่สถานะปัจจุบันเป็น <strong>Sold หรือ Cut Loss แล้ว ย้ายจากหน้านี้ไม่ได้</strong> ระบบขึ้น error ทันที ป้องกันการย้อนสถานะการขาย/ตัดขาดทุนโดยไม่ตั้งใจ - ย้ายข้ามคลัง (เช่น แผ่นของ EG ไปสแกนที่ location ของ ES) ระบบบล็อกด้วย — ปลายทางต้องเป็นคลังเดียวกับที่แผ่นนั้นสังกัดอยู่ - สแกนแผ่นที่อยู่ตำแหน่งนั้นอยู่แล้ว ระบบขึ้น "อยู่ตำแหน่งนี้อยู่แล้ว" เฉยๆ ไม่ทำอะไรซ้ำ</div></div>
+<p><strong>Verified จริง (2026-07-07):</strong> ย้ายแผ่นจริง EMG-B-0003 #1 ไป-กลับ Available↔Hold ผ่านหน้านี้ ตรวจ stock quant จริงว่าย้ายถูกทิศทางทุกครั้ง แล้วคืนสถานะเดิมครบ</p>
+<h3>ข้อจำกัดปัจจุบัน</h3>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยังไม่มีเครื่องสแกนจริงมาทดสอบ</span></div><div class="callout-body">Flow ทั้ง 2 โหมดถูก build และ verify ผ่าน HTTP จริงแล้ว (ไม่ใช่แค่จำลอง) แต่ยังไม่เคยทดสอบกับเครื่องสแกน Bluetooth จริงหน้างาน — ถ้ายิงแล้วพฤติกรรมไม่ตรง (เช่น ค่าที่ยิงมีอักขระเกิน) แจ้งได้เลยเพื่อปรับ</div></div>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">แคช Cloudflare หน้านี้ 7 วัน</span></div><div class="callout-body">ถ้าเคยเข้าหน้านี้มาก่อนแล้วรู้สึกว่าปุ่ม/ฟีเจอร์ใหม่ไม่ขึ้น ให้ลอง refresh แบบ hard refresh (Ctrl+Shift+R) — เว็บใช้ Cloudflare cache ไฟล์ JS/CSS ไว้นานสูงสุด 7 วัน ถ้ายังไม่ขึ้นแจ้งได้เลย</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="10-known-limitations.html"><span class="dir">← ก่อนหน้า</span>10. ข้อจำกัดและบั๊กที่ทราบ</a>
+  <a class="next" href="12-analytic-accounting.html"><span class="dir">ถัดไป →</span>12. กำไรรายโครงการ (Analytic Accounting)</a>
+</div>
+</body>
+</html>

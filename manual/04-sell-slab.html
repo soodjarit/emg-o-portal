@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04. ขายเป็นแผ่น (ไม่แปรรูป) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 04 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">04</span> ขายเป็นแผ่น (ไม่แปรรูป)</h1>
+  </div>
+  <div class="page-content">
+<p>Flow นี้ใช้เมื่อลูกค้าซื้อแผ่นหินไปติดตั้งเองเลย ไม่ต้องการให้ทางร้านเจาะ/ตัดอะไรเพิ่ม</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-slabonly.webp" alt="EMG-O Flow - ขายเป็นแผ่น (Slab Only)"/></figure>
+<h3>ขั้นตอน</h3>
+<p>จากหน้า Sales Order ปกติ เพิ่ม Order Line เลือก Product ที่เป็นวัสดุหิน (stone material) — ระบบจะแสดงปุ่ม <strong>"Select Slabs"</strong> ต่อท้ายชื่อสินค้าในบรรทัดนั้นให้อัตโนมัติ</p>
+<figure class="screenshot"><img src="assets/09-so-select-slabs-button.webp" alt="09-so-select-slabs-button.png"/></figure>
+<p>คลิก "Select Slabs" จะเปิด wizard ขึ้นมา:</p>
+<figure class="screenshot"><img src="assets/10-wizard-open.webp" alt="10-wizard-open.png"/></figure>
+<p>กด "Add a line" → เลือก Block → ระบบจะแสดงเฉพาะแผ่นที่สถานะ <strong>Available</strong> และตรงกับ Product ของบรรทัดนั้นเท่านั้น (รวมทุก Warehouse ที่มีสิทธิ์เห็น รวมถึงข้ามบริษัท EG/ES — ดู <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a>):</p>
+<figure class="screenshot"><img src="assets/11-wizard-available-slabs.webp" alt="11-wizard-available-slabs.png"/></figure>
+<p>เลือกแผ่นที่ต้องการ (เลือกได้หลายแผ่น) แล้วกด Select → แผ่นจะถูกเพิ่มเข้า wizard:</p>
+<figure class="screenshot"><img src="assets/12-wizard-lines-selected.webp" alt="12-wizard-lines-selected.png"/></figure>
+<p>กด "Confirm Selection" — จำนวน (Quantity) บน Order Line จะอัปเดตตามจำนวนแผ่นที่เลือกอัตโนมัติ:</p>
+<figure class="screenshot"><img src="assets/13-so-qty-updated.webp" alt="13-so-qty-updated.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">เปิด wizard ซ้ำได้ (Session 25)</span></div><div class="callout-body">ถ้ากลับมาเปิด "Select Slabs" ซ้ำบน line ที่มีแผ่น hold ไว้แล้ว (เช่น ลูกค้าสั่งผ่านเว็บ eCommerce มาก่อน — ดู <a href="09-ecommerce-catalog.html" class="xref">บทที่ 09: eCommerce Catalog (`/stone-catalog`)</a>) ระบบจะโชว์แผ่นที่ hold ไว้แล้วให้เห็นในลิสต์ด้วย (คอลัมน์ Status บอกว่า Available/Hold) สามารถเพิ่มแผ่นใหม่หรือเอาแผ่นเดิมออก (จะคืนสถานะเป็น Available อัตโนมัติ) ได้จากหน้าเดียวกันเลย</div></div>
+<p>กด <strong>Confirm</strong> เพื่อยืนยัน SO — ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปลี่ยนสถานะแผ่นที่เลือกจาก Available → <strong>Hold</strong> ทันที พร้อมผูก Customer + เลข SO</div></div><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง Delivery Order ให้อัตโนมัติ (smart button "Delivery" ที่มุมบน)</div></div></div>
+<figure class="screenshot"><img src="assets/14-so-confirmed-delivery.webp" alt="14-so-confirmed-delivery.png"/></figure>
+<p>ขั้นตอนต่อไป (สแกนยืนยัน + ส่งของ + เซ็นรับ) ดูที่ <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a></p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="03-cutting-stock.html"><span class="dir">← ก่อนหน้า</span>03. ตัดแผ่นและจัดการสต็อก</a>
+  <a class="next" href="05-sell-fabrication.html"><span class="dir">ถัดไป →</span>05. ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+</div>
+</body>
+</html>

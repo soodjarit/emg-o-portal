@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24. ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 24 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">24</span> ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>งาน <strong>"Sky Lounge"</strong> (โครงการ SCOPE LANGSUAN) — ขาย <strong>Silver Sky Marble</strong> ตัดขนาด 94×114.7cm (Honed) 2 แผ่น @ 4,500 บาท/SQM + ปูนกาว+ยาแนว (เหมา) + ค่าแรง 2 รายการ (รื้อติดตั้ง, ค่าขนหินขึ้นชั้นบน/ขนขยะ) + Overhead 10% แยกคิดทั้งฝั่งวัสดุและฝั่งแรงงาน</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แก้ไขจากบันทึกเดิม</span></div><div class="callout-body">วิเคราะห์รอบแรกเข้าใจว่ามี 2 บรรทัด (รื้อติดตั้ง/ค่าขนหิน) ยังไม่มีราคา — เปิดไฟล์ต้นฉบับดูใหม่จริงๆ พบว่า<strong>มีราคาระบุไว้ครบแล้ว</strong> (รื้อติดตั้ง 12,000 / ค่าขนหิน 4,000) ใช้ตัวเลขนี้เป็น reference ตรงๆ ได้เลย ไม่ต้องรอลูกค้า</div></div>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>จำนวน/หน่วย</th><th>ราคา</th><th>ยอดรวม</th></tr></thead><tbody><tr><td>Silver Sky Marble Slab (SL-1)</td><td>1.08 SQM</td><td>4,500/SQM</td><td>4,860</td></tr><tr><td>Silver Sky Marble Slab (SL-7)</td><td>1.08 SQM</td><td>4,500/SQM</td><td>4,860</td></tr><tr><td>ปูนกาว + ยาแนว</td><td>1 LS</td><td>1,800</td><td>1,800</td></tr><tr><td>รื้อติดตั้ง</td><td>1 LS</td><td>12,000</td><td>12,000</td></tr><tr><td>ค่าขนหินขึ้นชั้นบน / ขนขยะ</td><td>1 LS</td><td>4,000</td><td>4,000</td></tr><tr><td>Overhead 10% (ค่าหิน)</td><td>1 LS</td><td>1,152</td><td>1,152</td></tr><tr><td>Overhead 10% (ค่าแรง)</td><td>1 LS</td><td>1,600</td><td>1,600</td></tr></tbody></table></div>
+<p>NET TOTAL ต้นฉบับ (รวม VAT) = 32,391.04 บาท</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>Silver Sky เป็นวัสดุใหม่ (ไม่เคยมีในระบบ) — ต้องสร้าง Material ก่อน แล้วใช้ flow เดิมทุกอย่างเหมือน <a href="16-quote-plain-stone.html" class="xref">บทที่ 16: ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a> บวกกับ fee line แบบ <a href="19-quote-labor-only.html" class="xref">บทที่ 19: ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a></p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Stone Slab → Materials → New</strong> — สร้าง Material "Silver Sky" (ประเภท Marble) ระบบจะสร้าง Product ให้อัตโนมัติ</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>สร้าง Block</strong> ผูกกับ Material นี้ (Supplier, Warehouse, Finish = Honed, Sales Price/Sq.Mt. = 4,500) แล้วเพิ่ม Slab 2 แผ่น ขนาด 0.94 × 1.147 ม. — ระบบรับสต็อกเข้า Available ให้อัตโนมัติ</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer → Save</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>Add a product</strong> → เลือก Silver Sky Marble Slab → <strong>Select Slabs</strong> → เลือกแผ่น SL-1 → Confirm → ตั้ง Unit Price เอง (คำนวณจาก SQM จริง × 4,500) → ทำซ้ำสำหรับ SL-7</div></div><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> อีก 5 ครั้งสำหรับ: ปูนกาว+ยาแนว, รื้อติดตั้ง, ค่าขนส่ง (ใช้ product ค่าขนส่งเดิม ตั้งชื่อบรรทัดใหม่ว่า "ค่าขนหินขึ้นชั้นบน / ขนขยะ"), Overhead 10% ×2 (ค่าหิน/ค่าแรง แยกบรรทัด) — ใส่ราคาตามตาราง Save</div></div></div>
+<figure class="screenshot"><img src="assets/103-f1-so-lines.webp" alt="103-f1-so-lines.png"/></figure>
+<p>*บรรทัดครบทั้ง 7 รายการ — 2 บรรทัดหินมีปุ่ม Select Slabs/Cut to Order โผล่ปกติ ส่วนบรรทัด fee เป็น service/consu ธรรมดา*</p>
+<figure class="screenshot"><img src="assets/104-f1-so-totals.webp" alt="104-f1-so-totals.png"/></figure>
+<p>*ยอดรวม: Untaxed 30,255.62 / VAT 2,117.89 / Total 32,373.51 บาท*</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต่างจากต้นฉบับ ~17 บาท เพราะปัดเศษ SQM</span></div><div class="callout-body">ไฟล์ต้นฉบับปัดขนาดแผ่นเป็น 1.08 SQM พอดีก่อนคูณราคา (0.94×114.7cm ปัดเศษ) ส่วน Odoo คำนวณจากขนาดจริง 94×114.7cm = 1.07818 SQM — ต่างกันไม่ถึง 20 บาทจากยอดรวม 3 หมื่นกว่า เป็น rounding เดียวกับที่เจอในไฟล์ 3 ไม่ใช่บั๊ก</div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">Product column แสดงชื่อ Product ไม่ใช่ชื่อบรรทัดเสมอ</span></div><div class="callout-body">บรรทัด "ค่าขนหินขึ้นชั้นบน / ขนขยะ" ใน List View จะโชว์แค่ "ค่าขนส่ง" (ชื่อ Product) เพราะชื่อบรรทัดที่ตั้งเองไม่ได้ขึ้นต้นด้วยชื่อ Product — รายละเอียดเต็มยังอยู่ถูกต้องในฟิลด์ Description ของบรรทัด (เปิดบรรทัดดูหรือดูใน Print PDF จะเห็นข้อความเต็ม)</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="23-returns-rma.html"><span class="dir">← ก่อนหน้า</span>23. การคืนสินค้า (Returns / RMA)</a>
+  <a class="next" href="25-quote-signage.html"><span class="dir">ถัดไป →</span>25. ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+</div>
+</body>
+</html>

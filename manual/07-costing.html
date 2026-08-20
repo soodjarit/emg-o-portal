@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07. ต้นทุนสินค้า — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 07 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">07</span> ต้นทุนสินค้า</h1>
+  </div>
+  <div class="page-content">
+<p>เปิดฟอร์ม Block จะเห็น section <strong>Pricing &amp; Cost</strong>:</p>
+<figure class="screenshot"><img src="assets/02-bundle-form-cost.webp" alt="02-bundle-form-cost.png"/></figure>
+<p>สูตรคำนวณ:</p>
+<ul><li><strong>PO Cost / Sq.Mt.</strong> = ราคาจาก Purchase Order Line (<code>purchase_line_id.price_unit / total_sqmt</code> หรือ <code>price_subtotal</code> สำหรับ PO แบบ CBM) — PO เป็นแบบ lump sum ต่อ Block</li><li><strong>Landed Cost / Sq.Mt.</strong> = <code>container.landed_cost_total</code> กระจายตามสัดส่วน sqmt ของแต่ละ Block ใน container นั้น (คำนวณเอง ไม่ผ่านโมดูล <code>stock_landed_costs</code> มาตรฐาน เพราะ native split method เป็นระดับ product ไม่ใช่ระดับ slab)</li><li><strong>Cost / Sq.Mt.</strong> = PO Cost + Landed Cost</li><li><strong>slab.cost</strong> = <code>bundle.cost_sqmt × slab.slab_sqmt</code> (คำนวณแยกทุกแผ่น)</li><li><strong>slab.sale_price</strong> = <code>bundle.sales_price_sqmt × slab.purchased_sqmt</code> (ใช้แสดงราคาในหน้าเว็บ eCommerce ด้วย — ดู <a href="09-ecommerce-catalog.html" class="xref">บทที่ 09: eCommerce Catalog (`/stone-catalog`)</a>)</li></ul>
+<p>Section <strong>SQ.MT. STATS</strong> ด้านล่างสรุปพื้นที่รวมแยกตามสถานะ (Total / Available / Hold / Sold) ให้เห็นภาพรวมมูลค่าสต็อกทันที</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="06-delivery.html"><span class="dir">← ก่อนหน้า</span>06. ส่งของและยืนยันการรับ</a>
+  <a class="next" href="08-intercompany.html"><span class="dir">ถัดไป →</span>08. ขายข้ามบริษัท (EG↔ES)</a>
+</div>
+</body>
+</html>

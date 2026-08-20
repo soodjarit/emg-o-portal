@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05. ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 05 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">05</span> ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</h1>
+  </div>
+  <div class="page-content">
+<p>Flow นี้ใช้เมื่อลูกค้าต้องการให้ทางร้านแปรรูปแผ่นก่อนส่ง (เช่น เจาะรูสำหรับวางอ่างล้างหน้า/อ่างล้างจาน) — เป็น ADR-010 <strong>"Slab Fabrication"</strong> ใช้ Odoo <strong>Repair Order</strong> ไม่ใช่ MRP เพราะแผ่นหินตัวเดิมเข้า-ออกเป็นชิ้นเดียวกัน ไม่ใช่การผลิตสินค้าใหม่</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-fab.webp" alt="EMG-O Flow - ขายพร้อมเจาะช่องอ่างล้างหน้า (Fabrication)"/></figure>
+<h3>ขั้นตอน</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ทำตาม <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a> ข้อ 1-4 ก่อน (เพิ่ม Order Line สินค้าหิน → "Select Slabs" → เลือกแผ่น → Confirm Selection) — <strong>ต้อง hold แผ่นให้เสร็จก่อน</strong> ถึงจะไปขั้นตอนถัดไปได้</div></div></div>
+<figure class="screenshot"><img src="assets/16-wizard-slab-selected.webp" alt="16-wizard-slab-selected.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">เพิ่ม <strong>Order Line ที่ 2</strong> ในใบเดียวกัน — เลือก Product = <strong>"Slab Fabrication Service"</strong></div></div><div class="step"><span class="step-num">3</span><div class="step-body">field <strong>"Slab to Fabricate"</strong> จะโผล่ในบรรทัดนี้ — คลิกเลือก แล้วจะเห็นเฉพาะแผ่นที่ <strong>hold ไว้แล้วในออเดอร์นี้เท่านั้น</strong> (ถ้ายังไม่เห็นตัวเลือก แปลว่ายังไม่ได้ hold แผ่นจาก line แรก — กลับไปทำข้อ 1 ก่อน)</div></div></div>
+<figure class="screenshot"><img src="assets/17-so-fabrication-slab-dropdown.webp" alt="17-so-fabrication-slab-dropdown.png"/></figure>
+<p>หลังเลือกแล้ว:</p>
+<figure class="screenshot"><img src="assets/18-so-fabrication-slab-filled.webp" alt="18-so-fabrication-slab-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">กด <strong>Confirm</strong> SO — ระบบจะสร้างให้อัตโนมัติ:</div></div></div>
+<ul><li><strong>Repair Order</strong> ผูกกับ lot ของแผ่นที่เลือก (ทั้งต้นทางและปลายทาง = location Stone Hold)</li><li><strong>Delivery Order</strong> สำหรับ Order Line ที่ 1 (ตัวแผ่นหิน) เหมือน flow ปกติ</li></ul>
+<p>สังเกต smart button "Delivery" และ "Repairs" ที่มุมบนหลัง confirm:</p>
+<figure class="screenshot"><img src="assets/19-so-confirmed-smartbuttons.webp" alt="19-so-confirmed-smartbuttons.png"/></figure>
+<h3>ทำงานแปรรูปจริง (ก่อนส่งของเสมอ)</h3>
+<p>เปิด <strong>Repair Order</strong> ที่ถูกสร้างขึ้น (คลิก smart button "Repairs" บน Sale Order) — จะเห็น <strong>Lot/Serial</strong> ของแผ่นเป้าหมายชัดเจน (ต้องเปิดสิทธิ์ "Lots &amp; Serial Numbers" ก่อน ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>):</p>
+<figure class="screenshot"><img src="assets/20-repair-order-confirmed.webp" alt="20-repair-order-confirmed.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">กด <strong>Start Repair</strong> — สถานะเปลี่ยนเป็น Under Repair:</div></div></div>
+<figure class="screenshot"><img src="assets/21-repair-order-under-repair.webp" alt="21-repair-order-under-repair.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">ทำงานเจาะ/ตัดจริงที่คลัง</div></div><div class="step"><span class="step-num">3</span><div class="step-body">กด <strong>End Repair</strong> — สถานะขึ้นเป็น <strong>Repaired</strong> (= done) พร้อม log แสดง stock move จริง (Stone Hold → Stone Hold):</div></div></div>
+<figure class="screenshot"><img src="assets/22-repair-order-done.webp" alt="22-repair-order-done.png"/></figure>
+<div class="callout callout-danger"><div class="callout-head"><span class="callout-tag">danger</span><span class="callout-title">ต้องเจาะให้เสร็จ (End Repair) ก่อน Validate Delivery Order เสมอ</span></div><div class="callout-body">Repair Order ออกแบบให้ทำ stock move ของตัวเอง (Stone Hold → Stone Hold, net-zero แต่เป็น audit trail จริง) ซึ่งต้องการให้แผ่นยังอยู่ที่ Stone Hold ตอนกด End Repair — ถ้า validate Delivery Order (ซึ่งย้ายแผ่นออกจาก Stone Hold ไปแล้ว) ก่อน อาจทำให้ End Repair หาสต็อกไม่เจอ/error  <strong>ลำดับที่ถูกต้องเสมอ: เจาะให้เสร็จ (End Repair) → แล้วค่อย Validate Delivery Order</strong>  พบและยืนยันจริงจากออเดอร์ S54264 (2026-07-05) และทดสอบซ้ำอีกครั้งกับออเดอร์ทดสอบ S54270 (2026-07-06) — ทำตามลำดับนี้แล้วผ่านราบรื่นทั้งสองครั้ง</div></div>
+<p>หมายเหตุ: เมื่อ Repair Order ถึงสถานะ <strong>Done</strong> แล้ว Odoo จะไม่อนุญาตให้ยกเลิก/ลบอีก (by design เพื่อเก็บ audit trail) — เป็นพฤติกรรมปกติ ไม่ใช่บั๊ก</p>
+<h3>ต้นทุนงานแปรรูป</h3>
+<p>field <strong>Analytic Account</strong> บน Repair Order (auto-fill จาก Block ถ้ามีตั้งไว้) ใช้ให้ฝ่ายบัญชี tag ค่าแรง/ค่าเครื่องมือด้วยมือ ตามรูปแบบเดียวกับ ADR-008 (ไม่มี auto-costing อัตโนมัติ)</p>
+<h3>ขั้นตอนต่อไป</h3>
+<p>หลัง End Repair แล้ว ไปทำ <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a> ต่อได้เลย (สแกนยืนยัน Serial → Validate Delivery → เซ็นรับของ → พิมพ์ PDF) — ใบแจ้งหนี้จะรวมทั้งค่าแผ่นหินและค่าบริการเจาะในใบเดียวกัน</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="04-sell-slab.html"><span class="dir">← ก่อนหน้า</span>04. ขายเป็นแผ่น (ไม่แปรรูป)</a>
+  <a class="next" href="06-delivery.html"><span class="dir">ถัดไป →</span>06. ส่งของและยืนยันการรับ</a>
+</div>
+</body>
+</html>

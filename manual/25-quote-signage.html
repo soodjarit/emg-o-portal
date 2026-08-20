@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25. ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 25 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">25</span> ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ใบเสนอราคางาน<strong>ป้าย</strong> โครงการ VIA ARI — 5 รายการชิ้นป้าย (ขนาด/จำนวนต่างกัน ระบุตามรูปแนบ ไม่มีคำอธิบายเป็นข้อความในไฟล์) ไม่มีหินเข้ามาเกี่ยวข้องเลย:</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>ขนาด</th><th>จำนวน</th><th>หน่วย</th><th>ราคา</th><th>ยอดรวม</th></tr></thead><tbody><tr><td>1</td><td>60×200cm</td><td>1</td><td>SET</td><td>900</td><td>900</td></tr><tr><td>2</td><td>สูง 100cm</td><td>2</td><td>ตัว</td><td>1,200</td><td>2,400</td></tr><tr><td>3</td><td>260×67cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr><tr><td>4</td><td>260×67cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr><tr><td>5</td><td>182×133cm</td><td>1</td><td>ตัว</td><td>1,500</td><td>1,500</td></tr></tbody></table></div>
+<p>TOTAL 7,800 + VAT 7% (546) = NET TOTAL 8,346 บาท (ไม่มี Overhead)</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>เหมือน <a href="19-quote-labor-only.html" class="xref">บทที่ 19: ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a> — <strong>ไม่ต้องแตะ <code>stone_slab_inventory</code> เลย</strong> เป็น Sale Order ธรรมดา 100% เพราะงานป้ายไม่ใช่หิน ยืนยันสมมติฐานที่ตั้งไว้ในวิเคราะห์เดิมว่า "ใช้ flow ที่มีอยู่ได้" ถูกต้อง</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service/consu product "งานป้าย (Signage)" (product ใหม่ ใช้ซ้ำได้ทุกบรรทัด) → ตั้งชื่อบรรทัดระบุขนาด/รายการ (เช่น "งานป้าย รายการ 1 — 60×200 CM (SET)") → ใส่ Quantity + Unit Price ตามตาราง</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ทำซ้ำให้ครบทั้ง 5 รายการ → Save</div></div></div>
+<figure class="screenshot"><img src="assets/105-f9-so-lines-totals.webp" alt="105-f9-so-lines-totals.png"/></figure>
+<p>*5 บรรทัดครบ + ยอดรวม Untaxed 7,800.00 / VAT 546.00 / Total 8,346.00 บาท — <strong>ตรงกับต้นฉบับเป๊ะทุกบาท</strong> เพราะตัวเลขต้นฉบับเป็นจำนวนเต็มอยู่แล้ว ไม่มีปัดเศษเหมือนไฟล์หิน*</p>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่มี Overhead ในไฟล์นี้</span></div><div class="callout-body">ต่างจากไฟล์ 1 ที่มี Overhead 10% แยกบรรทัด ไฟล์นี้ลูกค้าใส่ Overhead = 0 มาเลย เพราะงั้นไม่ต้องเพิ่มบรรทัด Overhead ถ้าลูกค้าระบุไม่มี</div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ถ้าต้องใช้จริง ควรทำ Product แยกตามประเภทงานป้าย</span></div><div class="callout-body">ตัวอย่างนี้ใช้ product "งานป้าย (Signage)" ตัวเดียวใช้ซ้ำทั้ง 5 บรรทัด (เหมือน pattern ค่าแรงทั่วไป) — ถ้าจะใช้งานจริงต่อเนื่อง ควรพิจารณาว่าจะแยก Product ตามวัสดุ/ประเภทป้าย (อะคริลิค, สแตนเลส ฯลฯ) เพื่อดู margin แยกได้ไหม เป็นการตัดสินใจ scope ที่ยังไม่ต้องทำตอนนี้ (ดู Next Steps ใน progress.md)</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="24-quote-stone-labor-skylounge.html"><span class="dir">← ก่อนหน้า</span>24. ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+  <a class="next" href="26-crm.html"><span class="dir">ถัดไป →</span>26. ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+</div>
+</body>
+</html>

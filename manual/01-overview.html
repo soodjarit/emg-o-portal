@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01. ภาพรวมระบบ — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 01 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">01</span> ภาพรวมระบบ</h1>
+  </div>
+  <div class="page-content">
+<p>ข้อมูลใน EMG-O จัดเรียงเป็นลำดับชั้น: <strong>Material → Block → Block → Slab</strong></p>
+<ul><li><strong>Material</strong> = ชนิดหิน เช่น Emperador Grey Light (1 Material = 1 Product ใน Odoo ไม่ใช้ Variants)</li><li><strong>Block</strong> = ก้อนหินดิบจากเหมือง ซื้อเป็นหน่วย m³ (CBM) — มี Product แยกต่างหากจาก Slab (Phase 12)</li><li><strong>Block</strong> = ชุดหินที่มาด้วยกัน 1 lot ผูกกับทั้ง Block (CBM) และ Slab (แผ่น) ของ material เดียวกัน</li><li><strong>Slab</strong> = แผ่นเดี่ยวแต่ละแผ่นที่ตัดออกจาก Block ในบันเดิลนั้น แต่ละแผ่น track แยกกันด้วย:</li><li><strong>Serial Number (Lot) เฉพาะแผ่น</strong> — 1 แผ่น = 1 lot (ตั้งแต่ ADR-009) เพื่อสแกนยืนยันตอนส่งของได้</li><li><strong>Slab No.</strong> — เลขลำดับแผ่นในบันเดิล ไม่ซ้ำกันเสมอ (auto-assign)</li><li><strong>สถานะ</strong>: Available / Hold / Consigned / Sold / Cut-Loss / Remnant</li></ul>
+<p>ดู diagram เต็ม:</p>
+<div class="diagram-row"><figure class="diagram"><img src="assets/excalidraw-preview-hierarchy.webp" alt="EMG-O Data Hierarchy Overview"/></figure><figure class="diagram"><img src="assets/excalidraw-preview-status.webp" alt="EMG-O Data Hierarchy Overview"/></figure></div>
+<p><strong>ตัวอย่างหน้าจอ Block Kanban</strong> (มุมมองภาพรวมของทุก Block พร้อม stats):</p>
+<figure class="screenshot"><img src="assets/01-bundle-kanban.webp" alt="01-bundle-kanban.png"/></figure>
+<p>การ์ดแต่ละใบแสดง Warehouse, Material, สถานะแผ่น (Available/Hold/Consigned/Sold) และ sqmt รวม</p>
+<h3>Workflow การเปลี่ยนสถานะแผ่น</h3>
+<ul><li><strong>Available → Hold</strong>: อัตโนมัติเมื่อ SO confirm (ลูกค้าจอง ผ่าน Select Slabs wizard)</li><li><strong>Hold → Available</strong>: อัตโนมัติเมื่อ unreserve / ยกเลิก SO / ยกเลิก line</li><li><strong>Hold → Sold</strong>: อัตโนมัติเมื่อ Delivery Order validate (ผ่านการสแกนยืนยัน Serial ก่อนเสมอ — ดู <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</li><li><strong>Available → Consigned</strong>: Internal Transfer ไปยัง location Consigned</li><li><strong>Consigned → Sold</strong>: Transfer จาก Consigned ตอนขายได้จริง</li><li><strong>Hold → Available (fabrication cancel)</strong>: ถ้ายกเลิก Repair Order ที่ผูกกับแผ่น ระบบจะปล่อยแผ่นคืนอัตโนมัติ</li></ul>
+<h3>2 Flow การขายหลัก</h3>
+<p>ระบบรองรับการขาย 2 แบบ ต่างกันตรงมีขั้นตอนแปรรูป (fabrication) แทรกหรือไม่:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ขายเป็นแผ่นเฉยๆ</strong> — ดู <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a></div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>ขายพร้อมเจาะช่องอ่างล้างหน้า</strong> — ดู <a href="05-sell-fabrication.html" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a></div></div></div>
+<p>ทั้งสองแบบใช้ขั้นตอนรับสินค้า/ตัดแผ่น/เก็บสต็อกเดียวกันทั้งหมด (หัวข้อ 2-3) และจบด้วยขั้นตอนส่งของ/สแกน/เซ็นรับของเดียวกัน (หัวข้อ 6)</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <span></span>
+  <a class="next" href="02-receiving.html"><span class="dir">ถัดไป →</span>02. รับสินค้าเข้าคลัง</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>29. ผลิตสินค้าสำเร็จรูป (FG Production) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 29 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">29</span> ผลิตสินค้าสำเร็จรูป (FG Production)</h1>
+  </div>
+  <div class="page-content">
+<p>Flow นี้คือ<strong>โหมดการขายที่ 5</strong> (ADR-029) ต่อจาก <a href="14-cut-to-order.html" class="xref">บทที่ 14: ผลิตตามสั่ง (MRP)</a> — เพิ่ม "สินค้าสำเร็จรูป" (FG, เช่น เคาน์เตอร์ท็อป) เป็นปลายทางที่ 2 ของแผ่นหิน นอกเหนือจากการขายแผ่นตรงๆ: <strong>1 แผ่น (Slab) → N ชิ้น FG</strong> ผ่าน MRP byproduct ไม่ใช่อัตราส่วนตายตัว — คนหน้างานเป็นคนกรอกจริงตอนผลิตว่าตัดได้กี่ชิ้น ไม่ใช่ระบบคำนวณล่วงหน้า</p>
+<p>ดู concept รวมทุกโหมดที่ <a href="13-product-concepts.html" class="xref">บทที่ 13: Product Concepts</a> — บทนี้ครอบคลุมเฉพาะขั้นตอนของโหมด 5 เท่านั้น ตัวอย่างทั้งหมดในบทนี้บันทึกจากการรันจริงบน <code>mbx-ee-dev</code> (2026-08-19) กับลูกค้าทดสอบ <strong>"Demo Customer - Mode 5 FG Production"</strong>, ออเดอร์ <strong>S00034</strong> (วัสดุ Carrara White, สินค้า <strong>Carrara White - Countertop</strong>) — เก็บไว้เป็น reference fixture เหมือนบทอื่นๆ ไม่ลบทิ้ง</p>
+<h3>กลไกหลัก</h3>
+<ul>
+<li><strong>บรรทัดขาย FG</strong> — ตรวจจับอัตโนมัติผ่าน field <code>stone_is_fg</code> ที่ตั้งไว้บน Product Template ของสินค้า FG (คู่กับ <code>FG Raw Material</code> ที่ชี้กลับไปยัง Material ของแผ่นหินต้นทาง)</li>
+<li>ระบบเช็คว่ามี <strong>Slab ของ Material เดียวกันว่างอยู่ในสต็อกไหม</strong> — ถ้ามี ใช้แผ่นนั้น (auto-match หรือเลือกเองผ่าน wizard) — ถ้าไม่มี <strong>cascade ไปที่ Mode 3 (Cut-to-Order)</strong> เพื่อตัดแผ่นใหม่จากก้อนก่อน แล้วค่อยกลับมาผลิต FG</li>
+<li>Output ของการผลิต FG <strong>ไม่ผูก Serial รายชิ้น</strong> — track เป็น <strong>Lot เดียวต่อรอบผลิต</strong> (batch qty) แม้จะได้ FG หลายชิ้นจากแผ่นเดียวกัน</li>
+<li>ต้นทุนค่าแรงเป็น<strong>อัตรามาตรฐานคงที่ต่อ Product Category</strong> (<code>FG Standard Labor Cost</code>) ไม่คำนวณจากเวลาทำงานจริง</li>
+</ul>
+<h3>ขั้นตอน</h3>
+<h4>1. เปิดบรรทัดขาย FG</h4>
+<p>Sales → New Quotation → เลือกลูกค้า → Add a product เลือกสินค้าที่ตั้ง <code>stone_is_fg = True</code> ไว้แล้ว (ตัวอย่างนี้ "Carrara White - Countertop") → ใส่ Quantity (จำนวนชิ้น FG ที่ต้องการ) → <strong>Save ก่อน</strong> เหมือนโหมดอื่น จะเห็นปุ่ม <strong>"Cut to Order"</strong> และ <strong>"Produce FG"</strong> โผล่คู่กันบนบรรทัดทันที (ทั้งคู่จำกัดสิทธิ์ไว้ที่กลุ่ม <code>group_emgo_factory</code>)</p>
+<figure class="screenshot"><img src="assets/mode5-01-so-line-produce-fg-button.webp" alt="mode5-01-so-line-produce-fg-button"/></figure>
+<h4>2. กด "Produce FG" — ถ้ามี Slab พร้อมอยู่แล้วในสต็อก</h4>
+<p>Wizard <strong>"Produce FG"</strong> จะเปิดขึ้น พร้อมเติม <strong>FG Raw Material</strong> ให้อัตโนมัติจาก Material ที่ตั้งไว้บนสินค้า FG นั้น และพยายาม auto-match <strong>Slab to Consume</strong> ให้ (ตาม Material เดียวกัน + สถานะ available) — ถ้าไม่มีแผ่นว่างเลย ช่องนี้จะว่างไว้ให้เลือกเอง</p>
+<figure class="screenshot"><img src="assets/mode5-02-produce-fg-wizard-no-slab.webp" alt="mode5-02-produce-fg-wizard-no-slab"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ถ้ากด Produce โดยไม่มี Slab เลย ระบบจะฟ้อง Error ชัดเจน ไม่ให้ผ่านเงียบๆ</span></div><div class="callout-body">ข้อความจริงที่เจอ: <em>"ไม่มี Slab ของ Carrara White ในสต็อก — กรุณากดปุ่ม 'Cut to Order' เพื่อสั่งตัด Slab ก่อน แล้วค่อยกลับมากด 'Produce FG' อีกครั้ง"</em> — นี่คือทางลัดตรงไปยังขั้นตอนที่ 3 ของบทนี้</div></div>
+<figure class="screenshot"><img src="assets/mode5-03-produce-fg-error-no-slab.webp" alt="mode5-03-produce-fg-error-no-slab"/></figure>
+<h4>3. ถ้าไม่มี Slab — Cascade ไป Mode 3 (Cut to Order)</h4>
+<p>กด <strong>"Cut to Order"</strong> บนบรรทัดเดียวกัน — wizard "Create Cut Order" เปิดขึ้นแบบเดียวกับ<a href="14-cut-to-order.html" class="xref">บทที่ 14</a>ทุกประการ (Material เติมอัตโนมัติ, เลือก Cut From Block, ใส่ Target L/H) — <strong>จุดต่างที่สังเกตได้ทันที</strong> คือมีบล็อกใหม่โผล่ขึ้นมาชื่อ <strong>"NO SALE ORDER — AUDIT TRAIL"</strong> พร้อมช่อง <strong>Reason (No SO)</strong> และ <strong>Project (No SO)</strong></p>
+<figure class="screenshot"><img src="assets/mode5-04-cutorder-wizard-cascade.webp" alt="mode5-04-cutorder-wizard-cascade"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">Cut Order ที่เกิดจาก cascade นี้ ไม่ผูกกลับไปที่ Sale Order ต้นทางในระบบ แม้จะเปิดมาจากบรรทัดขาย FG จริงๆ ก็ตาม</span></div><div class="callout-body">ตามการออกแบบ (ADR-029): เมื่อ Cut to Order ถูกเปิดจากบรรทัด FG ระบบจะ<strong>ไม่ส่ง <code>default_order_line_id</code></strong> ให้ wizard เหมือนตอนเปิดจากบรรทัดขายแผ่นตรงๆ — เพราะ Slab ที่ตัดออกมาไม่ได้ตั้งใจจะ hold ให้บรรทัดนี้ทันที (ต้องผ่าน Produce FG wizard มาเลือกอีกที) ผลคือ wizard เข้าเงื่อนไข "ไม่มี SO" และบังคับให้เลือก <strong>Reason (No SO)</strong> เสมอ (ตัวเลือก: ปกติ/งานเพิ่ม/ตัดซ่อม/อื่นๆ — ชุดเดียวกับที่ client ใช้ในเอกสารตัดกระดาษจริง) — เลือก <strong>"ปกติ (Normal, has SO)"</strong> สำหรับเคสนี้ เพราะที่จริงมันมี SO อยู่เบื้องหลัง (S00034) เพียงแต่ตัว Cut Order เองไม่รู้จักมันในระบบ</div></div>
+<h4>4. ⚠️ ก่อนกด Create Cut Order — ต้องย้าย Block ไป Location "Stone Production" ก่อนเสมอ</h4>
+<p>กด Create Cut Order ตอนที่ Block ยังอยู่ที่ "Stone Available" จะเจอ Error ทันที:</p>
+<p><em>"Block BLK-26-0001 ยังไม่ได้ย้ายไปสถานีตัด (Stone Production) เพียงพอ — ต้องการ 0.040 m³ แต่อยู่ที่สถานีตัดแล้วแค่ 0.000 m³ กรุณาสแกน/ย้าย Block ไปที่ Location 'Stone Production' ก่อน แล้วค่อยสร้าง Cut Order"</em></p>
+<p>แก้โดยไปที่ <strong>Inventory → Operations → Internal Transfers → New</strong>: Source Location = <code>Stone Inventory/Stone Available</code>, Destination = <code>Stone Inventory/Stone Production</code>, Product = ตัว Block Product ของ Material นั้น (เช่น "Carrara White - Block"), ใส่จำนวน (m³) ที่พอสำหรับตัด → Mark as Todo → Validate</p>
+<figure class="screenshot"><img src="assets/mode5-05-internal-transfer-to-production.webp" alt="mode5-05-internal-transfer-to-production"/></figure>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">อันตราย</span><span class="callout-title">บั๊ก/กับดักจริงที่เจอระหว่างทดสอบ: ถ้า Material นั้นมีหลาย Block/ก้อน ระบบจะเลือก Lot ให้เองแบบไม่ถามก่อนเสมอ — อาจย้ายก้อนผิด</span></div><div class="callout-body">Material เดียวกันมักมีหลาย Block (ก้อนหิน) พร้อมกัน แต่ Odoo's ปุ่ม "Add a Product" ธรรมดาบนหน้า Internal Transfer จะ <strong>auto-reserve ล็อตแรกที่เจอ</strong> (FIFO ตาม stock aging) โดยไม่มี dropdown ให้เลือก Lot/Serial เลย — ทดสอบจริงพบว่าระบบไปจองก้อน <code>BDL-00002-BLK</code> (คนละก้อนกับที่เลือกไว้ใน Cut Order wizard คือ <code>BLK-26-0001</code>) ให้เงียบๆ ถ้าไม่เช็คให้ดี Cut Order จะยัง Error "ไม่พอ" อยู่ดีเพราะก้อนที่ระบบเลือกให้ไม่ตรงกับก้อนที่ Cut Order ต้องการจริง
+<br/><br/><strong>วิธีแก้:</strong> อย่ากด Validate ทันที — กด <strong>"Mark as Todo" ก่อน</strong> แล้วคลิกลิงก์ <strong>"Details"</strong> ข้างช่อง Quantity ของบรรทัดนั้น → ลบบรรทัด Pick From ที่ระบบเดาให้ → กด <strong>"Add a line"</strong> → หน้าต่างจะโชว์ <strong>quant แยกตาม Location/Lot จริง</strong> (แม้ชื่อ Location จะซ้ำกันแต่ตัวเลข On Hand ต่างกันตามก้อน) → เลือกแถวที่ตรงกับก้อนที่ต้องการจริง (สังเกต dropdown "Pick From" จะโชว์ชื่อ Lot ต่อท้าย เช่น "Stone Available - BLK-26-0001-BLK" หลังเลือกแล้ว) → Save → Validate</div></div>
+<h4>5. Cut Order สำเร็จ → เห็น Component Status = Available</h4>
+<p>กลับไปกด "Create Cut Order" อีกครั้ง (ค่าที่กรอกไว้ยังอยู่) — คราวนี้ผ่าน ระบบสร้าง MO (<code>STCUT</code>) พร้อม Confirm ให้อัตโนมัติ <strong>Component Status: Available</strong> และ field <strong>Reason (No SO)</strong> โชว์ค่าที่เลือกไว้</p>
+<figure class="screenshot"><img src="assets/mode5-06-cutorder-mo-confirmed.webp" alt="mode5-06-cutorder-mo-confirmed"/></figure>
+<p>กด <strong>"Complete Cut"</strong> (ปุ่มเดียวกับ Mode 3) → MO เปลี่ยนเป็น Done พร้อมสร้าง <strong>Slab ใหม่</strong> (Lot/Serial ใหม่ เช่น <code>BLK-26-0001-1</code>) เข้าระบบ</p>
+<figure class="screenshot"><img src="assets/mode5-07-cutorder-mo-done-new-slab.webp" alt="mode5-07-cutorder-mo-done-new-slab"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต่างจาก Mode 3 ตรงที่ Slab ใหม่จาก cascade นี้ไม่ auto-hold เข้ากับบรรทัดขายใดๆ</span></div><div class="callout-body">ปกติ Mode 3's Complete Cut จะผูกแผ่นใหม่เข้ากับบรรทัดขายต้นทางทันที (status → "Hold") แต่เพราะ Cut Order ที่มาจาก cascade ของ FG ไม่มี <code>order_line_id</code> ผูกไว้ตั้งแต่แรก (ดูกล่องคำเตือนข้อ 3) แผ่นใหม่นี้เลยจบด้วยสถานะ <strong>"available" เฉยๆ</strong> — ขั้นตอนถัดไปต้องกลับไปกด <strong>"Produce FG"</strong> อีกครั้งเพื่อดึงแผ่นนี้มาใช้ (ไม่ใช่บั๊ก เป็นการออกแบบตั้งใจ — ระบุไว้ตรงๆ ใน docstring ของโค้ด)</div></div>
+<h4>6. ⚠️ Slab ใหม่ก็ต้องย้ายไป "Stone Production" อีกรอบ ก่อนจะ Produce FG ได้</h4>
+<p>Slab ที่เพิ่งตัดเสร็จจะไปอยู่ที่ "Stone Available" โดยอัตโนมัติ (ไม่ใช่ Stone Production) — ทำ Internal Transfer อีกรอบ (Source = Stone Available, Destination = Stone Production, Product = ตัว Slab Product เช่น "Carrara White - Slab") เพราะสถานีผลิต FG (เจาะ/ตัด/ขัดขอบ) ใช้สถานีเดียวกับสถานีตัด Block ตามที่ client ยืนยัน — Slab ที่ pricing_mode เป็น serial มีแค่ 1 ชิ้นต่อ Lot อยู่แล้ว จึงไม่มีปัญหาเลือกผิด Lot แบบ Block</p>
+<figure class="screenshot"><img src="assets/mode5-08-slab-moved-to-production.webp" alt="mode5-08-slab-moved-to-production"/></figure>
+<h4>7. กลับไปกด "Produce FG" อีกครั้ง — คราวนี้ auto-match แผ่นให้เอง</h4>
+<p>เปิด wizard Produce FG จากบรรทัดขาย FG เดิม — <strong>"Slab to Consume" เติมชื่อแผ่นที่เพิ่งตัด+ย้ายเสร็จให้อัตโนมัติทันที</strong> (auto-match ตาม Material เดียวกัน + available + อยู่ที่ Stone Production แล้ว) — ตาราง <strong>FG Output</strong> ด้านล่างมีบรรทัดแรกเติมมาให้แล้วตรงกับสินค้า/จำนวนบนบรรทัดขาย (4 ชิ้น ในตัวอย่างนี้)</p>
+<figure class="screenshot"><img src="assets/mode5-09-produce-fg-wizard-automatch.webp" alt="mode5-09-produce-fg-wizard-automatch"/></figure>
+<p><strong>1 Slab → N ชิ้น FG (byproduct):</strong> ปุ่ม <strong>"Add a line"</strong> ในตารางนี้คือจุดที่รองรับ "1 แผ่น ตัดได้หลายชิ้น/หลายสินค้า FG" ตาม ADR-029 — เพิ่มบรรทัดใหม่เลือกสินค้า FG ตัวอื่น (ต้องตั้ง <code>stone_is_fg = True</code> ไว้เหมือนกัน) พร้อมจำนวนที่ตัดได้จริงจากแผ่นเดียวกัน กลไกข้างหลังคือสร้างเป็น <strong>byproduct move</strong> (<code>move_finished_ids</code>) เพิ่มเข้า MO หลัง confirm — ไม่ได้ผูกอัตราส่วนตายตัวไว้ในตัว BOM เลย (ตัวอย่างในบทนี้มีสินค้า FG ตั้งไว้แค่ตัวเดียวในระบบ demo ตอนบันทึก จึงมีแค่บรรทัดหลัก ไม่มี byproduct — แต่กลไก/ปุ่มมีอยู่จริงพร้อมใช้)</p>
+<p>กด <strong>Produce</strong> → ระบบสร้าง <strong>Manufacturing Order ใหม่</strong> (รหัสขึ้นต้น <code>STFG</code>, ต่างจาก <code>STCUT</code> ของ Mode 3) พร้อม Confirm ให้เสร็จในทีเดียว เห็น field <strong>"Slab Consumed (FG)"</strong> และ <strong>"For Sale Order Line"</strong> ชี้กลับไปหาบรรทัดขายต้นทาง (ครั้งนี้ผูกกลับจริง เพราะเปิดจาก Produce FG wizard ตรงๆ ไม่ใช่ cascade)</p>
+<figure class="screenshot"><img src="assets/mode5-10-fg-production-mo-confirmed.webp" alt="mode5-10-fg-production-mo-confirmed"/></figure>
+<h4>8. Complete FG Production → ได้ Lot เดียวคุม FG ทั้งชุด</h4>
+<p>กด <strong>"Complete FG Production"</strong> (ปุ่มเฉพาะของโหมดนี้ คู่กับ "Complete Cut" ของ Mode 3) → MO เปลี่ยนเป็น <strong>Done</strong> พร้อมสร้าง <strong>Lot/Serial Number ใหม่ 1 ตัว</strong> ครอบคลุม FG ทั้ง 4 ชิ้นที่ผลิตได้ (ชื่อ pattern <code>FG-&lt;เลข MO&gt;</code> เช่น <code>FG-EG01/STFG/00004</code>) — track เป็นล็อต ไม่ใช่ Serial รายชิ้น</p>
+<figure class="screenshot"><img src="assets/mode5-11-fg-production-done-lot.webp" alt="mode5-11-fg-production-done-lot"/></figure>
+<h4>9. กลับไป Confirm SO ตามปกติ</h4>
+<p>กลับไปที่ Quotation ต้นทาง (breadcrumb) → กด <strong>Confirm</strong> → ระบบสร้าง <strong>Delivery Order</strong> ให้เหมือน flow ปกติทุกประการ (ไม่มีกลไกพิเศษแยกสำหรับ FG ตรงจุดนี้ — ใช้ <code>sale_stock</code>/native flow ล้วนๆ ตามที่ตั้งใจออกแบบไว้)</p>
+<figure class="screenshot"><img src="assets/mode5-12-so-confirmed-delivery.webp" alt="mode5-12-so-confirmed-delivery"/></figure>
+<p>จากนี้ไปทำตาม <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a> เหมือนโหมดอื่นได้เลย (สแกนยืนยัน → Validate Delivery → เซ็นรับของ)</p>
+<h3>ต้นทุนงานผลิต FG</h3>
+<p>ต้นทุนค่าแรงของงาน FG <strong>ไม่ได้คำนวณจากเวลาทำงานจริงเหมือน Mode 3</strong> (workcenter cost/ชม. × duration) — เพราะร้านไม่มีกลไกจับเวลาการผลิต FG จริงต่อรอบ แทนที่ด้วย<strong>อัตรามาตรฐานคงที่ต่อ Product Category</strong> ตั้งค่าที่ <strong>Inventory → Configuration → Product Categories → (เลือก Category ของสินค้า FG) → field "FG Standard Labor Cost"</strong> — คูณกับจำนวนที่ผลิตได้จริง (<code>qty_producing</code>) แล้ว tag เป็นรายการต้นทุนลบเข้า Analytic Account ของบรรทัดขายนั้น (ต่อ percentage การกระจาย ถ้าตั้งไว้) ตอนกด Complete FG Production — รูปแบบเดียวกับที่ Mode 3 tag ค่าแรงตัด แค่เปลี่ยนแหล่งตัวเลขจาก workcenter×เวลา มาเป็น rate คงที่</p>
+<p>Product Category เดียวกันนี้ยังมีแท็บ <strong>"FG Production Operations"</strong> ให้กำหนดลำดับขั้นตอนงาน (เช่น Cutting → Polishing → Edge) ที่ FG หมวดนั้นต้องผ่าน — คัดลอกเข้า BOM Operation ให้อัตโนมัติตอนสร้าง Cut Order/FG Production ครั้งแรกของหมวดนั้น</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ในตัวอย่างจริงของบทนี้ ต้นทุนค่าแรงไม่ได้ถูก tag เข้า Analytic Account เลย — เป็นพฤติกรรมปกติ ไม่ใช่บั๊ก</span></div><div class="callout-body">Block <code>BLK-26-0001</code> (ก้อนที่ใช้ตัดในตัวอย่างนี้) ไม่ได้ผูก Analytic Account ไว้ (ไม่ใช่ก้อนที่ tag เข้าโครงการใดโครงการหนึ่ง) ทำให้บรรทัดขาย S00034 ไม่มี <code>analytic_distribution</code> ให้ tag ต้นทุนไปลง — กลไก tag labor cost มี guard <code>if not distribution: return</code> เพื่อกันการสร้างรายการ Analytic ที่ไม่มีปลายทาง เหมือนกับที่ Mode 3 ก็ skip เงื่อนไขเดียวกันถ้า Block ไม่มี Analytic Account — ถ้าต้องการเห็นต้นทุนค่าแรง FG ขึ้นจริง ต้องผูก Analytic Account ให้ Block ต้นทางก่อน (ดู <a href="12-analytic-accounting.html" class="xref">บทที่ 12: กำไรรายโครงการ</a>)</div></div>
+<h3>ข้อจำกัดที่ทราบ (Known Limitations)</h3>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">อันตราย</span><span class="callout-title">ไม่มีกลไกคืนสินค้า (RMA) สำหรับ FG เลย — ตั้งใจไม่ทำ</span></div><div class="callout-body">ต่างจากแผ่นหิน (Slab) ที่มีกลไก Return to Available / Cut Loss ผ่าน <a href="23-returns-rma.html" class="xref">บทที่ 23: การคืนสินค้า</a> — สินค้า FG <strong>ไม่มีเส้นทางคืนใดๆ</strong> ทันทีที่ Delivery Order ของบรรทัดนั้น Validate เสร็จ ถือว่าจบ ไม่มีการย้อนกลับ (ADR-029 ข้อ 7, ตั้งใจไม่ต่อยอดกลไก RMA ของ Slab มาใช้กับ FG) — ถ้าลูกค้าคืนของจริง ต้องจัดการนอกระบบ/ผ่านบัญชีเอง</div></div>
+<p><strong>ข้อจำกัดอื่นที่ทราบ ณ วันที่เขียนบทนี้ (2026-08-19):</strong></p>
+<ul>
+<li><strong>Internal Transfer ของ Block ไม่มี Lot picker ในหน้า UI ปกติ</strong> (ดูกล่องเตือนข้อ 4 ด้านบน) — ต้องผ่าน "Details" popup เสมอถ้า Material นั้นมีมากกว่า 1 ก้อน/Block ไม่งั้นเสี่ยงย้ายผิดก้อนแบบเงียบๆ</li>
+<li><strong>Matching เกณฑ์แค่ Material เดียว (v1)</strong> — wizard ไม่เช็ค Thickness/Finish ตอน auto-match แผ่นให้ FG (ต่างจาก Cut Order ที่มี soft-warning เตือนเรื่อง Finish) — ถ้า Material เดียวกันมีหลาย Finish ปนกัน ต้องเลือก Slab เองด้วยมือให้ตรง อย่าพึ่ง auto-match เสมอไป</li>
+<li><strong>Workcenter ใช้สถานีร่วมกับ Mode 3</strong> — Slab ต้องอยู่ที่ Location "Stone Production" เดียวกับที่ Block ใช้ตัด (ไม่มีสถานีแยกสำหรับงาน FG โดยเฉพาะ) ตามที่ client ยืนยันเรื่องหน้างานจริง</li>
+</ul>
+<div class="media-note">อ้างอิงทางเทคนิคเต็ม: decisions.md ADR-029 (claude-knowledge vault) — Slab → Finished Good Production, live-verified ผ่าน Playwright จริงกับ fixture S00034/EG01-STCUT-00007/EG01-STFG-00004</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="28-cost-components-split-quotation.html"><span class="dir">← ก่อนหน้า</span>28. ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+  <span></span>
+</div>
+</body>
+</html>

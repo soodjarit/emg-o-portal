@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12. กำไรรายโครงการ (Analytic Accounting) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 12 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">12</span> กำไรรายโครงการ (Analytic Accounting)</h1>
+  </div>
+  <div class="page-content">
+<p>สำหรับงานแบบ "โครงการ" ที่ลูกค้าซื้อหินไปทำหลายจุด (เช่น ครัว + ห้องน้ำในบ้านหลังเดียวกัน หรือหลายยูนิตในคอนโดเดียวกัน) ระบบให้ผูก <strong>บัญชีวิเคราะห์ต้นทุน (Analytic Account)</strong> เข้ากับ Block ที่ซื้อมาโดยเฉพาะสำหรับงานนั้น เพื่อให้ดูได้ทีเดียวว่าโครงการนั้น<strong>กำไรหรือขาดทุนเท่าไหร่</strong> — ต้นทุนหิน (และแรงงานแปรรูปถ้ามี) เทียบกับยอดขายจริง</p>
+<p><strong>ข้อสำคัญ: นี่คือคนละเรื่องกับ Odoo Project app</strong> (โมดูล Task/Kanban board บริหารงาน) — ระบบนี้ไม่ได้ใช้ Project app เลย ใช้แค่ Analytic Accounting ซึ่งบังเอิญ Odoo ตั้งชื่อ Plan เริ่มต้นว่า "Project" เฉยๆ</p>
+<h3>วิธีใช้งาน</h3>
+<p><strong>ขั้นที่ 1 — สร้าง Analytic Account สำหรับโครงการ</strong></p>
+<p>ไปที่ <strong>Invoicing → Configuration → Analytic Accounts</strong> → New → ตั้งชื่อโครงการ (เช่น "โครงการบ้านประชาชื่น") → เลือก Plan = "Project" (ค่า default)</p>
+<figure class="screenshot"><img src="assets/38-analytic-accounts-list.webp" alt="38-analytic-accounts-list.png"/></figure>
+<p>⚠️ <strong>ต้องเช็ค Company ก่อนกดสร้างเสมอ</strong> — Odoo จะผูก Analytic Account เข้ากับบริษัทที่ Active อยู่ตอนนั้นโดยอัตโนมัติ (ดูที่มุมขวาบน) ถ้าเผลอสร้างตอน Active Company ผิด จะสร้างปัญหาตอนออกบิลข้ามบริษัท</p>
+<p><strong>ขั้นที่ 2 — ผูก Analytic Account เข้ากับ Block ที่ซื้อสำหรับโครงการนี้</strong></p>
+<p>เปิดฟอร์ม Block (ก้อนหินที่ซื้อมาเฉพาะงานนี้) → เลื่อนลงมาที่ field <strong>Analytic Account</strong> (อยู่ท้ายๆ ส่วน "ข้อมูลเสริม") → เลือกโครงการที่สร้างไว้</p>
+<figure class="screenshot"><img src="assets/37-bundle-analytic-account.webp" alt="37-bundle-analytic-account.png"/></figure>
+<p>จากนั้นระบบจะแปะป้ายให้อัตโนมัติทั้งสายงาน — ไม่ต้องทำอะไรเพิ่ม:</p>
+<ul><li><strong>ต้นทุนวัสดุ</strong>: ตอนสร้าง PO + ผูก Block เข้ากับ PO Line ระบบจะแปะ Analytic Account ลง PO Line ให้เอง → บิลผู้ขายที่สร้างจาก PO Line นั้นจะติดป้ายมาด้วย (กลไก native ของ Odoo เอง)</li><li><strong>รายได้จากการขายแผ่น</strong>: ตอนกด "Select Slabs" เลือกแผ่นจากบันเดิลนี้ไปใส่ในใบขาย ระบบจะแปะ Analytic Account ลงบรรทัดขายให้เอง <strong>แต่จะแปะให้ก็ต่อเมื่อแผ่นทุกแผ่นในบรรทัดนั้นมาจากบันเดิลที่มี Analytic Account เดียวกันทั้งหมด</strong> — ถ้าผสมแผ่นจากหลายโครงการในบรรทัดเดียว ระบบจะปล่อยว่างไว้ให้บัญชีมาแท็กเอง ไม่เดาให้</li><li><strong>รายได้จากค่าแรงแปรรูป</strong> (ถ้ามีเจาะช่องอ่างล้างหน้า ฯลฯ ตาม <a href="05-sell-fabrication.html" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>): แท็กจากบันเดิลของแผ่นที่ถูกแปรรูปเช่นกัน</li></ul>
+<p><strong>ขั้นที่ 3 — ดูกำไร/ขาดทุนของโครงการ</strong></p>
+<p>ไปที่ <strong>Invoicing → Configuration → Analytic Accounts</strong> จะเห็นคอลัมน์ <strong>Balance</strong> สรุปยอดสุทธิของแต่ละโครงการทันที (ลบ = ยังขาดทุน/มีแต่ต้นทุน, บวก = กำไรแล้ว)</p>
+<p>ต้องการดูรายละเอียดทีละบรรทัด (อะไรคือต้นทุน อะไรคือรายได้) ให้เปิด URL ตรง <code>/odoo/action-154</code> (เมนู "Analytic Items" ไม่โผล่ในแถบเมนูของผู้ใช้ทั่วไป เพราะอยู่ใต้กลุ่มสิทธิ์ "Show Accounting Features" — ถ้าต้องการให้ทุกคนกดเข้าเองได้ ต้องให้ผู้ดูแลระบบเปิดสิทธิ์นี้เพิ่ม) แล้วพิมพ์ชื่อโครงการในช่องค้นหา (Description) หรือกด Group By → Project</p>
+<figure class="screenshot"><img src="assets/39-analytic-items-project.webp" alt="39-analytic-items-project.png"/></figure>
+<p>ตัวอย่างข้างบน: โครงการ "โครงการบ้านประชาชื่น" ยังอยู่ระหว่างขั้นตอน — มีแค่ต้นทุนวัสดุ -฿3,750 เพราะยังไม่ส่งของ/ออกใบแจ้งหนี้ (รายได้จะขึ้นก็ต่อเมื่อใบแจ้งหนี้ถูกโพสต์แล้วเท่านั้น)</p>
+<h3>ตัวอย่างโครงการที่ครบวงจร (ต้นทุน + รายได้ + กำไรจริง)</h3>
+<p>โครงการ "โครงการคอนโดบางโพ" (Empire Stone) ทำครบทุกขั้นแล้ว — ซื้อก้อนหิน → บิลผู้ขายโพสต์แล้ว (ต้นทุน -฿2,800) → ตัดแผ่น → ขาย → ส่งของ → ออกใบแจ้งหนี้โพสต์แล้ว (รายได้ +฿16,000) → รับชำระเงินครบแล้ว ผลคือ Analytic Items ของโครงการนี้แสดง <strong>กำไรสุทธิ +฿13,200</strong> ตรงตามที่ควรจะเป็น</p>
+<p>*(ตัวอย่างนี้ดูผ่านหน้าเว็บไม่ได้ด้วย login <code>emgdemo</code> เพราะ login นี้ผูกกับบริษัท Empire Granite เท่านั้น ไม่เห็นข้อมูลฝั่ง Empire Stone — ต้อง login ด้วยผู้ใช้ที่มีสิทธิ์ทั้ง 2 บริษัทถึงจะเห็น)*</p>
+<h3>ข้อควรระวัง</h3>
+<ul><li><strong>ถ้าตั้งราคาขายเองต่อแผ่น (price_unit) ในบรรทัดใบขาย ให้ตั้งราคา *หลัง* กด "Select Slabs" เสร็จแล้วเท่านั้น</strong> — ถ้าตั้งราคาไว้ก่อน แล้วค่อยกดเลือกแผ่น ราคาที่ตั้งไว้จะถูกรีเซ็ตกลับเป็นราคามาตรฐานของสินค้าโดยอัตโนมัติ (พฤติกรรมของ Odoo เอง ไม่ใช่บั๊กของโมดูลนี้)</li><li>แผ่นที่เหลือค้างในบันเดิล (ตัดไปใช้ไม่หมด) ก็ยังถูกนับเป็นต้นทุนเต็มจำนวนของโครงการนั้น แม้จะยังไม่ได้ตัดมาใช้จริง — ถ้าซื้อก้อนใหญ่ไว้เผื่องานหลายโครงการในอนาคต ให้แยกซื้อเป็นคนละ PO/บันเดิลต่อโครงการแทน ไม่ควรใช้ก้อนเดียวกันแปะหลายโครงการ</li></ul>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="11-scan-station.html"><span class="dir">← ก่อนหน้า</span>11. Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+  <a class="next" href="13-product-concepts.html"><span class="dir">ถัดไป →</span>13. 4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+</div>
+</body>
+</html>

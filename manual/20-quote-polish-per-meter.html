@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20. ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 20 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">20</span> ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ใบเสนอราคาย่อย — ขาย Slab <strong>Ceppo (ขัดเรียบ)</strong> 1 แผ่น (3.23 SQM) ราคา 3,800/SQM พร้อมบริการเสริม 4 รายการ ที่น่าสนใจคือ<strong>หน่วยราคาไม่เหมือนกันในใบเดียว</strong>:</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Drawing (ทำแบบ)</td><td>ต่อ SQM</td><td>500</td></tr><tr><td>ลบมุม 2mm 1 ด้าน</td><td><strong>ต่อเมตร (ความยาวขอบ)</strong></td><td>200</td></tr><tr><td>ค่าน้ำยากันซึม</td><td>เหมา (LS)</td><td>200</td></tr><tr><td>ค่าขนส่ง</td><td>เหมา (LS)</td><td>500</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/68-f8-customer.webp" alt="68-f8-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก Ceppo Marble Slab → Save → <strong>Select Slabs</strong></div></div></div>
+<figure class="screenshot"><img src="assets/69-f8-product-select-slabs-btn.webp" alt="69-f8-product-select-slabs-btn.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Wizard เปิดรายการแผ่น Available ของ Ceppo</div></div></div>
+<figure class="screenshot"><img src="assets/70-f8-wizard-slab-picker.webp" alt="70-f8-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่น → Select → Confirm → ตั้งราคาเอง (3.23 SQM × 3,800 = 12,274)</div></div></div>
+<figure class="screenshot"><img src="assets/71-f8-price-set.webp" alt="71-f8-price-set.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>Add a product</strong> เพิ่มบริการเสริม — จุดสำคัญคือรายการ <strong>"ลบมุม 2mm"</strong> ต้องตั้ง <strong>UoM เป็น "m" (เมตร)</strong> ไม่ใช่ Units เหมือนรายการอื่น</div></div></div>
+<figure class="screenshot"><img src="assets/72-f8-fee-line-added.webp" alt="72-f8-fee-line-added.png"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ไม่ต้องสร้าง UoM ใหม่</span></div><div class="callout-body">Odoo มี UoM "m" (เมตร) อยู่แล้วในระบบเป็นค่าเริ่มต้น (Settings → Technical → Units of Measure) แค่ตั้ง product ตัวนี้ให้ default UoM เป็น "m" ตอนสร้าง product ก็ใช้ได้ทันที ไม่ใช่ gap ที่ต้องพัฒนาเพิ่ม</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">เพิ่ม Drawing (ต่อ SQM), ค่าน้ำยากันซึม, ค่าขนส่ง (เหมา) แล้ว Save</div></div></div>
+<figure class="screenshot"><img src="assets/73-f8-final-total.webp" alt="73-f8-final-total.png"/></figure>
+<p>ยอดรวมตัวอย่างนี้ (16,070.33 บาท) <strong>ตรงกับ NET TOTAL ในไฟล์ต้นฉบับเป๊ะ</strong> — พิสูจน์ว่า reproduce ใบเสนอราคาจริงได้ครบถ้วนโดยไม่ต้องแก้โค้ดอะไรเลย</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="19-quote-labor-only.html"><span class="dir">← ก่อนหน้า</span>19. ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+  <a class="next" href="21-quote-split-invoice-terms.html"><span class="dir">ถัดไป →</span>21. ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+</div>
+</body>
+</html>

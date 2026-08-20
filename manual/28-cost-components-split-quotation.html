@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>28. ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 28 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">28</span> ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์</h3>
+<p>Rate Library เดิม (ดู <a href="22-boq-estimation.html" class="xref">บทที่ 22: BOQ Estimation</a>) คำนวณราคาจาก "ต้นทุนวัสดุ" + "ค่าแรง" 2 ช่องตายตัวเท่านั้น — ถ้าธุรกิจมีต้นทุนอื่นเพิ่ม (ค่าขนส่ง, ค่าเช่าเครื่องมือ, ค่าธรรมเนียม) ไม่มีที่ให้ใส่ ต้องยัดรวมเข้าไปในช่องใดช่องหนึ่งแทน</p>
+<p>นอกจากนี้ เอกสารเสนอราคาจริงของลูกค้าแยกเป็น <strong>2 ใบ</strong> เสมอ — ใบวัสดุกับใบค่าแรง แต่ละใบคิด Overhead 10% + VAT 7% ของตัวเอง ระบบเดิมสร้างได้แค่ใบเดียวรวมกัน</p>
+<p>บทนี้ครอบคลุมฟีเจอร์ใหม่ 3 ส่วนที่แก้ปัญหาทั้งคู่:</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body"><strong>Cost Component Types</strong> — เพิ่มหมวดต้นทุนได้ไม่จำกัด แต่ละหมวดตั้งค่า WHT + % Adder เองได้</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body"><strong>Split Material/Labor Quotation</strong> — สร้างใบเสนอราคา 2 ใบพร้อมกันจาก BOQ Document เดียว</div></div>
+<div class="step"><span class="step-num">3</span><div class="step-body"><strong>พิมพ์ PDF ใบเสนอราคาจริง</strong> พร้อมหัก ณ ที่จ่ายและ NET PAYABLE (ฝั่ง Labor)</div></div>
+</div>
+<h3>ส่วนที่ 1: Cost Component Types — เพิ่มหมวดต้นทุนได้เอง</h3>
+<p>ทุก Rate เดิมมี Component 2 ตัว (Material, Labour) — ตอนนี้เพิ่มได้อีก 3 ตัวมาให้ (Overhead, Freight, Other) และเพิ่มเองได้ไม่จำกัดจากเมนูใหม่</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปิด <strong>BOQ Estimation → Cost Component Types</strong> — เห็นรายการ Component ทั้งหมด แต่ละตัวมีคอลัมน์ <strong>WHT-Relevant</strong> (checkbox) และ <strong>Adder %</strong></div></div></div>
+<figure class="screenshot"><img src="assets/123-boq-cost-component-types.webp" alt="123-boq-cost-component-types"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">WHT-Relevant กับ Adder % คืออะไร</span></div><div class="callout-body"><strong>WHT-Relevant</strong> = หมวดต้นทุนนี้เข้าเงื่อนไขหัก ณ ที่จ่ายหรือไม่ (ปกติ "ค่าแรง/บริการ" เข้าเงื่อนไข "ค่าวัสดุ" ไม่เข้า) — ใช้เป็นตัวตัดสินว่าบรรทัดนี้จะไปโผล่ในใบเสนอราคาฝั่ง "Material" หรือฝั่ง "Labor" ตอนใช้ฟีเจอร์ Split ในส่วนที่ 3<br/><strong>Adder %</strong> = markup % เฉพาะของหมวดนั้น (เช่น Overhead 10%) — ใช้คำนวณ "Overhead &amp; Profit" ในใบเสนอราคาจริง: ระบบรวมยอดแต่ละ bucket × Adder % ของ bucket นั้นเอง แทนที่การพิมพ์ % เดียวตายตัวที่ระดับ BOQ Document เหมือนก่อนหน้านี้ — ดูส่วนที่ 4</div></div>
+<p>แก้ไข/เพิ่มแถวใหม่ได้ตรงนี้เลย (list แบบ editable) — ลากไอคอนซ้ายมือเพื่อจัดลำดับการแสดงผล</p>
+<h3>ส่วนที่ 2: เพิ่ม Bucket ที่ 3+ ใน Rate Library</h3>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body">เปิด <strong>Rate Library</strong> → กดไอคอนลูกศรออก (⤢) ท้ายแถว Rate ที่ต้องการ (แทนที่จะคลิกแถวตรงๆ ซึ่งจะเข้า inline-edit แทน) — เปิดฟอร์มเต็มของ Rate นั้น</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body">ในตาราง <strong>Cost Components</strong> กด "Add a line" → เลือกประเภทต้นทุน → ใส่ Note (ถ้าต้องการ) + จำนวนเงิน — คอลัมน์ WHT/Adder % ของ Component นั้นโชว์ให้เห็นทันที (อ่านอย่างเดียว มาจากที่ตั้งค่าไว้ในส่วนที่ 1)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/124-boq-rate-wht-adder-columns.webp" alt="124-boq-rate-wht-adder-columns"/></figure>
+<p><strong>Total Rate / Unit</strong> ท้ายฟอร์มรวมทุก Component ให้อัตโนมัติ — Material Cost/Labour Cost (ช่องเดิมที่ list view ยังใช้อยู่) ยังคงถูกต้อง อ่านมาจาก Component "Material"/"Labour" โดยเฉพาะเท่านั้น ไม่ปนกับ Component ใหม่ที่เพิ่ม</p>
+<h3>ส่วนที่ 3: Split Material/Labor Quotation — สร้างใบเสนอราคา 2 ใบพร้อมกัน</h3>
+<p>ตัวอย่างจริงด้านล่างนี้ทดสอบผ่านหน้าเว็บจริง (<code>emgdemo</code> login) ไม่ใช่แค่ทดสอบผ่านโค้ด — สร้าง BOQ Document ทดสอบ (BOQ0016) ภายใต้ลูกค้าทดสอบ "Demo Customer - AAA Showcase" — เก็บไว้เป็นตัวอย่างอ้างอิง ไม่ใช่ข้อมูลลูกค้าจริง</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body">เปิด <strong>BOQ Documents → New</strong> → กรอก Customer ตามปกติ</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body">ติ๊กช่อง <strong>"Split Material/Labor Quotation"</strong> — ใหม่ ต่อจากช่อง % adder เดิม (Preliminaries/Overhead &amp; Profit/Performance Security ยังใช้ปกติเหมือนเดิม ใช้ได้ทั้งโหมด split และไม่ split)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/125-boq-doc-split-toggle.webp" alt="125-boq-doc-split-toggle"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่ติ๊กก็ยังใช้งานแบบเดิมได้ปกติทุกอย่าง</span></div><div class="callout-body">ค่า default คือปิด (ไม่ split) — พฤติกรรมเดิมของ BOQ Document ทุกใบที่มีอยู่แล้วไม่เปลี่ยนแปลง</div></div>
+<div class="steps">
+<div class="step"><span class="step-num">3</span><div class="step-body">เพิ่ม BOQ Line ตามปกติ (<a href="22-boq-estimation.html" class="xref">บทที่ 22: BOQ Estimation</a> มีขั้นตอนละเอียด) แล้ว Save</div></div>
+</div>
+<figure class="screenshot"><img src="assets/126-boq-doc-saved-split.webp" alt="126-boq-doc-saved-split"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">4</span><div class="step-body">กด <strong>"สร้างใบเสนอราคา"</strong> — ระบบสร้าง <strong>2 ใบเสนอราคาพร้อมกัน</strong> (แทนที่จะเป็น 1 ใบเหมือนโหมดปกติ) เปิดเป็นหน้า list ให้เลือกดูทั้งคู่</div></div>
+</div>
+<figure class="screenshot"><img src="assets/127-quotations-list-2-orders.webp" alt="127-quotations-list-2-orders"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">5</span><div class="step-body">เปิดใบแรก (Material) — เห็นช่องใหม่ <strong>"Quotation No."</strong> (เลขรันของระบบเอง เช่น <code>EGQ0000005</code>, แยกจากเลข S###### ของ Odoo) และ <strong>"Quotation Type: Material"</strong> บรรทัดสินค้าคิดเฉพาะส่วนที่ไม่ใช่ WHT-relevant (Material + Overhead + ฯลฯ ตามที่ตั้งไว้ในส่วนที่ 1)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/128-material-quotation-detail.webp" alt="128-material-quotation-detail"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">6</span><div class="step-body">เปิดใบที่สอง (Labor) — เลขรันต่อกัน (<code>EGQ0000006</code>) <strong>"Quotation Type: Labor"</strong> คิดเฉพาะส่วน WHT-relevant (ปกติคือ Labour)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/129-labor-quotation-detail.webp" alt="129-labor-quotation-detail"/></figure>
+<h3>ผลจริงจากตัวอย่างนี้ (BOQ0016 → S108388/S108389)</h3>
+<p>Rate ที่ใช้ทดสอบ: GANTT-02 (Material 160,000 / Labour 20,000 / รวม 180,000 ต่อหน่วย)</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>ใบ Material (S108388)</th><th>ใบ Labor (S108389)</th></tr></thead><tbody>
+<tr><td>Quotation No.</td><td>EGQ0000005</td><td>EGQ0000006</td></tr>
+<tr><td>ยอดสินค้า (Direct Cost)</td><td>160,000.00</td><td>20,000.00</td></tr>
+<tr><td>Overhead &amp; Profit (10%)</td><td>16,000.00</td><td>2,000.00</td></tr>
+<tr><td>Untaxed Amount</td><td>176,000.00</td><td>22,000.00</td></tr>
+<tr><td>VAT 7%</td><td>12,320.00</td><td>1,540.00</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>188,320.00</strong></td><td><strong>23,540.00</strong></td></tr>
+</tbody></table></div>
+<p>รวม 2 ใบ = 211,860.00 บาท — <strong>เทียบเท่ากับใบเดียวรวมในโหมดปกติเป๊ะ</strong> (ทดสอบแล้วว่าปิด Split แล้วสร้างใบเดียวได้ยอด 211,860.00 บาทเท่ากัน ไม่มีความคลาดเคลื่อน)</p>
+<h3>ส่วนที่ 4: พิมพ์ใบเสนอราคาจริง (PDF) พร้อมหัก ณ ที่จ่าย</h3>
+<p>จากใบ Sale Order ที่ได้ (ทั้งโหมด Split และไม่ Split) กดปุ่ม <strong>"พิมพ์ใบเสนอราคา (EGQ)"</strong> ที่แถบปุ่มด้านบนฟอร์ม — ได้ PDF หน้าตาแบบเอกสารจริง มี JOB subtotal, Overhead &amp; Profit, VAT และท้ายเอกสารมีช่องเซ็นทั้งฝั่งผู้เสนอราคา/ผู้สั่งซื้อ พร้อมหมายเหตุให้ลูกค้าออก PO แยกต่างหาก</p>
+<p><strong>เฉพาะฝั่ง Labor</strong> จะมีบรรทัดเพิ่ม 2 บรรทัดท้ายสุด: <strong>หัก ณ ที่จ่าย</strong> (คำนวณจาก field ใหม่ <strong>WHT %</strong> บนฟอร์ม Sale Order เอง, default 3% แก้ได้ทุกใบ) และ <strong>NET PAYABLE</strong> (ยอดสุทธิหลังหัก) — ฝั่ง Material ไม่มี 2 บรรทัดนี้ เพราะปกติภาษีหัก ณ ที่จ่ายใช้กับค่าแรง/บริการเท่านั้น ไม่ใช่ค่าวัสดุ</p>
+<figure class="screenshot"><img src="assets/130-boq-quotation-pdf-labor-net-payable.webp" alt="130-boq-quotation-pdf-labor-net-payable"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ตัวอย่างจริงจาก S108391 (Labor, EGQ0000012)</span></div><div class="callout-body">Direct Cost 20,000 + Overhead 2,000 = Untaxed 22,000 → VAT 7% = 1,540 → Total 23,540 → หัก ณ ที่จ่าย 3% ของ 22,000 = 660 → <strong>NET PAYABLE = 22,880</strong></div></div>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">สิ่งที่ยังไม่ทำ — ต้องรู้ก่อนใช้งานจริงกับลูกค้า</span></div><div class="callout-body">
+1. <strong>อัตรา WHT % (default 3%) เป็นค่าเริ่มต้นเท่านั้น</strong> ยังไม่ผ่านการตรวจทานจากนักบัญชีจริงว่าตรงกับประเภทเงินได้ของแต่ละงาน (เทียบหลักการเดียวกับ <a href="27-wht-certificate.html" class="xref">WHT Certificate บทที่ 27</a>) — ต้องแก้ให้ตรงเองทุกครั้งก่อนส่งลูกค้าจริง<br/>
+2. <strong>เลขที่เอกสาร (เช่น EGQ0000005) เป็นเลขรันภายในเท่านั้น</strong> ยังไม่มีตัวต่อท้ายแบบ "/C" ที่เห็นในเอกสารจริงของลูกค้า (ยังไม่ทราบความหมายที่แน่ชัด — พักไว้ก่อน)<br/>
+3. <strong>การแบ่งว่าอะไรไปฝั่ง Material/Labor ใช้ flag WHT-Relevant ของแต่ละ Component</strong> เป็นทางลัดที่เลือกใช้ตอนนี้ (แทนที่จะมี field แยกต่างหาก) — ถ้ามีหมวดต้นทุนที่ WHT-relevant แต่ควรอยู่ฝั่ง Material (หรือกลับกัน) ต้องมาคุยออกแบบเพิ่ม
+</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="27-wht-certificate.html"><span class="dir">← ก่อนหน้า</span>27. ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+  <a class="next" href="29-fg-production.html"><span class="dir">ถัดไป →</span>29. ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>14. ผลิตตามสั่ง (Cut-to-Order / MRP) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 14 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">14</span> ผลิตตามสั่ง (Cut-to-Order / MRP)</h1>
+  </div>
+  <div class="page-content">
+<p>บทนี้ครอบคลุมเฉพาะ<strong>ขั้นตอนการผลิต (MRP)</strong> ของประเภทสินค้าที่ 3 — "ตัดตามสั่ง" (ดู concept รวมที่ <a href="13-product-concepts.html" class="xref">บทที่ 13: 4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>) นี่เป็นโหมดเดียวใน 4 โหมดที่ใช้ Odoo <strong>Manufacturing (MRP)</strong> จริง — โหมดอื่นๆ ตัดแผ่นด้วย custom transformation ธรรมดา ไม่ผ่านระบบผลิต</p>
+<p>จัดหน้านี้ใหม่ (2026-07-22) ให้<strong>แยกตามฝ่ายที่รับผิดชอบแต่ละขั้นตอน</strong>แทนลำดับ step 1-5 แบบเดิม — เพื่อให้พนักงานแต่ละฝ่ายเปิดอ่านเฉพาะส่วนของตัวเองได้เลย ลำดับงานจริงคือ <strong>ฝ่ายขาย → ฝ่ายคลัง/ผลิต → ฝ่ายส่งของ → ฝ่ายบัญชี</strong></p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">✅ Validated live end-to-end รวมข้ามบริษัท (2026-07-22)</span></div><div class="callout-body">เดิม screenshot ทุกภาพในบทนี้ถ่ายจาก production จริงอยู่แล้ว (2026-07-14/15) แต่เป็นกรณีเดียวบริษัทเดียว (EG) — วันนี้ทดสอบเพิ่มกรณี <strong>Cut to Order ข้ามบริษัท</strong> (พนักงาน EG ตัดจากก้อนหินที่อยู่ในคลัง ES) เป็นครั้งแรก เจอบั๊กจริง <strong>3 ตัว</strong> ระหว่างทาง แก้ครบแล้วทั้งหมด (ดู "🐛 บั๊กที่พบ+แก้" ด้านล่าง) — ทดสอบซ้ำหลังแก้ผ่านหน้าเว็บจริงจนจบ flow ครบ (Cut Order → Complete Cut → Confirm SO → Internal SO/PO/Delivery/Invoice/Bill อัตโนมัติ)</div></div>
+<h3>ภาพรวม Flow</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-type3.webp" alt="EMG-O Flow - Type3 ตัดตามสั่ง (Cut-to-Order MRP)"/></figure>
+<p><strong>อัปเดต 2026-07-15:</strong> หลัง "Complete Cut" เสร็จ ระบบจะ <strong>ผูกแผ่นใหม่เข้ากับ SO บรรทัดเดิมให้อัตโนมัติทันที</strong> (สถานะเปลี่ยนเป็น "Hold" + ปุ่ม "Slabs" smart button ขึ้นบน Quotation เลย) ไม่ต้องกลับไปกด Select Slabs ซ้ำอีกแล้วเหมือนเดิม — ดูหัวข้อฝ่ายคลัง/ผลิตด้านล่าง</p>
+<h4>🎬 คลิปสาธิต: Cut to Order ข้ามบริษัท (EG ตัดจากก้อน ES)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>*session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้) เปิด Quotation → เพิ่มสินค้าหิน → Cut to Order เลือกก้อน ES-B-0001 (อยู่คนละบริษัท) → Create Cut Order → Complete Cut → กลับมา Confirm SO ทั้งใบ ทั้งหมดในเทคเดียวไม่มีตัดต่อ (บันทึกหลังแก้บั๊กทั้ง 3 ตัวแล้ว)*</p>
+<hr/>
+<h3>👤 ฝ่ายขาย — เปิด Quotation แล้วเลือกวิธีจัดหาแผ่น</h3>
+<p>เปิด Quotation ใหม่ตามปกติ เลือกลูกค้า แล้วเพิ่มสินค้าประเภทแผ่นหิน (เช่น "Emperador Grey Light Marble Slab") — เมื่อ save แล้ว บรรทัดสินค้าจะมีปุ่ม <strong>"Select Slabs"</strong> และ <strong>"Cut to Order"</strong> ให้เลือกทั้งคู่ (ถ้าไม่มีแผ่นพร้อมขายเลย ก็ยังกด Cut to Order ได้ทันที)</p>
+<figure class="screenshot"><img src="assets/40-so-line-cutorder-buttons.webp" alt="40-so-line-cutorder-buttons.png"/></figure>
+<p>พนักงานขายกด <strong>Cut to Order</strong> ตรงนี้เมื่อไม่มีแผ่นสำเร็จรูปพอดีขนาดในสต็อก (ถ้ามีอยู่แล้วให้กด Select Slabs แทน ดู <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) — จากนี้ไปเป็นหน้าที่ฝ่ายคลัง/ผลิตรับช่วงต่อ</p>
+<hr/>
+<h3>👷 ฝ่ายคลัง/ผลิต — สร้าง Cut Order, ตัดจริง, Complete Cut</h3>
+<p>กดปุ่ม Cut to Order เปิด wizard "Create Cut Order" — ระบบ pre-fill ช่อง Material ให้อัตโนมัติจากสินค้าที่เลือกไว้ในบรรทัด</p>
+<figure class="screenshot"><img src="assets/41-cutorder-wizard-empty.webp" alt="41-cutorder-wizard-empty.png"/></figure>
+<p>กรอกให้ครบ:</p>
+<ul><li><strong>Cut From Block</strong> — เลือกก้อนหิน (Block) ที่จะเบิก CBM มาตัด ระบบกรองให้เห็นเฉพาะ Block ของ Material เดียวกัน <strong>รวมก้อนของอีกบริษัทด้วย</strong> (เช่น พนักงาน EG เลือกก้อนที่อยู่คลัง ES ได้เลย — ระบบจัดการ intercompany ให้อัตโนมัติเหมือน Select Slabs ดู <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a>)</li><li><strong>Target L (M)</strong> / <strong>Target H (M)</strong> — ขนาดแผ่นที่ต้องการเป็นเมตร ระบบคำนวณ CBM ที่ต้องเบิก = L × H × ความหนาของก้อนนั้น แล้วเช็คว่าก้อนมี CBM เหลือพอไหมก่อนให้กด Create ได้</li></ul>
+<figure class="screenshot"><img src="assets/42-cutorder-wizard-filled.webp" alt="42-cutorder-wizard-filled.png"/></figure>
+<p>กด Create Cut Order ระบบจะสร้าง MO (Manufacturing Order, รหัสขึ้นต้นตาม warehouse ของก้อนนั้นจริง เช่น <code>EGWH/STCUT/</code> หรือ <code>ESWH/STCUT/</code>) ให้อัตโนมัติ พร้อมยืนยัน (Confirm) ให้เสร็จในทีเดียว — เปิดมาจะเห็นสถานะ "Confirmed" คอลัมน์ <strong>To Consume / Consumed</strong> แสดง CBM จริงที่จะเบิกจากก้อน (คำนวณจาก L×H×ความหนา) และปุ่มพิเศษของโมดูลนี้ <strong>"Complete Cut"</strong> (ข้าง Produce All / Plan / Start / Cancel ที่เป็นปุ่มมาตรฐาน MRP)</p>
+<figure class="screenshot"><img src="assets/43-mo-confirmed.webp" alt="43-mo-confirmed.png"/></figure>
+<p><strong>หมายเหตุ:</strong> MO นี้จะโผล่เป็น breadcrumb เชื่อมกลับไปที่ Quotation ต้นทาง — ตามหาได้ง่ายถ้าต้องเช็คย้อนหลังว่า MO ไหนมาจาก SO ไหน</p>
+<p>พนักงานคลังกดปุ่ม <strong>Complete Cut</strong> (ไม่ใช่ปุ่ม "Produce All" มาตรฐานของ Odoo — โมดูลนี้เขียนปุ่มเฉพาะทับ เพราะต้องสร้าง Lot/Serial ให้แผ่นใหม่ก่อนแล้วค่อยเรียกกลไก mark-done มาตรฐานต่อ) ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เบิก CBM จากก้อนจริง (real stock.move ไม่ใช่แค่ field คำนวณ)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง Lot/Serial ใหม่ให้แผ่น ตั้งชื่อตาม convention <code>&lt;ชื่อ Block&gt;-&lt;ลำดับ&gt;</code> (เช่น <code>EMG-B-0003-4</code>)</div></div><div class="step"><span class="step-num">3</span><div class="step-body">สร้าง record <code>stone.slab</code> ใหม่เข้าระบบ</div></div><div class="step"><span class="step-num">4</span><div class="step-body"><strong>(อัปเดต 2026-07-15)</strong> ถ้า Cut Order นี้เปิดมาจากบรรทัดขายจริง — ผูกแผ่นใหม่เข้ากับบรรทัดนั้นให้อัตโนมัติ (status → "Hold") <strong>และ</strong>บันทึกค่าแรงตัดโดยประมาณเป็นต้นทุนเข้า Analytic Account (รายละเอียดดูหัวข้อฝ่ายบัญชีด้านล่าง)</div></div></div>
+<p>MO เปลี่ยนสถานะเป็น <strong>Done</strong> ทันที เห็น Lot/Serial Number ที่สร้างขึ้นในฟอร์ม, field ใหม่ <strong>"For Sale Order Line"</strong> ชี้กลับไปบรรทัดขายต้นทาง, และปุ่ม <strong>Unbuild</strong> โผล่ขึ้นมา (ปุ่มมาตรฐานของ Odoo MRP สำหรับย้อนกลับ MO ที่ทำเสร็จแล้ว — ใช้กรณีตัดผิดขนาดแล้วต้องแก้ไข)</p>
+<figure class="screenshot"><img src="assets/44-mo-done-lot-assigned.webp" alt="44-mo-done-lot-assigned.png"/></figure>
+<p>กลับไปที่ Quotation ต้นทาง (คลิก breadcrumb) — จะเห็นปุ่ม <strong>"Slabs" smart button (1)</strong> ปรากฏขึ้นเองทันที ไม่ต้องกด Select Slabs ซ้ำแบบเดิมอีกแล้ว (ตรวจสอบจริงผ่าน backend: แผ่นใหม่มี <code>status='hold'</code>, <code>sale_order_id</code>/<code>sale_line_id</code> ชี้กลับมาที่ Quotation/บรรทัดนี้ทันทีหลัง Complete Cut) — จากจุดนี้ส่งกลับให้ฝ่ายขายกด Confirm SO ต่อ</p>
+<figure class="screenshot"><img src="assets/45-so-autoheld-smartbutton.webp" alt="45-so-autoheld-smartbutton.png"/></figure>
+<hr/>
+<h3>🚚 ฝ่ายส่งของ</h3>
+<p>จากจุดที่ฝ่ายขาย Confirm SO แล้ว flow ที่เหลือ (ส่งของ สแกนยืนยัน Serial, เซ็นรับ) <strong>เหมือนกับประเภท 2 (แผ่นหินสำเร็จรูป) ทุกประการ</strong> — ดูรายละเอียดที่ <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a></p>
+<p><strong>ถ้าเป็น Cut to Order ข้ามบริษัท</strong> (ตัดจากก้อนอีกบริษัทหนึ่ง) — Delivery Order จริงจะเปลี่ยนเป็น <strong>Drop-ship</strong> ตัดตรงจากคลังของบริษัทเจ้าของก้อนไปหาลูกค้าเลย ไม่ผ่านคลังของบริษัทที่เปิด SO — กลไกเดียวกับ Select Slabs ข้ามบริษัท ดู <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a></p>
+<hr/>
+<h3>💰 ฝ่ายบัญชี</h3>
+<ul><li><strong>ต้นทุนวัตถุดิบ</strong> (ราคาก้อนหิน สัดส่วน CBM ที่ใช้จริง) ผูกเข้า Analytic Account ของ SO line โดยอัตโนมัติผ่านกลไกเดียวกับ Select Slabs</li><li><strong>ค่าแรงตัดโดยประมาณ</strong> (จาก Stone Cutting workcenter <code>costs_hour</code> × เวลามาตรฐาน) บันทึกเป็นต้นทุนเพิ่มเข้า Analytic Account เดียวกัน — เห็นได้ที่ <strong>Invoicing &gt; Reporting &gt; Analytic Items</strong></li><li><strong>ถ้าข้ามบริษัท:</strong> ระบบออก <strong>draft invoice</strong>/<strong>draft vendor bill</strong> ให้อัตโนมัติทันทีที่ Confirm SO (ADR-014) — ต้องเข้าไปตรวจตัวเลข/วันที่แล้ว post เองอีกที ดูสรุปที่เมนู <strong>Stone Slab → Intercompany Reconciliation</strong> — รายละเอียดเต็มที่ <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท (EG↔ES)</a></li></ul>
+<hr/>
+<h3>🐛 บั๊กที่พบ+แก้ระหว่าง validate ข้ามบริษัท (2026-07-22)</h3>
+<p>ทดสอบ Cut to Order ข้ามบริษัทเป็นครั้งแรก (ก่อนหน้านี้ไม่เคยทดสอบ) เจอบั๊กจริง 3 ตัวเรียงกัน ทั้งหมดเป็นกลุ่มเดียวกัน — โค้ดอ่าน/สร้าง record ของอีกบริษัทโดยไม่ <code>sudo()</code>/<code>with_company()</code> ทั้งที่ฟีเจอร์ตั้งใจให้ข้ามบริษัทได้โดยไม่ต้องพนักงานทำอะไรเพิ่ม:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Access Error อ่าน Warehouse</strong> ตอนกด Create Cut Order — <code>warehouse = self.bundle_id.warehouse_id</code> ไม่ได้ sudo ก่อนส่งเข้า <code>_ensure_stone_bom()</code> ซึ่งอ่าน <code>warehouse.company_id</code> ทันที</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>"Not enough block stock left: need 0.030 m3, only 0.000 m3 remaining"</strong> ทั้งที่ก้อนจริงเหลือ 2.91 m³ — <code>_compute_remaining_cbm()</code>/<code>_compute_remaining_sqmt()</code> ค้นหา <code>stock.quant</code> โดยไม่ sudo บั๊กนี้อันตรายกว่า 2 ตัวอื่นเพราะ<strong>ไม่ error ให้เห็น</strong> แค่คำนวณผิดเงียบๆ เป็น 0 เสมอ</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>Access Error สร้าง Manufacturing Order ไม่ได้เลย</strong> ("doesn't have 'create' access") — <code>action_create_cut_order()</code> สร้าง <code>mrp.production</code> ตรงๆ ไม่ผ่าน sudo/with_company และหลังแก้ข้อนี้ยังเจอต่อว่า BOM/Workcenter/Picking Type ที่ระบบ find-or-create ให้ ผูกกับบริษัทแรกที่เคยใช้ฟีเจอร์นี้เท่านั้น (<code>_ensure_stone_bom()</code> ค้นหาด้วย <code>product_id</code> อย่างเดียว ไม่กรองบริษัท) ทำให้ Odoo เองฟ้อง "no company crossover is allowed" — ต้องแก้ให้แต่ละบริษัทมี BOM ของตัวเอง</div></div></div>
+<p>แก้ครบทั้ง 3 จุดแล้ว (commit <code>58fa4df</code>, <code>e8fd272</code>, <code>af12efb</code> บน <code>project/emg-o</code>, ยังไม่ merge <code>main</code>) ทดสอบซ้ำผ่านหน้าเว็บจริงจนจบ flow ครบทุกขั้นตอนไม่มี error แล้ว (ดูคลิปด้านบน)</p>
+<hr/>
+<h3>ข้อจำกัดที่ทราบ (Known Limitations)</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>ไม่มี Byproduct/เศษหิน (remnant) wiring — ยืนยันแล้วว่าไม่ต้องทำ (2026-07-15):</strong> ตรวจสอบกับข้อมูลจริงของหน้างานแล้วว่าไม่มีเศษเหลือจากใบเลื่อยที่มีนัยสำคัญ (kerf loss) และเศษที่เหลือจากการตัดเป็นแค่ก้อนที่เล็กลง ไม่ใช่ชิ้นแยกที่ขายต่อได้ — กลไก <code>remaining_cbm</code> ต่อก้อนที่มีอยู่แล้วครอบคลุมกรณีนี้ถูกต้องอยู่แล้ว ไม่ใช่ gap</div></div><div class="step"><span class="step-num">2</span><div class="step-body">~~Cross-company ยังไม่ทดสอบ~~ <strong>✅ ทดสอบแล้ว 2026-07-22</strong> — เจอ+แก้ 3 บั๊ก ดูหัวข้อด้านบน</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>ค่าแรงที่ tag เป็นค่าประมาณการ ไม่ใช่ต้นทุนจริงตามขนาดงาน</strong> — คำนวณจาก workcenter <code>costs_hour</code> × เวลามาตรฐานต่อครั้ง (<code>time_cycle_manual</code> บน BOM Operation, ตอนนี้ตั้งคงที่ 60 นาทีทุกครั้งไม่ว่าแผ่นเล็กหรือใหญ่) ปรับทั้งคู่ได้ผ่าน Manufacturing &gt; Work Centers / Bills of Materials ตามปกติ แต่ยังไม่แปรผันตามขนาดจริงของงาน</div></div></div>
+<p>*อ้างอิงทางเทคนิคเต็ม: decisions.md ADR-018 (claude-knowledge vault) — Finish Attribute/Variant infra + Mode 3 (MRP Cut-to-Order), รวม addendum 2026-07-15 (auto-hold + labor cost tagging + byproduct decision) และ log.md 2026-07-22 (intercompany bug fixes)*</p>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="13-product-concepts.html"><span class="dir">← ก่อนหน้า</span>13. 4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+  <a class="next" href="15-purchasing.html"><span class="dir">ถัดไป →</span>15. การจัดซื้อ</a>
+</div>
+</body>
+</html>

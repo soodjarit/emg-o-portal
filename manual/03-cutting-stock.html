@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03. ตัดแผ่นและจัดการสต็อก — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 03 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">03</span> ตัดแผ่นและจัดการสต็อก</h1>
+  </div>
+  <div class="page-content">
+<figure class="diagram"><img src="assets/excalidraw-preview-ch03.webp" alt="EMG-O Flow - ตัดแผ่นและจัดการสต็อก (Add Slab Line)"/></figure>
+<h3>ตัดแผ่น (Add Slab Line)</h3>
+<p>ในฟอร์ม Block → tab <strong>Slabs</strong> → "Add a line" เพื่อเพิ่มแผ่นทีละแผ่น กรอกขนาด (Slab L, Slab H) ระบบจะคำนวณ Slab Sqmt ให้อัตโนมัติ สถานะเริ่มต้นของแผ่นใหม่จะเป็น <strong>Available</strong></p>
+<figure class="screenshot"><img src="assets/05-slab-line-add.webp" alt="05-slab-line-add.png"/></figure>
+<p>เมื่อกด Save ระบบจะทำงานอัตโนมัติหลายอย่างพร้อมกัน:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>หัก CBM จากก้อนหิน</strong> (<code>slab_sqmt × thickness_m</code>) — ถ้า Material นั้นมี Block Product ผูกอยู่ (กัน CBM ติดลบด้วย guard)</div></div><div class="step"><span class="step-num">2</span><div class="step-body"><strong>สร้าง Serial Number (Lot) เฉพาะแผ่นนั้น</strong> (ADR-009) — 1 แผ่น = 1 lot จริง เพื่อพิมพ์ป้ายและสแกนยืนยันตอนส่งของได้ (native lot label wizard ของ Odoo)</div></div><div class="step"><span class="step-num">3</span><div class="step-body"><strong>กำหนดเลข "Slab No." ไม่ซ้ำกันอัตโนมัติ</strong> ภายในบันเดิลเดียวกัน (Session 25) — ถึงจะเพิ่มหลายแผ่นพร้อมกันในหน้าจอเดียวก่อน Save ก็ไม่ชนกัน</div></div><div class="step"><span class="step-num">4</span><div class="step-body">สร้าง stock.move รับแผ่นเข้า location "Stone Available" ของ Warehouse นั้น</div></div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ทำไมต้องมี Serial Number ต่อแผ่น</span></div><div class="callout-body">แผ่นหินแต่ละแผ่นในบันเดิลเดียวกันมีขนาด/ผิวหน้าต่างกัน ลูกค้าอาจเลือกแผ่นเฉพาะเจาะจง — serial number ทำให้พนักงานสแกนยืนยันได้ตอนส่งของว่าหยิบแผ่นถูกจริง ไม่ใช่แผ่นอื่นในบันเดิลเดียวกัน (ดู <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</div></div>
+<h3>Slab Kanban Board (Trello-style)</h3>
+<p>เมนู Stone Slab → Slabs จะเปิดเป็น Kanban board แบ่งคอลัมน์ตามสถานะ ลาก-วาง (drag &amp; drop) การ์ดข้ามคอลัมน์เพื่อเปลี่ยนสถานะได้เลย ระบบจะ sync stock.move ให้อัตโนมัติเบื้องหลัง</p>
+<figure class="screenshot"><img src="assets/07-slab-kanban-board.webp" alt="07-slab-kanban-board.png"/></figure>
+<h3>Slab List View</h3>
+<p>ดูรายละเอียดทุกแผ่นแบบตารางได้ที่ปุ่มสลับมุมมอง (ขวาบน) — เห็น Block, Slab No., ขนาด, สถานะ, ลูกค้า, เลข Sale Order, และ Serial Number ที่ผูกอยู่</p>
+<figure class="screenshot"><img src="assets/08-slab-list-view.webp" alt="08-slab-list-view.png"/></figure>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="02-receiving.html"><span class="dir">← ก่อนหน้า</span>02. รับสินค้าเข้าคลัง</a>
+  <a class="next" href="04-sell-slab.html"><span class="dir">ถัดไป →</span>04. ขายเป็นแผ่น (ไม่แปรรูป)</a>
+</div>
+</body>
+</html>

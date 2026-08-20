@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>21. ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 21 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">21</span> ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์</h3>
+<p>ลูกค้าหลายรายส่งใบเสนอราคาที่มีทั้ง<strong>ค่าหิน (material)</strong> และ<strong>ค่าแรงติดตั้ง (labor)</strong> อยู่ในใบเดียวกัน แต่ต้องการเงื่อนไขผ่อนชำระคนละแบบ เช่น:</p>
+<ul><li>ค่าหิน: มัดจำ 40% / ส่งของ 55% / กันเงินประกันผลงาน (Retention) 5% คืนใน 365 วัน</li><li>ค่าแรง: มัดจำ 30% / จ่ายส่วนที่เหลือ 60 วันหลังส่งมอบ</li></ul>
+<p>คำถาม: ต้องออกเป็น <strong>2 ใบเสนอราคาแยกกัน</strong> เพื่อให้ตั้งเงื่อนไขคนละอัตราได้ หรือทำในใบเดียวได้?</p>
+<p><strong>คำตอบที่พิสูจน์แล้ว: ทำในใบเดียวได้</strong> — ไม่ต้องแยก SO เพราะ Odoo ผูก Payment Terms ไว้ที่ระดับ <strong>Invoice</strong> ไม่ใช่ระดับ SO ดังนั้นแค่ตัดบิลออกเป็น 2 ใบแจ้งหนี้จาก SO เดียวกัน แต่ละใบตั้งเงื่อนไขของตัวเองได้อิสระ</p>
+<h3>วิธีทำใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">สร้าง Sale Order ตามปกติ ใส่บรรทัดค่าหินและค่าแรงในใบเดียวกัน แล้ว Confirm ให้เป็น Sales Order</div></div></div>
+<figure class="screenshot"><img src="assets/83-gap2-so-two-lines.webp" alt="83-gap2-so-two-lines.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">กด <strong>Create Invoice</strong> — เลือก "Regular invoice" → <strong>Create Draft</strong></div></div></div>
+<figure class="screenshot"><img src="assets/84-gap2-create-invoice-wizard.webp" alt="84-gap2-create-invoice-wizard.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">Wizard นี้ไม่มีให้เลือกบรรทัด</span></div><div class="callout-body">กด Create Draft แล้วระบบจะดึง<strong>ทุกบรรทัดที่ยังไม่เคยตัดบิล</strong>มาไว้ในใบแจ้งหนี้เดียวกันเสมอ ไม่มีตัวเลือก "invoice เฉพาะบรรทัดนี้" ในหน้าต่างนี้ — ต้องไปตัดบรรทัดออกเองในขั้นตอนถัดไป</div></div>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ใบแจ้งหนี้ที่สร้างจะมีทั้ง 2 บรรทัดอยู่ (สถานะ Draft) — ลบบรรทัดที่ยังไม่อยากตัดบิลตอนนี้ออก (คลิกไอคอนถังขยะท้ายแถว) ให้เหลือแค่บรรทัดที่ต้องการ</div></div></div>
+<figure class="screenshot"><img src="assets/85-gap2-draft-invoice-both-lines.webp" alt="85-gap2-draft-invoice-both-lines.png"/></figure>
+<figure class="screenshot"><img src="assets/86-gap2-remove-labor-line.webp" alt="86-gap2-remove-labor-line.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ตั้ง <strong>Payment Terms</strong> ของใบแจ้งหนี้นี้ (เฉพาะใบนี้ ไม่กระทบ SO ต้นทาง) แล้ว Save + Confirm</div></div></div>
+<figure class="screenshot"><img src="assets/87-gap2-set-payment-term.webp" alt="87-gap2-set-payment-term.png"/></figure>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">เจอ warning "bank account not trusted" ตอน Confirm</span></div><div class="callout-body">เป็น safety check มาตรฐานของ Odoo (ไม่เกี่ยวกับ payment term) — เตือนว่าเลขบัญชีธนาคารบนใบแจ้งหนี้ยังไม่ได้ยืนยันตัวตนผ่าน "Send Money" กด Close แล้ว Confirm อีกครั้งได้ปกติ ในระบบจริงควรตั้งค่าธนาคารให้ trusted ไว้ล่วงหน้าเพื่อไม่ให้ค้าง step นี้ทุกใบ</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">กลับไปที่ SO ต้นทาง — บรรทัดที่ถูกตัดบิลไปแล้วจะขึ้น Invoiced เต็ม ส่วนบรรทัดที่ถูกลบออกจากใบแรกจะยังค้างสถานะ "ยังไม่ตัดบิล" ตามปกติ</div></div></div>
+<figure class="screenshot"><img src="assets/88-gap2-so-after-invoice1.webp" alt="88-gap2-so-after-invoice1.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">กด <strong>Create Invoice</strong> อีกครั้ง — ครั้งนี้ระบบจะสร้างใบแจ้งหนี้ใหม่ให้เฉพาะบรรทัดที่เหลือ (ค่าแรง) เพราะบรรทัดหินถูกตัดบิลไปเต็มจำนวนแล้ว ตั้ง Payment Terms ของใบนี้เป็นอีกแบบหนึ่ง แล้ว Confirm</div></div></div>
+<div class="steps"><div class="step"><span class="step-num">7</span><div class="step-body">กลับไปดู SO — smart button "Invoices" จะขึ้นเลข 2 ยืนยันว่าตัดบิลออกเป็น 2 ใบจากใบเสนอราคาเดียวกันจริง</div></div></div>
+<figure class="screenshot"><img src="assets/80-gap2-so-two-invoices.webp" alt="80-gap2-so-two-invoices.png"/></figure>
+<h3>ผลจริงจาก production (SO S54370)</h3>
+<div class="table-wrap"><table><thead><tr><th>Invoice</th><th>บรรทัด</th><th>Payment Terms</th><th>ยอดรวม</th><th>ตารางผ่อนชำระที่ระบบคำนวณเอง</th></tr></thead><tbody><tr><td>[INV/2026/00005](https://odoo19-mbxai.mx-erp.com/odoo/sales/60116/invoicing/323)</td><td>ค่าหิน</td><td>EG มัดจำ 40/55 + Retention 5% (365 วัน)</td><td>฿107,000</td><td>40% วันนี้ (฿42,800) → 55% +30 วัน (฿58,850) → 5% +365 วัน (฿5,350)</td></tr><tr><td>[INV/2026/00006](https://odoo19-mbxai.mx-erp.com/odoo/sales/60116/invoicing/324)</td><td>ค่าแรง</td><td>30% Now, Balance 60 Days</td><td>฿53,500</td><td>30% วันนี้ (฿16,050) → 70% +60 วัน (฿37,450)</td></tr></tbody></table></div>
+<figure class="screenshot"><img src="assets/81-gap2-invoice1-material-retention.webp" alt="81-gap2-invoice1-material-retention.png"/></figure>
+<figure class="screenshot"><img src="assets/82-gap2-invoice2-labor-3070.webp" alt="82-gap2-invoice2-labor-3070.png"/></figure>
+<h3>สรุป</h3>
+<p>ลูกค้าได้รับใบเสนอราคาใบเดียว (SO S54370) ตามที่ต้องการเห็น แต่ฝ่ายบัญชีตัดบิลออกเป็น 2 ใบแจ้งหนี้คนละตารางผ่อนชำระได้จริง — ไม่ต้องแก้โค้ด ไม่ต้องแยก SO เป็นมาตรฐานของ Odoo ล้วนๆ (ดู gap #2 ที่แก้แล้วใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="20-quote-polish-per-meter.html"><span class="dir">← ก่อนหน้า</span>20. ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+  <a class="next" href="22-boq-estimation.html"><span class="dir">ถัดไป →</span>22. BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+</div>
+</body>
+</html>

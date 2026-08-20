@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>22. BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 22 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">22</span> BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์</h3>
+<p>ลูกค้าทำ BOQ งานประมูลใหญ่ (เช่นไฟล์ "BOQ-ZoneXX") ใน Excel — แต่ละ Zone (L2 Main Lobby, L4 Main Lobby ฯลฯ) มีรายการหิน+rate ของตัวเอง แล้วรวมยอดที่ sheet "Final Summary" บวก Preliminaries/Overhead &amp; Profit/Performance Security เป็นราคาประมูลสุดท้าย</p>
+<p>ปัญหาเดิม: rate ของแต่ละ item (เช่น "ST1 Black emperador polished") ถูกพิมพ์ซ้ำในทุกไฟล์ที่ใช้หินตัวนั้น พอราคาต้นทุนเปลี่ยน ต้องไล่แก้ทุกไฟล์เอง ไม่มี single source of truth — โมดูล <strong>BOQ Estimation</strong> ที่สร้างขึ้นใหม่แก้ปัญหานี้โดยตรง</p>
+<p>คลิปนี้จำลองข้อมูลจริงบางส่วนจากไฟล์ BOQ-ZoneXX (Zone L2 + L4 Main Lobby):</p>
+<div class="table-wrap"><table><thead><tr><th>Zone</th><th>Item</th><th>Qty (m²)</th><th>Rate/Unit</th></tr></thead><tbody><tr><td>L2 Main Lobby</td><td>ST1 Black emperador polished</td><td>159</td><td>7,080</td></tr><tr><td>L2 Main Lobby</td><td>ST2 White Sivec honed</td><td>91</td><td>9,980</td></tr><tr><td>L4 Main Lobby</td><td>ST1 Black emperador polished</td><td>1,114</td><td>7,080</td></tr><tr><td>L4 Main Lobby</td><td>ST2 White Sivec honed</td><td>18</td><td>9,980</td></tr></tbody></table></div>
+<h3>คลิป: สร้าง Rate → สร้าง BOQ → กดเป็นใบเสนอราคา</h3>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<h3>วิธีทำทีละขั้น</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปิดแอป <strong>BOQ Estimation → Rate Library</strong> → กด New → กรอก Item Code, Description, Unit, Material Cost, Labour Cost — ราคา/หน่วยรวม (Total Rate) คำนวณให้อัตโนมัติ</div></div></div>
+<figure class="screenshot"><img src="assets/89-boq-rate-library-empty.webp" alt="89-boq-rate-library-empty.png"/></figure>
+<figure class="screenshot"><img src="assets/90-boq-rate-st1-filled.webp" alt="90-boq-rate-st1-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">เพิ่ม Rate ตัวที่สองแบบเดียวกัน (ST2) แล้ว Save — ตอนนี้มี Rate 2 ตัวพร้อมใช้ซ้ำได้ไม่จำกัดจำนวนครั้ง</div></div></div>
+<figure class="screenshot"><img src="assets/91-boq-rate-st2-filled.webp" alt="91-boq-rate-st2-filled.png"/></figure>
+<figure class="screenshot"><img src="assets/92-boq-rate-library-2-items.webp" alt="92-boq-rate-library-2-items.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ไปที่ <strong>BOQ Documents → New</strong> → กรอก Customer, Company, และ % (Preliminaries/Overhead &amp; Profit/Performance Security) ตามเงื่อนไขโปรเจกต์</div></div></div>
+<figure class="screenshot"><img src="assets/93-boq-doc-new.webp" alt="93-boq-doc-new.png"/></figure>
+<figure class="screenshot"><img src="assets/94-boq-doc-header-filled.webp" alt="94-boq-doc-header-filled.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">แท็บ <strong>BOQ Lines → Add a line</strong> → ใส่ชื่อ Zone ที่ช่อง "Schedule / Zone" (ใช้ชื่อเดียวกันซ้ำได้ในหลายบรรทัด — ระบบจะรวมยอดตามชื่อนี้ตอนสร้างใบเสนอราคา) → เลือก Rate Library Item → ใส่ Quantity — ราคา/หน่วยและยอดรวมกรอกให้อัตโนมัติจาก Rate ที่เลือก</div></div></div>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">Schedule/Zone คือ key สำหรับรวมยอด</span></div><div class="callout-body">พิมพ์ "L2 Main Lobby" ซ้ำในหลายบรรทัดได้ตามใจ — ตอนกด "สร้างใบเสนอราคา" ระบบจะรวมทุกบรรทัดที่มีชื่อ Zone เดียวกันเป็น 1 บรรทัดสรุปในใบเสนอราคาอัตโนมัติ ตรงกับที่ไฟล์ Excel ทำใน sheet "รวมเป็นเงิน" อยู่แล้ว</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">ทำซ้ำจนครบ 4 บรรทัด (2 Zone × 2 item) แล้ว Save — เช็คยอด Amount Direct Cost/Preliminaries/Overhead Profit/Performance Security/Total ที่ด้านล่างฟอร์ม</div></div></div>
+<figure class="screenshot"><img src="assets/95-boq-lines-added.webp" alt="95-boq-lines-added.png"/></figure>
+<figure class="screenshot"><img src="assets/96-boq-doc-saved.webp" alt="96-boq-doc-saved.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body">กดปุ่ม <strong>"สร้างใบเสนอราคา"</strong> — ระบบสร้าง Sale Order ใหม่ทันที มี section header ตาม Zone + บรรทัดสรุปยอดต่อ Zone + Preliminaries/Overhead &amp; Profit/Performance Security เป็นบรรทัดแยก ผูกกลับมาที่ BOQ Document ต้นทาง (เห็นจากช่อง "BOQ Document" บนใบเสนอราคา)</div></div></div>
+<figure class="screenshot"><img src="assets/97-boq-quotation-generated.webp" alt="97-boq-quotation-generated.png"/></figure>
+<h3>ผลจริงจากคลิปนี้ (BOQ0002 → S54372)</h3>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>ยอด</th></tr></thead><tbody><tr><td>L2 Main Lobby (159×7,080 + 91×9,980)</td><td>2,033,900.00</td></tr><tr><td>L4 Main Lobby (1,114×7,080 + 18×9,980)</td><td>8,066,760.00</td></tr><tr><td><strong>Amount Direct Cost</strong></td><td><strong>10,100,660.00</strong></td></tr><tr><td>Preliminaries 2%</td><td>202,013.20</td></tr><tr><td>Overhead &amp; Profit 10%</td><td>1,010,066.00</td></tr><tr><td>Performance Security 2%</td><td>202,013.20</td></tr><tr><td><strong>Amount Total (ก่อน VAT)</strong></td><td><strong>11,514,752.40</strong></td></tr></tbody></table></div>
+<p>ยอด L2 และ L4 ในตารางนี้ <strong>ตรงกับตัวเลขจริงในไฟล์ BOQ-ZoneXX ต้นฉบับเป๊ะ</strong> (2,033,900 และ 8,066,760) — ยืนยันว่า logic การคำนวณของโมดูลถูกต้องตรงกับวิธีที่ฝ่าย estimate ใช้อยู่ในปัจจุบัน</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">BOQ0002 นี้จำลองแค่ 2 Zone จาก 6 Zone ในไฟล์จริง</span></div><div class="callout-body">คลิป/ตารางด้านบนตั้งใจเลือกมาแค่ L2 + L4 Main Lobby เพื่อให้สอนทำสั้นกระชับ — ไฟล์ BOQ-ZoneXX จริงมี Door + Lift Lobby อีก 3 Zone ที่ไม่ได้รวมไว้ตอนนั้น ภายหลัง (2026-07-21) ได้ขยาย BOQ0002 ให้ครบทุกรายการเพื่อใช้เทียบกับลูกค้าโดยตรง — ดูหัวข้อ <strong>"เวอร์ชันเต็ม"</strong> ด้านล่าง</div></div>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">- แก้แล้ว (2026-07-21): บรรทัดสรุปเคยแสดงแค่ "BOQ Summary Line" ไม่มีคำอธิบายจริง</span></div><div class="callout-body">เดิมบรรทัดสรุปในใบเสนอราคา (Preliminaries/Overhead &amp; Profit/Performance Security รวมถึงบรรทัดสรุปแต่ละ Zone) แสดงชื่อ product "BOQ Summary Line" เฉยๆ ไม่มีคำอธิบายรองให้เห็นเลยว่าบรรทัดไหนคือ Zone ไหน — สาเหตุจริง: widget ของ Odoo (<code>SaleOrderLineProductField</code>) จะโชว์คำอธิบายรองใต้ชื่อ product ก็ต่อเมื่อข้อความ description <strong>ขึ้นต้นด้วยชื่อ product เป๊ะๆ</strong> เท่านั้น ถ้าไม่ตรงเงื่อนไขนี้จะไม่โชว์อะไรเลยแทนที่จะโชว์คำอธิบายแบบเดิม (ไม่ใช่แค่ "ไม่สวย" แต่เป็นบั๊กจริงของการต่อ text ที่แก้ได้) แก้โดยเติมชื่อ product นำหน้า description เสมอ (<code>"BOQ Summary Line\nSchedule No.1 Guestrooms"</code> แทนที่จะเป็นแค่ <code>"Schedule No.1 Guestrooms"</code> เฉยๆ) — ทำให้ widget แสดงคำอธิบายรองถูกต้อง ตอนนี้ทุกบรรทัดสรุปมีคำอธิบายตัวเอียงใต้ชื่อ product แล้ว (ทั้งเอกสารใหม่ที่จะสร้างต่อไป และเอกสารเก่า BOQ0001/0002 ที่ patch ข้อมูลย้อนหลังให้ตรงกันแล้ว)</div></div>
+<figure class="screenshot"><img src="assets/111-boq-summary-line-description-fixed.webp" alt="111-boq-summary-line-description-fixed.png"/></figure>
+<h3>Addendum (2026-07-21): เปลี่ยนบรรทัดหินให้เป็นสินค้าจริง — ฝ่ายปฏิบัติงานกดทำงานต่อได้เลย</h3>
+<p><strong>ปัญหาเดิม:</strong> โฟลว์ด้านบนทำให้ทุกบรรทัดในใบเสนอราคา (รวมถึงบรรทัดหิน) เป็น placeholder "BOQ Summary Line" ทั้งหมด — พอลูกค้า confirm แล้ว ฝ่ายปฏิบัติงานไม่มีปุ่มอะไรให้กดต่อ ต้องย้อนกลับไปเปิด BOQ Document หรือ Excel ต้นทางเพื่อไปหาทางจัดซื้อ/ตัดหินเอง</p>
+<p><strong>แก้แล้ว:</strong> เพิ่มช่อง <strong>Product</strong> ใน Rate Library — ถ้าผูก Rate item กับสินค้าจริง (เช่นหิน SKU ที่มีอยู่ในระบบ) ตอนกด "สร้างใบเสนอราคา" ระบบจะสร้างบรรทัดสินค้าจริงแทน placeholder ให้อัตโนมัติ พร้อมปุ่ม Select Slabs/Cut to Order แบบเดียวกับงานขายหินปกติทุกประการ (ใช้กลไก Mode 3 เดิมซ้ำ ไม่มีของใหม่) ส่วน Rate item ที่ไม่ได้ผูก Product ยังคงแสดงเป็น placeholder เหมือนเดิม ไม่พังอะไร</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">เปิด <strong>Rate Library</strong> → คลิกช่อง <strong>Product</strong> ของ Rate item ที่ต้องการ → เลือกสินค้าจริง (สำหรับหิน เลือก Finish variant ของ Material นั้น) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/106-boq-rate-linked-product.webp" alt="106-boq-rate-linked-product.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">สร้าง BOQ Document ตามปกติ (บรรทัดที่ผูก Product ไว้ + บรรทัดที่ไม่ได้ผูกในโซนเดียวกัน) → กด "สร้างใบเสนอราคา" — บรรทัดที่ผูก Product กลายเป็นสินค้าจริงพร้อมปุ่ม <strong>Select Slabs / Cut to Order / Recompute Price (BOQ)</strong> ทันที ส่วนบรรทัดที่ไม่ได้ผูกยัง fallback เป็น "BOQ Summary Line" เหมือนเดิม (เห็นในภาพ: 3 บรรทัด BOQ Summary Line คือรายการที่ไม่ได้ผูก + Preliminaries + Overhead &amp; Profit)</div></div></div>
+<figure class="screenshot"><img src="assets/107-boq-so-generated-real-line.webp" alt="107-boq-so-generated-real-line.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ทำไมจำนวน (Quantity) ของบรรทัดหินถึงเป็น 1 เสมอตอนสร้างใหม่</span></div><div class="callout-body">หินขายเป็น "แผ่น" (Units) ไม่ใช่ ตร.ม. — ใส่ qty=1 + ราคารวมทั้งก้อนไปก่อน (ตัวเลข ตร.ม. จริงจาก takeoff ยังโชว์อยู่ในคำอธิบายบรรทัด) รอ Select Slabs/Cut to Order เปลี่ยนจำนวนเป็นแผ่นจริงให้เองทีหลัง</div></div>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">เมื่อฝ่ายปฏิบัติงานกด <strong>Select Slabs</strong> เลือกแผ่นจริงแล้ว Confirm — จำนวนอัปเดตเป็นแผ่นที่ hold จริง แต่ <strong>ราคาต่อหน่วยจะถูก Odoo เขียนทับด้วยราคามาตรฐานของสินค้าเองโดยอัตโนมัติทันที</strong> (เห็นในภาพ ยอดรวมตกจาก 309,470.75 ฿ เหลือ 49,995.75 ฿ ทันทีที่ confirm) — เป็นพฤติกรรม compute field มาตรฐานของ Odoo ที่ผูกราคาไว้กับ pricelist ทุกครั้งที่จำนวนเปลี่ยน ไม่ใช่บั๊กของ BOQ module แต่เป็นเหตุผลที่ต้องมีปุ่มถัดไป</div></div></div>
+<figure class="screenshot"><img src="assets/108-boq-select-slabs-confirmed.webp" alt="108-boq-select-slabs-confirmed.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">กดปุ่ม <strong>"Recompute Price (BOQ)"</strong> ที่บรรทัดนั้น — ราคาต่อหน่วยคำนวณใหม่จาก (Rate/Unit เดิมจาก BOQ) × (ตร.ม. ของแผ่นที่ hold จริง) กลับมาถูกต้องทันที (76,722.26 ฿)</div></div></div>
+<figure class="screenshot"><img src="assets/109-boq-recompute-price.webp" alt="109-boq-recompute-price.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต้องกด Recompute ทุกครั้งหลัง Select Slabs/Cut to Order</span></div><div class="callout-body">ราคาจะถูก Odoo เขียนทับอัตโนมัติทุกครั้งที่จำนวนเปลี่ยน (ไม่ใช่แค่ครั้งแรก) — ถ้าลืมกด Recompute ใบเสนอราคาจะใช้ราคาสินค้ามาตรฐาน ไม่ใช่ราคาที่ตกลงกับลูกค้าไว้ใน BOQ</div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">ถ้ากด <strong>Cut to Order</strong> แทน (กรณีไม่มีแผ่นที่ใช้ได้ใน stock) ระบบจะเช็คให้อัตโนมัติว่ามีแผ่นขนาดตรงกันอยู่ใน stock อยู่แล้วหรือเปล่า (รวมแผ่นเศษ/remnant ด้วย) — ถ้ามี จะเตือนแบบ popup ที่ปิดได้ ไม่บล็อกการทำงาน (พนักงานยังกด Create Cut Order ต่อได้ถ้ามั่นใจว่าต้องการตัดใหม่จริงๆ)</div></div></div>
+<figure class="screenshot"><img src="assets/110-boq-cutorder-warning.webp" alt="110-boq-cutorder-warning.png"/></figure>
+<h3>เวอร์ชันเต็ม (2026-07-21): BOQ0002 ขยายให้ตรงกับไฟล์ BOQ-ZoneXX จริงทั้งหมด — สำหรับเทียบกับลูกค้า</h3>
+<p>BOQ0002 ด้านบนจำลองแค่ 2 Zone (L2, L4) — ขยายให้ครบทั้ง 6 Zone ตามไฟล์จริงแล้ว เพื่อใช้เป็นเอกสารเทียบให้ลูกค้าดูโดยตรงว่าระบบคำนวณตรงกับ Excel เป๊ะแค่ไหน</p>
+<p><strong>ขอบเขต:</strong> ทำเฉพาะฝั่ง <strong>EG (ค่าวัสดุ)</strong> — ไฟล์จริงมีอีกฝั่งคือ <strong>TCR (ค่าแรง/subcontractor คนละนิติบุคคล)</strong> ซึ่งตั้งใจไม่รวม เพราะต้อง design เรื่อง company แยกใหม่ทั้งหมด (ตัดสินใจตอนปิดไฟล์นี้ครั้งแรกแล้วว่า treat TCR เหมือนไม่มีอยู่)</p>
+<h4>รายการที่เพิ่มเข้าไป (10 บรรทัดใหม่ รวมเป็น 14 บรรทัด)</h4>
+<div class="table-wrap"><table><thead><tr><th>Zone</th><th>รายการ</th><th>ยอด (บาท)</th></tr></thead><tbody><tr><td>L2 Main Lobby</td><td>ST1, ST2 (เดิม)</td><td>2,033,900.00</td></tr><tr><td>L4 Main Lobby</td><td>ST1, ST2 (เดิม)</td><td>8,066,760.00</td></tr><tr><td><strong>Door</strong> (ใหม่)</td><td>K-SD2, K-SD3, K-SD4, K-SD10, K-SD11, K-SD12, K-SD13 (บานประตูอลูมิเนียมรังผึ้ง 7 แบบ)</td><td>247,163.86</td></tr><tr><td><strong>Lift Lobby (Low Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 580 ตร.ม.</td><td>2,320,000.00</td></tr><tr><td><strong>Lift Lobby (Mid Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 682 ตร.ม.</td><td>2,728,000.00</td></tr><tr><td><strong>Lift Lobby (High Zone)</strong> (ใหม่)</td><td>ST7 Spider Grey, 594 ตร.ม.</td><td>2,376,000.00</td></tr></tbody></table></div>
+<p>รายการ Door เป็นรายการเฉพาะโปรเจกต์ (ไม่ reusable ข้ามงาน) เลยไม่ได้สร้างเป็น Rate Library item ใหม่ 7 ตัว — ใส่ตรงในบรรทัด BOQ Line โดยไม่ผูก Rate Library Item เลย (ปล่อยว่างได้ ไม่บังคับ) ส่วน ST7 สร้างเป็น Rate ใหม่ในคลัง (ใช้ซ้ำได้ต่อไป)</p>
+<figure class="screenshot"><img src="assets/112-boq0002-full-14-lines.webp" alt="112-boq0002-full-14-lines.png"/></figure>
+<h4>เทียบยอดรวม: Odoo vs ไฟล์ Excel จริง</h4>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>Odoo</th><th>ไฟล์ Excel จริง</th><th>ต่างกัน</th></tr></thead><tbody><tr><td>Amount Direct Cost</td><td>17,771,823.86</td><td>17,771,823.868</td><td>0.8 สตางค์ (rounding)</td></tr><tr><td>Preliminaries</td><td>425,033.55</td><td>425,033.549</td><td>ตรงเป๊ะ</td></tr><tr><td>Overhead &amp; Profit (10%)</td><td>1,777,182.39</td><td>1,777,182.387</td><td>ตรงเป๊ะ</td></tr><tr><td>Performance Security</td><td>53,315.47</td><td>53,315.472</td><td>ตรงเป๊ะ</td></tr><tr><td><strong>รวมก่อน VAT</strong></td><td><strong>20,027,355.27</strong></td><td><strong>20,027,355.276</strong></td><td>0.6 สตางค์ (rounding)</td></tr></tbody></table></div>
+<p>สร้างเป็นใบเสนอราคาใหม่ <strong>S54388</strong> (ใบเดิม S54372 จากตอนสอนทำด้านบนยังเก็บไว้เหมือนเดิม ไม่แตะ — ระบบสร้างใบใหม่ทุกครั้งที่กด "สร้างใบเสนอราคา" ไม่ overwrite ใบเก่า)</p>
+<figure class="screenshot"><img src="assets/113-so-s54388-complete.webp" alt="113-so-s54388-complete.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">2 จุดที่ยังไม่ตรง 100% กับไฟล์จริง — ต้องบอกลูกค้าตรงๆ</span></div><div class="callout-body">1. <strong>Preliminaries/Performance Security ในไฟล์จริงคำนวณซับซ้อนกว่า % ธรรมดา</strong> (มีคอลัมน์ RATE/PERIOD/PORTION แยกกัน ไม่ใช่ % คูณ Direct Cost ตรงๆ) — เลข % ที่ใส่ในเอกสารนี้ (Preliminaries 2.39161%, Performance Security 0.3%) คำนวณย้อนกลับมาให้ได้ยอดเงินตรงกับไฟล์จริงพอดี ไม่ใช่ว่าระบบรองรับสูตรคำนวณแบบไฟล์จริงจริงๆ — ถ้าลูกค้าเปลี่ยนเงื่อนไขโปรเจกต์ ต้องคำนวณ % ใหม่เองทุกครั้ง ไม่ auto 2. <strong>ไฟล์จริงมี "Final Discount" 116,796.19 บาทท้ายสุด</strong> (ยอดจริงหลังหักส่วนลด = 19,910,559.08) — โมดูลนี้ยังไม่มีช่องสำหรับส่วนลดท้ายบิลแบบนี้ ตัวเลข 20,027,355.27 ที่ระบบโชว์คือ<strong>ก่อนหักส่วนลด</strong></div></div>
+<h3>พิมพ์ PDF / Export Excel</h3>
+<p>จาก BOQ Document เดียวกันนี้ กดปุ่ม <strong>"พิมพ์ PDF"</strong> หรือ <strong>"Export Excel"</strong> ได้ทันที — ทั้งสองแบบจัดกลุ่มตาม Schedule/Zone พร้อม Sub-Total ต่อ Zone และสรุป Direct Cost/Preliminaries/Overhead &amp; Profit/Performance Security/Total เหมือนกัน (Excel export ใช้ <code>xlsxwriter</code> สร้างไฟล์จริง ไม่ใช่ export ดิบจาก list view)</p>
+<figure class="screenshot"><img src="assets/98-boq-print-export-buttons.webp" alt="98-boq-print-export-buttons.png"/></figure>
+<p>ตัวอย่างไฟล์จริงที่พิมพ์ออกมาจาก BOQ0002 ในคลิปด้านบน: <span class="xref-external">boq-sample-print.pdf</span> · <span class="xref-external">boq-sample-export.xlsx</span></p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="21-quote-split-invoice-terms.html"><span class="dir">← ก่อนหน้า</span>21. ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+  <a class="next" href="23-returns-rma.html"><span class="dir">ถัดไป →</span>23. การคืนสินค้า (Returns / RMA)</a>
+</div>
+</body>
+</html>

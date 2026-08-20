@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09. eCommerce Catalog (<code>/stone-catalog</code>) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 09 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">09</span> eCommerce Catalog (<code>/stone-catalog</code>)</h1>
+  </div>
+  <div class="page-content">
+<p>หน้าเว็บสาธารณะ <strong>empiregranite.net/stone-catalog</strong> (ADR-011) ให้ลูกค้าเรียกดูแผ่นหินจริงที่มีในสต็อกและสั่งซื้อได้เอง โดยไม่ต้องผ่านพนักงานก่อน — สร้างแบบ custom controller ทั้งหมด ไม่ใช้ <code>website_sale</code> เพราะแผ่นหินแต่ละแผ่นเป็นชิ้นเดียวไม่ซ้ำ (unique unit) ไม่ใช่สินค้านับจำนวนทั่วไป และไม่ต้องการระบบชำระเงินออนไลน์</p>
+<h3>UX 2 ระดับ</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Level 1 (หน้ารวม Material)</strong> — แสดงเป็นการ์ดตาม Material พร้อมรูป, จำนวนแผ่นพร้อมขาย ("N แผ่นพร้อมขาย"), และช่วงราคา</div></div></div>
+<figure class="screenshot"><img src="assets/29-catalog-level1.webp" alt="29-catalog-level1.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Level 2 (คลิกเข้าไปดูแผ่นจริง)</strong> — แสดงรายการแผ่นจริงแต่ละแผ่นในนั้น (ขนาด, ราคา, รูปจริง) ให้เลือกเพิ่มลงตะกร้าได้ทีละแผ่น</div></div></div>
+<figure class="screenshot"><img src="assets/30-catalog-level2.webp" alt="30-catalog-level2.png"/></figure>
+<p>(ออกแบบ 2 ระดับนี้ตาม feedback ลูกค้า — ดูแบบ flat list เดียวจะสับสนว่าทำไมมี 2 รายการที่หน้าตาคล้ายกัน)</p>
+<h3>ตะกร้า &amp; ยืนยันคำสั่งซื้อ</h3>
+<ul><li>ตะกร้าเป็น client-side (<code>localStorage</code>) ไม่มี server cart model</li><li>ยืนยันคำสั่งซื้อ → ระบบ find-or-create ลูกค้า (<code>res.partner</code>) จากเบอร์โทร/อีเมล (normalize ก่อนเทียบ กันสร้างซ้ำ) → สร้าง <strong>Quotation แบบ draft</strong> ให้ทันที (ยังไม่ confirm — พนักงานต้อง review ก่อนเสมอ)</li><li>ถ้าแผ่นที่ลูกค้าเลือกถูกคนอื่น hold ไปก่อนพอดี (race condition) ระบบจะแจ้ง error ทันที ไม่มี record ค้าง</li></ul>
+<h3>เมื่อออเดอร์จาก Catalog เข้ามาถึงพนักงาน</h3>
+<p>Quotation ที่สร้างจาก Catalog จะมีแผ่นถูก hold ไว้แล้ว (status = Hold) — เมื่อพนักงานเปิดดู Order Line แล้วกด <strong>"Select Slabs"</strong> จะเห็นแผ่นที่ลูกค้าเลือกไว้แล้วในลิสต์ทันที (ตาม Session 25 fix — ดู <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) พนักงานตรวจสอบแล้วกด Confirm SO ต่อได้เลยตาม flow ปกติ</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ข้อมูลราคา</span></div><div class="callout-body">ตอนนี้มีแค่บางแผ่นที่กรอกราคาขายจริงแล้ว (<code>purchased_l/h</code> + <code>sales_price_sqmt</code>) แผ่นอื่นที่ยังไม่กรอกจะโชว์ราคา ฿0 ในหน้าเว็บ — ต้องกรอกให้ครบก่อนเปิดขายจริงวงกว้าง (ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>)</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="08-intercompany.html"><span class="dir">← ก่อนหน้า</span>08. ขายข้ามบริษัท (EG↔ES)</a>
+  <a class="next" href="10-known-limitations.html"><span class="dir">ถัดไป →</span>10. ข้อจำกัดและบั๊กที่ทราบ</a>
+</div>
+</body>
+</html>

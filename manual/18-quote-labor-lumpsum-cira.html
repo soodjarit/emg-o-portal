@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>18. ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 18 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">18</span> ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>โครงการ <strong>CIRA Residences</strong> — <strong>ไม่มีการขายหินเลย</strong> ลูกค้าซื้อหินเอง จ้างแค่<strong>ค่าแรงติดตั้ง</strong> ไฟล์ต้นฉบับมี 439 แถว แจกแจงละเอียดถึงระดับ Plot → บ้าน → ห้อง → ชนิดหิน/ตำแหน่งติดตั้ง (ท๊อป, ลูกตั้ง, ธรณี, ผนัง, ปูนกาว) แต่<strong>ราคาคิดเป็นเหมาต่อห้อง</strong> ไม่ได้แยกราคาแต่ละบรรทัดย่อย เช่น:</p>
+<div class="table-wrap"><table><thead><tr><th>ห้อง</th><th>รายละเอียด (ข้อมูลประกอบ ไม่ใช่ราคาแยก)</th><th>ราคาเหมา</th></tr></thead><tbody><tr><td>T102-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ผนัง+ปูนกาว</td><td>27,750</td></tr><tr><td>T202-POWDER</td><td>Vangogh Polish ท๊อป+ลูกตั้ง+ธรณี+ปูนกาว</td><td>5,150</td></tr></tbody></table></div>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p><strong>จุดสำคัญ:</strong> งานแบบนี้<strong>ไม่แตะโมดูล stone_slab_inventory เลย</strong> เป็น Sale Order มาตรฐานของ Odoo ล้วนๆ — ไม่มีปุ่ม Select Slabs เพราะไม่มี product หินอยู่ในใบเลย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/74-f4-customer.webp" alt="74-f4-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมาต่อห้อง)" → ตั้งชื่อบรรทัด (แก้ข้อความ) ให้ระบุห้อง/รายละเอียดที่มาของราคา เช่น "ค่าแรงติดตั้งหิน — PLOT-1 / T202-POWDER" → ใส่ราคาเหมาตามห้องนั้น</div></div></div>
+<figure class="screenshot"><img src="assets/75-f4-line-added.webp" alt="75-f4-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">ทำซ้ำเป็นบรรทัดใหม่สำหรับแต่ละห้อง (ไฟล์จริงมีหลายสิบห้อง — ตัวอย่างนี้แสดงเพียง 1 ห้องเพื่อพิสูจน์ pattern) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/76-f4-final-total.webp" alt="76-f4-final-total.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ยังไม่มีคู่มือ/pattern มาตรฐานสำหรับงานแรงงานล้วน</span></div><div class="callout-body">ทำได้ทางเทคนิคแน่นอน (พิสูจน์แล้วในหน้านี้) แต่พนักงานควรรู้ว่างานแบบนี้ข้ามขั้นตอน Select Slabs/Block ไปเลย ไม่ใช่ลืมทำ — ถ้ามีงานแบบนี้บ่อย ควรตกลงกันว่าจะตั้งชื่อ/จัดหมวด service product อย่างไรให้เป็นมาตรฐานเดียวกันทุกโครงการ</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="17-quote-slab-cutting-fee.html"><span class="dir">← ก่อนหน้า</span>17. ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+  <a class="next" href="19-quote-labor-only.html"><span class="dir">ถัดไป →</span>19. ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+</div>
+</body>
+</html>

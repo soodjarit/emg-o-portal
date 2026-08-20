@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>23. การคืนสินค้า (Returns / RMA) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 23 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">23</span> การคืนสินค้า (Returns / RMA)</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์</h3>
+<p>ก่อนหน้านี้ระบบไม่มีการจัดการการคืนสินค้าเลย — สถานะแผ่นหิน (<code>stone.slab.status</code>) มีแค่ available/hold/consigned/cut_loss/sold/remnant ไม่มีทางย้อนกลับจาก "Sold" เลย ถ้าลูกค้าคืนแผ่นหิน (ผิดขนาด/ชำรุดจากขนส่ง/ยกเลิกงาน) แล้วพนักงานใช้ปุ่ม Return มาตรฐานของ Odoo สต็อกจริงจะถูกต้อง แต่แผ่นนั้นจะค้างสถานะ "Sold" ตลอดไปในสายตาโมดูล — มองไม่เห็นใน Select Slabs wizard, ตัวนับ Block, หรือ Stock Take ทั้งที่ของจริงกลับเข้าคลังแล้ว</p>
+<h3>วิธีทำงานตอนนี้</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch23.webp" alt="EMG-O Flow - การคืนสินค้า (Returns RMA)"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ลูกค้าคืนแผ่นหิน — พนักงานใช้ปุ่ม <strong>Return</strong> มาตรฐานของ Odoo จากใบส่งของเดิม (Delivery Order → Return)</div></div><div class="step"><span class="step-num">2</span><div class="step-body">Validate ใบรับคืน — ระบบตรวจจับอัตโนมัติว่าเป็นการคืนสินค้าจริง (ไม่ใช่ใบรับสินค้าทั่วไป) แล้วเปลี่ยนสถานะแผ่นเป็น <strong>"Returned - Pending Inspection"</strong> ทันที</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ไปที่เมนู <strong>Stone Slab → Slabs Pending Inspection</strong> เพื่อดูรายการแผ่นที่รอตรวจสอบทั้งหมด (ข้าม Block ได้ ไม่ต้องเปิดทีละ Block)</div></div></div>
+<figure class="screenshot"><img src="assets/100-returns-pending-inspection-list.webp" alt="100-returns-pending-inspection-list.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ตรวจสอบสภาพแผ่นจริง แล้วกดปุ่มตัดสินใจ — ในหน้า list กดได้ตรงแถวเลย หรือเปิดฟอร์มแผ่นแล้วกดปุ่มบนหัว</div></div></div>
+<figure class="screenshot"><img src="assets/101-returns-slab-form-pending.webp" alt="101-returns-slab-form-pending.png"/></figure>
+<ul><li><strong>"ตรวจแล้ว: ขายต่อได้ (Available)"</strong> — แผ่นสภาพดี ขายต่อได้ทันที ล้างข้อมูลลูกค้า/SO เดิมออก กลับไปเป็น Available ปกติ</li><li><strong>"ตรวจแล้ว: ชำรุด (Cut Loss)"</strong> — แผ่นเสียหาย ไม่สามารถขายต่อได้ เข้ากลุ่มเดียวกับของเสียจากการตัด</li></ul>
+<figure class="screenshot"><img src="assets/102-returns-slab-resolved-available.webp" alt="102-returns-slab-resolved-available.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">Block แต่ละใบมีปุ่ม <strong>"Returned"</strong> (smart button) โชว์จำนวนแผ่นที่รอตรวจสอบของ Block นั้นด้วย ถ้ามี</div></div></div>
+<figure class="screenshot"><img src="assets/99-returns-bundle-smart-button.webp" alt="99-returns-bundle-smart-button.png"/></figure>
+<h3>ข้อควรรู้ (เจอจากการทดสอบจริง)</h3>
+<div class="callout callout-bug"><div class="callout-head"><span class="callout-tag">บั๊กที่พบ</span><span class="callout-title">Native Return ของ Odoo ไม่ได้คืนของเข้า "Stone Hold"</span></div><div class="callout-body">ตอนออกแบบครั้งแรกคิดว่า Return จะคืนของกลับเข้าตำแหน่งเดิม (Stone Hold) แต่ทดสอบจริงแล้วพบว่า Odoo คืนเข้า warehouse Stock ทั่วไปแทน (picking type สำหรับรับของใช้ร่วมกับใบรับสินค้าทั่วไป ชี้ไปที่ Stone Hold ตรงๆ ไม่ได้ ไม่งั้นจะกระทบการซื้อของทั่วไป ดู <a href="15-purchasing.html" class="xref">บทที่ 15: การจัดซื้อ</a>) ระบบเลยบันทึกตำแหน่งจริงที่ของไปตกไว้ (ไม่ใช่เดาตายตัว) แล้วดึงสต็อกจากตำแหน่งจริงตอนพนักงานกดปุ่มตัดสินใจ — พิสูจน์แล้วด้วยการอ่าน stock move ledger จริง ไม่ใช่แค่เดา</div></div>
+<h3>สรุป</h3>
+<p>Gap ที่เจอจากการอ่านโค้ดจริง (ไม่มีทางย้อนสถานะจาก Sold เลย) แก้แล้วครบ: ตรวจจับอัตโนมัติ + ขั้นตอนตรวจสอบก่อนตัดสินใจ (ตามที่ user เลือก ไม่ใช่ auto-resolve ทันที เพราะแผ่นหินอาจชำรุดจากการขนส่งจริง) + เมนูรวมให้พนักงานตามงานได้ง่าย ทดสอบจริงผ่าน browser ครบวงจร (ขาย → ส่งของ → คืนสินค้า → ตรวจสอบ → ตัดสินใจ)</p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="22-boq-estimation.html"><span class="dir">← ก่อนหน้า</span>22. BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+  <a class="next" href="24-quote-stone-labor-skylounge.html"><span class="dir">ถัดไป →</span>24. ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</div>
+</body>
+</html>

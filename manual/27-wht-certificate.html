@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>27. ใบรับรองหัก ณ ที่จ่าย (WHT Certificate) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 27 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">27</span> ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</h1>
+  </div>
+  <div class="page-content">
+<p>เวลาบริษัทจ่ายเงินค่าบริการ/ค่าเช่า/ค่าจ้างทำของให้ผู้รับเงิน แล้วต้อง<strong>หักภาษี ณ ที่จ่าย</strong> ตามกฎหมาย กฎหมายไทยกำหนดให้ผู้จ่ายเงินต้องออก <strong>หนังสือรับรองการหักภาษี ณ ที่จ่าย (แบบ 50 ทวิ)</strong> ให้ผู้รับเงินไว้เป็นหลักฐาน — ระบบพิมพ์เอกสารนี้ให้อัตโนมัติจากบิลผู้ขายที่ Post แล้ว ไม่ต้องไปกรอกฟอร์มแยกต่างหาก</p>
+<p><strong>ข้อสำคัญ: อัตราภาษีหัก ณ ที่จ่ายมีอยู่ในระบบอยู่แล้ว</strong> (1%, 2%, 3%, 5% ทั้งแบบนิติบุคคล/PND53 และบุคคลธรรมดา/PND3) เป็นของมาตรฐาน Odoo (<code>l10n_th</code>) ที่ผูกบัญชี "ภาษีหัก ณ ที่จ่ายค้างนำส่ง" ไว้ถูกต้องอยู่แล้ว — สิ่งที่เพิ่มเข้ามาคือ<strong>ปุ่มพิมพ์เอกสาร</strong>เท่านั้น</p>
+<h3>ภาพรวม Flow</h3>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body">บันทึกบิลผู้ขายตามปกติ → เลือกภาษีหัก ณ ที่จ่ายที่ถูกต้องในบรรทัดสินค้า/บริการ (เช่น "3% WH C S")</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body">กด <strong>Confirm</strong>/Post บิลตามปกติ</div></div>
+<div class="step"><span class="step-num">3</span><div class="step-body">ปุ่ม <strong>"Print WHT Certificate"</strong> จะโผล่ที่ header ของบิล (เห็นเฉพาะเมื่อบิลนี้มีภาษีหัก ณ ที่จ่ายจริง และสถานะเป็น Posted แล้วเท่านั้น)</div></div>
+<div class="step"><span class="step-num">4</span><div class="step-body">กดปุ่ม → ได้ไฟล์ PDF หนังสือรับรองตามแบบ 50 ทวิ ครบทุกช่อง พร้อมพิมพ์ให้ผู้รับเงินได้ทันที</div></div>
+</div>
+<h3>1. เลือกภาษีหัก ณ ที่จ่ายตอนบันทึกบิล</h3>
+<p>ไม่ต้องตั้งค่าอะไรเพิ่ม — อัตราที่มีอยู่แล้วในระบบครอบคลุมเคสที่ใช้บ่อย:</p>
+<div class="table-wrap"><table><thead><tr><th>อัตรา</th><th>ใช้กับ</th></tr></thead><tbody>
+<tr><td>1%</td><td>ค่าขนส่ง</td></tr>
+<tr><td>2%</td><td>ค่าโฆษณา</td></tr>
+<tr><td>3%</td><td>ค่าจ้างทำของ/ค่าบริการ</td></tr>
+<tr><td>5%</td><td>ค่าเช่า</td></tr>
+</tbody></table></div>
+<p>แต่ละอัตรามี 2 เวอร์ชัน — นิติบุคคล (PND53) กับบุคคลธรรมดา (PND3) — เลือกให้ตรงกับสถานะผู้รับเงิน</p>
+<h3>2. บันทึกบิลผู้ขาย</h3>
+<p>ตัวอย่างจริง: บิลค่าจ้างขัดผิวหน้าหินจาก "ช่างขัดหินไทย" (บุคคลธรรมดา รับจ้างบริการ) — ฿15,000 + VAT 7% หัก WHT 3%</p>
+<figure class="screenshot"><img src="assets/121-wht-vendor-bill-form.webp" alt="121-wht-vendor-bill-form"/></figure>
+<p><strong>ผลลัพธ์ทางบัญชีที่ถูกต้อง:</strong> ยอดที่ต้องจ่ายจริง (Amount Due) จะถูกหักลบด้วยยอด WHT ให้อัตโนมัติ — ระบบตัด Trade Payables ออก (ยอดรวม + VAT − WHT) พร้อมลงบัญชี "ภาษีหัก ณ ที่จ่ายค้างนำส่ง" แยกไว้อีกบัญชีหนึ่ง ตรงตามหลักบัญชีภาษีไทยเป๊ะ ไม่ต้องปรับเอง</p>
+<h3>3. พิมพ์หนังสือรับรอง</h3>
+<p>เมื่อบิล Post แล้ว ปุ่ม <strong>"Print WHT Certificate"</strong> จะโผล่ที่แถบปุ่มด้านบนฟอร์ม (ข้าง Pay/Credit Note) — กดแล้วระบบจะสร้าง PDF ให้ทันที โดยดึงข้อมูลจากบิลมาใส่ให้ครบทุกช่องอัตโนมัติ:</p>
+<figure class="screenshot"><img src="assets/122-wht-certificate-printed.webp" alt="122-wht-certificate-printed"/></figure>
+<p>ข้อมูลที่กรอกให้อัตโนมัติ:</p>
+<div class="table-wrap"><table><thead><tr><th>ช่องในเอกสาร</th><th>ที่มา</th></tr></thead><tbody>
+<tr><td>เลขที่หนังสือรับรอง</td><td>เลขรันอัตโนมัติ (ดูหัวข้อ 4)</td></tr>
+<tr><td>วันที่จ่ายเงิน</td><td>วันที่ในบิล (Invoice Date)</td></tr>
+<tr><td>ผู้จ่ายเงิน (ชื่อ/ที่อยู่/เลขผู้เสียภาษี)</td><td>ข้อมูลบริษัทของบิลนั้น</td></tr>
+<tr><td>ผู้รับเงิน (ชื่อ/ที่อยู่/เลขผู้เสียภาษี)</td><td>Vendor ในบิล</td></tr>
+<tr><td>ประเภทเงินได้</td><td>เดาจากชื่อภาษีที่เลือก (ดูคำเตือนด้านล่าง)</td></tr>
+<tr><td>จำนวนเงิน/อัตรา/ภาษีที่หัก</td><td>คำนวณจากบรรทัดสินค้าที่มีภาษีหัก ณ ที่จ่าย</td></tr>
+</tbody></table></div>
+<h3>4. เลขที่หนังสือรับรอง (เลขรัน)</h3>
+<p>เลขที่ขึ้นต้นด้วย <code>WHT-</code> ตามด้วยปีและเลขรัน (เช่น <code>WHT-2026-0002</code>) — เป็นเลขรันกลาง<strong>ไม่แยกตามบริษัท</strong> (ต่างจากเลขที่ใบแจ้งหนี้/PO ที่แยกเลขรันตามบริษัท) เพราะหนังสือรับรองไม่จำเป็นต้องมีเลขแยกเป็นชุดต่อบริษัทตามกฎหมาย และการทำแบบนี้ยังกันปัญหาเลขรันสร้างผิดบริษัทแบบที่เคยเจอกับเอกสารอื่นในระบบด้วย</p>
+<h3>ข้อควรระวัง</h3>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">"ประเภทเงินได้" เป็นการเดาจากชื่อภาษี ไม่ใช่การจัดหมวดตามกฎหมายแบบสมบูรณ์</span></div><div class="callout-body">ระบบอ่านตัวอักษรท้ายชื่อภาษี (T/A/S/R) แล้วแปลเป็นหมวด ค่าขนส่ง/ค่าโฆษณา/ค่าบริการ/ค่าเช่า ให้อัตโนมัติ — เป็นการอนุมานตามรูปแบบการตั้งชื่อภาษีในระบบนี้เท่านั้น <strong>ไม่ใช่การจัดหมวดตามกฎหมายที่ครบถ้วน</strong> ก่อนใช้เอกสารจริงกับสรรพากร ให้นักบัญชีตรวจทานช่อง "ประเภทเงินได้พึงประเมิน" ทุกครั้ง</div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ปุ่มพิมพ์ไม่โผล่ 2 กรณี</span></div><div class="callout-body">(1) บิลยังเป็นสถานะ Draft (ยังไม่ Post) หรือ (2) บิลนี้ไม่มีบรรทัดไหนติดภาษีหัก ณ ที่จ่ายเลย — ทั้ง 2 กรณีถือว่าปกติ ไม่ใช่บั๊ก</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="26-crm.html"><span class="dir">← ก่อนหน้า</span>26. ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+  <a class="next" href="28-cost-components-split-quotation.html"><span class="dir">ถัดไป →</span>28. ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+</div>
+</body>
+</html>

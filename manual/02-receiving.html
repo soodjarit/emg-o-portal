@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02. รับสินค้าเข้าคลัง — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 02 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">02</span> รับสินค้าเข้าคลัง</h1>
+  </div>
+  <div class="page-content">
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">หน้านี้พูดถึงการซื้อ<strong>หิน</strong>เท่านั้น</span></div><div class="callout-body">ถ้าซื้อของอย่างอื่นที่ไม่ใช่หิน (อุปกรณ์, วัสดุสิ้นเปลือง, บริการ ฯลฯ) ไม่ต้องผูก Block — ใช้ขั้นตอน Purchase มาตรฐานของ Odoo ตรงๆ ดู <a href="15-purchasing.html" class="xref">บทที่ 15: การจัดซื้อ</a></div></div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ศัพท์ "Block" (เดิมชื่อ "Bundle")</span></div><div class="callout-body">UI ปัจจุบันเรียกก้อนหิน 1 ก้อนว่า <strong>"Block"</strong> ทั้งหมด (เมนู, ฟอร์ม, list view) — model เบื้องหลัง (<code>stone.bundle</code>) และภาพหน้าจอบางรูปในบทนี้ยังเป็นเวอร์ชันก่อน rename อาจเห็นคำว่า "Bundle" ค้างอยู่ในภาพ ให้เข้าใจว่าคือหน้าจอเดียวกัน</div></div>
+<h3>ภาพรวม Flow</h3>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch02.webp" alt="EMG-O Flow - รับสินค้าเข้าคลัง"/></figure>
+<h3>วิธีซื้อ + รับก้อนหินเข้าคลัง (ตัวอย่าง 1 ก้อน)</h3>
+<p>ก่อนสร้าง Block ต้องมี <strong>Purchase Order จริงที่ Confirm แล้ว</strong> ก่อนเสมอ (ดูเหตุผลใน callout ด้านล่าง):</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body"><strong>Purchase → New</strong> → เลือก Vendor (ตัวอย่าง: Demo Supplier - Global Stone Quarry)</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก <strong>Block Product</strong> ของวัสดุนั้น (เช่น "Rosa Portogallo Granite Block") → กรอก Quantity เป็น<strong>คิว (m³)</strong> ที่ซื้อจริง (ตัวอย่าง 5 m³) + ราคาต่อคิว (ตัวอย่าง 8,000/m³)</div></div>
+<div class="step"><span class="step-num">3</span><div class="step-body">Save → <strong>Confirm Order</strong> — PO เปลี่ยนสถานะเป็น Purchase Order (ยืนยันแล้ว)</div></div>
+<div class="step"><span class="step-num">4</span><div class="step-body">ไปที่ <strong>Stone Slab → Blocks → New</strong> → กรอก Block Code + เลือก Material → section "2. รับสต็อกก้อน (CBM)" จะโผล่มา</div></div>
+<div class="step"><span class="step-num">5</span><div class="step-body">ช่อง <strong>Purchase Order Line</strong> — ระบบกรองให้เหลือเฉพาะ PO Line ของ Block Product วัสดุนี้ที่ Confirm แล้วเท่านั้น → เลือก PO ที่เพิ่งสร้าง</div></div>
+<div class="step"><span class="step-num">6</span><div class="step-body"><strong>Supplier + Total CBM กรอกให้อัตโนมัติ</strong> จาก PO Line ที่เลือก (ตัวอย่าง Total CBM = 5.00 ตรงกับ PO) — เหลือแค่กรอก <strong>Thickness (M)</strong> เอง (ค่านี้ไม่ได้อยู่บน PO เพราะเป็นความหนาที่จะตัดแผ่น ไม่ใช่คุณสมบัติของก้อนดิบ)</div></div>
+<div class="step"><span class="step-num">7</span><div class="step-body">เลือก <strong>Warehouse</strong> → Save — ระบบสร้าง <code>Block Stock Lot</code> ให้อัตโนมัติ และ <strong>Remaining CBM</strong> จะคำนวณสดตรงกับที่ซื้อจริงทันที</div></div>
+</div>
+<h3>ซื้อหลายก้อนพร้อมกัน ขนาดไม่เท่ากัน (ตัวอย่าง 5 ก้อน)</h3>
+<p>ถ้าซื้อ material เดียวกันทีเดียวหลายก้อน (เช่น Rosa Portogallo Granite 5 ก้อน) <strong>ต้องออก PO เป็น 5 บรรทัดแยกกัน ไม่ใช่ 1 บรรทัดรวม quantity</strong> — เพราะระบบคิดต้นทุนต่อก้อนจาก <code>purchase_line_id.price_subtotal ÷ total_cbm</code> ของก้อนนั้นเจาะจง ถ้าเอา Block 2 ก้อนขึ้นไปไปผูกกับ PO Line เดียวกัน แต่ละก้อนจะถูกคิดต้นทุนเต็มยอดทั้งบรรทัดซ้ำกัน ไม่ใช่ยอดตามสัดส่วนจริง → ต้นทุนเพี้ยนทันที ระบบไม่มี guard กันเรื่องนี้ให้</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body"><strong>Purchase → New</strong> → เลือก Vendor เดิม 1 ใบพอ (ไม่ต้องแยก PO ต่อก้อน)</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> เลือก "Rosa Portogallo Granite Block" <strong>ซ้ำ 5 บรรทัด</strong> กรอกแยกทีละบรรทัดตามขนาดจริงของแต่ละก้อน</div></div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>บรรทัด</th><th>Quantity (m³)</th><th>ราคา/m³</th><th>Subtotal</th></tr></thead><tbody>
+<tr><td>Block #1</td><td>4.2</td><td>8,000</td><td>33,600</td></tr>
+<tr><td>Block #2</td><td>5.1</td><td>8,000</td><td>40,800</td></tr>
+<tr><td>Block #3</td><td>3.8</td><td>8,500</td><td>32,300</td></tr>
+<tr><td>Block #4</td><td>6.0</td><td>8,000</td><td>48,000</td></tr>
+<tr><td>Block #5</td><td>4.5</td><td>8,200</td><td>36,900</td></tr>
+</tbody></table></div>
+<p>(ราคา/m³ ไม่จำเป็นต้องเท่ากันทุกก้อน ถ้าซัพพลายเออร์คิดราคาต่างกันตามคุณภาพ/ขนาดก้อน)</p>
+<div class="steps">
+<div class="step"><span class="step-num">3</span><div class="step-body">Save → <strong>Confirm Order</strong> — PO ใบเดียวมี 5 บรรทัด ยืนยันพร้อมกันหมด</div></div>
+<div class="step"><span class="step-num">4</span><div class="step-body">สร้าง <strong>Block record 5 ตัว</strong> — Stone Slab → Blocks → New ทำ 5 รอบ แต่ละรอบเลือก Material เดิม → ช่อง Purchase Order Line จะโชว์ทั้ง 5 บรรทัดให้เลือก → <strong>เลือกให้ตรงก้อน ไม่ซ้ำกัน</strong> (Block #1 → บรรทัด qty 4.2, Block #2 → บรรทัด qty 5.1 ...) Total CBM จะ auto-fill ตามบรรทัดที่เลือก → กรอก Thickness เฉพาะก้อนนั้น → Save</div></div>
+</div>
+<p>ผลลัพธ์: ได้ Block 5 lot แยกกัน แต่ละก้อนมี Remaining CBM และ Cost/Sq.Mt. ถูกต้องตามราคาจริงของก้อนนั้น ไม่ปนกัน</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ขนาดเท่ากันทุกก้อนก็ยังต้องแยก PO Line เหมือนกัน</span></div><div class="callout-body">แม้ 5 ก้อนจะขนาดเท่ากันเป๊ะ (qty/ราคาซ้ำกันทุกบรรทัด) ก็ยังต้องออกเป็น 5 PO Line แยกกันอยู่ดี เพราะ field <code>purchase_line_id</code> บน Block เป็น Many2one ผูกได้ทีละ 1 บรรทัดเท่านั้น ไม่มีกลไกแบ่งสัดส่วนจาก 1 บรรทัดไปหลาย Block — กฎคือ <strong>1 PO Line : 1 Block เสมอ</strong> ไม่ว่าขนาดจะเท่ากันหรือไม่</div></div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ระบบไม่มีช่องขนาด L×W×H — Quantity บน PO Line คือ CBM (m³) ตรงๆ</span></div><div class="callout-body">Block Product ตั้ง UoM เป็น Cubic Meter — ถ้าอยากรู้ปริมาตรต้องคำนวณ L×W×H เองก่อนกรอก Quantity ระบบไม่ track มิติจริงของก้อน (มีแค่ปริมาตรรวม) ถ้าต้องการบันทึกขนาดที่วัดจริงตอนรับของไว้เป็นข้อมูลอ้างอิง (ไม่กระทบ CBM/ต้นทุน) ใช้ช่อง <strong>Length (M) / Width (M) / Height (M)</strong> ในแท็บ "Block (Optional)" ของฟอร์ม Block (เพิ่มเข้าระบบ 2026-08-20)</div></div>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">ระบบกันสต็อกซ้ำจากใบรับสินค้าอัตโนมัติแล้ว</span></div><div class="callout-body">สต็อกก้อนหิน/แผ่นหินทั้งหมดถูกจัดการโดยโมดูลนี้เอง <strong>ไม่ผ่านขั้นตอน "รับสินค้า" (Receipt) ปกติของ Odoo</strong> ระบบป้องกันสต็อกซ้ำอัตโนมัติ 2 ชั้น: (1) พอ Block ผูกกับ Purchase Order Line เสร็จ ใบรับสินค้าของ PO นั้นจะถูก <strong>ยกเลิกให้อัตโนมัติ</strong> — ไม่มีอะไรค้างให้กด Validate (2) ถ้ามีใครพยายามกด Validate ใบรับสินค้าของสินค้าหินอยู่ดี ระบบจะฟ้อง error ไม่ให้ผ่าน พนักงานไม่ต้องจำกฎนี้เองอีกต่อไป — ถ้าเห็นใบรับสินค้าของ PO หินขึ้นสถานะ <strong>Cancelled</strong> ไปเอง เป็นเรื่องปกติ ไม่ใช่บั๊ก</div></div>
+<p>ภาพจริงจากการทดสอบบน production (ถ่ายก่อน rename UI เป็น "Block" — ฟอร์ม/เมนูในภาพจะโชว์คำว่า "Bundle" แต่เป็นหน้าเดียวกัน):</p>
+<figure class="screenshot"><img src="assets/46-receipt-hardblock-error.webp" alt="ถ้าพยายามกด Validate ใบรับสินค้าของสินค้าหินด้วยมือ ระบบจะฟ้อง error"/></figure>
+<p>ถ้าพยายามกด Validate ใบรับสินค้าของสินค้าหินด้วยมือ (ก่อนหรือหลังมี Block ก็ตาม) ระบบจะฟ้อง error แบบนี้ทันที</p>
+<figure class="screenshot"><img src="assets/47-receipt-auto-cancelled.webp" alt="ใบรับสินค้าเปลี่ยนเป็น Cancelled อัตโนมัติ"/></figure>
+<p>ใบรับสินค้าเดียวกัน หลังจากสร้าง Block ผูกกับ Purchase Order Line นี้แล้ว — สถานะเปลี่ยนเป็น Cancelled ให้อัตโนมัติ</p>
+<h3>สร้าง Block (รายละเอียด field)</h3>
+<p>เมื่อสินค้าเข้าคลัง ให้สร้าง <strong>Block</strong> ใหม่ผ่านเมนู Stone Slab → Blocks → New</p>
+<figure class="screenshot"><img src="assets/03-new-bundle-form.webp" alt="ฟอร์มสร้าง Block ใหม่"/></figure>
+<p>กรอกข้อมูลหลัก:</p>
+<ul><li><strong>Block Code</strong> — เลข lot (ต่างจาก "Block Number" ที่เป็นเลขก้อนดั้งเดิมของเหมือง)</li><li><strong>Material</strong> — เลือกชนิดหินจาก dropdown (ถ้ายังไม่มีในระบบ สร้างใหม่ได้จากช่องนี้เลย)</li></ul>
+<figure class="screenshot"><img src="assets/04-material-dropdown.webp" alt="เลือก Material"/></figure>
+<ul><li><strong>Supplier</strong>, <strong>Warehouse</strong> (กำหนดว่า Block นี้อยู่ WH ไหน/บริษัทไหน — EG หรือ ES)</li><li>ราคาขาย (Sales Price / Sq.Mt.)</li></ul>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ข้อควรระวัง</span></div><div class="callout-body">การสร้าง Block ผ่านปุ่ม "New" ตรงๆ <strong>จะไม่ผูก Product อัตโนมัติ</strong> ถ้า Block ไม่ได้มาจากการรับสินค้าผ่าน PO จริง อาจทำให้ปุ่ม "Select Slabs" ในขั้นตอนขายหาแผ่นไม่เจอ — ให้ผ่าน flow รับสินค้าจริงผ่าน PO เสมอ ไม่ควรสร้าง Block ลอยๆ ในหน้างานจริง (ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>)</div></div>
+<h3>รับก้อนหิน (CBM) — เฉพาะ Material ที่มี Block Product</h3>
+<p>ถ้า Material นั้นมี Block Product ผูกอยู่ (<code>material_id.product_id_block</code>) ฟอร์ม Block จะบังคับให้กรอก section CBM เพิ่ม:</p>
+<ul><li><strong>Total CBM</strong> — ปริมาตรก้อนหินทั้งหมดตามที่ซื้อจริง (m³)</li><li><strong>Thickness (M)</strong> — ความหนาแผ่นมาตรฐานที่จะตัดจากก้อนนี้ (ใช้คำนวณหัก CBM อัตโนมัติตอนเพิ่มแผ่น)</li><li><strong>Analytic Account</strong> — สำหรับ tag ต้นทุนแรงงาน/ค่าตัด</li></ul>
+<p>เมื่อ Save ระบบจะ:</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body">สร้าง <code>block_lot_id</code> (lot แยกต่างหากจาก lot ของแผ่น — 1 lot ผูกได้แค่ 1 product เท่านั้น)</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body">สร้าง stock.move รับก้อนหินเข้า location "Stone Available" ของ Warehouse นั้นให้อัตโนมัติ</div></div>
+<div class="step"><span class="step-num">3</span><div class="step-body"><strong>Remaining CBM</strong> จะคำนวณสดจากสต็อกจริง (ไม่ใช่ field ธรรมดา) เพื่อกันปัญหาค่าค้าง (stale-store)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/06-bundle-saved.webp" alt="Block บันทึกสำเร็จ"/></figure>
+<h3>Container (ถ้ามีหลาย Block มาด้วยกัน 1 ตู้)</h3>
+<p>เมนู Stone Slab → Containers ใช้จัดกลุ่ม Block ที่มาด้วยกัน 1 container/shipment เดียวกัน — ใช้สำหรับกระจาย <strong>Landed Cost</strong> ตามสัดส่วน Sq.Mt. ของแต่ละ Block (ดู <a href="07-costing.html" class="xref">บทที่ 07: ต้นทุนสินค้า</a>)</p>
+<figure class="screenshot"><img src="assets/15-containers-list.webp" alt="รายการ Containers"/></figure>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="01-overview.html"><span class="dir">← ก่อนหน้า</span>01. ภาพรวมระบบ</a>
+  <a class="next" href="03-cutting-stock.html"><span class="dir">ถัดไป →</span>03. ตัดแผ่นและจัดการสต็อก</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>15. การจัดซื้อ — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 15 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">15</span> การจัดซื้อ</h1>
+  </div>
+  <div class="page-content">
+<p>ระบบมี <strong>2 เส้นทางซื้อ</strong> แยกกันชัดเจน ขึ้นอยู่กับว่าซื้ออะไร:</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>ซื้อหิน (Material)</th><th>ซื้อของทั่วไป (ไม่ใช่หิน)</th></tr></thead><tbody>
+<tr><td>ตัวอย่าง</td><td>Block/Slab หินดิบ, วัสดุที่ตั้งเป็น Stone Material ในระบบ</td><td>อุปกรณ์เซฟตี้, วัสดุสิ้นเปลือง, อะไหล่เครื่องตัด, บริการช่างนอก ฯลฯ</td></tr>
+<tr><td>ขั้นตอน</td><td>PO → <strong>ผูก Block</strong> → ใบรับสินค้าเดิม<strong>ถูกยกเลิกอัตโนมัติ</strong> (สต็อกจัดการโดย Block ไม่ใช่ Receipt) — ถ้าซื้อหลายก้อนขนาดไม่เท่ากัน ต้องแยก PO Line ต่อก้อน (ดู <a href="02-receiving.html" class="xref">บทที่ 02</a> หัวข้อ "ซื้อหลายก้อนพร้อมกัน")</td><td>PO → <strong>รับสินค้าปกติผ่าน Receipt</strong> เหมือน Odoo มาตรฐานทุกอย่าง ไม่มีการแทรกแซง</td></tr>
+<tr><td>อนุมัติก่อนซื้อ</td><td>ไม่มี (ยืนยัน PO ได้ทันทีทั้ง 2 บริษัท)</td><td>ไม่มี (เหมือนกัน)</td></tr>
+</tbody></table></div>
+<p>ทั้งสองเส้นทางเริ่มจากเมนู <strong>Purchase</strong> เดียวกัน — ระบบแยกพฤติกรรมให้อัตโนมัติตามว่า product ที่ซื้อถูกตั้งเป็น Stone Material หรือไม่ (เช็คจาก <code>stone.material</code> ทุก record) พนักงานไม่ต้องเลือกโหมดเอง</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch15.webp" alt="EMG-O Flow - การจัดซื้อ"/></figure>
+<h3>ซื้อหิน (สรุปสั้น)</h3>
+<p>ผูกกับ Block เสมอ — ห้ามกด Validate ใบรับสินค้าด้วยมือ (ระบบยกเลิกให้อัตโนมัติ + มี hard-block กันพลาด) ซื้อหลายก้อนพร้อมกันต้องแยก PO Line ต่อก้อน (ไม่งั้นต้นทุนต่อก้อนจะเพี้ยน) ดูขั้นตอนเต็มที่ <a href="02-receiving.html" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a></p>
+<h3>ซื้อของทั่วไป (ไม่ใช่หิน)</h3>
+<p>ใช้ขั้นตอน Purchase มาตรฐานของ Odoo ล้วนๆ — โมดูล EMG-O <strong>ไม่แตะต้องอะไรเลย</strong> เพราะโค้ด custom ทั้งหมด (auto-cancel/hard-block) เช็คก่อนว่าสินค้านั้นเป็นหินหรือไม่ ถ้าไม่ใช่ ปล่อยผ่านให้ Odoo จัดการเองทั้ง flow</p>
+<p>ตัวอย่างจริงจากการทดสอบบน production (ซื้อถุงมือกันบาด PPE จาก Demo Supplier):</p>
+<div class="steps">
+<div class="step"><span class="step-num">1</span><div class="step-body"><strong>Purchase → New</strong> → เลือก Vendor (ตัวอย่าง: Demo Supplier - อุปกรณ์เซฟตี้และวัสดุสิ้นเปลือง)</div></div>
+<div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือกสินค้าที่ต้องการ (ไม่ต้องเป็น Block/Slab) → กรอก Quantity + ราคาต่อหน่วยเอง (ราคาจะเป็น 0 ถ้าไม่เคยตั้ง Vendor Price ไว้ก่อน — แก้ในบรรทัดนี้ได้เลย)</div></div>
+</div>
+<figure class="screenshot"><img src="assets/48-purchase-general-rfq-filled.webp" alt="กรอก RFQ ของทั่วไป"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">3</span><div class="step-body">Save → <strong>Confirm Order</strong> — PO เปลี่ยนเป็น Purchase Order ทันที เหมือนซื้อหินทุกอย่าง</div></div>
+</div>
+<figure class="screenshot"><img src="assets/49-purchase-general-po-confirmed.webp" alt="PO Confirmed"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">4</span><div class="step-body">กดปุ่ม <strong>Receipt</strong> (smart button มุมขวาบน) → เปิดใบรับสินค้า</div></div>
+</div>
+<figure class="screenshot"><img src="assets/50-purchase-general-receipt-form.webp" alt="ใบรับสินค้า"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">5</span><div class="step-body">กด <strong>Validate</strong> ตามปกติ — <strong>ไม่มี auto-cancel, ไม่มี error ใดๆ</strong> (ต่างจากใบรับสินค้าของหินโดยสิ้นเชิง) ใบรับสินค้าจบสถานะ Done ปกติ ยอดรับตรงกับที่สั่ง</div></div>
+</div>
+<figure class="screenshot"><img src="assets/51-purchase-general-received.webp" alt="รับสินค้าเสร็จสมบูรณ์"/></figure>
+<div class="steps">
+<div class="step"><span class="step-num">6</span><div class="step-body">ขั้นตอนถัดไป (สร้าง Vendor Bill/บันทึกบัญชี) เป็นงานฝั่งบัญชี ทำผ่าน Accounting app ตาม flow มาตรฐานของ Odoo — ผู้ใช้คลัง (สิทธิ์ <code>emgdemo</code>) ไม่มีสิทธิ์เข้า Accounting app โดยตรง</div></div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ทำไมถึงมั่นใจว่าไม่ชนกัน</span></div><div class="callout-body">โค้ด <code>stock_move.py._action_done()</code> เช็คว่า <code>product_id</code> อยู่ใน <code>stone.material</code> list หรือไม่ก่อนบล็อกทุกครั้ง (ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>) ของที่ไม่ใช่หินจะไม่ตรงเงื่อนไขนี้เลย — ทดสอบจริงแล้วผ่าน Playwright บน production</div></div>
+<h3>ข้อจำกัดปัจจุบัน (ตั้งใจ ไม่ใช่บั๊ก)</h3>
+<ul>
+<li><strong>ไม่มีขั้นตอนอนุมัติก่อนซื้อ (PR)</strong> — ทั้ง 2 บริษัท (Empire Granite, Empire Stone) ตั้งค่า <code>po_double_validation = one_step</code> คนที่มีสิทธิ์ confirm PO ยืนยันซื้อได้เลยไม่ว่าวงเงินเท่าไหร่ ไม่มีคนที่สองอนุมัติ และไม่มี module "ใบขอซื้อ" (Purchase Request แยกจาก PO) ติดตั้งอยู่</li>
+<li>ถ้าต้องการภายหลัง มี 2 ทางเลือก (ตัดสินใจไว้แล้วว่ายังไม่ทำตอนนี้): เปิด 2-step approval + ตั้งวงเงิน (ใช้ของที่ Odoo มีอยู่แล้ว ไม่ต้องเพิ่ม module) หรือติดตั้ง module ใบขอซื้อแยกต่างหาก (งานใหญ่กว่า ต้องออกแบบ workflow ใหม่ทั้งหมด)</li>
+</ul>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="14-cut-to-order.html"><span class="dir">← ก่อนหน้า</span>14. ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+  <a class="next" href="16-quote-plain-stone.html"><span class="dir">ถัดไป →</span>16. ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08. ขายข้ามบริษัท (EG↔ES) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 08 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">08</span> ขายข้ามบริษัท (EG↔ES)</h1>
+  </div>
+  <div class="page-content">
+<p>Empire Stone มี 2 บริษัทแยกกัน (Company EG และ Company ES) แต่ละบริษัทมี Warehouse ของตัวเอง (WH-EG, WH-ES) เมื่อพนักงานฝั่ง EG เปิด SO แล้วเลือกแผ่นที่อยู่ในสต็อกของ ES (หรือกลับกัน) ระบบจะจัดการ intercompany trade ให้อัตโนมัติทั้งหมด โดยพนักงานไม่ต้องทำอะไรเพิ่ม</p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">สำเร็จ</span><span class="callout-title">✅ Validated live end-to-end (2026-07-22)</span></div><div class="callout-body">ทดสอบจริงผ่านหน้าเว็บทั้งกระบวนการ (ไม่ใช่แค่ odoo shell): สร้างสต็อกใหม่จริงฝั่ง ES ผ่าน PO → เปิด SO ฝั่ง EG → Select Slabs เห็นสต็อก ES ปนมาด้วยจริง → Confirm SO → Internal SO [S54390](https://odoo19-mbxai.mx-erp.com/odoo/sales/60136)/PO P00055 สร้างอัตโนมัติ ราคาตรงสูตร markup 10% เป๊ะ (cost 13,714.29 × 1.10 = 15,085.71, รวม VAT 16,141.71) → Delivery Order ES (ESWH/OUT/00010) ตัดตรงจาก Stone Hold → Customers แบบ drop-ship จริง → Draft Invoice/Bill ออกอัตโนมัติ → ขึ้นการ์ดใหม่ใน Intercompany Reconciliation dashboard ครบ ระหว่างทางเจอบั๊กจริง 1 ตัว แก้แล้ว (ดูหัวข้อด้านล่าง)</div></div>
+<figure class="diagram"><img src="assets/excalidraw-preview-intercompany.webp" alt="EMG-O Intercompany Trade Flow (EG-ES)"/></figure>
+<h4>วิธีขาย (คลิปสาธิต Flow การขายข้ามบริษัทจริง)</h4>
+<div class="media-note">คลิปสาธิตประกอบ (ไม่ได้แนบในหน้านี้ — ดูจากทีมงานได้)</div>
+<p>*คลิปนี้คือ session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้ในตัวสลับบริษัท) เปิด SO ใหม่ → เลือกสินค้าหิน → Select Slabs เห็นสต็อก ES ปนมาให้เลือก → Confirm Selection → Confirm SO ทั้งใบ → เปิดดู Delivery ที่ตัดตรงจากคลัง ES → ไปดู Intercompany Reconciliation dashboard เห็นแถวใหม่ขึ้นจริง ทั้งหมดในเทคเดียวไม่มีตัดต่อ (บันทึกหลังแก้บั๊ก sudo() ด้านล่างแล้ว)*</p>
+<p>สรุปขั้นตอนที่ระบบทำให้อัตโนมัติ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">พนักงาน EG เปิด SO ให้ลูกค้า แล้วเลือกแผ่นผ่าน "Select Slabs" Wizard ตามปกติ (ดู <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a>) — wizard จะโชว์แผ่น Available ทั้งจาก WH-EG และ WH-ES ให้เลือกรวมกัน</div></div></div>
+<figure class="screenshot"><img src="assets/114-intercompany-select-slabs-cross-company.webp" alt="114-intercompany-select-slabs-cross-company.png"/></figure>
+<p>*สต็อก ES-B-0001 (ฝั่ง ES) ขึ้นในลิสต์ให้เลือกจริง ทั้งที่ SO นี้เปิดอยู่ใต้ Company EG*</p>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body">ถ้าเลือกแผ่นที่อยู่ WH-ES ทั้งที่ SO เปิดอยู่ใต้ Company EG ระบบจะตรวจพบว่า Company ของ Block (ES) ไม่ตรงกับ Company ของ SO (EG)</div></div><div class="step"><span class="step-num">3</span><div class="step-body">ระบบสร้างเอกสารภายในให้อัตโนมัติ:</div></div></div>
+<ul><li><strong>Internal SO</strong> (ES ขายให้ EG) ราคา = cost_sqmt × 1.10 (markup 10% ตาม config <code>res.company.stone_intercompany_markup_pct</code>)</li><li><strong>Internal PO</strong> คู่กัน (EG ซื้อจาก ES) — auto-confirm ให้เลย</li></ul>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">ใช้วิธี <strong>Drop-ship</strong>: Delivery Order จริงจะถูกส่งตรงจาก WH-ES ไปยังที่อยู่ลูกค้าปลายทางเลย ไม่มีการย้ายสต็อกเข้า WH-EG จริง (เพื่อไม่ให้กระทบ inventory integrity ของบริษัทผู้ขาย — ไม่ใช้ native Odoo Dropship mechanism)</div></div></div>
+<figure class="screenshot"><img src="assets/115-intercompany-so-confirmed-dropship.webp" alt="115-intercompany-so-confirmed-dropship.png"/></figure>
+<p>*SO S54389 confirm สำเร็จ ไม่มี error — smart button "Delivery 1" คือใบส่งของจริงที่ตัดตรงจากคลัง ES*</p>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body">SO เดิม (EG → ลูกค้า) จะ invoice ลูกค้าตามราคาขายเต็มตามปกติ ส่วน Internal SO/PO ที่สร้างอัตโนมัติใช้สำหรับการบันทึกบัญชี intercompany เท่านั้น</div></div><div class="step"><span class="step-num">6</span><div class="step-body"><strong>(ใหม่ 2026-07-07, ADR-014)</strong> ทันทีที่ Internal SO/PO confirm ระบบจะออก <strong>draft invoice</strong> (ฝั่ง ES ขาย) และ <strong>draft vendor bill</strong> (ฝั่ง EG ซื้อ) ให้อัตโนมัติทันที — ยังไม่ post เข้าบัญชี ต้องให้ฝ่ายบัญชีเข้าไปตรวจตัวเลข/วันที่แล้ว post เองอีกที (เจตนาให้ตรวจก่อนเสมอ ไม่ auto-post)</div></div><div class="step"><span class="step-num">7</span><div class="step-body"><strong>(ใหม่ 2026-07-07, ADR-014 Phase 2)</strong> ดูสรุปทุกรายการซื้อขายข้ามบริษัทได้ที่เมนู <strong>Stone Slab → Intercompany Reconciliation</strong> — การ์ดแยกตามทิศทาง (เช่น ES → EG) พร้อม badge "รอตรวจสอบ"/"Post แล้ว" คลิกการ์ดเพื่อดูรายการ แล้วคลิกที่ invoice/bill ในตารางเพื่อเปิดเอกสารจริงไปตรวจ/post ได้ทันที</div></div></div>
+<figure class="screenshot"><img src="assets/116-intercompany-reconciliation-dashboard.webp" alt="116-intercompany-reconciliation-dashboard.png"/></figure>
+<p>*แถวใหม่ S54389 → S54390 → P00055 ขึ้นในตารางจริง cross-check ยอด 16,141.71 ตรงกับ Internal SO/PO/Invoice/Bill ทุกจุด*</p>
+<h3>🐛 บั๊กที่พบ+แก้ระหว่าง validate (2026-07-22)</h3>
+<p><strong>ปุ่ม Confirm Selection ใน Select Slabs wizard ขึ้น Access Error ทันทีที่ hold แผ่นข้ามบริษัท</strong> — ทดสอบจริงครั้งแรกด้วย session พนักงาน EG ปกติ (ไม่ได้ติ๊ก company ES ไว้ใน company selector มุมขวาบน ซึ่งเป็นสภาพจริงของพนักงานทั่วไปที่ไม่เคยต้องสลับบริษัทเอง) พบ error ทันที:</p>
+<p>&gt; Sorry, emg_demo doesn't have 'read' access to: Warehouse (stock.warehouse)</p>
+<p><strong>Root cause:</strong> <code>stone.slab.write()</code> เรียก <code>_stock_move_status_change()</code> → <code>_get_bucket_location()</code> ทุกครั้งที่ status เปลี่ยน (เช่นตอน hold) ซึ่งอ่าน <code>bundle.warehouse_id</code> ของ ES โดยไม่ได้ sudo() — เมธอดนี้อยู่ใน <code>write()</code> กลาง ซึ่งเป็น code path ที่ทุกโหมดการขาย (1-4) ใช้ร่วมกันทั้งหมด ไม่ใช่แค่ Select Slabs</p>
+<p><strong>แก้แล้ว:</strong> เพิ่ม <code>.sudo()</code> ตรงจุดเรียก <code>_stock_move_status_change()</code> ใน <code>write()</code> (commit <code>58fa4df</code> บน <code>project/emg-o</code>) — ตรรกะเดียวกับที่ใช้แก้ปัญหาคล้ายกันมาก่อนแล้วใน <code>_compute_stone_slab_count</code>/<code>action_cancel</code>/<code>_process_stone_intercompany_trade</code> re-test ผ่านทั้ง <code>odoo shell</code> (จำลอง session พนักงาน EG เป๊ะๆ) และผ่านหน้าเว็บจริงซ้ำจนยืนยันว่า hold สำเร็จ ไม่มี error แล้ว</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ยังไม่ได้ไล่ทดสอบ Mode 1/3/4 ข้ามบริษัทซ้ำ</span></div><div class="callout-body">บั๊กนี้อยู่ใน <code>write()</code> กลางที่ทุกโหมดใช้ร่วมกัน จึงมีโอกาสสูงว่า Mode 1 (Select Block)/Mode 3 (Cut to Order)/Mode 4 (Project) ก็เจอ error เดียวกันถ้าเคยลองข้ามบริษัทมาก่อนหน้านี้ — Session นี้ validate เจาะจงแค่เส้นทาง Select Slabs (โหมดแผ่นสำเร็จรูป) เท่านั้น ยังไม่ได้ไล่ทดสอบโหมดอื่นซ้ำหลังแก้</div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ข้อจำกัดที่ทราบอยู่แล้ว</span></div><div class="callout-body">- Delivery เดิมของฝั่งขาย (ก่อนสลับเป็น drop-ship) จะถูก cancel ตรงๆ ไม่ผ่าน backorder wizard ปกติ - Fiscal Position ระหว่าง EG↔ES ไม่ได้ทำ เพราะทั้งคู่เป็นบริษัทไทย VAT 7% เท่ากัน - Dashboard เฉพาะแสดงรายการที่เกิดผ่านระบบนี้เท่านั้น — เจอรายการเก่าจาก 2026-07-01 (ก่อนมี ADR-014) ที่ไม่เคยมี invoice/bill เลย ต้องให้ฝ่ายบัญชีตรวจเองว่าจะย้อนออกเอกสารให้หรือไม่</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="07-costing.html"><span class="dir">← ก่อนหน้า</span>07. ต้นทุนสินค้า</a>
+  <a class="next" href="09-ecommerce-catalog.html"><span class="dir">ถัดไป →</span>09. eCommerce Catalog (<code>/stone-catalog</code>)</a>
+</div>
+</body>
+</html>

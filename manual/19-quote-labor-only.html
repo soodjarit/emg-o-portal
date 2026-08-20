@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>19. ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 19 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">19</span> ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>งาน <strong>"ค่าแรง ซุ้ม ก ไก่ และ บัวบน (หลังที่ 18-24)"</strong> — ค่าแรงติดตั้งหินอย่างเดียว (Moleanos Beige ขัดเรียบ) ไม่มีขายหิน เหมือนไฟล์ 4 แต่<strong>เรียบง่ายกว่ามาก</strong>: ราคาต้นฉบับเป็น <strong>เหมารวมทั้งงานบรรทัดเดียว</strong> (980,710.64 บาท) ไม่มีราคาย่อยให้แยกเลยแม้แต่ระดับห้อง — รายละเอียดพื้นที่ (ผนัง 287 SQM, ผนังใต้ซุ้มโค้ง 7 SQM, Straight Profile 7 ม., ผนังบัวบน 68.6 SQM) เป็นแค่ข้อมูลอธิบายประกอบ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<p>นี่คือกรณีที่<strong>ง่ายที่สุด</strong>ในกลุ่มตัวอย่างทั้งหมด — เพราะไม่มีทั้งหินและไม่มีการแยกราคาย่อย</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/77-f5-customer.webp" alt="77-f5-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือก service product "ค่าแรงติดตั้งหิน (เหมางาน)" → ตั้งชื่อบรรทัดให้ครบตามงาน → ใส่ราคาเหมาทั้งก้อน (980,710.64) → Save</div></div></div>
+<figure class="screenshot"><img src="assets/78-f5-line-added.webp" alt="78-f5-line-added.png"/></figure>
+<p>ยอดรวม (รวม VAT 7%) ออกมาตรงตามที่ลูกค้าขอ</p>
+<figure class="screenshot"><img src="assets/79-f5-final-total.webp" alt="79-f5-final-total.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ใส่รายละเอียดพื้นที่ไว้ใน Description ของบรรทัด</span></div><div class="callout-body">ถ้าอยากเก็บรายละเอียดต้นฉบับ (287 SQM ผนัง, 7 SQM ผนังใต้ซุ้มโค้ง ฯลฯ) ไว้อ้างอิงในอนาคต ใส่เป็นข้อความในชื่อบรรทัด/note ได้เลย ไม่กระทบราคาเพราะไม่มีผลต่อการคำนวณ (เหมาทั้งก้อนอยู่แล้ว)</div></div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="18-quote-labor-lumpsum-cira.html"><span class="dir">← ก่อนหน้า</span>18. ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+  <a class="next" href="20-quote-polish-per-meter.html"><span class="dir">ถัดไป →</span>20. ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+</div>
+</body>
+</html>

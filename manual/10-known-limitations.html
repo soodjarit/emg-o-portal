@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10. ข้อจำกัดและบั๊กที่ทราบ — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 10 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">10</span> ข้อจำกัดและบั๊กที่ทราบ</h1>
+  </div>
+  <div class="page-content">
+<p>รวมทุกจุดที่รู้อยู่แล้วว่ายังไม่สมบูรณ์ ณ วันที่ 2026-07-06 (Session 25) — อัปเดตหน้านี้ทุกครั้งที่มีจุดใหม่หรือแก้ไปแล้ว</p>
+<h3>ยังไม่แก้ / เป็น known gap</h3>
+<ul>
+<li><strong>สร้าง Block ผ่านปุ่ม "New" ตรงๆ ไม่ผูก Product อัตโนมัติ</strong> — ต้องรับสินค้าผ่าน PO จริงเสมอ (ดู <a href="02-receiving.html" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a>)</li>
+<li><strong>ยังไม่มีเครื่องสแกนจริง</strong> สำหรับยืนยัน Serial ตอนส่งของ — ตอนนี้พนักงานเลือกจาก dropdown แทน (ดู <a href="06-delivery.html" class="xref">บทที่ 06: ส่งของและยืนยันการรับ</a>)</li>
+<li><strong>VOLTA AV / VIVO Sport</strong> มี warehouse ขั้นต่ำที่สร้างไว้แค่ให้ module อื่นติดตั้งผ่าน — ยังไม่ตรวจสอบว่ากระทบ flow ของ 2 บริษัทนี้เองหรือไม่</li>
+<li><strong>รายการซื้อขายข้ามบริษัทเก่าก่อน ADR-014 (2026-07-01, S54251/P00003) ไม่มี invoice/bill</strong> — Intercompany Reconciliation dashboard เจอเข้าให้ตั้งแต่ครั้งแรกที่เปิดใช้ ยังไม่ได้ตัดสินใจว่าจะย้อนออกเอกสารให้หรือปล่อยไว้ (ดู <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท</a>)</li>
+<li><strong>Fabrication ข้ามบริษัท</strong> (แผ่นอยู่ ES แต่จะเจาะที่ EG) ตอนนี้บล็อกแค่ด้วย view domain ไม่มี hard constraint ระดับ server — ยังไม่เจอเคสจริงที่ต้องใช้</li>
+<li><strong>eCommerce Catalog</strong>: มีแค่บางแผ่นกรอกราคาขายจริงแล้ว แผ่นอื่นโชว์ ฿0 (ดู <a href="09-ecommerce-catalog.html" class="xref">บทที่ 09: eCommerce Catalog</a>)</li>
+<li><strong>Slabware Inbound API</strong> (ให้ระบบภายนอกส่งข้อมูล material/block/slab เข้ามาทางเดียว) — ยืนยันแล้วว่าไม่ชนกับของที่มีอยู่ แต่รอ payload spec จาก vendor ก่อนถึงจะออกแบบได้</li>
+<li><strong>Block Kanban</strong> (Phase 2) ยังพอมีจุดที่ปรับปรุงเพิ่มได้ — nice-to-have ไม่ block งาน</li>
+<li><strong>Scan Station</strong> (<a href="11-scan-station.html" class="xref">บทที่ 11: เช็คสต็อก Scan Station</a>) ยังไม่มีเครื่องสแกนจริงมาทดสอบ (build+verify ผ่าน HTTP จำลองแล้วเท่านั้นทั้ง 2 โหมด), ยังไม่มีหน้าจัดการรายการ "หาย/เกิน" ต่อจาก Excel ที่ export ออกมา</li>
+<li><strong>ตั้งราคาแผ่นเองในบรรทัดใบขาย แล้วค่อยกด "Select Slabs" ทีหลัง → ราคาที่ตั้งไว้จะรีเซ็ตกลับเป็นราคามาตรฐานของสินค้า</strong> (พฤติกรรมของ Odoo เอง ไม่ใช่บั๊กของโมดูลนี้) — ต้องตั้งราคาเอง<strong>หลัง</strong>เลือกแผ่นเสร็จแล้วเท่านั้น (ดู <a href="12-analytic-accounting.html" class="xref">บทที่ 12: กำไรรายโครงการ</a>)</li>
+<li><strong>เมนู "Analytic Items"</strong> (ดูรายละเอียดต้นทุน/รายได้แยกโครงการ) ไม่ขึ้นในแถบเมนูของผู้ใช้ทั่วไป เพราะอยู่ใต้กลุ่มสิทธิ์ "Show Accounting Features" — ต้องเปิด URL ตรง (<code>/odoo/action-154</code>) หรือให้ผู้ดูแลระบบเปิดสิทธิ์เพิ่ม (ดู <a href="12-analytic-accounting.html" class="xref">บทที่ 12: กำไรรายโครงการ</a>)</li>
+</ul>
+<h3>แก้ไปแล้ว (Session 25, 2026-07-05/06)</h3>
+<ul>
+<li>Select Slabs wizard เปิดซ้ำแล้วว่างเปล่า — แก้แล้ว (pre-populate + widen domain)</li>
+<li>ชื่อแผ่นแสดงเป็น <code>stone.slab,15</code> (technical) — แก้แล้ว (display_name ใหม่)</li>
+<li>เลข Slab No. ซ้ำกันในบันเดิลเดียวกัน — แก้แล้ว (self-heal auto-number)</li>
+<li>Lot/Serial Number มองไม่เห็นใน Repair Order/Delivery Order — แก้แล้ว (permission setting)</li>
+<li>OwlError ตอนกด "Moves"/"Details" บน Delivery Order — แก้แล้ว (column_invisible bug)</li>
+</ul>
+<h3>Bug pattern ที่ควรเช็คซ้ำเสมอเมื่อเพิ่ม feature ใหม่</h3>
+<ul>
+<li>Compute field ใหม่ที่จะใช้ใน domain <code>search()</code> <strong>ต้องมี <code>store=True</code></strong> เสมอ</li>
+<li><code>stock.lot</code> ผูกได้แค่ 1 product เท่านั้น — ห้ามให้ 2 field คนละ product resolve ไป lot เดียวกัน</li>
+<li>การสร้าง record ผ่าน inline list ของ Odoo web client อาจ save เป็นหลายจังหวะ (create/write แยกกัน) — logic ที่ทำงานตอน create() อย่างเดียวอาจไม่ครบ ต้องทำเป็น idempotent guard เรียกทั้ง create() และ write()</li>
+<li><code>unlink()</code> ไม่ reverse stock move ที่สร้างไว้ตอน create() เอง — ต้องคืนสต็อกด้วยมือก่อนลบเสมอ</li>
+<li><code>column_invisible</code> ใน list view ต้องอ้างอิงแค่ context/ค่าคงที่ ห้ามอ้าง field ระดับ record (ใช้ <code>invisible</code> แทนสำหรับกรณีนั้น)</li>
+<li>Field ที่ default ไปตาม <code>env.company</code> เงียบๆ (เช่น location, website, <strong>ir.sequence</strong>) เสี่ยงผูกผิดบริษัทบน instance ที่มีหลายบริษัทร่วมกัน — ต้องเช็ค/ระบุ <code>company_id</code> ให้ชัดเจนเสมอ และทดสอบด้วย user จริงที่ไม่ใช่ admin ก่อนเชื่อว่าใช้ได้ (เจอกับ <code>ir.sequence</code> ของ Scan Station Session 28 — <code>next_by_code()</code> คืนค่า False เงียบๆ ไม่ error เลยถ้า company ไม่ตรง)</li>
+<li>ไฟล์ static (JS/CSS) ของหน้า <code>/stone-scan</code> ผ่าน <strong>Cloudflare cache สูงสุด 7 วัน</strong> (<code>cache-control: public, max-age=604800</code>) — แก้โค้ดแล้ว deploy จริง แต่ user ยังเห็นเวอร์ชันเก่าจนกว่าจะ hard refresh หรือ cache หมดอายุ ถ้าแก้ static asset ของหน้านี้อีกในอนาคต <strong>ต้องเพิ่มเลข <code>?v=</code> ต่อท้าย URL ใน template ทุกครั้ง</strong> ไม่งั้นจะดูเหมือน "deploy ไม่ขึ้น" ทั้งที่จริงๆ ขึ้นแล้วบน server</li>
+</ul>
+<h3>แก้ไปแล้ว (Session 28, 2026-07-07)</h3>
+<ul>
+<li><code>ir.sequence</code> ของ Scan Station (เลขที่รอบนับ) ผูก company ผิดจนได้เลขที่ "New" แทนที่จะเป็น ST00001 สำหรับ user ทั่วไป — แก้แล้ว (ระบุ company_id=False ให้ชัดเจน)</li>
+<li>Move Stock mode deploy แล้วแต่ browser ยังโหลด JS เก่าจาก Cloudflare cache (ปุ่มสลับโหมดกดไม่ติด) — แก้แล้ว (เพิ่ม <code>?v=2</code> ให้ URL ของ JS/CSS)</li>
+<li>Internal SO/PO (ขายข้ามบริษัท) confirm แล้วไม่เคยออก invoice/vendor bill เลย ต้องบันทึกมือ — แก้แล้ว (ADR-014: ออก draft invoice/bill อัตโนมัติทันทีตอน confirm) พร้อมแก้ต้นตอ <code>purchase_method</code> ของ product หินที่ผูกกับ <code>stone.material</code> ทุกตัว (ตั้งใหม่เป็น 'purchase' เพราะระบบนี้ไม่เคย validate ใบรับสินค้าจริงเลย บิลแบบ 'receive' เดิมจะได้ยอด 0 เสมอ)</li>
+<li>ไม่มีหน้าสรุปยอดรวม intercompany ระหว่าง EG↔ES — แก้แล้ว (ADR-014 Phase 2: เมนู Intercompany Reconciliation, การ์ด+drawer คลิกเปิด invoice/bill ได้ตรง)</li>
+</ul>
+<h3>แก้ไปแล้ว (2026-07-19)</h3>
+<ul>
+<li><strong>Cut to Order/Select Slabs หายไปเมื่อวัสดุมี Finish variant จริง</strong> — <code>is_stone_material</code>/<code>is_stone_block</code>/<code>is_stone_lot_material</code> เทียบ <code>product_id</code> (variant เป๊ะๆ) กับ <code>block.product_id</code> ที่ Odoo archive ทิ้งอัตโนมัติทันทีที่ template มีหลาย variant — แก้แล้ว (เทียบที่ <code>product_tmpl_id</code>), รวมถึง Select Slabs wizard domain + สต็อกจริงของแผ่น (เปลี่ยนไปใช้ <code>block.variant_id</code>/<code>slab.lot_id.product_id</code> แทน) ดูรายละเอียดเต็มที่ <a href="13-product-concepts.html" class="xref">บทที่ 13: Product Concepts</a> หัวข้อประเภท 3</li>
+<li><strong>Cut Order wizard ผลิตผิด Finish</strong> จากที่ลูกค้าสั่งจริง (ยึด <code>block.finish</code> ค่าตายตัวแทน SO line) — แก้แล้ว (commit <code>86aa151</code>, <code>a879955</code>)</li>
+<li><strong>Block ↔ Purchase Order Line ไม่ auto-fill, ไม่มี domain กรอง</strong> — ต้องกรอก Supplier/Total CBM ซ้ำเองทั้งที่มีบน PO แล้ว, ช่องเลือก PO Line โชว์ทุก PO ในระบบไม่กรองตามวัสดุ — แก้แล้ว (commit <code>3ad8837</code>) ดู <a href="02-receiving.html" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a></li>
+</ul>
+<h3>แก้ไปแล้ว (2026-07-22)</h3>
+<ul>
+<li><strong>Select Slabs ข้ามบริษัท (EG↔ES) ขึ้น Access Error "doesn't have 'read' access to: Warehouse"</strong> — พบระหว่าง validate ฟีเจอร์ <a href="08-intercompany.html" class="xref">บทที่ 08: ขายข้ามบริษัท</a> แบบ end-to-end จริงเป็นครั้งแรก (ก่อนหน้านี้ยังไม่เคยทดสอบผ่าน session พนักงานจริงที่ไม่ได้ติ๊ก company ปลายทางไว้ใน company selector) — <code>stone.slab.write()</code> เรียก <code>_stock_move_status_change()</code>→<code>_get_bucket_location()</code> อ่าน <code>block.warehouse_id</code> ของบริษัทอื่นโดยไม่ sudo() ซึ่งเป็น code path กลางที่ทุกโหมดการขาย 1-4 ใช้ร่วมกัน แก้แล้วด้วย <code>.sudo()</code> จุดเดียว (commit <code>58fa4df</code>) ยืนยันผ่านทั้ง <code>odoo shell</code> (จำลอง session พนักงานเป๊ะๆ) และหน้าเว็บจริงซ้ำ — <strong>ยังไม่ได้ไล่ทดสอบซ้ำว่า Mode 1/3/4 ข้ามบริษัทเจอบั๊กเดียวกันมาก่อนหรือไม่</strong> เพราะ session นี้ validate เจาะจงแค่เส้นทาง Select Slabs เท่านั้น</li>
+</ul>
+<h3>แก้ไปแล้ว (2026-07-20)</h3>
+<ul>
+<li><strong>ใบรับสินค้า (Receipt) ของ PO ถ้าถูก validate จริง จะทำให้สต็อกหินซ้ำ 2 เท่า</strong> — สต็อกหิน/แผ่นทั้งหมดจัดการผ่านโค้ด custom ของโมดูลนี้เอง แยกขาดจาก native Purchase → Receipt flow ของ Odoo มาตั้งแต่ Phase 1 เดิมกันด้วยการบอกพนักงานเฉยๆ ไม่ให้กด Validate ใบรับสินค้า ไม่มีการป้องกันจริงในระบบ — แก้แล้ว 2 ชั้น: (1) auto-cancel ใบรับสินค้าที่ตรงกันทันทีที่ Block ผูกกับ PO Line, (2) hard-block (<code>UserError</code>) ถ้ามีใครพยายาม validate ใบรับสินค้าของสินค้าหินอยู่ดี (commit <code>0257ec9</code>) ทดสอบจริงบน production ผ่านหน้าเว็บจริงแล้ว — ภาพจริงดู <a href="02-receiving.html" class="xref">บทที่ 02: รับสินค้าเข้าคลัง</a>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">บั๊กเสริม</span><span class="callout-title">deploy ไม่ครบระหว่างทดสอบ</span></div><div class="callout-body">รอบแรกที่ "verify ผ่านแล้ว" คือ verify ผ่าน <code>odoo shell</code> เท่านั้น (process แยกต่างหาก โหลดโค้ดสดเสมอ) แต่ web worker จริงที่พนักงานใช้งานยังไม่ได้ restart จึงยังรันโค้ดเก่าอยู่ — ทดสอบผ่านหน้าเว็บจริงครั้งแรกเจอว่า validate ผ่านฉลุยไม่มี error เลย (สร้างสต็อกจริงซ้ำ 3 m³ ก่อนจับได้ — reverse คืนเรียบร้อยแล้ว) แก้โดย <code>docker restart</code> แล้ว re-test ผ่านหน้าเว็บซ้ำจนยืนยันบล็อกได้จริง</div></div>
+</li>
+<li><strong>การคืนสินค้า (Returns/RMA) ไม่มีเลย — สถานะแผ่นค้าง "Sold" ตลอดไปแม้ของจริงกลับเข้าคลังแล้ว</strong> — <code>stone.slab.status</code> ไม่มี path ย้อนกลับจาก 'sold' เลย และ <code>button_validate()</code> เช็คแค่ picking ขาออก (outgoing) เท่านั้น ถ้าพนักงานใช้ปุ่ม Return มาตรฐานของ Odoo (สร้างใบรับคืนเป็น incoming) โมดูลนี้มองไม่เห็นเลย สต็อกจริงของ Odoo ถูกต้อง แต่ Select Slabs wizard/ตัวนับ Block/Stock Take ยังเห็นแผ่นนั้นเป็น Sold ตลอดไป — แก้แล้ว: เพิ่มสถานะใหม่ "Returned - Pending Inspection" ตรวจจับ native Return ผ่าน <code>stock.move.origin_returned_move_id</code> อัตโนมัติ แล้วให้พนักงานตัดสินใจเอง 2 ทาง (ขายต่อได้ → Available / ชำรุด → Cut Loss) ผ่านปุ่มบนฟอร์ม/list เมนูใหม่ "Slabs Pending Inspection" ดู <a href="23-returns-rma.html" class="xref">บทที่ 23: การคืนสินค้า</a></li>
+</ul>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="09-ecommerce-catalog.html"><span class="dir">← ก่อนหน้า</span>09. eCommerce Catalog (<code>/stone-catalog</code>)</a>
+  <a class="next" href="11-scan-station.html"><span class="dir">ถัดไป →</span>11. Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+</div>
+</body>
+</html>

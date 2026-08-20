@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>16. ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 16 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">16</span> ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</h1>
+  </div>
+  <div class="page-content">
+<h3>โจทย์ (จากไฟล์ต้นฉบับ)</h3>
+<p>ลูกค้าส่งใบเสนอราคาโครงการ <strong>"The Residences 38"</strong> — ขอราคาหิน <strong>Ocean black (ผิว Leather)</strong> ตัดตามขนาดหน้างานหลายจุด (ผนังหน้าลิฟต์, ธรณีประตู, พื้นบันได ฯลฯ) รวม 8 รายการ ราคา <strong>3,900 บาท/SQM</strong> บวกค่าบริการเพิ่มเติมคิดตาม<strong>พื้นที่รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ):</p>
+<div class="table-wrap"><table><thead><tr><th>รายการ</th><th>หน่วย</th><th>ราคา</th></tr></thead><tbody><tr><td>Dry Lay (วางเรียงก่อนติดตั้งจริง)</td><td>ต่อ SQM รวม</td><td>250</td></tr><tr><td>Coating (เคลือบผิว)</td><td>ต่อ SQM รวม</td><td>300</td></tr><tr><td>Delivery + Packing</td><td>ต่อ SQM รวม</td><td>200</td></tr></tbody></table></div>
+<p>ชำระเงิน 30% มัดจำ / 70% ส่งของ</p>
+<h3>วิธีทำใบเสนอราคาใน Odoo</h3>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body"><strong>Sales → New</strong> → กรอก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/55-f2-customer.webp" alt="55-f2-customer.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">2</span><div class="step-body"><strong>Add a product</strong> → เลือกวัสดุหิน (Ocean black Granite Slab) — ปุ่ม <strong>Select Slabs</strong> จะโผล่มาอัตโนมัติทันทีที่เลือกวัสดุหิน</div></div></div>
+<figure class="screenshot"><img src="assets/56-f2-product-select-slabs-btn.webp" alt="56-f2-product-select-slabs-btn.png"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ต้อง Save ก่อนกด Select Slabs เสมอ</span></div><div class="callout-body">ถ้ากด Select Slabs บนใบที่ยังไม่เคย Save (สถานะยังเป็น "New") ระบบจะฟ้อง "Please save your changes first" — กด Save (ไอคอนรูปเมฆมุมซ้ายบน) ก่อนเสมอในใบเสนอราคาใหม่</div></div>
+<figure class="screenshot"><img src="assets/57-f2-must-save-warning.webp" alt="57-f2-must-save-warning.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">3</span><div class="step-body">Save แล้วกด <strong>Select Slabs</strong> — wizard จะเปิดรายการแผ่นที่ Available ของวัสดุนี้ทั้งหมด</div></div></div>
+<figure class="screenshot"><img src="assets/58-f2-wizard-slab-picker.webp" alt="58-f2-wizard-slab-picker.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">4</span><div class="step-body">เลือกแผ่นที่ต้องการ (ติ๊กช่องซ้ายมือ) → กด <strong>Select</strong> → <strong>Confirm</strong> — Quantity บน Order Line จะอัปเดตตามจำนวนแผ่นที่เลือกอัตโนมัติ</div></div></div>
+<div class="steps"><div class="step"><span class="step-num">5</span><div class="step-body"><strong>ตั้งราคาเอง</strong> — ระบบไม่คำนวณราคาให้อัตโนมัติจาก SQM × ราคา/SQM ต้องกรอกเองที่ช่อง Unit Price (คำนวณ: SQM ของแผ่นที่เลือก × 3,900 บาท)</div></div></div>
+<figure class="screenshot"><img src="assets/59-f2-price-set.webp" alt="59-f2-price-set.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">วิธีคำนวณราคาเร็ว</span></div><div class="callout-body">เปิด Block ของวัสดุนั้นดู SQM ต่อแผ่น (หรือดูจาก Select Slabs wizard คอลัมน์ "Purchased ...") แล้วคูณด้วยราคา/SQM ที่ตกลงกับลูกค้าเอง — ไม่มี auto-calculate ในขั้นนี้ (ดู gap #2 ใน <span class="xref-external">วิเคราะห์ใบเสนอราคา-BOQ-Import-Odoo</span>)</div></div>
+<div class="steps"><div class="step"><span class="step-num">6</span><div class="step-body"><strong>Add a product</strong> อีกครั้งเพื่อเพิ่มค่าบริการ (Dry Lay/Coating/Delivery) — กรอก Quantity เป็น <strong>SQM รวมทั้งงาน</strong> (ไม่ใช่ต่อรายการ) และราคาต่อ SQM</div></div></div>
+<figure class="screenshot"><img src="assets/60-f2-fee-line-added.webp" alt="60-f2-fee-line-added.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">7</span><div class="step-body">ทำซ้ำสำหรับ Coating และ Delivery + Packing แล้ว Save — ยอดรวมจะคำนวณอัตโนมัติ</div></div></div>
+<figure class="screenshot"><img src="assets/61-f2-final-total.webp" alt="61-f2-final-total.png"/></figure>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="15-purchasing.html"><span class="dir">← ก่อนหน้า</span>15. การจัดซื้อ</a>
+  <a class="next" href="17-quote-slab-cutting-fee.html"><span class="dir">ถัดไป →</span>17. ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+</div>
+</body>
+</html>

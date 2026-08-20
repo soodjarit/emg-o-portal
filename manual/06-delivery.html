@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06. ส่งของและยืนยันการรับ — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 06 / 29</span>
+</div>
+<div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">06</span> ส่งของและยืนยันการรับ</h1>
+  </div>
+  <div class="page-content">
+<p>ขั้นตอนนี้ใช้ต่อจาก <a href="04-sell-slab.html" class="xref">บทที่ 04: ขายเป็นแผ่น (ไม่แปรรูป)</a> หรือ <a href="05-sell-fabrication.html" class="xref">บทที่ 05: ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a> — เหมือนกันทั้ง 2 flow</p>
+<figure class="diagram"><img src="assets/excalidraw-preview-ch06.webp" alt="EMG-O Flow - ส่งของและยืนยันการรับ (Delivery Confirm)"/></figure>
+<h3>สแกนยืนยัน Serial (ADR-009)</h3>
+<p>ทุกครั้งที่จะ <strong>Validate</strong> Delivery Order ที่มีสินค้าหิน ระบบจะบังคับตรวจสอบก่อนเสมอ (fail-closed guard): field <strong>"Scanned Serial"</strong> ของแต่ละแผ่นต้องตรงกับ <strong>Lot/Serial Number</strong> จริงของแผ่นนั้น ถ้าไม่ตรง/ไม่ได้กรอก จะขึ้น error "Scan verification failed" ทันที กด Validate ไม่ผ่าน</p>
+<p><strong>วิธีกรอก/สแกน:</strong> เปิด Delivery Order → กดปุ่ม <strong>"Moves"</strong> (มุมขวาบน) หรือ <strong>"Details"</strong> ที่บรรทัดสินค้า (ทั้งสองจุดมี field นี้ให้กรอกเหมือนกัน) → คลิกช่อง "Scanned Serial" → สแกนด้วยเครื่องสแกนจริง (ถ้ามี) หรือเลือกจาก dropdown ให้ตรงกับ Lot/Serial Number ที่โชว์อยู่แล้ว</p>
+<p>ก่อนกรอก (ช่องว่าง):</p>
+<figure class="screenshot"><img src="assets/23-delivery-moves-scanned-serial-empty.webp" alt="23-delivery-moves-scanned-serial-empty.png"/></figure>
+<p>หลังกรอกตรงกับ Lot จริง:</p>
+<figure class="screenshot"><img src="assets/24-delivery-moves-scanned-serial-filled.webp" alt="24-delivery-moves-scanned-serial-filled.png"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ยังไม่มีเครื่องสแกนจริง (ข้อจำกัดปัจจุบัน)</span></div><div class="callout-body">ตอนนี้พนักงานยังต้องเลือกจาก dropdown ด้วยมือแทนการสแกนจริง — ระบบรองรับกล้องสแกนบนมือถือ/แท็บเล็ต หรือเครื่องสแกน USB/Bluetooth ได้ทันทีที่มีอุปกรณ์ (ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>)</div></div>
+<p>กด <strong>Validate</strong> — เมื่อผ่านการสแกนยืนยันแล้ว ระบบจะ:</p>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">ย้ายสต็อกจริงจาก Stone Hold → Customers</div></div><div class="step"><span class="step-num">2</span><div class="step-body">แผ่น Hold → <strong>Sold</strong> อัตโนมัติ พร้อมผูก Customer</div></div></div>
+<figure class="screenshot"><img src="assets/25-delivery-done.webp" alt="25-delivery-done.png"/></figure>
+<h3>เซ็นรับของ (Proof of Delivery)</h3>
+<p>ในหน้า Delivery Order มีแท็บ <strong>"Customer Signature"</strong> (โชว์เฉพาะใบส่งของ/outgoing):</p>
+<figure class="screenshot"><img src="assets/26-signature-tab-empty.webp" alt="26-signature-tab-empty.png"/></figure>
+<div class="steps"><div class="step"><span class="step-num">1</span><div class="step-body">กรอกชื่อผู้รับใน <strong>"Received By"</strong></div></div><div class="step"><span class="step-num">2</span><div class="step-body">คลิกช่อง <strong>"Customer Signature"</strong> → เปิดกระดานเซ็นลายเซ็นต์ → ยื่นให้ลูกค้าเซ็นบนหน้าจอ (ใช้ได้ทั้งนิ้ว/ปากกาบนแท็บเล็ต-มือถือ หรือเมาส์บนคอม) — เลือกแท็บ "Draw" เพื่อวาดลายเซ็นจริงแทนฟอนต์ auto</div></div><div class="step"><span class="step-num">3</span><div class="step-body">บันทึก — ระบบจะ stamp วันเวลา <strong>"Signed On"</strong> ให้อัตโนมัติทันที</div></div></div>
+<figure class="screenshot"><img src="assets/27-signature-signed.webp" alt="27-signature-signed.png"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ไม่บังคับต้องเซ็นก่อน Validate</span></div><div class="callout-body">การเซ็นเป็น optional ไม่บล็อกการ Validate Delivery Order — จะเซ็นก่อนหรือหลัง Validate ก็ได้ตามความสะดวกหน้างาน</div></div>
+<h3>พิมพ์ Proof of Delivery (PDF)</h3>
+<p>หลังจากมีลายเซ็นแล้ว ปุ่ม <strong>"Print Proof of Delivery"</strong> จะโผล่ขึ้นในแท็บเดียวกัน (เห็นในภาพด้านบน) — กดเพื่อพิมพ์เอกสารสรุป: เลข Delivery Order, ลูกค้า, วันที่ส่ง, รายการสินค้า/Serial/จำนวน, ชื่อผู้รับ, วันที่เซ็น, และรูปลายเซ็นจริง — ใช้เป็นหลักฐานยืนยันการส่งของ (แยกจากใบ Delivery Slip ปกติของ Odoo)</p>
+<p>ตัวอย่าง PDF จริงที่พิมพ์ออกมา: <span class="xref-external">proof-of-delivery-sample.pdf</span></p>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="05-sell-fabrication.html"><span class="dir">← ก่อนหน้า</span>05. ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+  <a class="next" href="07-costing.html"><span class="dir">ถัดไป →</span>07. ต้นทุนสินค้า</a>
+</div>
+</body>
+</html>
