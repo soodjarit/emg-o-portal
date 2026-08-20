@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ทำไมไม่ใช้ Standard/AVCO Cost — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title{color:var(--white);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:17px;color:#CBD3D8;max-width:900px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+  .status-badge{position:absolute;top:64px;right:170px;background:#3D7A45;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:14px;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:20px 26px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .cmp-table th{text-align:left;padding:9px 11px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:9px 11px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.bad:nth-child(even) td, .cmp-table tr.good:nth-child(even) td{background-color:inherit;}
+  .cmp-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:12px;}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+  .dark .cmp-table tr.good td{color:#8FCB8F;background:rgba(61,122,69,.25);}
+  .dark .cmp-table tr.bad td{color:#E08A78;background:rgba(166,67,45,.25);}
+  .dark .cmp-table code{background:rgba(255,255,255,.12);color:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:14px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b{color:#D9A465;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:14px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:12.5px;padding:7px 13px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.bad{background:#A6432D;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 5px;font-weight:700;}
+  .dark .flow-arrow{color:#D9A465;}
+
+  .code-block{background:var(--charcoal-dark);color:#E4E8EA;border-radius:10px;padding:16px 18px;font-family:"SF Mono",Consolas,monospace;font-size:12.5px;line-height:1.6;overflow:auto;}
+  .code-block .cm{color:#8B969C;}
+  .code-block .str{color:#D9A465;}
+  .code-block .add{color:#8FCB8F;}
+
+  .risk-row{display:flex;gap:14px;margin-top:14px;}
+  .risk-card{flex:1;background:#FBEAE7;border:1.5px solid #A6432D;border-radius:12px;padding:14px 16px;}
+  .risk-card .r-num{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#A6432D;font-weight:700;margin-bottom:5px;}
+  .risk-card .r-text{font-size:13px;line-height:1.45;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">COST</div>
+    <div class="status-badge">ยืนยันแล้ว — คงสถาปัตยกรรมเดิม</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Custom Workflow Design</div>
+    <div class="big-title">ทำไมไม่ใช้ Standard/AVCO<br>Cost ของ Odoo?</div>
+    <div class="big-sub">คำตอบสั้นๆ: เพราะหินแต่ละก้อนราคาไม่เท่ากันจริง — Standard/AVCO/FIFO ของ Odoo คำนวณต้นทุนที่ระดับ "สินค้า" ไม่ใช่ระดับ "ก้อนที่ซื้อมาราคานี้จริง" การใช้ native costing method จะเป็นการเดินถอยหลังกลับไปเจอบั๊กที่เคยแก้ไปแล้ว (2 ส.ค. 2026) ไม่ใช่การแก้ให้ถูกต้องขึ้น</div>
+    <div class="stamp">EMG-O Custom Workflow Design · Design Discussion</div>
+    <div class="date-tag">20 ส.ค. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: The trigger question -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">คำถามที่มาก่อน</div>
+    <h2 class="slide-title">คุยเรื่องเพิ่ม "ค่าแรงตัด" เข้าต้นทุน แล้วมีคำถามตามมา</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">ทุกวันนี้ <code>cost</code> / <code>cost_sqmt</code> ของแผ่นหิน คำนวณจาก <b>ราคาซื้อ (PO) ÷ CBM + Landed Cost ที่ปันส่วน</b> เท่านั้น — ไม่มีค่าแรงตัดเลย ถ้าจะเพิ่มค่าแรงเข้าไป ควรเปลี่ยนไปใช้ระบบต้นทุนมาตรฐานของ Odoo (Standard Costing) เลยไหม ในเมื่อยังไงก็ต้องปรับสูตรอยู่แล้ว?</div>
+      </div>
+    </div>
+    <div class="note-box"><b>คำตอบที่จะอธิบายในหน้าถัดไป:</b> ไม่ควรเปลี่ยน — เพราะปัญหาต้นทุนของ EMG-O ไม่ใช่ปัญหาแบบเดียวกับที่ Standard/AVCO/FIFO ถูกออกแบบมาแก้ตั้งแต่ต้น เป็นคนละโจทย์กันเลย</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 2: What native methods compute -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">พื้นฐานก่อน — native costing 3 แบบของ Odoo คำนวณอะไร</div>
+    <h2 class="slide-title">ทั้ง 3 แบบ คำนวณต้นทุนที่ระดับ "สินค้า 1 ตัว" ไม่ใช่ระดับ "ก้อนที่ซื้อมา"</h2>
+    <table class="cmp-table">
+      <tr><th style="width:140px;">วิธี</th><th>คำนวณยังไง</th></tr>
+      <tr><td><b>Standard</b></td><td>ต้นทุนคงที่ 1 ค่าต่อสินค้า 1 ตัว — ตั้งเลขไว้ล่วงหน้า ไม่ขยับตามราคาซื้อจริงแต่ละครั้ง</td></tr>
+      <tr><td><b>AVCO</b></td><td>เฉลี่ยถ่วงน้ำหนักของสต็อกทั้งหมดที่มีของสินค้านั้น ณ ขณะนั้น — รับของใหม่ราคาต่างกันเข้ามาก็ผสมเป็นค่าเฉลี่ยเดียว</td></tr>
+      <tr><td><b>FIFO</b></td><td>ใช้ต้นทุนของ "ล็อตที่รับเข้าก่อน" ไปเรื่อยๆ ตามลำดับที่สต็อกถูกเบิกออก — ต้นทุนผูกกับ "ลำดับ" ไม่ใช่ "ตัวที่เลือก"</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:16px;">ทั้ง 3 แบบมีจุดร่วมเดียวกัน: ต้นทุนคำนวณจาก <b>รหัสสินค้า (product)</b> เป็นหน่วยหลัก — ไม่มีแบบไหนที่ track ต้นทุนแยกเป็นรายชิ้น/รายก้อนที่ซื้อมาคนละราคาโดยกำเนิด</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 3: The real requirement -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">โจทย์จริงของ EMG-O</div>
+    <h2 class="slide-title">หินแต่ละก้อนราคาไม่เท่ากันจริง ต้อง track ต้นทุนแยกเป็นรายก้อน</h2>
+    <div class="case-box">
+      <div class="case-icon">i</div>
+      <div>
+        <div class="case-text-label">ทำไมถึงต่างจากสินค้าทั่วไป</div>
+        <div class="case-text">Block หินแต่ละก้อนซื้อจากคนละซัพพลายเออร์ คนละล็อต คนละราคา คนละค่าขนส่ง — แผ่นที่ตัดจากก้อน A กับก้อน B (Material เดียวกัน) มีต้นทุนจริงต่างกันได้ นี่คือปัญหา <b>specific identification costing</b> (แบบเดียวกับรถยนต์ตาม VIN หรืออสังหาฯ แต่ละแปลง) ซึ่ง Odoo ไม่มี native costing method รองรับเลยสักแบบ</div>
+      </div>
+    </div>
+    <div class="note-box bad"><b>ไม่ใช่แค่ทฤษฎี — เคยเกิดเป็นบั๊กจริงมาแล้ว (แก้ 2 ส.ค. 2026):</b> ต้นทุนเคยคำนวณผิดเพราะหารด้วย Sq.Mt. ของแผ่นที่ตัดแล้วเท่านั้น ทำให้ก้อนที่ยังไม่ตัดมีต้นทุนขึ้น 0.00 และต้นทุนของแผ่นที่ตัดไปก่อนหน้า<b>เปลี่ยนย้อนหลัง</b>ทุกครั้งที่ตัดเพิ่มจากก้อนเดียวกัน — แก้แล้วโดยผูกต้นทุนกับ "ก้อน" ทันทีที่นำเข้า ไม่รอตัดแผ่น (ดูรายละเอียดที่คู่มือ บทที่ 07: ต้นทุนสินค้า)</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 4: Why each native method fails -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">เทียบกับโจทย์จริง</div>
+    <h2 class="slide-title">ทำไมทั้ง 3 แบบไม่ตอบโจทย์ "ต้นทุนแยกรายก้อน"</h2>
+    <table class="cmp-table">
+      <tr><th style="width:140px;">วิธี</th><th>ทำไมไม่เหมาะ</th></tr>
+      <tr class="bad"><td><b>Standard</b></td><td>ตั้งเลขเดียวตายตัวต่อสินค้า — ก้อนที่ซื้อแพง/ถูกกว่ากันจะถูกบันทึกต้นทุนเท่ากันหมด ทั้งที่ราคาซื้อจริงต่างกัน</td></tr>
+      <tr class="bad"><td><b>AVCO</b></td><td>เฉลี่ยรวมทุกก้อนของ Material เดียวกันเข้าด้วยกัน — ก้อนแพง/ถูกผสมกันจนแยกไม่ออกว่าแผ่นนี้มาจากก้อนไหนจริงๆ เท่ากับ "เดินถอยหลัง" กลับไปเจอบั๊กเดือน ส.ค. ที่เพิ่งแก้ไปแบบเป๊ะๆ</td></tr>
+      <tr class="bad"><td><b>FIFO</b></td><td>สมมติว่าเบิกตามลำดับรับเข้าก่อน-หลัง แต่พนักงานเลือกก้อน/แผ่นเองตามที่ลูกค้าต้องการ ไม่ใช่เบิกตามลำดับรับเข้าเลย</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:16px;"><b>สิ่งที่ระบบมีอยู่ตอนนี้ (custom compute field) ทำสิ่งที่ 3 แบบข้างต้นทำไม่ได้:</b> ผูกต้นทุนกับ Bundle/Block แต่ละก้อนโดยตรงจากราคา PO จริงของก้อนนั้น — ไม่ผสมกับก้อนอื่น ไม่ขึ้นกับลำดับเบิก</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 5: What switching would actually cost -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ถ้าจะเปลี่ยนจริง — ไม่ใช่แค่ปรับสูตร</div>
+    <h2 class="slide-title">การเปิด native costing จะไปเปิด Real-time Valuation ของ Odoo ด้วย</h2>
+    <div class="risk-row">
+      <div class="risk-card">
+        <div class="r-num">ผลกระทบ 1</div>
+        <div class="r-text">ทุก stock.move ที่โมดูลนี้สร้างเอง (Stone Available ↔ Production, Cut-to-Order, Delivery) จะเริ่มยิง <b>GL journal entry จริง</b> อัตโนมัติ — ของที่ไม่เคยถูกออกแบบ/ทดสอบให้รองรับเลย</div>
+      </div>
+      <div class="risk-card">
+        <div class="r-num">ผลกระทบ 2</div>
+        <div class="r-text">ระบบตอนนี้ตั้งใจ<b>ข้าม</b>ใบรับสินค้า (Receipt) มาตรฐานไปเลย (auto-cancel กันสต็อกซ้ำ) — ถ้าเปิด valuation จริง ต้องรื้อ design สายนี้ทั้งหมดเพื่อไม่ให้ตัวเลขซ้ำ/ชนกัน</div>
+      </div>
+      <div class="risk-card">
+        <div class="r-num">ผลกระทบ 3</div>
+        <div class="r-text">Standard/AVCO ผูกกับ "สินค้า" ไม่ใช่ "ก้อน" — ต้องมีเลเยอร์ custom เพิ่มมาแปลงกลับให้ตรงกับ Block/Bundle อยู่ดี เท่ากับสร้างงานซ้อนงาน ไม่ได้ลดงานลงเลย</div>
+      </div>
+    </div>
+    <div class="note-box bad" style="margin-top:18px;"><b>สรุป:</b> เป็นงานใหญ่กว่าที่มีอยู่ตอนนี้มาก ไม่ใช่ "แก้ตอนนี้ดีกว่าแก้ทีหลัง" — เพราะปลายทางไม่ได้ดีกว่าที่มีอยู่แล้วเลย</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 6: Decision -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ข้อสรุป</div>
+    <h2 class="slide-title">คงสูตรเดิม เพิ่มค่าแรงเป็นอีก term หนึ่ง ไม่แตะ costing method</h2>
+    <div class="code-block">
+      cost_sqmt = <span class="str">po_cost_sqmt</span> + <span class="str">landed_cost_sqmt</span> <span class="cm"># เดิม — ต้นทุนวัสดุ</span><br>
+      <span class="add">cost_sqmt = po_cost_sqmt + landed_cost_sqmt + labor_cost_sqmt</span> <span class="cm"># เสนอ — เพิ่ม term เดียว</span>
+    </div>
+    <div class="note-box good" style="margin-top:16px;"><b>ทำไมทำได้ง่าย:</b> <code>cost</code>/<code>cost_sqmt</code>/<code>cost_cbm</code> เป็น field คำนวณเอง (custom compute) อยู่แล้ว ไม่ใช่ field มาตรฐานของ Odoo — เพิ่ม term ใหม่เข้าสูตรได้โดยไม่ต้องแตะ Product Category / Costing Method เลย เหมือนที่ Cut-to-Order (MRP) มีกลไก tag ค่าแรงประมาณการอยู่แล้วในปัจจุบัน (workcenter cost/ชม. × เวลา) เพียงแต่ตอนนี้แยกไปอยู่แค่ Analytic Item ยังไม่ไหลกลับเข้า field <code>cost</code> โดยตรง</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 7: Summary -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">custom compute field คือคำตอบที่ถูกต้องแล้ว ไม่ใช่ทางลัดที่ต้องแก้ทีหลัง</h2>
+    <div class="flow-bar" style="margin-bottom:22px;">
+      <span class="flow-chip bad">Standard/AVCO/FIFO — คำนวณระดับสินค้า</span><span class="flow-arrow">→</span>
+      <span class="flow-chip bad">ไม่ตอบโจทย์ "ต้นทุนแยกรายก้อน"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">คงสูตร custom เดิม + เพิ่ม labor term</span>
+    </div>
+    <table class="cmp-table" style="max-width:900px;">
+      <tr><th>คำถาม</th><th>คำตอบ</th></tr>
+      <tr class="good"><td>ควรเปลี่ยนไปใช้ Standard/AVCO Costing ไหม</td><td><b>ไม่ควร — ธุรกิจนี้เป็นปัญหา specific-identification ที่ native costing ไม่รองรับ</b></td></tr>
+      <tr class="good"><td>เพิ่มค่าแรงตัดเข้าต้นทุนได้ไหม</td><td><b>ได้ — เพิ่มเป็นอีก term ในสูตร compute field เดิม ไม่ต้องเปลี่ยน costing method</b></td></tr>
+      <tr><td>มีหลักฐานสนับสนุนไหม</td><td>มี — บั๊กจริงที่เคยเกิด+แก้แล้ว (2 ส.ค. 2026) เป็นรูปแบบเดียวกับที่ AVCO จะทำให้เกิดซ้ำ</td></tr>
+    </table>
+    <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">อ้างอิงเต็มดูที่คู่มือ <b>บทที่ 07: ต้นทุนสินค้า</b> — เอกสารนี้เก็บไว้เป็นคำตอบมาตรฐานเวลามีคนถามคำถามนี้ซ้ำในอนาคต</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 8</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
