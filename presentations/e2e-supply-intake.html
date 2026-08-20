@@ -111,7 +111,7 @@
     <div class="eyebrow">Empire Stone × Empire Granite · E2E เดินสดครบวงจร</div>
     <div class="big-title">รับหินเข้าคลัง<br>(Ensure Supply)</div>
     <div class="big-sub">ขั้นตอนที่ใช้ร่วมกันก่อนขายทุกโหมด — ตั้งแต่เปิด PO ซื้อก้อนหิน จนถึงสต็อกพร้อมขาย ไม่ว่าจะขายด้วยโหมดไหนใน 5 โหมดก็เริ่มจากจุดนี้เหมือนกัน</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · อ้างอิงจากโค้ดจริง (stone_bundle.py) · 2026-08-17</div>
+    <div class="stamp">EMG-O · stone_slab_inventory module · อ้างอิงจากโค้ดจริง (Block model) · เดินสด 17 ส.ค. 2026 · ตรวจสอบล่าสุด 21 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: Where this fits -->
@@ -193,6 +193,7 @@
       </div>
     </div>
     <div class="note-box warn"><b>ข้อควรระวังจริง (ยืนยันจากทั้งโค้ดและระบบจริง):</b> ห้าม validate ใบรับสินค้า (Purchase Receipt) ปกติซ้ำ — พอมี Block ผูกกับ PO Line แล้ว ระบบยกเลิกใบรับให้เองทันที (<code>_ensure_receipt_cancelled</code>, เห็นสถานะ "Cancelled" จริงใน <code>EG01/IN/00003</code>) กันข้อมูลสต็อกชนกัน</div>
+    <div class="note-box pending"><span class="pending-badge">อัปเดตเพิ่มเติม</span> แท็บ "Block (Optional)" มีฟิลด์เสริมที่ไม่ได้เดินในเดคนี้: <b>Container</b> (ผูกก้อนที่มากับตู้เดียวกัน ใช้ allocate ค่า Freight/Duty ข้าม Block โดยอัตโนมัติ — optional ไม่บังคับ) และ <b>Length/Width/Height</b> (ขนาดวัดจริงตอนรับเข้า เก็บไว้อ้างอิงเท่านั้น ไม่กระทบ CBM/ราคา)</div>
   </section>
 
   <!-- SLIDE 6: Step 5 - add slabs -->
@@ -212,6 +213,7 @@
       </div>
     </div>
     <div class="note-box warn"><b>ข้อควรระวังจริง:</b> ถ้าจะขายแบบแยกแผ่นในอนาคต ต้องกรอกทั้ง "Slab L/H" (ขนาดจริงที่ตัดได้) และ "Purchased L/H" (ขนาดที่ใช้คิดราคา) — ราคาขายคำนวณจาก Purchased Sqmt เท่านั้น ถ้ากรอกแค่ Slab L/H เฉยๆ ราคาจะเป็น 0 บาททันที (Purchased L มักเติมให้อัตโนมัติ แต่ Purchased H ต้องกรอกเองเสมอ)</div>
+    <div class="note-box pending"><span class="pending-badge">อัปเดตเพิ่มเติม</span> ตั้งแต่ 18 ส.ค. 2026 อัปโหลดรูปแยกทีละแผ่นจากมือถือได้ตรงแถว Slab เลย (ปุ่ม Upload) ไม่ต้องพึ่ง URL จาก Google Drive อย่างเดียวเหมือนตอนบันทึกเดคนี้</div>
   </section>
 
   <!-- SLIDE 7: Step 6 - ready -->
@@ -256,7 +258,8 @@
         <div class="stext">ห้าม validate Purchase Receipt แบบปกติ — ต้องสร้าง Block ผูกกับ PO Line เท่านั้นถึงจะรับเข้าคลังถูกต้อง</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดยืนยันจากระบบจริงและโค้ดจริง (stone_bundle.py) — เดินสดจริงบน eg-odoo19-ee วันที่ 17 ส.ค. 2026 (PO P00004 → BLK-26-0005)</div>
+    <div class="note-box pending" style="margin-top:18px;"><span class="pending-badge">อัปเดตเพิ่มเติม</span> ตั้งแต่ 20 ส.ค. 2026 แต่ละ Slab มี <b>Labor Cost</b> + <b>Total Cost</b> แยกให้อัตโนมัติ (ต้นทุนวัสดุ + ค่าแรงตัด) — ถ้าตัดผ่าน Cut-to-Order ใช้ต้นทุนจริงจาก Work Order, ถ้าเพิ่มแผ่นแบบ manual (ตามเดคนี้) ใช้ flat rate ต่อ Material แทน</div>
+    <div style="margin-top:16px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดยืนยันจากระบบจริงและโค้ดจริง (stone_slab_inventory module, Block) — เดินสดจริงบน eg-odoo19-ee วันที่ 17 ส.ค. 2026 (PO P00004 → BLK-26-0005) · ตรวจทานกับโค้ดล่าสุดอีกครั้ง 21 ส.ค. 2026</div>
   </section>
 
 </div></div>
