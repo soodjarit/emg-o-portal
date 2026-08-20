@@ -199,13 +199,29 @@
 
   <!-- SLIDE 6: Decision -->
   <section class="slide" id="slide-6">
-    <div class="eyebrow">ข้อสรุป</div>
-    <h2 class="slide-title">คงสูตรเดิม เพิ่มค่าแรงเป็นอีก term หนึ่ง ไม่แตะ costing method</h2>
+    <div class="eyebrow">ข้อสรุป — Built แล้ว 2026-08-20</div>
+    <h2 class="slide-title">คงสูตร cost/cost_sqmt เดิม เพิ่ม field labor_cost/total_cost แยกต่างหาก</h2>
     <div class="code-block">
-      cost_sqmt = <span class="str">po_cost_sqmt</span> + <span class="str">landed_cost_sqmt</span> <span class="cm"># เดิม — ต้นทุนวัสดุ</span><br>
-      <span class="add">cost_sqmt = po_cost_sqmt + landed_cost_sqmt + labor_cost_sqmt</span> <span class="cm"># เสนอ — เพิ่ม term เดียว</span>
+      cost_sqmt = <span class="str">po_cost_sqmt</span> + <span class="str">landed_cost_sqmt</span> <span class="cm"># ไม่แตะ — ยังเป็นต้นทุนวัสดุอย่างเดียวเหมือนเดิม</span><br>
+      <span class="add">slab.labor_cost</span> = mo_id <span class="cm">? Σ(workcenter.costs_hour × workorder.duration/60)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">: material.labor_cost_sqmt × slab_sqmt</span><br>
+      <span class="add">slab.total_cost</span> = slab.cost + slab.labor_cost
     </div>
-    <div class="note-box good" style="margin-top:16px;"><b>ทำไมทำได้ง่าย:</b> <code>cost</code>/<code>cost_sqmt</code>/<code>cost_cbm</code> เป็น field คำนวณเอง (custom compute) อยู่แล้ว ไม่ใช่ field มาตรฐานของ Odoo — เพิ่ม term ใหม่เข้าสูตรได้โดยไม่ต้องแตะ Product Category / Costing Method เลย เหมือนที่ Cut-to-Order (MRP) มีกลไก tag ค่าแรงประมาณการอยู่แล้วในปัจจุบัน (workcenter cost/ชม. × เวลา) เพียงแต่ตอนนี้แยกไปอยู่แค่ Analytic Item ยังไม่ไหลกลับเข้า field <code>cost</code> โดยตรง</div>
+    <div class="note-box bad" style="margin-top:14px;"><b>ทำไมไม่ยัด labor_cost_sqmt เข้า cost_sqmt ตรงๆ อย่างที่ร่างไว้ตอนแรก:</b> cost_sqmt เป็น field เดียวที่ใช้ร่วมกันทั้ง Cut-to-Order และ manual — ถ้ายัดเข้าไปตรงๆ ฝั่ง Cut-to-Order จะโดนนับค่าแรงซ้ำสอง (ของเดิมที่ tag เข้า Analytic Account + flat rate ใหม่) พบระหว่างออกแบบ ก่อน build จริง จึงเปลี่ยนมาใช้ field แยก (<code>labor_cost</code>/<code>total_cost</code>) ที่เลือกแหล่งที่มาตาม <code>mo_id</code> แทน — ไม่มีทางนับซ้ำ</div>
+    <div class="note-box good" style="margin-top:10px;"><b>ทำไมทำได้ง่าย:</b> เป็น field คำนวณเอง (custom compute) อยู่แล้ว ไม่ใช่ field มาตรฐานของ Odoo — เพิ่ม field ใหม่ได้โดยไม่ต้องแตะ Product Category / Costing Method เลย</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
+  </section>
+
+  <!-- SLIDE 6b: Verified live -->
+  <section class="slide evidence-slide" id="slide-6b">
+    <div class="eyebrow">ทดสอบสดจริง — ผ่าน odoo shell บน eg-tst</div>
+    <h2 class="slide-title">ทั้ง 2 เส้นทางคำนวณถูกต้อง ไม่มีนับซ้ำ</h2>
+    <table class="cmp-table">
+      <tr><th style="width:220px;">Slab</th><th>ที่มา</th><th>cost</th><th>labor_cost</th><th>total_cost</th></tr>
+      <tr class="good"><td><code>BLK-26-0001 #1</code></td><td>Cut-to-Order (mo_id=<code>EG01/STCUT/00008</code>)</td><td>2.0</td><td><b>500.0</b> (workcenter 500/ชม. × 60 นาที)</td><td>502.0</td></tr>
+      <tr class="good"><td><code>BDL-00002 #1</code></td><td>Add Slab Line (manual, ไม่มี mo_id)</td><td>4.0</td><td><b>500.0</b> (rate 250/sqmt × 2.0 sqmt)</td><td>504.0</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:16px;"><b>Deploy:</b> module-upgrade + restart บน <code>mbx-ee-dev</code> และ <code>eg-tst</code> ทั้งคู่ (commit <code>0502880</code>, <code>test/emg-erp-ee</code>) — 0 error ทั้งสอง DB</div>
     <div class="footer-tag">EMG-O Custom Workflow Design · ทำไมไม่ใช้ Standard/AVCO Cost</div>
   </section>
 
