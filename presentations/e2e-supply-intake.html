@@ -32,7 +32,6 @@
   .dark .subtitle{color:#B9C2C8;}
 
   .step-badge{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 14px 6px;border-radius:99px;font-weight:700;color:#fff;background:var(--charcoal);margin-bottom:10px;}
-  .pending-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 12px 5px;border-radius:99px;font-weight:700;color:#8F5A2C;background:#FBF0E2;border:1px solid #E4C98A;margin-left:8px;}
 
   /* Title slide */
   #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
@@ -65,10 +64,6 @@
 
   .note-box{background:#FBF1E7;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.46;color:#6B4423;margin-top:8px;}
   .note-box b{color:#8F5A2C;}
-  .note-box.warn{background:#FDECEC;color:#8A2C2C;}
-  .note-box.warn b{color:#B03A3A;}
-  .note-box.pending{background:#EFEAE3;color:#5B5347;}
-  .note-box.pending b{color:#8F5A2C;}
   code{background:#EFEAE3;color:var(--copper-dark);padding:1px 6px;border-radius:4px;font-size:.92em;}
 
   .two-col{display:flex;gap:26px;align-items:stretch;flex:1;min-height:0;}
@@ -108,52 +103,52 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">รับหิน<br>เข้าคลัง</div>
-    <div class="eyebrow">Empire Stone × Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="eyebrow">Empire Stone × Empire Granite · เดินระบบจริงครบกระบวนการ</div>
     <div class="big-title">รับหินเข้าคลัง<br>(Ensure Supply)</div>
-    <div class="big-sub">ขั้นตอนที่ใช้ร่วมกันก่อนขายทุกโหมด — ตั้งแต่เปิด PO ซื้อก้อนหิน จนถึงสต็อกพร้อมขาย ไม่ว่าจะขายด้วยโหมดไหนใน 5 โหมดก็เริ่มจากจุดนี้เหมือนกัน</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · อ้างอิงจากโค้ดจริง (Block model) · เดินสด 17 ส.ค. 2026 · ตรวจสอบล่าสุด 21 ส.ค. 2026</div>
+    <div class="big-sub">กระบวนการที่ใช้ร่วมกันก่อนขายทุกรูปแบบ — ตั้งแต่สั่งซื้อก้อนหิน จนถึงสต็อกพร้อมขาย ไม่ว่าจะขายด้วยรูปแบบใดในทั้ง 5 รูปแบบ ก็เริ่มต้นจากจุดนี้เหมือนกัน</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 17 ส.ค. 2026 · ตรวจทานล่าสุด 21 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: Where this fits -->
   <section class="slide" id="slide-1">
-    <div class="eyebrow">ก่อนเริ่ม — เดคนี้อยู่ตรงไหน</div>
-    <h2 class="slide-title">Supply (เดคนี้) แยกจาก Demand (5 โหมดขาย)</h2>
+    <div class="eyebrow">ก่อนเริ่ม — เอกสารนี้อยู่ตรงไหน</div>
+    <h2 class="slide-title">รับเข้าคลัง (เอกสารนี้) แยกจากการขาย 5 รูปแบบ</h2>
     <div class="case-box">
       <div class="case-icon">S</div>
-      <div><div class="case-text-label">แนวคิด</div><div class="case-text">ไม่ว่าจะขายแบบทั้งก้อน / แผ่นสำเร็จรูป / ตัดตามสั่ง / งานโครงการ / ผลิต FG — ทุกโหมดต้องมีของในสต็อกก่อนเสมอ ขั้นตอน "รับเข้าคลัง" จึงเป็น flow เดียว ใช้ร่วมกันหมด ไม่ต้องเล่าซ้ำในแต่ละเดคโหมด</div></div>
+      <div><div class="case-text-label">แนวคิด</div><div class="case-text">ไม่ว่าจะขายแบบทั้งก้อน แผ่นสำเร็จรูป ตัดตามสั่ง งานโครงการ หรือผลิตเป็นสินค้าสำเร็จรูป ทุกรูปแบบการขายต้องเริ่มจากมีสต็อกพร้อมก่อนเสมอ กระบวนการ "รับหินเข้าคลัง" จึงเป็นขั้นตอนเดียวที่ใช้ร่วมกันในทุกรูปแบบการขาย ไม่ต้องอธิบายซ้ำในแต่ละกรณี</div></div>
     </div>
     <table class="data-table">
-      <tr><th>ส่วน</th><th>ครอบคลุมอะไร</th><th>เดคที่เกี่ยวข้อง</th></tr>
-      <tr class="hl"><td>Supply</td><td>PO → รับก้อนเข้าคลัง → Slab พร้อมขาย</td><td>เดคนี้ (1 flow เดียว)</td></tr>
-      <tr><td>Demand</td><td>ขาย 5 โหมด นับจากสต็อกที่มีอยู่แล้ว</td><td>เดค E2E แยกตามโหมด (M1-M5)</td></tr>
+      <tr><th>ส่วน</th><th>ครอบคลุมอะไร</th><th>เอกสารที่เกี่ยวข้อง</th></tr>
+      <tr class="hl"><td>รับเข้าคลัง</td><td>สั่งซื้อ → รับก้อนหินเข้าคลัง → แผ่นหินพร้อมขาย</td><td>เอกสารนี้ (กระบวนการเดียว)</td></tr>
+      <tr><td>การขาย</td><td>ขาย 5 รูปแบบ นับจากสต็อกที่มีอยู่แล้ว</td><td>เอกสาร E2E แยกตามรูปแบบการขาย (M1-M5)</td></tr>
     </table>
-    <div class="note-box">ตรงกับที่ dashboard จริงของระบบแบ่งไว้เอง: "Container → Block → Slab → Finished Goods" (supply side) อยู่คนละส่วนกับ "5 โหมดการขาย" (demand side)</div>
+    <div class="note-box">สอดคล้องกับโครงสร้างจริงของระบบ ที่แบ่งกระบวนการ "รับหินเข้าคลัง" (ก้อนหิน → แผ่นหิน → สินค้าสำเร็จรูป) ออกจาก "การขาย 5 รูปแบบ" อย่างชัดเจน</div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
   <section class="slide" id="slide-2">
-    <div class="eyebrow">แผนผังขั้นตอน</div>
-    <h2 class="slide-title">Flow รับหินเข้าคลัง — 2 ฝ่าย 6 ขั้นตอน</h2>
+    <div class="eyebrow">ภาพรวมกระบวนการ</div>
+    <h2 class="slide-title">รับหินเข้าคลัง — 2 ฝ่ายงาน 6 ขั้นตอน</h2>
     <div class="center-diagram">
       <img class="flow-thumb" src="assets/supply-flow-overview.png">
     </div>
-    <div class="note-box">สไลด์ถัดไปจะเดินทีละขั้นตอนตามผังนี้ — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ให้เห็นตำแหน่งชัดเจนทุกครั้ง</div>
+    <div class="note-box">สไลด์ถัดไปจะอธิบายทีละขั้นตอนตามผังนี้ โดยไฮไลท์<b style="color:#B03A3A;">สีแดง</b>ในตำแหน่งที่กำลังอธิบายทุกครั้ง เพื่อให้เห็นภาพรวมกระบวนการที่ชัดเจน</div>
   </section>
 
   <!-- SLIDE 3: Step 1-2 - PO -->
   <section class="slide" id="slide-3">
     <div class="step-badge">ขั้นตอนที่ 1-2 / 6 · ฝ่ายจัดซื้อ</div>
-    <h2 class="slide-title">เปิดและยืนยัน Purchase Order</h2>
+    <h2 class="slide-title">เปิดและยืนยันใบสั่งซื้อ</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/supply-flow-step1.png">
         <ul class="plain-list" style="margin-top:14px;">
-          <li>เปิด PO กับ Supplier ระบุ Material ที่จะซื้อ + จำนวน CBM</li>
-          <li>Confirm PO ตามปกติของ Odoo Purchase — ยังไม่มีอะไรพิเศษในขั้นนี้</li>
+          <li><b>ข้อมูลนำเข้า:</b> ความต้องการซื้อหิน — ระบุวัสดุและปริมาณที่ต้องการ (ลูกบาศก์เมตร)</li>
+          <li><b>กระบวนการ:</b> เปิดใบสั่งซื้อกับซัพพลายเออร์ ระบุวัสดุและจำนวน แล้วยืนยันใบสั่งซื้อ</li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-po-confirmed.png"><div class="shot-cap">P00004 — Demo Quarry Co., Carrara White - Block 5.00 m³, สถานะ Purchase Order</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-po-confirmed.png"><div class="shot-cap">ผลลัพธ์: ใบสั่งซื้อ P00004 — Demo Quarry Co., Carrara White ปริมาณ 5.00 ลบ.ม. ยืนยันเรียบร้อย พร้อมส่งต่อฝ่ายคลัง</div></div>
       </div>
     </div>
   </section>
@@ -161,17 +156,17 @@
   <!-- SLIDE 4: Step 3 - create Block -->
   <section class="slide" id="slide-4">
     <div class="step-badge">ขั้นตอนที่ 3 / 6 · ฝ่ายคลัง</div>
-    <h2 class="slide-title">สร้าง Block ใหม่ ผูกกับ PO Line</h2>
+    <h2 class="slide-title">สร้างข้อมูลก้อนหิน ผูกกับใบสั่งซื้อ</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/supply-flow-step3.png">
         <ul class="plain-list" style="margin-top:14px;">
-          <li>เข้า Blocks &gt; New เลือก Material ก่อน — ฟิลด์ Purchase Order Line จะโผล่ขึ้นมาเอง</li>
-          <li>เลือก PO Line ที่เพิ่งยืนยัน (P00004) ระบบดึง Supplier + Total CBM มาให้อัตโนมัติทันที (<code>_onchange_purchase_line_id</code>)</li>
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งซื้อที่ยืนยันแล้วจากฝ่ายจัดซื้อ</li>
+          <li><b>กระบวนการ:</b> สร้างข้อมูลก้อนหินใหม่ในระบบ โดยเลือกใบสั่งซื้อที่เกี่ยวข้อง ระบบดึงข้อมูลซัพพลายเออร์และปริมาณให้อัตโนมัติทันที ลดการกรอกข้อมูลซ้ำและความผิดพลาด</li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-autofill.png"><div class="shot-cap">เลือก "P00004: Carrara White - Block" → Supplier "Demo Quarry Co." + Total CBM 5.00 เติมเองทันที</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-autofill.png"><div class="shot-cap">ผลลัพธ์: เลือกใบสั่งซื้อ P00004 แล้วระบบเติมซัพพลายเออร์ "Demo Quarry Co." และปริมาณ 5.00 ลบ.ม. ให้อัตโนมัติ</div></div>
       </div>
     </div>
   </section>
@@ -179,63 +174,59 @@
   <!-- SLIDE 5: Step 4 - fill details + auto receive -->
   <section class="slide" id="slide-5">
     <div class="step-badge">ขั้นตอนที่ 4 / 6 · ฝ่ายคลัง</div>
-    <h2 class="slide-title">กรอกรายละเอียดก้อน → Save = รับเข้าสต็อกอัตโนมัติ</h2>
+    <h2 class="slide-title">กรอกรายละเอียดก้อนหิน → รับเข้าสต็อกอัตโนมัติ</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/supply-flow-step4.png">
         <ul class="plain-list" style="margin-top:14px;">
-          <li>กรอก Quality, Warehouse (Company ดึงจาก Warehouse อัตโนมัติ)</li>
-          <li>กด Save — ระบบสร้าง+validate stock receipt ให้เองทันที (<code>_ensure_block_stock_received</code>) ยืนยันด้วย SQL จริง: 5.00 m³ เข้า Stone Available ทันทีที่ Save</li>
+          <li><b>ข้อมูลนำเข้า:</b> รายละเอียดก้อนหิน — คุณภาพ และคลังที่จะรับเข้า</li>
+          <li><b>กระบวนการ:</b> เมื่อบันทึกข้อมูล ระบบรับก้อนหินเข้าสต็อกให้อัตโนมัติทันที ไม่ต้องดำเนินการรับสินค้าซ้ำอีกขั้นตอน</li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-saved.png"><div class="shot-cap">BLK-26-0005 บันทึกสำเร็จ — Block Code ออกอัตโนมัติ ครบทุกฟิลด์</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-block-saved.png"><div class="shot-cap">ผลลัพธ์: BLK-26-0005 บันทึกสำเร็จ ครบทุกข้อมูล หิน 5.00 ลบ.ม. เข้าสต็อกจริงทันที</div></div>
       </div>
     </div>
-    <div class="note-box warn"><b>ข้อควรระวังจริง (ยืนยันจากทั้งโค้ดและระบบจริง):</b> ห้าม validate ใบรับสินค้า (Purchase Receipt) ปกติซ้ำ — พอมี Block ผูกกับ PO Line แล้ว ระบบยกเลิกใบรับให้เองทันที (<code>_ensure_receipt_cancelled</code>, เห็นสถานะ "Cancelled" จริงใน <code>EG01/IN/00003</code>) กันข้อมูลสต็อกชนกัน</div>
-    <div class="note-box pending"><span class="pending-badge">อัปเดตเพิ่มเติม</span> แท็บ "Block (Optional)" มีฟิลด์เสริมที่ไม่ได้เดินในเดคนี้: <b>Container</b> (ผูกก้อนที่มากับตู้เดียวกัน ใช้ allocate ค่า Freight/Duty ข้าม Block โดยอัตโนมัติ — optional ไม่บังคับ) และ <b>Length/Width/Height</b> (ขนาดวัดจริงตอนรับเข้า เก็บไว้อ้างอิงเท่านั้น ไม่กระทบ CBM/ราคา)</div>
   </section>
 
   <!-- SLIDE 6: Step 5 - add slabs -->
   <section class="slide" id="slide-6">
     <div class="step-badge">ขั้นตอนที่ 5 / 6 · ฝ่ายคลัง</div>
-    <h2 class="slide-title">เพิ่มแผ่น Slab ตามที่ตัด/วัดจริง</h2>
+    <h2 class="slide-title">เพิ่มแผ่นหินตามที่ตัด/วัดจริง</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/supply-flow-step5.png">
         <ul class="plain-list" style="margin-top:14px;">
-          <li>กรอกขนาด L × H ทีละแผ่นในแท็บ Slabs ของ Block เดียวกัน</li>
-          <li>แต่ละแผ่นเก็บสถานะของตัวเอง (Available ทันทีที่บันทึก)</li>
+          <li><b>ข้อมูลนำเข้า:</b> ขนาดแผ่นหินจริงที่ตัด/วัดได้จากก้อนเดียวกัน</li>
+          <li><b>กระบวนการ:</b> บันทึกขนาดแผ่นทีละแผ่นในระบบ แต่ละแผ่นมีสถานะของตัวเองแยกจากกัน</li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-slab-saved.png"><div class="shot-cap">Slab #1 — 2.80 × 1.60 ม. = 4.48 ตร.ม. สถานะ Available ทันที (Total 1 / Available 1)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-slab-saved.png"><div class="shot-cap">ผลลัพธ์: แผ่นที่ 1 ขนาด 2.80 × 1.60 ม. = 4.48 ตร.ม. พร้อมขายทันที (รวม 1 แผ่น พร้อมขาย 1 แผ่น)</div></div>
       </div>
     </div>
-    <div class="note-box warn"><b>ข้อควรระวังจริง:</b> ถ้าจะขายแบบแยกแผ่นในอนาคต ต้องกรอกทั้ง "Slab L/H" (ขนาดจริงที่ตัดได้) และ "Purchased L/H" (ขนาดที่ใช้คิดราคา) — ราคาขายคำนวณจาก Purchased Sqmt เท่านั้น ถ้ากรอกแค่ Slab L/H เฉยๆ ราคาจะเป็น 0 บาททันที (Purchased L มักเติมให้อัตโนมัติ แต่ Purchased H ต้องกรอกเองเสมอ)</div>
-    <div class="note-box pending"><span class="pending-badge">อัปเดตเพิ่มเติม</span> ตั้งแต่ 18 ส.ค. 2026 อัปโหลดรูปแยกทีละแผ่นจากมือถือได้ตรงแถว Slab เลย (ปุ่ม Upload) ไม่ต้องพึ่ง URL จาก Google Drive อย่างเดียวเหมือนตอนบันทึกเดคนี้</div>
   </section>
 
   <!-- SLIDE 7: Step 6 - ready -->
   <section class="slide" id="slide-7">
     <div class="step-badge">ขั้นตอนที่ 6 / 6 · ผลลัพธ์</div>
-    <h2 class="slide-title">สต็อก Available — พร้อมขายได้ทั้ง 5 โหมด</h2>
+    <h2 class="slide-title">สต็อกพร้อมขาย — ใช้ได้ทั้ง 5 รูปแบบการขาย</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/supply-flow-step6.png">
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-blocks-list-result.png"><div class="shot-cap">Blocks list — BLK-26-0005 ขึ้น "1 Available" จบ flow ตั้งแต่เปิด PO จนถึงพร้อมขาย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/supply-shot-blocks-list-result.png"><div class="shot-cap">ผลลัพธ์: BLK-26-0005 แสดงสถานะ "1 Available" จบกระบวนการตั้งแต่เปิดใบสั่งซื้อจนถึงพร้อมขาย</div></div>
       </div>
     </div>
     <div class="status-row">
       <div class="status-card">
-        <div class="slabel">จบตรงนี้ ไม่มีการเลือกโหมดขาย</div>
-        <div class="stext">ตั้งแต่จุดนี้ ระบบไม่สนใจแล้วว่าในที่สุดจะขายแบบไหน — Slab/Block พร้อมให้ทั้ง 5 โหมดหยิบไปใช้เหมือนกันหมด</div>
+        <div class="slabel">จบกระบวนการรับเข้า ยังไม่ผูกกับโหมดขายใด</div>
+        <div class="stext">ตั้งแต่จุดนี้เป็นต้นไป สต็อกพร้อมใช้งานได้ทันที ไม่ว่าจะเลือกขายด้วยรูปแบบใดในทั้ง 5 รูปแบบ</div>
       </div>
       <div class="status-card">
         <div class="slabel">ขั้นตอนถัดไป</div>
-        <div class="stext">ดูเดค E2E แยกตามโหมด (M1-M5) — แต่ละเดคจะเริ่มจาก "สมมติมีของในสต็อกแล้ว" ไม่เล่าขั้นตอนรับเข้าซ้ำอีก</div>
+        <div class="stext">แต่ละรูปแบบการขายมีเอกสารประกอบแยกต่างหาก (M1-M5) โดยเริ่มต้นจากสมมติฐานว่ามีสต็อกพร้อมแล้ว</div>
       </div>
     </div>
   </section>
@@ -243,23 +234,22 @@
   <!-- SLIDE 8: Summary -->
   <section class="slide dark" id="slide-8">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">รับหินเข้าคลัง — 6 ขั้นตอน จาก PO ถึงพร้อมขาย</h2>
+    <h2 class="slide-title" style="color:#fff;">สรุปกระบวนการรับหินเข้าคลัง — 6 ขั้นตอน จากใบสั่งซื้อจนถึงพร้อมขาย</h2>
     <div class="status-row">
       <div class="status-card">
-        <div class="slabel">สิ่งที่ทำเอง</div>
-        <div class="stext">เปิด PO → Confirm → สร้าง Block ผูก PO Line → กรอก Material/Quality/Warehouse → Save → เพิ่มแผ่น Slab</div>
+        <div class="slabel">ขั้นตอนที่ดำเนินการโดยผู้ใช้งาน</div>
+        <div class="stext">เปิดใบสั่งซื้อ ยืนยัน สร้างข้อมูลก้อนหิน กรอกรายละเอียด และเพิ่มแผ่นหิน — รวม 6 ขั้นตอน ผ่าน 2 ฝ่ายงาน</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">ดึง Supplier+CBM จาก PO Line → สร้าง+validate stock receipt → บล็อกใบรับสินค้าปกติไม่ให้ validate ซ้ำ</div>
+        <div class="stext">ดึงข้อมูลซัพพลายเออร์และปริมาณจากใบสั่งซื้อให้ทันที รับเข้าสต็อกอัตโนมัติเมื่อบันทึกข้อมูล ลดขั้นตอนซ้ำซ้อนและความผิดพลาดจากการกรอกด้วยมือ</div>
       </div>
       <div class="status-card">
-        <div class="slabel">ข้อควรระวังจริง</div>
-        <div class="stext">ห้าม validate Purchase Receipt แบบปกติ — ต้องสร้าง Block ผูกกับ PO Line เท่านั้นถึงจะรับเข้าคลังถูกต้อง</div>
+        <div class="slabel">ผลลัพธ์ที่ได้</div>
+        <div class="stext">สต็อกหิน 5.00 ลบ.ม. พร้อมขายได้ทันทีทั้ง 5 รูปแบบการขาย ตั้งแต่ก้อนเดียวจนถึงแผ่นสำเร็จรูป ด้วยข้อมูลที่ครบถ้วนถูกต้องทุกขั้นตอน</div>
       </div>
     </div>
-    <div class="note-box pending" style="margin-top:18px;"><span class="pending-badge">อัปเดตเพิ่มเติม</span> ตั้งแต่ 20 ส.ค. 2026 แต่ละ Slab มี <b>Labor Cost</b> + <b>Total Cost</b> แยกให้อัตโนมัติ (ต้นทุนวัสดุ + ค่าแรงตัด) — ถ้าตัดผ่าน Cut-to-Order ใช้ต้นทุนจริงจาก Work Order, ถ้าเพิ่มแผ่นแบบ manual (ตามเดคนี้) ใช้ flat rate ต่อ Material แทน</div>
-    <div style="margin-top:16px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดยืนยันจากระบบจริงและโค้ดจริง (stone_slab_inventory module, Block) — เดินสดจริงบน eg-odoo19-ee วันที่ 17 ส.ค. 2026 (PO P00004 → BLK-26-0005) · ตรวจทานกับโค้ดล่าสุดอีกครั้ง 21 ส.ค. 2026</div>
+    <div style="margin-top:16px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 17 สิงหาคม 2026 (ใบสั่งซื้อ P00004 → รหัสก้อน BLK-26-0005) ตรวจทานล่าสุด 21 สิงหาคม 2026</div>
   </section>
 
 </div></div>

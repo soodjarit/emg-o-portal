@@ -65,6 +65,10 @@
   .note-box.good{background:#EAF6EC;color:#245C34;}
   .note-box.good b{color:#2C7A42;}
 
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
   .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
   .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
   .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
@@ -103,10 +107,10 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">โหมด<br>3</div>
-    <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="eyebrow">Empire Granite · เดินระบบจริงครบกระบวนการ</div>
     <div class="big-title">โหมด 3: ตัดตามสั่ง<br>(Cut-to-Order)</div>
-    <div class="big-sub">เดินสดตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ยืนยัน SO ทั้งที่ยังไม่มีแผ่นจริง ให้ระบบขึ้นคิวงานอัตโนมัติที่หน้า "Factory Worklist" ให้ฝ่ายผลิตเลือกก้อน+ระบุขนาดตัดเอง ผ่าน Manufacturing Order จนถึงราคาคำนวณอัตโนมัติและออกใบแจ้งหนี้ — ไม่ต้องให้ฝ่ายขายเป็นคนตัดสินใจว่าจะตัดจากก้อนไหน (ขั้นตอนซื้อ+รับหินเข้าคลังดูที่เดค Ensure Supply แยกต่างหาก)</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
+    <div class="big-sub">จำลองสถานการณ์จริงตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ยืนยันคำสั่งขายทั้งที่ยังไม่มีแผ่นหินจริง ให้ระบบขึ้นคิวงานให้ฝ่ายผลิตอัตโนมัติที่หน้า "Factory Worklist" เลือกก้อนหินและกำหนดขนาดที่จะตัดเอง ผ่านใบสั่งผลิต จนถึงคำนวณราคาอัตโนมัติและออกใบแจ้งหนี้ — ฝ่ายขายไม่ต้องเป็นผู้ตัดสินใจว่าจะตัดจากก้อนไหน (ขั้นตอนสั่งซื้อและรับหินเข้าคลังอยู่ในเอกสารรับหินเข้าคลังแยกต่างหาก)</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 13 ส.ค. 2026 · ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 3 -->
@@ -121,8 +125,8 @@
       <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
       <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
-    <div class="note-box"><b>โหมด 3 คือหินที่ยังไม่มีแผ่นอยู่จริงตอนขาย</b> — ต่างจากโหมด 2 ตรงที่ไม่มีสต็อกแผ่นสำเร็จรอไว้ ต้องสั่งตัดใหม่ทุกครั้งผ่านใบสั่งผลิต (Manufacturing Order) โดยฝ่ายขายแค่ยืนยัน SO แล้วส่งต่อให้ฝ่ายผลิตเป็นคนตัดสินใจว่าจะตัดจากก้อนไหน ขนาดเท่าไหร่</div>
-    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อก้อนหิน+รับเข้าคลังเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
+    <div class="note-box"><b>โหมด 3 คือหินที่ยังไม่มีแผ่นอยู่จริงในสต็อกตอนขาย</b> — ต่างจากโหมด 2 ที่ไม่มีสต็อกแผ่นสำเร็จรอไว้ล่วงหน้า ทุกครั้งต้องสั่งตัดใหม่ผ่านใบสั่งผลิต โดยฝ่ายขายเพียงยืนยันคำสั่งขาย แล้วส่งต่อให้ฝ่ายผลิตเป็นผู้ตัดสินใจว่าจะตัดจากก้อนไหน ขนาดเท่าใด</div>
+    <div class="note-box">เอกสารนี้เริ่มต้นนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนสั่งซื้อและรับหินเข้าคลังเป็นกระบวนการเดียวที่ใช้ร่วมกันทุกโหมด ดูรายละเอียดแยกได้ที่เอกสาร <a href="e2e-supply-intake.html">รับหินเข้าคลัง (Ensure Supply)</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
@@ -132,8 +136,8 @@
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode3-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">เริ่มนับจากมี Block พร้อมอยู่แล้ว — จุดต่างจากโหมด 2 คือ SO ถูกยืนยันไปก่อนโดยยังไม่มีแผ่นจริง แล้วขั้นตอน "รับช่วงตัด" จะย้อนกลับไปที่ฝ่ายคลัง/ผลิตอีกครั้งผ่านหน้า Factory Worklist — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
-    <div class="note-box warn"><b>หมายเหตุ:</b> แผนผังนี้ยังเป็นเวอร์ชันก่อนดีไซน์ใหม่ 2026-08-16 (ยังไม่มีกล่อง "ย้าย Block ไปสถานีตัด") — จำนวนขั้นตอนจริงตอนนี้คือ 8 ไม่ใช่ 6 กล่องตามภาพ ดูขั้นตอนที่ 5 (ย้าย Block) แยกในสไลด์ถัดไป</div>
+    <div class="note-box">เริ่มต้นนับจากมี Block พร้อมอยู่แล้วในสต็อก — จุดต่างจากโหมด 2 คือคำสั่งขายถูกยืนยันไปก่อนโดยยังไม่มีแผ่นหินจริง แล้วขั้นตอน "รับช่วงตัด" จะย้อนกลับไปให้ฝ่ายคลัง/ผลิตดำเนินการอีกครั้งผ่านหน้า Factory Worklist — สไลด์ถัดไปจะเดินทีละขั้นตอนตามผังนี้ โดยกล่องที่กำลังอธิบายจะถูก<b style="color:#B03A3A;">ไฮไลท์สีแดง</b>ทุกครั้ง</div>
+    <div class="note-box warn"><b>หมายเหตุ:</b> ผังนี้เป็นเวอร์ชันก่อนปรับปรุงกระบวนการเมื่อ 16 ส.ค. 2026 จึงยังไม่มีขั้นตอน "ย้าย Block ไปสถานีตัด" ปรากฏอยู่ — ขั้นตอนจริงปัจจุบันมีทั้งหมด 8 ขั้นตอน ไม่ใช่ 6 ตามภาพ รายละเอียดขั้นตอนที่ 5 (ย้าย Block) อยู่ในสไลด์ถัดไป</div>
   </section>
 
   <!-- SLIDE 3: Step 1 - SO add line -->
@@ -143,13 +147,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode3-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> คำสั่งซื้อจากลูกค้า Demo Customer - Grand Interior ต้องการหิน "Calacatta Gold" แบบแผ่น จำนวน 1 หน่วย</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายเปิดคำสั่งขายและเลือกสินค้าตัวเดียวกับที่ใช้ในโหมด 2 ได้เลย ระบบจะพิจารณาเองในขั้นตอนถัดไปว่าจะเลือกจากแผ่นที่มีอยู่แล้ว หรือต้องสั่งตัดใหม่ ตามที่มีของพร้อมขายจริงหรือไม่</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-03-so-confirmed-default-price.png"><div class="shot-cap">S108406 — ลูกค้า Demo Customer - Grand Interior สั่ง "Calacatta Gold - Slab" 1 หน่วย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-03-so-confirmed-default-price.png"><div class="shot-cap">ผลลัพธ์: S108406 — ลูกค้า Demo Customer - Grand Interior สั่ง "Calacatta Gold - Slab" 1 หน่วย</div></div>
       </div>
     </div>
-    <div class="note-box">ฝ่ายขายเลือกสินค้าตัวเดียวกับโหมด 2 ได้เลย — ระบบรู้เองว่าจะให้เลือกจากสต็อกที่มี (Select Slabs) หรือสั่งตัดใหม่ (Cut to Order) ตอนหลังจากดูว่ามีของพร้อมหรือไม่</div>
   </section>
 
   <!-- SLIDE 6: Step 4 - confirm SO, no real price yet -->
@@ -159,13 +165,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode3-flow-step2.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> คำสั่งขาย S108406 ที่ยังไม่ได้ยืนยัน สินค้ายังไม่ผูกกับขนาดแผ่นจริง</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายกดยืนยันคำสั่งขายได้ทันที โดยยังไม่ต้องทราบว่าจะตัดแผ่นขนาดเท่าใด ราคาที่แสดงในขั้นนี้เป็นเพียงราคาตั้งต้นของสินค้า ยังไม่ใช่ราคาจริง</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-03-so-confirmed-default-price.png"><div class="shot-cap">ยืนยันแล้ว ยอดรวมขึ้น 4,815.00 บาท — เป็นแค่ราคาตั้งต้นของสินค้า ยังไม่ผูกกับขนาดแผ่นจริงเลย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-03-so-confirmed-default-price.png"><div class="shot-cap">ผลลัพธ์: ยืนยันแล้ว ยอดรวมขึ้น 4,815.00 บาท — เป็นราคาตั้งต้นของสินค้า ยังไม่ผูกกับขนาดแผ่นจริง ราคาจริงจะคำนวณใหม่อัตโนมัติหลังฝ่ายผลิตตัดแผ่นเสร็จ (ดูขั้นตอนที่ 6)</div></div>
       </div>
     </div>
-    <div class="note-box warn"><b>ข้อควรระวังจริง:</b> ฝ่ายขายยืนยัน SO ได้ทันทีโดยยังไม่ต้องรู้ว่าจะตัดแผ่นขนาดเท่าไหร่ — ราคาที่ขึ้นตอนนี้เป็นราคาตั้งต้นของสินค้าเฉยๆ (Default Sales Price) ไม่ใช่ราคาจริง ราคาจริงจะถูกคำนวณใหม่อัตโนมัติหลังฝ่ายผลิตตัดแผ่นเสร็จ (ดูขั้นตอนที่ 7)</div>
   </section>
 
   <!-- SLIDE 7: Step 5 - Factory Worklist -->
@@ -175,13 +183,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode3-flow-step3.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> คำสั่งขายที่ยืนยันแล้วแต่ยังไม่มีแผ่นหินจริงรองรับ</li>
+          <li><b>กระบวนการ:</b> ระบบรวบรวมคำสั่งขายเหล่านี้ขึ้นเป็นคิวงานอัตโนมัติที่หน้า Factory Worklist ให้ฝ่ายผลิตเข้ามาดูและดำเนินการได้ทันที โดยไม่ต้องรอฝ่ายขายแจ้งหรือเปิดเอกสารให้ดูทีละใบ — ฝ่ายขายจึงไม่ต้องเป็นผู้ตัดสินใจว่าจะตัดหินจากก้อนไหน</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-04-factory-worklist.png"><div class="shot-cap">หน้า Factory Worklist — S108406 ขึ้นคิวพร้อมป้าย "รอเลือก/ตัด Slab (Cut to Order)" และปุ่มกดตัดได้จากหน้านี้เลย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-04-factory-worklist.png"><div class="shot-cap">ผลลัพธ์: หน้า Factory Worklist — S108406 ขึ้นคิวพร้อมสถานะ "รอเลือก/ตัดแผ่น" และเริ่มดำเนินการตัดได้จากหน้านี้โดยตรง</div></div>
       </div>
     </div>
-    <div class="note-box"><b>จุดสำคัญของโหมดนี้:</b> ทุก SO ที่ยืนยันแล้วแต่ยังไม่มีของจริงจะขึ้นคิวรวมกันที่หน้านี้อัตโนมัติ — ฝ่ายผลิตเข้ามาดูคิวงานของตัวเองได้เลย ไม่ต้องให้ฝ่ายขายเดินมาบอกหรือเปิด SO ให้ดูทีละใบ (ตามที่ลูกค้าเคยขอไว้: ฝ่ายขายไม่ควรเป็นคนตัดสินใจว่าจะตัดก้อนไหน)</div>
   </section>
 
   <!-- SLIDE 8: Step 6 - Cut to Order wizard -->
@@ -191,47 +201,49 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode3-flow-step4.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> คิวงานจาก Factory Worklist พร้อมก้อนหินที่มีอยู่ในสต็อก</li>
+          <li><b>กระบวนการ:</b> ฝ่ายผลิตเลือกก้อนหินที่จะตัดและระบุขนาดที่ต้องการเอง ระบบตรวจสอบอัตโนมัติว่าก้อนที่เลือกมีเนื้อหินเพียงพอก่อนสร้างใบสั่งผลิต และจะแจ้งเตือนหากมีแผ่นขนาดใกล้เคียงพร้อมขายอยู่แล้วในสต็อก เพื่อให้พิจารณาใช้ของที่มีอยู่ก่อนตัดใหม่</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-06-cut-wizard-filled.png"><div class="shot-cap">เลือกก้อน BDL-00016 ระบุขนาดที่จะตัด 2.80 × 1.60 ม. — ระบบเช็คเองว่าก้อนนี้เหลือพอตัดหรือไม่ก่อนสร้างใบสั่งผลิต</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-06-cut-wizard-filled.png"><div class="shot-cap">ผลลัพธ์: เลือกก้อน BDL-00016 ระบุขนาดที่จะตัด 2.80 × 1.60 ม. — ระบบยืนยันว่าก้อนนี้เหลือเพียงพอก่อนสร้างใบสั่งผลิต</div></div>
       </div>
     </div>
-    <div class="note-box">ฝ่ายผลิตเป็นคนเลือกเองว่าจะตัดจากก้อนไหน ขนาดเท่าไหร่ — ถ้าเผลอเลือกขนาดที่มีของพร้อมขายอยู่แล้ว ระบบจะเตือนเป็นข้อความแจ้งเตือน (ไม่บล็อก) ให้ลองเช็ค Select Slabs ก่อนตัดใหม่</div>
   </section>
 
   <!-- SLIDE 8b: Step 5 - staging move required (2026-08-16 design) -->
   <section class="slide" id="slide-6b">
     <div class="step-badge">ขั้นตอนที่ 5 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">ก่อนตัดจริง ต้องย้าย Block ไปสถานีตัดก่อน (ดีไซน์ใหม่ 2026-08-16)</h2>
+    <h2 class="slide-title">ก่อนตัดจริง ต้องย้าย Block ไปสถานีตัดก่อน (ปรับปรุงกระบวนการ 16 ส.ค. 2026)</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">กด Create Cut Order ทั้งที่ Block ยังไม่ได้ย้าย</div>
+        <div class="compare-label no">พยายามกด Create Cut Order ก่อนย้าย Block</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-14-cutorder-blocked-error.png"></div>
       </div>
       <div class="compare-col">
-        <div class="compare-label yes">ย้ายผ่าน Internal Transfer เสร็จแล้ว</div>
+        <div class="compare-label yes">ย้าย Block ไปสถานีตัดเสร็จแล้ว</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-15-internal-transfer-done.png"></div>
       </div>
     </div>
-    <div class="note-box warn"><b>ดีไซน์ใหม่ (2026-08-16):</b> Block ต้องถูกย้ายจาก Location "Stone Available" ไป "Stone Production" ก่อนเสมอ (Internal Transfer ปกติของ Odoo — สแกนผ่าน Barcode app ได้) ถึงจะกด "Create Cut Order" สำเร็จ จำลองขั้นตอนหน้างานจริงที่ต้องยกก้อนหินไปวางที่แท่นตัดก่อน — ถ้าลืม ระบบบล็อกทันทีด้วย error "Invalid Operation" ก่อนสร้าง MO ใดๆ (ไม่ใช่แค่เตือนเฉยๆ) ตัวอย่างจริง: Block BLK-26-0001, ย้าย 5.00 m³ ผ่าน EG01/INT/00043</div>
+    <div class="note-box warn"><b>ขั้นตอนใหม่ (ปรับปรุง 16 ส.ค. 2026):</b> ก่อนกด "Create Cut Order" ได้สำเร็จ ต้องย้ายก้อนหินจากคลัง "Stone Available" ไปยังคลัง "Stone Production" ก่อนเสมอ ผ่านใบโอนย้ายสินค้าภายใน — จำลองขั้นตอนหน้างานจริงที่ต้องยกก้อนหินไปวางที่แท่นตัดก่อนเริ่มงาน หากยังไม่ได้ย้าย ระบบจะปฏิเสธและแสดงข้อความแจ้งเตือนทันที ไม่สามารถสร้างใบสั่งผลิตข้ามขั้นตอนนี้ได้ ตัวอย่างจริง: ก้อน BLK-26-0001 ย้ายปริมาณ 5.00 ลบ.ม. ผ่านเอกสารโอนย้าย EG01/INT/00043</div>
   </section>
 
   <!-- SLIDE 9: Step 7 - MO Mark Done + price auto -->
   <section class="slide" id="slide-7">
     <div class="step-badge">ขั้นตอนที่ 6 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">ตัดจริง กด "Complete Cut" — ราคา SO คำนวณใหม่อัตโนมัติทันที</h2>
+    <h2 class="slide-title">ตัดจริง กด "Complete Cut" — ราคาคำสั่งขายคำนวณใหม่อัตโนมัติทันที</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">Manufacturing Order เสร็จสิ้น</div>
+        <div class="compare-label no">ใบสั่งผลิตเสร็จสิ้น</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-08-mo-done.png"></div>
       </div>
       <div class="compare-col">
-        <div class="compare-label yes">SO ราคาอัปเดตอัตโนมัติ</div>
+        <div class="compare-label yes">คำสั่งขายอัปเดตราคาอัตโนมัติ</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-09-so-price-updated.png"></div>
       </div>
     </div>
-    <div class="note-box good"><b>จุดสำคัญของโหมดนี้:</b> พอกด "Complete Cut" ระบบสร้าง Slab ใหม่พร้อมเลข Serial (BDL-00016-1) อัตโนมัติ ผูกกับ SO line ทันที และคำนวณราคาจากขนาดจริงที่ตัดได้ (2.80×1.60 ม. = 4.48 ตร.ม. × 9,500 บาท) ให้เองเป็น 42,560 บาท — ไม่ต้องกลับไปแก้ SO เองเหมือนโหมด 2 เพราะขนาด Purchased L/H ถูกกรอกให้อัตโนมัติจากขนาดที่ตั้งไว้ตอนสั่งตัด</div>
+    <div class="note-box good"><b>จุดสำคัญของโหมดนี้:</b> เมื่อกด "Complete Cut" ระบบสร้างแผ่นหินใหม่พร้อมเลข Serial (BDL-00016-1) โดยอัตโนมัติ ผูกกับรายการในคำสั่งขายทันที และคำนวณราคาจากขนาดจริงที่ตัดได้ (2.80 × 1.60 ม. = 4.48 ตร.ม. × 9,500 บาท) ให้เองเป็น 42,560 บาท — ไม่ต้องกลับไปแก้ไขคำสั่งขายเองเหมือนโหมด 2 เพราะขนาดที่ตัดจริงถูกบันทึกเข้าคำสั่งขายให้อัตโนมัติทันทีที่ตัดเสร็จ</div>
   </section>
 
   <!-- SLIDE 10: Step 8 - delivery scan -->
@@ -240,15 +252,15 @@
     <h2 class="slide-title">ส่งของ — ต้องสแกน Serial ยืนยันตรงแผ่นก่อน Validate ได้</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">พยายาม Validate โดยยังไม่สแกน</div>
+        <div class="compare-label no">พยายามยืนยันส่งของโดยยังไม่สแกน</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-10-delivery-scan-error.png"></div>
       </div>
       <div class="compare-col">
-        <div class="compare-label yes">กรอก Scanned Serial ให้ตรง</div>
+        <div class="compare-label yes">กรอกหมายเลข Serial ให้ตรงกับแผ่นจริง</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-11-scan-serial-filled.png"></div>
       </div>
     </div>
-    <div class="note-box warn"><b>เหมือนโหมด 2:</b> แผ่นที่ตัดตามสั่งก็ยังเป็นสต็อกแบบ Serial เหมือนกัน — ระบบบังคับสแกน/กรอกเลข Serial ให้ตรงกับแผ่นที่ตัดจริงก่อนกด Validate เสมอ ป้องกันส่งผิดแผ่นให้ลูกค้า</div>
+    <div class="note-box warn"><b>เช่นเดียวกับโหมด 2:</b> แผ่นหินที่ตัดตามสั่งยังคงเป็นสต็อกแบบระบุหมายเลขเฉพาะ (Serial) เหมือนกัน — ระบบบังคับให้สแกนหรือกรอกหมายเลข Serial ให้ตรงกับแผ่นที่ตัดจริงก่อนยืนยันการส่งของเสมอ เพื่อป้องกันการส่งผิดแผ่นให้ลูกค้า</div>
   </section>
 
   <!-- SLIDE 11: Step 9 - invoice -->
@@ -258,13 +270,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode3-flow-step7.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ใบส่งของที่ดำเนินการเสร็จสมบูรณ์แล้ว พร้อมราคาที่คำนวณจากขนาดแผ่นจริงตอนตัดเสร็จ</li>
+          <li><b>กระบวนการ:</b> ฝ่ายบัญชีออกใบแจ้งหนี้ได้ทันทีหลังส่งของเสร็จ ราคาที่คำนวณไว้แล้วไหลเข้าใบแจ้งหนี้โดยอัตโนมัติ เหมือนโหมด 2 ไม่ต้องแก้ไขข้อมูลเพิ่มเติม</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-13-invoice-posted.png"><div class="shot-cap">INV/2026/00018 — Posted, ยอดรวม 45,539.20 บาท (รวม VAT 7%) ตรงกับราคาที่คำนวณอัตโนมัติหลังตัดแผ่นเสร็จ</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode3-shot-13-invoice-posted.png"><div class="shot-cap">ผลลัพธ์: INV/2026/00018 — Posted ยอดรวม 45,539.20 บาท (รวมภาษีมูลค่าเพิ่ม 7%) ตรงกับราคาที่คำนวณอัตโนมัติหลังตัดแผ่นเสร็จ</div></div>
       </div>
     </div>
-    <div class="note-box">หลัง Delivery เสร็จ กด Create Invoice ได้ทันที — ราคาที่คำนวณจากขนาดแผ่นจริงตอนตัดเสร็จไหลมาเป็นยอด Invoice โดยไม่ต้องแก้ไขอะไรเพิ่ม เหมือนโหมด 2</div>
   </section>
 
   <!-- SLIDE 10: Summary -->
@@ -274,18 +288,18 @@
     <div class="status-row">
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายขายทำ</div>
-        <div class="stext">เปิด SO เลือกสินค้า Slab-tracked → Confirm ได้ทันทีโดยไม่ต้องรู้ขนาดที่จะตัด → จบหน้าที่ตรงนี้ (Block ที่จะตัดมีอยู่แล้วในสต็อกจากเดค Ensure Supply)</div>
+        <div class="stext">เปิดคำสั่งขาย เลือกสินค้าแผ่นหิน → ยืนยันได้ทันทีโดยยังไม่ต้องทราบขนาดที่จะตัด → จบหน้าที่ของฝ่ายขายตรงนี้ (ก้อนหินที่จะตัดมีอยู่แล้วในสต็อกจากกระบวนการรับหินเข้าคลัง)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายผลิตทำ</div>
-        <div class="stext">ดูคิวงานที่ Factory Worklist → ย้าย Block ไปสถานีตัดผ่าน Internal Transfer ก่อน (ดีไซน์ใหม่) → กด Cut to Order เลือกก้อน+ขนาด → ตัดจริง กด Complete Cut</div>
+        <div class="stext">ดูคิวงานที่หน้า Factory Worklist → ย้ายก้อนหินไปสถานีตัดก่อน → เลือกก้อนและระบุขนาดที่จะตัด → ตัดจริงและยืนยันเสร็จสิ้น</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">รวมคิวงานที่ Factory Worklist → สร้าง Slab+Serial ใหม่ผูกกับ SO line → คำนวณราคาจากขนาดจริงที่ตัดได้ → บังคับตรวจ Serial ก่อนส่งของ</div>
+        <div class="stext">รวมคิวงานที่หน้า Factory Worklist ให้อัตโนมัติ → สร้างแผ่นหินพร้อมหมายเลขเฉพาะผูกกับคำสั่งขายทันที → คำนวณราคาจากขนาดจริงที่ตัดได้ → ตรวจสอบหมายเลขแผ่นก่อนส่งของทุกครั้ง</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00016 (พร้อมอยู่แล้วในสต็อก) → S108406 → EGWH/STCUT/00030 → INV/2026/00018 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 13 สิงหาคม 2026 · ก้อน BDL-00016 (พร้อมอยู่แล้วในสต็อก) → คำสั่งขาย S108406 → ใบสั่งผลิต EGWH/STCUT/00030 → ใบแจ้งหนี้ INV/2026/00018</div>
   </section>
 
 </div></div>

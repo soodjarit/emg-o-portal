@@ -64,6 +64,10 @@
   .note-box.warn{background:#FDECEC;color:#8A2C2C;}
   .note-box.warn b{color:#B03A3A;}
 
+  .plain-list{list-style:none;margin:14px 0 0 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
   .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
   .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
   .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
@@ -104,8 +108,8 @@
     <div class="stone-badge">โหมด<br>1</div>
     <div class="eyebrow">Empire Stone × Empire Granite · E2E เดินสดครบวงจร</div>
     <div class="big-title">โหมด 1: ขายก้อนหินทั้งก้อน<br>(Block Sale)</div>
-    <div class="big-sub">เดินสดตั้งแต่มี Block พร้อมขายอยู่แล้วในสต็อก จนถึงส่งของและออกใบแจ้งหนี้จริง — ทีละขั้นตอน พร้อมหน้าจอจริงทุกจุด รวมถึงเคสขายข้ามบริษัท (Empire Stone → Empire Granite) ที่เกิดขึ้นอัตโนมัติเบื้องหลัง (ขั้นตอนซื้อ+รับหินเข้าคลังดูที่เดค Ensure Supply แยกต่างหาก)</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
+    <div class="big-sub">เดินระบบจริงตั้งแต่มี Block พร้อมขายอยู่แล้วในสต็อก จนถึงส่งของและออกใบแจ้งหนี้จริง — ทีละขั้นตอน พร้อมหน้าจอจริงทุกจุด รวมถึงเคสขายข้ามบริษัท (Empire Stone → Empire Granite) ที่ระบบดำเนินการให้อัตโนมัติเบื้องหลัง (ขั้นตอนสั่งซื้อและรับหินเข้าคลัง ดูรายละเอียดที่เอกสาร Ensure Supply แยกต่างหาก)</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 13 ส.ค. 2026 · ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 1 -->
@@ -121,7 +125,7 @@
       <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
     <div class="note-box"><b>โหมด 1 คือโหมดที่ง่ายที่สุด</b> — ขายทั้งก้อนแบบไม่แบ่ง ไม่ตัด เหมาะกับลูกค้าที่ต้องการก้อนหินไปแปรรูปเอง หรือซื้อเก็บสต็อก</div>
-    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block พร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนเปิด PO ซื้อก้อนหิน+รับเข้าคลังเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
+    <div class="note-box">เอกสารนี้เริ่มนับจาก<b>มี Block พร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนเปิดใบสั่งซื้อและรับหินเข้าคลังเป็นกระบวนการเดียวกันที่ใช้ร่วมกันทุกโหมด ดูรายละเอียดแยกได้ที่เอกสาร <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
@@ -141,13 +145,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode1-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> คำสั่งซื้อจากลูกค้า Demo Customer - Grand Interior ต้องการหิน Calacatta Gold ทั้งก้อน</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายเปิดใบสั่งขายที่บริษัท Empire Granite แล้วเลือกสินค้าประเภท Block ในบรรทัดสินค้า ระบบแสดงปุ่มสำหรับเลือกก้อนหินจริงให้ทันที เฉพาะสินค้าประเภทนี้เท่านั้น</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-03-so-line-block-button.png"><div class="shot-cap">S108402 (Empire Granite) — เลือก "Calacatta Gold - Block" ปุ่ม "Sell Whole Block" โผล่ขึ้นมาเอง</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-03-so-line-block-button.png"><div class="shot-cap">ผลลัพธ์: S108402 (Empire Granite) — เลือก "Calacatta Gold - Block" ปุ่ม "Sell Whole Block" ปรากฏขึ้นให้เลือกก้อน</div></div>
       </div>
     </div>
-    <div class="note-box">ปุ่มนี้จะขึ้นเฉพาะบรรทัดที่เป็นสินค้าประเภท Block เท่านั้น — ระบบรู้เองว่าต้องเปิด wizard เลือกก้อน (Block นี้มีอยู่แล้วในสต็อก มาจาก flow Ensure Supply)</div>
   </section>
 
   <!-- SLIDE 4: Step 1b - wizard result -->
@@ -157,13 +163,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode1-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> รายการก้อนหินที่มีอยู่จริงในสต็อก (รับเข้าคลังไว้ล่วงหน้าแล้ว)</li>
+          <li><b>กระบวนการ:</b> เลือกก้อนหิน BDL-00013 จากรายการ เนื่องจากโหมด 1 ขายทั้งก้อนเสมอ ระบบจึงคำนวณและเติมจำนวนขายเท่ากับปริมาณเต็มก้อนให้อัตโนมัติ ไม่ต้องพิมพ์เอง ป้องกันการขายเกินกว่าที่มีอยู่จริง</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-04-so-block-selected.png"><div class="shot-cap">เลือก BDL-00013 → จำนวนขายเติม 4.20 m³ (CBM เต็มก้อน) ให้อัตโนมัติ ราคารวม 157,290 บาท</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-04-so-block-selected.png"><div class="shot-cap">ผลลัพธ์: เลือก BDL-00013 → จำนวนขายเติม 4.20 m³ (CBM เต็มก้อน) ให้อัตโนมัติ ราคารวม 157,290 บาท</div></div>
       </div>
     </div>
-    <div class="note-box">โหมด 1 ขาย <b>ทั้งก้อนเสมอ</b> — เลือกก้อนเสร็จ ระบบเติมจำนวนเต็ม CBM ให้ ไม่ต้องพิมพ์เอง ป้องกันขายเกินสต็อกที่มีจริง</div>
   </section>
 
   <!-- SLIDE 5: Step 2 - confirm SO -->
@@ -173,13 +181,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode1-flow-step2.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งขายที่กรอกรายการและเลือกก้อนหินครบถ้วนแล้ว</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายกด Confirm เพื่อยืนยันใบสั่งขาย ระบบตรวจสอบทันทีว่าก้อนหินที่เลือก (BDL-00013) อยู่คนละบริษัทกับใบขายหรือไม่ พร้อมสร้างใบส่งของให้อัตโนมัติ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-05-so-confirmed.png"><div class="shot-cap">S108402 — สถานะ Sales Order, สร้าง Delivery ให้ 1 ใบอัตโนมัติ</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-05-so-confirmed.png"><div class="shot-cap">ผลลัพธ์: S108402 เปลี่ยนสถานะเป็น Sales Order พร้อมสร้างใบส่งของ (Delivery) ให้ 1 ใบโดยอัตโนมัติ</div></div>
       </div>
     </div>
-    <div class="note-box">นาทีที่กด Confirm นี้เอง — ระบบเช็คทันทีว่าก้อนที่เลือก (BDL-00013) อยู่คนละบริษัทกับใบขายหรือไม่ ถ้าใช่ จะเริ่มกระบวนการข้ามบริษัทอัตโนมัติในขั้นตอนถัดไป</div>
   </section>
 
   <!-- SLIDE 6: Step 3 - decision -->
@@ -206,7 +216,7 @@
         </div>
       </div>
     </div>
-    <div class="note-box">การเช็คนี้เกิด<b>อัตโนมัติทันทีที่ Confirm</b> ไม่ต้องมีใครกดอะไรเพิ่ม ระบบดูจาก Company ของ Block เทียบกับ Company ของใบขายเอง</div>
+    <div class="note-box">การตรวจสอบนี้เกิดขึ้น<b>อัตโนมัติทันทีที่กด Confirm</b> โดยระบบเปรียบเทียบบริษัทเจ้าของก้อนหินกับบริษัทที่เปิดใบขายเอง ไม่ต้องมีผู้ใช้งานตรวจสอบหรือดำเนินการเพิ่มเติม</div>
   </section>
 
   <!-- SLIDE 7: Step 4 - delivery compare -->
@@ -223,7 +233,7 @@
         <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-10-real-delivery-es.png"></div>
       </div>
     </div>
-    <div class="note-box">EGWH/OUT/00070 ถูก<b>ยกเลิกอัตโนมัติ</b>เพราะของจริงไม่ได้อยู่ที่ EG — ระบบสร้าง Delivery จริงจาก ES Warehouse (ESWH/OUT/00019) ส่งตรงถึงที่อยู่ลูกค้าปลายทางเลย (dropship) ลูกค้าไม่รู้เลยว่าเบื้องหลังมี 2 บริษัท</div>
+    <div class="note-box">ระบบตรวจพบว่าก้อนหินจริงอยู่ที่คลังของ Empire Stone ไม่ใช่ Empire Granite จึง<b>ยกเลิกใบส่งของที่เปิดผิดคลังโดยอัตโนมัติ</b> (EGWH/OUT/00070) และสร้างใบส่งของจริงจากคลัง Empire Stone แทน (ESWH/OUT/00019) ส่งตรงถึงที่อยู่ลูกค้าปลายทาง โดยลูกค้าได้รับสินค้าและเอกสารจากผู้ขายรายเดียวตามปกติ</div>
   </section>
 
   <!-- SLIDE 8: Step 5 - invoice to real customer -->
@@ -233,13 +243,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode1-flow-step5.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งขายที่ส่งของให้ลูกค้าเรียบร้อยแล้ว</li>
+          <li><b>กระบวนการ:</b> ฝ่ายบัญชีออกใบแจ้งหนี้ให้ลูกค้าปลายทาง ขั้นตอนนี้เหมือนกันทุกกรณี ไม่ว่าจะมีการขายข้ามบริษัทเกิดขึ้นเบื้องหลังหรือไม่ — ลูกค้าจะได้รับใบแจ้งหนี้จากบริษัท Empire Granite เพียงเจ้าเดียว ไม่เห็นเอกสารฝั่ง Empire Stone</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-11-so402-ready-to-invoice.png"><div class="shot-cap">S108402 — พร้อมกด "Create Invoice" เต็มยอด 157,290 บาท (รวม VAT) ให้ Demo Customer - Grand Interior</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-11-so402-ready-to-invoice.png"><div class="shot-cap">ผลลัพธ์: S108402 พร้อมกด "Create Invoice" เต็มยอด 157,290 บาท (รวม VAT 7%) ให้ Demo Customer - Grand Interior</div></div>
       </div>
     </div>
-    <div class="note-box">ขั้นตอนนี้<b>เหมือนกันทุกกรณี</b> ไม่ว่าจะขายข้ามบริษัทหรือไม่ — ลูกค้าได้รับใบแจ้งหนี้จาก Empire Granite เจ้าเดียว ไม่เห็นเอกสารฝั่ง Empire Stone เลย</div>
   </section>
 
   <!-- SLIDE 9: Step 6 - internal SO+PO -->
@@ -249,13 +261,16 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode1-flow-step6.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบแจ้งหนี้ที่ออกให้ลูกค้าปลายทางแล้ว ต้นทุนจริงของก้อนหิน และอัตรากำไรที่ Empire Stone ตั้งไว้ (Markup 10%)</li>
+          <li><b>กระบวนการ:</b> ระบบสร้างใบขายภายใน (ฝั่ง Empire Stone) และใบซื้อภายใน (ฝั่ง Empire Granite) ให้อัตโนมัติ พร้อมคำนวณราคาต้นทุนบวก Markup ให้เสร็จ ไม่ต้องกรอกเอง</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-08-internal-so-draft-invoice.png"><div class="shot-cap">S108403 (Internal SO ฝั่ง Empire Stone) → Draft Invoice ต้นทุน 22,000 × Markup 10% = 24,200 บาท/m³</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-08-internal-so-draft-invoice.png"><div class="shot-cap">ผลลัพธ์: S108403 (ใบขายภายในฝั่ง Empire Stone) → Draft Invoice ต้นทุน 22,000 × Markup 10% = 24,200 บาท/m³</div></div>
       </div>
     </div>
-    <div class="note-box">ราคาที่ Empire Stone "ขายภายใน" ให้ Empire Granite คือ<b>ต้นทุนจริง + ค่า Markup ตามอัตราที่ตั้งไว้ (10%)</b> — ไม่ใช่ราคาขายให้ลูกค้าปลายทาง (35,000/m³) ส่วนต่างคือกำไรที่ Empire Granite ได้จากการเป็นตัวแทนขาย</div>
+    <div class="note-box">ราคาที่ Empire Stone "ขายภายใน" ให้ Empire Granite คือ<b>ต้นทุนจริงบวกค่า Markup ตามอัตราที่ตั้งไว้ (10%)</b> ไม่ใช่ราคาขายให้ลูกค้าปลายทาง (35,000 บาท/m³) — ส่วนต่างคือกำไรที่ Empire Granite ได้รับจากบทบาทตัวแทนขาย</div>
   </section>
 
   <!-- SLIDE 10: Step 7 - draft invoice+bill, dashboard -->
@@ -272,7 +287,7 @@
         <div class="shot-wrap"><img class="shot" src="assets/mode1-shot-07-intercompany-dashboard.png"></div>
       </div>
     </div>
-    <div class="note-box">ทั้ง Invoice (ฝั่งขาย) และ Bill (ฝั่งซื้อ) ค้างเป็น <b>Draft</b> รอบัญชีตรวจสอบแล้วค่อย Post — ไม่ Post ให้อัตโนมัติ ป้องกันตัวเลขผิดหลุดเข้าบัญชีจริงโดยไม่มีคนเช็ค ธุรกรรมทั้งหมดของวันไล่ดูได้ที่หน้า Intercompany Reconciliation หน้าเดียว ไม่ต้องไล่เปิดทีละใบ</div>
+    <div class="note-box">ทั้งใบแจ้งหนี้ (ฝั่งขาย) และใบตั้งหนี้ (ฝั่งซื้อ) ค้างเป็น <b>Draft</b> รอฝ่ายบัญชีตรวจสอบก่อนยืนยันเสมอ ระบบจะไม่ยืนยันให้อัตโนมัติ เพื่อป้องกันตัวเลขผิดพลาดหลุดเข้าบัญชีจริงโดยไม่มีการตรวจสอบ ธุรกรรมทั้งหมดของวันสามารถตรวจดูได้ที่หน้า Intercompany Reconciliation หน้าเดียว ไม่ต้องไล่เปิดทีละใบ</div>
   </section>
 
   <!-- SLIDE 11: Summary -->
@@ -281,19 +296,19 @@
     <h2 class="slide-title" style="color:#fff;">โหมด 1 ครบวงจร — 7 ขั้นตอน จากเลือกก้อนถึงออกใบแจ้งหนี้</h2>
     <div class="status-row">
       <div class="status-card">
-        <div class="slabel">สิ่งที่ทำเอง</div>
-        <div class="stext">เลือก Block ที่มีอยู่แล้ว → Confirm SO → กด Create Invoice ให้ลูกค้า (ซื้อ+รับหินเข้าคลังทำไว้ก่อนแล้วผ่านเดค Ensure Supply)</div>
+        <div class="slabel">ขั้นตอนที่ดำเนินการโดยผู้ใช้งาน</div>
+        <div class="stext">เลือกก้อนหินที่มีอยู่แล้ว → ยืนยันใบสั่งขาย → กด Create Invoice ให้ลูกค้า (การจัดซื้อและรับหินเข้าคลังทำไว้ก่อนแล้ว ดูรายละเอียดที่เอกสาร Ensure Supply)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">เช็คข้ามบริษัท → ยกเลิก Delivery ผิดคลัง → สร้าง Delivery จริงแบบ dropship → สร้าง Internal SO/PO/Invoice/Bill ต้นทุน+Markup ให้ครบ</div>
+        <div class="stext">ตรวจสอบว่าขายข้ามบริษัทหรือไม่ → ยกเลิกใบส่งของผิดคลัง → สร้างใบส่งของจริงส่งตรงถึงลูกค้า → สร้างใบขาย/ซื้อ/แจ้งหนี้/ตั้งหนี้ภายในพร้อมคำนวณต้นทุนและ Markup ให้ครบ</div>
       </div>
       <div class="status-card">
-        <div class="slabel">ข้อควรระวังจริง</div>
-        <div class="stext">Invoice+Bill ฝั่ง Internal ค้างเป็น Draft เสมอ ไม่ Post ให้อัตโนมัติ — ต้องให้บัญชีตรวจสอบก่อนกด Post เอง ป้องกันตัวเลขผิดหลุดเข้าบัญชีจริง</div>
+        <div class="slabel">ผลลัพธ์ที่ได้</div>
+        <div class="stext">ใบแจ้งหนี้และใบตั้งหนี้ฝั่งภายในค้างเป็น Draft เสมอ ไม่ยืนยันให้อัตโนมัติ ต้องให้ฝ่ายบัญชีตรวจสอบก่อนยืนยันเอง เพื่อป้องกันตัวเลขผิดพลาดหลุดเข้าบัญชีจริง</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00013 (พร้อมขายอยู่แล้วในสต็อก) → S108402 → S108403/P00071 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 13 สิงหาคม 2026 (BDL-00013 พร้อมขายอยู่แล้วในสต็อก → S108402 → S108403/P00071)</div>
   </section>
 
 </div></div>

@@ -63,6 +63,10 @@
   .note-box.warn{background:#FDECEC;color:#8A2C2C;}
   .note-box.warn b{color:#B03A3A;}
 
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
   .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
   .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
   .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
@@ -101,16 +105,16 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">โหมด<br>2</div>
-    <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="eyebrow">Empire Granite · เดินระบบจริงครบกระบวนการ</div>
     <div class="big-title">โหมด 2: ขายแผ่นหินสำเร็จรูป<br>(Ready-Made Slab)</div>
-    <div class="big-sub">เดินสดตั้งแต่มีแผ่น Slab พร้อมขายอยู่แล้วในสต็อก จนถึงลูกค้าเลือกแผ่นจริงตามเลข Serial ส่งของ และออกใบแจ้งหนี้ — ทีละขั้นตอน พร้อมหน้าจอจริงทุกจุด (ขั้นตอนซื้อ+ตัดแผ่นเก็บไว้ล่วงหน้าดูที่เดค Ensure Supply แยกต่างหาก)</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
+    <div class="big-sub">แสดงกระบวนการจริงตั้งแต่มีแผ่นหินพร้อมขายอยู่แล้วในสต็อก จนถึงลูกค้าเลือกแผ่นจริงตามเลข Serial ส่งของ และออกใบแจ้งหนี้ — ครบทุกขั้นตอน พร้อมหน้าจอจริงประกอบทุกจุด (ขั้นตอนสั่งซื้อและตัดแผ่นเก็บสำรองล่วงหน้า ดูรายละเอียดแยกในเอกสาร Ensure Supply)</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 13 ส.ค. 2026 · ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 2 -->
   <section class="slide" id="slide-1">
     <div class="eyebrow">ภาพรวมก่อนเริ่ม</div>
-    <h2 class="slide-title">ระบบขายหินมี 5 โหมด — เดโมนี้พาไปดูโหมดที่ 2</h2>
+    <h2 class="slide-title">ระบบขายหินมี 5 โหมด — เอกสารนี้พาไปดูโหมดที่ 2</h2>
     <table class="data-table">
       <tr><th>#</th><th>ประเภท</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th></tr>
       <tr><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td></tr>
@@ -119,8 +123,8 @@
       <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
       <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
-    <div class="note-box"><b>โหมด 2 คือหินที่ตัดเก็บสต็อกไว้ล่วงหน้า</b> — ต่างจากโหมด 1 ตรงที่แบ่งขายเป็นแผ่นได้ ไม่ต้องขายทั้งก้อน เดโมนี้ใช้หินราคาแพง (แพง=รายแผ่น ติดตามด้วยเลข Serial ทีละแผ่น)</div>
-    <div class="note-box">เดคนี้เริ่มนับจาก<b>มีแผ่น Slab พร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อก้อน+ตัดแผ่นเก็บไว้ล่วงหน้าเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
+    <div class="note-box"><b>โหมด 2 คือหินที่ตัดเก็บสต็อกไว้ล่วงหน้า</b> — ต่างจากโหมด 1 ตรงที่แบ่งขายเป็นแผ่นได้ ไม่ต้องขายทั้งก้อน เอกสารนี้ใช้หินราคาสูง (ติดตามด้วยเลข Serial ทีละแผ่น)</div>
+    <div class="note-box">เอกสารนี้เริ่มต้นจาก<b>มีแผ่นหินพร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนสั่งซื้อและตัดแผ่นเก็บสำรองล่วงหน้าเป็นกระบวนการเดียวที่ใช้ร่วมกันทุกรูปแบบการขาย ดูรายละเอียดแยกในเอกสาร <a href="e2e-supply-intake.html">รับหินเข้าคลัง (Ensure Supply)</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
@@ -130,7 +134,7 @@
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode2-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">เริ่มนับจากมีแผ่น Slab พร้อมขายอยู่แล้ว — flow นี้เป็นเส้นตรง ไม่มีจุดแยกทางแบบโหมด 1 (ไม่มีเคสข้ามบริษัทในตัวอย่างนี้) กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน<br><br>เดโมนี้เดินเฉพาะเส้นทาง <b>หินแพง (Serial ต่อแผ่น)</b> — เส้นทาง <b>หินถูก (รวมเป็นล็อต)</b> ดูแยกที่ <a href="e2e-mode2-lot-stock.html">e2e-mode2-lot-stock.html</a></div>
+    <div class="note-box">เริ่มต้นจากมีแผ่นหินพร้อมขายอยู่แล้วในสต็อก — กระบวนการนี้เป็นเส้นทางตรง ไม่มีจุดแยกทางแบบโหมด 1 กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอนตามผังนี้<br><br>เอกสารนี้แสดงเฉพาะเส้นทาง <b>หินราคาสูง (ติดตามรายแผ่นด้วยเลข Serial)</b> — เส้นทาง <b>หินราคาย่อมเยา (รวมเป็นล็อต)</b> ดูรายละเอียดแยกในเอกสาร <a href="e2e-mode2-lot-stock.html">โหมด 2 — สต็อกแบบล็อต</a></div>
   </section>
 
   <!-- SLIDE 3: Step 1a - SO line, button appears -->
@@ -140,29 +144,33 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode2-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> รายการสินค้าในใบสั่งขาย — สินค้าประเภทแผ่นหินสำเร็จรูปที่ลูกค้าต้องการ</li>
+          <li><b>กระบวนการ:</b> เมื่อเลือกสินค้า ระบบแสดงปุ่มให้เลือกวิธีดำเนินการ — "Select Slabs" หากมีสต็อกพร้อมขายอยู่แล้ว หรือ "Cut to Order" หากต้องตัดใหม่ตามคำสั่งซื้อ (ดูรายละเอียดในเอกสารโหมด 3)</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-04-so-line-select-slabs-button.png"><div class="shot-cap">S108405 — เลือก "Calacatta Gold - Slab" ปุ่ม "Select Slabs" และ "Cut to Order" โผล่ขึ้นมาคู่กัน (โหมด 2 กับโหมด 3 ใช้สินค้าเดียวกัน แยกกันแค่ตอนเลือกวิธี)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-04-so-line-select-slabs-button.png"><div class="shot-cap">ผลลัพธ์: S108405 — เลือก "Calacatta Gold - Slab" ปุ่ม "Select Slabs" และ "Cut to Order" ปรากฏขึ้นคู่กัน (สินค้าตัวเดียวกันใช้ได้ทั้งโหมด 2 และโหมด 3 ต่างกันที่วิธีเลือก)</div></div>
       </div>
     </div>
-    <div class="note-box">ถ้ามีสต็อกพร้อมขายอยู่แล้ว กด "Select Slabs" — ถ้าไม่มีของพร้อม ค่อยกด "Cut to Order" (โหมด 3) ให้ตัดใหม่ตามสั่ง</div>
   </section>
 
   <!-- SLIDE 4: Step 1b - wizard picker -->
   <section class="slide" id="slide-4">
     <div class="step-badge">ขั้นตอนที่ 1 / 4 · ฝ่ายขาย (ต่อ)</div>
-    <h2 class="slide-title">Select Slabs Wizard — เลือกได้หลายแผ่นพร้อมกัน ตามเลข Serial จริง</h2>
+    <h2 class="slide-title">หน้าต่างเลือกแผ่น (Select Slabs) — เลือกได้หลายแผ่นพร้อมกัน ตามเลข Serial จริง</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode2-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> รายการแผ่นหินที่มีอยู่จริงในสต็อก พร้อมเลข Serial ขนาด และสถานะของแต่ละแผ่น</li>
+          <li><b>กระบวนการ:</b> เลือกแผ่นที่ต้องการได้หลายแผ่นพร้อมกันในหน้าต่างเดียว โดยระบบแสดงขนาดและสถานะจริงของแต่ละแผ่นให้ตรวจสอบก่อนเลือก ไม่ต้องเปิดหน้าต่างเลือกหลายรอบ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-05-select-slabs-picker.png"><div class="shot-cap">เลือกทั้ง 2 แผ่น (BDL-00014-1, BDL-00014-2) พร้อมกันในคลิกเดียว — ระบบโชว์ขนาด/สถานะจริงให้เช็คก่อนเลือก</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-05-select-slabs-picker.png"><div class="shot-cap">ผลลัพธ์: เลือกทั้ง 2 แผ่น (BDL-00014-1, BDL-00014-2) พร้อมกันในคลิกเดียว — ระบบแสดงขนาดและสถานะจริงให้ตรวจสอบก่อนยืนยัน</div></div>
       </div>
     </div>
-    <div class="note-box">ลูกค้าอยากได้กี่แผ่นก็เลือกพร้อมกันได้ในหน้าเดียว ไม่ต้องเปิด wizard หลายรอบ</div>
   </section>
 
   <!-- SLIDE 5: Step 2 - confirm SO -->
@@ -172,30 +180,32 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode2-flow-step2.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> แผ่นหินที่เลือกไว้ พร้อมขนาดจริงของแต่ละแผ่น (แผ่นใหญ่และแผ่นเล็กราคาไม่เท่ากัน)</li>
+          <li><b>กระบวนการ:</b> เมื่อยืนยันใบสั่งขาย ระบบคำนวณราคาเฉลี่ยต่อหน่วยจากขนาดจริงของทุกแผ่นให้อัตโนมัติ โดยไม่ต้องคำนวณด้วยมือ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-07-so-confirmed.png"><div class="shot-cap">S108405 — 2 แผ่น รวม 8.32 ตร.ม. × 4,200 บาท/ตร.ม. เฉลี่ย = 34,944 บาท (ก่อน VAT) สถานะ Sales Order</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-07-so-confirmed.png"><div class="shot-cap">ผลลัพธ์: S108405 — 2 แผ่น รวม 8.32 ตร.ม. × 4,200 บาท/ตร.ม. เฉลี่ย = 34,944 บาท (ก่อน VAT) สถานะใบสั่งขายยืนยันแล้ว</div></div>
       </div>
     </div>
-    <div class="note-box">ราคาต่อแผ่นไม่เท่ากัน (แผ่นใหญ่แพงกว่าแผ่นเล็ก) ระบบคิดเฉลี่ยให้เป็นราคาต่อหน่วยในบรรทัดเดียวอัตโนมัติ ไม่ต้องคำนวณเอง</div>
   </section>
 
   <!-- SLIDE 6: Step 3 - delivery scan -->
   <section class="slide" id="slide-6">
     <div class="step-badge">ขั้นตอนที่ 3 / 4 · ฝ่ายส่งของ</div>
-    <h2 class="slide-title">ส่งของ — ต้องสแกน Serial ยืนยันตรงแผ่นก่อน Validate ได้</h2>
+    <h2 class="slide-title">ส่งของ — ต้องสแกน Serial ยืนยันตรงแผ่นก่อนดำเนินการต่อได้</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">พยายาม Validate โดยยังไม่สแกน</div>
+        <div class="compare-label no">ยืนยันส่งของโดยยังไม่สแกน Serial</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-08-delivery-scan-error.png"></div>
       </div>
       <div class="compare-col">
-        <div class="compare-label yes">กรอก Scanned Serial ให้ตรงทั้ง 2 แผ่น</div>
+        <div class="compare-label yes">กรอกเลข Serial ยืนยันครบทั้ง 2 แผ่น</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-10-scanned-serial-filled.png"></div>
       </div>
     </div>
-    <div class="note-box warn"><b>ข้อควรระวังจริง:</b> ระบบบังคับให้สแกน (หรือกรอก) เลข Serial ของแผ่นจริงให้ตรงกับที่ระบบจองไว้ก่อนกด Validate เสมอ — กันแผ่นผิดหลุดออกไปให้ลูกค้าโดยไม่ได้ตรวจ ถ้าสแกนไม่ตรง/ไม่ครบ ระบบจะฟ้อง "Scan verification failed" ทันที</div>
+    <div class="note-box warn"><b>มาตรการควบคุมความถูกต้อง:</b> ก่อนยืนยันส่งของทุกครั้ง ระบบกำหนดให้สแกนหรือกรอกเลข Serial ของแผ่นจริงให้ตรงกับที่จองไว้เสมอ เพื่อป้องกันการส่งแผ่นผิดให้ลูกค้าโดยไม่ได้ตรวจสอบ — หากสแกนไม่ตรงหรือไม่ครบ ระบบแจ้งเตือน "Scan verification failed" ทันที ก่อนดำเนินการต่อไม่ได้</div>
   </section>
 
   <!-- SLIDE 7: Step 4 - invoice -->
@@ -205,13 +215,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode2-flow-step4.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งขายที่ยืนยันแล้ว พร้อมการส่งของที่เสร็จสมบูรณ์</li>
+          <li><b>กระบวนการ:</b> ออกใบแจ้งหนี้ต่อจากการส่งของได้ทันที ราคาที่คำนวณจากขนาดแผ่นจริงตั้งแต่ขั้นตอนยืนยันใบสั่งขายไหลมาเป็นยอดใบแจ้งหนี้โดยอัตโนมัติ ไม่ต้องแก้ไขเพิ่มเติม</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-13-invoice-posted.png"><div class="shot-cap">INV/2026/00017 — Posted, ยอดรวม 37,390.08 บาท (รวม VAT 7%)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode2-shot-13-invoice-posted.png"><div class="shot-cap">ผลลัพธ์: INV/2026/00017 — บันทึกสำเร็จ (Posted) ยอดรวม 37,390.08 บาท (รวม VAT 7%)</div></div>
       </div>
     </div>
-    <div class="note-box">หลัง Delivery เสร็จ กด Create Invoice ได้ทันที — ราคาที่คำนวณจากขนาดแผ่นจริงตั้งแต่ตอนยืนยัน SO ไหลมาเป็นยอด Invoice โดยไม่ต้องแก้ไขอะไรเพิ่ม</div>
   </section>
 
   <!-- SLIDE 8: Summary -->
@@ -220,19 +232,19 @@
     <h2 class="slide-title" style="color:#fff;">โหมด 2 ครบวงจร — 4 ขั้นตอน จากเลือกแผ่นถึงออกใบแจ้งหนี้</h2>
     <div class="status-row">
       <div class="status-card">
-        <div class="slabel">สิ่งที่ทำเอง</div>
-        <div class="stext">เปิด SO เลือกแผ่นที่มีอยู่แล้ว → Confirm → สแกน Serial ก่อนส่ง → Create Invoice (ซื้อ+ตัดแผ่นเก็บล่วงหน้าทำไว้ก่อนแล้วผ่านเดค Ensure Supply)</div>
+        <div class="slabel">ขั้นตอนที่ดำเนินการโดยผู้ใช้งาน</div>
+        <div class="stext">เปิดใบสั่งขาย เลือกแผ่นที่มีอยู่แล้ว → ยืนยัน → สแกน Serial ก่อนส่งของ → ออกใบแจ้งหนี้ (ขั้นตอนสั่งซื้อและตัดแผ่นเก็บสำรองล่วงหน้าดำเนินการไว้ก่อนแล้ว ดูรายละเอียดในเอกสารรับหินเข้าคลัง)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">คำนวณ Sqmt จากขนาดจริงต่อแผ่น → ตั้งราคาเฉลี่ยต่อหน่วยให้ SO อัตโนมัติ → บังคับตรวจ Serial ก่อนส่งของกันแผ่นผิด</div>
+        <div class="stext">คำนวณตารางเมตรจากขนาดจริงของแต่ละแผ่น → ตั้งราคาเฉลี่ยต่อหน่วยให้ใบสั่งขายอัตโนมัติ → ตรวจสอบเลข Serial ก่อนส่งของทุกครั้งเพื่อป้องกันแผ่นผิด</div>
       </div>
       <div class="status-card">
-        <div class="slabel">ข้อควรระวังจริง</div>
-        <div class="stext">ต้องสแกน Serial ให้ตรงก่อน Validate เสมอ — ระบบฟ้อง "Scan verification failed" ทันทีถ้าไม่ตรง/ไม่ครบ</div>
+        <div class="slabel">มาตรการควบคุมคุณภาพ</div>
+        <div class="stext">ต้องสแกนเลข Serial ให้ตรงกับที่จองไว้ก่อนยืนยันส่งของเสมอ — ป้องกันการส่งแผ่นผิดให้ลูกค้าได้อย่างมีประสิทธิภาพ</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00014-1/-2 (พร้อมขายอยู่แล้วในสต็อก) → S108405 → INV/2026/00017 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง · BDL-00014-1/-2 (พร้อมขายอยู่แล้วในสต็อก) → S108405 → INV/2026/00017</div>
   </section>
 
 </div></div>

@@ -129,91 +129,91 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">EO</div>
-    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
-    <div class="big-title">E2E — Select Lot Stock<br>ขายหินแบบ "ล็อต" (Mode 2) + รับชำระเงิน</div>
-    <div class="big-sub">เดินสด Odoo ครบวงจร ตั้งแต่เปิด Sale Order → เลือกล็อตหินที่ตั้งราคาแบบตารางเมตร (ไม่ใช่แบบนับแผ่น) → ยืนยันขาย → ส่งของ → Invoice → รับชำระเงิน — พร้อมจุดห้ามลืมที่เจอจริงระหว่างเดิน flow</div>
-    <div class="stamp">EMG-O · ADR-020 Mode 2 · ข้อมูลจริงจาก live run บน production 2026-08-04</div>
+    <div class="eyebrow">Empire Granite · เดินระบบจริงครบกระบวนการ</div>
+    <div class="big-title">โหมดที่ 2: ขายหินแบบล็อต<br>(Lot Pricing) + รับชำระเงิน</div>
+    <div class="big-sub">เดินระบบจริงครบวงจร ตั้งแต่เปิดใบสั่งขาย → เลือกล็อตหินที่ตั้งราคาเป็นตารางเมตรต่อล็อต (แทนการนับเป็นแผ่น) → ยืนยันการขาย → ส่งของ → ออกใบแจ้งหนี้ → รับชำระเงิน — ครบทุกขั้นตอนด้วยข้อมูลจริง รวมถึงขั้นตอนยืนยันล็อตก่อนปล่อยสินค้าออกจากคลัง</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 4 ส.ค. 2026 · ตรวจทานล่าสุด 21 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: Overview / conditions -->
   <section class="slide" id="slide-1">
-    <div class="eyebrow">ภาพรวม · Select Lot Stock คืออะไร</div>
+    <div class="eyebrow">ภาพรวม · การขายหินแบบล็อตคืออะไร</div>
     <h2 class="slide-title">ไม่ใช่หินทุกชนิดขายแบบนับแผ่น — บางชนิดตั้งราคาเป็น "ตารางเมตรต่อล็อต" แทน</h2>
     <div class="case-box">
       <div class="case-icon">i</div>
       <div>
-        <div class="case-text-label">Mode 2 ต่างจาก Mode ปกติ (Select Slabs) ยังไง</div>
-        <div class="case-text">วัสดุแต่ละชนิดตั้งค่า <b>Pricing Mode</b> ไว้ที่ระดับ Material — ถ้าเป็น <b>Lot</b> (เช่น Bianco Perla) ระบบจะไม่สร้าง <b>stone.slab</b> รายแผ่นให้เลือกทีละแผ่นแบบปกติ แต่ให้เลือก <b>Lot (Block)</b> แล้วพิมพ์จำนวนตารางเมตรที่จะขายจากล็อตนั้นได้อิสระ (ขายบางส่วนได้ ไม่ต้องขายทั้งล็อต) เหมาะกับหินที่ import มาเป็นล็อตใหญ่ ไม่ได้ตัดแยกแผ่นไว้ล่วงหน้า</div>
+        <div class="case-text-label">ขายแบบล็อตต่างจากขายแบบเลือกทีละแผ่นอย่างไร</div>
+        <div class="case-text">วัสดุบางชนิด (เช่น Bianco Perla) นำเข้ามาเป็นล็อตใหญ่ ไม่ได้ตัดแยกเป็นแผ่นไว้ล่วงหน้า — ระบบจึงให้เลือกขายตรงจากล็อตนั้นแทน โดยระบุจำนวนตารางเมตรที่ต้องการขายได้อย่างอิสระ ไม่จำเป็นต้องขายทั้งล็อตในครั้งเดียว เหมาะกับวัสดุที่นิยมซื้อขายเป็นปริมาณมากกว่านับเป็นแผ่น</div>
       </div>
     </div>
     <div class="flow-bar">
-      <span class="flow-chip">1. เปิด SO + เลือกสินค้า</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">2. Select Lot Stock</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">3. ยืนยัน SO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">1. เปิดใบสั่งขาย + เลือกสินค้า</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">2. เลือกล็อตที่จะขาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">3. ยืนยันการขาย</span><span class="flow-arrow">→</span>
       <span class="flow-chip">4. ส่งของ</span><span class="flow-arrow">→</span>
-      <span class="flow-chip hl">Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip hl">ใบแจ้งหนี้</span><span class="flow-arrow">→</span>
       <span class="flow-chip hl">รับเงิน</span>
     </div>
-    <div class="note-box"><b>หมายเหตุ:</b> Mode 2 (Lot), Mode 1 (Select Block — ขายทั้งก้อน), และโหมดปกติ (Select Slabs — เลือกทีละแผ่น) ใช้กลไก intercompany เดียวกันทั้งหมดถ้าล็อต/บล็อกนั้นเป็นของอีกบริษัท — เช็คในขั้นตอน Confirm SO ของแต่ละโหมดได้เลย ไม่มีเดคแยกอีกแล้ว</div>
-    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block (Lot) พร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อ+รับเข้าคลังดูที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
+    <div class="note-box"><b>หมายเหตุ:</b> ไม่ว่าจะขายแบบล็อต แบบทั้งก้อน หรือแบบเลือกทีละแผ่น หากวัสดุนั้นอยู่คนละบริษัทกับใบขาย ระบบจะดำเนินการข้ามบริษัทให้อัตโนมัติเหมือนกันทุกรูปแบบการขาย</div>
+    <div class="note-box">เอกสารนี้เริ่มนับจาก<b>มีล็อตหินพร้อมขายอยู่แล้วในสต็อก</b> — ขั้นตอนสั่งซื้อและรับหินเข้าคลังดูรายละเอียดที่เอกสาร <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: SO + product -->
   <section class="slide" id="slide-2">
-    <div class="eyebrow">ขั้นตอนที่ 1 · เปิด Sale Order</div>
-    <h2 class="slide-title">เลือกลูกค้า แล้วเพิ่มสินค้าที่เป็น Lot mode</h2>
+    <div class="eyebrow">ขั้นตอนที่ 1 · เปิดใบสั่งขาย</div>
+    <h2 class="slide-title">เลือกลูกค้า แล้วเพิ่มสินค้าในกลุ่มที่ขายแบบล็อต</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">Sales → New เปิด Quotation ใหม่</span></li>
+          <li><span class="step-num">1</span><span class="step-text">เปิดใบเสนอราคาใหม่จากเมนู Sales</span></li>
           <li><span class="step-num">2</span><span class="step-text">เลือกลูกค้า</span></li>
-          <li><span class="step-num">3</span><span class="step-text">Add a product → เลือก "Bianco Perla Marble Slab" (วัสดุที่ตั้ง Pricing Mode = Lot)</span></li>
-          <li><span class="step-num">4</span><span class="step-text">บรรทัดสินค้าจะโชว์ลิงก์ <b>Select Lot Stock</b> แทนที่จะเป็น Select Slabs ปกติ — สังเกตความต่างตรงนี้</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เพิ่มสินค้าลงในรายการ แล้วเลือก "Bianco Perla Marble Slab" ซึ่งเป็นวัสดุที่ขายแบบล็อต</span></li>
+          <li><span class="step-num">4</span><span class="step-text">บรรทัดสินค้าจะแสดงลิงก์ <b>Select Lot Stock</b> แทนที่จะเป็น Select Slabs ตามปกติ</span></li>
         </ul>
-        <div class="note-box">ลิงก์ที่ขึ้นในคอลัมน์ "Block / Lot" คือตัวบอกว่าสินค้านี้เป็น Lot mode — ถ้าเห็น "Select Slabs" แทน แปลว่าสินค้าตัวนั้นเป็นโหมดนับแผ่นปกติ ไม่ใช่ Mode 2</div>
+        <div class="note-box">ลิงก์ที่ปรากฏในคอลัมน์ Block / Lot จะเปลี่ยนตามประเภทวัสดุที่เลือกโดยอัตโนมัติ — Select Lot Stock หมายถึงขายแบบล็อต ส่วน Select Slabs หมายถึงขายแบบเลือกทีละแผ่นตามปกติ</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-01-so-product.png"><div class="shot-cap">SO ใหม่ พร้อมสินค้า Bianco Perla + ลิงก์ Select Lot Stock</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-01-so-product.png"><div class="shot-cap">ผลลัพธ์: ใบเสนอราคาใหม่ พร้อมสินค้า Bianco Perla และลิงก์ Select Lot Stock ที่ปรากฏขึ้นอัตโนมัติ</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 3: wizard qty -->
   <section class="slide" id="slide-3">
-    <div class="eyebrow">ขั้นตอนที่ 2 · Select Lot Stock Wizard</div>
-    <h2 class="slide-title">เลือกล็อต ระบบโชว์ Sq.Mt. ที่เหลือให้ทันที แล้วพิมพ์จำนวนที่จะขาย</h2>
+    <div class="eyebrow">ขั้นตอนที่ 2 · เลือกล็อตที่จะขาย</div>
+    <h2 class="slide-title">เลือกล็อต ระบบแสดงจำนวนตารางเมตรที่เหลือให้ทันที แล้วระบุจำนวนที่ต้องการขาย</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">เลือก <b>Lot (Block)</b> — เห็นล็อตที่มีสต็อกจริงเท่านั้น</span></li>
-          <li><span class="step-num">2</span><span class="step-text">"Remaining Sq.Mt. (Lot)" โชว์อัตโนมัติ (ตัวอย่างนี้ = 4.00 ตร.ม. เหลือจากทั้งล็อต 6.00)</span></li>
-          <li><span class="step-num">3</span><span class="step-text">พิมพ์ <b>Quantity to Sell</b> ตามที่ลูกค้าต้องการ — ไม่ต้องขายทั้งล็อต (ตัวอย่างนี้ขาย 1.50 ตร.ม.)</span></li>
-          <li><span class="step-num">4</span><span class="step-text">Confirm Selection</span></li>
+          <li><span class="step-num">1</span><span class="step-text">เลือกล็อตที่ต้องการขาย — ระบบแสดงเฉพาะล็อตที่มีสต็อกพร้อมขายจริงเท่านั้น</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ระบบแสดงจำนวนตารางเมตรที่เหลืออยู่ในล็อตนั้นโดยอัตโนมัติ (ตัวอย่างนี้เหลือ 4.00 ตร.ม. จากทั้งล็อต 6.00 ตร.ม.)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ระบุจำนวนตารางเมตรที่ต้องการขายตามความต้องการของลูกค้า โดยไม่จำเป็นต้องขายทั้งล็อต (ตัวอย่างนี้ขาย 1.50 ตร.ม.)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">ยืนยันการเลือก</span></li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-02-wizard-qty.png"><div class="shot-cap">Wizard: ล็อต BP-B-0001 เหลือ 4.00 ตร.ม. — ขาย 1.50</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-02-wizard-qty.png"><div class="shot-cap">ผลลัพธ์: ล็อต BP-B-0001 มีสต็อกเหลือ 4.00 ตร.ม. — เลือกขาย 1.50 ตร.ม.</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 4: line updated -->
   <section class="slide" id="slide-4">
-    <div class="eyebrow">ผลลัพธ์ · หลัง Confirm Selection</div>
-    <h2 class="slide-title">บรรทัด SO อัปเดตราคาและจำนวนอัตโนมัติจากล็อตที่เลือก</h2>
+    <div class="eyebrow">ผลลัพธ์ · หลังยืนยันการเลือกล็อต</div>
+    <h2 class="slide-title">รายการในใบสั่งขายอัปเดตราคาและจำนวนอัตโนมัติจากล็อตที่เลือก</h2>
     <div class="two-col">
       <div class="col-left">
         <div class="case-box">
           <div class="case-icon">✓</div>
           <div>
             <div class="case-text-label">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-            <div class="case-text">Quantity = 1.50, Block/Lot = BP-B-0001, ราคาต่อหน่วยดึงมาจากสินค้า/ล็อตให้เอง — Total ปรับตามจริงทันที (1,926.00 บาท รวม VAT 7%) ไม่ต้องคำนวณเอง</div>
+            <div class="case-text">จำนวน 1.50 ตร.ม. จากล็อต BP-B-0001 ราคาต่อหน่วยดึงมาจากข้อมูลสินค้าและล็อตให้อัตโนมัติ ยอดรวมปรับตามจริงทันที (1,926.00 บาท รวม VAT 7%) โดยไม่ต้องคำนวณเอง</div>
           </div>
         </div>
-        <div class="note-box">จุดนี้เหมือน Mode ปกติทุกประการ — ต่างกันแค่ตอนเลือกสต็อกใน wizard เท่านั้น ขั้นตอนหลังจากนี้ (Confirm SO → Delivery → Invoice → Payment) เดินเหมือนกันทุก Mode</div>
+        <div class="note-box">ตั้งแต่ขั้นตอนนี้เป็นต้นไป กระบวนการเดินเหมือนการขายรูปแบบอื่นทุกประการ ต่างกันเพียงวิธีเลือกสต็อกในขั้นตอนก่อนหน้าเท่านั้น</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-03-line-updated.png"><div class="shot-cap">บรรทัด SO หลัง Confirm Selection</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-03-line-updated.png"><div class="shot-cap">ผลลัพธ์: รายการในใบสั่งขายหลังยืนยันการเลือกล็อต</div></div>
       </div>
     </div>
   </section>
@@ -221,17 +221,17 @@
   <!-- SLIDE 5: SO confirmed -->
   <section class="slide" id="slide-5">
     <div class="eyebrow">ขั้นตอนที่ 3 · ยืนยันการขาย</div>
-    <h2 class="slide-title">กด Confirm — SO กลายเป็น Sales Order พร้อม Delivery อัตโนมัติ</h2>
+    <h2 class="slide-title">ยืนยันใบสั่งขาย — ระบบสร้างใบส่งของให้อัตโนมัติ</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">กด <b>Confirm</b> บน Quotation</span></li>
-          <li><span class="step-num">2</span><span class="step-text">Stage เปลี่ยนเป็น "Sales Order"</span></li>
-          <li><span class="step-num">3</span><span class="step-text">ปุ่ม <b>Delivery</b> ปรากฏที่หัวเอกสาร — ระบบสร้าง Transfer ตัดสต็อกจากล็อตให้อัตโนมัติ</span></li>
+          <li><span class="step-num">1</span><span class="step-text">ยืนยันใบเสนอราคา</span></li>
+          <li><span class="step-num">2</span><span class="step-text">สถานะเปลี่ยนเป็นใบสั่งขาย (Sales Order)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ปุ่ม <b>Delivery</b> ปรากฏที่หัวเอกสาร — ระบบเตรียมรายการตัดสต็อกจากล็อตให้โดยอัตโนมัติ</span></li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-04-confirmed.png"><div class="shot-cap">SO ยืนยันแล้ว พร้อมปุ่ม Delivery</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-04-confirmed.png"><div class="shot-cap">ผลลัพธ์: ใบสั่งขายยืนยันแล้ว พร้อมปุ่มใบส่งของ</div></div>
       </div>
     </div>
   </section>
@@ -239,59 +239,59 @@
   <!-- SLIDE 6: delivery ready -->
   <section class="slide" id="slide-6">
     <div class="eyebrow">ขั้นตอนที่ 4 · ส่งของ</div>
-    <h2 class="slide-title">เปิด Delivery — สถานะ Ready พร้อม Validate</h2>
+    <h2 class="slide-title">เปิดใบส่งของ — สถานะพร้อมส่งของจริง</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">คลิกปุ่ม Delivery จาก SO</span></li>
-          <li><span class="step-num">2</span><span class="step-text">Source Location = Stone Inventory/Stone Hold, Product Availability = Available</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>Validate</b> เพื่อยืนยันการส่งของจริง</span></li>
+          <li><span class="step-num">1</span><span class="step-text">เปิดใบส่งของจากใบสั่งขาย</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ระบบตรวจสอบตำแหน่งสต็อกและความพร้อมของสินค้าให้อัตโนมัติ พบว่าพร้อมส่งของ</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ยืนยันการส่งของจริง</span></li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-05-delivery-ready.png"><div class="shot-cap">Delivery พร้อม Validate</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-05-delivery-ready.png"><div class="shot-cap">ผลลัพธ์: ใบส่งของพร้อมยืนยันการส่งของจริง</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 7: CAUTION scan error -->
   <section class="slide dark" id="slide-7">
-    <div class="eyebrow">🔴 จุดห้ามลืม · เจอจริงระหว่างเดิน flow</div>
-    <h2 class="slide-title" style="color:#fff;">Validate ตรงๆ แล้วเจอ Error — "Scan verification failed"</h2>
+    <div class="eyebrow">ขั้นตอนที่ 4 (ต่อ) · การยืนยันล็อตก่อนส่งของจริง</div>
+    <h2 class="slide-title" style="color:#fff;">ระบบกำหนดให้ต้องยืนยันล็อตที่ตรงกันก่อนดำเนินการส่งของทุกครั้ง</h2>
     <div class="two-col">
       <div class="col-left">
         <div class="outcome-row">
           <div class="outcome-box caution">
-            <div class="outcome-label">สิ่งที่เจอ</div>
-            <div class="outcome-text">กด Validate แล้วระบบไม่ยอมให้ผ่าน ขึ้น "Invalid Operation — Scan verification failed for: BP-B-0001-LOT" ทั้งที่ล็อต/จำนวนถูกต้องอยู่แล้ว</div>
+            <div class="outcome-label">การตรวจสอบของระบบ</div>
+            <div class="outcome-text">ก่อนยืนยันการส่งของทุกครั้ง ระบบจะตรวจสอบว่าล็อตที่จะส่งจริงตรงกับล็อตที่เลือกไว้ในใบส่งของหรือไม่ — หากยังไม่ได้ยืนยันล็อต ระบบจะยังไม่อนุญาตให้ดำเนินการต่อ</div>
           </div>
         </div>
-        <div class="note-box bad"><b>สาเหตุ:</b> ระบบ requires การ "scan" ยืนยัน Lot/Serial ก่อน Validate เสมอ แม้ว่า Lot ที่ถูกต้องจะถูกกำหนดไว้ล่วงหน้าโดยอัตโนมัติแล้วก็ตาม (Odoo เตรียม quantity ให้ แต่ยังไม่ mark ว่า "scanned/picked") — เจอทั้งใน Mode ปกติ (per-slab) และ Mode 2 (lot) เหมือนกัน ไม่ใช่บั๊กเฉพาะ Mode นี้</div>
+        <div class="note-box"><b>เหตุผล:</b> เป็นกลไกป้องกันการส่งผิดล็อตที่ใช้เหมือนกันในทุกรูปแบบการขาย เพื่อให้มั่นใจว่าล็อตที่ส่งออกจากคลังตรงกับที่ระบุไว้ในเอกสารเสมอ</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-06-scan-error.png"><div class="shot-cap">Error จริงที่เจอบน production</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-06-scan-error.png"><div class="shot-cap">ผลลัพธ์: หน้าจอแจ้งให้ยืนยันล็อตก่อนดำเนินการต่อ</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 8: FIX -->
   <section class="slide" id="slide-8">
-    <div class="eyebrow">✅ วิธีแก้ · ทำตามทุกครั้งก่อน Validate</div>
-    <h2 class="slide-title">คลิก "Details" ที่บรรทัดสินค้า แล้วเลือก Lot ในช่อง Scanned Serial</h2>
+    <div class="eyebrow">ขั้นตอนยืนยันล็อต · ก่อนดำเนินการส่งของ</div>
+    <h2 class="slide-title">เปิดรายละเอียดบรรทัดสินค้า แล้วยืนยันล็อตที่จะส่งจริง</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">ที่หน้า Delivery คลิก <b>Details</b> ตรงบรรทัดสินค้า</span></li>
-          <li><span class="step-num">2</span><span class="step-text">เห็นคอลัมน์ "Scanned Serial" ว่างอยู่ — ทั้งที่ "Pick From" ระบุ Lot ถูกต้องแล้ว</span></li>
-          <li><span class="step-num">3</span><span class="step-text">คลิกช่อง Scanned Serial แล้วพิมพ์/เลือกชื่อ Lot เดียวกัน (เช่น BP-B-0001-LOT)</span></li>
-          <li><span class="step-num">4</span><span class="step-text">Save → กลับไป Validate อีกครั้ง — ผ่านทันที</span></li>
+          <li><span class="step-num">1</span><span class="step-text">เปิดรายละเอียด (<b>Details</b>) ที่บรรทัดสินค้าในใบส่งของ</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ระบบแสดงล็อตต้นทางที่ถูกต้องไว้แล้ว แต่ยังรอการยืนยันในช่องยืนยันล็อต</span></li>
+          <li><span class="step-num">3</span><span class="step-text">เลือกยืนยันล็อตเดียวกันในช่องดังกล่าว (เช่น BP-B-0001-LOT)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">บันทึก แล้วดำเนินการยืนยันการส่งของต่อได้ทันที</span></li>
         </ul>
-        <div class="note-box good"><b>จำไว้:</b> ทุกครั้งที่เจอ "Scan verification failed" ให้เปิด Details แล้วกรอก Scanned Serial ด้วยชื่อ Lot เดิม ไม่ต้องเปลี่ยนอะไรอย่างอื่น</div>
+        <div class="note-box good">ขั้นตอนนี้เป็นการยืนยันความถูกต้องของล็อตก่อนปล่อยสินค้าออกจากคลังทุกครั้ง เพื่อความแม่นยำของข้อมูลสต็อก</div>
       </div>
       <div class="col-right">
         <div class="thumb-grid">
-          <div class="shot-wrap"><img class="shot" src="assets/lot2-07-details-empty.png"><div class="shot-cap">ก่อนแก้ — Scanned Serial ว่าง</div></div>
-          <div class="shot-wrap"><img class="shot" src="assets/lot2-08-scanned-filled.png"><div class="shot-cap">หลังแก้ — กรอกชื่อ Lot แล้ว</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-07-details-empty.png"><div class="shot-cap">ก่อนยืนยัน — ช่องยืนยันล็อตยังว่างอยู่</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-08-scanned-filled.png"><div class="shot-cap">ผลลัพธ์: ยืนยันล็อตเรียบร้อยแล้ว</div></div>
         </div>
       </div>
     </div>
@@ -299,40 +299,40 @@
 
   <!-- SLIDE 9: delivery done -->
   <section class="slide" id="slide-9">
-    <div class="eyebrow">ผลลัพธ์ · หลังแก้แล้ว Validate</div>
-    <h2 class="slide-title">Delivery จบสมบูรณ์ — สถานะ Done</h2>
+    <div class="eyebrow">ผลลัพธ์ · หลังยืนยันการส่งของ</div>
+    <h2 class="slide-title">การส่งของเสร็จสมบูรณ์</h2>
     <div class="two-col">
       <div class="col-left">
         <div class="case-box">
           <div class="case-icon">✓</div>
           <div>
             <div class="case-text-label">ยืนยันจากฐานข้อมูลจริง</div>
-            <div class="case-text">Stock ตัดจาก "Stone Inventory/Stone Hold" ไปยัง "Customers" ถูกต้องตามจำนวนที่ขาย (1.50 ตร.ม.) — ล็อตเดิมยังเหลือส่วนที่ไม่ได้ขายไว้ให้ขายต่อได้ปกติ</div>
+            <div class="case-text">สต็อกถูกตัดออกจากคลังไปยังลูกค้าตามจำนวนที่ขายจริง (1.50 ตร.ม.) ส่วนที่เหลือของล็อตเดิมยังคงพร้อมขายต่อได้ตามปกติ</div>
           </div>
         </div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-09-delivery-done.png"><div class="shot-cap">Delivery — Done</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-09-delivery-done.png"><div class="shot-cap">ผลลัพธ์: การส่งของเสร็จสมบูรณ์</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 10: invoice draft+posted -->
   <section class="slide" id="slide-10">
-    <div class="eyebrow">ขั้นตอนที่ 5 · Invoice</div>
-    <h2 class="slide-title">Create Invoice จาก SO แล้ว Confirm (Post)</h2>
+    <div class="eyebrow">ขั้นตอนที่ 5 · ออกใบแจ้งหนี้</div>
+    <h2 class="slide-title">ออกใบแจ้งหนี้จากใบสั่งขาย แล้วยืนยัน</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">กลับไปที่ SO → กด <b>Create Invoice</b> → เลือก Regular Invoice → Create Draft</span></li>
-          <li><span class="step-num">2</span><span class="step-text">ตรวจสอบยอด/สินค้าให้ตรงกับ SO ก่อน Confirm</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>Confirm</b> เพื่อ Post ใบแจ้งหนี้ (ได้เลขที่ INV/2026/00016)</span></li>
+          <li><span class="step-num">1</span><span class="step-text">จากใบสั่งขาย เลือกออกใบแจ้งหนี้แบบปกติ ระบบสร้างฉบับร่างให้</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตรวจสอบยอดเงินและรายการสินค้าให้ตรงกับใบสั่งขายก่อนยืนยัน</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ยืนยันใบแจ้งหนี้ ระบบออกเลขที่เอกสารให้อัตโนมัติ (INV/2026/00016)</span></li>
         </ul>
       </div>
       <div class="col-right">
         <div class="thumb-grid">
-          <div class="shot-wrap"><img class="shot" src="assets/lot2-10-invoice-draft.png"><div class="shot-cap">Draft — ก่อน Confirm</div></div>
-          <div class="shot-wrap"><img class="shot" src="assets/lot2-11-invoice-posted.png"><div class="shot-cap">Posted — เลขที่ออกแล้ว</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-10-invoice-draft.png"><div class="shot-cap">ก่อนยืนยัน — ใบแจ้งหนี้ฉบับร่าง</div></div>
+          <div class="shot-wrap"><img class="shot" src="assets/lot2-11-invoice-posted.png"><div class="shot-cap">ผลลัพธ์: ใบแจ้งหนี้ยืนยันแล้ว พร้อมเลขที่เอกสาร</div></div>
         </div>
       </div>
     </div>
@@ -341,17 +341,17 @@
   <!-- SLIDE 11: pay dialog -->
   <section class="slide" id="slide-11">
     <div class="eyebrow">ขั้นตอนที่ 6 · รับชำระเงิน</div>
-    <h2 class="slide-title">กด Pay แล้วยืนยัน Create Payment</h2>
+    <h2 class="slide-title">รับชำระเงินจากใบแจ้งหนี้</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">บนใบ Invoice ที่ Post แล้ว กด <b>Pay</b></span></li>
-          <li><span class="step-num">2</span><span class="step-text">ตรวจ Journal/ยอด/บัญชีธนาคารให้ถูกต้อง</span></li>
-          <li><span class="step-num">3</span><span class="step-text">กด <b>Create Payment</b></span></li>
+          <li><span class="step-num">1</span><span class="step-text">จากใบแจ้งหนี้ที่ยืนยันแล้ว เลือกรับชำระเงิน</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตรวจสอบช่องทางการรับเงินและยอดชำระให้ถูกต้อง</span></li>
+          <li><span class="step-num">3</span><span class="step-text">ยืนยันการรับชำระเงิน</span></li>
         </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-12-pay-dialog.png"><div class="shot-cap">Pay dialog — 1,926.00 บาท</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-12-pay-dialog.png"><div class="shot-cap">ผลลัพธ์: หน้าต่างยืนยันการรับชำระเงิน 1,926.00 บาท</div></div>
       </div>
     </div>
   </section>
@@ -359,7 +359,7 @@
   <!-- SLIDE 12: final paid -->
   <section class="slide" id="slide-12">
     <div class="eyebrow">ผลลัพธ์สุดท้าย</div>
-    <h2 class="slide-title">Invoice ขึ้นตรา PAID — จบ loop ครบวงจร</h2>
+    <h2 class="slide-title">ใบแจ้งหนี้ชำระครบถ้วน — จบกระบวนการขายแบบครบวงจร</h2>
     <div class="two-col">
       <div class="col-left">
         <div class="doc-chain">
@@ -376,40 +376,41 @@
         </table>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/lot2-13-paid-final.png"><div class="shot-cap">Invoice PAID — Amount Due 0.00</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/lot2-13-paid-final.png"><div class="shot-cap">ผลลัพธ์: ใบแจ้งหนี้ชำระครบถ้วน ยอดค้างชำระเป็นศูนย์</div></div>
       </div>
     </div>
   </section>
 
   <!-- SLIDE 13: cheat sheet -->
   <section class="slide dark" id="slide-13">
-    <div class="eyebrow">สรุปสิ่งที่ต้องจำ</div>
-    <h2 class="slide-title" style="color:#fff;">Cheat Sheet — Select Lot Stock (Mode 2)</h2>
+    <div class="eyebrow">สรุปความสามารถของระบบ</div>
+    <h2 class="slide-title" style="color:#fff;">สิ่งที่ระบบรองรับ — การขายหินแบบล็อต</h2>
     <ul class="checklist">
-      <li><span class="num">1</span><span class="ctext">ใช้ได้เฉพาะวัสดุที่ตั้ง <b>Pricing Mode = Lot</b> ที่ระดับ Material เท่านั้น — สังเกตจากลิงก์ "Select Lot Stock" บนบรรทัดสินค้า</span></li>
-      <li><span class="num">2</span><span class="ctext">ขายบางส่วนจากล็อตได้อิสระ — Wizard โชว์ "Remaining Sq.Mt." ให้เช็คก่อนพิมพ์จำนวนเสมอ</span></li>
-      <li><span class="num">3</span><span class="ctext">ทุกครั้งที่ Validate Delivery แล้วเจอ <b>"Scan verification failed"</b> — เปิด Details บนบรรทัดสินค้า แล้วกรอก Scanned Serial ด้วยชื่อ Lot เดิมก่อนเสมอ (เจอทั้ง Mode ปกติและ Mode 2)</span></li>
-      <li><span class="num">4</span><span class="ctext">หลังจากผ่าน Wizard แล้ว ขั้นตอน Confirm → Delivery → Invoice → Payment เดินเหมือนทุก Mode อื่นทุกประการ</span></li>
+      <li><span class="num">1</span><span class="ctext">รองรับเฉพาะวัสดุที่กำหนดให้ขายแบบล็อตไว้ล่วงหน้า โดยระบบจะแสดงลิงก์ <b>Select Lot Stock</b> บนบรรทัดสินค้าโดยอัตโนมัติ</span></li>
+      <li><span class="num">2</span><span class="ctext">ขายบางส่วนจากล็อตได้อย่างอิสระ โดยระบบแสดงจำนวนตารางเมตรที่เหลืออยู่ให้ตรวจสอบก่อนระบุจำนวนขายเสมอ</span></li>
+      <li><span class="num">3</span><span class="ctext">มีขั้นตอนยืนยันล็อตก่อนดำเนินการส่งของทุกครั้ง เพื่อป้องกันการส่งผิดล็อต ใช้หลักการเดียวกันในทุกรูปแบบการขาย</span></li>
+      <li><span class="num">4</span><span class="ctext">หลังจากเลือกล็อตแล้ว ขั้นตอนยืนยันการขาย ส่งของ ออกใบแจ้งหนี้ และรับชำระเงิน เป็นกระบวนการเดียวกับการขายรูปแบบอื่นทั้งหมด</span></li>
     </ul>
   </section>
 
   <!-- SLIDE 14: closing -->
   <section class="slide dark" id="slide-14">
-    <div class="eyebrow">สรุปวันนี้</div>
-    <h1 class="title" style="color:#fff;">ครบวงจร Select Lot Stock (Mode 2)</h1>
+    <div class="eyebrow">สรุป</div>
+    <h1 class="title" style="color:#fff;">ขายหินแบบล็อต — ครบวงจรตั้งแต่ขายจนถึงรับชำระเงิน</h1>
     <div class="flow-bar" style="margin-top:18px;">
-      <span class="flow-chip">SO</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">Select Lot Stock</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">Confirm</span><span class="flow-arrow">→</span>
-      <span class="flow-chip">Delivery</span><span class="flow-arrow">→</span>
-      <span class="flow-chip" style="background:var(--copper);">Invoice</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ใบสั่งขาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เลือกล็อตที่จะขาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ยืนยันการขาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ส่งของ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ใบแจ้งหนี้</span><span class="flow-arrow">→</span>
       <span class="flow-chip" style="background:var(--copper);">รับเงิน</span>
     </div>
     <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:22px;">
-      <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">สิ่งที่ลูกค้าเห็นวันนี้</div>
-      <div style="font-size:15px;line-height:1.6;">หินที่ import มาเป็นล็อตใหญ่ ไม่ต้องตัดแยกแผ่นไว้ล่วงหน้าก็ขายได้ — เลือกจำนวนตารางเมตรที่ต้องการขายจากล็อตได้อิสระ ราคา/สต็อกตามรอยกันอัตโนมัติ จนถึงรับเงินจริงเข้าบัญชี ครบเหมือน Mode อื่นทุกประการ</div>
+      <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">สิ่งที่ได้เห็นในการเดินระบบนี้</div>
+      <div style="font-size:15px;line-height:1.6;">หินที่นำเข้ามาเป็นล็อตใหญ่โดยไม่ได้ตัดแยกแผ่นไว้ล่วงหน้า สามารถขายได้ทันที โดยระบุจำนวนตารางเมตรที่ต้องการขายจากล็อตได้อย่างอิสระ ราคาและสต็อกปรับตามกันโดยอัตโนมัติ ตั้งแต่การขายจนถึงรับชำระเงินเข้าบัญชีจริง เช่นเดียวกับรูปแบบการขายอื่น</div>
     </div>
-    <div style="margin-top:30px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+    <div style="margin-top:30px;font-size:16px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 4 สิงหาคม 2026 (S108370 → INV/2026/00016) ตรวจทานล่าสุด 21 สิงหาคม 2026</div>
+    <div style="margin-top:10px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
   </section>
 
 </div></div>

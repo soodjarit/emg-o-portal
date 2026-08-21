@@ -65,6 +65,10 @@
   .note-box.good{background:#EAF6EC;color:#245C34;}
   .note-box.good b{color:#2C7A42;}
 
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
   .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
   .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
   .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
@@ -103,10 +107,10 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">โหมด<br>4</div>
-    <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="eyebrow">Empire Stone × Empire Granite · เดินระบบจริงครบกระบวนการ</div>
     <div class="big-title">โหมด 4: งานโครงการ<br>(Sold-as-Project)</div>
-    <div class="big-sub">เดินสดตั้งแต่ทำ BOQ ประเมินราคาจากคลัง Rate Library หลายรายการ สร้างใบเสนอราคา ยืนยันเป็นโครงการให้ระบบสร้าง Project + Task + Milestone อัตโนมัติ จนถึงออกใบแจ้งหนี้ตามงวด 30/40/30 ที่ระบบหักยอดที่จ่ายไปแล้วให้เองอัตโนมัติ</div>
-    <div class="stamp">EMG-O · boq_estimation + stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13</div>
+    <div class="big-sub">จำลองสถานการณ์ลูกค้าสั่งงานโครงการ ตั้งแต่ประเมินราคาจากรายการวัสดุและค่าแรงหลายรายการ (BOQ) ออกใบเสนอราคา ไปจนถึงระบบสร้างแผนงานและกำหนดงวดแจ้งหนี้ 30/40/30 ให้อัตโนมัติ พร้อมหักยอดที่ชำระไปแล้วให้เองในงวดสุดท้าย</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 13 ส.ค. 2026 · ตรวจทานล่าสุด 21 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 4 -->
@@ -121,8 +125,8 @@
       <tr class="hl"><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
       <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
     </table>
-    <div class="note-box"><b>โหมด 4 คืองานที่มีหลายรายการรวมกันเป็นโครงการเดียว</b> — ต่างจากโหมด 1-3 ตรงที่ไม่ได้ขายสินค้าชิ้นเดียว แต่รวมวัสดุ+ค่าแรงหลายบรรทัดจาก BOQ เข้าด้วยกัน แล้วให้ระบบสร้าง Project พร้อมงวดชำระเงินอัตโนมัติ เพื่อติดตามความคืบหน้าและวางบิลเป็นงวดได้</div>
-    <div class="note-box">โหมดนี้ไม่ผูกกับ Block/Slab รายชิ้นเลย — ราคาคิดจากคลัง Rate Library (วัสดุ+ค่าแรงรวมกันต่อรายการ) จึงเป็น flow อิสระ ไม่ต้องพึ่งเดค Ensure Supply เหมือนโหมด 1-3</div>
+    <div class="note-box"><b>โหมด 4 คืองานที่รวมหลายรายการเข้าเป็นโครงการเดียว</b> — ต่างจากโหมด 1-3 ที่ขายสินค้าเป็นชิ้น โหมดนี้รวมรายการวัสดุและค่าแรงจากใบประเมินราคา (BOQ) หลายบรรทัดเข้าด้วยกัน แล้วให้ระบบสร้างโครงการพร้อมกำหนดงวดชำระเงินให้อัตโนมัติ เพื่อติดตามความคืบหน้าและวางบิลเป็นงวดได้</div>
+    <div class="note-box">โหมดนี้ไม่ผูกกับก้อนหินหรือแผ่นหินรายชิ้น — ราคาคำนวณจากคลังอัตรากลาง (Rate Library) ที่รวมต้นทุนวัสดุและค่าแรงต่อรายการไว้แล้ว จึงเป็นกระบวนการที่ดำเนินการแยกอิสระ ไม่ต้องอาศัยขั้นตอนรับหินเข้าคลังเหมือนโหมด 1-3</div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
@@ -132,7 +136,7 @@
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode4-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">flow นี้เป็นเส้นตรง ไม่มีจุดแยกทาง — ฝ่ายขายทำ BOQ+ใบเสนอราคาจนจบ แล้วส่งต่อให้ฝ่ายโครงการดูแลงานจริง จบด้วยฝ่ายบัญชีวางบิลเป็นงวด — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
+    <div class="note-box">กระบวนการนี้เดินเป็นเส้นตรงต่อเนื่องกัน 3 ฝ่ายงาน — เริ่มจากฝ่ายขายจัดทำใบประเมินราคาและใบเสนอราคาจนจบ ส่งต่อให้ฝ่ายโครงการดูแลงานจริง และปิดท้ายด้วยฝ่ายบัญชีวางบิลตามงวดที่ตกลงไว้ สไลด์ถัดไปจะอธิบายทีละขั้นตอนตามผังนี้ โดยไฮไลท์<b style="color:#B03A3A;">สีแดง</b>ในตำแหน่งที่กำลังอธิบายทุกครั้ง</div>
   </section>
 
   <!-- SLIDE 3: Step 1 - BOQ header -->
@@ -142,13 +146,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step1-boq-document.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ข้อมูลลูกค้า และรหัสบัญชีติดตามต้นทุน-รายได้เฉพาะโครงการนี้ (Analytic Account)</li>
+          <li><b>กระบวนการ:</b> สร้างเอกสารประเมินราคา (BOQ) ระบุลูกค้า ผูกรหัสบัญชีติดตามโครงการ พร้อมตั้งค่าธรรมเนียมเบื้องต้น (Preliminaries) 5% และหลักประกันผลงาน (Performance Security) 5% — รหัสบัญชีนี้จะติดตามต้นทุนและรายได้ของโครงการนี้แยกจากโครงการอื่นตลอดทั้งกระบวนการ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-01-boq-header.png"><div class="shot-cap">ลูกค้า Demo Customer - Grand Interior, ผูก Analytic Account เฉพาะโครงการนี้, ตั้ง Preliminaries 5% + Performance Security 5%</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-01-boq-header.png"><div class="shot-cap">ผลลัพธ์: ลูกค้า Demo Customer - Grand Interior ผูกรหัสบัญชีติดตามเฉพาะโครงการนี้ พร้อมตั้ง Preliminaries 5% และ Performance Security 5% เรียบร้อย</div></div>
       </div>
     </div>
-    <div class="note-box">Analytic Account คือกุญแจสำคัญของโหมดนี้ — ทุกต้นทุน/รายได้ของโครงการจะถูกแท็กเข้าบัญชีเดียวกัน ทำให้ดูกำไรจริงของแต่ละโครงการแยกจากกันได้ในภายหลัง</div>
   </section>
 
   <!-- SLIDE 4: Step 2 - BOQ lines from Rate Library -->
@@ -158,13 +164,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step2-rate-library-lines.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> รายการวัสดุและงานที่ต้องใช้ในโครงการ เลือกจากคลังอัตรากลาง (Rate Library) ที่มีต้นทุนวัสดุ ค่าแรง และค่าใช้จ่ายส่วนกลางกำหนดไว้ล่วงหน้าแล้ว</li>
+          <li><b>กระบวนการ:</b> เพิ่มรายการ Wall Finishes 45 ตร.ม., Base Molding 20 ตร.ม. และ Scaffolding 1 งาน ระบบคำนวณราคาและต้นทุนของแต่ละรายการให้อัตโนมัติ รวมถึงยอดค่าธรรมเนียมเบื้องต้นและหลักประกันผลงาน โดยไม่ต้องกรอกราคาแยกทีละองค์ประกอบเอง</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-02-boq-lines.png"><div class="shot-cap">BOQ0030 — 3 รายการจากคลัง Rate (Wall Finishes 45 ตร.ม., Base Molding 20 ตร.ม., Scaffolding 1 งาน) รวม 1,019,700 บาท (รวม Preliminaries/Overhead/Performance Security)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-02-boq-lines.png"><div class="shot-cap">ผลลัพธ์: BOQ0030 ครบ 3 รายการ รวมยอด 1,019,700 บาท (รวม Preliminaries/Overhead/Performance Security) พร้อมส่งต่อเป็นใบเสนอราคา</div></div>
       </div>
     </div>
-    <div class="note-box">แต่ละรายการดึงราคาและต้นทุนจริงจาก Rate Library มาให้เอง — ไม่ต้องคีย์ราคาต้นทุนแยกทีละองค์ประกอบ (วัสดุ/ค่าแรง/Overhead) ระบบคำนวณสรุปให้ตั้งแต่ระดับ BOQ</div>
   </section>
 
   <!-- SLIDE 5: Step 3 - Generate Quotation -->
@@ -174,13 +182,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step3-generate-quotation.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> เอกสารประเมินราคา (BOQ0030) ที่จัดทำครบทุกรายการแล้ว</li>
+          <li><b>กระบวนการ:</b> สร้างใบเสนอราคาจากเอกสารประเมินราคาโดยตรง ระบบแตกรายการตามผังงาน/โซนให้อัตโนมัติ พร้อมแยกยอด Preliminaries, Overhead & Profit และ Performance Security ให้เห็นที่มาของราคาชัดเจน</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-03-quotation-generated.png"><div class="shot-cap">S108407 — สร้างจาก BOQ0030 อัตโนมัติ ยอดตรงกัน 1,019,700 บาท พร้อมบรรทัด Preliminaries/Overhead & Profit/Performance Security แยกให้เห็นชัดเจน</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-03-quotation-generated.png"><div class="shot-cap">ผลลัพธ์: ใบเสนอราคา S108407 สร้างจาก BOQ0030 อัตโนมัติ ยอดตรงกัน 1,019,700 บาท พร้อมรายละเอียดครบทุกรายการ</div></div>
       </div>
     </div>
-    <div class="note-box">ใบเสนอราคาที่ได้ไม่ใช่แค่ยอดรวมก้อนเดียว — แตกเป็นบรรทัดตาม Schedule/Zone พร้อมสรุป Overhead แยกให้ลูกค้าเห็นที่มาของราคาชัดเจน</div>
   </section>
 
   <!-- SLIDE 6: Step 4 - Sold as Project + confirm -->
@@ -190,13 +200,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step4-sold-as-project-confirm.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ใบเสนอราคาที่พร้อมยืนยัน และการตัดสินใจของฝ่ายขายว่างานนี้ต้องติดตามความคืบหน้าและวางบิลเป็นงวด</li>
+          <li><b>กระบวนการ:</b> เลือกตัวเลือก "Sold as Project" แล้วยืนยันใบสั่งขาย — เฉพาะงานที่เลือกตัวเลือกนี้เท่านั้นที่ระบบจะสร้างโครงการให้ ใบขายทั่วไปจะไม่สร้าง</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-04-sold-as-project-confirmed.png"><div class="shot-cap">ยืนยันแล้ว — ช่อง "Sold as Project" ติ๊กไว้ ระบบขึ้น Project อัตโนมัติทันที (ปุ่ม "1 Projects / 6 Tasks" โผล่ที่มุมบนขวา)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-04-sold-as-project-confirmed.png"><div class="shot-cap">ผลลัพธ์: ยืนยันใบสั่งขายสำเร็จ ระบบสร้างโครงการให้ทันที (ปุ่ม "1 Projects / 6 Tasks" ปรากฏที่มุมบนขวา)</div></div>
       </div>
     </div>
-    <div class="note-box">"Sold as Project" เป็นตัวเลือกที่ฝ่ายขายกดเองก่อนยืนยัน — ใบขายทั่วไปที่ไม่ติ๊กจะไม่สร้าง Project ให้ ใช้เฉพาะงานที่ต้องติดตามความคืบหน้าและวางบิลเป็นงวดจริง</div>
   </section>
 
   <!-- SLIDE 7: Step 5 - Project+Task+Milestone auto -->
@@ -213,7 +225,7 @@
         <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-06-milestones-fresh.png"></div>
       </div>
     </div>
-    <div class="note-box good"><b>จุดสำคัญของโหมดนี้:</b> ไม่ต้องสร้าง Project เอง ระบบสร้างให้ทันทีที่ยืนยัน SO — แตกเป็น Task 1 อันต่อ 1 บรรทัด BOQ (6 tasks จาก 3 รายการหิน + 3 บรรทัดสรุป Overhead) พร้อม Milestone งวดชำระเงินตายตัว 30/40/30 (เงินมัดจำ / งวดกลาง / งวดส่งมอบ) ตามที่ยืนยันไว้กับลูกค้า</div>
+    <div class="note-box good"><b>ผลลัพธ์ทันทีที่ยืนยันใบสั่งขาย:</b> ระบบสร้างโครงการให้อัตโนมัติ แตกเป็นงาน (Task) 1 รายการต่อ 1 บรรทัดของใบประเมินราคา รวม 6 งาน (3 รายการวัสดุ+ค่าแรง และ 3 บรรทัดสรุปค่าใช้จ่ายส่วนกลาง) พร้อมกำหนดงวดชำระเงิน (Milestone) 3 งวดตามสัดส่วน 30/40/30 (เงินมัดจำ / งวดกลาง / งวดส่งมอบ) ตามที่ตกลงไว้กับลูกค้า โดยยังไม่มีงวดใดถูกทำเครื่องหมายว่าเสร็จสิ้น</div>
   </section>
 
   <!-- SLIDE 8: Step 6a - Gantt tracking -->
@@ -223,13 +235,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step6-milestone-progress.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> งาน (Task) ที่ระบบสร้างให้ตามบรรทัดของใบประเมินราคา</li>
+          <li><b>กระบวนการ:</b> ฝ่ายโครงการวางแผนลำดับงานหน้างานผ่านผังงาน (Gantt Chart) ที่ออกแบบเฉพาะสำหรับ EMG-O ตั้งแต่สำรวจหน้างานจนถึงส่งมอบ โดยแยกออกจากงวดชำระเงินอย่างชัดเจน ใช้ควบคู่กันได้โดยไม่ผูกติดกัน</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-07-gantt-example.png"><div class="shot-cap">ตัวอย่างจริงจากอีกโครงการ (Riverside Residence) — ระบบมี Gantt Chart เฉพาะของ EMG-O ให้ดูลำดับงานตั้งแต่สำรวจหน้างานจนถึงส่งมอบ พร้อมเส้น "Today" บอกความคืบหน้า</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-07-gantt-example.png"><div class="shot-cap">ผลลัพธ์: ตัวอย่างจากอีกโครงการจริง (Riverside Residence) แสดงลำดับงานพร้อมเส้น "Today" บอกความคืบหน้าปัจจุบัน</div></div>
       </div>
     </div>
-    <div class="note-box">Gantt นี้เป็นเครื่องมือของฝ่ายโครงการเองสำหรับวางแผนลำดับงานหน้างาน แยกจาก Milestone ที่ใช้ผูกกับการวางบิล — ใช้คู่กันได้ ไม่ผูกติดกัน</div>
   </section>
 
   <!-- SLIDE 9: Step 6b - Milestone progress marking -->
@@ -239,13 +253,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step6-milestone-progress.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ความคืบหน้างานจริงหน้างานที่ฝ่ายโครงการตรวจสอบแล้ว</li>
+          <li><b>กระบวนการ:</b> ทำเครื่องหมายงวด (Milestone) ที่งานถึงจุดนั้นแล้วจริง โดยไม่มีผลออกใบแจ้งหนี้อัตโนมัติ เป็นเพียงการบันทึกความคืบหน้าให้ฝ่ายบัญชีใช้อ้างอิงในการวางบิลขั้นตอนถัดไป</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-08-milestones-all-done.png"><div class="shot-cap">ติ๊กครบทั้ง 3 งวดตามความคืบหน้าจริง — ตาราง Profitability ด้านล่างอัปเดตยอด "Down Payments" ที่วางบิลไปแล้วให้เห็นสดๆ (713,790 บาท จาก 2 งวดแรก)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-08-milestones-all-done.png"><div class="shot-cap">ผลลัพธ์: ทำเครื่องหมายครบทั้ง 3 งวดตามความคืบหน้าจริง ตารางกำไรโครงการอัปเดตยอดเงินที่วางบิลไปแล้วให้เห็นทันที (713,790 บาท จาก 2 งวดแรก)</div></div>
       </div>
     </div>
-    <div class="note-box">การติ๊ก Milestone ไม่ได้ออก Invoice ให้อัตโนมัติ — เป็นแค่การบันทึกความคืบหน้าจริงของฝ่ายโครงการ ฝ่ายบัญชีเป็นคนกดวางบิลเองอีกที (ขั้นตอนถัดไป) ตามงวดที่ตกลงกับลูกค้า</div>
   </section>
 
   <!-- SLIDE 10: Step 7a - Invoice 30% + 40% -->
@@ -262,7 +278,7 @@
         <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-10-invoice2-40pct.png"></div>
       </div>
     </div>
-    <div class="note-box">กด "Create Invoice" บน SO แล้วเลือก "Down payment (percentage)" กรอก % ตามงวดที่ตกลงกับลูกค้า — ระบบคำนวณยอด+VAT+แท็ก Analytic Account ให้อัตโนมัติทุกครั้ง ไม่ต้องคีย์ยอดเอง</div>
+    <div class="note-box"><b>ข้อมูลนำเข้า:</b> ใบสั่งขายที่ยืนยันแล้ว พร้อมอัตราส่วนงวดชำระเงิน 30/40/30 ที่ตกลงกับลูกค้า &nbsp; <b>กระบวนการ:</b> สร้างใบแจ้งหนี้เงินมัดจำ (Down Payment) ตามเปอร์เซ็นต์ของแต่ละงวด ระบบคำนวณยอดเงิน ภาษีมูลค่าเพิ่ม และรหัสบัญชีติดตามโครงการให้อัตโนมัติทุกครั้ง โดยไม่ต้องกรอกยอดเอง</div>
   </section>
 
   <!-- SLIDE 11: Step 7b - Final invoice with auto deduction -->
@@ -272,13 +288,15 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode4-flow-step7-invoice-30-40-30.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> งวดสุดท้าย (30%) และประวัติใบแจ้งหนี้เงินมัดจำ 2 ใบก่อนหน้าที่ออกไปแล้ว</li>
+          <li><b>กระบวนการ:</b> สร้างใบแจ้งหนี้แบบเต็มจำนวน (Regular invoice) ระบบตรวจสอบเองว่ามีใบแจ้งหนี้เงินมัดจำใบใดออกไปแล้วบ้าง แล้วหักยอดให้อัตโนมัติจนเหลือเฉพาะยอดที่ต้องเรียกเก็บจริง ป้องกันการเรียกเก็บซ้ำ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-11-invoice3-final.png"><div class="shot-cap">INV/2026/00021 — เลือก "Regular invoice" ระบบขึ้นรายการเต็มทุกบรรทัดของ BOQ พร้อมหักงวดที่จ่ายไปแล้ว 2 ใบก่อนหน้า (-305,910 / -407,880) เหลือเรียกเก็บจริงพอดี 305,910 บาท (งวดสุดท้าย 30%)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode4-shot-11-invoice3-final.png"><div class="shot-cap">ผลลัพธ์: ใบแจ้งหนี้ INV/2026/00021 แสดงรายการเต็มทุกบรรทัดของใบประเมินราคา พร้อมหักยอดที่จ่ายไปแล้ว 2 งวดก่อนหน้า (-305,910 / -407,880) เหลือเรียกเก็บจริง 305,910 บาท ตรงตามงวดสุดท้าย 30%</div></div>
       </div>
     </div>
-    <div class="note-box good">ไม่ต้องคำนวณยอดคงเหลือเอง — เลือก Regular invoice ในรอบสุดท้าย ระบบจะเห็นเองว่ามี Down Payment ใบไหนออกไปแล้วบ้าง แล้วหักลบให้จนเหลือยอดที่ต้องเรียกเก็บจริงเท่านั้น ป้องกันการเรียกเก็บซ้ำ</div>
   </section>
 
   <!-- SLIDE 12: Summary -->
@@ -288,18 +306,18 @@
     <div class="status-row">
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายขายทำ</div>
-        <div class="stext">สร้าง BOQ Document → เพิ่มรายการจาก Rate Library → กด "สร้างใบเสนอราคา" → ติ๊ก Sold as Project → ยืนยัน SO</div>
+        <div class="stext">จัดทำใบประเมินราคา (BOQ) → เพิ่มรายการจากคลังอัตรากลาง → สร้างใบเสนอราคา → เลือกจัดการเป็นโครงการ (Sold as Project) → ยืนยันใบสั่งขาย</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายโครงการทำ</div>
-        <div class="stext">ติดตามงานผ่าน Gantt Chart + Task รายบรรทัด → ติ๊ก Milestone 30/40/30 ตามความคืบหน้าจริง</div>
+        <div class="stext">ติดตามงานผ่านผังงาน (Gantt Chart) และรายการงานแต่ละบรรทัด → ทำเครื่องหมายงวดชำระเงิน 30/40/30 ตามความคืบหน้าจริง</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">คำนวณต้นทุน+Overhead จาก Rate Library → สร้าง Project+Task+Milestone ทันทีที่ยืนยัน → หักยอด Down Payment ให้เองในใบสุดท้าย</div>
+        <div class="stext">คำนวณต้นทุนและค่าใช้จ่ายส่วนกลางจากคลังอัตรากลาง → สร้างโครงการ งาน และงวดชำระเงินทันทีที่ยืนยัน → หักยอดเงินมัดจำที่จ่ายไปแล้วให้เองในใบแจ้งหนี้สุดท้าย</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BOQ0030 → S108407 → Project DCGIS4 → INV/2026/00019-021 · boq_estimation + stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 13 สิงหาคม 2026 (BOQ0030 → S108407 → Project DCGIS4 → INV/2026/00019-021) ตรวจทานล่าสุด 21 สิงหาคม 2026</div>
   </section>
 
 </div></div>

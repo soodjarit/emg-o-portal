@@ -65,6 +65,10 @@
   .note-box.good{background:#EAF6EC;color:#245C34;}
   .note-box.good b{color:#2C7A42;}
 
+  .plain-list{list-style:none;margin:14px 0 0 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
   .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
   .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
   .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
@@ -103,10 +107,10 @@
   <!-- SLIDE 0: Title -->
   <section class="slide dark active" id="slide-0">
     <div class="stone-badge">โหมด<br>5</div>
-    <div class="eyebrow">Empire Granite · E2E เดินสดครบวงจร</div>
+    <div class="eyebrow">Empire Granite · เดินระบบจริงครบกระบวนการ</div>
     <div class="big-title">โหมด 5: ผลิตสินค้าสำเร็จรูป<br>(FG Production)</div>
-    <div class="big-sub">เดินสดตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ตัด Slab ดิบ แล้วนำ Slab นั้นเข้ากระบวนการผลิตสินค้าสำเร็จรูป (Top โต๊ะ/เคาน์เตอร์) ผ่าน Manufacturing Order — 1 Slab ตัดได้หลายชิ้น รวมถึงเศษ/byproduct ที่ขายได้จริง จนถึงส่งของและออกใบแจ้งหนี้ (ขั้นตอนซื้อ+รับหินเข้าคลังดูที่เดค Ensure Supply แยกต่างหาก)</div>
-    <div class="stamp">EMG-O · stone_slab_inventory module · เดินจริงบน production (odoo19-mbxai) · 2026-08-13, ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
+    <div class="big-sub">เดินระบบจริงตั้งแต่มีก้อนหิน (Block) พร้อมอยู่แล้วในสต็อก ตัดเป็นแผ่นหินดิบ (Slab) แล้วนำแผ่นนั้นเข้าสู่กระบวนการผลิตสินค้าสำเร็จรูป เช่น Top โต๊ะหรือเคาน์เตอร์ — จากแผ่นหิน 1 แผ่นสามารถผลิตได้หลายชิ้น รวมถึงเศษที่ยังขายเป็นสินค้าอื่นได้จริง จนถึงขั้นตอนส่งของและออกใบแจ้งหนี้ (ขั้นตอนจัดซื้อและรับหินเข้าคลัง ดูรายละเอียดที่เอกสาร Ensure Supply แยกต่างหาก)</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 13 ส.ค. 2026 · ปรับโครงสร้างแยก Supply/Demand 17 ส.ค. 2026</div>
   </section>
 
   <!-- SLIDE 1: 5 modes overview, highlight row 5 -->
@@ -121,8 +125,8 @@
       <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
       <tr class="hl"><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Lot) + อาจมีเศษ/byproduct</td></tr>
     </table>
-    <div class="note-box"><b>โหมด 5 คือสินค้าที่ตัดจาก Slab อีกขั้นหนึ่ง</b> — ต่างจากโหมด 3 ตรงที่ผลผลิตไม่ใช่ Slab เปล่าๆ แต่เป็นสินค้าสำเร็จรูปพร้อมขาย (เช่น Top โต๊ะ/เคาน์เตอร์ครัวขนาดมาตรฐาน) และ 1 Slab สามารถตัดได้หลายชิ้น รวมถึงเศษที่ยังขายเป็นสินค้าอื่นได้ (byproduct)</div>
-    <div class="note-box">เดคนี้เริ่มนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนซื้อก้อนหิน+รับเข้าคลังเป็น flow เดียว ใช้ร่วมกันทุกโหมด ดูแยกที่เดค <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
+    <div class="note-box"><b>โหมด 5 คือสินค้าที่ตัดจาก Slab อีกขั้นหนึ่ง</b> — ต่างจากโหมด 3 ตรงที่ผลผลิตไม่ใช่ Slab เปล่าๆ แต่เป็นสินค้าสำเร็จรูปพร้อมขาย เช่น Top โต๊ะหรือเคาน์เตอร์ครัวขนาดมาตรฐาน โดย 1 Slab สามารถตัดได้หลายชิ้น รวมถึงเศษที่ยังขายเป็นสินค้าอื่นได้จริง (byproduct)</div>
+    <div class="note-box">เอกสารนี้เริ่มนับจาก<b>มี Block พร้อมอยู่แล้วในสต็อก</b> — ขั้นตอนสั่งซื้อและรับหินเข้าคลังเป็นกระบวนการเดียวกันที่ใช้ร่วมกันทุกโหมด ดูรายละเอียดแยกได้ที่เอกสาร <a href="e2e-supply-intake.html">Ensure Supply — รับหินเข้าคลัง</a></div>
   </section>
 
   <!-- SLIDE 2: Full flow diagram -->
@@ -132,64 +136,73 @@
     <div class="shot-wrap" style="flex:1;min-height:0;">
       <img class="flow-thumb" src="assets/mode5-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
     </div>
-    <div class="note-box">เริ่มนับจากมี Block พร้อมอยู่แล้ว — โครงสร้างคล้ายโหมด 3 (ยืนยัน SO ก่อน แล้วส่งต่อฝ่ายผลิตผ่าน Factory Worklist) แต่มีขั้นตอนเพิ่มอีกชั้น — ตัด Slab ดิบก่อน แล้วค่อยนำ Slab นั้นไปผลิตเป็นสินค้าสำเร็จรูปอีกที — กล่องที่กำลังอธิบายจะถูก <b style="color:#B03A3A;">ไฮไลท์สีแดง</b> ทีละขั้นตอน</div>
+    <div class="note-box">เริ่มนับจากมี Block พร้อมอยู่แล้วในสต็อก — โครงสร้างคล้ายกับโหมด 3 (ยืนยันใบสั่งขายก่อน แล้วส่งต่อฝ่ายผลิตผ่านคิวงาน) แต่มีขั้นตอนเพิ่มอีกชั้นหนึ่ง คือตัดแผ่นหินดิบก่อน แล้วจึงนำแผ่นนั้นไปผลิตเป็นสินค้าสำเร็จรูปอีกที สไลด์ถัดไปจะอธิบายทีละขั้นตอนตามผังนี้ โดยไฮไลท์<b style="color:#B03A3A;">สีแดง</b>ในตำแหน่งที่กำลังอธิบายทุกครั้ง</div>
   </section>
 
   <!-- SLIDE 3: Step 1 - SO add FG line -->
   <section class="slide" id="slide-3">
     <div class="step-badge">ขั้นตอนที่ 1 / 8 · ฝ่ายขาย</div>
-    <h2 class="slide-title">เปิด Sale Order → เพิ่มบรรทัดสินค้าสำเร็จรูป (FG)</h2>
+    <h2 class="slide-title">เปิดใบสั่งขาย → เพิ่มบรรทัดสินค้าสำเร็จรูป (FG)</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step1.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> คำสั่งซื้อจากลูกค้า ต้องการสินค้า Nero Marquina - Kitchen Countertop 60x60cm จำนวน 2 ชิ้น</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายเปิดใบสั่งขาย แล้วเลือกสินค้าสำเร็จรูปในบรรทัดสินค้า สินค้านี้ตั้งค่าไว้ล่วงหน้าแล้วว่าเป็นสินค้าสำเร็จรูปจากหิน ระบบผูกกับวัตถุดิบ Nero Marquina ให้อัตโนมัติ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-03-so-line-added.png"><div class="shot-cap">เลือกสินค้า "Nero Marquina - Kitchen Countertop 60x60cm" จำนวน 2 ชิ้น — สินค้านี้ตั้งค่า "Is Stone FG Product" ไว้แล้ว ผูกกับวัตถุดิบ Nero Marquina</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-03-so-line-added.png"><div class="shot-cap">ผลลัพธ์: เลือกสินค้า Nero Marquina - Kitchen Countertop 60x60cm จำนวน 2 ชิ้น เข้าบรรทัดใบสั่งขายเรียบร้อย</div></div>
       </div>
     </div>
-    <div class="note-box">สินค้าสำเร็จรูปมีราคาขายตายตัวแบบสินค้าทั่วไป (7,200 บาท/ชิ้น) — ไม่ได้คิดจากขนาดตร.ม.เหมือนแผ่นดิบในโหมด 2-3</div>
+    <div class="note-box">สินค้าสำเร็จรูปมีราคาขายตายตัวแบบสินค้าทั่วไป (7,200 บาทต่อชิ้น) — ไม่ได้คำนวณจากขนาดตารางเมตรเหมือนแผ่นหินดิบในโหมด 2-3</div>
   </section>
 
   <!-- SLIDE 6: Step 4 - confirm SO -->
   <section class="slide" id="slide-4">
     <div class="step-badge">ขั้นตอนที่ 2 / 8 · ฝ่ายขาย</div>
-    <h2 class="slide-title">ยืนยัน SO — ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด</h2>
+    <h2 class="slide-title">ยืนยันใบสั่งขาย — ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step2.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งขายที่เพิ่มบรรทัดสินค้าสำเร็จรูปเรียบร้อยแล้วจากขั้นตอนก่อนหน้า</li>
+          <li><b>กระบวนการ:</b> ฝ่ายขายกดยืนยันใบสั่งขาย ระบบแสดงปุ่มสำหรับส่งต่อฝ่ายผลิตขึ้นทันทีบนบรรทัดเดียวกัน</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-04-so-confirmed.png"><div class="shot-cap">S108408 — ยืนยันแล้ว ยอด 14,400 บาท (ก่อน VAT) ปุ่ม "Cut to Order" และ "Produce FG" ขึ้นคู่กันบนบรรทัดเดียวกัน</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-04-so-confirmed.png"><div class="shot-cap">ผลลัพธ์: S108408 ยืนยันแล้ว ยอด 14,400 บาท (ก่อน VAT) ปุ่ม "Cut to Order" และ "Produce FG" ปรากฏขึ้นคู่กันบนบรรทัดเดียวกัน พร้อมส่งต่อฝ่ายผลิต</div></div>
       </div>
     </div>
-    <div class="note-box good">ต่างจากโหมด 3 ตรงที่ราคาที่ยืนยันคือราคาจริงทันที ไม่ใช่ราคาตั้งต้นชั่วคราว — เพราะสินค้าสำเร็จรูปมีราคาต่อชิ้นคงที่ ไม่ต้องรอคำนวณจากขนาดที่ตัดได้เหมือนแผ่นดิบ</div>
+    <div class="note-box good">ต่างจากโหมด 3 ตรงที่ราคาที่ยืนยันคือราคาจริงทันที ไม่ใช่ราคาตั้งต้นชั่วคราว — เพราะสินค้าสำเร็จรูปมีราคาต่อชิ้นคงที่ ไม่ต้องรอคำนวณใหม่จากขนาดที่ตัดได้เหมือนแผ่นหินดิบ</div>
   </section>
 
   <!-- SLIDE 7: Step 5 - Factory Worklist -->
   <section class="slide" id="slide-5">
     <div class="step-badge">ขั้นตอนที่ 3 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">Factory Worklist — คิวเดียวกัน ใช้ได้ทั้งตัดแผ่นและผลิต FG</h2>
+    <h2 class="slide-title">คิวงานฝ่ายผลิต — หน้าเดียวใช้ได้ทั้งตัดแผ่นและผลิตสินค้าสำเร็จรูป</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step3.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งขาย S108408 ที่ยืนยันแล้วจากฝ่ายขาย</li>
+          <li><b>กระบวนการ:</b> ระบบส่งงานเข้าคิวของฝ่ายผลิตให้อัตโนมัติทันทีที่ยืนยันใบสั่งขาย ไม่ต้องมีใครแจ้งต่อ</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-05-factory-worklist.png"><div class="shot-cap">S108408 ขึ้นคิวพร้อมป้าย "รอผลิต FG (Cut to Order / Produce FG)" — มีปุ่มให้กดได้ทั้ง 2 แบบจากหน้านี้เลย</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-05-factory-worklist.png"><div class="shot-cap">ผลลัพธ์: S108408 ขึ้นคิวงานพร้อมป้าย "รอผลิต FG (Cut to Order / Produce FG)" มีปุ่มให้ดำเนินการได้ทั้ง 2 ขั้นตอนจากหน้านี้หน้าเดียว</div></div>
       </div>
     </div>
-    <div class="note-box">หน้า Factory Worklist หน้าเดียวรองรับทุกโหมดที่ต้องผ่านฝ่ายผลิต (โหมด 3 และ 5) — ฝ่ายผลิตไม่ต้องจำว่าโหมดไหนต้องเปิดหน้าไหน ดูคิวงานที่นี่ที่เดียวพอ</div>
+    <div class="note-box">หน้าคิวงานฝ่ายผลิตหน้าเดียวรองรับทุกโหมดที่ต้องผ่านฝ่ายผลิต (โหมด 3 และ 5) — ฝ่ายผลิตไม่ต้องจำว่าแต่ละโหมดต้องเปิดหน้าไหน ดูคิวงานที่นี่ที่เดียวพอ</div>
   </section>
 
   <!-- SLIDE 8: Step 6 - Cut Slab first -->
   <section class="slide" id="slide-6">
     <div class="step-badge">ขั้นตอนที่ 4 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">ยังไม่มี Slab ในสต็อก — ตัด Slab ดิบก่อนด้วย Cut to Order</h2>
+    <h2 class="slide-title">ยังไม่มีแผ่นหินในสต็อก — ตัดแผ่นดิบก่อนด้วยขั้นตอน Cut to Order</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">เลือกก้อน + ระบุขนาด Slab ที่จะตัด</div>
+        <div class="compare-label no">เลือกก้อนหิน + ระบุขนาด Slab ที่จะตัด</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-06-cut-wizard-filled.png"></div>
       </div>
       <div class="compare-col">
@@ -197,56 +210,62 @@
         <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-07-slab-cut-done.png"></div>
       </div>
     </div>
-    <div class="note-box">ขั้นตอนนี้เหมือนโหมด 3 ทุกประการ (ใช้ Cut Order Wizard ตัวเดียวกัน) — ต่างกันตรงที่ Slab ที่ได้ยังไม่ใช่สินค้าขาย แต่เป็นวัตถุดิบรอเข้ากระบวนการผลิต FG ต่อ (เลือกก้อน BDL-00017 ระบุขนาด 2.40×1.20 ม. ให้พอสำหรับตัดหลายชิ้น)</div>
+    <div class="note-box">ขั้นตอนนี้เหมือนกับโหมด 3 ทุกประการ (ใช้ขั้นตอนตัดแผ่นแบบเดียวกัน) — ต่างกันตรงที่แผ่นที่ได้ยังไม่ใช่สินค้าขาย แต่เป็นวัตถุดิบที่รอเข้ากระบวนการผลิตสินค้าสำเร็จรูปต่อ (เลือกก้อน BDL-00017 ระบุขนาด 2.40×1.20 เมตร ให้เพียงพอสำหรับตัดได้หลายชิ้น)</div>
   </section>
 
   <!-- SLIDE 9: Step 7 - Produce FG wizard -->
   <section class="slide" id="slide-7">
     <div class="step-badge">ขั้นตอนที่ 5 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">กด Produce FG — เลือก Slab + ระบุผลผลิตทุกชิ้นที่ตัดได้จริง</h2>
+    <h2 class="slide-title">กด "Produce FG" — เลือก Slab และระบุผลผลิตทุกชิ้นที่ตัดได้จริง</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step5.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> แผ่นหินดิบที่เพิ่งตัดเสร็จจากขั้นตอนก่อนหน้า (BDL-00017 #1)</li>
+          <li><b>กระบวนการ:</b> ฝ่ายผลิตกด "Produce FG" ระบบจับคู่แผ่นหินที่เพิ่งตัดให้อัตโนมัติ จากนั้นระบุผลผลิตทุกชิ้นที่ตัดได้จริงจากแผ่นเดียวกัน รวมถึงเศษที่ยังขายเป็นสินค้าอื่นได้</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-08-produce-fg-wizard.png"><div class="shot-cap">ระบบจับคู่ Slab ที่เพิ่งตัดให้อัตโนมัติ (BDL-00017 #1) — เพิ่มบรรทัดผลผลิตได้เอง ไม่จำกัดแค่สินค้าที่ขาย เพิ่ม "Bathroom Vanity Top" เป็นเศษที่ตัดได้พ่วงจาก Slab เดียวกัน</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-08-produce-fg-wizard.png"><div class="shot-cap">ผลลัพธ์: ระบบจับคู่ Slab ที่เพิ่งตัดให้อัตโนมัติ (BDL-00017 #1) เพิ่มบรรทัดผลผลิต "Bathroom Vanity Top" เป็นเศษที่ตัดพ่วงได้จากแผ่นเดียวกัน</div></div>
       </div>
     </div>
-    <div class="note-box good"><b>จุดสำคัญของโหมดนี้:</b> 1 Slab ตัดออกมาได้กี่ชิ้น เป็นสินค้าอะไรบ้าง — ตัดสินใจหน้างานตอนผลิตจริง ไม่ใช่สูตรตายตัว ระบบรองรับให้เพิ่มบรรทัดผลผลิตได้อิสระ ตราบใดที่มีอย่างน้อย 1 บรรทัดตรงกับสินค้าที่ขายจริงในใบสั่งขาย</div>
+    <div class="note-box good"><b>จุดสำคัญของขั้นตอนนี้:</b> 1 แผ่นตัดออกมาได้กี่ชิ้น เป็นสินค้าอะไรบ้าง ตัดสินใจได้หน้างานตอนผลิตจริง ไม่ใช่สูตรตายตัว ระบบรองรับให้เพิ่มบรรทัดผลผลิตได้อิสระ ตราบใดที่มีอย่างน้อย 1 บรรทัดตรงกับสินค้าที่ขายจริงในใบสั่งขาย</div>
   </section>
 
   <!-- SLIDE 10: Step 8 - Complete FG Production -->
   <section class="slide" id="slide-8">
     <div class="step-badge">ขั้นตอนที่ 6 / 8 · ฝ่ายคลัง/ผลิต</div>
-    <h2 class="slide-title">กด "Complete FG Production" — ได้ทั้งสินค้าหลักและเศษ/byproduct จริง</h2>
+    <h2 class="slide-title">กด "Complete FG Production" — ได้ทั้งสินค้าหลักและเศษที่ขายได้จริง</h2>
     <div class="compare-row">
       <div class="compare-col">
-        <div class="compare-label no">Manufacturing Order เสร็จสิ้น</div>
+        <div class="compare-label no">คำสั่งผลิตเสร็จสิ้น</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-09-fg-done.png"></div>
       </div>
       <div class="compare-col">
-        <div class="compare-label yes">1 Slab → 2 ผลผลิต (real stock moves)</div>
+        <div class="compare-label yes">1 แผ่น → 2 ผลผลิตเข้าสต็อกจริง</div>
         <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-10-product-moves.png"></div>
       </div>
     </div>
-    <div class="note-box good">จาก Slab เดียว (BDL-00017-1) ระบบสร้างสต็อกจริงออกมา 2 รายการพร้อมกัน — Kitchen Countertop 2 ชิ้น (สินค้าที่ขาย) + Bathroom Vanity Top 1 ชิ้น (byproduct ที่ยังขายเป็นสินค้าอื่นได้) แต่ละชิ้นมีเลข Lot ของตัวเอง ตรวจสอบย้อนกลับได้ครบ</div>
+    <div class="note-box good">จาก Slab เดียว (BDL-00017-1) ระบบสร้างสต็อกจริงออกมา 2 รายการพร้อมกัน — Kitchen Countertop 2 ชิ้น (สินค้าที่ขาย) และ Bathroom Vanity Top 1 ชิ้น (เศษที่ยังขายเป็นสินค้าอื่นได้จริง) แต่ละชิ้นมีเลข Lot กำกับของตัวเอง ตรวจสอบย้อนกลับได้ครบทุกชิ้น</div>
   </section>
 
   <!-- SLIDE 11: Step 9 - Delivery, no scan gate -->
   <section class="slide" id="slide-9">
     <div class="step-badge">ขั้นตอนที่ 7 / 8 · ฝ่ายส่งของ</div>
-    <h2 class="slide-title">ส่งของ — ไม่ต้องสแกน Serial เหมือนโหมด 2-3</h2>
+    <h2 class="slide-title">ส่งของ — ไม่ต้องสแกนหมายเลข Serial เหมือนโหมด 2-3</h2>
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step7.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> สินค้าสำเร็จรูปที่ผลิตเสร็จแล้ว พร้อมส่งให้ลูกค้าตามใบสั่งขาย</li>
+          <li><b>กระบวนการ:</b> ฝ่ายส่งของกด "Validate" เพื่อยืนยันการส่งของ ระบบไม่เรียกร้องให้สแกนหมายเลข Serial รายชิ้นเหมือนขั้นตอนส่งแผ่นหินดิบในโหมด 2-3</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-11-delivery-done.png"><div class="shot-cap">EGWH/OUT/00073 — กด Validate แล้วเสร็จทันที ไม่มีข้อความเตือนให้สแกน Serial เหมือนขั้นตอนส่งแผ่นในโหมด 2-3</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-11-delivery-done.png"><div class="shot-cap">ผลลัพธ์: EGWH/OUT/00073 กด "Validate" แล้วเสร็จสมบูรณ์ทันที ไม่มีข้อความเตือนให้สแกน Serial</div></div>
       </div>
     </div>
-    <div class="note-box">สินค้าสำเร็จรูปติดตามด้วย Lot (ล็อตการผลิต) ไม่ใช่ Serial รายชิ้นเหมือน Slab — ระบบบังคับสแกนเฉพาะสินค้าที่มี Block ผูกอยู่ (แผ่น/ก้อนดิบ) เท่านั้น สินค้าสำเร็จรูปจึงส่งของได้ตรงไปตรงมากว่า</div>
+    <div class="note-box">สินค้าสำเร็จรูปติดตามด้วยเลข Lot (ล็อตการผลิต) ไม่ใช่ Serial รายชิ้นเหมือนแผ่นหินดิบ — ระบบบังคับสแกนเฉพาะสินค้าที่มาจากก้อน/แผ่นหินดิบโดยตรงเท่านั้น สินค้าสำเร็จรูปจึงส่งของได้ตรงไปตรงมากว่า</div>
   </section>
 
   <!-- SLIDE 10: Step 8 - invoice -->
@@ -256,34 +275,36 @@
     <div class="two-col">
       <div class="col-left">
         <img class="flow-thumb" src="assets/mode5-flow-step8.png">
-        <div class="flow-cap">คลิกรูปเพื่อขยาย</div>
+        <ul class="plain-list">
+          <li><b>ข้อมูลนำเข้า:</b> ใบส่งของที่ยืนยันเสร็จแล้ว พร้อมราคาที่ยืนยันไว้ตั้งแต่ตอนเปิดใบสั่งขาย</li>
+          <li><b>กระบวนการ:</b> ฝ่ายบัญชีกด "Create Invoice" ออกใบแจ้งหนี้ทันที ไม่มีขั้นตอนคำนวณราคาใหม่เหมือนโหมด 3 เพราะราคาต่อชิ้นคงที่ตั้งแต่ต้น</li>
+        </ul>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-12-invoice-posted.png"><div class="shot-cap">INV/2026/00022 — Posted, ยอดรวม 15,408.00 บาท (2 ชิ้น × 7,200 บาท + VAT) ตรงกับราคาที่ยืนยันไว้ตั้งแต่ต้น ไม่มีการคำนวณใหม่</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/mode5-shot-12-invoice-posted.png"><div class="shot-cap">ผลลัพธ์: INV/2026/00022 ยืนยันเรียบร้อย ยอดรวม 15,408.00 บาท (2 ชิ้น × 7,200 บาท + VAT) ตรงกับราคาที่ยืนยันไว้ตั้งแต่ต้น</div></div>
       </div>
     </div>
-    <div class="note-box">หลัง Delivery เสร็จ กด Create Invoice ได้ทันที — เพราะราคาคงที่ตั้งแต่ตอนยืนยัน SO ไม่มีขั้นตอนคำนวณราคาใหม่แบบโหมด 3 เลย</div>
   </section>
 
   <!-- SLIDE 11: Summary -->
   <section class="slide dark" id="slide-11">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">โหมด 5 ครบวงจร — 8 ขั้นตอน จากยืนยัน SO ถึงออกใบแจ้งหนี้</h2>
+    <h2 class="slide-title" style="color:#fff;">โหมด 5 ครบวงจร — 8 ขั้นตอน จากยืนยันใบสั่งขายถึงออกใบแจ้งหนี้</h2>
     <div class="status-row">
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายขายทำ</div>
-        <div class="stext">เปิด SO เลือกสินค้าสำเร็จรูป (FG) → Confirm ได้ทันที ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด (Block ที่จะตัดมีอยู่แล้วในสต็อกจากเดค Ensure Supply)</div>
+        <div class="stext">เปิดใบสั่งขาย เลือกสินค้าสำเร็จรูป (FG) แล้วยืนยันได้ทันที ราคาชัดเจนตั้งแต่ต้น ไม่ต้องรอตัด (ก้อนหินที่จะตัดมีอยู่แล้วในสต็อกจากเอกสาร Ensure Supply)</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ฝ่ายผลิตทำ</div>
-        <div class="stext">ดูคิวที่ Factory Worklist → ตัด Slab ดิบก่อน (ถ้ายังไม่มี) → Produce FG ระบุผลผลิตทุกชิ้น → Complete FG Production</div>
+        <div class="stext">ดูคิวงานที่ได้รับมอบหมาย → ตัดแผ่นดิบก่อน (ถ้ายังไม่มี) → กด "Produce FG" ระบุผลผลิตทุกชิ้น → กด "Complete FG Production"</div>
       </div>
       <div class="status-card">
         <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
-        <div class="stext">จับคู่ Slab ที่มีให้เอง → สร้างสต็อกสินค้าหลัก+byproduct พร้อม Lot แยกกัน → ส่งของไม่ต้องสแกน Serial เหมือนแผ่นดิบ</div>
+        <div class="stext">จับคู่แผ่นหินที่ตัดไว้ให้อัตโนมัติ → สร้างสต็อกสินค้าหลักและเศษที่ขายได้ พร้อมเลข Lot แยกกัน → ส่งของไม่ต้องสแกน Serial เหมือนแผ่นหินดิบ</div>
       </div>
     </div>
-    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">อ้างอิงจากการเดินสดจริงบน production (odoo19-mbxai) · BDL-00017 (พร้อมอยู่แล้วในสต็อก) → S108408 → EGWH/STCUT/00031 → EGWH/STFG/00002 → INV/2026/00022 · stone_slab_inventory module</div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — BDL-00017 (พร้อมอยู่แล้วในสต็อก) → S108408 → EGWH/STCUT/00031 → EGWH/STFG/00002 → INV/2026/00022 · ทดสอบจริง 13 สิงหาคม 2026</div>
     <div style="margin-top:14px;font-size:14px;color:#D9A465;">ครบทั้ง 5 โหมดการขายแล้ว — <a href="product-concepts.html" style="color:#D9A465;font-weight:700;">ดู product-concepts.html สำหรับภาพรวมทุกโหมด →</a></div>
   </section>
 
