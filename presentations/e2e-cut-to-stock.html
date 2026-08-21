@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>E2E — เบิกก้อนหินมาตัด Slab เก็บสต็อก (ไม่ผูกคำสั่งขาย) — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px 88px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:38px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:24px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .subtitle{font-size:17px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  .step-badge{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 14px 6px;border-radius:99px;font-weight:700;color:#fff;background:var(--charcoal);margin-bottom:10px;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:15px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;padding:6px;}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-table th{text-align:left;padding:8px 10px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .data-table td{padding:8px 10px;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table tr.hl td{background:#FBF1E7;font-weight:700;}
+  .data-table tr.hl td:first-child{border-left:4px solid var(--copper);}
+
+  .two-col{display:flex;gap:26px;align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:0 0 42%;display:flex;flex-direction:column;justify-content:center;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+  .flow-thumb{border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.15);width:100%;display:block;cursor:zoom-in;border:1px solid var(--stone);}
+  .flow-cap{font-size:11.5px;color:var(--muted);margin-top:6px;text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.46;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.warn{background:#FDECEC;color:#8A2C2C;}
+  .note-box.warn b{color:#B03A3A;}
+  .note-box.good{background:#EAF6EC;color:#245C34;}
+  .note-box.good b{color:#2C7A42;}
+
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+
+  .compare-row{display:flex;gap:20px;flex:1;min-height:0;}
+  .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;}
+  .compare-label{font-size:12.5px;font-weight:700;text-align:center;padding:7px;border-radius:8px 8px 0 0;color:#fff;}
+  .compare-label.no{background:#8A8D8F;}
+  .compare-label.yes{background:var(--copper);}
+  .compare-col .shot-wrap{flex:1;min-height:0;border:1px solid var(--stone);border-top:none;border-radius:0 0 8px 8px;padding:8px;display:flex;flex-direction:column;}
+  .compare-col .shot{flex:1;min-height:0;}
+
+  .status-row{display:flex;gap:14px;margin-top:8px;}
+  .status-card{flex:1;background:var(--card);border-radius:12px;padding:16px 18px;}
+  .status-card .slabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .status-card .stext{font-size:13.5px;line-height:1.48;color:var(--text);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:60px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">เบิก<br>ตัด<br>เก็บ</div>
+    <div class="eyebrow">Empire Granite · เดินระบบจริงครบกระบวนการ</div>
+    <div class="big-title">เบิกก้อนหินมาตัด Slab<br>เก็บสต็อก — ไม่ผูกคำสั่งขาย</div>
+    <div class="big-sub">จำลองสถานการณ์ที่ฝ่ายคลัง/ผลิตต้องการตัดแผ่นหินสำรองไว้ล่วงหน้าเป็นสต็อกพร้อมขาย โดยยังไม่มีลูกค้าหรือคำสั่งขายผูกอยู่เลย — ใช้กลไกเดียวกับ "ตัดตามสั่ง" (Cut-to-Order) ทุกประการ เพียงเปิดจากหน้าก้อนหินโดยตรงแทนการเปิดจากคำสั่งขาย ตั้งแต่เบิกก้อนหินไปสถานีตัด ตัดจริง จนแผ่นที่ได้เข้าไปอยู่ในคลัง Stone Available พร้อมขายทันที</div>
+    <div class="stamp">EMG-O · เดินระบบจริงครบกระบวนการ ไม่ใช่ภาพจำลอง · ทดสอบจริง 21 ส.ค. 2026 บนฐานข้อมูล mbx-ee-dev</div>
+  </section>
+
+  <!-- SLIDE 1: context -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวมก่อนเริ่ม</div>
+    <h2 class="slide-title">ตัดเก็บสต็อกล่วงหน้า คือกลไกเดียวกับโหมด 3 (Cut-to-Order) เพียงไม่มี SO ผูกอยู่</h2>
+    <table class="data-table">
+      <tr><th>#</th><th>ประเภท</th><th>ขายอะไร</th><th>ตัดสต็อกตอนไหน</th><th>ความละเอียดสต็อก</th></tr>
+      <tr><td>1</td><td>หินก้อนนำเข้า</td><td>ก้อนหินทั้งก้อน (m³)</td><td>ตอนขาย (ไม่ตัด)</td><td>ทั้งก้อน ไม่แบ่งขาย</td></tr>
+      <tr><td>2</td><td>แผ่นหินสำเร็จรูป</td><td>แผ่นที่ตัดสำรองไว้แล้ว</td><td>ตัดล่วงหน้า เก็บรอขาย</td><td>แพง=รายแผ่น(Serial) / ถูก=รวมล็อต(ตร.ม.)</td></tr>
+      <tr class="hl"><td>3</td><td>ตัดตามสั่ง (Cut-to-Order)</td><td>แผ่นที่ยังไม่มีอยู่จริง</td><td>ตัดผ่าน MRP — ผูก SO หรือไม่ก็ได้</td><td>รายแผ่น (Serial)</td></tr>
+      <tr><td>4</td><td>งานโครงการ (Sold-as-Project)</td><td>ชุด BOQ (วัสดุ+ค่าแรงหลายรายการ)</td><td>แล้วแต่รายการ</td><td>ติดตามระดับโครงการผ่าน Analytic Account</td></tr>
+      <tr><td>5</td><td>FG Production</td><td>สินค้าสำเร็จรูปตัดจาก Slab อีกที</td><td>ตัดหลังยืนยัน SO (ผ่าน MRP)</td><td>รายชิ้น (Serial) + อาจมีเศษ/byproduct</td></tr>
+    </table>
+    <div class="note-box"><b>เอกสารนี้คือ "กิ่งย่อย" ของโหมด 3</b> — ใช้ใบสั่งผลิต (MRP) แบบเดียวกันทุกประการ ต่างกันแค่จุดเริ่มต้น: ปกติฝ่ายผลิตเปิด Cut Order จากคิวงานที่มาจากคำสั่งขาย (Factory Worklist) แต่กรณีนี้ฝ่ายผลิต<b>เปิดจากหน้าก้อนหินโดยตรง</b>เพื่อตัดสำรองไว้เป็นสต็อกพร้อมขาย — เหมาะกับการเตรียมสต็อกไว้รับลูกค้า Walk-in หรือหน้าร้าน eCommerce ล่วงหน้า โดยไม่ต้องรอมีคำสั่งขายก่อน</div>
+    <div class="note-box good"><b>จุดที่ต่างชัดเจน:</b> แผ่นที่ตัดได้จะเป็นสต็อก "Available" ปกติทันที ไม่ถูก Hold ผูกกับใครทั้งสิ้น (ต่างจากโหมด 3 ปกติที่แผ่นจะถูก Hold ผูกกับ SO line ทันทีที่ตัดเสร็จ) — ใครก็ตัดสต็อกนี้ไปขายต่อได้ทันที</div>
+  </section>
+
+  <!-- SLIDE 2: Full flow diagram -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">แผนผังขั้นตอน</div>
+    <h2 class="slide-title">Flow ทั้งหมด — ฝ่ายคลัง/ผลิต 5 ขั้นตอน ไม่มีฝ่ายขาย/ส่งของ/บัญชีเข้ามาเกี่ยวข้อง</h2>
+    <div class="shot-wrap" style="flex:1;min-height:0;">
+      <img class="flow-thumb" src="assets/cutstock-flow-overview.png" style="cursor:zoom-in;max-height:100%;max-width:100%;width:auto;margin:0 auto;object-fit:contain;">
+    </div>
+    <div class="note-box">กระบวนการทั้งหมดอยู่ในมือฝ่ายคลัง/ผลิตฝ่ายเดียว ตั้งแต่ต้นจนจบ — ไม่ต้องผ่านฝ่ายขาย ไม่มีการส่งของ ไม่มีใบแจ้งหนี้ เพราะยังไม่มีลูกค้าอยู่ในภาพเลย สไลด์ถัดไปจะเดินทีละขั้นตอนตามผังนี้ โดยกล่องที่กำลังอธิบายจะถูก<b style="color:#B03A3A;">ไฮไลท์สีแดง</b>ทุกครั้ง</div>
+  </section>
+
+  <!-- SLIDE 3: Step 1 - select block (before state) -->
+  <section class="slide" id="slide-3">
+    <div class="step-badge">ขั้นตอนที่ 1 / 5 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">เลือก Block ที่จะเบิกมาตัด — เปิดจากหน้าก้อนหินโดยตรง ไม่ต้องรอ SO</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/cutstock-flow-step1.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ก้อนหิน BDL-00002 (Carrara White) มีอยู่แล้วในสต็อก ยังไม่มีคำสั่งขายใดผูกอยู่</li>
+          <li><b>กระบวนการ:</b> ฝ่ายคลัง/ผลิตเปิดหน้าก้อนหินที่ต้องการตัดโดยตรง แท็บ "Slabs" มีปุ่ม "Create Cut Order" ให้กดได้ทันที — ปุ่มเดียวกับที่ใช้เมื่อมี SO แต่เปิดจากคนละจุด</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-01-bundle-before.png"><div class="shot-cap">ผลลัพธ์: ก้อน BDL-00002 — Total CBM 20.00 มีปุ่ม "Create Cut Order" อยู่ในแท็บ Slabs พร้อมกดได้ทันที ไม่มีเงื่อนไขเรื่องคำสั่งขาย</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Step 2 - internal transfer -->
+  <section class="slide" id="slide-4">
+    <div class="step-badge">ขั้นตอนที่ 2 / 5 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">ย้าย Block ไปสถานีตัด (Internal Transfer) ก่อนตัดจริงเสมอ</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label no">ใบโอนย้าย EG01/INT/00048 — พร้อมย้าย</div>
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-02-transfer-ready.png"></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label yes">ยืนยันย้ายเสร็จสิ้น — Done</div>
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-03-transfer-done.png"></div>
+      </div>
+    </div>
+    <div class="note-box warn"><b>เงื่อนไขเดียวกับโหมด 3 ปกติทุกประการ:</b> ก่อนตัดจริงได้ ต้องย้ายก้อนหินจากคลัง "Stone Available" ไปยังคลัง "Stone Production" ก่อนเสมอ ผ่านใบโอนย้ายสินค้าภายใน ระบุ Lot ของก้อนที่จะตัดให้ตรงตัว (BDL-00002-BLK) — จำลองขั้นตอนหน้างานจริงที่ต้องยกก้อนหินไปวางที่แท่นตัดก่อนเริ่มงาน ตัวอย่างจริง: ย้ายปริมาณ 1.00 ลบ.ม. ผ่านเอกสาร EG01/INT/00048</div>
+  </section>
+
+  <!-- SLIDE 5: Step 3 - Cut Order wizard, no SO -->
+  <section class="slide" id="slide-5">
+    <div class="step-badge">ขั้นตอนที่ 3 / 5 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">กด "Create Cut Order" — ระบุขนาดที่ต้องการ + เหตุผลที่ไม่มี SO</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label no">เปิดฟอร์มเปล่า — เห็นช่อง "NO SALE ORDER — AUDIT TRAIL"</div>
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-04-wizard-blank.png"></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label yes">กรอกขนาด 2.80×1.60 ม. + เลือกเหตุผล "อื่นๆ"</div>
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-05-wizard-filled.png"></div>
+      </div>
+    </div>
+    <div class="note-box good"><b>จุดสำคัญของกรณีนี้:</b> เมื่อไม่มี Sale Order ผูกมาด้วย ระบบจะบังคับให้เลือก "Reason (No SO)" เสมอ (ปกติ/งานเพิ่ม/ตัดซ่อม/อื่นๆ) พร้อมช่องผูก Project เพื่อเก็บต้นทุนไว้ได้ถ้าต้องการ — เป็น audit trail ชัดเจนว่าทำไมถึงมีใบสั่งผลิตนี้เกิดขึ้นโดยไม่มีลูกค้า ป้องกันไม่ให้ฝ่ายผลิตตัดหินได้ตามใจโดยไม่มีการบันทึกเหตุผลไว้เลย</div>
+  </section>
+
+  <!-- SLIDE 6: Step 4 - MO confirmed, Complete Cut -->
+  <section class="slide" id="slide-6">
+    <div class="step-badge">ขั้นตอนที่ 4 / 5 · ฝ่ายคลัง/ผลิต</div>
+    <h2 class="slide-title">ใบสั่งผลิตยืนยันอัตโนมัติ — ตัดจริง กด "Complete Cut"</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <img class="flow-thumb" src="assets/cutstock-flow-step4.png">
+        <ul class="plain-list" style="margin-top:14px;">
+          <li><b>ข้อมูลนำเข้า:</b> ใบสั่งผลิต EG01/STCUT/00008 ถูกสร้างและยืนยันอัตโนมัติทันทีที่กด "Create Cut Order" — ไม่ต้องกดยืนยันซ้ำ</li>
+          <li><b>กระบวนการ:</b> ฝ่ายผลิตตรวจดูว่าวัตถุดิบพร้อม (Component Status: Available) แล้วกดปุ่ม "Complete Cut" เพื่อยืนยันว่าตัดจริงเสร็จแล้ว</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/cutstock-shot-06-mo-confirmed.png"><div class="shot-cap">ผลลัพธ์: EG01/STCUT/00008 สถานะ Confirmed — แสดง "Reason (No SO): อื่นๆ (Other)" ชัดเจน ไม่มีช่อง Sale Order Line เลย</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Step 5 - result: slab in stock -->
+  <section class="slide dark" id="slide-7">
+    <div class="step-badge" style="background:var(--copper);">ขั้นตอนที่ 5 / 5 · ผลลัพธ์</div>
+    <h2 class="slide-title" style="color:#fff;">Slab ใหม่เข้าสต็อก Stone Available ทันที — พร้อมขายโดยไม่ผูกใคร</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label no" style="background:#5b6a72;">ใบสั่งผลิตเสร็จสิ้น — สร้าง Lot ใหม่</div>
+        <div class="shot-wrap" style="background:#fff;"><img class="shot" src="assets/cutstock-shot-07-mo-done.png"></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label yes">กลับไปดูก้อน BDL-00002 — Available +1</div>
+        <div class="shot-wrap" style="background:#fff;"><img class="shot" src="assets/cutstock-shot-08-bundle-after.png"></div>
+      </div>
+    </div>
+    <div class="note-box good"><b>ตรวจสอบจริงผ่าน odoo shell:</b> แผ่นใหม่ Lot "BDL-00002-8" ขนาด 2.80×1.60 ม. (4.48 ตร.ม.) มีสถานะ <b>Available</b> ตรงๆ ไม่ถูก Hold ผูกกับใคร — และก้อนหินส่วนที่เหลือที่ย้ายไปสถานีตัดแต่ไม่ถูกใช้ ถูกระบบคืนกลับเข้าคลัง "Stone Available" ให้อัตโนมัติทันที (คลัง Stone Production เหลือ 0.00 หลังตัดเสร็จ) — ฝ่ายผลิตไม่ต้องย้ายคืนเอง</div>
+  </section>
+
+  <!-- SLIDE 8: Summary -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">5 ขั้นตอน จากเบิกก้อนหิน ถึง Slab พร้อมขายในสต็อก — ไม่ต้องมีลูกค้าเลย</h2>
+    <div class="status-row">
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ฝ่ายคลัง/ผลิตทำ</div>
+        <div class="stext">เลือกก้อนหินที่จะตัด → ย้ายไปสถานีตัด → เปิด Create Cut Order จากหน้าก้อนหินเอง ระบุขนาด+เหตุผล → ตัดจริงและกด Complete Cut</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">สิ่งที่ระบบทำให้อัตโนมัติ</div>
+        <div class="stext">บังคับระบุเหตุผลเป็น audit trail เมื่อไม่มี SO → ยืนยันใบสั่งผลิตอัตโนมัติ → สร้างแผ่นพร้อมเลข Serial ให้เอง → คืนก้อนหินส่วนเกินกลับ Stone Available อัตโนมัติ</div>
+      </div>
+      <div class="status-card">
+        <div class="slabel">ผลลัพธ์สุดท้าย</div>
+        <div class="stext">แผ่นหินสถานะ Available เข้าคลัง Stone Available ทันที — พร้อมให้ฝ่ายขายเลือกไปขายต่อผ่านโหมด 2 (แผ่นสำเร็จรูป) ได้เลย โดยไม่ต้องมีคำสั่งขายมาก่อน</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;font-size:14px;color:#B9C2C8;">เนื้อหาและภาพหน้าจอทั้งหมดจากการเดินระบบจริง ไม่ใช่ภาพจำลอง — ทดสอบจริงเมื่อวันที่ 21 สิงหาคม 2026 บน mbx-ee-dev · ก้อน BDL-00002 → ใบโอนย้าย EG01/INT/00048 → ใบสั่งผลิต EG01/STCUT/00008 → แผ่นใหม่ Lot BDL-00002-8 (Available)</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../index.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+  <a id="pdf-btn" href="assets/e2e-cut-to-stock.pdf" download="EMG-O-E2E-เบิกก้อนหินมาตัดเก็บสต็อก.pdf" title="ดาวน์โหลด PDF" aria-label="ดาวน์โหลด PDF"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 19h14"/></svg></a>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  document.querySelectorAll('.shot, .flow-thumb').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
