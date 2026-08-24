@@ -26,7 +26,29 @@
   .tn-link:hover{color:#fff;}
   .tn-link.active{color:#fff;border-bottom-color:var(--copper);}
 
-  .wrap{max-width:880px;margin:0 auto;padding:44px 24px 100px;}
+  .layout{max-width:1220px;margin:0 auto;padding:44px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree, .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-cat{margin-bottom:2px;border-radius:6px;}
+  .tree-cat > summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--charcoal);padding:7px 8px;border-radius:6px;list-style:none;display:flex;align-items:center;gap:7px;user-select:none;}
+  .tree-cat > summary::-webkit-details-marker{display:none;}
+  .tree-cat > summary::before{content:'▸';color:var(--copper);font-size:10px;flex-shrink:0;transition:transform .15s ease;}
+  .tree-cat[open] > summary::before{transform:rotate(90deg);}
+  .tree-cat > summary:hover{background:rgba(0,0,0,.04);}
+  .tree-cat.current-section > summary{color:var(--copper-dark);}
+
+  .tree-docs{margin:2px 0 10px 17px;padding-left:12px;border-left:2px solid var(--border);}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:16px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .tree-subgroup{margin:8px 0 8px 17px;padding-left:12px;border-left:2px solid var(--border);}
+  .tree-subgroup-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#9A9D9F;font-weight:700;margin-bottom:2px;padding:0 8px;}
+  .tree-subgroup .tree-docs{margin:2px 0 0 0;padding-left:0;border-left:none;}
+
+  .main{flex:1;min-width:0;max-width:880px;}
   header{margin-bottom:48px;}
   .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
   h1{font-size:32px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
@@ -71,6 +93,12 @@
   .status-badge.finding{background:#FBEAE7;color:#A6432D;}
   .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
   footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:24px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+    .main{max-width:100%;}
+  }
 </style>
 </head>
 <body>
@@ -84,7 +112,130 @@
   </div>
 </div>
 
-<div class="wrap">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">เอกสารทั้งหมด</div>
+    <ul class="tree" id="doc-tree">
+
+      <details class="tree-cat" data-section="project-overview" open>
+        <summary>ภาพรวมโครงการ</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/product-concept-stone-management.html"><span class="tree-doc-tag">1</span>โครงสร้างสินค้าหิน &amp; วิธีจัดการบนระบบ</a></li>
+          <li class="tree-doc"><a href="presentations/block-custom-explainer.html"><span class="tree-doc-tag">2</span>Block คืออะไร — โครงสร้างและส่วน Custom</a></li>
+          <li class="tree-doc"><a href="presentations/product-3-types-explainer.html"><span class="tree-doc-tag">3</span>Material กับ 3 Product Types (quick)</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="client-documents" open>
+        <summary>เอกสารจากลูกค้า</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="client-docs/EGQ6905137C-138C-supply-install-main-entrance.pdf"><span class="tree-doc-tag">Q</span>ใบเสนอราคาต้นฉบับ — Conrad Hotel</a></li>
+          <li class="tree-doc"><a href="client-docs/cut-list-benchasiri.pdf"><span class="tree-doc-tag">CL</span>Cut List — Benchasiri</a></li>
+          <li class="tree-doc"><a href="client-docs/analytic-dimension-20260807.xlsx"><span class="tree-doc-tag">X</span>Analytic Dimension (2026-08-07)</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="example-documents" open>
+        <summary>ตัวอย่างเอกสารจากระบบ</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-bill-of-quantities.pdf"><span class="tree-doc-tag">B</span>Bill of Quantities — BOQ0008</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000003-material-quotation.pdf"><span class="tree-doc-tag">M</span>ใบเสนอราคา — Material</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000004-labor-quotation.pdf"><span class="tree-doc-tag">L</span>ใบเสนอราคา — Labor</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-combined-quotation.pdf"><span class="tree-doc-tag">C</span>ใบเสนอราคารวม 2 คอลัมน์</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="demand-generation" open>
+        <summary>Demand Generation</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/product-concepts.html"><span class="tree-doc-tag">1</span>5 โหมดการขาย (Product Concepts)</a></li>
+          <li class="tree-doc"><a href="presentations/website-crm-lead-capture.html"><span class="tree-doc-tag">2</span>ติดต่อลูกค้าและ CRM</a></li>
+          <li class="tree-doc"><a href="presentations/boq-adr031-split-quotation.html"><span class="tree-doc-tag">3</span>BOQ Estimation อัปเดต (ADR-031)</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="ensure-supply" open>
+        <summary>Ensure Supply</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/inventory-overview.html"><span class="tree-doc-tag">1</span>การจัดการสต็อก (Inventory)</a></li>
+          <li class="tree-doc"><a href="presentations/block-uom-ton-cbm-proposal.html"><span class="tree-doc-tag">2</span>หน่วยวัดก้อนหิน: ตัน หรือ คิว</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="management-accounting" open>
+        <summary>Management &amp; Accounting</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/analytic-accounting.html"><span class="tree-doc-tag">1</span>กำไรรายโครงการ (Analytic Accounting)</a></li>
+          <li class="tree-doc"><a href="presentations/wht-certificate.html"><span class="tree-doc-tag">2</span>ใบรับรองหัก ณ ที่จ่าย (WHT)</a></li>
+          <li class="tree-doc"><a href="presentations/stone-cost-landed-cost.html"><span class="tree-doc-tag">3</span>ต้นทุนหินก้อน + Landed Cost</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="working-documents" open>
+        <summary>เอกสารระหว่างทำงาน</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/eg-kickoff-2026-08-07.html"><span class="tree-doc-tag">K</span>Kick-off &amp; Roadmap</a></li>
+          <li class="tree-doc"><a href="presentations/factory-worklist-explainer.html"><span class="tree-doc-tag">FW</span>Factory Worklist: Explainer</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="custom-workflow-design" open>
+        <summary>Custom Workflow Design</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="presentations/workflow-design/stone-scan-barcode-migration.html"><span class="tree-doc-tag">D1</span>/stone-scan → Barcode App มาตรฐาน</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/recompute-price-boq-explainer.html"><span class="tree-doc-tag">D2</span>"Recompute Price (BOQ)" ยังต้องใช้ไหม?</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/standard-costing-explainer.html"><span class="tree-doc-tag">D3</span>ทำไมไม่ใช้ Standard/AVCO Cost?</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="qa-test-cases" open>
+        <summary>QA / Test Cases</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="qa/test-cases-product-sales.html"><span class="tree-doc-tag">T</span>Test Cases: Product Master &amp; Sales</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="e2e-walkthroughs" open>
+        <summary>E2E Full Walkthroughs</summary>
+        <div class="tree-subgroup">
+          <div class="tree-subgroup-label">Demand Generation</div>
+          <ul class="tree-docs">
+            <li class="tree-doc"><a href="presentations/e2e-mode1-block.html"><span class="tree-doc-tag">M1</span>โหมด 1: ขายก้อนหินทั้งก้อน</a></li>
+            <li class="tree-doc"><a href="presentations/e2e-mode2-slab.html"><span class="tree-doc-tag">M2</span>โหมด 2: ขายแผ่นหินสำเร็จรูป</a></li>
+            <li class="tree-doc"><a href="presentations/e2e-mode3-cut.html"><span class="tree-doc-tag">M3</span>โหมด 3: ตัดตามสั่ง (Cut-to-Order)</a></li>
+            <li class="tree-doc"><a href="presentations/e2e-cut-to-stock.html"><span class="tree-doc-tag">M3+</span>เบิกก้อนหินมาตัด Slab เก็บสต็อก</a></li>
+            <li class="tree-doc"><a href="presentations/e2e-mode4-project.html"><span class="tree-doc-tag">M4</span>โหมด 4: งานโครงการ (Sold-as-Project)</a></li>
+            <li class="tree-doc"><a href="presentations/e2e-mode5-fg-production.html"><span class="tree-doc-tag">M5</span>โหมด 5: ผลิตสินค้าสำเร็จรูป</a></li>
+          </ul>
+        </div>
+        <div class="tree-subgroup">
+          <div class="tree-subgroup-label">Ensure Supply</div>
+          <ul class="tree-docs">
+            <li class="tree-doc"><a href="presentations/e2e-supply-intake.html"><span class="tree-doc-tag">S1</span>รับหินเข้าคลัง (Ensure Supply)</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="tree-cat" data-section="draft-document" open>
+        <summary>Draft Document</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (29 บท)</a></li>
+        </ul>
+        <div class="tree-subgroup">
+          <div class="tree-subgroup-label">BOQ Estimation</div>
+          <ul class="tree-docs">
+            <li class="tree-doc"><a href="presentations/boq-sold-as-project.html"><span class="tree-doc-tag">B1</span>BOQ Estimation + Sold-as-Project</a></li>
+            <li class="tree-doc"><a href="presentations/boq-quickstart-sales.html"><span class="tree-doc-tag">B2</span>สำหรับทีมขายมือใหม่ (Quickstart)</a></li>
+            <li class="tree-doc"><a href="presentations/boq-quickstart-operations.html"><span class="tree-doc-tag">B3</span>สำหรับทีม Operation</a></li>
+            <li class="tree-doc"><a href="presentations/boq-quickstart-setup.html"><span class="tree-doc-tag">B4</span>เตรียมระบบให้ทีมขายใช้งานได้</a></li>
+            <li class="tree-doc"><a href="manual/boq-examples.html"><span class="tree-doc-tag">B5</span>ตัวอย่าง BOQ 5 แบบ</a></li>
+          </ul>
+        </div>
+      </details>
+
+    </ul>
+  </aside>
+  <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite</div>
     <h1>คลังเอกสารและคู่มือทั้งหมด</h1>
@@ -240,6 +391,15 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="presentations/block-uom-ton-cbm-proposal.html">
+      <div class="icon">2</div>
+      <div>
+        <div class="card-title">หน่วยวัดก้อนหิน: ตัน หรือ คิว — ข้อเสนอแนวทาง</div>
+        <div class="card-desc">สถานการณ์ปัจจุบัน + ตัวอย่างตัวเลขทำไมต้องแม่นยำ + ข้อเสนอให้กรอกได้ทั้งตันและคิว แปลงอัตโนมัติ ต้นทุนยังยึดคิวเป็นหลัก พร้อม 2 คำถามที่ขอความชัดเจนเพิ่มก่อนเริ่มงาน (7 สไลด์)</div>
+        <div class="card-meta"><span class="card-date">24 ส.ค. 2026</span><span class="status-badge design">รอลูกค้ายืนยัน</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="category" id="management-accounting">
@@ -330,7 +490,23 @@
     </a>
   </div>
 
-  <div class="category">
+  <div class="category" id="qa-test-cases">
+    <div class="category-header">
+      <div class="category-title">QA / Test Cases</div>
+      <div class="category-sub">เอกสารทดสอบระบบ — ใช้ตรวจสอบ regression ก่อนส่งมอบแต่ละรอบ</div>
+    </div>
+    <a class="card" href="qa/test-cases-product-sales.html">
+      <div class="icon">T</div>
+      <div>
+        <div class="card-title">Test Cases: Product Master &amp; Sales</div>
+        <div class="card-desc">70 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-date">24 ส.ค. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="category" id="e2e-walkthroughs">
     <div class="category-header">
       <div class="category-title">E2E Full Walkthroughs</div>
       <div class="category-sub">เดินระบบจริงครบวงจร แบ่งตามขั้นตอนธุรกิจ — ครอบคลุมทั้งการรับหินเข้าคลังและการขายทั้ง 5 รูปแบบ</div>
@@ -470,6 +646,23 @@
   </div>
 
   <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="index.html">กลับหน้าแรก</a></footer>
+  </div>
 </div>
+
+<script>
+  (function(){
+    var catEls = Array.prototype.slice.call(document.querySelectorAll('#doc-tree .tree-cat'));
+    var sections = catEls.map(function(c){ return document.getElementById(c.getAttribute('data-section')); }).filter(Boolean);
+    if(!sections.length) return;
+    function setActive(id){
+      catEls.forEach(function(c){ c.classList.toggle('current-section', c.getAttribute('data-section') === id); });
+    }
+    var observer = new IntersectionObserver(function(entries){
+      var visible = entries.filter(function(e){ return e.isIntersecting; });
+      if(visible.length) setActive(visible[0].target.id);
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  })();
+</script>
 </body>
 </html>

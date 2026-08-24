@@ -61,6 +61,10 @@ code{background:var(--code-bg); padding:.12em .4em; border-radius:4px; font-size
 .sidebar{
   border-right:1px solid var(--border);
   padding:28px 18px 60px;
+  align-self:start;
+  position:sticky; top:57px;
+  max-height:calc(100vh - 57px);
+  overflow-y:auto;
 }
 @media (max-width:860px){
   .sidebar{border-right:none; border-bottom:1px solid var(--border); position:static; max-height:none;}
@@ -84,6 +88,7 @@ code{background:var(--code-bg); padding:.12em .4em; border-radius:4px; font-size
   padding:6px 10px; border-radius:7px; font-size:13.6px; line-height:1.35;
 }
 .nav-link:hover{background:var(--surface-2);}
+.nav-link.active{background:var(--surface-2); color:var(--accent); font-weight:700;}
 .nav-num{color:var(--muted); font-size:11.5px; flex:none; min-width:1.4em;}
 
 /* ---------- Main / Hero ---------- */

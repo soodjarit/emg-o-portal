@@ -88,10 +88,16 @@ figure img{max-width:100%; height:auto; display:block; border-radius:8px; border
 figure.screenshot img{box-shadow:var(--shadow);}
 .media-note{font-size:13px; color:var(--muted); font-style:italic; border:1px dashed var(--border);
   border-radius:8px; padding:10px 14px; margin:0 0 16px;}
+
+#home-btn{position:fixed;bottom:20px;left:20px;background:var(--accent);color:var(--accent-ink);border:none;
+  border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;box-shadow:var(--shadow);z-index:50;}
+#home-btn:hover{opacity:.88;}
 </style>
 
 </head>
 <body>
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
 <div class="wrap">
   <div class="hero">
     <div class="hero-eyebrow">EMG-O — ตัวอย่างประกอบ</div>

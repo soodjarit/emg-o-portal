@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>หน่วยวัดก้อนหิน: ตัน หรือ คิว — ข้อเสนอแนวทาง — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px 90px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:19px;color:#CBD3D8;max-width:840px;line-height:1.5;}
+  #slide-0 .stamp{position:absolute;bottom:90px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+  #slide-0 .pending-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(184,118,62,.18);border:1px solid var(--copper);color:#D9A465;font-size:13px;font-weight:700;letter-spacing:.5px;padding:6px 16px;border-radius:20px;margin-bottom:22px;}
+  #slide-0 .pending-pill:before{content:"";width:8px;height:8px;border-radius:50%;background:#D9A465;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:18px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .case-box{background:rgba(255,255,255,.06);}
+  .dark .case-text{color:#DDE3E0;}
+  .dark .case-text-label{color:#D9A465;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:13px 18px;font-size:13.5px;line-height:1.48;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+  .note-box.warn{background:#FBEAE7;color:#7A2E20;}
+  .note-box.warn b{color:#B8432E;}
+  .note-box.good{background:#EAF3EA;color:#2E5A35;}
+  .note-box.good b{color:#3D7A45;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:8px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:10px 12px;border-bottom:1px solid #e6e2dc;vertical-align:top;}
+  .cmp-table td:not(:first-child){text-align:left;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;text-align:left;white-space:nowrap;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.recommend td{background:#FBF0E2;}
+  .cmp-table tr.recommend td:first-child{color:var(--copper-dark);}
+
+  .num-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+  .num-table th{text-align:left;padding:9px 14px;background:var(--card);color:var(--copper-dark);font-size:11.5px;letter-spacing:.3px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .num-table td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--stone);}
+  .num-table td:first-child{font-weight:700;color:var(--copper-dark);}
+  .num-table tr.hl td{font-weight:700;background:#FBF0E2;}
+
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:10px;font-size:14.5px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+  .dark .plain-list li{color:#DDE3E0;}
+
+  .qa-item{display:flex;gap:16px;align-items:flex-start;background:var(--card);border-radius:14px;padding:16px 20px;margin-bottom:12px;}
+  .qa-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+  .qa-item.answered .qa-num{background:#3D7A45;}
+  .qa-q{font-size:14.5px;font-weight:700;color:var(--charcoal);margin-bottom:4px;}
+  .qa-a{font-size:13.5px;color:var(--muted);line-height:1.5;}
+  .qa-item.answered .qa-a{color:#2E5A35;font-weight:600;}
+  .qa-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:2px 9px;border-radius:9px;margin-left:8px;text-transform:uppercase;vertical-align:middle;}
+  .qa-tag.wait{background:#FBEAE7;color:#A6432D;}
+  .qa-tag.done{background:#EAF3EA;color:#3D7A45;}
+
+  code{background:#EFEAE3;color:var(--copper-dark);padding:1px 6px;border-radius:4px;font-size:.92em;}
+  .dark code{background:rgba(255,255,255,.12);color:#D9A465;}
+
+  .cta-box{background:var(--copper);border-radius:16px;padding:22px 26px;color:#fff;margin-top:10px;}
+  .cta-box .cta-title{font-size:16px;font-weight:700;margin-bottom:6px;font-family:Cambria,serif;}
+  .cta-box .cta-text{font-size:14px;line-height:1.6;color:#FBEFE3;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="pending-pill">รอการยืนยันจากลูกค้า</div>
+    <div class="big-title">หน่วยวัดก้อนหิน<br>ตัน หรือ คิว (CBM)?</div>
+    <div class="big-sub">สรุปสถานการณ์ปัจจุบัน + ข้อเสนอแนวทางปรับระบบให้รองรับทั้งสองหน่วย พร้อม 2 คำถามที่ขอความชัดเจนเพิ่มเติมก่อนเริ่มงานจริง</div>
+    <div class="stamp">EMG-O · ข้อเสนอสำหรับลูกค้าพิจารณา · 24 ส.ค. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: Current situation -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">สถานการณ์ปัจจุบัน</div>
+    <h2 class="slide-title">หน้างานพูดเป็น "ตัน" แต่ระบบบันทึกเป็น "คิว" ทั้งสาย</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div><div class="case-text-label">ที่มาของเรื่องนี้</div><div class="case-text">ทีมงานแจ้งว่าเวลาซื้อขายก้อนหินจริงหน้างานคุ้นเคยกับหน่วย "ตัน" มากกว่า ขณะที่ระบบปัจจุบันตั้งแต่รับซื้อ คิดต้นทุน ไปจนถึงตั้งราคาขาย ใช้หน่วย "คิว" (ลูกบาศก์เมตร / CBM) เป็นหน่วยหลักทุกจุด</div></div>
+    </div>
+    <ul class="plain-list">
+      <li>ต้นทุนต่อคิว (ราคาซื้อ + ค่าขนส่ง/ภาษีนำเข้าที่กระจายสัดส่วนแล้ว) คือฐานคำนวณของทุกอย่างต่อจากนี้ — ราคาขาย, กำไรต่อโครงการ, มูลค่าสต็อก</li>
+      <li>ถ้าไม่ปรับอะไรเลย พนักงานต้องแปลงหน่วยเองด้วยมือทุกครั้งที่จะกรอกเอกสาร — เสี่ยงคีย์ผิด และแต่ละคนอาจใช้อัตราแปลงไม่ตรงกัน</li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 2: Why it matters (numeric example) -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ทำไมเรื่องนี้สำคัญ</div>
+    <h2 class="slide-title">ตัวเลขคลาดเคลื่อนได้มาก ถ้าแปลงหน่วยไม่ถูกต้อง</h2>
+    <table class="num-table">
+      <tr><th>รายการ</th><th>ตัวอย่างตัวเลข</th></tr>
+      <tr><td>ปริมาณก้อนหิน</td><td>1.85 คิว</td></tr>
+      <tr><td>ความหนาแน่นหิน (สมมติ)</td><td>2.7 ตัน / คิว</td></tr>
+      <tr class="hl"><td>น้ำหนักโดยประมาณ</td><td>1.85 &times; 2.7 &asymp; 5 ตัน</td></tr>
+      <tr><td>ราคาต่อรอง</td><td>15,000 บาท/ตัน</td></tr>
+      <tr class="hl"><td>เทียบเท่าราคาต่อคิว</td><td>15,000 &times; 2.7 &asymp; 40,500 บาท/คิว</td></tr>
+    </table>
+    <div class="note-box warn"><b>จุดเสี่ยง:</b> ความหนาแน่นหินแต่ละชนิดไม่เท่ากัน (แกรนิต/หินอ่อน/หินชนิดอื่น) — ถ้าใช้อัตราแปลงเดียวกันทุกชนิด หรือพนักงานแปลงเองด้วยมือ ตัวเลขต้นทุน/ราคาอาจผิดได้โดยไม่มีใครรู้ทันที</div>
+  </section>
+
+  <!-- SLIDE 3: Proposal -->
+  <section class="slide dark" id="slide-3">
+    <div class="eyebrow">ข้อเสนอ</div>
+    <h2 class="slide-title" style="color:#fff;">รองรับทั้งสองหน่วย แปลงให้อัตโนมัติ</h2>
+    <div class="case-box">
+      <div class="case-icon">B</div>
+      <div><div class="case-text-label">แนวทางที่เสนอ</div><div class="case-text">พนักงานกรอกได้ทั้ง <b>ตัน</b> และ <b>คิว</b> บนเอกสารซื้อ-ขายตามที่ถนัด ระบบแปลงหน่วยให้อัตโนมัติตามความหนาแน่นเฉพาะของหินแต่ละชนิด ส่วนการคำนวณต้นทุนเบื้องหลังทั้งหมดยังคง<b>ยึด "คิว" เป็นหลักเหมือนเดิม</b> เพื่อไม่กระทบความแม่นยำของต้นทุนที่ใช้งานอยู่ในปัจจุบัน</div></div>
+    </div>
+    <ul class="plain-list">
+      <li>ไม่ต้องแปลงหน่วยเองด้วยมืออีกต่อไป — พิมพ์ "5 ตัน" ระบบคำนวณคิวให้เอง</li>
+      <li>ต้องตั้งค่าอัตราความหนาแน่นเฉพาะของหินแต่ละชนิดไว้ล่วงหน้า 1 ครั้งตอนเพิ่มชนิดหินใหม่เข้าระบบ (ทำเป็นส่วนหนึ่งของขั้นตอนตั้งค่าที่มีอยู่แล้ว ไม่ใช่งานเพิ่มแยก)</li>
+      <li>ราคาขาย ต้นทุน กำไรต่อโครงการ ที่ใช้อยู่ในปัจจุบันไม่เปลี่ยนวิธีคำนวณ — ปรับแค่จุดที่รับข้อมูลเข้าให้ฉลาดขึ้น</li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 4: Comparison -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">เทียบกับแนวทางอื่น</div>
+    <h2 class="slide-title">ทำไมเลือกแนวทางนี้</h2>
+    <table class="cmp-table">
+      <tr><th>แนวทาง</th><th>วิธีการ</th><th>ข้อดี / ข้อจำกัด</th></tr>
+      <tr><td>A</td><td>แปลงหน่วยแค่ตอนพิมพ์เอกสารแสดงผล เบื้องหลังยังเป็นคิวเหมือนเดิมทุกจุด</td><td>ทำง่ายที่สุด แต่พนักงานยังต้องกรอกข้อมูลเป็นคิวอยู่ดี ไม่ได้แก้ปัญหาที่ต้นทาง</td></tr>
+      <tr class="recommend"><td>B (แนะนำ)</td><td>กรอกได้ทั้งสองหน่วย ระบบแปลงอัตโนมัติตามความหนาแน่นหิน ต้นทุนยังยึดคิวเป็นหลัก</td><td>แก้ปัญหาตรงจุดที่พนักงานกรอกข้อมูลจริง ไม่กระทบวิธีคำนวณต้นทุนที่ใช้อยู่ ขอบเขตงานเล็ก-กลาง</td></tr>
+      <tr><td>C</td><td>เปลี่ยนหน่วยหลักของทั้งระบบจากคิวเป็นตัน คำนวณต้นทุนใหม่ทั้งสาย</td><td>ตรงกับที่หน้างานคุ้นเคยที่สุด แต่เป็นงานใหญ่กว่ามาก กระทบทุกจุดที่คำนวณต้นทุนอยู่ในปัจจุบัน</td></tr>
+    </table>
+    <div class="note-box good"><b>สรุป:</b> แนวทาง B ให้ผลลัพธ์ตรงกับสิ่งที่ทีมงานต้องการ (กรอกเป็นตันได้) โดยความเสี่ยงและขอบเขตงานเล็กที่สุดในสามแนวทาง</div>
+  </section>
+
+  <!-- SLIDE 5: Confirmed vs open questions -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ก่อนเริ่มงานจริง</div>
+    <h2 class="slide-title">ยืนยันแล้ว 1 ข้อ เหลืออีก 2 ข้อ</h2>
+    <div class="qa-item answered">
+      <div class="qa-num">&#10003;</div>
+      <div><div class="qa-q">หน่วยที่ใช้สั่งซื้อก้อนหินนำเข้าจากต่างประเทศ<span class="qa-tag done">ยืนยันแล้ว</span></div><div class="qa-a">ตัน — ยืนยันจากการประชุม 21 ส.ค. 2026</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-num">2</div>
+      <div><div class="qa-q">ราคาต่อรองซื้อ-ขายกับลูกค้าปลายทาง อ้างอิงหน่วยไหนเป็นหลัก<span class="qa-tag wait">รอคำตอบ</span></div><div class="qa-a">ตัน หรือ คิว — หรือแล้วแต่กรณี</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-num">3</div>
+      <div><div class="qa-q">หน้างานมีเครื่องชั่งจริงหรือไม่<span class="qa-tag wait">รอคำตอบ</span></div><div class="qa-a">ถ้าไม่มี น้ำหนักที่บันทึกจะเป็นค่าคำนวณย้อนจากขนาดที่วัดได้ (ซึ่งสำหรับหินก้อนธรรมชาติที่รูปทรงไม่สม่ำเสมอ ก็เป็นค่าประมาณอยู่แล้วในตัวเอง)</div></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Next steps -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">ขั้นตอนถัดไป</div>
+    <h2 class="slide-title" style="color:#fff;">ขอความเห็นชอบ 2 เรื่อง</h2>
+    <div class="cta-box">
+      <div class="cta-title">1. อนุมัติแนวทาง B</div>
+      <div class="cta-text">รองรับกรอกได้ทั้งตันและคิว แปลงหน่วยอัตโนมัติตามความหนาแน่นหิน ต้นทุนยังคำนวณจากคิวเหมือนเดิม</div>
+    </div>
+    <div class="cta-box" style="margin-top:14px;">
+      <div class="cta-title">2. ตอบ 2 คำถามที่เหลือ</div>
+      <div class="cta-text">หน่วยราคาต่อรองขาย และสถานะเครื่องชั่งหน้างาน — เพื่อให้ตั้งค่าความหนาแน่นและจุดกรอกข้อมูลได้ตรงกับการใช้งานจริงที่สุด</div>
+    </div>
+    <div class="note-box" style="margin-top:16px;">เมื่อได้รับการยืนยันทั้ง 2 เรื่องแล้ว ทีมงานจะเริ่มตั้งค่าและแจ้งกำหนดเสร็จให้ทราบอีกครั้ง</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 7</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
