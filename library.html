@@ -185,6 +185,7 @@
           <li class="tree-doc"><a href="presentations/workflow-design/stone-scan-barcode-migration.html"><span class="tree-doc-tag">D1</span>/stone-scan → Barcode App มาตรฐาน</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/recompute-price-boq-explainer.html"><span class="tree-doc-tag">D2</span>"Recompute Price (BOQ)" ยังต้องใช้ไหม?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/standard-costing-explainer.html"><span class="tree-doc-tag">D3</span>ทำไมไม่ใช้ Standard/AVCO Cost?</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/block-density-weight-explainer.html"><span class="tree-doc-tag">D4</span>CBM → ตัน: ความหนาแน่นตามประเภทหิน</a></li>
         </ul>
       </details>
 
@@ -485,6 +486,15 @@
         <div class="card-title">ทำไมไม่ใช้ Standard/AVCO Cost ของ Odoo?</div>
         <div class="card-desc">หินแต่ละก้อนราคาไม่เท่ากันจริง — เป็นปัญหา specific identification costing ที่ native costing method ของ Odoo ไม่รองรับ การเปลี่ยนไปใช้จะเป็นการเดินถอยหลังกลับไปเจอบั๊กที่เคยแก้แล้ว (2 ส.ค. 2026) ค่าแรงตัดที่จะเพิ่มเข้าไป แนะนำเพิ่มเป็น term ใหม่ในสูตร compute field เดิมแทน</div>
         <div class="card-meta"><span class="card-date">20 ส.ค. 2026</span><span class="status-badge confirmed">ยืนยันแล้ว — คงสถาปัตยกรรมเดิม</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/workflow-design/block-density-weight-explainer.html">
+      <div class="icon">D4</div>
+      <div>
+        <div class="card-title">CBM → ตัน: ความหนาแน่นตามประเภทหิน</div>
+        <div class="card-desc">ลูกค้าอยากตั้งค่าความหนาแน่น (ตัน/คิว) ไว้ที่ประเภทหิน แทนให้พนักงานคำนวณน้ำหนักเอง — เพิ่ม field ที่ Material + auto-fill Weight (Ton) ที่ Block (แก้ทับได้ถ้ามีชั่งจริง) ระหว่างคุยยังยืนยันด้วยว่า Landed Cost คงเฉลี่ยตามสัดส่วน CBM เดิม ไม่เปลี่ยนเป็นเฉลี่ยเท่ากันทุกก้อน ทดสอบผ่านเบราว์เซอร์จริงครบ 3 เคส</div>
+        <div class="card-meta"><span class="card-date">25 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

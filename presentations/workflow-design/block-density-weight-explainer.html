@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>CBM → ตัน: ความหนาแน่นตามประเภทหิน — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title{color:var(--white);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:17px;color:#CBD3D8;max-width:900px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+  .status-badge{position:absolute;top:64px;right:170px;background:#2C5A80;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:14px;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:20px 26px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .cmp-table th{text-align:left;padding:9px 11px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:9px 11px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.bad:nth-child(even) td, .cmp-table tr.good:nth-child(even) td{background-color:inherit;}
+  .cmp-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:12px;}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+  .dark .cmp-table tr.good td{color:#8FCB8F;background:rgba(61,122,69,.25);}
+  .dark .cmp-table tr.bad td{color:#E08A78;background:rgba(166,67,45,.25);}
+  .dark .cmp-table code{background:rgba(255,255,255,.12);color:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:14px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b{color:#D9A465;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:14px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:12.5px;padding:7px 13px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.bad{background:#A6432D;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 5px;font-weight:700;}
+  .dark .flow-arrow{color:#D9A465;}
+
+  .code-block{background:var(--charcoal-dark);color:#E4E8EA;border-radius:10px;padding:16px 18px;font-family:"SF Mono",Consolas,monospace;font-size:12.5px;line-height:1.6;overflow:auto;}
+  .code-block .cm{color:#8B969C;}
+  .code-block .str{color:#D9A465;}
+  .code-block .add{color:#8FCB8F;}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">TON</div>
+    <div class="status-badge">Build + Test ผ่านแล้ว</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Custom Workflow Design</div>
+    <div class="big-title">CBM → ตัน: ตั้งความหนาแน่น<br>ตามประเภทหิน ไม่ต้องกรอกเอง</div>
+    <div class="big-sub">คำตอบสั้นๆ: เพิ่ม field "ความหนาแน่น (ตัน/คิว)" ที่ระดับประเภทหิน ตั้งค่าครั้งเดียว — จากนั้นระบบคำนวณน้ำหนักของทุกก้อนที่ import อัตโนมัติจาก CBM ที่วัดจริง พนักงานไม่ต้องคูณเลขเอง ลดความเสี่ยงกรอกผิด/จำค่าความหนาแน่นผิดชนิดหิน</div>
+    <div class="stamp">EMG-O Custom Workflow Design · Design Discussion</div>
+    <div class="date-tag">25 ส.ค. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: The trigger question -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">คำถามต้นทาง</div>
+    <h2 class="slide-title">ลูกค้าถามเรื่อง "คิว → ตัน" — อยากตั้งค่าไว้ล่วงหน้า ไม่อยากให้พนักงานกรอกเอง</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">"ถ้าเราเอาหน่วย CBM ไป config ไว้กับประเภทหิน ได้มั๊ย เค้าสามารถกำหนด CBM ให้ตามประเภทหินได้ ประเด็นคือ เค้าไม่อยากให้พนักงานกรอกเลย เพราะน่าจะผิด" — พูดอีกแบบ: หินแต่ละชนิดมีความหนาแน่นไม่เท่ากัน (หินอ่อน ≠ หินแกรนิต) การแปลงปริมาตร (CBM/"คิว") เป็นน้ำหนัก (ตัน) จึงต้องใช้ค่าความหนาแน่นเฉพาะของหินชนิดนั้น ถ้าให้พนักงานคำนวณเองทุกครั้งมีโอกาสผิดสูง</div>
+      </div>
+    </div>
+    <div class="note-box"><b>คำตอบที่จะอธิบายในหน้าถัดไป:</b> ทำได้ — ตั้งความหนาแน่นไว้ที่ "ประเภทหิน" (Material) ครั้งเดียว ระบบคำนวณน้ำหนักของทุกก้อนที่รับเข้ามาให้อัตโนมัติจากนั้น</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 2: Before / After -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">เทียบก่อน–หลัง</div>
+    <h2 class="slide-title">จากพนักงานคำนวณเอง → ระบบคำนวณให้อัตโนมัติ</h2>
+    <div class="flow-bar" style="margin:6px 0 22px;">
+      <span class="flow-chip bad">พนักงานคำนวณเอง (เสี่ยงผิด)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตั้ง Density ที่ประเภทหิน (ครั้งเดียว)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">Weight (Ton) auto-fill ทุก Block</span>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:150px;">ก่อนหน้านี้</th><th>สิ่งที่ทำ</th></tr>
+      <tr class="bad"><td><b>ไม่มี field น้ำหนัก</b></td><td>ถ้าต้องแจ้งน้ำหนักตัน (เช่น คุย freight กับ shipping) พนักงานต้องคูณเลขเอง (CBM × ความหนาแน่นที่จำ/เปิดหาเอง) — เสี่ยงพิมพ์ผิด จำผิดชนิดหิน หรือลืมคูณเลย</td></tr>
+      <tr class="good"><td><b>Density ที่ Material</b></td><td>Admin ตั้งค่าความหนาแน่น (ตัน/คิว) ไว้ตอนสร้างประเภทหินครั้งเดียว เช่น หินอ่อน Carrara White = 2.75 ตัน/คิว</td></tr>
+      <tr class="good"><td><b>Weight (Ton) ที่ Block</b></td><td>พอกรอก Total CBM ของก้อนนั้น ระบบคูณด้วย Density ให้อัตโนมัติทันที — พนักงานไม่ต้องกดเครื่องคิดเลขเอง</td></tr>
+    </table>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 3: Mechanism -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">กลไกที่ Built แล้ว</div>
+    <h2 class="slide-title">3 จุด: ประเภทหิน → ก้อน → ตู้คอนเทนเนอร์</h2>
+    <div class="code-block">
+      material.density_ton_per_cbm <span class="cm"># ตัน/คิว — admin ตั้งครั้งเดียวตอนสร้างประเภทหิน</span><br>
+      <span class="add">bundle.weight_ton</span> = bundle.total_cbm × bundle.material_id.density_ton_per_cbm<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># auto-fill ทุกครั้งที่ Total CBM หรือ Material เปลี่ยน — ยังแก้ทับเองได้ถ้ามีใบชั่งจริง</span><br>
+      <span class="add">container.total_weight_ton</span> = Σ(bundle.weight_ton) <span class="cm"># รวมน้ำหนักทั้งตู้ — ใช้คุย freight กับ shipping</span>
+    </div>
+    <div class="note-box good" style="margin-top:16px;"><b>ทำไมยังแก้ทับได้:</b> ถ้าหน้างานมีการชั่งน้ำหนักจริงแล้วได้ค่าไม่ตรงกับสูตร (ความชื้น/ความหนาแน่นเฉพาะก้อนต่างจากค่าเฉลี่ยเล็กน้อย) พนักงานพิมพ์ทับค่าจริงได้ — ระบบไม่บังคับให้ผิดตามสูตรเสมอไป แต่ถ้าแก้ Total CBM อีกครั้ง ค่าจะคำนวณใหม่จากสูตรทันที (ไม่ค้างค่าที่แก้ทับไว้)</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 4: Landed cost basis question that came up -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">คำถามที่แตกออกมาระหว่างคุย</div>
+    <h2 class="slide-title">ฐานการเฉลี่ยต้นทุนขนส่ง (Landed Cost) — คงของเดิม ไม่เปลี่ยน</h2>
+    <div class="case-box">
+      <div class="case-icon">i</div>
+      <div>
+        <div class="case-text-label">คำถามที่ตามมา</div>
+        <div class="case-text">ระหว่างคุยเรื่อง Weight เกิดคำถามว่า ต้นทุนขนส่งทั้งตู้ (Landed Cost) ควรเฉลี่ยให้แต่ละ Block ยังไง — ตามสัดส่วนขนาด (CBM) แบบที่ระบบทำอยู่ หรือเฉลี่ยเท่ากันทุกก้อนแบบที่ลูกค้าคิดต้นทุนขนส่งจริงในทางปฏิบัติ (เฉลี่ยทั้งตู้ มีกี่ก้อนก็หารเท่ากัน)?</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:190px;">แนวทาง</th><th>ผล</th></tr>
+      <tr class="good"><td><b>สัดส่วน CBM (ของเดิม — คงไว้)</b></td><td>Block ใหญ่แบกต้นทุนมากกว่า Block เล็ก ตามขนาดจริง — สอดคล้องกับความจริงที่ Block ใหญ่เบียดพื้นที่/น้ำหนักในตู้มากกว่า</td></tr>
+      <tr class="bad"><td>เฉลี่ยเท่ากันทุกก้อน (ไม่เลือกใช้)</td><td>Block เล็กจะโดนต้นทุนต่อคิวสูงเกินจริง ส่วน Block ใหญ่ได้ต้นทุนต่อคิวต่ำกว่าที่ควรเป็น — ยิ่งตู้มีขนาด Block ต่างกันมาก ยิ่งเพี้ยนมาก</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:16px;"><b>ยืนยันกับลูกค้าแล้ว (25 ส.ค. 2026):</b> คงตรรกะเดิม (สัดส่วน CBM) ไม่แก้ไข — field <code>weight_ton</code> ใหม่เป็นแค่ข้อมูลอ้างอิง/โชว์ผล ไม่เข้าสูตรคำนวณต้นทุนใดๆ ทั้งสาย ต้นทุนยังอิง CBM เหมือนเดิมทุกจุด</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 5: Verified live -->
+  <section class="slide evidence-slide" id="slide-5">
+    <div class="eyebrow">ทดสอบสดจริง — ผ่านเบราว์เซอร์บน eg-tst</div>
+    <h2 class="slide-title">Auto-fill / แก้ทับ / re-fill ทำงานถูกต้องครบ 3 เคส</h2>
+    <table class="cmp-table">
+      <tr><th style="width:340px;">ขั้นตอนที่ทดสอบ</th><th>ผลลัพธ์</th></tr>
+      <tr class="good"><td>ตั้ง Material "Carrara White" Density = 2.75 ตัน/คิว, สร้าง Block ใหม่ Total CBM = 4</td><td>Weight (Ton) auto-fill = <b>11.00</b> (4 × 2.75)</td></tr>
+      <tr class="good"><td>พนักงานแก้ Weight (Ton) เองเป็น 9.5 (สมมติมีใบชั่งจริง)</td><td>ค่าคงอยู่ที่ <b>9.50</b> — ไม่ถูกสูตรทับจนกว่าจะแก้ Total CBM อีกครั้ง</td></tr>
+      <tr class="good"><td>แก้ Total CBM เป็น 2 อีกรอบ</td><td>Weight (Ton) คำนวณใหม่จากสูตรทันที = <b>5.50</b> (2 × 2.75)</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:16px;"><b>Deploy:</b> module upgrade + restart บน <code>eg-tst</code> (container <code>odoo19-ent-mbx</code>) — 0 error ทั้ง server log และ browser console ตลอดการทดสอบ</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 6: Summary -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">ตั้ง Density ครั้งเดียวต่อประเภทหิน น้ำหนักคำนวณอัตโนมัติทุกก้อนจากนั้น</h2>
+    <div class="flow-bar" style="margin-bottom:22px;">
+      <span class="flow-chip bad">พนักงานคำนวณเอง (เสี่ยงผิด)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Density ตั้งที่ประเภทหิน (ครั้งเดียว)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">Weight (Ton) auto-fill ทุก Block</span>
+    </div>
+    <table class="cmp-table" style="max-width:960px;">
+      <tr><th>คำถาม</th><th>คำตอบ</th></tr>
+      <tr class="good"><td>กำหนด CBM→ตันตามประเภทหินได้ไหม</td><td><b>ได้ — เพิ่ม field ความหนาแน่นที่ Material ตั้งครั้งเดียว</b></td></tr>
+      <tr class="good"><td>พนักงานต้องกรอกน้ำหนักเองไหม</td><td><b>ไม่ต้อง — auto-fill จากสูตร แต่ยังแก้ทับได้ถ้ามีชั่งจริง</b></td></tr>
+      <tr><td>กระทบสูตรต้นทุนเดิม (Landed Cost) ไหม</td><td>ไม่กระทบ — ยืนยันคงสัดส่วน CBM เดิม, Weight เป็นแค่ field อ้างอิง</td></tr>
+    </table>
+    <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">เก็บไว้เป็นบันทึกอ้างอิง — ถ้าอนาคตมีคำถามเรื่องหน่วย/การแปลง CBM↔ตัน อีก กลับมาดูหน้านี้ก่อนออกแบบใหม่</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 7</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
