@@ -119,7 +119,8 @@
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">คำเตือน</span><span class="callout-title">ข้อควรระวัง</span></div><div class="callout-body">การสร้าง Block ผ่านปุ่ม "New" ตรงๆ <strong>จะไม่ผูก Product อัตโนมัติ</strong> ถ้า Block ไม่ได้มาจากการรับสินค้าผ่าน PO จริง อาจทำให้ปุ่ม "Select Slabs" ในขั้นตอนขายหาแผ่นไม่เจอ — ให้ผ่าน flow รับสินค้าจริงผ่าน PO เสมอ ไม่ควรสร้าง Block ลอยๆ ในหน้างานจริง (ดู <a href="10-known-limitations.html" class="xref">บทที่ 10: ข้อจำกัดที่ทราบ</a>)</div></div>
 <h3>รับก้อนหิน (CBM) — เฉพาะ Material ที่มี Block Product</h3>
 <p>ถ้า Material นั้นมี Block Product ผูกอยู่ (<code>material_id.product_id_block</code>) ฟอร์ม Block จะบังคับให้กรอก section CBM เพิ่ม:</p>
-<ul><li><strong>Total CBM</strong> — ปริมาตรก้อนหินทั้งหมดตามที่ซื้อจริง (m³)</li><li><strong>Thickness (M)</strong> — ความหนาแผ่นมาตรฐานที่จะตัดจากก้อนนี้ (ใช้คำนวณหัก CBM อัตโนมัติตอนเพิ่มแผ่น)</li><li><strong>Analytic Account</strong> — สำหรับ tag ต้นทุนแรงงาน/ค่าตัด</li></ul>
+<ul><li><strong>Total CBM</strong> — ปริมาตรก้อนหินทั้งหมดตามที่ซื้อจริง (m³)</li><li><strong>Weight (Ton)</strong> — น้ำหนักก้อนนี้ auto-fill ให้อัตโนมัติจาก Total CBM × Density ของ Material นั้น</li><li><strong>Thickness (M)</strong> — ความหนาแผ่นมาตรฐานที่จะตัดจากก้อนนี้ (ใช้คำนวณหัก CBM อัตโนมัติตอนเพิ่มแผ่น)</li><li><strong>Analytic Account</strong> — สำหรับ tag ต้นทุนแรงงาน/ค่าตัด</li></ul>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">Weight (Ton) มาจากไหน — และแก้ทับได้ไหม (เพิ่มเข้าระบบ 2026-08-25)</span></div><div class="callout-body">คำนวณจาก <strong>Total CBM × Density (Ton/CBM)</strong> ที่ตั้งไว้ที่ Material (ดู <a href="13-product-concepts.html" class="xref">บทที่ 13: Product Concepts</a>) ทันทีที่กรอก/แก้ Total CBM — พนักงานไม่ต้องคำนวณเอง ถ้ามีใบชั่งน้ำหนักจริงหน้างานที่ค่าไม่ตรงกับสูตร พิมพ์ทับเป็นตัวเลขจริงได้ แต่ถ้าแก้ Total CBM อีกครั้งภายหลัง ค่านี้จะคำนวณใหม่ทับตัวที่พิมพ์ไว้ทันที — เป็นข้อมูลอ้างอิงสำหรับคุยงานขนส่งเท่านั้น <strong>ไม่เข้าสูตรคำนวณต้นทุนใดๆ</strong> (ต้นทุนยังอิง CBM เหมือนเดิมทั้งสาย)</div></div>
 <p>เมื่อ Save ระบบจะ:</p>
 <div class="steps">
 <div class="step"><span class="step-num">1</span><div class="step-body">สร้าง <code>block_lot_id</code> (lot แยกต่างหากจาก lot ของแผ่น — 1 lot ผูกได้แค่ 1 product เท่านั้น)</div></div>
@@ -129,6 +130,7 @@
 <figure class="screenshot"><img src="assets/06-bundle-saved.webp" alt="Block บันทึกสำเร็จ"/></figure>
 <h3>Container (ถ้ามีหลาย Block มาด้วยกัน 1 ตู้)</h3>
 <p>เมนู Stone Slab → Containers ใช้จัดกลุ่ม Block ที่มาด้วยกัน 1 container/shipment เดียวกัน — ใช้สำหรับกระจาย <strong>Landed Cost</strong> ตามสัดส่วน Sq.Mt. ของแต่ละ Block (ดู <a href="07-costing.html" class="xref">บทที่ 07: ต้นทุนสินค้า</a>)</p>
+<p><strong>Total Weight (Ton)</strong> (เพิ่ม 25 ส.ค. 2026) — รวม Weight (Ton) ของทุก Block ในตู้ให้อัตโนมัติ ใช้อ้างอิงตอนคุยค่า freight/ศุลกากรกับ shipping เท่านั้น — <strong>ไม่เกี่ยวกับการกระจาย Landed Cost ข้างบน</strong> ยืนยันกับลูกค้าแล้วว่ายังกระจายตามสัดส่วนขนาดของ Block เหมือนเดิม ไม่เปลี่ยนไปใช้น้ำหนัก</p>
 <figure class="screenshot"><img src="assets/15-containers-list.webp" alt="รายการ Containers"/></figure>
 <hr/>
   </div>
