@@ -207,13 +207,13 @@
       <span class="flow-chip">แผ่นที่ตัดได้ผูกกับใบสั่งขายทันที</span>
     </div>
     <div class="data-map">
-      <div class="data-map-label">ต้นทุนแรงงานตัด (ประมาณการ) — ติดป้าย 2 มิติพร้อมกัน</div>
+      <div class="data-map-label">ต้นทุนที่ติดป้าย Analytic ทันทีตอนตัดเสร็จ — ทั้งวัสดุและแรงงาน</div>
       <table class="data-map-table gl">
-        <tr><th>มิติ</th><th></th><th></th></tr>
-        <tr><td>โครงการ</td><td></td><td class="num">-500</td></tr>
-        <tr><td>หินอ่อน</td><td></td><td class="num">-500</td></tr>
+        <tr><th>รายการ</th><th>โครงการ</th><th>หินอ่อน</th></tr>
+        <tr><td>ต้นทุนวัสดุหิน (ตามต้นทุนจริงจากใบสั่งซื้อ)</td><td class="num">-4.40</td><td class="num">-4.40</td></tr>
+        <tr><td>ต้นทุนแรงงานตัด (ประมาณการ)</td><td class="num">-500.00</td><td class="num">-500.00</td></tr>
       </table>
-      <div class="note-box"><b>หมายเหตุ:</b> การรับหินก้อนเข้าคลังไม่มีผลบัญชีทันที (ระบบตีมูลค่าสต็อกแบบ periodic) — ต้นทุนที่เห็นตรงนี้คือประมาณการต้นทุนแรงงานสำหรับดูในรายงาน Analytic เท่านั้น</div>
+      <div class="note-box"><b>หมายเหตุ:</b> การรับหินก้อนเข้าคลังไม่มีผลบัญชีทันที (ระบบตีมูลค่าสต็อกแบบ periodic) — ต้นทุนวัสดุ+แรงงานตรงนี้ติดป้าย Analytic ทั้ง 2 มิติพร้อมกัน ทำให้กำไรที่เห็นใน Step 9 ครบทั้งฝั่งรายได้และต้นทุนจริง</div>
     </div>
   </section>
 
@@ -289,8 +289,8 @@
           <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:16px;">มุมมองที่ 1 — ต่อโครงการ</div>
           <table class="data-map-table gl" style="color:#CBD3D8;">
             <tr><th style="color:#9AA6AC;">โครงการ</th><th style="color:#9AA6AC;">Revenue</th><th style="color:#9AA6AC;">Margin</th></tr>
-            <tr><td style="color:#fff;">งานหลัก (หินอ่อน)</td><td class="num" style="color:#CBD3D8;">14,270</td><td class="num" style="color:#D9A465;">6,520</td></tr>
-            <tr><td style="color:#fff;">งานอ้างอิง (หินแกรนิต)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">4,540</td></tr>
+            <tr><td style="color:#fff;">งานหลัก (หินอ่อน)</td><td class="num" style="color:#CBD3D8;">14,270</td><td class="num" style="color:#D9A465;">6,516</td></tr>
+            <tr><td style="color:#fff;">งานอ้างอิง (หินแกรนิต)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">3,892</td></tr>
           </table>
         </div>
       </div>
@@ -299,8 +299,8 @@
           <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:16px;">มุมมองที่ 2 — ข้ามโครงการตามวัสดุ</div>
           <table class="data-map-table gl" style="color:#CBD3D8;">
             <tr><th style="color:#9AA6AC;">ประเภทวัสดุ</th><th style="color:#9AA6AC;">Revenue</th><th style="color:#9AA6AC;">Margin</th></tr>
-            <tr><td style="color:#fff;">หินอ่อน (Marble)</td><td class="num" style="color:#CBD3D8;">1,980</td><td class="num" style="color:#D9A465;">1,480</td></tr>
-            <tr><td style="color:#fff;">หินแกรนิต (Granite)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">6,340</td></tr>
+            <tr><td style="color:#fff;">หินอ่อน (Marble)</td><td class="num" style="color:#CBD3D8;">1,980</td><td class="num" style="color:#D9A465;">1,476</td></tr>
+            <tr><td style="color:#fff;">หินแกรนิต (Granite)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">5,692</td></tr>
           </table>
         </div>
       </div>
