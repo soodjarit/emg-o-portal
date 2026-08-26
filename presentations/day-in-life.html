@@ -23,32 +23,32 @@
   .slide.active{display:flex;}
   .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
 
-  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .eyebrow{font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
   .dark .eyebrow{color:#D9A465;}
-  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  h1.title{font-size:44px;margin:0 0 8px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
   .dark h1.title{color:var(--white);}
-  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
-  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  h2.slide-title{font-size:33px;margin:0 0 18px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .subtitle{font-size:21px;color:var(--muted);margin-bottom:0;}
   .dark .subtitle{color:#B9C2C8;}
 
-  .role-tag{display:inline-flex;align-items:center;gap:6px;background:var(--charcoal);color:#fff;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:14px;margin-bottom:14px;}
+  .role-tag{display:inline-flex;align-items:center;gap:6px;background:var(--charcoal);color:#fff;font-size:15px;font-weight:700;padding:6px 14px;border-radius:14px;margin-bottom:16px;}
   .role-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--copper);}
 
   #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
-  #slide-0 .big-title{font-size:48px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 16px 0;line-height:1.25;}
-  #slide-0 .big-sub{font-size:20px;color:#CBD3D8;max-width:840px;line-height:1.55;}
-  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .big-title{font-size:54px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:23px;color:#CBD3D8;max-width:880px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:16px;color:#9AA6AC;letter-spacing:1px;}
   #slide-0 .stone-badge{position:absolute;top:52px;right:60px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
 
   .case-box{background:var(--card);border-radius:14px;padding:20px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
   .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-family:Cambria,serif;}
-  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
-  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+  .case-text-label{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:18px;line-height:1.55;color:var(--text);}
 
-  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
-  .flow-chip{background:#D8D3CB;color:var(--muted);font-size:11.5px;padding:6px 10px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin-bottom:18px;}
+  .flow-chip{background:#D8D3CB;color:var(--muted);font-size:13.5px;padding:7px 12px;border-radius:16px;white-space:nowrap;font-weight:600;}
   .flow-chip.current{background:var(--copper);color:#fff;box-shadow:0 2px 8px rgba(184,118,62,.5);}
-  .flow-arrow{color:var(--copper);font-size:14px;margin:0 3px;font-weight:700;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 3px;font-weight:700;}
   .dark .flow-chip{background:rgba(255,255,255,.12);color:#B9C2C8;}
 
   .two-col{display:flex;gap:28px;align-items:stretch;flex:1;min-height:0;}
@@ -58,21 +58,24 @@
   .col-right .shot{flex:1;min-height:0;object-fit:contain;}
 
   .step-list{list-style:none;margin:0;padding:0;}
-  .step-list li{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;}
-  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-  .step-text{font-size:14.5px;line-height:1.45;padding-top:2px;}
+  .step-list li{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--copper);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:17px;line-height:1.5;padding-top:2px;}
 
   .shot{border-radius:9px;box-shadow:0 4px 16px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
-  .shot-cap{font-size:12px;color:var(--muted);margin-top:5px;text-align:center;}
+  .shot-cap{font-size:14px;color:var(--muted);margin-top:6px;text-align:center;}
   .shot-wrap{text-align:center;}
 
-  .note-box{background:#FBF1E7;border-radius:11px;padding:13px 18px;font-size:13.5px;line-height:1.45;color:#6B4423;margin-top:8px;}
+  .note-box{background:#FBF1E7;border-radius:11px;padding:15px 20px;font-size:16px;line-height:1.5;color:#6B4423;margin-top:8px;}
   .note-box b{color:#8F5A2C;}
 
-  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:12px 20px;margin-top:10px;}
-  .data-map-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:7px;}
-  .data-map-table{width:100%;border-collapse:collapse;font-size:13px;}
-  .data-map-table th{text-align:left;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:5px;border-bottom:1.5px solid #d8d3cb;}
+  .field-note{font-size:15.5px;line-height:1.6;color:var(--text);margin-top:4px;}
+  .field-note b{color:var(--copper-dark);}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:10px;}
+  .data-map-label{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:16px;}
+  .data-map-table th{text-align:left;font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
   .data-map-table td{padding:6px 10px 6px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
   .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
   .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
@@ -167,10 +170,18 @@
           <li><span class="step-num">1</span><span class="step-text">เปิด Wizard "Quick Material Setup" — กรอกชื่อหิน, ประเภทราคา (ต่อแผ่น/ต่อก้อน)</span></li>
           <li><span class="step-num">2</span><span class="step-text">ตั้งราคาขาย/ต้นทุนเริ่มต้นของแผ่น — ระบบสร้างสินค้าทั้งฝั่งแผ่นและก้อนให้อัตโนมัติ</span></li>
         </ul>
-        <div class="note-box"><b>ทำครั้งเดียวต่อหิน 1 ชนิด</b> — จากนี้ไปทุกโครงการที่ใช้หินชนิดนี้ เลือกจากรายการที่ตั้งไว้ได้เลย ไม่ต้องตั้งซ้ำ</div>
+        <div class="data-map">
+          <div class="data-map-label">แต่ละช่องเอาไปใช้ทำอะไร</div>
+          <table class="data-map-table">
+            <tr><td>Category</td><td>จัดกลุ่มหิน (Marble/Granite/ฯลฯ) เพื่อรายงาน — คนละเรื่องกับ Analytic ที่จะผูกในสไลด์ถัดไป</td></tr>
+            <tr><td>Pricing Mode</td><td>Serial=แยกทีละแผ่น (หินแพง) / Lot=รวมตามพื้นที่ (หินถูก)</td></tr>
+            <tr><td>Density</td><td>คำนวณน้ำหนัก Block อัตโนมัติจากปริมาตร</td></tr>
+            <tr><td>Slab Price/Cost</td><td>ราคาเริ่มต้น — ต้นทุนจริงจะถูกแทนที่ด้วยใบสั่งซื้อจริงทีหลัง</td></tr>
+          </table>
+        </div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/127-day-in-life-material-wizard.png"><div class="shot-cap">Quick Material Setup Wizard</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/138-day-in-life-material-wizard-filled.png"><div class="shot-cap">Quick Material Setup Wizard — กรอกครบทุกช่อง (ตัวอย่าง)</div></div>
       </div>
     </div>
   </section>
@@ -194,12 +205,14 @@
       <div class="col-left">
         <ul class="step-list">
           <li><span class="step-num">1</span><span class="step-text">Accounting → Configuration → Analytic Distribution Models</span></li>
-          <li><span class="step-num">2</span><span class="step-text">เลือกสินค้าหิน → กำหนดว่าให้ติดป้าย Analytic Account ไหน (เช่น "Marble", "Granite")</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือกสินค้าหิน (ตัวอย่าง: <b>Bianco Sardo Granite - Slab</b>) → คลิกป้าย Analytic ของแถวนั้น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">หน้าต่างขึ้นมาให้เลือกว่าแต่ละมิติ (Plan) ผูกกับ Account ไหน — ตัวอย่างนี้ผูก Plan "ประเภทวัสดุ" เข้ากับ Account <b>"Granite" ที่ 100%</b></span></li>
         </ul>
         <div class="note-box"><b>ผูกครั้งเดียวต่อหิน 1 ชนิด</b> — จากนี้ไปทุกครั้งที่ขายหินชนิดนี้ ระบบติดป้าย "ประเภทวัสดุ" ให้อัตโนมัติ 100% ไม่ต้องเลือกมือทีละใบขาย</div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/128-day-in-life-distribution-model.png"><div class="shot-cap">Analytic Distribution Models — ผูกสินค้ากับประเภทวัสดุ</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/128-day-in-life-distribution-model.png"><div class="shot-cap">1. รายการที่ผูกไว้แล้ว — Marble/Limestone/Granite</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/139-day-in-life-analytic-distribution-popup.png"><div class="shot-cap">2. คลิกป้าย "Granite" → หน้าต่างกำหนด % ตาม Plan</div></div>
       </div>
     </div>
   </section>
@@ -443,14 +456,45 @@
       </div>
       <div class="col-right">
         <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
-          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;font-size:15px;">มุมมองที่ 1 — ต่อโครงการ</div>
-          <div style="font-size:14px;line-height:1.6;">งานนี้ (S00042) กำไรสุทธิ <b>6,516 บาท</b> — เทียบรายได้เต็มกับต้นทุนจริงทั้งหมดที่เกิดขึ้น</div>
+          <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:17px;">มุมมองที่ 1 — ต่อโครงการ</div>
+          <div style="font-size:17px;line-height:1.6;">งานนี้ (S00042) กำไรสุทธิ <b>6,516 บาท</b> — เทียบรายได้เต็มกับต้นทุนจริงทั้งหมดที่เกิดขึ้น</div>
         </div>
         <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
-          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;font-size:15px;">มุมมองที่ 2 — ข้ามโครงการตามวัสดุ</div>
-          <div style="font-size:14px;line-height:1.6;">ดูกำไรของ "งานหินอ่อน" รวมทุกโครงการที่เคยทำ เทียบกับ "งานหินแกรนิต" ได้จากหน้าเดียวกัน — ไม่ต้องเปิดทีละโครงการ</div>
+          <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:17px;">มุมมองที่ 2 — ข้ามโครงการตามวัสดุ</div>
+          <div style="font-size:17px;line-height:1.6;">ดูกำไรของ "งานหินอ่อน" รวมทุกโครงการที่เคยทำ เทียบกับ "งานหินแกรนิต" ได้จากหน้าเดียวกัน — ไม่ต้องเปิดทีละโครงการ</div>
+        </div>
+        <div style="background:rgba(184,118,62,.18);border-radius:14px;padding:16px 18px;">
+          <div style="font-size:15.5px;line-height:1.55;color:#EADFD2;">💡 ตัวเลขนี้ไม่ใช่ปลายทาง — คลิกเข้าไปที่แต่ละโครงการดูรายละเอียดทีละรายการได้ต่อ (สไลด์ถัดไป)</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11b: เจาะลึกรายละเอียด -->
+  <section class="slide dark" id="slide-11b">
+    <div class="role-tag" style="background:rgba(255,255,255,.12);"><span class="dot"></span>ผู้บริหาร / ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title" style="color:#fff;">คลิกเข้าไปในโครงการเดียว — เห็นทุกรายการที่ประกอบเป็นกำไร</h2>
+    <div class="case-box" style="background:rgba(255,255,255,.08);margin-bottom:14px;">
+      <div class="case-icon">🔎</div>
+      <div>
+        <div class="case-text-label" style="color:#D9A465;">เปิดจาก Chart of Analytic Accounts</div>
+        <div class="case-text" style="color:#DCE2E5;">คลิกปุ่ม "Gross Margin" บนบัญชีโครงการ S00042 → เห็นทุกรายการจริงที่ประกอบกันเป็นกำไร 6,641.60 บาท ทั้งฝั่งรายได้ (มัดจำ, ใบแจ้งหนี้ปิดงาน) และต้นทุนจริงทุกตัว (วัสดุ, ค่าแรงตัด, ค่าแรงติดตั้ง, ขนส่ง, ค่าใช้จ่ายนอกแผน, ภาษีหัก ณ ที่จ่าย) — ไม่ใช่แค่ตัวเลขสรุปก้อนเดียว</div>
+      </div>
+    </div>
+    <div class="shot-wrap" style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;">
+      <img class="shot" src="assets/140-day-in-life-gross-margin-detail.png" style="width:100%;max-height:100%;object-fit:contain;">
+      <div class="shot-cap" style="color:#9AA6AC;">Gross Margin ของ S00042 — รายการละเอียดทั้งหมด 19 บรรทัด</div>
     </div>
   </section>
 
@@ -470,17 +514,17 @@
       <div class="col-left">
         <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
           <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
-          <div style="font-size:14.5px;line-height:1.6;">เงินมัดจำเป็นหนี้สินจนกว่างานจะเสร็จ — ไม่ใช่รายได้ทันทีที่รับเงิน และการผูก Analytic ทำครั้งเดียวตอนตั้งสินค้า ที่เหลือระบบติดป้ายให้เองตลอดอายุการใช้งาน</div>
+          <div style="font-size:17px;line-height:1.6;">เงินมัดจำเป็นหนี้สินจนกว่างานจะเสร็จ — ไม่ใช่รายได้ทันทีที่รับเงิน และการผูก Analytic ทำครั้งเดียวตอนตั้งสินค้า ที่เหลือระบบติดป้ายให้เองตลอดอายุการใช้งาน</div>
         </div>
       </div>
       <div class="col-right">
         <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
           <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าถามว่า "ทำไมต้องดูแบบ day-in-the-life"</div>
-          <div style="font-size:14.5px;line-height:1.6;">เพื่อให้เห็นว่าทุกฝ่าย (ขาย/คลัง/โรงงาน/บัญชี/ผู้บริหาร) ทำงานในระบบเดียวกัน ข้อมูลไม่ต้องคีย์ซ้ำ และบัญชีถูกต้องตามหลักตั้งแต่ต้นจนจบ</div>
+          <div style="font-size:17px;line-height:1.6;">เพื่อให้เห็นว่าทุกฝ่าย (ขาย/คลัง/โรงงาน/บัญชี/ผู้บริหาร) ทำงานในระบบเดียวกัน ข้อมูลไม่ต้องคีย์ซ้ำ และบัญชีถูกต้องตามหลักตั้งแต่ต้นจนจบ</div>
         </div>
       </div>
     </div>
-    <div style="margin-top:26px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+    <div style="margin-top:26px;font-size:17px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
   </section>
 
 </div></div>
