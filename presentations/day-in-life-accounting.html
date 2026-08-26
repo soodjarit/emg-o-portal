@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Day-in-the-Life: บัญชี+กำไรรายโครงการ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:56px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:30px;margin:0 0 20px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:50px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:21px;color:#CBD3D8;max-width:840px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:56px;left:64px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:56px;right:64px;width:90px;height:90px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:16px;padding:24px 28px;margin-bottom:20px;display:flex;gap:20px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .case-text{font-size:17px;line-height:1.55;color:var(--text);}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:18px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:13px;padding:8px 14px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .flow-arrow{color:var(--copper);font-size:16px;margin:0 6px;font-weight:700;}
+
+  .two-col{display:flex;gap:34px;align-items:flex-start;}
+  .two-col:has(.shot-wrap){align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--copper);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:15px;line-height:1.5;padding-top:2px;}
+
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:15px 20px;font-size:14px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:14px 22px;margin-top:12px;}
+  .data-map-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:8px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:6px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:7px 10px 7px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+  .data-map-table.gl td:last-child{color:var(--text);font-weight:400;}
+  .data-map-table.gl td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--charcoal);font-weight:700;}
+
+  .footer-tag{position:absolute;bottom:24px;left:64px;font-size:12px;color:var(--muted);letter-spacing:.5px;}
+  .page-num{position:absolute;bottom:24px;right:64px;font-size:12px;color:var(--muted);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">฿</div>
+    <div class="eyebrow">Empire Granite · Management &amp; Accounting</div>
+    <div class="big-title">Day-in-the-Life<br>บัญชี + กำไรรายโครงการ</div>
+    <div class="big-sub">เดินตามโครงการติดตั้งหิน 1 เคสจริง ตั้งแต่เสนอราคาจนปิดโครงการ — ดูว่าแต่ละขั้นตอนลงบัญชีอย่างไร และมองเห็นกำไรจากมุมไหนได้บ้าง</div>
+    <div class="stamp">EMG-O Overview · Day-in-the-Life Accounting</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · เอกสารนี้พูดถึงอะไร</div>
+    <h2 class="slide-title">โครงการเดียว มองได้ 2 มุม: "ต่องาน" และ "ข้ามงานตามประเภทวัสดุ"</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างที่ใช้</div>
+        <div class="case-text">โครงการติดตั้งเคาน์เตอร์หินอ่างล้างหน้า 1 งาน — มีวัสดุหิน + ค่าแรงตัด/ผลิต + ค่าขนส่ง + ค่าแรงติดตั้ง รวมอยู่ในใบเสนอราคาเดียว เดินตามงานนี้ตั้งแต่ต้นจนจบ ดูว่าระบบลงบัญชีให้อย่างไรในแต่ละจุด</div>
+      </div>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">2 มุมมองที่จะเห็นตอนจบ</div>
+      <table class="data-map-table">
+        <tr><th>มุมมอง</th><th>ตอบคำถามอะไร</th></tr>
+        <tr><td>ต่อโครงการ</td><td>งานนี้ทั้งงาน กำไรเท่าไหร่ — เทียบรายได้กับต้นทุนจริงทั้งหมดที่เกิดขึ้น</td></tr>
+        <tr><td>ข้ามโครงการตามประเภทวัสดุ</td><td>งานหินอ่อนกับหินแกรนิตโดยรวมกำไรต่างกันแค่ไหน — ข้ามทุกโครงการที่เคยทำ</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Step 1 เสนอราคา -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ขั้นที่ 1 · เสนอราคา</div>
+    <h2 class="slide-title">ใบเสนอราคาสร้างจาก BOQ — 1 รายการต่อหมวดงาน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="data-map">
+          <div class="data-map-label">รายการในใบเสนอราคา</div>
+          <table class="data-map-table gl">
+            <tr><th>หมวด</th><th>จำนวน</th><th></th></tr>
+            <tr><td>วัสดุหิน (Carrara White)</td><td>2.2 m²</td><td class="num">9,900</td></tr>
+            <tr><td>ค่าแรงตัด/ผลิต</td><td>1</td><td class="num">3,000</td></tr>
+            <tr><td>ค่าขนส่งหน้างาน</td><td>1</td><td class="num">2,500</td></tr>
+            <tr><td>ค่าแรงติดตั้งหน้างาน</td><td>1</td><td class="num">5,000</td></tr>
+            <tr><td>Overhead &amp; Profit</td><td>auto</td><td class="num">1,790</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/123-day-in-life-quotation.png"><div class="shot-cap">ใบเสนอราคา S00042 — สร้างจาก BOQ0011</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Step 2 ตอบรับ+มัดจำ -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ขั้นที่ 2 · ลูกค้าตอบรับ + วางมัดจำ 30%</div>
+    <h2 class="slide-title">ยืนยันใบสั่งซื้อ → ระบบสร้างโครงการให้อัตโนมัติ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">ยืนยันใบสั่งซื้อ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สร้าง Project + Task อัตโนมัติ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตั้ง Milestone งานติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">วางมัดจำ 30%</span>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">มัดจำที่รับมา — ลงบัญชีเป็นหนี้สินก่อน ไม่ใช่รายได้ทันที</div>
+      <table class="data-map-table gl">
+        <tr><th>บัญชี</th><th>Dr</th><th>Cr</th></tr>
+        <tr><td>Trade Receivables</td><td class="num">6,915.09</td><td></td></tr>
+        <tr><td>เงินมัดจำรับล่วงหน้า (หนี้สิน)</td><td></td><td class="num">6,657.00</td></tr>
+        <tr><td>Output VAT</td><td></td><td class="num">258.09</td></tr>
+      </table>
+      <div class="note-box"><b>ทำไมต้องเป็นหนี้สินก่อน:</b> เงินมัดจำคือเงินที่รับมาก่อนส่งมอบงาน ยังไม่ถือเป็นรายได้จนกว่างานจะเสร็จจริง — รายได้จะถูกรับรู้ตอนปิดโครงการ (ดูขั้นที่ 8)</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Analytic 2 มิติ -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">มุมมอง Analytic · เห็นได้ทั้ง 2 มิติพร้อมกัน</div>
+    <h2 class="slide-title">1 รายการ ติดป้ายได้พร้อมกัน 2 มิติ ไม่ต้องเลือกอย่างใดอย่างหนึ่ง</h2>
+    <div class="data-map">
+      <table class="data-map-table">
+        <tr><th>มิติ</th><th>บอกอะไร</th><th>วิธีติดป้าย</th></tr>
+        <tr><td>โครงการ</td><td>ต้นทุน/รายได้นี้เป็นของงานไหน</td><td>อัตโนมัติจากใบสั่งซื้อที่เปิดอยู่</td></tr>
+        <tr><td>ประเภทวัสดุ</td><td>เกี่ยวกับหินชนิดไหน (หินอ่อน/หินแกรนิต)</td><td>อัตโนมัติตามสินค้าที่ขาย — เฉพาะรายการวัสดุหินโดยตรง</td></tr>
+      </table>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">✓</div>
+      <div>
+        <div class="case-text-label">ตัวอย่างจริง</div>
+        <div class="case-text">รายการ "วัสดุหิน Carrara White" ติดป้ายพร้อมกันทั้ง <b>"โครงการนี้"</b> และ <b>"หินอ่อน"</b> — ส่วนรายการค่าแรง/ค่าขนส่ง ติดแค่ป้าย "โครงการนี้" อย่างเดียว เพราะไม่ใช่ตัวหินโดยตรง</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Step 3-4 การผลิต -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นที่ 3-4 · เบิกวัตถุดิบ + ตัดหิน</div>
+    <h2 class="slide-title">ตัดหินจากก้อนตามคำสั่งขาย ต้นทุนแรงงานติดป้ายให้อัตโนมัติ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">เบิก Block จากคลัง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหินตามขนาดที่ขาย</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">แผ่นที่ตัดได้ผูกกับใบสั่งขายทันที</span>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ต้นทุนแรงงานตัด (ประมาณการ) — ติดป้าย 2 มิติพร้อมกัน</div>
+      <table class="data-map-table gl">
+        <tr><th>มิติ</th><th></th><th></th></tr>
+        <tr><td>โครงการ</td><td></td><td class="num">-500</td></tr>
+        <tr><td>หินอ่อน</td><td></td><td class="num">-500</td></tr>
+      </table>
+      <div class="note-box"><b>หมายเหตุ:</b> การรับหินก้อนเข้าคลังไม่มีผลบัญชีทันที (ระบบตีมูลค่าสต็อกแบบ periodic) — ต้นทุนที่เห็นตรงนี้คือประมาณการต้นทุนแรงงานสำหรับดูในรายงาน Analytic เท่านั้น</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Step 5-6 ค่าใช้จ่ายหน้างาน -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นที่ 5-6 · ค่าขนส่ง + ค่าใช้จ่ายไม่ได้วางแผน</div>
+    <h2 class="slide-title">ค่าใช้จ่ายจริงหน้างาน ติดป้ายโครงการเดียวกันได้แม้ไม่อยู่ในใบเสนอราคาเดิม</h2>
+    <div class="data-map">
+      <div class="data-map-label">บิลผู้ขาย 2 ใบ ระหว่างหน้างาน</div>
+      <table class="data-map-table gl">
+        <tr><th>รายการ</th><th>บัญชี</th><th></th></tr>
+        <tr><td>ค่าขนส่งหน้างาน</td><td>Freight &amp; Transportation</td><td class="num">2,200</td></tr>
+        <tr><td>วัสดุยึด/กาวเสริม (นอกแผนเดิม)</td><td>General subcontracting</td><td class="num">850</td></tr>
+      </table>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">💡</div>
+      <div>
+        <div class="case-text-label">จุดที่ analytic ช่วยได้</div>
+        <div class="case-text">ค่าใช้จ่ายที่ไม่ได้อยู่ในใบเสนอราคาตั้งแต่ต้น ยังติดป้ายโครงการเดียวกันได้ทันที — ทำให้เห็นต้นทุนจริงที่เกิดขึ้นทั้งหมด ไม่ใช่แค่ตัวเลขที่ตั้งไว้ในใบเสนอราคา</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Step 7 ติดตั้ง -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ขั้นที่ 7 · ติดตั้งหน้างาน</div>
+    <h2 class="slide-title">ค่าแรงติดตั้งจริง พร้อมภาษีหัก ณ ที่จ่าย — งานเสร็จ Milestone ขึ้นให้เอง</h2>
+    <div class="data-map">
+      <div class="data-map-label">ค่าแรงติดตั้ง (ทีมช่างติดตั้ง) — พร้อมภาษีมูลค่าเพิ่ม + ภาษีหัก ณ ที่จ่าย</div>
+      <table class="data-map-table gl">
+        <tr><th>บัญชี</th><th>Dr</th><th>Cr</th></tr>
+        <tr><td>General subcontracting</td><td class="num">4,200.00</td><td></td></tr>
+        <tr><td>Input VAT (7%)</td><td class="num">294.00</td><td></td></tr>
+        <tr><td>ภาษีหัก ณ ที่จ่าย (3%, PND 53)</td><td></td><td class="num">126.00</td></tr>
+        <tr><td>Trade Payables</td><td></td><td class="num">4,368.00</td></tr>
+      </table>
+      <div class="note-box"><b>งานเสร็จ = Milestone ขึ้นเอง</b> — พอปิดงานติดตั้งเป็น "เสร็จแล้ว" ระบบขึ้นสถานะ Milestone "ติดตั้งหน้างานเสร็จสมบูรณ์" ให้ทันที ไม่ต้องมาติ๊กแยก</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Step 8 ปิดยอด -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ขั้นที่ 8 · เรียกเก็บเงินงวดสุดท้าย + ปิดโครงการ</div>
+    <h2 class="slide-title">มัดจำที่เคยเป็นหนี้สิน กลายเป็นรายได้จริงตอนนี้เอง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="data-map">
+          <div class="data-map-label">Invoice ปิดโครงการ</div>
+          <table class="data-map-table gl">
+            <tr><th>บัญชี</th><th>Dr</th><th>Cr</th></tr>
+            <tr><td>เงินมัดจำรับล่วงหน้า (ล้างยอดสะสม)</td><td class="num">12,365.00</td><td></td></tr>
+            <tr><td>Sales Revenue - Sold as Project</td><td></td><td class="num">14,270.00</td></tr>
+            <tr><td>Trade Receivables</td><td class="num">2,163.09</td><td></td></tr>
+            <tr><td>Output VAT</td><td></td><td class="num">258.09</td></tr>
+          </table>
+        </div>
+        <div class="note-box"><b>หัวใจของขั้นตอนนี้:</b> เงินมัดจำที่เก็บมาตลอดช่วงทำงาน (บัญชีหนี้สิน) ถูกย้ายมาเป็นรายได้จริงก็ต่อเมื่องานเสร็จสมบูรณ์แล้วเท่านั้น</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/126-day-in-life-final-invoice.png"><div class="shot-cap">Invoice ปิดโครงการ — รายได้เต็มจำนวน + หักล้างเงินมัดจำ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: Step 9 Profitability -->
+  <section class="slide dark" id="slide-9">
+    <div class="eyebrow">ขั้นที่ 9 · ปิดโครงการ — ดูกำไร 2 มุมมอง</div>
+    <h2 class="slide-title" style="color:#fff;">ข้อมูลชุดเดียวกัน มองได้ทั้งต่อโครงการ และข้ามโครงการตามวัสดุ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:16px;">มุมมองที่ 1 — ต่อโครงการ</div>
+          <table class="data-map-table gl" style="color:#CBD3D8;">
+            <tr><th style="color:#9AA6AC;">โครงการ</th><th style="color:#9AA6AC;">Revenue</th><th style="color:#9AA6AC;">Margin</th></tr>
+            <tr><td style="color:#fff;">งานหลัก (หินอ่อน)</td><td class="num" style="color:#CBD3D8;">14,270</td><td class="num" style="color:#D9A465;">6,520</td></tr>
+            <tr><td style="color:#fff;">งานอ้างอิง (หินแกรนิต)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">4,540</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:10px;font-size:16px;">มุมมองที่ 2 — ข้ามโครงการตามวัสดุ</div>
+          <table class="data-map-table gl" style="color:#CBD3D8;">
+            <tr><th style="color:#9AA6AC;">ประเภทวัสดุ</th><th style="color:#9AA6AC;">Revenue</th><th style="color:#9AA6AC;">Margin</th></tr>
+            <tr><td style="color:#fff;">หินอ่อน (Marble)</td><td class="num" style="color:#CBD3D8;">1,980</td><td class="num" style="color:#D9A465;">1,480</td></tr>
+            <tr><td style="color:#fff;">หินแกรนิต (Granite)</td><td class="num" style="color:#CBD3D8;">6,840</td><td class="num" style="color:#D9A465;">6,340</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:16px;background:rgba(255,255,255,.08);color:#CBD3D8;"><b style="color:#D9A465;">มุมมองที่ 2 นับเฉพาะรายได้/ต้นทุนของตัวหินเอง</b> (ไม่รวมค่าแรง/ค่าขนส่ง/overhead) — ตอบคำถามคนละแบบจากมุมมองที่ 1: "งานหินอ่อนกับหินแกรนิตกำไรต่างกันแค่ไหนโดยรวม" ซึ่งดูจากใบเสนอราคาหรือมุมมองต่อโครงการอย่างเดียวไม่เห็น</div>
+  </section>
+
+  <!-- SLIDE 10: Summary -->
+  <section class="slide dark" id="slide-10">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">1 โครงการ ลงบัญชีถูกต้องทุกขั้น + มองกำไรได้ 2 มุม</h2>
+    <div class="flow-bar" style="margin-bottom:26px;">
+      <span class="flow-chip" style="background:var(--copper);">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">มัดจำ (หนี้สิน)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ผลิต+ค่าใช้จ่ายจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">ปิดยอด (รับรู้รายได้)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);">กำไร 2 มุมมอง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
+          <div style="font-size:14.5px;line-height:1.6;">เงินมัดจำเป็นหนี้สินจนกว่างานจะเสร็จ — ไม่ใช่รายได้ทันทีที่รับเงิน</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าถามว่า "เห็นกำไรตามวัสดุได้ไหม"</div>
+          <div style="font-size:14.5px;line-height:1.6;">ได้ — จากข้อมูลชุดเดียวกัน ไม่ต้องบันทึกซ้ำ เพราะติดป้าย 2 มิติพร้อมกันตั้งแต่ต้น</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:30px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
