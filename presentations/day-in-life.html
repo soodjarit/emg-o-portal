@@ -149,7 +149,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 2: Setup Product -->
+  <!-- SLIDE 2: Setup Product — identity fields -->
   <section class="slide" id="slide-2">
     <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</div>
     <div class="flow-bar">
@@ -163,25 +163,176 @@
       <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
       <span class="flow-chip">ดู P&amp;L</span>
     </div>
-    <h2 class="slide-title">จุดเริ่มต้น: ตั้งค่าสินค้าหินใหม่ครั้งเดียว ใช้ได้ทุกโครงการ</h2>
+    <h2 class="slide-title">จุดเริ่มต้น: ตั้งชื่อ + จัดหมวดหมู่หินที่จะขาย</h2>
     <div class="two-col">
       <div class="col-left">
         <ul class="step-list">
-          <li><span class="step-num">1</span><span class="step-text">เปิด Wizard "Quick Material Setup" — กรอกชื่อหิน, ประเภทราคา (ต่อแผ่น/ต่อก้อน)</span></li>
-          <li><span class="step-num">2</span><span class="step-text">ตั้งราคาขาย/ต้นทุนเริ่มต้นของแผ่น — ระบบสร้างสินค้าทั้งฝั่งแผ่นและก้อนให้อัตโนมัติ</span></li>
+          <li><span class="step-num">1</span><span class="step-text"><b>Setup Mode</b> — "สร้าง Material ใหม่" สำหรับหินชนิดใหม่ทั้งหมด หรือ "ใช้ Material เดิม" ถ้าจะเพิ่มแค่สินค้าสำเร็จรูปจากหินที่มีอยู่แล้ว</span></li>
+          <li><span class="step-num">2</span><span class="step-text"><b>Material Name</b> — ชื่อหินที่จะเห็นทุกที่ในระบบ ตั้งแต่ใบเสนอราคาไปจนถึงรายงานกำไร</span></li>
+          <li><span class="step-num">3</span><span class="step-text"><b>Category</b> — Marble / Granite / Quartzite / Limestone / Other ใช้จัดกลุ่มเพื่อดูรายงานเท่านั้น</span></li>
+          <li><span class="step-num">4</span><span class="step-text"><b>Origin Country</b> — แหล่งที่มาของหิน เก็บไว้อ้างอิงหรือออกใบรับรองให้ลูกค้า</span></li>
+        </ul>
+        <div class="note-box"><b>Category ≠ Analytic:</b> สองเรื่องนี้แยกกันโดยตั้งใจ — Category ใช้แค่จัดกลุ่มสินค้า ส่วนตัวที่ใช้แบ่งกำไร-ขาดทุนจริงทางบัญชีคือ Analytic ซึ่งจะผูกแยกต่างหากในสไลด์ถัดไป</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/138-day-in-life-material-wizard-filled.png"><div class="shot-cap">Quick Material Setup Wizard — ตัวอย่าง Volakas White</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2b: Pricing Mode + Density -->
+  <section class="slide" id="slide-2b">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</div>
+    <div class="flow-bar">
+      <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">Pricing Mode และ Density — เรื่องสต็อก/โลจิสติกส์ คนละเรื่องกับต้นทุน</h2>
+    <div class="data-map">
+      <div class="data-map-label">Pricing Mode — วิธีเก็บสต็อก ไม่ใช่วิธีคิดต้นทุน</div>
+      <table class="data-map-table gl">
+        <tr><th>โหมด</th><th>ใช้กับ</th><th>วิธีเก็บสต็อก</th></tr>
+        <tr><td>Serial (per-slab)</td><td>หินราคาแพง เช่น Marble/Granite คุณภาพสูง</td><td>แยกทีละแผ่น มี Serial Number เฉพาะตัว ตามรอยได้ทุกแผ่น</td></tr>
+        <tr><td>Lot (aggregate)</td><td>หินราคาถูก ที่ไม่จำเป็นต้องตามรอยทีละแผ่น</td><td>รวมเป็นล็อต นับตามพื้นที่รวมของทั้งก้อน</td></tr>
+      </table>
+    </div>
+    <div class="case-box" style="margin-top:16px;">
+      <div class="case-icon">⚖️</div>
+      <div>
+        <div class="case-text-label">Density (Ton/CBM)</div>
+        <div class="case-text">ใช้คำนวณ "น้ำหนักอ้างอิง" ของก้อนหินให้อัตโนมัติ (สำหรับวางแผนขนส่ง/บรรจุตู้คอนเทนเนอร์) เท่านั้น</div>
+      </div>
+    </div>
+    <div class="note-box"><b>ทั้งสองช่องนี้ไม่มีผลต่อตัวเลขต้นทุนแม้แต่บาทเดียว</b> — ไม่ว่าจะเลือก Serial หรือ Lot ระบบคิดต้นทุนจริงด้วยสูตรเดียวกันทุกประการ (ดูสไลด์ถัดไป) เป็นแค่เรื่องวิธีเก็บสต็อกกับโลจิสติกส์ล้วนๆ</div>
+  </section>
+
+  <!-- SLIDE 2c: Slab Cost = placeholder, real cost chain -->
+  <section class="slide" id="slide-2c">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน → ฝ่ายจัดซื้อ</div>
+    <div class="flow-bar">
+      <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">Slab Cost ที่กรอกตรงนี้ = ค่าเริ่มต้น ไม่ใช่ต้นทุนจริง</h2>
+    <div class="case-box">
+      <div class="case-icon">💡</div>
+      <div>
+        <div class="case-text-label">หลักการสำคัญ</div>
+        <div class="case-text">"Slab Sales Price" กับ "Slab Cost" ที่กรอกในวิซาร์ดนี้ ระบบเก็บไว้เป็นแค่<b>ราคาอ้างอิงเริ่มต้น</b>บนตัวสินค้า — ยังไม่ใช่ต้นทุนที่ใช้จริงทางบัญชี ต้นทุนจริงจะถูกคำนวณแทนที่โดยอัตโนมัติทันทีที่มีการซื้อของจริงเกิดขึ้น</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ซื้อก้อนหินจริงผ่านใบสั่งซื้อ (PO) → ระบบรู้ราคาจริงต่อคิว (บาท/CBM)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">คำนวณเป็นต้นทุนต่อตารางเมตรอัตโนมัติ ตามความหนาของก้อนนั้น</span></li>
+          <li><span class="step-num">3</span><span class="step-text">คูณด้วยขนาดจริงของแต่ละแผ่นที่ตัดได้ → ต้นทุนที่แท้จริงของแผ่นนั้น (แต่ละแผ่นไม่เท่ากัน เพราะขนาดไม่เท่ากัน)</span></li>
         </ul>
         <div class="data-map">
-          <div class="data-map-label">แต่ละช่องเอาไปใช้ทำอะไร</div>
-          <table class="data-map-table">
-            <tr><td>Category</td><td>จัดกลุ่มหิน (Marble/Granite/ฯลฯ) เพื่อรายงาน — คนละเรื่องกับ Analytic ที่จะผูกในสไลด์ถัดไป</td></tr>
-            <tr><td>Pricing Mode</td><td>Serial=แยกทีละแผ่น (หินแพง) / Lot=รวมตามพื้นที่ (หินถูก)</td></tr>
-            <tr><td>Density</td><td>คำนวณน้ำหนัก Block อัตโนมัติจากปริมาตร</td></tr>
-            <tr><td>Slab Price/Cost</td><td>ราคาเริ่มต้น — ต้นทุนจริงจะถูกแทนที่ด้วยใบสั่งซื้อจริงทีหลัง</td></tr>
+          <div class="data-map-label">ตัวอย่างจริงจากระบบ — Bianco Sardo Granite</div>
+          <table class="data-map-table gl">
+            <tr><td>ค่าเริ่มต้นที่กรอกตอน Setup</td><td></td><td class="num">2,000 /แผ่น</td></tr>
+            <tr><td>ใบสั่งซื้อจริง P00005: 10 CBM × 18,000</td><td></td><td class="num">180,000</td></tr>
+            <tr><td>หนา 2 ซม. → ต้นทุน/ตร.ม. (18,000×0.02)</td><td></td><td class="num">360</td></tr>
+            <tr><td>แผ่นจริงขนาด 1.8 ตร.ม. → ต้นทุนจริง (360×1.8)</td><td></td><td class="num">648</td></tr>
           </table>
         </div>
       </div>
       <div class="col-right">
-        <div class="shot-wrap"><img class="shot" src="assets/138-day-in-life-material-wizard-filled.png"><div class="shot-cap">Quick Material Setup Wizard — กรอกครบทุกช่อง (ตัวอย่าง)</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/141-day-in-life-po-real-cost.png"><div class="shot-cap">1. ใบสั่งซื้อจริง P00005 — 10 CBM × 18,000 บาท</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/142-day-in-life-bundle-cost-breakdown.png"><div class="shot-cap">2. Cost/CBM คำนวณอัตโนมัติ + รายการแผ่นที่ตัดได้</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2d: Block Product + Finished Good -->
+  <section class="slide" id="slide-2d">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</div>
+    <div class="flow-bar">
+      <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">Block Product และ Finished Good — ตัวเลือกเสริม หลักการเดียวกัน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="case-box" style="margin-bottom:14px;">
+          <div class="case-icon">📦</div>
+          <div>
+            <div class="case-text-label">Block Product (ตัวเลือก)</div>
+            <div class="case-text">เปิดใช้เมื่อต้องการขาย "ทั้งก้อน" โดยไม่ตัดแผ่น — Block Cost ที่กรอกก็เป็นค่าเริ่มต้นเหมือน Slab ทุกประการ พอมีใบสั่งซื้อจริงผูกกับก้อนนั้น ต้นทุนจริง (Cost/CBM) จะมาแทนที่ทันที</div>
+          </div>
+        </div>
+        <div class="case-box">
+          <div class="case-icon">🔨</div>
+          <div>
+            <div class="case-text-label">Finished Good (ตัวเลือก)</div>
+            <div class="case-text">เปิดใช้เมื่อจะขายสินค้าสำเร็จรูปที่ผลิตจากแผ่นดิบ 1 แผ่น (เช่น ท็อปเคาน์เตอร์สำเร็จ) — ต้องเลือก "FG Category" ที่กำหนดขั้นตอนผลิต + ค่าแรงมาตรฐานไว้ล่วงหน้า</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="data-map" style="margin-top:0;">
+          <div class="data-map-label">ต้นทุนจริงของ Finished Good มาจากไหน</div>
+          <table class="data-map-table gl">
+            <tr><td>ต้นทุนแผ่นดิบจริง (จากขั้นตอนก่อนหน้า)</td><td></td><td class="num">+</td></tr>
+            <tr><td>ค่าแรงมาตรฐานต่อหน่วย (จาก FG Category)</td><td></td><td class="num">+</td></tr>
+            <tr><td style="border-top:1.5px solid #d8d3cb;padding-top:10px;"><b>ต้นทุนจริงของ FG 1 ชิ้น</b></td><td></td><td class="num" style="border-top:1.5px solid #d8d3cb;padding-top:10px;">=</td></tr>
+          </table>
+        </div>
+        <div class="note-box">"FG Cost" ที่กรอกในวิซาร์ดตอน Setup ก็เป็นแค่ค่าเริ่มต้นเช่นเดียวกัน — ไม่ใช่ตัวเลขที่ใช้คำนวณกำไรจริง</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2e: Recap bridge -->
+  <section class="slide" id="slide-2e">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน → ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">สรุปก่อนไปต่อ: กรอกอะไรตอน Setup vs ต้นทุนจริงมาจากไหน</h2>
+    <div class="data-map">
+      <table class="data-map-table gl">
+        <tr><th>ช่องที่กรอกตอน Setup (ค่าเริ่มต้น)</th><th>ต้นทุนจริงมาจาก</th><th></th></tr>
+        <tr><td>Slab Cost</td><td>ราคาซื้อจริง (บาท/CBM) ÷ พื้นที่จริงของแต่ละแผ่นที่ตัดได้</td><td></td></tr>
+        <tr><td>Block Cost</td><td>Cost/CBM จากใบสั่งซื้อจริงของก้อนนั้น</td><td></td></tr>
+        <tr><td>FG Cost</td><td>ต้นทุนแผ่นดิบจริง + ค่าแรงมาตรฐานจาก FG Category</td><td></td></tr>
+      </table>
+    </div>
+    <div class="case-box" style="margin-top:18px;">
+      <div class="case-icon">🎯</div>
+      <div>
+        <div class="case-text-label">ทำไมเรื่องนี้สำคัญ</div>
+        <div class="case-text">กำไร-ขาดทุนที่จะเห็นในหน้า P&amp;L ท้ายเอกสารนี้ คำนวณจาก<b>ต้นทุนจริง</b>เหล่านี้ทั้งหมด — ไม่ใช่ตัวเลขที่กรอกไว้ตอน Setup ฝ่ายบัญชีจึงไม่ต้องมานั่งพิมพ์ต้นทุนเองที่ไหนอีกเลยตลอดทั้งกระบวนการ</div>
       </div>
     </div>
   </section>
