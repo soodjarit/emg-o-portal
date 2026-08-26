@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Day-in-the-Life — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 60px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:40px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .dark h1.title{color:var(--white);}
+  h2.slide-title{font-size:27px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .subtitle{font-size:18px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  .role-tag{display:inline-flex;align-items:center;gap:6px;background:var(--charcoal);color:#fff;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:14px;margin-bottom:14px;}
+  .role-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--copper);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:48px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 16px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:20px;color:#CBD3D8;max-width:840px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:52px;right:60px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:32px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:20px 24px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:#D8D3CB;color:var(--muted);font-size:11.5px;padding:6px 10px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-chip.current{background:var(--copper);color:#fff;box-shadow:0 2px 8px rgba(184,118,62,.5);}
+  .flow-arrow{color:var(--copper);font-size:14px;margin:0 3px;font-weight:700;}
+  .dark .flow-chip{background:rgba(255,255,255,.12);color:#B9C2C8;}
+
+  .two-col{display:flex;gap:28px;align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1;}
+  .col-right{flex:1;display:flex;flex-direction:column;gap:12px;justify-content:center;min-height:0;}
+  .col-right .shot-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .col-right .shot{flex:1;min-height:0;object-fit:contain;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--copper);color:#fff;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .step-text{font-size:14.5px;line-height:1.45;padding-top:2px;}
+
+  .shot{border-radius:9px;box-shadow:0 4px 16px rgba(0,0,0,.18);width:100%;display:block;object-fit:cover;background:#eee;cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:5px;text-align:center;}
+  .shot-wrap{text-align:center;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:13px 18px;font-size:13.5px;line-height:1.45;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:12px 20px;margin-top:10px;}
+  .data-map-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:7px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .data-map-table th{text-align:left;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:5px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:6px 10px 6px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+  .data-map-table.gl td:last-child{color:var(--text);font-weight:400;}
+  .data-map-table.gl td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--charcoal);font-weight:700;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:60px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">☀</div>
+    <div class="eyebrow">Empire Granite · Day-in-the-Life</div>
+    <div class="big-title">1 วันจำลอง<br>ที่จริงใช้เวลาหลายสัปดาห์</div>
+    <div class="big-sub">เดินตามโครงการติดตั้งหิน 1 งานจริงต่อเนื่องกันจนจบ — ตั้งแต่สร้างข้อมูลสินค้าครั้งแรก จนถึงเห็นกำไรที่ปิดบัญชี ครบทุกฝ่ายที่เกี่ยวข้อง</div>
+    <div class="stamp">EMG-O Day-in-the-Life · โครงการติดตั้งเคาน์เตอร์หินอ่างล้างหน้า</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม · ทำไมต้องดูแบบนี้</div>
+    <h2 class="slide-title">งานเดียวกัน ผ่านมือหลายฝ่าย — เราร้อยให้ดูจบในหน้าเดียว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">สิ่งที่จะเห็น</div>
+        <div class="case-text">โครงการติดตั้งเคาน์เตอร์หินอ่างล้างหน้า 1 งาน — ในความเป็นจริงใช้เวลาหลายสัปดาห์ (รอผลิต รอส่งของ รอทีมติดตั้ง) แต่เอกสารนี้ร้อยทุกขั้นตอนต่อเนื่องกันให้เห็นครบใน "1 วันจำลอง" ตั้งแต่ฝ่ายขายเริ่มตั้งสินค้า จนถึงฝ่ายบริหารเห็นกำไรจริง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <div class="data-map">
+      <div class="data-map-label">ใครทำอะไรบ้าง</div>
+      <table class="data-map-table">
+        <tr><th>ฝ่าย</th><th>บทบาทในงานนี้</th></tr>
+        <tr><td>ฝ่ายขาย</td><td>ตั้งค่าสินค้า, เสนอราคา, ปิดการขาย</td></tr>
+        <tr><td>คลัง/โรงงาน</td><td>เบิกวัตถุดิบ, ตัดหินตามสั่ง</td></tr>
+        <tr><td>ฝ่ายบัญชี</td><td>ตั้งค่า Analytic, รับมัดจำ, บันทึกค่าใช้จ่าย, ปิดยอด</td></tr>
+        <tr><td>ผู้จัดการโครงการ</td><td>ติดตามงานติดตั้งหน้างานจนเสร็จ</td></tr>
+        <tr><td>ผู้บริหาร</td><td>ดูกำไรจริงหลังปิดโครงการ</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Setup Product -->
+  <section class="slide" id="slide-2">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</div>
+    <div class="flow-bar">
+      <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">จุดเริ่มต้น: ตั้งค่าสินค้าหินใหม่ครั้งเดียว ใช้ได้ทุกโครงการ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิด Wizard "Quick Material Setup" — กรอกชื่อหิน, ประเภทราคา (ต่อแผ่น/ต่อก้อน)</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตั้งราคาขาย/ต้นทุนเริ่มต้นของแผ่น — ระบบสร้างสินค้าทั้งฝั่งแผ่นและก้อนให้อัตโนมัติ</span></li>
+        </ul>
+        <div class="note-box"><b>ทำครั้งเดียวต่อหิน 1 ชนิด</b> — จากนี้ไปทุกโครงการที่ใช้หินชนิดนี้ เลือกจากรายการที่ตั้งไว้ได้เลย ไม่ต้องตั้งซ้ำ</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/127-day-in-life-material-wizard.png"><div class="shot-cap">Quick Material Setup Wizard</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: ผูก Analytic -->
+  <section class="slide" id="slide-3">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ผูกสินค้ากับประเภทวัสดุครั้งเดียว — ทุกยอดขายติดป้ายให้เองอัตโนมัติ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Accounting → Configuration → Analytic Distribution Models</span></li>
+          <li><span class="step-num">2</span><span class="step-text">เลือกสินค้าหิน → กำหนดว่าให้ติดป้าย Analytic Account ไหน (เช่น "Marble", "Granite")</span></li>
+        </ul>
+        <div class="note-box"><b>ผูกครั้งเดียวต่อหิน 1 ชนิด</b> — จากนี้ไปทุกครั้งที่ขายหินชนิดนี้ ระบบติดป้าย "ประเภทวัสดุ" ให้อัตโนมัติ 100% ไม่ต้องเลือกมือทีละใบขาย</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/128-day-in-life-distribution-model.png"><div class="shot-cap">Analytic Distribution Models — ผูกสินค้ากับประเภทวัสดุ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: เสนอราคา -->
+  <section class="slide" id="slide-4">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ลูกค้าขอใบเสนอราคา — สร้างจาก BOQ ทีละหมวดงาน</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="data-map">
+          <div class="data-map-label">รายการในใบเสนอราคา</div>
+          <table class="data-map-table gl">
+            <tr><th>หมวด</th><th>จำนวน</th><th></th></tr>
+            <tr><td>วัสดุหิน (Carrara White)</td><td>2.2 m²</td><td class="num">9,900</td></tr>
+            <tr><td>ค่าแรงตัด/ผลิต</td><td>1</td><td class="num">3,000</td></tr>
+            <tr><td>ค่าขนส่งหน้างาน</td><td>1</td><td class="num">2,500</td></tr>
+            <tr><td>ค่าแรงติดตั้งหน้างาน</td><td>1</td><td class="num">5,000</td></tr>
+            <tr><td>Overhead &amp; Profit</td><td>auto</td><td class="num">1,790</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/123-day-in-life-quotation.png"><div class="shot-cap">ใบเสนอราคา S00042 — สร้างจาก BOQ0011</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: ตอบรับ+มัดจำ -->
+  <section class="slide" id="slide-5">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายขาย → ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ลูกค้าตอบรับ → ยืนยันคำสั่งซื้อ → ระบบสร้างโครงการให้เอง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ยืนยันใบสั่งซื้อ (Confirm) → ระบบสร้าง Project + Task ต่อหมวดงานอัตโนมัติ</span></li>
+          <li><span class="step-num">2</span><span class="step-text">ตั้ง Milestone งานติดตั้ง — จะขึ้นสถานะเองเมื่องานเสร็จ (ดู Step ติดตั้ง)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">วางมัดจำ 30% — ลงบัญชีเป็น<b>หนี้สิน</b>ก่อน ไม่ใช่รายได้ทันที</span></li>
+        </ul>
+        <div class="note-box"><b>ทำไมมัดจำเป็นหนี้สิน:</b> เงินที่รับมาก่อนส่งมอบงานยังไม่ถือเป็นรายได้จนกว่างานจะเสร็จจริง (ดู Step ปิดยอด)</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/125-day-in-life-downpayment-invoice.png"><div class="shot-cap">ใบแจ้งหนี้มัดจำ — เข้าบัญชีหนี้สิน</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: เบิก Block -->
+  <section class="slide" id="slide-6">
+    <div class="role-tag"><span class="dot"></span>คลัง/โรงงาน</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">คลังเช็คก้อนหินที่มีอยู่ — พร้อมข้อมูลต้นทุนจริงจากใบสั่งซื้อ</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Block ที่จะใช้ตัด — เห็นต้นทุนจริง (มาจากใบสั่งซื้อ), ปริมาตรคงเหลือ, รายการแผ่นที่เคยตัดจากก้อนนี้</span></li>
+          <li><span class="step-num">2</span><span class="step-text">กดปุ่ม "Create Cut Order" เพื่อเริ่มตัดตามที่ลูกค้าสั่ง</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/131-day-in-life-bundle-form.png"><div class="shot-cap">Block BDL-00002 — ต้นทุนจริง+รายการแผ่น</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ตัดหิน -->
+  <section class="slide" id="slide-7">
+    <div class="role-tag"><span class="dot"></span>โรงงาน</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ตัดหินตามขนาดที่ขาย — แผ่นที่ได้ผูกกับใบสั่งขายทันที</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ระบุขนาดที่จะตัด (L × H) → ยืนยัน Cut Order</span></li>
+          <li><span class="step-num">2</span><span class="step-text">แผ่นที่ตัดได้ผูกกับใบสั่งขายเดิมโดยอัตโนมัติ พร้อม Lot/Serial เฉพาะแผ่น</span></li>
+        </ul>
+        <div class="note-box"><b>เบื้องหลัง:</b> ต้นทุนวัสดุ+ต้นทุนแรงงานตัด ถูกติดป้าย Analytic ทั้ง 2 มิติ (โครงการ + ประเภทวัสดุ) ให้อัตโนมัติทันทีที่ตัดเสร็จ — การรับก้อนเข้าคลังเองไม่มีผลบัญชีทันที (ระบบตีมูลค่าสต็อกแบบ periodic)</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/132-day-in-life-mrp-production.png"><div class="shot-cap">Cut Order เสร็จสมบูรณ์ — แผ่นผูกกับ S00042</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: ค่าใช้จ่ายหน้างาน -->
+  <section class="slide" id="slide-8">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ค่าขนส่ง + ค่าใช้จ่ายที่ไม่ได้วางแผนไว้ล่วงหน้า</h2>
+    <div class="data-map">
+      <div class="data-map-label">บิลผู้ขาย 2 ใบระหว่างหน้างาน</div>
+      <table class="data-map-table gl">
+        <tr><th>รายการ</th><th>บัญชี</th><th></th></tr>
+        <tr><td>ค่าขนส่งหน้างาน</td><td>Freight &amp; Transportation</td><td class="num">2,200</td></tr>
+        <tr><td>วัสดุยึด/กาวเสริม (นอกแผนเดิม)</td><td>General subcontracting</td><td class="num">850</td></tr>
+      </table>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">💡</div>
+      <div>
+        <div class="case-text-label">จุดที่ analytic ช่วยได้</div>
+        <div class="case-text">ค่าใช้จ่ายที่ไม่ได้อยู่ในใบเสนอราคาตั้งแต่ต้น ยังติดป้ายโครงการเดียวกันได้ทันที (เลือกมือครั้งเดียวตอนบันทึกบิล) — ทำให้เห็นต้นทุนจริงทั้งหมดที่เกิดขึ้น ไม่ใช่แค่ตัวเลขที่ตั้งไว้ในใบเสนอราคา</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: ติดตั้งหน้างาน -->
+  <section class="slide" id="slide-9">
+    <div class="role-tag"><span class="dot"></span>ผู้จัดการโครงการ → ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">ทีมติดตั้งหน้างานเสร็จ — บันทึกค่าแรงจริงพร้อมภาษี</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <ul class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">ทีมติดตั้งแจ้งงานเสร็จ → PM ปิด Task "ติดตั้งหน้างาน" เป็นเสร็จสมบูรณ์</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Milestone "ติดตั้งหน้างานเสร็จสมบูรณ์" ขึ้นสถานะให้อัตโนมัติ ไม่ต้องติ๊กแยก</span></li>
+          <li><span class="step-num">3</span><span class="step-text">บัญชีบันทึกบิลค่าแรงติดตั้งจริง พร้อม VAT 7% + หัก ณ ที่จ่าย 3% (PND 53)</span></li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/134-day-in-life-bill-wht.png"><div class="shot-cap">บิลค่าแรงติดตั้ง — พร้อมพิมพ์ใบรับรองหัก ณ ที่จ่าย</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: ปิดยอด -->
+  <section class="slide" id="slide-10">
+    <div class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title">งานเสร็จสมบูรณ์ — เรียกเก็บงวดสุดท้าย + รับรู้รายได้จริง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="data-map">
+          <div class="data-map-label">Invoice ปิดโครงการ</div>
+          <table class="data-map-table gl">
+            <tr><th>บัญชี</th><th>Dr</th><th>Cr</th></tr>
+            <tr><td>เงินมัดจำรับล่วงหน้า (ล้างยอดสะสม)</td><td class="num">12,365.00</td><td></td></tr>
+            <tr><td>Sales Revenue - Sold as Project</td><td></td><td class="num">14,270.00</td></tr>
+            <tr><td>Trade Receivables</td><td class="num">2,163.09</td><td></td></tr>
+            <tr><td>Output VAT</td><td></td><td class="num">258.09</td></tr>
+          </table>
+        </div>
+        <div class="note-box"><b>หัวใจของขั้นตอนนี้:</b> เงินมัดจำที่เก็บมาตลอดช่วงทำงาน (บัญชีหนี้สิน) ถูกย้ายมาเป็นรายได้จริงก็ต่อเมื่องานเสร็จสมบูรณ์แล้วเท่านั้น</div>
+      </div>
+      <div class="col-right">
+        <div class="shot-wrap"><img class="shot" src="assets/126-day-in-life-final-invoice.png"><div class="shot-cap">Invoice ปิดโครงการ — รายได้เต็มจำนวน + หักล้างเงินมัดจำ</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: ดู P&L -->
+  <section class="slide dark" id="slide-11">
+    <div class="role-tag" style="background:rgba(255,255,255,.12);"><span class="dot"></span>ผู้บริหาร</div>
+    <div class="flow-bar">
+      <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ติดตั้ง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip current">ดู P&amp;L</span>
+    </div>
+    <h2 class="slide-title" style="color:#fff;">เปิดหน้าเดียว เห็นกำไรได้ทั้ง 2 มุมมอง</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="shot-wrap"><img class="shot" src="assets/137-day-in-life-analytic-pl.png"><div class="shot-cap" style="color:#9AA6AC;">Chart of Analytic Accounts — เห็นทุกโครงการ+ทุกประเภทวัสดุพร้อมกัน</div></div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;font-size:15px;">มุมมองที่ 1 — ต่อโครงการ</div>
+          <div style="font-size:14px;line-height:1.6;">งานนี้ (S00042) กำไรสุทธิ <b>6,516 บาท</b> — เทียบรายได้เต็มกับต้นทุนจริงทั้งหมดที่เกิดขึ้น</div>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;font-size:15px;">มุมมองที่ 2 — ข้ามโครงการตามวัสดุ</div>
+          <div style="font-size:14px;line-height:1.6;">ดูกำไรของ "งานหินอ่อน" รวมทุกโครงการที่เคยทำ เทียบกับ "งานหินแกรนิต" ได้จากหน้าเดียวกัน — ไม่ต้องเปิดทีละโครงการ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Summary -->
+  <section class="slide dark" id="slide-12">
+    <div class="eyebrow">สรุปภาพรวม</div>
+    <h2 class="slide-title" style="color:#fff;">จากตั้งค่าสินค้าครั้งแรก ถึงเห็นกำไรจริง — ครบวงจรในระบบเดียว</h2>
+    <div class="flow-bar" style="margin-bottom:24px;">
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">Setup</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">ผูก Analytic</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">ขาย+มัดจำ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">ผลิต+ค่าใช้จ่ายจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">ปิดยอด</span><span class="flow-arrow">→</span>
+      <span class="flow-chip" style="background:var(--copper);color:#fff;">P&amp;L 2 มุมมอง</span>
+    </div>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">จำไว้เสมอ</div>
+          <div style="font-size:14.5px;line-height:1.6;">เงินมัดจำเป็นหนี้สินจนกว่างานจะเสร็จ — ไม่ใช่รายได้ทันทีที่รับเงิน และการผูก Analytic ทำครั้งเดียวตอนตั้งสินค้า ที่เหลือระบบติดป้ายให้เองตลอดอายุการใช้งาน</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">ถ้าลูกค้าถามว่า "ทำไมต้องดูแบบ day-in-the-life"</div>
+          <div style="font-size:14.5px;line-height:1.6;">เพื่อให้เห็นว่าทุกฝ่าย (ขาย/คลัง/โรงงาน/บัญชี/ผู้บริหาร) ทำงานในระบบเดียวกัน ข้อมูลไม่ต้องคีย์ซ้ำ และบัญชีถูกต้องตามหลักตั้งแต่ต้นจนจบ</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:26px;font-size:16px;color:#B9C2C8;">มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 13</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
