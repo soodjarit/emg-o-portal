@@ -29,7 +29,7 @@
     text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
   #home-btn:hover{background:var(--copper);}
 
-  .layout{max-width:1320px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
   .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
   .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
 
@@ -50,7 +50,7 @@
   header{margin-bottom:32px;}
   .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
   h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
-  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:720px;margin-bottom:20px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
 
   .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
   .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
@@ -70,18 +70,19 @@
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:980px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
   table.tc-table tbody tr:hover{background:#F5EFE6;}
-  .col-id{width:78px;}
-  .col-scenario{width:190px;font-weight:600;color:var(--charcoal);}
-  .col-pre{width:170px;color:#6B6E70;}
-  .col-steps{width:260px;}
+  .col-id{width:76px;}
+  .col-scenario{width:180px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:160px;color:#6B6E70;}
+  .col-steps{width:230px;}
   .col-steps ol{margin:0;padding-left:18px;}
   .col-steps li{margin-bottom:3px;}
-  .col-expected{width:230px;}
+  .col-sample{width:220px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:220px;}
   .col-prio{width:78px;text-align:center;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
@@ -107,12 +108,12 @@
     <div class="sidebar-title">หมวด Test Case</div>
     <ul class="tree" id="doc-tree">
       <details class="tree-cat" data-section="group-A" open>
-        <summary>Product Master (stone.material)</summary>
-        <ul class="tree-docs"><li class="tree-doc"><a href="#A1"><span class="tree-doc-tag">A1</span>สร้าง Material พื้นฐาน</a></li><li class="tree-doc"><a href="#A2"><span class="tree-doc-tag">A2</span>Pricing Mode (Serial vs Lot)</a></li><li class="tree-doc"><a href="#A3"><span class="tree-doc-tag">A3</span>Costing Basis (Area vs Count)</a></li><li class="tree-doc"><a href="#A4"><span class="tree-doc-tag">A4</span>Product Linkage &amp; Purchase Method Self-Heal</a></li><li class="tree-doc"><a href="#A5"><span class="tree-doc-tag">A5</span>Finish Attribute / Variant Resolution</a></li><li class="tree-doc"><a href="#A6"><span class="tree-doc-tag">A6</span>BOM Auto-Provisioning (Cut-to-Order / FG Production)</a></li><li class="tree-doc"><a href="#A7"><span class="tree-doc-tag">A7</span>Labor Cost / Sq.Mt.</a></li></ul>
+        <summary>Product Master (Stone Material)</summary>
+        <ul class="tree-docs"><li class="tree-doc"><a href="#A1"><span class="tree-doc-tag">A1</span>สร้าง Material พื้นฐาน</a></li><li class="tree-doc"><a href="#A2"><span class="tree-doc-tag">A2</span>Pricing Mode (Serial vs Lot)</a></li><li class="tree-doc"><a href="#A3"><span class="tree-doc-tag">A3</span>Costing Basis (Area vs Count)</a></li><li class="tree-doc"><a href="#A4"><span class="tree-doc-tag">A4</span>Product Linkage &amp; Control Policy Self-Heal</a></li><li class="tree-doc"><a href="#A5"><span class="tree-doc-tag">A5</span>Finish / Variant Resolution</a></li><li class="tree-doc"><a href="#A6"><span class="tree-doc-tag">A6</span>BOM ถูกสร้างอัตโนมัติ (Cut-to-Order / FG Production)</a></li><li class="tree-doc"><a href="#A7"><span class="tree-doc-tag">A7</span>Labor Cost / Sq.Mt.</a></li></ul>
       </details>
       <details class="tree-cat" data-section="group-B" open>
         <summary>การขาย (5 Sales Modes)</summary>
-        <ul class="tree-docs"><li class="tree-doc"><a href="#B1"><span class="tree-doc-tag">B1</span>Mode 1 — Block Direct Sale</a></li><li class="tree-doc"><a href="#B2"><span class="tree-doc-tag">B2</span>Mode 2 — Ready-Made Slab (Serial / Lot)</a></li><li class="tree-doc"><a href="#B3"><span class="tree-doc-tag">B3</span>Mode 3 — Cut-to-Order (MRP)</a></li><li class="tree-doc"><a href="#B4"><span class="tree-doc-tag">B4</span>Mode 4 — Sold-as-Project (BOQ → Project)</a></li><li class="tree-doc"><a href="#B5"><span class="tree-doc-tag">B5</span>Mode 5 — Stone Production / FG Production</a></li><li class="tree-doc"><a href="#B6"><span class="tree-doc-tag">B6</span>Intercompany Trade (EG↔ES)</a></li><li class="tree-doc"><a href="#B7"><span class="tree-doc-tag">B7</span>Cancel / Release Hold</a></li><li class="tree-doc"><a href="#B8"><span class="tree-doc-tag">B8</span>Multi-Company Visibility &amp; Security</a></li></ul>
+        <ul class="tree-docs"><li class="tree-doc"><a href="#B1"><span class="tree-doc-tag">B1</span>Mode 1 — Block Direct Sale</a></li><li class="tree-doc"><a href="#B2"><span class="tree-doc-tag">B2</span>Mode 2 — Ready-Made Slab (Serial / Lot)</a></li><li class="tree-doc"><a href="#B3"><span class="tree-doc-tag">B3</span>Mode 3 — Cut-to-Order (MRP)</a></li><li class="tree-doc"><a href="#B4"><span class="tree-doc-tag">B4</span>Mode 4 — Sold-as-Project (BOQ → Project)</a></li><li class="tree-doc"><a href="#B5"><span class="tree-doc-tag">B5</span>Mode 5 — Stone Production / FG Production</a></li><li class="tree-doc"><a href="#B6"><span class="tree-doc-tag">B6</span>Intercompany Trade (Empire Granite ↔ Empire Stone)</a></li><li class="tree-doc"><a href="#B7"><span class="tree-doc-tag">B7</span>Cancel / Release Hold</a></li><li class="tree-doc"><a href="#B8"><span class="tree-doc-tag">B8</span>Multi-Company Visibility &amp; Security</a></li></ul>
       </details>
     </ul>
   </aside>
@@ -120,13 +121,13 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Test Cases: Product Master &amp; Sales</h1>
-    <div class="sub">รวม Test Case ของ Module <code>stone_slab_inventory</code> เฉพาะหมวด Product Master (<code>stone.material</code>) และการขายทั้ง 5 โหมด — อ้างอิงจากโค้ดจริงบน EE (<code>odoo19-ent-mbx</code>) ล่าสุด รวมถึง known issue/regression case ที่เคยพบมาแล้ว</div>
+    <div class="sub">รวม Test Case ของหมวด Product Master และการขายทั้ง 5 โหมด บนระบบ Empire Stone × Empire Granite — เขียนจากมุมมองผู้ใช้งานหน้าจอ (UI) ล้วนๆ พร้อมข้อมูลตัวอย่างที่ต้องกรอกในแต่ละขั้นตอน รวมถึง known issue/regression case ที่เคยพบมาแล้ว</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>70</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>69</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>15</b>หมวด</div>
       <div class="stat-pill"><b style="color:var(--red)">35</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">27</b>Medium Priority</div>
-      <div class="stat-pill"><b style="color:var(--green)">8</b>Low Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">28</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">6</b>Low Priority</div>
     </div>
   </header>
 
@@ -138,12 +139,11 @@
     <a class="dl-btn" href="../client-docs/test-cases/emg-o-test-cases-product-master-sales.xlsx" download>⬇ ดาวน์โหลด .xlsx</a>
   </div>
 
-  
   <div class="category" id="A1">
     <div class="category-header">
       <div>
         <div class="category-title">A1. สร้าง Material พื้นฐาน</div>
-        <div class="category-sub">Required fields + unique constraints · 6 test cases</div>
+        <div class="category-sub">Required fields + unique constraints · 5 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -154,6 +154,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -162,8 +163,9 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-A1-01</span></td>
           <td class="col-scenario">สร้าง Material ครบทุกฟิลด์บังคับ</td>
-          <td class="col-pre">ผู้ใช้มีสิทธิ์ group_emgo_internal_manager</td>
-          <td class="col-steps"><ol><li>เปิด Stone Material &gt; New</li><li>กรอก Name/Category/Pricing Mode/Costing Basis/Slab Product (product_id) ครบ</li><li>กด Save</li></ol></td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์ EMG-O Internal Manager</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Stone Material &gt; New</li><li>กรอกฟิลด์บังคับให้ครบ</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Name = "Test Marble 01"<br>Category = "Marble"<br>Pricing Mode = "Serial (per-slab)"<br>Costing Basis = "Area (Sq.Mt.)"<br>Slab Product = เลือกสินค้าที่มีอยู่ เช่น "Carrara White Slab"</td>
           <td class="col-expected">บันทึกสำเร็จ ไม่มี error</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
@@ -171,41 +173,37 @@
           <td class="col-id"><span class="tc-id">TC-A1-02</span></td>
           <td class="col-scenario">สร้าง Material โดยไม่กรอก Name</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>เปิด New</li><li>เว้นช่อง Name ว่าง</li><li>กรอกฟิลด์อื่นครบ</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ระบบฟ้อง required field, บันทึกไม่ผ่าน</td>
+          <td class="col-steps"><ol><li>เปิด New</li><li>เว้นช่อง Name ว่าง</li><li>กรอกฟิลด์อื่นครบตาม TC-A1-01</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Name = (เว้นว่าง) — ฟิลด์อื่นเหมือน TC-A1-01</td>
+          <td class="col-expected">ระบบฟ้อง required field ที่ช่อง Name บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A1-03</span></td>
           <td class="col-scenario">สร้าง Material โดยไม่เลือก Category</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>เปิด New</li><li>เว้น Category ว่าง</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ระบบฟ้อง required field, บันทึกไม่ผ่าน</td>
+          <td class="col-steps"><ol><li>เปิด New</li><li>เว้น Category ว่าง</li><li>กรอกฟิลด์อื่นครบ</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Category = (เว้นว่าง) — ฟิลด์อื่นเหมือน TC-A1-01</td>
+          <td class="col-expected">ระบบฟ้อง required field ที่ช่อง Category บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A1-04</span></td>
-          <td class="col-scenario">สร้าง Material โดยไม่ผูก Slab Product (product_id)</td>
+          <td class="col-scenario">สร้าง Material โดยไม่ผูก Slab Product</td>
           <td class="col-pre">-</td>
           <td class="col-steps"><ol><li>เปิด New</li><li>เว้นช่อง Slab Product ว่าง</li><li>กรอกฟิลด์อื่นครบ</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ระบบฟ้อง required field (product_id บังคับเสมอ ไม่เหมือน product_id_block)</td>
+          <td class="col-sample">Slab Product = (เว้นว่าง) — ฟิลด์อื่นเหมือน TC-A1-01</td>
+          <td class="col-expected">ระบบฟ้อง required field ที่ช่อง Slab Product (ต่างจาก Block Product ซึ่งเว้นว่างได้)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A1-05</span></td>
           <td class="col-scenario">สร้าง Material ชื่อซ้ำกับที่มีอยู่แล้ว</td>
-          <td class="col-pre">มี Material ชื่อ 'Carrara White' อยู่แล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Material ใหม่ตั้งชื่อ 'Carrara White' ซ้ำเป๊ะ</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ติด unique constraint (_name_uniq) บันทึกไม่ผ่าน</td>
+          <td class="col-pre">มี Material ชื่อ "Carrara White" อยู่แล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง Material ใหม่</li><li>ตั้งชื่อ "Carrara White" ซ้ำเป๊ะกับตัวที่มีอยู่</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Name = "Carrara White" (พิมพ์ซ้ำตัวที่มีอยู่เป๊ะๆ)</td>
+          <td class="col-expected">ระบบฟ้องว่าชื่อซ้ำ บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-        </tr>
-        <tr>
-          <td class="col-id"><span class="tc-id">TC-A1-06</span></td>
-          <td class="col-scenario">สร้าง Material ที่ slabware_uid ซ้ำกับตัวที่มีอยู่<div class="note">หมายเหตุ: ใช้เป็น match key ของ Slabware inbound sync API</div></td>
-          <td class="col-pre">มี Material ที่ตั้ง External UID ไว้แล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Material ใหม่ใส่ slabware_uid ซ้ำกับตัวเดิม</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ติด unique constraint (_slabware_uid_uniq) บันทึกไม่ผ่าน</td>
-          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
       </tbody>
     </table>
@@ -226,6 +224,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -236,39 +235,44 @@
           <td class="col-scenario">สร้าง Material ใหม่ ไม่ระบุ Pricing Mode</td>
           <td class="col-pre">-</td>
           <td class="col-steps"><ol><li>เปิด New</li><li>ไม่แตะช่อง Pricing Mode</li><li>กรอกฟิลด์บังคับอื่นครบ</li><li>กด Save</li></ol></td>
-          <td class="col-expected">Pricing Mode default เป็น 'Serial (per-slab)'</td>
+          <td class="col-sample">ไม่ต้องเลือก Pricing Mode เลย ปล่อยเป็นค่าเริ่มต้น</td>
+          <td class="col-expected">Pricing Mode ขึ้นเป็น "Serial (per-slab)" โดยอัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A2-02</span></td>
           <td class="col-scenario">สร้าง Material เลือก Pricing Mode = Lot</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>เปิด New</li><li>เลือก Pricing Mode = Lot</li><li>ผูก Slab Product ที่ tracking ยังเป็น 'none'/'serial' อยู่</li><li>กด Save</li></ol></td>
-          <td class="col-expected">บันทึกสำเร็จ และ product_id.tracking ของ Slab Product ถูกเปลี่ยนเป็น 'lot' โดยอัตโนมัติ</td>
+          <td class="col-steps"><ol><li>เปิด New</li><li>เลือก Pricing Mode = "Lot (aggregate, cheap stone)"</li><li>เลือก Slab Product ที่ Tracking (แท็บ Inventory ของสินค้า) ยังไม่ใช่ "By Lots"</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Pricing Mode = "Lot (aggregate, cheap stone)"<br>Slab Product = สินค้าที่ Tracking ยังเป็น "No Tracking" หรือ "By Unique Serial Number"</td>
+          <td class="col-expected">บันทึกสำเร็จ และเมื่อเปิดสินค้านั้นดูอีกครั้ง ฟิลด์ Tracking ถูกเปลี่ยนเป็น "By Lots" ให้อัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A2-03</span></td>
           <td class="col-scenario">Material ยังไม่มี Block เลย — เปลี่ยน Pricing Mode</td>
-          <td class="col-pre">Material ใหม่ ไม่มี stone.bundle ผูกอยู่เลย</td>
-          <td class="col-steps"><ol><li>เปิด Material ที่ pricing_mode=serial</li><li>เปลี่ยนเป็น lot</li><li>กด Save</li></ol></td>
+          <td class="col-pre">Material ใหม่ ยังไม่มี Block/Lot ผูกอยู่เลย</td>
+          <td class="col-steps"><ol><li>เปิด Material ที่ Pricing Mode = Serial</li><li>เปลี่ยนเป็น Lot</li><li>กด Save</li></ol></td>
+          <td class="col-sample">เปลี่ยน Pricing Mode จาก "Serial (per-slab)" เป็น "Lot (aggregate, cheap stone)"</td>
           <td class="col-expected">เปลี่ยนได้ปกติ ไม่มี error</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A2-04</span></td>
           <td class="col-scenario">Material มี Block อยู่แล้ว — พยายามเปลี่ยน Pricing Mode<div class="note">หมายเหตุ: กันสถานะสต็อกปนกัน</div></td>
-          <td class="col-pre">Material มี stone.bundle อย่างน้อย 1 รายการ (เช่น BDL-00002)</td>
+          <td class="col-pre">Material มี Block/Lot อย่างน้อย 1 รายการอยู่แล้ว (เช่น BDL-00002)</td>
           <td class="col-steps"><ol><li>เปิด Material นั้น</li><li>พยายามเปลี่ยน Pricing Mode จาก Serial เป็น Lot (หรือกลับกัน)</li><li>กด Save</li></ol></td>
-          <td class="col-expected">ขึ้น UserError ภาษาไทยระบุเหตุผล ('Pricing Mode ถูกล็อกแล้ว...') บันทึกไม่ผ่าน</td>
+          <td class="col-sample">สลับค่า Pricing Mode ไปอีกฝั่งหนึ่ง</td>
+          <td class="col-expected">ขึ้น error ภาษาไทยแจ้งว่า Pricing Mode ถูกล็อกแล้ว บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A2-05</span></td>
-          <td class="col-scenario">เปลี่ยน Slab Product ของ Material ที่เป็น Lot mode</td>
-          <td class="col-pre">Material pricing_mode=lot อยู่แล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Material</li><li>เปลี่ยน product_id เป็น product อื่นที่ tracking ไม่ใช่ lot</li><li>กด Save</li></ol></td>
-          <td class="col-expected">tracking ของ product ใหม่ถูกบังคับเป็น 'lot' อัตโนมัติเช่นกัน</td>
+          <td class="col-scenario">เปลี่ยน Slab Product ของ Material ที่เป็น Lot mode อยู่แล้ว</td>
+          <td class="col-pre">Material ตั้ง Pricing Mode = Lot อยู่แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Material</li><li>เปลี่ยน Slab Product เป็นสินค้าอื่นที่ Tracking ยังไม่ใช่ "By Lots"</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Slab Product = สินค้าใหม่ที่ Tracking เป็น "No Tracking"</td>
+          <td class="col-expected">เปิดสินค้าใหม่นั้นดู — Tracking ถูกบังคับเป็น "By Lots" ให้อัตโนมัติเช่นกัน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -290,6 +294,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -300,31 +305,35 @@
           <td class="col-scenario">สร้าง Material ใหม่ ไม่ระบุ Costing Basis</td>
           <td class="col-pre">-</td>
           <td class="col-steps"><ol><li>เปิด New</li><li>ไม่แตะ Costing Basis</li><li>กด Save</li></ol></td>
-          <td class="col-expected">default = 'Area (Sq.Mt.)'</td>
+          <td class="col-sample">ไม่ต้องเลือก Costing Basis เลย</td>
+          <td class="col-expected">Costing Basis ขึ้นเป็น "Area (Sq.Mt.)" โดยอัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A3-02</span></td>
           <td class="col-scenario">ตั้ง Costing Basis = Count พร้อม Flat Cost/Price</td>
-          <td class="col-pre">Material ใหม่ costing_basis=count</td>
-          <td class="col-steps"><ol><li>กรอก Flat Cost/Piece และ Flat Sale Price/Piece</li><li>รับ/ตัดแผ่นของ Material นี้ 1 แผ่น</li><li>ตรวจ cost และราคาขายของแผ่น</li></ol></td>
-          <td class="col-expected">cost/ราคาขายของแผ่นเท่ากับค่า Flat ที่กรอกไว้เป๊ะ ไม่ใช้สูตร W×L</td>
+          <td class="col-pre">Material ใหม่ตั้ง Costing Basis = "Count (flat per piece)"</td>
+          <td class="col-steps"><ol><li>กรอก Flat Cost / Piece และ Flat Sale Price / Piece</li><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว</li><li>ตรวจ Cost ของแผ่นที่ได้ (คอลัมน์ Cost หรือเปิดแผ่นดู)</li></ol></td>
+          <td class="col-sample">Flat Cost / Piece = 1,500<br>Flat Sale Price / Piece = 2,500<br>Slab L / Slab H = ใส่เท่าไหร่ก็ได้ (ไม่มีผลกับราคาโหมดนี้)</td>
+          <td class="col-expected">Cost และราคาขายของแผ่นเท่ากับ 1,500 / 2,500 เป๊ะ ไม่ถูกคำนวณจากขนาดแผ่น</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A3-03</span></td>
-          <td class="col-scenario">ตั้ง Costing Basis = Length/Volume/Weight (ยังไม่ implement จริง)<div class="note">หมายเหตุ: รอ confirm สูตรจริงกับทีม estimate</div></td>
-          <td class="col-pre">Material ใหม่ costing_basis=length (หรือ volume/weight)</td>
-          <td class="col-steps"><ol><li>รับ/ตัดแผ่นของ Material นี้ 1 แผ่น</li><li>ตรวจ cost/ราคาขายที่คำนวณได้</li></ol></td>
-          <td class="col-expected">ระบบ fallback ไปใช้สูตร Area (W×L) แทนโดยไม่ error</td>
+          <td class="col-scenario">ตั้ง Costing Basis = Length (ยังไม่รองรับสูตรจริง)<div class="note">หมายเหตุ: รอ confirm สูตรจริงกับทีมประเมินราคา</div></td>
+          <td class="col-pre">Material ใหม่ตั้ง Costing Basis = "Length"</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
+          <td class="col-expected">ระบบคำนวณ Cost แบบพื้นที่เหมือน Area mode (2.0 × 1.5 × 1,000 = 3,000) ไม่ error แม้ยังไม่มีสูตร Length จริง</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A3-04</span></td>
-          <td class="col-scenario">Costing Basis = Area (ปกติ) — regression</td>
-          <td class="col-pre">Material costing_basis=area (ค่า default เดิม)</td>
-          <td class="col-steps"><ol><li>รับ/ตัดแผ่นระบุ W/L</li><li>ตรวจ cost/ราคาขาย</li></ol></td>
-          <td class="col-expected">คำนวณจากสูตร W×L ตามพฤติกรรมเดิมทุกประการ ไม่ regression</td>
+          <td class="col-scenario">Costing Basis = Area (ค่าเริ่มต้น) — regression</td>
+          <td class="col-pre">Material ตั้ง Costing Basis = "Area (Sq.Mt.)" (ค่าเริ่มต้น)</td>
+          <td class="col-steps"><ol><li>เปิด Bundle &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
+          <td class="col-expected">Cost = 3,000 (2.0 × 1.5 × 1,000) ตามพฤติกรรมเดิมทุกประการ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -334,8 +343,8 @@
   <div class="category" id="A4">
     <div class="category-header">
       <div>
-        <div class="category-title">A4. Product Linkage &amp; Purchase Method Self-Heal</div>
-        <div class="category-sub">Slab Product / Block Product, purchase_method บังคับ 'ordered quantities' · 4 test cases</div>
+        <div class="category-title">A4. Product Linkage &amp; Control Policy Self-Heal</div>
+        <div class="category-sub">Slab Product / Block Product ถูกบังคับ Control Policy = "Ordered quantities" เสมอ · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -346,6 +355,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -353,34 +363,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A4-01</span></td>
-          <td class="col-scenario">ผูก Slab Product ที่ purchase_method เดิมเป็น 'received quantities'<div class="note">หมายเหตุ: กันบิลได้ยอด 0 เพราะไม่เคย validate ใบรับสินค้าจริง</div></td>
-          <td class="col-pre">มี product.template ที่ตั้ง Invoicing Policy = 'Received quantities'</td>
-          <td class="col-steps"><ol><li>สร้าง Material ใหม่ ผูก product_id เป็น product นี้</li><li>กด Save</li><li>เปิด product.template นั้นดู Invoicing Policy</li></ol></td>
-          <td class="col-expected">purchase_method ของ product ถูกบังคับเปลี่ยนเป็น 'Ordered quantities' อัตโนมัติหลัง create</td>
+          <td class="col-scenario">ผูก Slab Product ที่ Control Policy เดิมเป็น "Received quantities"<div class="note">หมายเหตุ: กันบิลได้ยอด 0 เพราะไม่เคยยืนยันใบรับสินค้าจริง</div></td>
+          <td class="col-pre">มีสินค้า (product) ที่ตั้ง Control Policy (แท็บ Purchase ของสินค้า) = "Received quantities" อยู่ก่อน</td>
+          <td class="col-steps"><ol><li>สร้าง Material ใหม่ ผูก Slab Product เป็นสินค้านั้น</li><li>กด Save</li><li>เปิดสินค้านั้นดูแท็บ Purchase อีกครั้ง</li></ol></td>
+          <td class="col-sample">Slab Product = สินค้าที่ Control Policy เดิม = "Received quantities"</td>
+          <td class="col-expected">Control Policy ของสินค้าถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A4-02</span></td>
-          <td class="col-scenario">ผูก Block Product (product_id_block) ทีหลัง</td>
+          <td class="col-scenario">ผูก Block Product ทีหลัง</td>
           <td class="col-pre">Material มีอยู่แล้ว ยังไม่ได้ผูก Block Product</td>
-          <td class="col-steps"><ol><li>เปิด Material</li><li>ผูก product_id_block เป็น product ที่ purchase_method='receive'</li><li>กด Save</li></ol></td>
-          <td class="col-expected">purchase_method ของ Block Product ถูก self-heal เป็น 'ordered quantities' เช่นกัน</td>
+          <td class="col-steps"><ol><li>เปิด Material</li><li>ผูก Block Product เป็นสินค้าที่ Control Policy = "Received quantities"</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Block Product = สินค้าที่ Control Policy เดิม = "Received quantities"</td>
+          <td class="col-expected">Control Policy ของ Block Product ถูกเปลี่ยนเป็น "Ordered quantities" เช่นกัน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A4-03</span></td>
-          <td class="col-scenario">แก้ Slab Product ของ Material ที่มีอยู่ไปเป็น product อื่น</td>
-          <td class="col-pre">Material มี product_id เดิมอยู่แล้ว</td>
-          <td class="col-steps"><ol><li>เปลี่ยน product_id เป็น product ใหม่ (purchase_method='receive')</li><li>กด Save</li></ol></td>
-          <td class="col-expected">purchase_method ของ product ใหม่ถูก self-heal เป็น 'ordered quantities'</td>
+          <td class="col-scenario">แก้ Slab Product ของ Material ที่มีอยู่ไปเป็นสินค้าอื่น</td>
+          <td class="col-pre">Material มี Slab Product เดิมอยู่แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Material</li><li>เปลี่ยน Slab Product เป็นสินค้าใหม่ (Control Policy = "Received quantities")</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Slab Product = สินค้าใหม่ที่ Control Policy เดิม = "Received quantities"</td>
+          <td class="col-expected">Control Policy ของสินค้าใหม่ถูกเปลี่ยนเป็น "Ordered quantities"</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A4-04</span></td>
           <td class="col-scenario">ไม่ผูก Block Product เลย (ปล่อยว่าง)</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>สร้าง Material ใหม่ กรอกฟิลด์บังคับครบ แต่เว้น product_id_block ว่าง</li><li>กด Save</li></ol></td>
-          <td class="col-expected">บันทึกสำเร็จปกติ (Block Product ไม่บังคับ ตาม ADR-008)</td>
+          <td class="col-steps"><ol><li>สร้าง Material ใหม่ กรอกฟิลด์บังคับครบ</li><li>เว้น Block Product ว่างไว้</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Block Product = (เว้นว่าง)</td>
+          <td class="col-expected">บันทึกสำเร็จปกติ (Block Product ไม่ใช่ฟิลด์บังคับ)</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
       </tbody>
@@ -390,8 +404,8 @@
   <div class="category" id="A5">
     <div class="category-header">
       <div>
-        <div class="category-title">A5. Finish Attribute / Variant Resolution</div>
-        <div class="category-sub">ADR-018 — _get_variant_for_finish() · 4 test cases</div>
+        <div class="category-title">A5. Finish / Variant Resolution</div>
+        <div class="category-sub">ADR-018 — Finish ของ Bundle เป็นตัวกำหนด Variant ที่ใช้ตัด/ผลิต · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -402,6 +416,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -409,34 +424,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A5-01</span></td>
-          <td class="col-scenario">Material ที่ product ยังไม่มี attribute Finish เลย</td>
-          <td class="col-pre">Slab Product ของ Material มี variant เดียว ไม่มี attribute line Finish</td>
-          <td class="col-steps"><ol><li>เรียก _get_variant_for_finish('polished') (ผ่าน Cut-to-Order หรือ FG Production)</li></ol></td>
-          <td class="col-expected">คืนค่า product_id (default variant) เสมอ ไม่ว่าจะส่ง finish ใดมา</td>
+          <td class="col-scenario">Material ที่ Slab Product ยังไม่มี Finish ให้เลือกเลย</td>
+          <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือกเดียว ไม่มี Finish ให้เลือกหลายแบบ</td>
+          <td class="col-steps"><ol><li>เปิด Bundle (Block/Lot) ของ Material นี้</li><li>ลองตั้งค่า Finish เป็นค่าใดก็ได้ (หรือปล่อยว่าง)</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order"</li></ol></td>
+          <td class="col-sample">Finish = เลือกอะไรก็ได้ เช่น "Polished" หรือปล่อยว่าง</td>
+          <td class="col-expected">ทำงานได้ปกติเหมือนกันทุกครั้ง ไม่ error ไม่ว่าจะตั้งค่า Finish เป็นอะไร</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A5-02</span></td>
-          <td class="col-scenario">Material ที่ product มี Finish attribute หลายค่า<div class="note">หมายเหตุ: เคย bug ผลิตผิด Finish มาก่อน (fixed 2026-07-19)</div></td>
-          <td class="col-pre">Slab Product template มี attribute line Finish (เช่น polished/honed) และมี variant แล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Cut Order wizard เลือก Finish='polished' </li><li>สร้าง MO</li></ol></td>
-          <td class="col-expected">MO ผลิต/อ้างอิง variant ที่ตรงกับ Finish=polished จริง ไม่ใช่ default variant</td>
+          <td class="col-scenario">Material ที่ Slab Product มี Finish ให้เลือกหลายแบบ<div class="note">หมายเหตุ: เคยพบบั๊กผลิตผิด Finish มาก่อน (แก้แล้ว 2026-07-19)</div></td>
+          <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือก Finish หลายแบบ (เช่น Polished/Honed) พร้อมใช้งานแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้</li><li>ตั้งค่า Finish = "Polished"</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order" แล้วยืนยัน MO</li></ol></td>
+          <td class="col-sample">Finish = "Polished"</td>
+          <td class="col-expected">แผ่น/สินค้าที่ได้ตรงกับ Finish = Polished จริง ไม่ใช่ตัวเลือกเริ่มต้นแบบไม่ระบุ Finish</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A5-03</span></td>
-          <td class="col-scenario">ส่ง finish ที่ไม่ตรงกับ xmlid ที่รู้จัก (ว่าง/None)</td>
-          <td class="col-pre">Material มี Finish attribute</td>
-          <td class="col-steps"><ol><li>เรียก _get_variant_for_finish(False)</li></ol></td>
-          <td class="col-expected">fallback กลับไปที่ product_id (default variant) โดยไม่ error</td>
-          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+          <td class="col-scenario">ปล่อย Finish ว่างไว้ ทั้งที่มีให้เลือกหลายแบบ</td>
+          <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือก Finish หลายแบบ</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้</li><li>ปล่อยช่อง Finish ว่างไว้ (ไม่เลือก)</li><li>ไปแท็บ Slabs ลองเพิ่มแถวแรก</li></ol></td>
+          <td class="col-sample">Finish = (เว้นว่าง)</td>
+          <td class="col-expected">ระบบฟ้อง error ภาษาไทยให้ตั้งค่า Finish ก่อนเพิ่มแผ่น บันทึกไม่ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A5-04</span></td>
-          <td class="col-scenario">Regression: Material มี Finish หลายค่า — Select Slabs/Cut-to-Order ต้องไม่หาย<div class="note">หมายเหตุ: พบ+แก้แล้ว 2026-07-19 — regression case</div></td>
-          <td class="col-pre">Material ที่เพิ่งเพิ่ม Finish attribute ค่าที่ 2 ทำให้ product_id เดิมถูก Odoo auto-archive</td>
-          <td class="col-steps"><ol><li>เปิด SO เลือก Material นี้</li><li>กด Select Slabs / Cut to Order</li></ol></td>
-          <td class="col-expected">ตัวเลือกยังขึ้นให้เลือกได้ปกติ (เทียบด้วย product_tmpl_id ไม่ใช่ product_id เป๊ะๆ) ไม่หายไปเงียบๆ</td>
+          <td class="col-scenario">Regression: เพิ่ม Finish แบบที่ 2 แล้ว Select Slabs/Cut-to-Order ต้องไม่หาย<div class="note">หมายเหตุ: พบและแก้แล้ว 2026-07-19 — regression case</div></td>
+          <td class="col-pre">Material ที่เพิ่งเพิ่มตัวเลือก Finish แบบที่ 2 ให้กับ Slab Product (Odoo จะปิดการใช้งาน variant เดิมอัตโนมัติ)</td>
+          <td class="col-steps"><ol><li>เปิด SO เลือก Material นี้</li><li>กด "Select Slabs" หรือ "Cut to Order"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ปุ่ม/ตัวเลือกยังใช้งานได้ปกติ ไม่หายไปเงียบๆ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -446,8 +465,8 @@
   <div class="category" id="A6">
     <div class="category-header">
       <div>
-        <div class="category-title">A6. BOM Auto-Provisioning (Cut-to-Order / FG Production)</div>
-        <div class="category-sub">_ensure_stone_bom / _ensure_stone_fg_bom — company-scoped · 5 test cases</div>
+        <div class="category-title">A6. BOM ถูกสร้างอัตโนมัติ (Cut-to-Order / FG Production)</div>
+        <div class="category-sub">BOM/Workcenter/Operation Type ถูกสร้างให้อัตโนมัติแยกตาม Company · 5 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -458,6 +477,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -466,41 +486,46 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-01</span></td>
           <td class="col-scenario">Cut-to-Order ครั้งแรกของ Material+Company คู่ใหม่</td>
-          <td class="col-pre">Material นี้ยังไม่เคยมี mrp.bom สำหรับ company นี้เลย</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order ครั้งแรกจาก block ของ material/company นี้</li><li>ตรวจ Manufacturing &gt; Workcenters และ Bill of Materials</li></ol></td>
-          <td class="col-expected">ระบบ auto สร้าง Workcenter 'Stone Cutting', Picking Type 'Stone Cutting', และ mrp.bom ให้เองครบ</td>
+          <td class="col-pre">Material นี้ยังไม่เคยสร้าง Cut Order สำหรับ Company นี้เลย</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ กด "Create Cut Order" (หรือกด "Cut to Order" จาก SO line)</li><li>กรอกฟิลด์ในหน้าต่าง "Create Cut Order"</li><li>ตรวจ Manufacturing &gt; Work Centers และ Bill of Materials</li></ol></td>
+          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2<br>Cut From Block = เลือก Bundle ที่มีอยู่ (เช่น BDL-00002)</td>
+          <td class="col-expected">ระบบสร้าง Work Center "Stone Cutting", Operation Type "Stone Cutting" และ Bill of Materials ให้เองครบ ไม่ต้องตั้งค่าเอง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-02</span></td>
           <td class="col-scenario">Cut-to-Order ครั้งที่สองของ Material+Company เดิม</td>
-          <td class="col-pre">มี BOM จากการทดสอบ TC-A6-01 อยู่แล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order อีกครั้งของ material/company เดิม</li></ol></td>
-          <td class="col-expected">ใช้ BOM เดิมซ้ำ ไม่สร้าง mrp.bom ใบใหม่ซ้อน</td>
+          <td class="col-pre">ทำ TC-A6-01 ไปแล้ว มี BOM อยู่แล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง Cut Order อีกครั้งของ Material/Company เดิม</li><li>ตรวจจำนวน Bill of Materials ของสินค้านี้</li></ol></td>
+          <td class="col-sample">ใช้ Material/Company เดิมกับ TC-A6-01</td>
+          <td class="col-expected">ใช้ BOM ใบเดิมซ้ำ ไม่มี BOM ใบใหม่เกิดขึ้นซ้อน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-03</span></td>
-          <td class="col-scenario">Material เดียวกัน Cut-to-Order จาก 2 company (EG, ES)<div class="note">หมายเหตุ: เคย bug company mismatch มาก่อน (fixed 2026-07-22)</div></td>
-          <td class="col-pre">Material ถูกใช้ทั้ง 2 company (intercompany design)</td>
-          <td class="col-steps"><ol><li>Cut-to-Order จาก warehouse ของ EG</li><li>Cut-to-Order จาก warehouse ของ ES (material เดียวกัน)</li></ol></td>
-          <td class="col-expected">ได้ mrp.bom แยกกันคนละใบต่อ company ไม่ share กัน (แต่ละใบชี้ picking_type/workcenter ของ company ตัวเอง)</td>
+          <td class="col-scenario">Material เดียวกัน Cut-to-Order จาก 2 บริษัท (Empire Granite, Empire Stone)<div class="note">หมายเหตุ: เคยพบบั๊กสลับบริษัทผิดมาก่อน (แก้แล้ว 2026-07-22)</div></td>
+          <td class="col-pre">Material นี้ถูกใช้ทั้ง 2 บริษัท</td>
+          <td class="col-steps"><ol><li>สร้าง Cut Order จากคลังของ Empire Granite</li><li>สร้าง Cut Order จากคลังของ Empire Stone (Material เดียวกัน)</li><li>ตรวจ Bill of Materials ที่ได้ทั้งสองใบ</li></ol></td>
+          <td class="col-sample">Material เดียวกัน ทำ 2 รอบ คนละ Company</td>
+          <td class="col-expected">ได้ BOM แยกกันคนละใบต่อบริษัท ไม่ใช้ปนกัน (แต่ละใบชี้ Work Center/Operation Type ของบริษัทตัวเอง)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-04</span></td>
-          <td class="col-scenario">User สิทธิ์ mrp.group_mrp_user ธรรมดา กด Cut to Order ครั้งแรก</td>
-          <td class="col-pre">User ไม่มีสิทธิ์ Manufacturing Administrator</td>
-          <td class="col-steps"><ol><li>Login เป็น user สิทธิ์จำกัด</li><li>สร้าง Cut Order ครั้งแรกของ material/company ที่ยังไม่มี BOM</li></ol></td>
-          <td class="col-expected">ไม่ติด Access Error ระหว่าง auto-provision BOM/Workcenter/Picking Type (sudo() ทำงานถูกต้อง)</td>
+          <td class="col-scenario">ผู้ใช้สิทธิ์ EMG-O Factory Admin ธรรมดา กด Cut to Order ครั้งแรก</td>
+          <td class="col-pre">ผู้ใช้ไม่มีสิทธิ์ Manufacturing Administrator (มีแค่สิทธิ์ EMG-O ปกติ)</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้สิทธิ์จำกัดนี้</li><li>สร้าง Cut Order ครั้งแรกของ Material/Company ที่ยังไม่เคยมี BOM</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">สร้างสำเร็จ ไม่ขึ้น Access Error ระหว่างขั้นตอนที่ระบบสร้าง BOM/Work Center/Operation Type ให้อัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-05</span></td>
-          <td class="col-scenario">FG Production ครั้งแรกของ FG variant+company คู่ใหม่</td>
-          <td class="col-pre">FG product category มี stone_fg_operation_ids ตั้งไว้ (เช่น Polishing, Edge)</td>
-          <td class="col-steps"><ol><li>สั่งผลิต FG variant นี้ครั้งแรกจาก company หนึ่ง</li><li>ตรวจ Picking Type 'Stone FG Production' และ BOM ที่ได้</li></ol></td>
-          <td class="col-expected">auto สร้าง Picking Type + BOM ที่มี component เป็น Slab product ต้นทาง (qty=1.0) และ operation เรียงตาม sequence ของ category</td>
+          <td class="col-scenario">FG Production ครั้งแรกของ FG variant+Company คู่ใหม่</td>
+          <td class="col-pre">Product Category ของสินค้า FG นี้ตั้งรายการขั้นตอนงาน (เช่น Polishing, Edge) ไว้แล้ว</td>
+          <td class="col-steps"><ol><li>สั่งผลิตสินค้า FG นี้ครั้งแรกจากบริษัทหนึ่ง (กด "Produce FG" จาก SO line)</li><li>ตรวจ Operation Type "Stone FG Production" และ BOM ที่ได้</li></ol></td>
+          <td class="col-sample">เลือก Slab to Consume ที่มีอยู่จริงในสต็อก</td>
+          <td class="col-expected">ระบบสร้าง Operation Type และ BOM ให้อัตโนมัติ โดย BOM มี Slab ต้นทางเป็นวัตถุดิบ (จำนวน 1.0) และขั้นตอนงานเรียงตามลำดับที่ตั้งไว้ในหมวดสินค้าครบทุกขั้น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -511,7 +536,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">A7. Labor Cost / Sq.Mt.</div>
-        <div class="category-sub">stone.slab._compute_labor_cost() — เฉพาะตัดมือ · 3 test cases</div>
+        <div class="category-sub">ค่าแรงตัดถูกคิดรวมเข้า Total Cost ของแผ่นอัตโนมัติ ไม่ว่าจะตัดด้วยมือหรือผ่าน MO · 3 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -522,6 +547,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -529,26 +555,29 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A7-01</span></td>
-          <td class="col-scenario">ตัดแผ่นแบบ Add Slab Line (ไม่มี mo_id) บน Material ที่กรอก Labor Cost/Sq.Mt.</td>
-          <td class="col-pre">Material ตั้ง labor_cost_sqmt &gt; 0</td>
-          <td class="col-steps"><ol><li>Add Slab Line ตัดแผ่นด้วยมือ ระบุ W/L</li><li>ตรวจ cost ของแผ่นที่ได้</li></ol></td>
-          <td class="col-expected">cost รวม labor_cost_sqmt × พื้นที่แผ่น เข้าไปด้วย</td>
+          <td class="col-scenario">ตัดแผ่นด้วยมือ ("Add a line" บนแท็บ Slabs, ไม่ผ่าน Cut Order/MO) บน Material ที่ตั้งค่าแรงต่อตร.ม. ไว้</td>
+          <td class="col-pre">Material ตั้งค่า "Cutting Labor Cost / Sq.Mt." มากกว่า 0 (Costing Basis เป็น "Area (Sq.Mt.)")</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line" กรอก Slab L / Slab H แล้วบันทึก</li><li>เปิดเมนู Slabs (เมนูบนสุด) หาแผ่นที่เพิ่งเพิ่มไป เปิดดู</li></ol></td>
+          <td class="col-sample">Cutting Labor Cost / Sq.Mt. = 200<br>Slab L (M) = 2.0<br>Slab H (M) = 1.5</td>
+          <td class="col-expected">Total Cost ของแผ่น = ต้นทุนวัสดุ (Cost) บวกค่าแรง (200 × 3.0 ตร.ม. = 600) เข้าไปด้วย</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A7-02</span></td>
-          <td class="col-scenario">ตัดแผ่นผ่าน Cut-to-Order (มี mo_id จริง)</td>
-          <td class="col-pre">Material ตั้ง labor_cost_sqmt &gt; 0 เช่นกัน</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order + confirm MO ตัดแผ่นจริง</li><li>ตรวจ cost ของแผ่นที่ได้ และ analytic line ของ labor</li></ol></td>
-          <td class="col-expected">labor cost มาจาก workcenter cost/hr × ระยะเวลา Work Order จริงเท่านั้น ไม่บวก labor_cost_sqmt ซ้ำ (ไม่ double-count)</td>
+          <td class="col-scenario">ตัดแผ่นผ่าน Cut-to-Order (มี Manufacturing Order จริง)</td>
+          <td class="col-pre">Material ตั้ง "Cutting Labor Cost / Sq.Mt." มากกว่า 0 เช่นกัน และ Block อยู่ที่ Stone Production แล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง Cut Order แล้ว Confirm Manufacturing Order ให้ตัดแผ่นจริง</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost และรายการ Analytic ของค่าแรงบน Sale Order</li></ol></td>
+          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2</td>
+          <td class="col-expected">ค่าแรงในแผ่นนี้มาจาก Cost/hr ของ Work Center × เวลาที่ใช้จริงบน Work Order เท่านั้น ไม่บวก "Cutting Labor Cost / Sq.Mt." ซ้ำเข้าไปอีก (ไม่ double-count)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A7-03</span></td>
-          <td class="col-scenario">Material costing_basis='count'</td>
-          <td class="col-pre">Material costing_basis=count และตั้ง labor_cost_sqmt &gt; 0 ไว้ด้วย</td>
-          <td class="col-steps"><ol><li>Add Slab Line ตัดแผ่นด้วยมือ</li><li>ตรวจ cost ของแผ่น</li></ol></td>
-          <td class="col-expected">labor_cost_sqmt ไม่ถูกนำมาคูณ (ไม่มีฐาน Sq.Mt. ให้คูณ) cost อิงจาก Flat Cost/Piece เท่านั้น</td>
+          <td class="col-scenario">Material ที่ Costing Basis = Count</td>
+          <td class="col-pre">Material ตั้งค่า "Cutting Labor Cost / Sq.Mt." ไว้ตั้งแต่ตอน Costing Basis ยังเป็น Area (ช่องนี้จะซ่อนไปเมื่อสลับเป็น Count แต่ค่าที่ตั้งไว้เดิมยังมีผล) แล้วจึงเปลี่ยน Costing Basis เป็น "Count (flat per piece)"</td>
+          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line"</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ค่าแรงต่อตร.ม. ไม่ถูกนำมาบวก (โหมดนี้ไม่มีฐาน Sq.Mt. ให้คูณ) Total Cost อิงจาก Flat Cost/Piece เท่านั้น</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
       </tbody>
@@ -570,6 +599,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -577,34 +607,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B1-01</span></td>
-          <td class="col-scenario">เลือก Block ผ่าน Select Block wizard ใน SO</td>
+          <td class="col-scenario">เลือก Block ผ่าน "Sell Whole Block" ใน SO</td>
           <td class="col-pre">มี Block สถานะ Available อยู่</td>
-          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัด กด 'Select Block'</li><li>เลือก block หนึ่งก้อน</li><li>ยืนยัน</li></ol></td>
-          <td class="col-expected">SO line ได้ stone_bundle_id ผูกถูกต้อง, is_stone_block=True, product คือ product_id_block ของ material</td>
+          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัด กด "Sell Whole Block"</li><li>หน้าต่าง "Select Block" เลือก Block หนึ่งก้อน</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">เลือก Block ที่สถานะ Available เช่น "BLK-00007"</td>
+          <td class="col-expected">บรรทัด SO ผูก Block ถูกต้อง สินค้าในบรรทัดเปลี่ยนเป็น Block Product ของ Material นั้น</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B1-02</span></td>
-          <td class="col-scenario">Confirm SO Mode 1 ภายใน company เดียวกัน</td>
-          <td class="col-pre">Block และ SO อยู่ company เดียวกัน</td>
+          <td class="col-scenario">Confirm SO Mode 1 ภายในบริษัทเดียวกัน</td>
+          <td class="col-pre">Block และ SO อยู่บริษัทเดียวกัน</td>
           <td class="col-steps"><ol><li>Confirm SO</li><li>ตรวจ Delivery Order ที่เกิดขึ้น</li></ol></td>
-          <td class="col-expected">Delivery ปกติ ไม่มี internal SO/PO เกิดขึ้น (ไม่ trigger intercompany)</td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ Delivery ปกติ ไม่มี SO/PO ภายในบริษัทเกิดขึ้นเพิ่ม</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B1-03</span></td>
           <td class="col-scenario">พยายามเลือก Block ที่ถูกขายไปแล้วโดย SO อื่น</td>
-          <td class="col-pre">Block ถูกผูกกับ SO อื่นแล้ว (sold/reserved)</td>
-          <td class="col-steps"><ol><li>เปิด Select Block wizard บน SO ใหม่</li></ol></td>
-          <td class="col-expected">Block นั้นไม่ปรากฏในตัวเลือก (ถูกกรองด้วย domain)</td>
+          <td class="col-pre">Block ถูกผูกกับ SO อื่นไปแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดหน้าต่าง "Select Block" บน SO ใหม่</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Block ที่ถูกขายไปแล้วไม่ปรากฏในรายการให้เลือก</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B1-04</span></td>
           <td class="col-scenario">ราคาต่อ CBM คำนวณถูกต้อง (regression พื้นฐาน)</td>
-          <td class="col-pre">Block มี cost_cbm ที่ทราบค่า</td>
-          <td class="col-steps"><ol><li>เลือก Block เข้า SO line</li><li>ตรวจราคาต่อหน่วยที่ระบบ set ให้</li></ol></td>
-          <td class="col-expected">ราคาตรงตามสูตรต้นทุน/ราคาขายต่อ CBM ของ bundle ไม่ผิดเพี้ยน</td>
+          <td class="col-pre">Block มี Cost / CBM ที่ทราบค่าแน่นอน</td>
+          <td class="col-steps"><ol><li>เลือก Block เข้า SO line</li><li>ตรวจราคาต่อหน่วยที่ระบบตั้งให้</li></ol></td>
+          <td class="col-sample">Cost / CBM ของ Block = 15,000</td>
+          <td class="col-expected">ราคาต่อหน่วยตรงตามสูตรต้นทุน/ราคาขายต่อ CBM ของ Block ไม่ผิดเพี้ยน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -615,7 +649,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B2. Mode 2 — Ready-Made Slab (Serial / Lot)</div>
-        <div class="category-sub">ADR-002/006/009/020 — per-slab serial vs lot-aggregate · 4 test cases</div>
+        <div class="category-sub">ADR-002/006/009/020 — เลือกทีละแผ่น vs เลือกเป็นจำนวนตร.ม. · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -626,6 +660,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -633,34 +668,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B2-01</span></td>
-          <td class="col-scenario">Material pricing_mode=serial — เลือกแผ่นเฉพาะเจาะจงหลายแผ่น</td>
-          <td class="col-pre">Material เป็น serial mode มีแผ่น Available หลายแผ่น</td>
-          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัด กด 'Select Slabs'</li><li>เลือกหลายแผ่นพร้อมกันตามหมายเลขกำกับ</li><li>ยืนยัน</li></ol></td>
-          <td class="col-expected">is_stone_material=True, stone_slab_ids ผูกครบตามที่เลือก แต่ละแผ่นสถานะเปลี่ยนเป็น Hold</td>
+          <td class="col-scenario">Material โหมด Serial — เลือกแผ่นเฉพาะเจาะจงหลายแผ่น</td>
+          <td class="col-pre">Material เป็นโหมด Serial มีแผ่นสถานะ Available หลายแผ่น</td>
+          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัด กด "Select Slabs"</li><li>เลือกหลายแผ่นพร้อมกันตามหมายเลขกำกับ</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">เลือก 2-3 แผ่นจากรายการที่สถานะ Available</td>
+          <td class="col-expected">บรรทัด SO ผูกแผ่นครบตามที่เลือก แต่ละแผ่นเปลี่ยนสถานะเป็น Hold</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B2-02</span></td>
-          <td class="col-scenario">Material pricing_mode=lot — ระบุจำนวนตร.ม.บางส่วน</td>
-          <td class="col-pre">Material เป็น lot mode มี Bundle ที่มีสต็อกรวมพอ</td>
-          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัดสินค้า Material นี้</li><li>ระบุจำนวน Sq.Mt. บางส่วนจาก bundle (ไม่เลือกแผ่นเดี่ยว)</li><li>ยืนยัน</li></ol></td>
-          <td class="col-expected">is_stone_lot_material=True, stone_bundle_id ผูกถูกต้อง, ไม่มี stone_slab_ids ผูก (ไม่ผ่าน Select Slabs)</td>
+          <td class="col-scenario">Material โหมด Lot — ระบุจำนวนตร.ม.บางส่วน</td>
+          <td class="col-pre">Material เป็นโหมด Lot มี Bundle ที่มีสต็อกรวมเพียงพอ</td>
+          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัดสินค้า Material นี้ กด "Select Lot Stock"</li><li>กรอก Quantity to Sell (Sq.Mt.) เป็นจำนวนบางส่วนจาก Lot</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">Quantity to Sell (Sq.Mt.) = 5.0 (น้อยกว่า Remaining Sqmt ของ Lot ทั้งก้อน)</td>
+          <td class="col-expected">บรรทัด SO ผูก Lot ถูกต้อง ไม่มีการเลือกแผ่นเดี่ยวใดๆ (ปุ่ม Select Slabs ไม่เกี่ยวข้องกับโหมดนี้)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B2-03</span></td>
-          <td class="col-scenario">แก้ไข SO line ที่ slab_delivered=True แล้ว</td>
-          <td class="col-pre">SO line ส่งของไปแล้วอย่างน้อย 1 แผ่น (status=Sold)</td>
-          <td class="col-steps"><ol><li>เปิด Select Slabs wizard บนบรรทัดนี้อีกครั้งเพื่อแก้ไข</li></ol></td>
-          <td class="col-expected">ถูกบล็อกไม่ให้แก้ไขรายการแผ่นอีก (slab_delivered guard)</td>
+          <td class="col-scenario">แก้ไขบรรทัด SO ที่ส่งแผ่นไปแล้ว</td>
+          <td class="col-pre">บรรทัด SO นี้ส่งแผ่นไปแล้วอย่างน้อย 1 แผ่น</td>
+          <td class="col-steps"><ol><li>เปิด "Select Slabs" บนบรรทัดนี้อีกครั้งเพื่อลองแก้ไข</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ถูกบล็อกไม่ให้แก้ไขรายการแผ่นอีก</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B2-04</span></td>
-          <td class="col-scenario">Regression: ตั้งราคาเองก่อน แล้วค่อยกด Select Slabs ทีหลัง<div class="note">หมายเหตุ: known limitation — คู่มือบทที่ 12 เตือนไว้แล้ว</div></td>
-          <td class="col-pre">SO line ยังไม่ได้เลือกแผ่น</td>
-          <td class="col-steps"><ol><li>พิมพ์ราคาเองในช่อง Unit Price ของบรรทัดก่อน</li><li>กด Select Slabs เลือกแผ่นทีหลัง</li><li>ตรวจราคาที่ได้</li></ol></td>
-          <td class="col-expected">ราคาที่ตั้งไว้ก่อนหน้าถูกรีเซ็ตกลับเป็นราคามาตรฐานของสินค้า (พฤติกรรม Odoo เอง ไม่ใช่บั๊กโมดูล) — ต้องตั้งราคาเองหลังเลือกแผ่นเสร็จเท่านั้น</td>
+          <td class="col-scenario">Regression: ตั้งราคาเอง แล้วค่อยกด Select Slabs ทีหลัง<div class="note">หมายเหตุ: ข้อจำกัดที่ทราบอยู่แล้ว — คู่มือบทที่ 12 เตือนไว้</div></td>
+          <td class="col-pre">บรรทัด SO ยังไม่ได้เลือกแผ่น</td>
+          <td class="col-steps"><ol><li>พิมพ์ราคาเองในช่อง Unit Price ของบรรทัดก่อน</li><li>กด "Select Slabs" เลือกแผ่นทีหลัง</li><li>ตรวจราคาที่ได้</li></ol></td>
+          <td class="col-sample">Unit Price ที่พิมพ์เอง = 9,999 (ตัวเลขทดสอบ)</td>
+          <td class="col-expected">ราคาที่ตั้งไว้ก่อนหน้าถูกรีเซ็ตกลับเป็นราคามาตรฐานของสินค้า (พฤติกรรมของ Odoo เอง) — ต้องตั้งราคาเองหลังเลือกแผ่นเสร็จเท่านั้น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -682,6 +721,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -689,42 +729,47 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-01</span></td>
-          <td class="col-scenario">สร้าง Cut Order ขณะ Block ยังอยู่ Stone Available (ยังไม่ย้าย)<div class="note">หมายเหตุ: เพิ่มบน EE 2026-08-16 — ไม่มีใน CE</div></td>
-          <td class="col-pre">Block อยู่ location 'Stone Available' ยังไม่ถูกย้ายไป 'Stone Production'</td>
-          <td class="col-steps"><ol><li>เปิด Cut Order wizard เลือก block นี้</li><li>พยายามสร้าง MO</li></ol></td>
-          <td class="col-expected">ถูกบล็อกด้วย _check_block_at_production() ขึ้น error แจ้งให้ย้าย Block ไป Stone Production ก่อน</td>
+          <td class="col-scenario">สร้าง Cut Order ขณะ Block ยังไม่ได้ย้ายไป Stone Production<div class="note">หมายเหตุ: ระบบใหม่ (เพิ่ม 2026-08-16) — Block ต้องถูกย้ายไปสถานีตัดก่อนเสมอ</div></td>
+          <td class="col-pre">Block อยู่ที่ Location "Stone Available" เท่านั้น ยังไม่เคยถูกย้ายไป "Stone Production"</td>
+          <td class="col-steps"><ol><li>เปิดหน้าต่าง "Create Cut Order" เลือก Block นี้ กรอก Target L / Target H</li><li>กด "Create Cut Order"</li></ol></td>
+          <td class="col-sample">Target L (M) = 1.0<br>Target H (M) = 1.0</td>
+          <td class="col-expected">ระบบฟ้อง error สองภาษาแจ้งว่า Block ยังไม่ได้ย้ายไปสถานีตัด (Stone Production) เพียงพอ พร้อมบอกให้สแกน/ย้าย Block ไปก่อน บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-02</span></td>
           <td class="col-scenario">ย้าย Block ไป Stone Production ก่อนสร้าง Cut Order</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>ทำ Internal Transfer ย้าย Block จาก Stone Available → Stone Production</li><li>เปิด Cut Order wizard สร้าง MO</li></ol></td>
-          <td class="col-expected">สร้าง MO สำเร็จ ไม่ติด error</td>
+          <td class="col-steps"><ol><li>ทำ Internal Transfer (ผ่านแอป Inventory หรือ Barcode) ย้าย Block จาก "Stone Available" ไป "Stone Production"</li><li>เปิดหน้าต่าง "Create Cut Order" สร้างใหม่อีกครั้งด้วยขนาดเดิม</li></ol></td>
+          <td class="col-sample">Target L (M) = 1.0<br>Target H (M) = 1.0</td>
+          <td class="col-expected">สร้าง Manufacturing Order สำเร็จ ไม่ติด error</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-03</span></td>
-          <td class="col-scenario">Confirm MO ตัดแผ่นจริงที่ผูกกับ SO line</td>
-          <td class="col-pre">MO มาจาก Cut Order ที่สร้างจาก SO line ที่ยังไม่มีแผ่นจริง</td>
-          <td class="col-steps"><ol><li>Confirm MO ให้เสร็จสมบูรณ์</li><li>ตรวจแผ่นใหม่ที่ได้ และ Analytic Account ของ SO</li></ol></td>
-          <td class="col-expected">แผ่นใหม่ auto-hold เข้ากับ SO line ที่สั่งไว้ทันที + labor cost ประมาณการถูกแปะเข้า analytic account ของ SO ถูกต้อง</td>
+          <td class="col-scenario">Confirm MO ที่มาจากบรรทัด SO จริง</td>
+          <td class="col-pre">Manufacturing Order มาจาก Cut Order ที่สร้างจากบรรทัด SO ที่ยังไม่มีแผ่นจริง</td>
+          <td class="col-steps"><ol><li>Confirm Manufacturing Order ให้เสร็จสมบูรณ์</li><li>ตรวจแผ่นใหม่ที่ได้ และรายการ Analytic Account ของ SO</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แผ่นใหม่ถูกผูกเข้ากับบรรทัด SO ที่สั่งไว้ทันที (สถานะ Hold) และค่าแรงประมาณการถูกบันทึกเข้า Analytic Account ของ SO ถูกต้อง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-04</span></td>
-          <td class="col-scenario">Block ที่ quant ถูกจองเต็ม 100% ที่อื่น — ตัดแผ่นใหม่<div class="note">หมายเหตุ: edge case ที่เคยพบ ยังไม่ live-reproduce เต็มรูปแบบ</div></td>
-          <td class="col-pre">Block ที่จะตัดถูกจองสต็อกเต็ม 100% ไปกับ move อื่นแล้ว</td>
-          <td class="col-steps"><ol><li>Cut Order + Confirm MO ตัดแผ่นจากบล็อกนี้</li></ol></td>
-          <td class="col-expected">lot_id ถูกตั้งค่าให้ก่อน _action_done() ไม่ขึ้น error 'You need to supply a Lot/Serial Number' (verify fix)</td>
+          <td class="col-scenario">Block ที่สต็อกถูกจองเต็มไปกับงานอื่นแล้ว — ตัดแผ่นใหม่<div class="note">หมายเหตุ: edge case ที่เคยพบ ยังไม่เจอเคสจริงซ้ำแบบเต็มรูปแบบ</div></td>
+          <td class="col-pre">Block ที่จะตัดถูกจองสต็อกไปกับงานอื่นเต็มจำนวนแล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง Cut Order และ Confirm Manufacturing Order ตัดแผ่นจาก Block นี้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ตัดแผ่นสำเร็จ ไม่ขึ้น error "You need to supply a Lot/Serial Number" (ยืนยันว่าจุดที่เคยแก้ไว้ยังใช้ได้)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-05</span></td>
-          <td class="col-scenario">Cut-to-Order ข้าม company (Block อยู่ ES, สร้างจาก SO ของ EG)</td>
-          <td class="col-pre">Block ที่จะตัดอยู่ warehouse ของ ES แต่ SO เป็นของ EG</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order เลือก block ของ ES</li><li>Confirm MO</li></ol></td>
-          <td class="col-expected">BOM/Workcenter/Picking Type ที่ใช้สอดคล้องกับ company ของ warehouse ที่ block อยู่จริง (ES) ไม่ mismatch company</td>
+          <td class="col-scenario">Cut-to-Order ข้ามบริษัท (Block อยู่ Empire Stone, สร้างจาก SO ของ Empire Granite)</td>
+          <td class="col-pre">Block ที่จะตัดอยู่คลังของ Empire Stone แต่ SO เป็นของ Empire Granite</td>
+          <td class="col-steps"><ol><li>สร้าง Cut Order เลือก Block ของ Empire Stone</li><li>Confirm Manufacturing Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">BOM/Work Center/Operation Type ที่ใช้ตรงกับบริษัทของคลังที่ Block อยู่จริง (Empire Stone) ไม่สลับบริษัทผิด</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -735,7 +780,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B4. Mode 4 — Sold-as-Project (BOQ → Project)</div>
-        <div class="category-sub">ADR-021/ADR-038 — Gantt Task + Milestone · 9 test cases</div>
+        <div class="category-sub">ADR-021/ADR-038 — สร้าง Project + Task (จัดกลุ่มตาม Zone) + Milestone ตามที่เลือกไว้ · 9 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -746,6 +791,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -753,74 +799,83 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-01</span></td>
-          <td class="col-scenario">ติ๊ก is_project_sale แล้ว Confirm SO</td>
-          <td class="col-pre">SO มีหลายบรรทัด (ไม่ใช่ display line ล้วน)</td>
-          <td class="col-steps"><ol><li>ติ๊ก 'Sold as Project'</li><li>Confirm SO</li><li>ตรวจ Project ที่เกิดขึ้น</li></ol></td>
-          <td class="col-expected">auto สร้าง Project + Task 1 ใบต่อ order line ที่ไม่ใช่ display type</td>
+          <td class="col-scenario">ติ๊ก "Sold as Project" แล้ว Confirm SO</td>
+          <td class="col-pre">SO มีหลายบรรทัด (ไม่ใช่บรรทัด Section/Note ล้วน)</td>
+          <td class="col-steps"><ol><li>ติ๊ก "Sold as Project" บน SO</li><li>กด Confirm</li><li>ตรวจ Project ที่เกิดขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบสร้าง Project ให้อัตโนมัติ พร้อม Task 1 ใบต่อบรรทัดสั่งซื้อที่ไม่ใช่ Section/Note</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-02</span></td>
-          <td class="col-scenario">Task ผูก sale_line_id เฉพาะ service line</td>
-          <td class="col-pre">SO มีทั้งบรรทัด service (แรงงาน) และบรรทัดสินค้าจริง (material/block)</td>
-          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>ตรวจ Task ของแต่ละบรรทัด</li></ol></td>
-          <td class="col-expected">Task ของบรรทัด service ผูก sale_line_id; Task ของบรรทัดสินค้าจริง 'ไม่' ผูก sale_line_id (sale_project constraint)</td>
+          <td class="col-scenario">Task เชื่อมกลับไปยังบรรทัด SO เฉพาะบรรทัดบริการ</td>
+          <td class="col-pre">SO มีทั้งบรรทัดบริการ (แรงงาน) และบรรทัดสินค้าจริง (Material/Block)</td>
+          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>เปิด Task ของแต่ละบรรทัดดู</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Task ของบรรทัดบริการมีลิงก์ย้อนกลับไปยัง Sale Order Line เดิม (เห็นได้จากข้อมูล Sales Order บน Task); Task ของบรรทัดสินค้าจริงไม่มีลิงก์นี้</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-03</span></td>
-          <td class="col-scenario">Task ผูก boq_line_id ไม่ว่าประเภทบรรทัดใด</td>
-          <td class="col-pre">Order line มาจาก BOQ (มี boq_line_id)</td>
-          <td class="col-steps"><ol><li>Confirm SO</li><li>ตรวจ Task ที่ได้</li></ol></td>
-          <td class="col-expected">boq_line_id ถูกผูกกับ Task เสมอ ไม่ว่าบรรทัดจะเป็น service หรือสินค้าจริง</td>
+          <td class="col-scenario">Task ผูกกับ BOQ Line เสมอ ไม่ว่าประเภทบรรทัดใด</td>
+          <td class="col-pre">Order line มาจาก BOQ (มีข้อมูล BOQ Line ผูกอยู่ ไม่ใช่บรรทัดที่พิมพ์เพิ่มเอง)</td>
+          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>เปิด Task ที่ได้ดู</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Task ผูกกับ BOQ Line เดิมเสมอ ไม่ว่าบรรทัดนั้นจะเป็นบริการหรือสินค้าจริง (ต่างจาก Sale Order Line ที่ผูกเฉพาะบรรทัดบริการใน TC-B4-02)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-04</span></td>
           <td class="col-scenario">หลาย BOQ Zone/Schedule ในออเดอร์เดียว</td>
-          <td class="col-pre">BOQ มีอย่างน้อย 2 Zone (เช่น 'L4 Main Lobby' และ 'L5 Skylounge')</td>
-          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>ตรวจวันที่เริ่ม/จบของ Task แต่ละ zone</li></ol></td>
-          <td class="col-expected">Task ถูกจัดกลุ่มแยกตาม zone, เรียงตาม boq_line.sequence ภายใน zone, และแต่ละ zone เริ่มนับที่ 'วันนี้' พร้อมกัน (ไม่ต่อคิวข้าม zone)</td>
+          <td class="col-pre">BOQ มีอย่างน้อย 2 Zone/Schedule (เช่น "L4 Main Lobby" และ "L5 Skylounge")</td>
+          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>ตรวจวันเริ่ม/วันกำหนดส่งของ Task แต่ละ Zone</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Task ถูกจัดกลุ่มแยกตาม Zone เรียงลำดับกันภายใน Zone ตามลำดับที่ตั้งไว้ในบรรทัด BOQ และแต่ละ Zone เริ่มนับวันที่ "วันนี้" พร้อมกัน (ไม่ต่อคิวข้าม Zone)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-05</span></td>
-          <td class="col-scenario">Order line ไม่มี boq_line_id เลย (manual line)</td>
-          <td class="col-pre">SO มีบรรทัดที่พิมพ์เพิ่มเองนอกเหนือจาก BOQ</td>
+          <td class="col-scenario">บรรทัดที่พิมพ์เพิ่มเองนอกเหนือจาก BOQ</td>
+          <td class="col-pre">SO มีบรรทัดที่พิมพ์เพิ่มเองนอกเหนือจากที่มาจาก BOQ</td>
           <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>ตรวจวันที่ของ Task บรรทัดนี้</li></ol></td>
-          <td class="col-expected">ได้ placeholder กำหนดการ 1 วันจากวันนี้ ตามค่า fallback เดิม</td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้กำหนดการแบบ placeholder เดียวกันเสมอ (วันนี้ → +1 วัน) เพราะไม่มี Zone/ลำดับจาก BOQ ให้อ้างอิง</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-06</span></td>
-          <td class="col-scenario">BOQ line ที่ is_milestone=True</td>
-          <td class="col-pre">BOQ มีบรรทัดติ๊ก Milestone ไว้บางบรรทัด</td>
-          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>ตรวจ Milestones smart button ของ Project</li></ol></td>
-          <td class="col-expected">บรรทัดที่ is_milestone=True ได้ Milestone ผูก task.milestone_id 1:1; บรรทัดที่ไม่ติ๊กไม่มี Milestone</td>
+          <td class="col-scenario">BOQ Line ที่ติ๊ก Milestone ไว้</td>
+          <td class="col-pre">BOQ มีบางบรรทัดติ๊กช่อง Milestone ไว้ บางบรรทัดไม่ติ๊ก</td>
+          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>เปิด Project ที่ได้ กด "Milestones" (smart button)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บรรทัดที่ติ๊ก Milestone ไว้ ได้ Milestone ผูกกับ Task ของบรรทัดนั้น 1 ต่อ 1; บรรทัดที่ไม่ติ๊กไม่มี Milestone เกิดขึ้น</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-07</span></td>
-          <td class="col-scenario">ติ๊ก is_project_sale หลัง Confirm ไปแล้ว (idempotent)</td>
-          <td class="col-pre">SO confirm ไปแล้วโดยไม่ได้ติ๊ก is_project_sale ตอนแรก</td>
-          <td class="col-steps"><ol><li>ติ๊ก is_project_sale ทีหลัง</li><li>กดปุ่ม 'Create Project' (action_create_stone_project)</li><li>ลองกดซ้ำอีกครั้ง</li></ol></td>
-          <td class="col-expected">ครั้งแรกสร้าง Project สำเร็จ; กดซ้ำครั้งที่สองไม่สร้าง Project ซ้ำซ้อน (idempotent guard project_id)</td>
+          <td class="col-scenario">ติ๊ก "Sold as Project" หลัง Confirm ไปแล้ว (idempotent)</td>
+          <td class="col-pre">SO confirm ไปแล้วโดยไม่ได้ติ๊ก "Sold as Project" ตอนแรก</td>
+          <td class="col-steps"><ol><li>ติ๊ก "Sold as Project" ทีหลัง</li><li>กดปุ่ม "สร้าง Project" ที่ปรากฏขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Project ถูกสร้างสำเร็จ และปุ่ม "สร้าง Project" หายไปหลังจากนั้น (เพราะมี Project ผูกอยู่แล้ว) กดสร้างซ้ำซ้อนอีกไม่ได้</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-08</span></td>
-          <td class="col-scenario">BOQ Overhead &amp; Profit adder line<div class="note">หมายเหตุ: พบ 2026-08-16 — flagged ไม่ fix</div></td>
-          <td class="col-pre">BOQ document มี adder line 'Overhead &amp; Profit' ที่ boq.document สร้างให้อัตโนมัติ</td>
-          <td class="col-steps"><ol><li>Confirm SO ที่มี adder line นี้แบบ Sold as Project</li><li>ตรวจ Task ทั้งหมดที่เกิดขึ้น</li></ol></td>
-          <td class="col-expected">adder line ก็ได้ Task ของตัวเองเช่นกัน (ยังไม่ถูกกรองทิ้ง — flagged behavior ต้อง verify ว่ายังตรงกับที่ทีมต้องการ)</td>
+          <td class="col-scenario">บรรทัดเสริม "Overhead &amp; Profit" จาก BOQ<div class="note">หมายเหตุ: พบ 2026-08-16 — flagged ไว้ ยังไม่ปรับแก้</div></td>
+          <td class="col-pre">เอกสาร BOQ มีบรรทัดเสริม "Overhead &amp; Profit" ที่ระบบสร้างให้อัตโนมัติ</td>
+          <td class="col-steps"><ol><li>Confirm SO ที่มีบรรทัดนี้แบบ Sold as Project</li><li>ตรวจ Task ทั้งหมดที่เกิดขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บรรทัดเสริมนี้ก็ได้ Task ของตัวเองเช่นกัน (ยังไม่ถูกกรองทิ้ง — สถานะที่ทราบอยู่แล้ว ต้อง verify ว่ายังตรงกับที่ทีมต้องการ)</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B4-09</span></td>
-          <td class="col-scenario">Backfill Milestone หลัง Project สร้างไปแล้ว (regenerate)</td>
-          <td class="col-pre">Project สร้างไปแล้ว แล้วมี BOQ line ถูกติ๊ก is_milestone เพิ่มทีหลัง (รวมถึงเคสชื่อซ้ำกันข้าม section เช่น BOQ0008)</td>
-          <td class="col-steps"><ol><li>ติ๊ก is_milestone เพิ่มบน BOQ line ที่ยังไม่มี Milestone</li><li>กด action_regenerate_stone_milestones</li></ol></td>
-          <td class="col-expected">Milestone ใหม่ถูกสร้างและจับคู่กับ Task ที่ถูกต้องแม่นยำ แม้ 2 BOQ line มีชื่อซ้ำกันข้าม section</td>
+          <td class="col-scenario">Regression: Backfill Milestone หลัง Project สร้างไปแล้ว</td>
+          <td class="col-pre">Project สร้างไปแล้ว แล้วมี BOQ Line ถูกติ๊ก Milestone เพิ่มทีหลัง (รวมถึงกรณีชื่อบรรทัดซ้ำกันข้าม Section เช่น "Dry-Lay" ที่ปรากฏทั้งใน JOB A และ JOB B)</td>
+          <td class="col-steps"><ol><li>ติ๊ก Milestone เพิ่มบน BOQ Line ที่ยังไม่มี Milestone</li><li>เปิด SO กดปุ่ม "สร้าง Milestone ใหม่"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Milestone ใหม่ถูกสร้างและจับคู่กับ Task ที่ถูกต้องแม่นยำ แม้มี 2 บรรทัด BOQ ชื่อซ้ำกันข้าม Section ก็ตาม</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -831,7 +886,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B5. Mode 5 — Stone Production / FG Production</div>
-        <div class="category-sub">ADR-029 — ตัด Slab แล้วผลิตต่อเป็น FG · 4 test cases</div>
+        <div class="category-sub">ADR-029 — ตัด Slab แล้วผลิตต่อเป็นสินค้าสำเร็จรูป (FG) · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -842,6 +897,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -850,33 +906,37 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-B5-01</span></td>
           <td class="col-scenario">Confirm SO ขายสินค้า FG</td>
-          <td class="col-pre">มี FG product ที่ตั้ง BOM ไว้แล้ว (หรือยังไม่เคยผลิต — จะ auto-provision)</td>
-          <td class="col-steps"><ol><li>Confirm SO ที่มีบรรทัดขาย FG product</li><li>ตรวจ MO ที่เกิดขึ้น</li></ol></td>
-          <td class="col-expected">auto ขึ้นคิวงานผลิต (MO) ผ่าน BOM ที่มี component เป็น Slab product ของ material ต้นทาง</td>
+          <td class="col-pre">มีสินค้า FG ที่ตั้ง BOM ไว้แล้ว (หรือยังไม่เคยผลิต — ระบบจะสร้างให้อัตโนมัติ)</td>
+          <td class="col-steps"><ol><li>Confirm SO ที่มีบรรทัดขายสินค้า FG</li><li>ตรวจ Manufacturing Order ที่เกิดขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบขึ้นคิวงานผลิต (Manufacturing Order) ให้อัตโนมัติ โดยใช้ Slab ของ Material ต้นทางเป็นวัตถุดิบ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B5-02</span></td>
           <td class="col-scenario">ยังไม่มี Slab จริงในสต็อกสำหรับ FG นี้</td>
           <td class="col-pre">Slab ต้นทางยังไม่ถูกตัดไว้เลย</td>
-          <td class="col-steps"><ol><li>Confirm SO ขาย FG</li><li>ตรวจลำดับ MO/ขั้นตอนที่ระบบสร้าง</li></ol></td>
-          <td class="col-expected">ลำดับงานเชื่อมกับขั้นตอนตัด Slab ก่อน (2-step: ตัด Slab แล้วค่อยผลิต FG) ถูกต้องตามลำดับ</td>
+          <td class="col-steps"><ol><li>Confirm SO ขาย FG</li><li>ตรวจลำดับ Manufacturing Order/ขั้นตอนที่ระบบสร้าง</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบสร้างลำดับงาน 2 ขั้นตอนต่อกัน: ตัด Slab ก่อน แล้วจึงผลิต FG ตามหลัง เรียงลำดับถูกต้อง</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B5-03</span></td>
           <td class="col-scenario">Confirm การผลิต FG จริง</td>
-          <td class="col-pre">MO ผลิต FG พร้อม confirm</td>
-          <td class="col-steps"><ol><li>Confirm MO ผลิต FG ให้เสร็จ</li><li>ตรวจสต็อก FG product ที่ได้</li></ol></td>
-          <td class="col-expected">ได้สต็อก FG product จริง แยกชุดการผลิตแต่ละครั้งได้ (lot/batch)</td>
+          <td class="col-pre">Manufacturing Order ผลิต FG พร้อม Confirm</td>
+          <td class="col-steps"><ol><li>Confirm Manufacturing Order ผลิต FG ให้เสร็จ</li><li>ตรวจสต็อกสินค้า FG ที่ได้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้สต็อกสินค้า FG จริง แยกชุดการผลิตแต่ละครั้งได้ (Lot/Serial แยกกัน)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B5-04</span></td>
-          <td class="col-scenario">FG variant+company คู่ใหม่ที่ยังไม่เคยผลิต</td>
-          <td class="col-pre">FG product category มี stone_fg_operation_ids ตั้งไว้ (เช่น Polishing, Edge เรียง sequence)</td>
-          <td class="col-steps"><ol><li>สั่งผลิต FG variant นี้ครั้งแรกจาก company หนึ่ง</li><li>ตรวจ operation ของ MO/BOM ที่ได้</li></ol></td>
-          <td class="col-expected">operation เรียงตาม sequence ของ category ตรงกับที่ตั้งไว้ครบทุกขั้น</td>
+          <td class="col-scenario">FG variant+Company คู่ใหม่ที่ยังไม่เคยผลิต</td>
+          <td class="col-pre">Product Category ของสินค้า FG ตั้งรายการขั้นตอนงาน (เช่น Polishing, Edge) เรียงลำดับไว้แล้ว</td>
+          <td class="col-steps"><ol><li>สั่งผลิตสินค้า FG นี้ครั้งแรกจากบริษัทหนึ่ง</li><li>ตรวจขั้นตอนงานของ Manufacturing Order/BOM ที่ได้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ขั้นตอนงานเรียงตามลำดับที่ตั้งไว้ในหมวดสินค้าครบทุกขั้น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -886,8 +946,8 @@
   <div class="category" id="B6">
     <div class="category-header">
       <div>
-        <div class="category-title">B6. Intercompany Trade (EG↔ES)</div>
-        <div class="category-sub">cross-cutting ทุกโหมดที่เกี่ยวสต็อก — auto internal SO/PO · 7 test cases</div>
+        <div class="category-title">B6. Intercompany Trade (Empire Granite ↔ Empire Stone)</div>
+        <div class="category-sub">cross-cutting ทุกโหมดที่เกี่ยวกับสต็อก — สร้าง SO/PO ภายในอัตโนมัติ · 7 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -898,6 +958,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -905,58 +966,65 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-01</span></td>
-          <td class="col-scenario">ขายแผ่น (Serial) ข้าม company — EG ขาย, Bundle อยู่ ES</td>
-          <td class="col-pre">Bundle/แผ่นที่เลือกอยู่ warehouse ของ ES แต่ SO เป็นของ EG</td>
-          <td class="col-steps"><ol><li>เลือกแผ่นของ ES เข้า SO ของ EG ผ่าน Select Slabs</li><li>Confirm SO</li></ol></td>
-          <td class="col-expected">auto สร้าง internal SO (ES ขาย EG) + internal PO (EG ซื้อจาก ES) พร้อม markup ตาม stone_intercompany_markup_pct ของ ES</td>
+          <td class="col-scenario">ขายแผ่น (Serial) ข้ามบริษัท — Empire Granite ขาย, แผ่นอยู่ Empire Stone</td>
+          <td class="col-pre">แผ่นที่เลือกอยู่คลังของ Empire Stone แต่ SO เป็นของ Empire Granite</td>
+          <td class="col-steps"><ol><li>เลือกแผ่นของ Empire Stone เข้า SO ของ Empire Granite ผ่าน "Select Slabs"</li><li>Confirm SO</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบสร้าง SO ภายใน (Empire Stone ขาย Empire Granite) และ PO ภายใน (Empire Granite ซื้อจาก Empire Stone) ให้อัตโนมัติ พร้อมบวก Markup ตามที่ตั้งไว้ในค่า "Stone Intercompany Markup %" ของ Empire Stone (Settings &gt; Companies)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-02</span></td>
-          <td class="col-scenario">Internal SO/PO ต้อง auto confirm + auto invoice</td>
+          <td class="col-scenario">SO/PO ภายในต้อง Confirm + ออกใบแจ้งหนี้อัตโนมัติ</td>
           <td class="col-pre">ต่อเนื่องจาก TC-B6-01</td>
-          <td class="col-steps"><ol><li>ตรวจ internal SO และ internal PO ที่เกิดขึ้น</li></ol></td>
-          <td class="col-expected">ทั้งคู่ถูก confirm อัตโนมัติ พร้อมสร้าง invoice (SO)/vendor bill (PO) ทันที ไม่ค้าง draft ให้ทำมือ</td>
+          <td class="col-steps"><ol><li>ตรวจ SO ภายในและ PO ภายในที่เกิดขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ทั้งคู่ถูก Confirm ให้อัตโนมัติ พร้อมสร้างใบแจ้งหนี้ (SO)/ใบเรียกเก็บจากผู้ขาย (PO) ทันที ไม่ค้างสถานะ Draft ให้ต้องทำมือ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-03</span></td>
-          <td class="col-scenario">Delivery เดิมของบริษัทผู้ซื้อถูกยกเลิก/ตัดถูกต้อง</td>
-          <td class="col-pre">ต่อเนื่องจาก TC-B6-01 (ก่อน confirm มี stock.move ของ EG ค้างอยู่ก่อน)</td>
-          <td class="col-steps"><ol><li>ตรวจ stock.move/picking ของ EG หลัง confirm</li></ol></td>
-          <td class="col-expected">ส่วนที่เป็น cross-company slab ถูกตัด/ยกเลิกออกจาก move เดิมอย่างถูกต้อง ไม่มี picking ค้างครึ่งๆ กลางๆ</td>
+          <td class="col-scenario">รายการส่งของเดิมของบริษัทผู้ซื้อถูกตัดถูกต้อง</td>
+          <td class="col-pre">ต่อเนื่องจาก TC-B6-01 (ก่อน Confirm มีรายการรอส่งของ Empire Granite ค้างอยู่ก่อน)</td>
+          <td class="col-steps"><ol><li>ตรวจรายการรับ-ส่งของของ Empire Granite หลัง Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ส่วนที่เป็นแผ่นข้ามบริษัทถูกตัด/ปรับออกจากรายการเดิมอย่างถูกต้อง ไม่มีรายการค้างครึ่งๆ กลางๆ</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-04</span></td>
-          <td class="col-scenario">ขายแบบ Lot ข้าม company</td>
-          <td class="col-pre">Bundle เป็น lot mode อยู่ ES, SO เป็นของ EG ระบุจำนวนตร.ม.บางส่วน</td>
+          <td class="col-scenario">ขายแบบ Lot ข้ามบริษัท</td>
+          <td class="col-pre">Bundle เป็นโหมด Lot อยู่ Empire Stone, SO เป็นของ Empire Granite ระบุจำนวนตร.ม.บางส่วน</td>
           <td class="col-steps"><ol><li>Confirm SO</li></ol></td>
-          <td class="col-expected">internal SO/PO ใช้ product_id (ไม่ใช่ product_id_block) และราคาตาม cost_sqmt × markup</td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO/PO ภายในใช้ Slab Product (ไม่ใช่ Block Product) และราคาอิงตาม Cost / Sq.Mt. บวก Markup</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-05</span></td>
-          <td class="col-scenario">ขายทั้งก้อน (Block) ข้าม company</td>
-          <td class="col-pre">Block อยู่ ES, SO เป็นของ EG (Mode 1)</td>
+          <td class="col-scenario">ขายทั้งก้อน (Block) ข้ามบริษัท</td>
+          <td class="col-pre">Block อยู่ Empire Stone, SO เป็นของ Empire Granite (Mode 1)</td>
           <td class="col-steps"><ol><li>Confirm SO</li></ol></td>
-          <td class="col-expected">internal SO/PO ใช้ product_id_block และราคาตาม cost_cbm × markup</td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO/PO ภายในใช้ Block Product และราคาอิงตาม Cost / CBM บวก Markup</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-06</span></td>
-          <td class="col-scenario">หลายแผ่นข้าม company จากคนละ seller company ในออเดอร์เดียว</td>
-          <td class="col-pre">SO เดียวมีทั้งแผ่นจาก ES และ (สมมติ) จากอีก company ที่ 3 ในอนาคต — อย่างน้อยทดสอบ 2 seller company ผสมกัน</td>
-          <td class="col-steps"><ol><li>Confirm SO ที่มีแผ่นข้าม company จากคนละ seller</li></ol></td>
-          <td class="col-expected">แยก internal SO/PO เป็นคนละชุดตาม seller company อย่างถูกต้อง (by_seller_company grouping ไม่ปนกัน)</td>
+          <td class="col-scenario">หลายแผ่นข้ามบริษัทจากคนละบริษัทผู้ขายในออเดอร์เดียว</td>
+          <td class="col-pre">SO เดียวมีแผ่นข้ามบริษัทจากอย่างน้อย 2 บริษัทผู้ขายที่ต่างกัน</td>
+          <td class="col-steps"><ol><li>Confirm SO ที่มีแผ่นข้ามบริษัทจากคนละบริษัทผู้ขาย</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบแยก SO/PO ภายในเป็นคนละชุดตามบริษัทผู้ขายอย่างถูกต้อง ไม่ปนกัน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-07</span></td>
-          <td class="col-scenario">Regression: SO ที่ไม่ข้าม company เลย</td>
-          <td class="col-pre">Bundle/Block ทุกรายการใน SO อยู่ company เดียวกับ SO เอง</td>
+          <td class="col-scenario">Regression: SO ที่ไม่ข้ามบริษัทเลย</td>
+          <td class="col-pre">Bundle/Block ทุกรายการใน SO อยู่บริษัทเดียวกับ SO เอง</td>
           <td class="col-steps"><ol><li>Confirm SO ปกติ (Mode 1/2/3 อย่างใดอย่างหนึ่ง)</li></ol></td>
-          <td class="col-expected">ไม่มี internal SO/PO เกิดขึ้นเลย (intercompany logic ไม่ถูก trigger เกินจำเป็น)</td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ไม่มี SO/PO ภายในเกิดขึ้นเลย</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -967,7 +1035,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B7. Cancel / Release Hold</div>
-        <div class="category-sub">action_cancel() — คืนสถานะแผ่นที่ค้าง Hold · 2 test cases</div>
+        <div class="category-sub">ปุ่ม Cancel บน SO คืนสถานะแผ่นที่ค้าง Hold · 2 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -978,6 +1046,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -985,18 +1054,20 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B7-01</span></td>
-          <td class="col-scenario">Cancel SO ที่มีแผ่น status=Hold ผูกอยู่</td>
-          <td class="col-pre">SO มีแผ่นที่ถูกเลือกไว้แล้ว (status=Hold) ยังไม่ confirm หรือ confirm แล้วยังไม่ส่งของ</td>
-          <td class="col-steps"><ol><li>กด Cancel SO</li><li>ตรวจสถานะแผ่นที่เคยผูกอยู่</li></ol></td>
-          <td class="col-expected">แผ่นกลับเป็น Available, customer_id/sale_order_id/sale_line_id ถูกล้างค่าหมด</td>
+          <td class="col-scenario">Cancel SO ที่มีแผ่นสถานะ Hold ผูกอยู่</td>
+          <td class="col-pre">SO มีแผ่นที่ถูกเลือกไว้แล้ว (สถานะ Hold) ยังไม่ Confirm หรือ Confirm แล้วแต่ยังไม่ส่งของ</td>
+          <td class="col-steps"><ol><li>กด Cancel บน SO</li><li>ตรวจสถานะแผ่นที่เคยผูกอยู่</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แผ่นกลับสถานะเป็น Available ฟิลด์ Customer และ Sale Order บนแผ่นนั้นถูกล้างค่าว่างเปล่า</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B7-02</span></td>
           <td class="col-scenario">Cancel SO ที่ไม่มีแผ่นค้าง Hold เลย</td>
-          <td class="col-pre">SO เป็น Mode 4 ล้วน (ไม่มีสินค้าที่ผูก stone.slab)</td>
-          <td class="col-steps"><ol><li>กด Cancel SO</li></ol></td>
-          <td class="col-expected">ทำงานปกติ ไม่ error แม้ไม่มีแผ่นให้ release</td>
+          <td class="col-pre">SO เป็น Mode 4 ล้วน (ไม่มีสินค้าที่ผูกกับแผ่นหิน)</td>
+          <td class="col-steps"><ol><li>กด Cancel บน SO</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ทำงานปกติ ไม่ error แม้ไม่มีแผ่นให้ปล่อยคืน</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
       </tbody>
@@ -1007,7 +1078,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B8. Multi-Company Visibility &amp; Security</div>
-        <div class="category-sub">group_emgo_internal_user/manager + cross-company sudo() · 4 test cases</div>
+        <div class="category-sub">กลุ่มสิทธิ์ EMG-O Internal User/Manager + การเข้าถึงข้ามบริษัท · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -1018,6 +1089,7 @@
           <th class="col-scenario">Scenario</th>
           <th class="col-pre">Precondition</th>
           <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
         </tr>
@@ -1025,34 +1097,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B8-01</span></td>
-          <td class="col-scenario">User company_ids=[EG,ES] เห็นข้อมูลทั้ง 2 company</td>
-          <td class="col-pre">User เช่น emgdemo มี company_ids ครอบทั้ง EG และ ES</td>
-          <td class="col-steps"><ol><li>Login เป็น user นี้</li><li>เปิด Stone Bundle/Slab list</li></ol></td>
-          <td class="col-expected">เห็นข้อมูลทั้ง 2 company พร้อมกันโดยไม่ต้องสลับ company selector</td>
+          <td class="col-scenario">ผู้ใช้ที่มีสิทธิ์เข้าถึงหลายบริษัทเห็นข้อมูลทั้ง 2 บริษัท</td>
+          <td class="col-pre">ผู้ใช้ (เช่น emgdemo) มีสิทธิ์เข้าถึงทั้ง Empire Granite และ Empire Stone</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>เปิดรายการ Stone Bundle/Slab</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นข้อมูลทั้ง 2 บริษัทพร้อมกันโดยไม่ต้องสลับตัวเลือกบริษัทที่มุมขวาบน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B8-02</span></td>
-          <td class="col-scenario">User session active company เดียว — hold/release แผ่นข้าม company<div class="note">หมายเหตุ: เคย bug จุดนี้มาก่อน (fixed 2026-07-22)</div></td>
-          <td class="col-pre">User login แบบ active company เดียวจริง (ไม่ได้ multi-select ใน company switcher) แต่มีสิทธิ์ทั้ง 2 company</td>
-          <td class="col-steps"><ol><li>ทำ Select Slabs เลือกแผ่นที่อยู่อีก company ผ่าน flow ปกติของ SO</li></ol></td>
-          <td class="col-expected">ไม่ติด Access Error ตอนอ่าน warehouse/location ของอีก company (sudo() ที่จุด _get_bucket_location ทำงานถูกต้อง)</td>
+          <td class="col-scenario">ผู้ใช้ที่ล็อกอินอยู่บริษัทเดียว — Hold/Release แผ่นข้ามบริษัท<div class="note">หมายเหตุ: เคยพบบั๊กจุดนี้มาก่อน (แก้แล้ว 2026-07-22)</div></td>
+          <td class="col-pre">ผู้ใช้เลือกบริษัทที่ใช้งานอยู่แค่บริษัทเดียว (ไม่ได้เลือกหลายบริษัทพร้อมกันที่ตัวสลับบริษัท) แต่มีสิทธิ์เข้าถึงทั้ง 2 บริษัท</td>
+          <td class="col-steps"><ol><li>ทำ "Select Slabs" เลือกแผ่นที่อยู่อีกบริษัทหนึ่ง ผ่านขั้นตอนปกติของ SO</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ไม่ติด Access Error ตอนเปิดดูคลัง/ทำเลของอีกบริษัท</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B8-03</span></td>
-          <td class="col-scenario">User ที่ไม่มีกลุ่ม EMG-O เลย</td>
-          <td class="col-pre">User ไม่มี group_emgo_internal_user/manager</td>
-          <td class="col-steps"><ol><li>Login เป็น user นี้</li><li>มองหาเมนู Stone Material/Bundle/Slab</li></ol></td>
-          <td class="col-expected">ไม่เห็นเมนู EMG-O เลย หรือถูก Access Error ตามสิทธิ์ที่ควรเป็น</td>
+          <td class="col-scenario">ผู้ใช้ที่ไม่มีสิทธิ์กลุ่ม EMG-O เลย</td>
+          <td class="col-pre">ผู้ใช้ไม่มีทั้งสิทธิ์ "EMG-O Internal User" และ "EMG-O Internal Manager"</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>มองหาเมนู Stone Material/Bundle/Slab</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ไม่เห็นเมนู EMG-O เลย หรือถูกฟ้อง Access Error ตามสิทธิ์ที่ควรเป็น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B8-04</span></td>
-          <td class="col-scenario">Regression: User มีแค่ group_emgo_internal_user เพียวๆ ต้อง login backend ได้<div class="note">หมายเหตุ: เคย bug share=True เข้า backend ไม่ได้มาก่อน (fixed 2026-08-15)</div></td>
-          <td class="col-pre">User ใหม่ที่มีเฉพาะ group_emgo_internal_user (ไม่มี group อื่นเพิ่ม)</td>
-          <td class="col-steps"><ol><li>Login เป็น user นี้เข้า backend</li></ol></td>
-          <td class="col-expected">เข้า backend ได้ปกติ (share=False) — ไม่ใช่ portal/share user (fixed: group_emgo_internal_user ต้อง imply base.group_user)</td>
+          <td class="col-scenario">Regression: ผู้ใช้ที่มีแค่สิทธิ์ "EMG-O Internal User" ต้อง Login เข้าหลังบ้านได้<div class="note">หมายเหตุ: เคยพบบั๊กเข้าหลังบ้านไม่ได้มาก่อน (แก้แล้ว 2026-08-15)</div></td>
+          <td class="col-pre">ผู้ใช้ใหม่ที่มีสิทธิ์เฉพาะ "EMG-O Internal User" (ไม่มีสิทธิ์กลุ่มอื่นเพิ่ม)</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้เข้าหน้าระบบหลังบ้าน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เข้าหน้าระบบหลังบ้านได้ปกติเหมือน internal user ทั่วไป ไม่ใช่ถูกจำกัดสิทธิ์แบบ portal user</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
