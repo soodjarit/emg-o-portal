@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: Day-in-the-Life (Order-to-Cash)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree, .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-cat{margin-bottom:2px;border-radius:6px;}
+  .tree-cat > summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--charcoal);padding:7px 8px;border-radius:6px;list-style:none;display:flex;align-items:center;gap:7px;user-select:none;}
+  .tree-cat > summary::-webkit-details-marker{display:none;}
+  .tree-cat > summary::before{content:'▸';color:var(--copper);font-size:10px;flex-shrink:0;transition:transform .15s ease;}
+  .tree-cat[open] > summary::before{transform:rotate(90deg);}
+  .tree-cat > summary:hover{background:rgba(0,0,0,.04);}
+  .tree-cat.current-section > summary{color:var(--copper-dark);}
+  .tree-docs{margin:2px 0 10px 17px;padding-left:12px;border-left:2px solid var(--border);}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .download-bar{display:flex;align-items:center;gap:14px;background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;flex-wrap:wrap;}
+  .download-bar .dl-text{flex:1;min-width:200px;}
+  .download-bar .dl-title{color:#fff;font-weight:700;font-size:15px;margin-bottom:2px;}
+  .download-bar .dl-desc{color:#B8BCBE;font-size:13px;}
+  .dl-btn{display:inline-flex;align-items:center;gap:8px;background:var(--copper);color:#fff;text-decoration:none;
+    font-weight:700;font-size:14px;padding:11px 20px;border-radius:10px;white-space:nowrap;transition:background .15s ease;}
+  .dl-btn:hover{background:var(--copper-dark);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:180px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:160px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:220px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:220px;}
+  .col-prio{width:78px;text-align:center;}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">หมวด Test Case</div>
+    <ul class="tree" id="doc-tree">
+      <details class="tree-cat" data-section="group-A" open>
+        <summary>ตั้งค่า → เสนอราคา → มัดจำ</summary>
+        <ul class="tree-docs"><li class="tree-doc"><a href="#D1"><span class="tree-doc-tag">D1</span>Setup Product — Material, Pricing Mode, Density, Costing</a></li><li class="tree-doc"><a href="#D2"><span class="tree-doc-tag">D2</span>ผูก Analytic Distribution Model กับสินค้าหิน</a></li><li class="tree-doc"><a href="#D3"><span class="tree-doc-tag">D3</span>ลูกค้าขอใบเสนอราคา — สร้างจาก BOQ ทีละหมวดงาน</a></li><li class="tree-doc"><a href="#D4"><span class="tree-doc-tag">D4</span>ลูกค้าตอบรับ → ยืนยัน SO → สร้าง Project + วางมัดจำ</a></li></ul>
+      </details>
+      <details class="tree-cat" data-section="group-B" open>
+        <summary>การผลิต → ค่าใช้จ่าย</summary>
+        <ul class="tree-docs"><li class="tree-doc"><a href="#D5"><span class="tree-doc-tag">D5</span>คลังเช็คก้อนหินที่มีอยู่ — พร้อมต้นทุนจริงจากใบสั่งซื้อ</a></li><li class="tree-doc"><a href="#D6"><span class="tree-doc-tag">D6</span>ตัดหินตามขนาดที่ขาย — แผ่นผูกกับ SO + ต้นทุนติดป้าย Analytic ทันที</a></li><li class="tree-doc"><a href="#D7"><span class="tree-doc-tag">D7</span>ค่าขนส่ง + ค่าใช้จ่ายที่ไม่ได้วางแผนไว้ล่วงหน้า</a></li></ul>
+      </details>
+      <details class="tree-cat" data-section="group-C" open>
+        <summary>ปิดงาน → ดูกำไร</summary>
+        <ul class="tree-docs"><li class="tree-doc"><a href="#D8"><span class="tree-doc-tag">D8</span>ติดตั้งหน้างานเสร็จ → ปิดยอด → รับรู้รายได้</a></li><li class="tree-doc"><a href="#D9"><span class="tree-doc-tag">D9</span>Chart of Analytic Accounts — กำไร 2 มุมมอง + Gross Margin เจาะรายละเอียด</a></li></ul>
+      </details>
+    </ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: Day-in-the-Life (Order-to-Cash)</h1>
+    <div class="sub">Test Case ที่แยกหมวดตามเอกสาร "Day-in-the-Life" (งานโครงการ Mode 4 หนึ่งงาน ตั้งแต่ตั้งค่าสินค้าจนเห็นกำไรจริง) — เดินตามลำดับ flow จริงทุกจุดในเอกสารครบทุกสไลด์ในเธรดเดียว รวมถึงจุดที่เคยมี Test Case อยู่แล้วในหมวดอื่น (Material Setup/BOQ→Project/Cut Order) ก็ทดสอบซ้ำอีกครั้งที่นี่ (ระบุ "regression ของ..." ในหมายเหตุ) เพื่อจับ regression จากการแก้โค้ดล่าสุด ไม่ใช่แค่จุดที่ยังไม่เคยทดสอบ พร้อมข้อมูลตัวอย่างที่ต้องกรอกในแต่ละขั้นตอน</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>39</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>9</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">23</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">10</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">6</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="download-bar">
+    <div class="dl-text">
+      <div class="dl-title">ดาวน์โหลดเป็น Excel</div>
+      <div class="dl-desc">ไฟล์ .xlsx แยกชีทตามหมวด พร้อมคอลัมน์ Actual Result / Status / Tester / Date สำหรับกรอกระหว่างทดสอบจริง</div>
+    </div>
+    <a class="dl-btn" href="../client-docs/test-cases/emg-o-test-cases-day-in-life.xlsx" download>⬇ ดาวน์โหลด .xlsx</a>
+  </div>
+
+  <div class="category" id="D1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D1. Setup Product — Material, Pricing Mode, Density, Costing</div>
+        <div class="category-sub">regression ของหมวด A1-A4 เดิม + Density (ฟีเจอร์ใหม่ 25 ส.ค.) · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-01</span></td>
+          <td class="col-scenario">สร้าง Material ครบทุกฟิลด์บังคับ<div class="note">regression ของ TC-A1-01</div></td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์ EMG-O Internal Manager</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Stone Material &gt; New</li><li>กรอกฟิลด์บังคับให้ครบ</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Name = "Test Marble 01"<br>Category = "Marble"<br>Pricing Mode = "Serial (per-slab)"<br>Costing Basis = "Area (Sq.Mt.)"<br>Slab Product = เลือกสินค้าที่มีอยู่ เช่น "Carrara White Slab"</td>
+          <td class="col-expected">บันทึกสำเร็จ ไม่มี error</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-02</span></td>
+          <td class="col-scenario">Material มี Block/Lot อยู่แล้ว — พยายามเปลี่ยน Pricing Mode<div class="note">regression ของ TC-A2-04</div></td>
+          <td class="col-pre">Material มี Block/Lot อย่างน้อย 1 รายการอยู่แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Material นั้น</li><li>พยายามเปลี่ยน Pricing Mode จาก Serial เป็น Lot (หรือกลับกัน)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">สลับค่า Pricing Mode ไปอีกฝั่งหนึ่ง</td>
+          <td class="col-expected">ขึ้น error ภาษาไทยแจ้งว่า Pricing Mode ถูกล็อกแล้ว บันทึกไม่ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-03</span></td>
+          <td class="col-scenario">ตั้ง Density (ตัน/CBM) แล้วสร้าง Block ใหม่ — Weight (Ton) เติมให้อัตโนมัติ<div class="note">ฟีเจอร์ใหม่ 2026-08-25 ไม่เคยมี Test Case มาก่อน</div></td>
+          <td class="col-pre">Material ตั้งค่า Density (ตัน/CBM) ไว้แล้ว เช่น Carrara White = 2.75</td>
+          <td class="col-steps"><ol><li>สร้าง Block ใหม่ของ Material นี้</li><li>กรอก Total CBM</li><li>ดูช่อง Weight (Ton) โดยไม่ต้องพิมพ์เอง</li></ol></td>
+          <td class="col-sample">Total CBM = 2.0<br>Density = 2.75 ตัน/CBM</td>
+          <td class="col-expected">Weight (Ton) เติมให้อัตโนมัติ = 5.5 (2.0 × 2.75) ทันทีที่กรอก/แก้ Total CBM</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-03b</span></td>
+          <td class="col-scenario">แก้ Weight (Ton) มือหลังระบบเติมให้แล้ว (ค่าจากตาชั่งจริง)<div class="note">ฟีเจอร์ใหม่ 2026-08-25 — ตรวจว่าไม่ถูกเขียนทับจนกว่าจะแก้ CBM/Material อีกครั้ง</div></td>
+          <td class="col-pre">Block มี Weight (Ton) ที่เติมอัตโนมัติแล้วตาม TC-D1-03</td>
+          <td class="col-steps"><ol><li>แก้ Weight (Ton) เป็นค่าจากตาชั่งจริงด้วยมือ</li><li>กด Save โดยไม่แตะ Total CBM หรือ Material อีก</li></ol></td>
+          <td class="col-sample">Weight (Ton) = 5.65 (ค่าจริงจากตาชั่ง ต่างจากค่าคำนวณ 5.5)</td>
+          <td class="col-expected">ค่าที่กรอกมือถูกเก็บไว้ตามที่พิมพ์ ไม่ถูกคำนวณทับกลับเป็น 5.5</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-04</span></td>
+          <td class="col-scenario">Costing Basis = Area (ค่าเริ่มต้น) คำนวณ Cost ของแผ่นถูกต้อง<div class="note">regression ของ TC-A3-04</div></td>
+          <td class="col-pre">Material ตั้ง Costing Basis = "Area (Sq.Mt.)" (ค่าเริ่มต้น)</td>
+          <td class="col-steps"><ol><li>เปิด Bundle &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
+          <td class="col-expected">Cost = 3,000 (2.0 × 1.5 × 1,000)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-05</span></td>
+          <td class="col-scenario">ผูก Slab Product ที่ Control Policy เดิมเป็น "Received quantities"<div class="note">regression ของ TC-A4-01 — กันบิลได้ยอด 0 เพราะไม่เคยยืนยันใบรับสินค้าจริง</div></td>
+          <td class="col-pre">มีสินค้าที่ตั้ง Control Policy (แท็บ Purchase) = "Received quantities" อยู่ก่อน</td>
+          <td class="col-steps"><ol><li>สร้าง Material ใหม่ ผูก Slab Product เป็นสินค้านั้น</li><li>กด Save</li><li>เปิดสินค้านั้นดูแท็บ Purchase อีกครั้ง</li></ol></td>
+          <td class="col-sample">Slab Product = สินค้าที่ Control Policy เดิม = "Received quantities"</td>
+          <td class="col-expected">Control Policy ของสินค้าถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-06</span></td>
+          <td class="col-scenario">ผูก Block Product + Finished Good Product ให้ Material เดียวกัน<div class="note">regression เบา ของ TC-A4-02/04 — Block/FG เป็นตัวเลือกเสริม หลักการเดียวกับ Slab Product</div></td>
+          <td class="col-pre">Material มีอยู่แล้ว (Slab Product ผูกครบ)</td>
+          <td class="col-steps"><ol><li>เปิด Material</li><li>ผูก Block Product เป็นสินค้าที่ Control Policy เดิม = "Received quantities"</li><li>ผูก Finished Good Product เป็นสินค้าอีกตัวที่ Control Policy เดิมเหมือนกัน</li><li>กด Save แล้วเปิดทั้งสองสินค้าดูแท็บ Purchase</li></ol></td>
+          <td class="col-sample">Block Product / Finished Good Product = สินค้าที่ Control Policy เดิม = "Received quantities" ทั้งคู่</td>
+          <td class="col-expected">Control Policy ของทั้งสองสินค้าถูกเปลี่ยนเป็น "Ordered quantities" เหมือนกัน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D2. ผูก Analytic Distribution Model กับสินค้าหิน</div>
+        <div class="category-sub">Native Odoo — ผูกครั้งเดียวต่อหิน 1 ชนิด ทุกยอดขายติดป้ายให้เองอัตโนมัติ · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D2-01</span></td>
+          <td class="col-scenario">สร้าง Analytic Distribution Model ผูกสินค้าหินกับ Account ประเภทวัสดุ 100%</td>
+          <td class="col-pre">มี Analytic Plan "ประเภทวัสดุ" และ Analytic Account เช่น "Granite"/"Marble" ตั้งไว้แล้ว</td>
+          <td class="col-steps"><ol><li>Accounting &gt; Configuration &gt; Analytic Distribution Models &gt; New</li><li>เลือก Product = สินค้าหิน</li><li>ในบรรทัด Analytic ผูก Plan "ประเภทวัสดุ" = Account ที่ตรงกับหินชนิดนั้น 100%</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Product = "Bianco Sardo Granite - Slab"<br>Analytic Plan "ประเภทวัสดุ" = "Granite" 100%</td>
+          <td class="col-expected">บันทึกสำเร็จ Model ปรากฏในรายการ Analytic Distribution Models</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D2-02</span></td>
+          <td class="col-scenario">ขายสินค้าที่ผูก Analytic Distribution Model ไว้แล้ว</td>
+          <td class="col-pre">สินค้ามี Analytic Distribution Model ผูกไว้แล้วตาม TC-D2-01</td>
+          <td class="col-steps"><ol><li>เปิดใบเสนอราคาใหม่ เพิ่มบรรทัดขายสินค้านั้น</li><li>เปิดดู Analytic Distribution ของบรรทัด (แถบ/ไอคอน Analytic ใต้ราคาแต่ละบรรทัด)</li></ol></td>
+          <td class="col-sample">เพิ่มสินค้า "Bianco Sardo Granite - Slab" จำนวน 1 หน่วย</td>
+          <td class="col-expected">บรรทัดขายติดป้าย Analytic Account "Granite" 100% ให้อัตโนมัติ โดยไม่ต้องเลือกมือ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D2-03</span></td>
+          <td class="col-scenario">สินค้าหินที่ยังไม่ได้ผูก Analytic Distribution Model เลย</td>
+          <td class="col-pre">สินค้าอีกตัวหนึ่งยังไม่เคยตั้ง Analytic Distribution Model</td>
+          <td class="col-steps"><ol><li>เพิ่มบรรทัดขายสินค้านั้นในใบเสนอราคา</li><li>เปิดดู Analytic Distribution ของบรรทัด</li></ol></td>
+          <td class="col-sample">เพิ่มสินค้าที่ยังไม่เคยผูก Analytic Distribution Model</td>
+          <td class="col-expected">บรรทัดขายไม่มี Analytic Account ติดมาให้ ต้องเลือกมือเอง ระบบไม่ error</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D2-04</span></td>
+          <td class="col-scenario">แก้ % ของ Analytic Distribution Model ภายหลัง ไม่กระทบเอกสารเก่า</td>
+          <td class="col-pre">มีใบเสนอราคาเก่าที่เคยติดป้าย Analytic ไปแล้วตาม Model เดิม</td>
+          <td class="col-steps"><ol><li>แก้ % ใน Analytic Distribution Model เป็นค่าอื่น</li><li>เปิดใบเสนอราคาเก่าที่เคยติดป้ายไปแล้วดูอีกครั้ง</li><li>เปิดใบเสนอราคาใหม่ เพิ่มสินค้าเดียวกัน แล้วดูป้าย Analytic ที่ได้</li></ol></td>
+          <td class="col-sample">เปลี่ยนสัดส่วนเป็น Granite 70% / Overhead 30%</td>
+          <td class="col-expected">ใบเสนอราคาเก่ายังคงค่า Analytic เดิม ไม่เปลี่ยนตาม; ใบเสนอราคาใหม่ได้ค่า Analytic ตาม Model ที่แก้ล่าสุด</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D3. ลูกค้าขอใบเสนอราคา — สร้างจาก BOQ ทีละหมวดงาน</div>
+        <div class="category-sub">BOQ &gt; สร้างใบเสนอราคา · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D3-01</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคาจาก BOQ ที่มีหลายหมวดงาน</td>
+          <td class="col-pre">มีเอกสาร BOQ ที่ประเมินราคาครบทุกหมวด (วัสดุ/ค่าแรงตัด/ขนส่ง/ค่าแรงติดตั้ง/OH&amp;P) แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดเอกสาร BOQ</li><li>กดปุ่มสร้างใบเสนอราคา</li><li>ตรวจบรรทัดที่ได้ในใบเสนอราคา</li></ol></td>
+          <td class="col-sample">BOQ มีบรรทัด: วัสดุหิน 9,900 / ค่าแรงตัด-ผลิต 3,000 / ค่าขนส่งหน้างาน 2,500 / ค่าแรงติดตั้งหน้างาน 5,000 / Overhead &amp; Profit 1,790</td>
+          <td class="col-expected">ใบเสนอราคาได้บรรทัดครบตามหมวดใน BOQ ยอดรวมตรงกับที่ประเมินไว้ทุกบาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D3-02</span></td>
+          <td class="col-scenario">บรรทัดวัสดุหินในใบเสนอราคาได้ Analytic ติดมาจาก D2 อัตโนมัติ</td>
+          <td class="col-pre">สินค้าวัสดุหินใน BOQ นี้มี Analytic Distribution Model ผูกไว้แล้ว (TC-D2-01)</td>
+          <td class="col-steps"><ol><li>สร้างใบเสนอราคาจาก BOQ</li><li>เปิดดู Analytic Distribution ของบรรทัดวัสดุหิน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บรรทัดวัสดุหินติดป้าย Analytic ประเภทวัสดุให้เองจากขั้นตอนสร้างใบเสนอราคา ไม่ต้องเลือกมือซ้ำ</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D4. ลูกค้าตอบรับ → ยืนยัน SO → สร้าง Project + วางมัดจำ</div>
+        <div class="category-sub">regression ของหมวด B4 เดิม (Project/Task/Milestone) + Native Odoo Down Payment · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D4-01</span></td>
+          <td class="col-scenario">ติ๊ก "Sold as Project" แล้ว Confirm SO<div class="note">regression ของ TC-B4-01</div></td>
+          <td class="col-pre">SO มีหลายบรรทัด (ไม่ใช่บรรทัด Section/Note ล้วน)</td>
+          <td class="col-steps"><ol><li>ติ๊ก "Sold as Project" บน SO</li><li>กด Confirm</li><li>ตรวจ Project ที่เกิดขึ้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบสร้าง Project ให้อัตโนมัติ พร้อม Task 1 ใบต่อบรรทัดสั่งซื้อที่ไม่ใช่ Section/Note</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D4-02</span></td>
+          <td class="col-scenario">BOQ Line ที่ติ๊ก Milestone ไว้ได้ Milestone ผูกกับ Task 1:1<div class="note">regression ของ TC-B4-06</div></td>
+          <td class="col-pre">BOQ มีบางบรรทัดติ๊กช่อง Milestone ไว้ บางบรรทัดไม่ติ๊ก</td>
+          <td class="col-steps"><ol><li>Confirm SO แบบ Sold as Project</li><li>เปิด Project ที่ได้ กด "Milestones" (smart button)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บรรทัดที่ติ๊ก Milestone ไว้ ได้ Milestone ผูกกับ Task ของบรรทัดนั้น 1 ต่อ 1; บรรทัดที่ไม่ติ๊กไม่มี Milestone เกิดขึ้น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D4-03</span></td>
+          <td class="col-scenario">ยืนยัน SO แล้วออกใบแจ้งหนี้มัดจำแบบเปอร์เซ็นต์</td>
+          <td class="col-pre">SO ยืนยันแล้ว ยังไม่เคยออกใบแจ้งหนี้ใดๆ</td>
+          <td class="col-steps"><ol><li>เปิด SO กดปุ่ม "Create Invoice"</li><li>เลือกตัวเลือก "Down payment (percentage)"</li><li>กรอกเปอร์เซ็นต์มัดจำ</li><li>กด Create Draft Invoice</li></ol></td>
+          <td class="col-sample">Down payment = 30%</td>
+          <td class="col-expected">ได้ใบแจ้งหนี้มัดจำยอด 30% ของราคารวม SO สถานะ Draft</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D4-04</span></td>
+          <td class="col-scenario">ตรวจสมุดรายวันของใบแจ้งหนี้มัดจำหลัง Post</td>
+          <td class="col-pre">ใบแจ้งหนี้มัดจำจาก TC-D4-03 ถูกยืนยัน (Post) แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้มัดจำที่ Post แล้ว</li><li>ไปแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เครดิตเข้าบัญชีหนี้สิน (เงินมัดจำรับล่วงหน้า) ไม่ใช่บัญชีรายได้ขาย — งานยังไม่เสร็จ ยังรับรู้เป็นรายได้ไม่ได้</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D5. คลังเช็คก้อนหินที่มีอยู่ — พร้อมต้นทุนจริงจากใบสั่งซื้อ</div>
+        <div class="category-sub">stone_bundle.py — Cost/CBM = ราคาจริงจาก PO Line + ส่วนแบ่ง Landed Cost ของ Container · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D5-01</span></td>
+          <td class="col-scenario">Block ที่ผูกกับ PO Line แล้ว ต้นทุนคำนวณจากราคาจริงใน PO</td>
+          <td class="col-pre">Block ผูก Purchase Order Line ที่ยืนยันแล้ว (มีราคา/ปริมาตรจริง)</td>
+          <td class="col-steps"><ol><li>เปิดฟอร์ม Block ที่จะใช้ตัด</li><li>ดูค่า Cost/CBM (หรือ Cost/Sq.Mt. ถ้าเป็นวัสดุที่ไม่มี Block Product)</li></ol></td>
+          <td class="col-sample">PO Line ราคารวม 50,000 บาท, Block ปริมาตร 2.0 CBM</td>
+          <td class="col-expected">Cost/CBM = 25,000 บาท (ราคารวม PO Line ÷ ปริมาตร Block) ตรงกับที่คำนวณเองเป๊ะ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D5-02</span></td>
+          <td class="col-scenario">Block อยู่ใน Container ที่มีค่า Landed Cost (freight/duty) แล้ว</td>
+          <td class="col-pre">Container ที่ Block นี้อยู่ ตั้งค่า Landed Cost Total ไว้แล้ว และมี Block อื่นร่วม Container เดียวกัน</td>
+          <td class="col-steps"><ol><li>เปิดฟอร์ม Block</li><li>ดูค่า Landed Cost/CBM แยกจาก PO Cost/CBM</li><li>ตรวจ Cost/CBM รวม (คอลัมน์หลัก)</li></ol></td>
+          <td class="col-sample">Container Landed Cost Total = 10,000 บาท, Block นี้มีปริมาตรเป็นสัดส่วนหนึ่งของ CBM รวมทั้ง Container</td>
+          <td class="col-expected">Landed Cost/CBM ถูกปันส่วนตามสัดส่วนปริมาตรของ Block นี้เทียบ Block อื่นใน Container เดียวกัน และ Cost/CBM รวม = PO Cost/CBM + Landed Cost/CBM</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D5-03</span></td>
+          <td class="col-scenario">Block ที่ยังไม่ได้ผูก PO Line เลย (กรอกมือ)</td>
+          <td class="col-pre">Block สร้างขึ้นโดยไม่ผูก Purchase Order Line</td>
+          <td class="col-steps"><ol><li>เปิดฟอร์ม Block ที่ไม่มี PO Line ผูกอยู่</li><li>ดูค่า Cost/CBM</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Cost/CBM ขึ้นเป็น 0 ไม่ error (ไม่มี PO อ้างอิงให้คำนวณ)</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D5-04</span></td>
+          <td class="col-scenario">กด "Create Cut Order" จากฟอร์ม Block ที่มีต้นทุนจริงแล้ว</td>
+          <td class="col-pre">Block มีต้นทุนจริงจาก PO ตาม TC-D5-01 และมี SO รอตัดอยู่</td>
+          <td class="col-steps"><ol><li>เปิดฟอร์ม Block</li><li>กดปุ่ม "Create Cut Order"</li><li>ระบุขนาดที่จะตัดตาม SO แล้วยืนยัน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Cut Order สร้างสำเร็จ อ้างอิงต้นทุนจริงของ Block นี้ (ไม่ใช่ค่าประเมินตอน Setup) ในการคำนวณต้นทุนแผ่นที่ตัดได้</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D6">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D6. ตัดหินตามขนาดที่ขาย — แผ่นผูกกับ SO + ต้นทุนติดป้าย Analytic ทันที</div>
+        <div class="category-sub">regression ของหมวด A6/A7/B3 เดิม + multi-plan Analytic tagging (โค้ดเปลี่ยน 26 ส.ค. — เสี่ยง regression สูง) · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D6-01</span></td>
+          <td class="col-scenario">ยืนยัน Cut Order — แผ่นที่ตัดได้ผูกกับ SO เดิมโดยอัตโนมัติ<div class="note">regression ของ TC-B3 กลุ่ม Cut-to-Order</div></td>
+          <td class="col-pre">Cut Order (MO) ผูกกับ Sale Order Line อยู่แล้ว (สร้างจาก TC-D5-04)</td>
+          <td class="col-steps"><ol><li>ระบุขนาดที่จะตัด (L × H)</li><li>ยืนยัน Cut Order จนเสร็จ</li><li>เปิดแผ่นที่ได้ดู Lot/Serial + ลิงก์กลับ SO</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5</td>
+          <td class="col-expected">แผ่นที่ตัดได้ถูก Hold ให้กับ Sale Order Line เดิมทันที พร้อม Lot/Serial เฉพาะแผ่น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D6-02</span></td>
+          <td class="col-scenario">ต้นทุนวัสดุของแผ่นที่ตัดได้ ถูกติดป้าย Analytic ตาม distribution ของ SO Line</td>
+          <td class="col-pre">SO Line ที่ผูก Cut Order นี้มี Analytic Distribution อยู่แล้ว (จาก D2/D3-02)</td>
+          <td class="col-steps"><ol><li>ยืนยัน Cut Order จนเสร็จ</li><li>เปิดรายงาน Analytic Items กรองด้วยชื่อ Cut Order นี้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">พบรายการต้นทุนวัสดุของแผ่นนี้ ติดป้าย Analytic Account เดียวกับที่ SO Line ระบุไว้</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D6-03</span></td>
+          <td class="col-scenario">ต้นทุนแรงงานตัด ติดป้าย Analytic ทั้ง 2 มิติพร้อมกัน (โครงการ + ประเภทวัสดุ)<div class="note">⚠️ โค้ดจุดนี้เปลี่ยน 2026-08-26 (รองรับหลาย Plan พร้อมกันในบรรทัดเดียว) — วันก่อนทำเอกสารนี้ ยังไม่เคยมี Test Case คุมจุดนี้มาก่อน เสี่ยง regression สูงสุดในหมวดนี้</div></td>
+          <td class="col-pre">SO Line ที่ผูก Cut Order นี้มี Analytic Distribution ตั้งไว้ 2 Plan พร้อมกัน ("โครงการ" และ "ประเภทวัสดุ")</td>
+          <td class="col-steps"><ol><li>ยืนยัน Cut Order จนเสร็จ (มี Workorder บันทึกเวลาแล้ว)</li><li>เปิดรายงาน Analytic Items กรองด้วยชื่อ Cut Order นี้ หารายการ "Stone Cutting Labor"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">พบรายการต้นทุนแรงงานตัด 2 รายการ (หรือแสดงผลรวมทั้ง 2 Account) — ติดป้ายทั้ง Analytic Account ของโครงการ และของประเภทวัสดุ ครบทั้งคู่ ไม่ใช่แค่ตัวใดตัวหนึ่ง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D6-04</span></td>
+          <td class="col-scenario">Cut Order แบบไม่มี SO ผูก (ตัดเข้าสต็อกล่วงหน้า) — เลือก Project (No SO)<div class="note">ADR-032 regression</div></td>
+          <td class="col-pre">Bundle ยังไม่มี SO ผูก แต่ต้องการตัดเข้าสต็อกไว้ล่วงหน้า</td>
+          <td class="col-steps"><ol><li>เปิด Cut Order Wizard แบบไม่มี SO</li><li>เลือกช่อง "Project (No SO)" เป็น Analytic Account ที่ต้องการ</li><li>ยืนยัน Cut Order จนเสร็จ</li><li>เปิดรายงาน Analytic Items ดู</li></ol></td>
+          <td class="col-sample">Project (No SO) = Analytic Account ของโครงการที่เลือกไว้</td>
+          <td class="col-expected">ต้นทุนแรงงานตัดยังติดป้าย Analytic Account ที่เลือกไว้ 100% ไม่หายไปทั้งที่ไม่มี SO ผูก</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D6-05</span></td>
+          <td class="col-scenario">Cut Order ครั้งแรกของบริษัทที่ยังไม่เคยมี Workcenter "Stone Cutting"<div class="note">regression เบา ของ TC-A6 กลุ่ม BOM auto-provisioning</div></td>
+          <td class="col-pre">บริษัทนี้ยังไม่เคยมี mrp.workcenter ชื่อ "Stone Cutting" มาก่อน</td>
+          <td class="col-steps"><ol><li>สั่ง Cut Order ครั้งแรกของบริษัทนี้</li><li>ตรวจ Manufacturing &gt; Work Centers</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบสร้าง Workcenter "Stone Cutting" ให้อัตโนมัติ 1 ตัวต่อบริษัท ไม่ error แม้ยังไม่เคยตั้งมาก่อน</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D7">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D7. ค่าขนส่ง + ค่าใช้จ่ายที่ไม่ได้วางแผนไว้ล่วงหน้า</div>
+        <div class="category-sub">Native Odoo Vendor Bill Analytic — เลือกมือครั้งเดียวตอนบันทึกบิล เห็นต้นทุนจริงทั้งหมด · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D7-01</span></td>
+          <td class="col-scenario">บันทึกบิลผู้ขายค่าขนส่งหน้างาน ผูก Analytic โครงการ</td>
+          <td class="col-pre">มี Project จาก D4 อยู่แล้ว (มี Analytic Account ของโครงการนั้นให้เลือก)</td>
+          <td class="col-steps"><ol><li>Accounting &gt; Vendors &gt; Bills &gt; New</li><li>กรอกบรรทัดค่าขนส่ง</li><li>เปิด Analytic Distribution ของบรรทัดนั้น เลือก Analytic Account ของโครงการ 100%</li><li>Confirm</li></ol></td>
+          <td class="col-sample">รายการ = "ค่าขนส่งหน้างาน", บัญชี = Freight &amp; Transportation, จำนวนเงิน = 2,200<br>Analytic = โครงการ S00042 100%</td>
+          <td class="col-expected">บิลบันทึกสำเร็จ ผูก Analytic โครงการไว้ครบ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D7-02</span></td>
+          <td class="col-scenario">บันทึกบิลค่าใช้จ่ายนอกแผนเดิม (ไม่ได้อยู่ในใบเสนอราคาตั้งแต่ต้น)</td>
+          <td class="col-pre">เหมือน TC-D7-01</td>
+          <td class="col-steps"><ol><li>บันทึกบิลผู้ขายอีกใบ รายการที่ไม่เคยอยู่ในใบเสนอราคาเดิม</li><li>ผูก Analytic โครงการเดียวกัน</li><li>Confirm</li></ol></td>
+          <td class="col-sample">รายการ = "วัสดุยึด/กาวเสริม (นอกแผนเดิม)", บัญชี = General subcontracting, จำนวนเงิน = 850<br>Analytic = โครงการ S00042 100%</td>
+          <td class="col-expected">บิลบันทึกสำเร็จเช่นกัน แม้ไม่เคยอยู่ในใบเสนอราคาเดิมเลย — ยังติดป้ายโครงการเดียวกันได้ทันที</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D7-03</span></td>
+          <td class="col-scenario">บิลค่าใช้จ่ายที่ลืมผูก Analytic (ไม่เลือกเลย)<div class="note">หมายเหตุ: จุดเสี่ยงที่ทำให้ต้นทุนจริงในรายงานกำไรดูต่ำกว่าความจริง — ดู TC-D9-04</div></td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>บันทึกบิลผู้ขายรายการหนึ่ง ไม่เลือก Analytic Distribution เลย</li><li>Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บิลบันทึกได้ปกติ (ไม่ใช่ฟิลด์บังคับ) แต่รายการนี้จะไม่ปรากฏในรายงานกำไรของโครงการใดเลย</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D8">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D8. ติดตั้งหน้างานเสร็จ → ปิดยอด → รับรู้รายได้</div>
+        <div class="category-sub">Milestone auto-reach (custom) + WHT (custom) + Down Payment reversal (Native) · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-01</span></td>
+          <td class="col-scenario">ปิด Task "ติดตั้งหน้างาน" เป็นเสร็จสมบูรณ์ → Milestone ขึ้นสถานะเองอัตโนมัติ<div class="note">boq_estimation/project_task.py write() override — ทำงานเฉพาะเมื่อ Milestone นั้นผูกกับ Task เดียว (len==1) เท่านั้น</div></td>
+          <td class="col-pre">Task "ติดตั้งหน้างาน" ผูก Milestone อยู่ 1:1 (ไม่มี Task อื่นผูก Milestone เดียวกัน) ยังไม่ Reached</td>
+          <td class="col-steps"><ol><li>เปิด Task "ติดตั้งหน้างาน"</li><li>เปลี่ยนสถานะ (หรือลาก Kanban ไปคอลัมน์ Done) เป็นเสร็จสมบูรณ์</li><li>เปิด Project ดู Milestones</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Milestone ที่ผูกกับ Task นี้ขึ้นสถานะ Reached ให้อัตโนมัติ ไม่ต้องติ๊กแยก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-02</span></td>
+          <td class="col-scenario">Milestone ที่ผูกกับหลาย Task พร้อมกัน — ปิด Task เดียวไม่พอให้ Reached<div class="note">edge case ของ TC-D8-01 — กันเข้าใจผิดว่าปิด Task ใดก็ได้ Milestone Reached</div></td>
+          <td class="col-pre">Milestone เดียวผูกกับ Task มากกว่า 1 ใบ (กรณีพิเศษ ไม่ใช่ 1:1 ปกติ)</td>
+          <td class="col-steps"><ol><li>ปิด Task ใบแรกที่ผูก Milestone นี้เป็นเสร็จสมบูรณ์ (ยังเหลืออีกใบไม่เสร็จ)</li><li>เปิด Project ดู Milestones</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Milestone ยังไม่ขึ้น Reached (เพราะเงื่อนไข auto-reach นับเฉพาะกรณี Milestone ผูก Task เดียวเท่านั้น)</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-03</span></td>
+          <td class="col-scenario">บันทึกบิลค่าแรงติดตั้งพร้อม VAT 7% และหัก ณ ที่จ่าย 3%</td>
+          <td class="col-pre">มี Vendor (ทีมติดตั้ง/subcontractor) ตั้งไว้แล้ว</td>
+          <td class="col-steps"><ol><li>Accounting &gt; Vendors &gt; Bills &gt; New</li><li>กรอกบรรทัดค่าแรงติดตั้ง ตั้งภาษีขาย VAT 7%</li><li>เพิ่มภาษีหัก ณ ที่จ่าย 3% (รายการภาษีที่ลงท้ายด้วย S = ค่าบริการ)</li><li>ผูก Analytic โครงการ</li><li>Confirm</li></ol></td>
+          <td class="col-sample">รายการ = "ค่าแรงติดตั้งหน้างาน", ราคา = 5,000, VAT = 7%, ภาษีหัก ณ ที่จ่าย = "3% WH C S"</td>
+          <td class="col-expected">บิล Post สำเร็จ ยอดสุทธิที่ต้องจ่ายผู้ขาย = ราคา + VAT − ยอดหัก ณ ที่จ่าย 3%</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-04</span></td>
+          <td class="col-scenario">พิมพ์ใบรับรองหัก ณ ที่จ่าย (Form 50-ทวิ) จากบิลที่ Post แล้ว</td>
+          <td class="col-pre">บิลจาก TC-D8-03 Post แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดบิลนั้น สังเกตปุ่ม "Print WHT Certificate" บนหัวฟอร์ม (ปรากฏเฉพาะบิลที่ Post แล้วและมีหัก ณ ที่จ่าย)</li><li>กดปุ่มนั้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ PDF ใบรับรองหัก ณ ที่จ่าย มีเลขที่ใบรับรองออกให้อัตโนมัติ พร้อมยอดฐานภาษี/อัตรา 3%/ยอดหัก ตรงกับบิล</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-05</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ปิดโครงการยอดเต็ม หลังเคยวางมัดจำแล้ว</td>
+          <td class="col-pre">SO เคยออกใบแจ้งหนี้มัดจำ 30% ไปแล้ว (TC-D4-03/04) งานเสร็จสมบูรณ์แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด SO กดปุ่ม "Create Invoice"</li><li>เลือก "Regular Invoice" (ยอดที่เหลือทั้งหมด)</li><li>Post ใบแจ้งหนี้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้หักลบมัดจำที่เคยวางไว้ออกจากยอดที่ต้องเรียกเก็บให้อัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D8-06</span></td>
+          <td class="col-scenario">ตรวจสมุดรายวันของใบแจ้งหนี้ปิดโครงการ</td>
+          <td class="col-pre">ใบแจ้งหนี้จาก TC-D8-05 Post แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ปิดโครงการ</li><li>ไปแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">ตัวอย่างจากเดโม: เงินมัดจำรับล่วงหน้า 12,365.00 (Dr) / Sales Revenue 14,270.00 (Cr) / Trade Receivables 2,163.09 (Dr) / Output VAT 258.09 (Cr)</td>
+          <td class="col-expected">บัญชีเงินมัดจำรับล่วงหน้าถูกล้างเต็มยอดที่เคยตั้งไว้ (Dr), บัญชีรายได้ขายได้รับยอดเต็มราคาขาย (Cr), มี Trade Receivables + Output VAT ของส่วนที่เหลือ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D9">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D9. Chart of Analytic Accounts — กำไร 2 มุมมอง + Gross Margin เจาะรายละเอียด</div>
+        <div class="category-sub">Native Odoo Analytic Accounting Report — ต่อโครงการ vs ข้ามโครงการตามวัสดุ · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D9-01</span></td>
+          <td class="col-scenario">เปิด Chart of Analytic Accounts ดูกำไรต่อโครงการ</td>
+          <td class="col-pre">โครงการมีทั้งรายได้ (มัดจำ+ใบแจ้งหนี้ปิดงาน) และต้นทุนจริงครบทุกตัวผูก Analytic โครงการไว้แล้ว (D3-D8 ทำครบ)</td>
+          <td class="col-steps"><ol><li>Accounting &gt; Reporting &gt; Analytic Accounting &gt; Chart of Analytic Accounts</li><li>หา Analytic Account ของโครงการ (เช่น S00042)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นยอดกำไร/ขาดทุนสุทธิของโครงการนั้น เทียบรายได้เต็มกับต้นทุนจริงทั้งหมดที่เคยผูกไว้ครบทุกจุดตลอด flow</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D9-02</span></td>
+          <td class="col-scenario">ดูกำไรข้ามโครงการ ตามประเภทวัสดุ (มุมมองที่ 2)</td>
+          <td class="col-pre">มีหลายโครงการที่เคยขายวัสดุประเภทเดียวกัน (เช่น Marble) ผูก Analytic Plan "ประเภทวัสดุ" ไว้แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Chart of Analytic Accounts</li><li>กรอง/จัดกลุ่มด้วย Analytic Plan "ประเภทวัสดุ"</li><li>หา Account "Marble"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นยอดกำไรรวมของ "Marble" ข้ามทุกโครงการที่เคยขายวัสดุนี้ ได้จากหน้าเดียว ไม่ต้องเปิดทีละโครงการ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D9-03</span></td>
+          <td class="col-scenario">กดปุ่ม "Gross Margin" บน Analytic Account ของโครงการ</td>
+          <td class="col-pre">เหมือน TC-D9-01</td>
+          <td class="col-steps"><ol><li>เปิด Analytic Account ของโครงการ (S00042)</li><li>กดสมาร์ทปุ่ม/ปุ่ม "Gross Margin"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นรายการละเอียดทุกบรรทัดที่ประกอบเป็นกำไร ทั้งฝั่งรายได้ (มัดจำ, ใบแจ้งหนี้ปิดงาน) และต้นทุนจริงทุกตัว (วัสดุ, ค่าแรงตัด, ค่าแรงติดตั้ง, ขนส่ง, ค่าใช้จ่ายนอกแผน, ภาษีหัก ณ ที่จ่าย) ไม่ใช่แค่ยอดรวมก้อนเดียว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D9-04</span></td>
+          <td class="col-scenario">รายการที่ไม่ได้ผูก Analytic (จาก TC-D7-03) จะไม่ขึ้นใน Gross Margin<div class="note">หมายเหตุ: ยืนยันผลกระทบของ TC-D7-03 — ต้นทุนจริงจะดูต่ำกว่าความจริงถ้าลืมผูก Analytic ตอนบันทึกบิล</div></td>
+          <td class="col-pre">มีบิลที่ไม่ได้ผูก Analytic ไว้ตาม TC-D7-03</td>
+          <td class="col-steps"><ol><li>เปิด Gross Margin ของโครงการที่เกี่ยวข้อง</li><li>ตรวจว่ารายการนั้นปรากฏอยู่หรือไม่</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">รายการที่ไม่ได้ผูก Analytic จะไม่ปรากฏในรายงาน Gross Margin ของโครงการเลย</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var catEls = Array.prototype.slice.call(document.querySelectorAll('#doc-tree .tree-cat'));
+    catEls.forEach(function(c){
+      var links = c.querySelectorAll('a[href^="#"]');
+      links.forEach(function(a){
+        var id = a.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if(!target) return;
+      });
+    });
+    var sectionEls = Array.prototype.slice.call(document.querySelectorAll('.category'));
+    if(!sectionEls.length) return;
+    function setActive(id){
+      document.querySelectorAll('.tree-doc a').forEach(function(a){
+        a.style.fontWeight = (a.getAttribute('href') === '#' + id) ? '700' : '400';
+        a.style.color = (a.getAttribute('href') === '#' + id) ? 'var(--copper-dark)' : '';
+      });
+    }
+    var observer = new IntersectionObserver(function(entries){
+      var visible = entries.filter(function(e){ return e.isIntersecting; });
+      if(visible.length) setActive(visible[0].target.id);
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sectionEls.forEach(function(s){ observer.observe(s); });
+  })();
+</script>
+</body>
+</html>
