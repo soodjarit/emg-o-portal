@@ -107,7 +107,7 @@
     <div class="status-badge">Build + Test ผ่านแล้ว</div>
     <div class="eyebrow">Empire Granite · Stone Slab Inventory — Custom Workflow Design</div>
     <div class="big-title">CBM → ตัน: ตั้งความหนาแน่น<br>ตามประเภทหิน ไม่ต้องกรอกเอง</div>
-    <div class="big-sub">คำตอบสั้นๆ: เพิ่ม field "ความหนาแน่น (ตัน/คิว)" ที่ระดับประเภทหิน ตั้งค่าครั้งเดียว — จากนั้นระบบคำนวณน้ำหนักของทุกก้อนที่ import อัตโนมัติจาก CBM ที่วัดจริง พนักงานไม่ต้องคูณเลขเอง ลดความเสี่ยงกรอกผิด/จำค่าความหนาแน่นผิดชนิดหิน</div>
+    <div class="big-sub">คำตอบสั้นๆ: เพิ่ม field "ความหนาแน่น (ตัน/คิว)" ที่ระดับประเภทหิน ตั้งค่าครั้งเดียว — จากนั้นระบบคำนวณน้ำหนักของทุกก้อนที่ import อัตโนมัติจาก CBM ที่วัดจริง พนักงานไม่ต้องคูณเลขเอง ลดความเสี่ยงกรอกผิด/จำค่าความหนาแน่นผิดชนิดหิน ตัวความหนาแน่นตัวเดียวกันนี้ต่อยอดไปใช้ได้อีก 2 จุด: กรอกซื้อเป็นตันตรงๆ ที่ PO และเช็คสต็อกเหลือเป็นตันได้เลย</div>
     <div class="stamp">EMG-O Custom Workflow Design · Design Discussion</div>
     <div class="date-tag">25 ส.ค. 2026</div>
   </section>
@@ -159,8 +159,50 @@
     <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
   </section>
 
-  <!-- SLIDE 4: Landed cost basis question that came up -->
+  <!-- SLIDE 4: Purchase in Ton (ADR-040) -->
   <section class="slide" id="slide-4">
+    <div class="eyebrow">ต่อยอดที่ 1 — ซื้อเป็นตันได้เลยที่ PO</div>
+    <h2 class="slide-title">ไม่ต้องแปลงเป็น CBM เองก่อนพิมพ์ลง PO — กรอกตันตรงๆ ได้เลย</h2>
+    <div class="flow-bar" style="margin:6px 0 22px;">
+      <span class="flow-chip">พนักงานกรอก Qty (Ton) + Price/Ton บน PO</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ระบบหาร/คูณด้วย Density เดิม</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">Qty/Price (CBM) เติมให้อัตโนมัติ</span>
+    </div>
+    <div class="code-block">
+      product_qty (CBM) = qty_ton ÷ material.density_ton_per_cbm<br>
+      price_unit (บาท/CBM) = price_per_ton × material.density_ton_per_cbm<br>
+      <span class="cm"># price_subtotal ที่ได้ = price_per_ton × qty_ton เป๊ะ — ไม่กระทบสูตรต้นทุนใดๆ ต่อจากนี้</span>
+    </div>
+    <div class="note-box good" style="margin-top:16px;"><b>กันพลาด:</b> ถ้าประเภทหินนั้นยังไม่ได้ตั้ง Density ไว้ ระบบจะเตือนและไม่ยอมคำนวณให้ — ต้องไปตั้ง Density ที่ Material ก่อนถึงจะกรอกซื้อเป็นตันได้ ไม่ปล่อยให้คำนวณผิดแบบเงียบๆ</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 5: Stock check in Ton (ADR-041) -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ต่อยอดที่ 2 — เช็คสต็อกเหลือเป็นตันได้เลย</div>
+    <h2 class="slide-title">หน้า Block และตอนเลือกขายทั้งก้อน โชว์ตันคู่กับ CBM ให้ทันที</h2>
+    <div class="case-box">
+      <div class="case-icon">+</div>
+      <div>
+        <div class="case-text-label">ที่มา</div>
+        <div class="case-text">ของเดิม (Remaining CBM) เช็คสต็อกคงเหลือได้แค่หน่วย CBM เท่านั้น — เพิ่ม field ใหม่ให้เห็นน้ำหนักคงเหลือเป็นตันควบคู่ไปด้วยเลย ไม่ต้องคำนวณเอง</div>
+      </div>
+    </div>
+    <div class="code-block">
+      remaining_weight_ton = remaining_cbm (สต็อกจริง สดตลอดเวลา) × material.density_ton_per_cbm
+    </div>
+    <table class="cmp-table" style="margin-top:14px;">
+      <tr><th style="width:260px;">โชว์ตรงไหนบ้าง</th><th>รายละเอียด</th></tr>
+      <tr class="good"><td><b>หน้า Block (ฟอร์ม)</b></td><td>ข้าง Remaining CBM เดิม</td></tr>
+      <tr class="good"><td><b>Kanban การ์ด Block</b></td><td>โชว์ "X CBM / Y Ton remaining"</td></tr>
+      <tr class="good"><td><b>ตอนเลือกขายทั้งก้อน (Select Block)</b></td><td>Sales เทียบทั้ง 2 หน่วยก่อนยืนยันขายได้เลย</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:16px;"><b>สถานะ:</b> ขึ้นระบบแล้วทั้ง Dev และ Test — ยังไม่ได้เปิดหน้าจอจริงตรวจซ้ำ (เพิ่งขึ้นวันนี้) รอตรวจสอบก่อนถือว่าจบงาน</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
+  </section>
+
+  <!-- SLIDE 6: Landed cost basis question that came up -->
+  <section class="slide" id="slide-6">
     <div class="eyebrow">คำถามที่แตกออกมาระหว่างคุย</div>
     <h2 class="slide-title">ฐานการเฉลี่ยต้นทุนขนส่ง (Landed Cost) — คงของเดิม ไม่เปลี่ยน</h2>
     <div class="case-box">
@@ -179,8 +221,8 @@
     <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
   </section>
 
-  <!-- SLIDE 5: Verified live -->
-  <section class="slide evidence-slide" id="slide-5">
+  <!-- SLIDE 7: Verified live -->
+  <section class="slide evidence-slide" id="slide-7">
     <div class="eyebrow">ทดสอบสดจริง — ผ่านเบราว์เซอร์บน eg-tst</div>
     <h2 class="slide-title">Auto-fill / แก้ทับ / re-fill ทำงานถูกต้องครบ 3 เคส</h2>
     <table class="cmp-table">
@@ -193,20 +235,22 @@
     <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
   </section>
 
-  <!-- SLIDE 6: Summary -->
-  <section class="slide dark" id="slide-6">
+  <!-- SLIDE 8: Summary -->
+  <section class="slide dark" id="slide-8">
     <div class="eyebrow">สรุป</div>
-    <h2 class="slide-title" style="color:#fff;">ตั้ง Density ครั้งเดียวต่อประเภทหิน น้ำหนักคำนวณอัตโนมัติทุกก้อนจากนั้น</h2>
+    <h2 class="slide-title" style="color:#fff;">ตั้ง Density ครั้งเดียวต่อประเภทหิน ใช้ต่อยอดได้ทั้งรับเข้า/ซื้อ/เช็คสต็อก</h2>
     <div class="flow-bar" style="margin-bottom:22px;">
       <span class="flow-chip bad">พนักงานคำนวณเอง (เสี่ยงผิด)</span><span class="flow-arrow">→</span>
       <span class="flow-chip">Density ตั้งที่ประเภทหิน (ครั้งเดียว)</span><span class="flow-arrow">→</span>
-      <span class="flow-chip green">Weight (Ton) auto-fill ทุก Block</span>
+      <span class="flow-chip green">ใช้อัตโนมัติทั้งรับเข้า/ซื้อ/เช็คสต็อก</span>
     </div>
     <table class="cmp-table" style="max-width:960px;">
       <tr><th>คำถาม</th><th>คำตอบ</th></tr>
       <tr class="good"><td>กำหนด CBM→ตันตามประเภทหินได้ไหม</td><td><b>ได้ — เพิ่ม field ความหนาแน่นที่ Material ตั้งครั้งเดียว</b></td></tr>
       <tr class="good"><td>พนักงานต้องกรอกน้ำหนักเองไหม</td><td><b>ไม่ต้อง — auto-fill จากสูตร แต่ยังแก้ทับได้ถ้ามีชั่งจริง</b></td></tr>
-      <tr><td>กระทบสูตรต้นทุนเดิม (Landed Cost) ไหม</td><td>ไม่กระทบ — ยืนยันคงสัดส่วน CBM เดิม, Weight เป็นแค่ field อ้างอิง</td></tr>
+      <tr class="good"><td>ซื้อ (PO) เป็นตันตรงๆ ได้ไหม</td><td><b>ได้ — กรอก Qty/Price เป็นตัน ระบบแปลงเป็น CBM ให้เอง (Build+Test ผ่านแล้ว)</b></td></tr>
+      <tr class="good"><td>เช็คสต็อกเหลือเป็นตันได้ไหม</td><td><b>ได้ — โชว์คู่กับ Remaining CBM ทุกจุด (Build แล้ว, รอตรวจหน้าจอจริง)</b></td></tr>
+      <tr><td>กระทบสูตรต้นทุนเดิม (Landed Cost) ไหม</td><td>ไม่กระทบ — ยืนยันคงสัดส่วน CBM เดิมทุกจุด ตันเป็นแค่ field อ้างอิง/สะดวกกรอก</td></tr>
     </table>
     <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">เก็บไว้เป็นบันทึกอ้างอิง — ถ้าอนาคตมีคำถามเรื่องหน่วย/การแปลง CBM↔ตัน อีก กลับมาดูหน้านี้ก่อนออกแบบใหม่</div>
   </section>
@@ -216,7 +260,7 @@
 <div id="nav">
   <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <button onclick="go(-1)">‹</button>
-  <span id="pagecount">1 / 7</span>
+  <span id="pagecount">1 / 9</span>
   <button onclick="go(1)">›</button>
 </div>
 
