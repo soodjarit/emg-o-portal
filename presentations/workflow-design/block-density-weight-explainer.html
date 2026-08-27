@@ -197,7 +197,7 @@
       <tr class="good"><td><b>Kanban การ์ด Block</b></td><td>โชว์ "X CBM / Y Ton remaining"</td></tr>
       <tr class="good"><td><b>ตอนเลือกขายทั้งก้อน (Select Block)</b></td><td>Sales เทียบทั้ง 2 หน่วยก่อนยืนยันขายได้เลย</td></tr>
     </table>
-    <div class="note-box" style="margin-top:16px;"><b>สถานะ:</b> ขึ้นระบบแล้วทั้ง Dev และ Test — ยังไม่ได้เปิดหน้าจอจริงตรวจซ้ำ (เพิ่งขึ้นวันนี้) รอตรวจสอบก่อนถือว่าจบงาน</div>
+    <div class="note-box good" style="margin-top:16px;"><b>ทดสอบสดจริงแล้ว (eg-tst):</b> ทั้ง 3 จุด (ฟอร์ม Block, Kanban 13 การ์ด, Select Block wizard) โชว์ค่าถูกต้องตรงกันหมด — ตัวอย่าง BLK-26-0005: 5.00 CBM × 2.75 (Density) = 13.75 Ton เท่ากันทั้ง 3 จุด ไม่มี error</div>
     <div class="footer-tag">EMG-O Custom Workflow Design · CBM → ตัน</div>
   </section>
 
@@ -249,7 +249,7 @@
       <tr class="good"><td>กำหนด CBM→ตันตามประเภทหินได้ไหม</td><td><b>ได้ — เพิ่ม field ความหนาแน่นที่ Material ตั้งครั้งเดียว</b></td></tr>
       <tr class="good"><td>พนักงานต้องกรอกน้ำหนักเองไหม</td><td><b>ไม่ต้อง — auto-fill จากสูตร แต่ยังแก้ทับได้ถ้ามีชั่งจริง</b></td></tr>
       <tr class="good"><td>ซื้อ (PO) เป็นตันตรงๆ ได้ไหม</td><td><b>ได้ — กรอก Qty/Price เป็นตัน ระบบแปลงเป็น CBM ให้เอง (Build+Test ผ่านแล้ว)</b></td></tr>
-      <tr class="good"><td>เช็คสต็อกเหลือเป็นตันได้ไหม</td><td><b>ได้ — โชว์คู่กับ Remaining CBM ทุกจุด (Build แล้ว, รอตรวจหน้าจอจริง)</b></td></tr>
+      <tr class="good"><td>เช็คสต็อกเหลือเป็นตันได้ไหม</td><td><b>ได้ — โชว์คู่กับ Remaining CBM ทุกจุด (Build+Test ผ่านแล้ว)</b></td></tr>
       <tr><td>กระทบสูตรต้นทุนเดิม (Landed Cost) ไหม</td><td>ไม่กระทบ — ยืนยันคงสัดส่วน CBM เดิมทุกจุด ตันเป็นแค่ field อ้างอิง/สะดวกกรอก</td></tr>
     </table>
     <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">เก็บไว้เป็นบันทึกอ้างอิง — ถ้าอนาคตมีคำถามเรื่องหน่วย/การแปลง CBM↔ตัน อีก กลับมาดูหน้านี้ก่อนออกแบบใหม่</div>
