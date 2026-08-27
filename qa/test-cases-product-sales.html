@@ -313,7 +313,7 @@
           <td class="col-id"><span class="tc-id">TC-A3-02</span></td>
           <td class="col-scenario">ตั้ง Costing Basis = Count พร้อม Flat Cost/Price</td>
           <td class="col-pre">Material ใหม่ตั้ง Costing Basis = "Count (flat per piece)"</td>
-          <td class="col-steps"><ol><li>กรอก Flat Cost / Piece และ Flat Sale Price / Piece</li><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว</li><li>ตรวจ Cost ของแผ่นที่ได้ (คอลัมน์ Cost หรือเปิดแผ่นดู)</li></ol></td>
+          <td class="col-steps"><ol><li>กรอก Flat Cost / Piece และ Flat Sale Price / Piece</li><li>เปิด Block ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว</li><li>ตรวจ Cost ของแผ่นที่ได้ (คอลัมน์ Cost หรือเปิดแผ่นดู)</li></ol></td>
           <td class="col-sample">Flat Cost / Piece = 1,500<br>Flat Sale Price / Piece = 2,500<br>Slab L / Slab H = ใส่เท่าไหร่ก็ได้ (ไม่มีผลกับราคาโหมดนี้)</td>
           <td class="col-expected">Cost และราคาขายของแผ่นเท่ากับ 1,500 / 2,500 เป๊ะ ไม่ถูกคำนวณจากขนาดแผ่น</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -322,8 +322,8 @@
           <td class="col-id"><span class="tc-id">TC-A3-03</span></td>
           <td class="col-scenario">ตั้ง Costing Basis = Length (ยังไม่รองรับสูตรจริง)<div class="note">หมายเหตุ: รอ confirm สูตรจริงกับทีมประเมินราคา</div></td>
           <td class="col-pre">Material ใหม่ตั้ง Costing Basis = "Length"</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
-          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้ &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Block = 1,000</td>
           <td class="col-expected">ระบบคำนวณ Cost แบบพื้นที่เหมือน Area mode (2.0 × 1.5 × 1,000 = 3,000) ไม่ error แม้ยังไม่มีสูตร Length จริง</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
@@ -331,8 +331,8 @@
           <td class="col-id"><span class="tc-id">TC-A3-04</span></td>
           <td class="col-scenario">Costing Basis = Area (ค่าเริ่มต้น) — regression</td>
           <td class="col-pre">Material ตั้ง Costing Basis = "Area (Sq.Mt.)" (ค่าเริ่มต้น)</td>
-          <td class="col-steps"><ol><li>เปิด Bundle &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
-          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
+          <td class="col-steps"><ol><li>เปิด Block &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Block = 1,000</td>
           <td class="col-expected">Cost = 3,000 (2.0 × 1.5 × 1,000) ตามพฤติกรรมเดิมทุกประการ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
@@ -405,7 +405,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">A5. Finish / Variant Resolution</div>
-        <div class="category-sub">ADR-018 — Finish ของ Bundle เป็นตัวกำหนด Variant ที่ใช้ตัด/ผลิต · 4 test cases</div>
+        <div class="category-sub">ADR-018 — Finish ของ Block เป็นตัวกำหนด Variant ที่ใช้ตัด/ผลิต · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -426,7 +426,7 @@
           <td class="col-id"><span class="tc-id">TC-A5-01</span></td>
           <td class="col-scenario">Material ที่ Slab Product ยังไม่มี Finish ให้เลือกเลย</td>
           <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือกเดียว ไม่มี Finish ให้เลือกหลายแบบ</td>
-          <td class="col-steps"><ol><li>เปิด Bundle (Block/Lot) ของ Material นี้</li><li>ลองตั้งค่า Finish เป็นค่าใดก็ได้ (หรือปล่อยว่าง)</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order"</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ลองตั้งค่า Finish เป็นค่าใดก็ได้ (หรือปล่อยว่าง)</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order"</li></ol></td>
           <td class="col-sample">Finish = เลือกอะไรก็ได้ เช่น "Polished" หรือปล่อยว่าง</td>
           <td class="col-expected">ทำงานได้ปกติเหมือนกันทุกครั้ง ไม่ error ไม่ว่าจะตั้งค่า Finish เป็นอะไร</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
@@ -435,7 +435,7 @@
           <td class="col-id"><span class="tc-id">TC-A5-02</span></td>
           <td class="col-scenario">Material ที่ Slab Product มี Finish ให้เลือกหลายแบบ<div class="note">หมายเหตุ: เคยพบบั๊กผลิตผิด Finish มาก่อน (แก้แล้ว 2026-07-19)</div></td>
           <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือก Finish หลายแบบ (เช่น Polished/Honed) พร้อมใช้งานแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้</li><li>ตั้งค่า Finish = "Polished"</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order" แล้วยืนยัน MO</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ตั้งค่า Finish = "Polished"</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order" แล้วยืนยัน MO</li></ol></td>
           <td class="col-sample">Finish = "Polished"</td>
           <td class="col-expected">แผ่น/สินค้าที่ได้ตรงกับ Finish = Polished จริง ไม่ใช่ตัวเลือกเริ่มต้นแบบไม่ระบุ Finish</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -444,7 +444,7 @@
           <td class="col-id"><span class="tc-id">TC-A5-03</span></td>
           <td class="col-scenario">ปล่อย Finish ว่างไว้ ทั้งที่มีให้เลือกหลายแบบ</td>
           <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือก Finish หลายแบบ</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้</li><li>ปล่อยช่อง Finish ว่างไว้ (ไม่เลือก)</li><li>ไปแท็บ Slabs ลองเพิ่มแถวแรก</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ปล่อยช่อง Finish ว่างไว้ (ไม่เลือก)</li><li>ไปแท็บ Slabs ลองเพิ่มแถวแรก</li></ol></td>
           <td class="col-sample">Finish = (เว้นว่าง)</td>
           <td class="col-expected">ระบบฟ้อง error ภาษาไทยให้ตั้งค่า Finish ก่อนเพิ่มแผ่น บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
@@ -487,8 +487,8 @@
           <td class="col-id"><span class="tc-id">TC-A6-01</span></td>
           <td class="col-scenario">Cut-to-Order ครั้งแรกของ Material+Company คู่ใหม่</td>
           <td class="col-pre">Material นี้ยังไม่เคยสร้าง Cut Order สำหรับ Company นี้เลย</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ กด "Create Cut Order" (หรือกด "Cut to Order" จาก SO line)</li><li>กรอกฟิลด์ในหน้าต่าง "Create Cut Order"</li><li>ตรวจ Manufacturing &gt; Work Centers และ Bill of Materials</li></ol></td>
-          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2<br>Cut From Block = เลือก Bundle ที่มีอยู่ (เช่น BDL-00002)</td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้ กด "Create Cut Order" (หรือกด "Cut to Order" จาก SO line)</li><li>กรอกฟิลด์ในหน้าต่าง "Create Cut Order"</li><li>ตรวจ Manufacturing &gt; Work Centers และ Bill of Materials</li></ol></td>
+          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2<br>Cut From Block = เลือก Block ที่มีอยู่ (เช่น BLK-26-0002)</td>
           <td class="col-expected">ระบบสร้าง Work Center "Stone Cutting", Operation Type "Stone Cutting" และ Bill of Materials ให้เองครบ ไม่ต้องตั้งค่าเอง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
@@ -557,7 +557,7 @@
           <td class="col-id"><span class="tc-id">TC-A7-01</span></td>
           <td class="col-scenario">ตัดแผ่นด้วยมือ ("Add a line" บนแท็บ Slabs, ไม่ผ่าน Cut Order/MO) บน Material ที่ตั้งค่าแรงต่อตร.ม. ไว้</td>
           <td class="col-pre">Material ตั้งค่า "Cutting Labor Cost / Sq.Mt." มากกว่า 0 (Costing Basis เป็น "Area (Sq.Mt.)")</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line" กรอก Slab L / Slab H แล้วบันทึก</li><li>เปิดเมนู Slabs (เมนูบนสุด) หาแผ่นที่เพิ่งเพิ่มไป เปิดดู</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line" กรอก Slab L / Slab H แล้วบันทึก</li><li>เปิดเมนู Slabs (เมนูบนสุด) หาแผ่นที่เพิ่งเพิ่มไป เปิดดู</li></ol></td>
           <td class="col-sample">Cutting Labor Cost / Sq.Mt. = 200<br>Slab L (M) = 2.0<br>Slab H (M) = 1.5</td>
           <td class="col-expected">Total Cost ของแผ่น = ต้นทุนวัสดุ (Cost) บวกค่าแรง (200 × 3.0 ตร.ม. = 600) เข้าไปด้วย</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
@@ -575,7 +575,7 @@
           <td class="col-id"><span class="tc-id">TC-A7-03</span></td>
           <td class="col-scenario">Material ที่ Costing Basis = Count</td>
           <td class="col-pre">Material ตั้งค่า "Cutting Labor Cost / Sq.Mt." ไว้ตั้งแต่ตอน Costing Basis ยังเป็น Area (ช่องนี้จะซ่อนไปเมื่อสลับเป็น Count แต่ค่าที่ตั้งไว้เดิมยังมีผล) แล้วจึงเปลี่ยน Costing Basis เป็น "Count (flat per piece)"</td>
-          <td class="col-steps"><ol><li>เปิด Bundle ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line"</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้ &gt; แท็บ Slabs &gt; กด "Add a line"</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">ค่าแรงต่อตร.ม. ไม่ถูกนำมาบวก (โหมดนี้ไม่มีฐาน Sq.Mt. ให้คูณ) Total Cost อิงจาก Flat Cost/Piece เท่านั้น</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
@@ -678,7 +678,7 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-B2-02</span></td>
           <td class="col-scenario">Material โหมด Lot — ระบุจำนวนตร.ม.บางส่วน</td>
-          <td class="col-pre">Material เป็นโหมด Lot มี Bundle ที่มีสต็อกรวมเพียงพอ</td>
+          <td class="col-pre">Material เป็นโหมด Lot มี Block ที่มีสต็อกรวมเพียงพอ</td>
           <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัดสินค้า Material นี้ กด "Select Lot Stock"</li><li>กรอก Quantity to Sell (Sq.Mt.) เป็นจำนวนบางส่วนจาก Lot</li><li>กด "Confirm Selection"</li></ol></td>
           <td class="col-sample">Quantity to Sell (Sq.Mt.) = 5.0 (น้อยกว่า Remaining Sqmt ของ Lot ทั้งก้อน)</td>
           <td class="col-expected">บรรทัด SO ผูก Lot ถูกต้อง ไม่มีการเลือกแผ่นเดี่ยวใดๆ (ปุ่ม Select Slabs ไม่เกี่ยวข้องกับโหมดนี้)</td>
@@ -994,7 +994,7 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-04</span></td>
           <td class="col-scenario">ขายแบบ Lot ข้ามบริษัท</td>
-          <td class="col-pre">Bundle เป็นโหมด Lot อยู่ Empire Stone, SO เป็นของ Empire Granite ระบุจำนวนตร.ม.บางส่วน</td>
+          <td class="col-pre">Block เป็นโหมด Lot อยู่ Empire Stone, SO เป็นของ Empire Granite ระบุจำนวนตร.ม.บางส่วน</td>
           <td class="col-steps"><ol><li>Confirm SO</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">SO/PO ภายในใช้ Slab Product (ไม่ใช่ Block Product) และราคาอิงตาม Cost / Sq.Mt. บวก Markup</td>
@@ -1021,7 +1021,7 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-B6-07</span></td>
           <td class="col-scenario">Regression: SO ที่ไม่ข้ามบริษัทเลย</td>
-          <td class="col-pre">Bundle/Block ทุกรายการใน SO อยู่บริษัทเดียวกับ SO เอง</td>
+          <td class="col-pre">Block ทุกรายการใน SO อยู่บริษัทเดียวกับ SO เอง</td>
           <td class="col-steps"><ol><li>Confirm SO ปกติ (Mode 1/2/3 อย่างใดอย่างหนึ่ง)</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">ไม่มี SO/PO ภายในเกิดขึ้นเลย</td>
@@ -1099,7 +1099,7 @@
           <td class="col-id"><span class="tc-id">TC-B8-01</span></td>
           <td class="col-scenario">ผู้ใช้ที่มีสิทธิ์เข้าถึงหลายบริษัทเห็นข้อมูลทั้ง 2 บริษัท</td>
           <td class="col-pre">ผู้ใช้ (เช่น emgdemo) มีสิทธิ์เข้าถึงทั้ง Empire Granite และ Empire Stone</td>
-          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>เปิดรายการ Stone Bundle/Slab</li></ol></td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>เปิดรายการ Stone Block/Slab</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นข้อมูลทั้ง 2 บริษัทพร้อมกันโดยไม่ต้องสลับตัวเลือกบริษัทที่มุมขวาบน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
@@ -1117,7 +1117,7 @@
           <td class="col-id"><span class="tc-id">TC-B8-03</span></td>
           <td class="col-scenario">ผู้ใช้ที่ไม่มีสิทธิ์กลุ่ม EMG-O เลย</td>
           <td class="col-pre">ผู้ใช้ไม่มีทั้งสิทธิ์ "EMG-O Internal User" และ "EMG-O Internal Manager"</td>
-          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>มองหาเมนู Stone Material/Bundle/Slab</li></ol></td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้</li><li>มองหาเมนู Stone Material/Block/Slab</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">ไม่เห็นเมนู EMG-O เลย หรือถูกฟ้อง Access Error ตามสิทธิ์ที่ควรเป็น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>

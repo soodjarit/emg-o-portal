@@ -127,10 +127,10 @@
     <h1>Test Cases: Day-in-the-Life (Order-to-Cash)</h1>
     <div class="sub">Test Case ที่แยกหมวดตามเอกสาร "Day-in-the-Life" (งานโครงการ Mode 4 หนึ่งงาน ตั้งแต่ตั้งค่าสินค้าจนเห็นกำไรจริง) — เดินตามลำดับ flow จริงทุกจุดในเอกสารครบทุกสไลด์ในเธรดเดียว รวมถึงจุดที่เคยมี Test Case อยู่แล้วในหมวดอื่น (Material Setup/BOQ→Project/Cut Order) ก็ทดสอบซ้ำอีกครั้งที่นี่ (ระบุ "regression ของ..." ในหมายเหตุ) เพื่อจับ regression จากการแก้โค้ดล่าสุด ไม่ใช่แค่จุดที่ยังไม่เคยทดสอบ พร้อมข้อมูลตัวอย่างที่ต้องกรอกในแต่ละขั้นตอน</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>39</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>40</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>9</b>หมวด</div>
       <div class="stat-pill"><b style="color:var(--red)">23</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">10</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">11</b>Medium Priority</div>
       <div class="stat-pill"><b style="color:var(--green)">6</b>Low Priority</div>
     </div>
   </header>
@@ -147,7 +147,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">D1. Setup Product — Material, Pricing Mode, Density, Costing</div>
-        <div class="category-sub">regression ของหมวด A1-A4 เดิม + Density (ฟีเจอร์ใหม่ 25 ส.ค.) · 6 test cases</div>
+        <div class="category-sub">regression ของหมวด A1-A4 เดิม + Density (ฟีเจอร์ใหม่ 25 ส.ค.) · 8 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -166,65 +166,74 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-01</span></td>
-          <td class="col-scenario">สร้าง Material ครบทุกฟิลด์บังคับ<div class="note">regression ของ TC-A1-01</div></td>
-          <td class="col-pre">ผู้ใช้มีสิทธิ์ EMG-O Internal Manager</td>
-          <td class="col-steps"><ol><li>เปิดเมนู Stone Material &gt; New</li><li>กรอกฟิลด์บังคับให้ครบ</li><li>กด Save</li></ol></td>
-          <td class="col-sample">Name = "Test Marble 01"<br>Category = "Marble"<br>Pricing Mode = "Serial (per-slab)"<br>Costing Basis = "Area (Sq.Mt.)"<br>Slab Product = เลือกสินค้าที่มีอยู่ เช่น "Carrara White Slab"</td>
-          <td class="col-expected">บันทึกสำเร็จ ไม่มี error</td>
+          <td class="col-scenario">สร้าง Material ใหม่ผ่าน Quick Material Setup Wizard (สร้าง Slab + Block Product ให้อัตโนมัติ)<div class="note">regression ของ TC-A1-01 — ปรับ flow ให้ตรงกับ day-in-life.html สไลด์ 2 จริง (ใช้ wizard ไม่ใช่ฟอร์ม Material ตรงๆ ซึ่งต้องมี Slab Product อยู่ก่อนแล้วถึงจะเลือกได้ ไม่เหมาะกับ Material ใหม่เอี่ยม) — ⚠️ ต้องมีสิทธิ์ Products/Create ก่อน (group_emgo_internal_manager ยังไม่มี ณ 2026-08-27 ดู progress.md finding #1) ไม่งั้น wizard จะ error ตอนสร้าง Slab/Block Product นี้เป็น fixture หลัก ("Test Marble 01") ที่ TC-D1-02/03/03b/04 ใช้ต่อทั้งหมด</div></td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์ EMG-O Internal Manager และมีสิทธิ์ Products/Create</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Configuration &gt; Quick Material Setup</li><li>เลือก Setup Mode = "สร้าง Material ใหม่"</li><li>กรอกทุกฟิลด์ตามคอลัมน์ข้อมูลตัวอย่าง (ติ๊ก "ขายทั้งก้อนได้ (Block Product)" ด้วย — จำเป็นสำหรับ TC-D1-03 ต่อไป)</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">Setup Mode = "สร้าง Material ใหม่"<br>Material Name = "Test Marble 01"<br>Category = "Marble"<br>Pricing Mode = "Serial (per-slab)"<br>Origin Country = "Italy" (optional)<br>Density (Ton/CBM) = 2.75 (optional — ใส่ไว้เพื่อใช้ต่อใน TC-D1-03)<br>Slab Sales Price = 1,500<br>Slab Cost = 1,000<br>ขายทั้งก้อนได้ (Block Product) = ✔ ติ๊ก<br>Block Sales Price = 18,000<br>Block Cost = 15,000<br>มี Finished Good = ไม่ติ๊ก (ทดสอบแยกใน TC-D1-06b)</td>
+          <td class="col-expected">สร้างสำเร็จ ไม่มี error — ระบบสร้าง 2 สินค้าให้อัตโนมัติ: (1) "Test Marble 01 - Slab" Tracking=Serial UoM=Unit และ (2) "Test Marble 01 - Block" Tracking=Lot UoM=m³ แล้วผูกทั้งคู่เข้ากับ Material ทันที (product_id + product_id_block) เปิด Material ดู Costing Basis จะเป็นค่าเริ่มต้น "Area (Sq.Mt.)" เสมอ (wizard ไม่มีฟิลด์นี้ให้กรอกโดยตรง)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-02</span></td>
-          <td class="col-scenario">Material มี Block/Lot อยู่แล้ว — พยายามเปลี่ยน Pricing Mode<div class="note">regression ของ TC-A2-04</div></td>
-          <td class="col-pre">Material มี Block/Lot อย่างน้อย 1 รายการอยู่แล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Material นั้น</li><li>พยายามเปลี่ยน Pricing Mode จาก Serial เป็น Lot (หรือกลับกัน)</li><li>กด Save</li></ol></td>
-          <td class="col-sample">สลับค่า Pricing Mode ไปอีกฝั่งหนึ่ง</td>
-          <td class="col-expected">ขึ้น error ภาษาไทยแจ้งว่า Pricing Mode ถูกล็อกแล้ว บันทึกไม่ผ่าน</td>
+          <td class="col-scenario">Material มี Block อยู่แล้ว — พยายามเปลี่ยน Pricing Mode<div class="note">regression ของ TC-A2-04</div></td>
+          <td class="col-pre">Material "Test Marble 01" มี Block อยู่แล้ว 1 ใบ (สร้างจาก TC-D1-03) — ถ้าทำ TC นี้ก่อน TC-D1-03 ให้สร้าง Block เปล่าๆ ของ Material นี้ไว้ก่อน 1 ใบพอ (Supplier/Warehouse/PO Line อะไรก็ได้ ขอแค่มี stone.bundle ผูกกับ Material นี้จริง)</td>
+          <td class="col-steps"><ol><li>เปิด Material "Test Marble 01"</li><li>เปลี่ยน Pricing Mode จาก "Serial (per-slab)" เป็น "Lot (aggregate, cheap stone)"</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Pricing Mode: "Serial (per-slab)" → "Lot (aggregate, cheap stone)"</td>
+          <td class="col-expected">บันทึกไม่ผ่าน ขึ้น error ข้อความเป๊ะๆ: "Pricing Mode ถูกล็อกแล้ว เพราะ Material นี้มี Block อยู่แล้ว — สลับระหว่าง Serial กับ Lot บน Material ที่มีสต็อกจริงจะทำให้สถานะสต็อกปนกันผิดพลาด"</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-03</span></td>
-          <td class="col-scenario">ตั้ง Density (ตัน/CBM) แล้วสร้าง Block ใหม่ — Weight (Ton) เติมให้อัตโนมัติ<div class="note">ฟีเจอร์ใหม่ 2026-08-25 ไม่เคยมี Test Case มาก่อน</div></td>
-          <td class="col-pre">Material ตั้งค่า Density (ตัน/CBM) ไว้แล้ว เช่น Carrara White = 2.75</td>
-          <td class="col-steps"><ol><li>สร้าง Block ใหม่ของ Material นี้</li><li>กรอก Total CBM</li><li>ดูช่อง Weight (Ton) โดยไม่ต้องพิมพ์เอง</li></ol></td>
-          <td class="col-sample">Total CBM = 2.0<br>Density = 2.75 ตัน/CBM</td>
-          <td class="col-expected">Weight (Ton) เติมให้อัตโนมัติ = 5.5 (2.0 × 2.75) ทันทีที่กรอก/แก้ Total CBM</td>
+          <td class="col-scenario">สร้าง PO จริง + ยืนยัน แล้วสร้าง Block จาก PO นั้น — Weight (Ton) เติมให้อัตโนมัติจาก Density<div class="note">ฟีเจอร์ใหม่ 2026-08-25 ไม่เคยมี Test Case มาก่อน — ⚠️ เพิ่ม field ที่ขาดไปจากเอกสารเดิม: Total CBM/Weight(Ton)/Purchase Order Line/Thickness(M) ทั้งหมด invisible บนฟอร์ม Block ถ้า Material ไม่มี Block Product (ดู stone_bundle_views.xml, group invisible="not material_has_block_product") และ 3 ใน 4 ฟิลด์นั้นเป็น required ทันทีที่ Material มี Block Product — ต้องมี PO จริง (confirm แล้ว) อยู่ก่อนถึงจะสร้าง Block ได้เลย ไม่ใช่กรอก Total CBM ลอยๆ ตามที่เอกสารเดิมเขียนไว้ เพิ่มขั้นตอนสร้าง PO เองในเคสนี้เลย (แทนที่จะสมมติไว้ใน precondition เฉยๆ) เพราะถ้าไม่มี PO จริงจะทดสอบขั้นต่อไปไม่ได้เลย</div></td>
+          <td class="col-pre">Material "Test Marble 01" มี Block Product แล้ว (จาก TC-D1-01) และตั้ง Density=2.75 ไว้แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Purchase &gt; Orders &gt; New</li><li>เลือก Vendor = "Demo Quarry Co."</li><li>กด "Add a line" เพิ่มบรรทัด: Product="Test Marble 01 - Block", Quantity=2.0, Unit Price=25,000 (Subtotal เติมอัตโนมัติ=50,000)</li><li>กด "Confirm Order" (PO เปลี่ยนสถานะเป็น Purchase)</li><li>เปิดเมนู Stone Slab &gt; Blocks &gt; New</li><li>กรอก Material/Quality/Warehouse</li><li>เลือก Purchase Order Line = บรรทัดของ PO ที่เพิ่งยืนยัน — สังเกต Supplier + Total CBM เติมให้อัตโนมัติทันที</li><li>กรอก Thickness (M)</li><li>ดูช่อง Weight (Ton) โดยไม่ต้องพิมพ์เอง แล้วกด Save</li></ol></td>
+          <td class="col-sample">Vendor = "Demo Quarry Co."<br>PO Line: Product="Test Marble 01 - Block", Quantity=2.0, Unit Price=25,000, Subtotal=50,000 (เติมอัตโนมัติ)<br>—<br>Material = "Test Marble 01"<br>Quality = "First" (ค่าเริ่มต้น)<br>Warehouse = "Empire Granite Warehouse (EG01)"<br>Purchase Order Line = บรรทัด PO ที่เพิ่งยืนยัน<br>Supplier = เติมอัตโนมัติ = "Demo Quarry Co."<br>Total CBM = เติมอัตโนมัติ = 2.0<br>Thickness (M) = 0.04</td>
+          <td class="col-expected">PO confirm สำเร็จ (state=Purchase) — ทันทีที่เลือก Purchase Order Line บนฟอร์ม Block: Supplier + Total CBM เติมให้อัตโนมัติ (2.0) แล้ว Weight (Ton) เติมต่อให้อัตโนมัติ = 5.5 (2.0 × 2.75) โดยไม่ต้องพิมพ์เอง บันทึกสำเร็จ (PO+Block นี้ใช้ fixture ต่อใน TC-D1-04 ด้วย)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-03b</span></td>
-          <td class="col-scenario">แก้ Weight (Ton) มือหลังระบบเติมให้แล้ว (ค่าจากตาชั่งจริง)<div class="note">ฟีเจอร์ใหม่ 2026-08-25 — ตรวจว่าไม่ถูกเขียนทับจนกว่าจะแก้ CBM/Material อีกครั้ง</div></td>
-          <td class="col-pre">Block มี Weight (Ton) ที่เติมอัตโนมัติแล้วตาม TC-D1-03</td>
-          <td class="col-steps"><ol><li>แก้ Weight (Ton) เป็นค่าจากตาชั่งจริงด้วยมือ</li><li>กด Save โดยไม่แตะ Total CBM หรือ Material อีก</li></ol></td>
+          <td class="col-scenario">แก้ Weight (Ton) มือหลังระบบเติมให้แล้ว (ค่าจากตาชั่งจริง)<div class="note">ฟีเจอร์ใหม่ 2026-08-25 — ตรวจว่าไม่ถูกเขียนทับจนกว่าจะแก้ Total CBM หรือ Material อีกครั้ง</div></td>
+          <td class="col-pre">Block จาก TC-D1-03 มี Weight (Ton) เติมอัตโนมัติแล้ว = 5.5</td>
+          <td class="col-steps"><ol><li>เปิด Block จาก TC-D1-03</li><li>แก้ Weight (Ton) เป็นค่าจากตาชั่งจริงด้วยมือ</li><li>กด Save โดยไม่แตะ Total CBM หรือ Material อีก</li></ol></td>
           <td class="col-sample">Weight (Ton) = 5.65 (ค่าจริงจากตาชั่ง ต่างจากค่าคำนวณ 5.5)</td>
-          <td class="col-expected">ค่าที่กรอกมือถูกเก็บไว้ตามที่พิมพ์ ไม่ถูกคำนวณทับกลับเป็น 5.5</td>
+          <td class="col-expected">ค่าที่กรอกมือถูกเก็บไว้ตามที่พิมพ์ (5.65) ไม่ถูกคำนวณทับกลับเป็น 5.5</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-04</span></td>
-          <td class="col-scenario">Costing Basis = Area (ค่าเริ่มต้น) คำนวณ Cost ของแผ่นถูกต้อง<div class="note">regression ของ TC-A3-04</div></td>
-          <td class="col-pre">Material ตั้ง Costing Basis = "Area (Sq.Mt.)" (ค่าเริ่มต้น)</td>
-          <td class="col-steps"><ol><li>เปิด Bundle &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
-          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>Cost / Sq.Mt. ของ Bundle = 1,000</td>
-          <td class="col-expected">Cost = 3,000 (2.0 × 1.5 × 1,000)</td>
+          <td class="col-scenario">Costing Basis = Area (ค่าเริ่มต้น) คำนวณ Cost ของแผ่นถูกต้อง จากต้นทุนจริงของ PO<div class="note">regression ของ TC-A3-04 — ⚠️ แก้จากเอกสารเดิม: cost_sqmt/po_cost_sqmt เป็น compute field (ADR-005, 2026-08-02) ไม่ใช่ช่องให้พิมพ์ตรงๆ อย่างที่เอกสารเดิมสมมติ ต้องมาจากสูตร po_cost_cbm(=PO Subtotal÷Total CBM) × Thickness(M) จริง — ปรับ field ให้ครบเพื่อให้ได้ Cost/Sq.Mt.=1,000 เท่าเดิม</div></td>
+          <td class="col-pre">Block จาก TC-D1-03 (PO Subtotal=50,000 ÷ Total CBM=2.0 = PO Cost/CBM 25,000 × Thickness 0.04m = PO Cost/Sq.Mt. 1,000; ไม่มี Container ผูก จึง Landed Cost/Sq.Mt.=0 → Cost/Sq.Mt. รวม = 1,000)</td>
+          <td class="col-steps"><ol><li>เปิด Block จาก TC-D1-03 &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</li><li>ตรวจ Cost ของแผ่นที่ได้</li></ol></td>
+          <td class="col-sample">Slab L (M) = 2.0<br>Slab H (M) = 1.5<br>(Cost/Sq.Mt. ของ Block = 1,000 — คำนวณอัตโนมัติจาก PO ไม่ต้องกรอกเอง ดู precondition)</td>
+          <td class="col-expected">Cost = 3,000 (Slab Sq.Mt. 3.0 × Cost/Sq.Mt. 1,000)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-05</span></td>
-          <td class="col-scenario">ผูก Slab Product ที่ Control Policy เดิมเป็น "Received quantities"<div class="note">regression ของ TC-A4-01 — กันบิลได้ยอด 0 เพราะไม่เคยยืนยันใบรับสินค้าจริง</div></td>
-          <td class="col-pre">มีสินค้าที่ตั้ง Control Policy (แท็บ Purchase) = "Received quantities" อยู่ก่อน</td>
-          <td class="col-steps"><ol><li>สร้าง Material ใหม่ ผูก Slab Product เป็นสินค้านั้น</li><li>กด Save</li><li>เปิดสินค้านั้นดูแท็บ Purchase อีกครั้ง</li></ol></td>
-          <td class="col-sample">Slab Product = สินค้าที่ Control Policy เดิม = "Received quantities"</td>
-          <td class="col-expected">Control Policy ของสินค้าถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ</td>
+          <td class="col-scenario">สร้าง Material ใหม่ผ่านฟอร์ม Materials ตรงๆ (ไม่ใช่ Wizard) โดยผูก Slab Product ที่มีอยู่แล้ว — Control Policy เดิมเป็น "Received quantities"<div class="note">regression ของ TC-A4-01 — กันบิลได้ยอด 0 เพราะไม่เคยยืนยันใบรับสินค้าจริง — ⚠️ ต้องใช้เมนู Configuration &gt; Materials &gt; New ตรงๆ เท่านั้น ห้ามใช้ Quick Material Setup Wizard เพราะ wizard สร้าง Slab Product ใหม่ให้เสมอ ไม่รองรับการเลือกสินค้าที่มีอยู่แล้ว — fixture นี้ ("Test Onyx 01") แยกจาก "Test Marble 01" เพื่อไม่ให้ชนกับ Block Product ที่ D1-01 สร้างให้ไปแล้ว</div></td>
+          <td class="col-pre">มีสินค้า "Test Onyx Slab (Pre-existing)" สร้างไว้ล่วงหน้าแล้ว (Sales &gt; Products &gt; New: Product Type=Goods, Track Inventory=✔, Tracking=By Unique Serial Number, UoM=Unit, Control Policy แท็บ Purchase = "Received quantities")</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Configuration &gt; Materials &gt; New</li><li>กรอก Material Name/Category/Pricing Mode</li><li>ผูก Slab Product = "Test Onyx Slab (Pre-existing)"</li><li>กด Save</li><li>เปิดสินค้านั้นอีกครั้งดูแท็บ Purchase</li></ol></td>
+          <td class="col-sample">Material Name = "Test Onyx 01"<br>Category = "Other"<br>Pricing Mode = "Serial (per-slab)"<br>Slab Product = "Test Onyx Slab (Pre-existing)" (Control Policy เดิม = "Received quantities")</td>
+          <td class="col-expected">บันทึกสำเร็จ ไม่มี error — เปิดสินค้า "Test Onyx Slab (Pre-existing)" อีกครั้ง Control Policy (แท็บ Purchase) ถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-06</span></td>
-          <td class="col-scenario">ผูก Block Product + Finished Good Product ให้ Material เดียวกัน<div class="note">regression เบา ของ TC-A4-02/04 — Block/FG เป็นตัวเลือกเสริม หลักการเดียวกับ Slab Product</div></td>
-          <td class="col-pre">Material มีอยู่แล้ว (Slab Product ผูกครบ)</td>
-          <td class="col-steps"><ol><li>เปิด Material</li><li>ผูก Block Product เป็นสินค้าที่ Control Policy เดิม = "Received quantities"</li><li>ผูก Finished Good Product เป็นสินค้าอีกตัวที่ Control Policy เดิมเหมือนกัน</li><li>กด Save แล้วเปิดทั้งสองสินค้าดูแท็บ Purchase</li></ol></td>
-          <td class="col-sample">Block Product / Finished Good Product = สินค้าที่ Control Policy เดิม = "Received quantities" ทั้งคู่</td>
-          <td class="col-expected">Control Policy ของทั้งสองสินค้าถูกเปลี่ยนเป็น "Ordered quantities" เหมือนกัน</td>
+          <td class="col-scenario">ผูก Block Product ที่มีอยู่แล้วให้ Material เดียวกัน (Fixture B) — Control Policy เดิมเป็น "Received quantities"<div class="note">regression เบา ของ TC-A4-02 — Block Product เป็นตัวเลือกเสริม หลักการเดียวกับ Slab Product (TC-D1-05) — ⚠️ แยก FG ออกเป็น TC-D1-06b ต่างหากแล้ว เพราะพฤติกรรมจริงต่างกัน ไม่ใช่กรณีเดียวกับ Slab/Block</div></td>
+          <td class="col-pre">Material "Test Onyx 01" จาก TC-D1-05 มีอยู่แล้ว (Slab Product ผูกครบ) และมีสินค้าอีกตัว "Test Onyx Block (Pre-existing)" ตั้ง Control Policy เดิม = "Received quantities" ไว้ล่วงหน้า</td>
+          <td class="col-steps"><ol><li>เปิด Material "Test Onyx 01"</li><li>ผูก Block Product = "Test Onyx Block (Pre-existing)"</li><li>กด Save</li><li>เปิดสินค้านั้นดูแท็บ Purchase</li></ol></td>
+          <td class="col-sample">Block Product = "Test Onyx Block (Pre-existing)" (Control Policy เดิม = "Received quantities")</td>
+          <td class="col-expected">Control Policy ของ Block Product ถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ (เหมือน Slab Product ใน TC-D1-05)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-D1-06b</span></td>
+          <td class="col-scenario">ผูก Finished Good Product (stone_is_fg) เข้ากับ Material — Control Policy ไม่ถูกแก้ให้อัตโนมัติ (ต่างจาก Slab/Block)<div class="note">⚠️ เอกสารเดิมเข้าใจผิดว่า FG Product ถูก auto-fix Control Policy เหมือน Slab/Block — เช็คโค้ดจริงแล้ว stone_material.py._ensure_purchase_method() ครอบคลุมเฉพาะ product_id/product_id_block เท่านั้น product_template.py._ensure_stone_fg_tracking() (ทำงานตอนติ๊ก stone_is_fg) จัดการแค่ Tracking/Track Inventory ไม่แตะ Control Policy เลย — แก้ expected result ให้ตรงกับโค้ดจริง ไม่ใช่การเปลี่ยนพฤติกรรม</div></td>
+          <td class="col-pre">Material "Test Onyx 01" มีอยู่แล้ว และมีสินค้าอีกตัว "Test Onyx FG (Pre-existing)" ตั้ง Control Policy เดิม = "Received quantities" ไว้ล่วงหน้า (ยังไม่ติ๊ก stone_is_fg)</td>
+          <td class="col-steps"><ol><li>เปิดสินค้า "Test Onyx FG (Pre-existing)" (Sales &gt; Products)</li><li>ติ๊ก "Is Stone FG Product"</li><li>เลือก "FG Raw Material" = Material "Test Onyx 01"</li><li>กด Save</li><li>ดูแท็บ Purchase อีกครั้ง</li></ol></td>
+          <td class="col-sample">FG Raw Material = "Test Onyx 01"</td>
+          <td class="col-expected">Save สำเร็จ — Tracking ถูกบังคับเป็น "By Lots" และ Track Inventory ติดอัตโนมัติ แต่ Control Policy (แท็บ Purchase) ยังเป็น "Received quantities" เดิม ไม่ถูกเปลี่ยน — ต่างจาก Slab/Block ที่ auto-fix ให้ (ความเสี่ยง: ถ้า FG ตัวนี้เคยซื้อขายจริงและไม่เคย confirm ใบรับสินค้า จะออกบิลได้ยอด 0 — ยังไม่ถูกแก้ในโค้ด)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -508,7 +517,7 @@
         <tr>
           <td class="col-id"><span class="tc-id">TC-D6-04</span></td>
           <td class="col-scenario">Cut Order แบบไม่มี SO ผูก (ตัดเข้าสต็อกล่วงหน้า) — เลือก Project (No SO)<div class="note">ADR-032 regression</div></td>
-          <td class="col-pre">Bundle ยังไม่มี SO ผูก แต่ต้องการตัดเข้าสต็อกไว้ล่วงหน้า</td>
+          <td class="col-pre">Block ยังไม่มี SO ผูก แต่ต้องการตัดเข้าสต็อกไว้ล่วงหน้า</td>
           <td class="col-steps"><ol><li>เปิด Cut Order Wizard แบบไม่มี SO</li><li>เลือกช่อง "Project (No SO)" เป็น Analytic Account ที่ต้องการ</li><li>ยืนยัน Cut Order จนเสร็จ</li><li>เปิดรายงาน Analytic Items ดู</li></ol></td>
           <td class="col-sample">Project (No SO) = Analytic Account ของโครงการที่เลือกไว้</td>
           <td class="col-expected">ต้นทุนแรงงานตัดยังติดป้าย Analytic Account ที่เลือกไว้ 100% ไม่หายไปทั้งที่ไม่มี SO ผูก</td>
