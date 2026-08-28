@@ -237,7 +237,7 @@
 <section class="slide" id="tc-d1-03">
   <div class="top-tags">
     <span class="tc-id">TC-D1-03</span>
-    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน → ฝ่ายจัดซื้อ</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายจัดซื้อ</span>
     <span class="prio-tag med">ความสำคัญปานกลาง</span>
     <span class="cat-label">D1 · Setup Product</span>
   </div>
@@ -252,16 +252,67 @@
     <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
     <span class="flow-chip">ดู P&amp;L</span>
   </div>
-  <h2 class="slide-title">สร้าง PO จริง + ยืนยัน แล้วสร้าง Block — Weight (Ton) เติมอัตโนมัติจาก Density</h2>
+  <h2 class="slide-title">สร้าง PO ซื้อ Block เป็นตัน (Ton) — ระบบแปลงเป็น CBM ให้อัตโนมัติ</h2>
   <div class="two-col">
     <div class="col-left">
       <ul class="step-list">
-        <li><span class="step-num">1</span><span class="step-text">เปิด <b>Purchase &gt; Orders &gt; New</b> เลือก Vendor แล้วเพิ่มบรรทัด Block Product แล้ว <b>Confirm Order</b></span></li>
-        <li><span class="step-num">2</span><span class="step-text">เปิด <b>Stone Slab &gt; Blocks &gt; New</b> กรอก Material/Quality/Warehouse</span></li>
-        <li><span class="step-num">3</span><span class="step-text">เลือก <b>Purchase Order Line</b> ของ PO ที่เพิ่งยืนยัน — สังเกต Supplier + Total CBM เติมอัตโนมัติทันที</span></li>
-        <li><span class="step-num">4</span><span class="step-text">กรอก Thickness (M) แล้วดูช่อง <b>Weight (Ton)</b> โดยไม่ต้องพิมพ์เอง แล้วกด Save</span></li>
+        <li><span class="step-num">1</span><span class="step-text">เปิด <b>Purchase &gt; Orders &gt; New</b> เลือก Vendor</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กด <b>Add a product</b> เลือก Block Product ของหินที่ตั้งค่า Density ไว้แล้ว</span></li>
+        <li><span class="step-num">3</span><span class="step-text">กรอก <b>Qty (Ton)</b> และ <b>Price / Ton</b> — สังเกต Quantity (CBM)/Unit Price เติมให้อัตโนมัติทันที</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กด <b>Confirm Order</b></span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Vendor</td><td>"Demo Quarry Co. (Granite)"</td></tr>
+          <tr><td>Product</td><td>"Carrara White - Block" (Density 2.7 Ton/CBM)</td></tr>
+          <tr><td>Qty (Ton)</td><td>8.00</td></tr>
+          <tr><td>Price / Ton</td><td>6,600.00</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Quantity (CBM) เติมอัตโนมัติ = 2.96 (8 ÷ Density 2.7) และ Unit Price เติมอัตโนมัติ = 17,820.00 (6,600 × 2.7) — ไม่ต้องคำนวณเองหรือแปลงหน่วยเอง</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/171-tc-d1-03-po-ton.png"><div class="shot-cap">PO P00006 (Confirmed) — Qty (Ton)/Price per Ton แปลงเป็น CBM ให้อัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-03a -->
+<section class="slide" id="tc-d1-03a">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-03a</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้าง Block จาก PO ที่เพิ่งยืนยัน — Weight (Ton) เติมอัตโนมัติจาก Density</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด <b>Stone Slab &gt; Blocks &gt; New</b> กรอก Material/Quality/Warehouse</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือก <b>Purchase Order Line</b> ของ PO จาก TC-D1-03 — สังเกต Supplier + Total CBM เติมอัตโนมัติทันที</span></li>
+        <li><span class="step-num">3</span><span class="step-text">กรอก Thickness (M) แล้วดูช่อง <b>Weight (Ton)</b> โดยไม่ต้องพิมพ์เอง แล้วกด Save</span></li>
       </ul>
       <div class="note-box"><b>ฟีเจอร์ใหม่ (25 ส.ค. 2026):</b> Weight (Ton) = Density (Ton/CBM) ของ Material × Total CBM ของ Block — คำนวณอัตโนมัติทันทีที่มีทั้ง Density และ Total CBM</div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Supplier/Total CBM เติมจาก PO Line ทันทีที่เลือก และ Weight (Ton) คำนวณให้อัตโนมัติจาก Density × Total CBM โดยไม่ต้องพิมพ์เอง</div>
+      </div>
     </div>
     <div class="col-right">
       <div class="shot-wrap"><img class="shot" src="assets/143-tc-d1-03-block-weight-autofill.png"><div class="shot-cap">Block Required tab — Weight (Ton) เติมอัตโนมัติจาก Density × Total CBM</div></div>
@@ -292,7 +343,7 @@
   <div class="two-col">
     <div class="col-left">
       <ul class="step-list">
-        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03 ที่มี Weight (Ton) เติมอัตโนมัติแล้ว</span></li>
+        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03a ที่มี Weight (Ton) เติมอัตโนมัติแล้ว</span></li>
         <li><span class="step-num">2</span><span class="step-text">แก้ Weight (Ton) เป็นค่าจากตาชั่งจริงด้วยมือ</span></li>
         <li><span class="step-num">3</span><span class="step-text">กด Save โดยไม่แตะ Total CBM หรือ Material อีก</span></li>
       </ul>
@@ -336,7 +387,7 @@
   <div class="two-col">
     <div class="col-left">
       <ul class="step-list">
-        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03 &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</span></li>
+        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03a &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</span></li>
         <li><span class="step-num">2</span><span class="step-text">ตรวจ Cost ของแผ่นที่ได้ เทียบกับ Cost/CBM ที่คำนวณจาก PO จริง</span></li>
       </ul>
       <div class="note-box"><b>Cost/Sq.Mt. เป็น compute field</b> มาจากสูตร PO Cost/CBM ÷ พื้นที่ (ตาม Thickness) ไม่ใช่ช่องให้พิมพ์ตรงๆ</div>
