@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ซื้อหินเป็นตัน → คำนวณ Cost อย่างไร — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px 68px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;text-wrap:balance;}
+  .dark h2.slide-title{color:var(--white);}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:40px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.28;}
+  #slide-0 .big-sub{font-size:17px;color:#CBD3D8;max-width:900px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+  .status-badge{position:absolute;top:64px;right:170px;background:#2C5A80;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:14px;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:18px 24px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:16px;}
+  .flow-chip{background:var(--charcoal);color:#fff;font-size:12.5px;padding:8px 14px;border-radius:18px;white-space:nowrap;font-weight:600;}
+  .flow-chip.copper{background:var(--copper);}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 6px;font-weight:700;}
+  .dark .flow-arrow{color:#D9A465;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px;}
+  .cmp-table th{text-align:left;padding:9px 12px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:10px 12px;border-bottom:1px solid #e6e2dc;vertical-align:top;}
+  .cmp-table td:not(:first-child){text-align:left;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.hl td{background:#FBF0E2;font-weight:700;color:var(--copper-dark);}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+  .dark .cmp-table tr.hl td{color:#D9A465;background:rgba(184,118,62,.22);}
+
+  .num-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px;}
+  .num-table th{text-align:left;padding:9px 14px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.3px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .num-table th:not(:first-child){text-align:right;}
+  .num-table td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--stone);}
+  .num-table td:first-child{font-weight:700;color:var(--copper-dark);text-align:left;}
+  .num-table tr.hl td{font-weight:700;background:#FBF0E2;}
+  .num-table tr.total td{font-weight:700;color:var(--copper-dark);border-top:2px solid var(--charcoal);}
+
+  .plain-list{list-style:none;margin:0 0 10px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;line-height:1.5;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--copper);}
+  .dark .plain-list li{color:#DDE3E0;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:13px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+  .note-box.warn{background:#FBEAE7;color:#7A2E20;}
+  .note-box.warn b{color:#B8432E;}
+  .note-box.good{background:#EAF3EA;color:#2E5A35;}
+  .note-box.good b{color:#3D7A45;}
+  .note-box.illus{background:#EFEBE4;color:#4A4438;border:1px dashed #B8A98C;}
+  .note-box.illus b{color:#7A6A45;}
+
+  .qa-item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:12px;padding:14px 18px;margin-bottom:10px;}
+  .qa-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;}
+  .qa-num.green{background:#3D7A45;}
+  .qa-label{font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .qa-val{font-size:16px;font-weight:700;color:var(--charcoal);font-family:Cambria,serif;}
+  .qa-sub{font-size:12.5px;color:var(--muted);margin-top:2px;}
+
+  .illus-tag{display:inline-block;background:#B8A98C;color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:9px;margin-left:8px;vertical-align:middle;}
+
+  /* evidence / screenshot slides */
+  .evidence-slide .shot-row{display:flex;gap:22px;align-items:flex-start;flex:1;min-height:0;}
+  .evidence-slide .shot-col{flex:1.25;display:flex;flex-direction:column;min-height:0;}
+  .shot{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.22);width:100%;display:block;border:1px solid var(--stone);cursor:zoom-in;}
+  .shot-cap{font-size:12px;color:var(--muted);margin-top:6px;text-align:center;}
+  .num-col{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;}
+  .metric{background:var(--card);border-radius:12px;padding:14px 16px;}
+  .metric .m-label{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px;}
+  .metric .m-value{font-size:23px;font-weight:700;color:var(--charcoal);font-family:Cambria,serif;}
+  .metric.bad{background:#FBEAE7;}
+  .metric.bad .m-value{color:#A6432D;}
+  .metric.good{background:#EAF3EA;}
+  .metric.good .m-value{color:#3D7A45;}
+  .metric .m-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .compare-row{display:flex;gap:18px;flex:1;min-height:0;}
+  .compare-col{flex:1;display:flex;flex-direction:column;min-height:0;justify-content:center;}
+  .compare-col .clabel{font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;text-align:center;}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:56px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">ตัน ⇄<br>คิว</div>
+    <div class="status-badge">Build + Test ผ่านแล้ว</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Custom Workflow Design</div>
+    <div class="big-title">ซื้อหินเป็นตัน → คำนวณและ<br>กระจาย Cost อย่างไร<br><span style="font-size:26px;color:#CBD3D8;font-weight:400;">(พร้อมวิธีตรวจสอบย้อนกลับ)</span></div>
+    <div class="big-sub">ใช้ข้อมูลจริงในระบบทั้งหมด — ใบสั่งซื้อจริง ก้อนหินจริง และแผ่นหินที่ตัดจริง — พาไล่ดูทีละขั้นตอนว่าตัวเลขต้นทุนเดินทางจากวันสั่งซื้อไปจนถึงแผ่นหินพร้อมขายอย่างไร และถ้าตัวเลขดูไม่ตรงกัน จะตรวจสอบย้อนกลับได้จากตรงไหน</div>
+    <div class="stamp">EMG-O Custom Workflow Design · Cost Calculation &amp; Traceability</div>
+    <div class="date-tag">28 ส.ค. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: Opening -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">เปิดเรื่อง — โจทย์ต้นทาง</div>
+    <h2 class="slide-title">หน้างานสั่งซื้อหินเป็น "ตัน" แต่ระบบเก็บต้นทุนเป็น "คิว" (CBM)</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามจากการประชุมทบทวนงาน</div>
+        <div class="case-text">ทีมงานยังนึกภาพไม่ออกชัดเจนว่าระบบคำนวณและกระจายต้นทุนหินอย่างไร โดยเฉพาะเมื่อหน้างานซื้อขายกันด้วยหน่วย "ตัน" ตามธรรมเนียมตลาดหิน แต่ตัวเลขต้นทุนในระบบกลับแสดงเป็น "คิว" (ลูกบาศก์เมตร) — สไลด์นี้จะตอบให้ชัดทีละขั้นตอน โดยใช้ข้อมูลจริงในระบบ ไม่ใช่ตัวอย่างสมมติ</div>
+      </div>
+    </div>
+    <div style="margin-top:6px;">
+      <div class="case-text-label" style="margin-bottom:8px;">2 คำถามที่สไลด์นี้จะตอบให้ชัด</div>
+      <ul class="plain-list">
+        <li>ระบบคำนวณตัวเลขจากตัน (หน่วยที่ตกลงกับซัพพลายเออร์) ให้กลายเป็นคิว (หน่วยที่ใช้คิดต้นทุนเนื้อหินจริง) อย่างไร</li>
+        <li>ต้นทุนที่ได้ ถูกกระจายลงไปยังหินแต่ละก้อนและแต่ละแผ่นอย่างไร — และถ้าวันหนึ่งตัวเลขดูไม่ตรงกัน จะตรวจสอบย้อนกลับได้จากตรงไหน</li>
+      </ul>
+    </div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ซื้อหินเป็นตัน → คำนวณ Cost</div>
+  </section>
+
+  <!-- SLIDE 2: 3-step overview -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ภาพรวมกระบวนการ</div>
+    <h2 class="slide-title">3 ขั้นตอน จากใบสั่งซื้อ ถึงแผ่นหินพร้อมขาย</h2>
+    <div class="flow-bar" style="margin:8px 0 22px;">
+      <span class="flow-chip copper">ขั้นที่ 1 · สั่งซื้อเป็นตัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip copper">ขั้นที่ 2 · รับก้อนเข้าคลัง (ยืนยัน CBM จริง)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ขั้นที่ 3 · ตัดแผ่น (ไม่แตะตัน/ความหนาแน่นอีกเลย)</span>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:150px;">ขั้นตอน</th><th>เกิดอะไรขึ้น</th></tr>
+      <tr><td><b>1. สั่งซื้อเป็นตัน</b></td><td>พนักงานกรอกจำนวนและราคาต่อตันตามที่ตกลงกับซัพพลายเออร์ — ระบบแปลงเป็นคิวให้อัตโนมัติ โดยใช้ความหนาแน่นเฉพาะของหินชนิดนั้น</td></tr>
+      <tr><td><b>2. รับก้อนเข้าคลัง</b></td><td>ตัวเลขคิวจาก PO เป็นแค่ค่าประมาณการ — พนักงานยืนยัน/แก้ไขให้ตรงกับขนาดก้อนที่วัดได้จริงหน้างาน ค่านี้กลายเป็นค่าจริงที่ใช้ต่อทั้งหมด</td></tr>
+      <tr><td><b>3. ตัดแผ่น</b></td><td>คำนวณจากขนาดแผ่นที่วัดได้จริงล้วนๆ (กว้าง × ยาว × ความหนา) หักออกจากปริมาตรก้อนที่ยืนยันไว้ในขั้นที่ 2 — เป็นเรื่องเรขาคณิต ไม่เกี่ยวกับตันหรือความหนาแน่นอีกต่อไป</td></tr>
+    </table>
+    <div class="note-box good"><b>จุดสำคัญที่ทำให้ตัวเลขไม่คลาดเคลื่อนสะสม:</b> หน่วยตันและค่าความหนาแน่นถูกใช้แค่ "ครั้งเดียว" ในขั้นที่ 1–2 เท่านั้น ขั้นที่ 3 ซึ่งเป็นขั้นที่ตัดแผ่นซ้ำๆ กันหลายสิบหลายร้อยครั้งต่อก้อน ไม่แตะค่าเหล่านี้อีกเลย — ความคลาดเคลื่อนจึงไม่มีจุดที่จะสะสมทีละแผ่น</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ซื้อหินเป็นตัน → คำนวณ Cost</div>
+  </section>
+
+  <!-- SLIDE 3: Step 1 - Purchase in Ton -->
+  <section class="slide evidence-slide" id="slide-3">
+    <div class="eyebrow">ขั้นที่ 1 · สั่งซื้อเป็นตัน — ข้อมูลจริงจากใบสั่งซื้อ P00014</div>
+    <h2 class="slide-title">ระบบแปลงตันเป็นคิวให้อัตโนมัติ ด้วยความหนาแน่นเฉพาะของหินชนิดนั้น</h2>
+    <div class="shot-row">
+      <div class="shot-col">
+        <img class="shot" src="assets/172-d5-01-po-line-ton-cbm.png">
+        <div class="shot-cap">ใบสั่งซื้อ P00014 จริง — Rosa Portogallo Granite</div>
+      </div>
+      <div class="num-col">
+        <div class="metric"><div class="m-label">Input — กรอกตามที่ตกลงกับซัพพลายเออร์</div><div class="m-value">8.00 ตัน @ 6,600 บาท/ตัน</div><div class="m-sub">Rosa Portogallo Granite — ความหนาแน่น 2.75 ตัน/คิว</div></div>
+        <div class="metric"><div class="m-label">Process — ระบบคำนวณให้อัตโนมัติ</div><div class="m-value">8.00 ÷ 2.75</div><div class="m-sub">แปลงจำนวนและราคาเป็นหน่วยคิว โดยใช้ความหนาแน่นของหินชนิดนี้โดยเฉพาะ</div></div>
+        <div class="metric good"><div class="m-label">Output — ค่าที่ระบบใช้คิดต้นทุนต่อจากนี้</div><div class="m-value">2.91 คิว @ 18,150 บาท/คิว</div><div class="m-sub">รวม 52,816.50 บาท — เท่ากับ 8 ตัน × 6,600 บาทเป๊ะ เพียงแค่แสดงเป็นอีกหน่วยหนึ่ง</div></div>
+      </div>
+    </div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ขั้นที่ 1/3 · PO P00014</div>
+  </section>
+
+  <!-- SLIDE 4: Step 2 - Receive block, confirm real number -->
+  <section class="slide evidence-slide" id="slide-4">
+    <div class="eyebrow">ขั้นที่ 2 · รับก้อนหินเข้าคลัง — ยืนยันตัวเลขจริง</div>
+    <h2 class="slide-title">ตัวเลขจาก PO เป็นแค่ค่าประมาณการ — พนักงานยืนยันให้ตรงกับก้อนจริงเสมอ</h2>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="clabel">ก่อนยืนยัน — ค่าประมาณการจาก PO</div>
+        <img class="shot" src="assets/172-d5-02-block-poline-autofill-291cbm.png">
+      </div>
+      <div class="compare-col">
+        <div class="clabel">หลังยืนยันจากการวัดจริงหน้างาน</div>
+        <img class="shot" src="assets/172-d5-03-block-cbm-override-825ton.png">
+      </div>
+    </div>
+    <div class="note-box good" style="margin-top:12px;"><b>สิ่งที่เกิดขึ้น:</b> ระบบดึงค่าประมาณการจาก PO มาเติมให้ก่อน (2.91 คิว ≈ 8.00 ตัน) แต่พนักงานที่หน้างานวัดก้อนจริงแล้วแก้เป็น <b>3.00 คิว</b> (ก้อนจริงใหญ่กว่าค่าประมาณการเล็กน้อย ตามธรรมชาติของหินก้อน) — ทันทีที่แก้ ระบบคำนวณน้ำหนักใหม่ให้อัตโนมัติเป็น <b>8.25 ตัน</b> ค่าที่ยืนยันตรงนี้เองที่กลายเป็น "ค่าจริง" ที่ทุกอย่างต่อจากนี้อ้างอิงถึง ไม่ใช่ค่าประมาณการเดิมจาก PO อีกต่อไป</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ขั้นที่ 2/3 · BLK-26-0029</div>
+  </section>
+
+  <!-- SLIDE 5: Step 3 - Cutting slabs, worked example (the expanded slide) -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นที่ 3 · ตัดแผ่นหิน ทีละแผ่น พร้อมสูตรคำนวณ</div>
+    <h2 class="slide-title">ตัวอย่างจริง 3 แผ่น จากก้อนเดียวกัน — เรขาคณิตล้วนๆ ไม่แตะตันอีกเลย</h2>
+    <table class="num-table">
+      <tr><th>แผ่นที่</th><th>ความยาว L (ม.)</th><th>ความกว้าง H (ม.)</th><th>พื้นที่ (ตร.ม.)</th><th>ปริมาตรที่หักจากก้อน</th><th>คงเหลือสะสม (คิว)</th></tr>
+      <tr><td>แผ่น 1</td><td>2.50</td><td>1.60</td><td>4.00</td><td>4.00 × 0.02 = 0.0800</td><td>3.000 − 0.080 = 2.920</td></tr>
+      <tr><td>แผ่น 2</td><td>2.20</td><td>1.50</td><td>3.30</td><td>3.30 × 0.02 = 0.0660</td><td>2.920 − 0.066 = 2.854</td></tr>
+      <tr><td>แผ่น 3</td><td>2.00</td><td>1.40</td><td>2.80</td><td>2.80 × 0.02 = 0.0560</td><td>2.854 − 0.056 = 2.798</td></tr>
+      <tr class="hl"><td>รวม 3 แผ่น</td><td colspan="2"></td><td>10.10 ตร.ม.</td><td>0.2020 คิว</td><td>คงเหลือตามสูตร 2.798 คิว</td></tr>
+    </table>
+    <div class="note-box"><b>ตัวเลขที่ระบบแสดงจริงหลังตัดครบ 3 แผ่น:</b> คงเหลือ <b>2.79 คิว</b> — ต่างจากตัวเลขตามสูตร (2.798) เพียง ~0.008 คิว ซึ่งเป็นผลจากการปัดทศนิยมของหน่วยแสดงผลในระบบ (2 ตำแหน่ง) ไม่ใช่ความคลาดเคลื่อนจากการคำนวณ — ตรวจสอบย้อนกลับได้ทุกแผ่นจากตารางด้านบน</div>
+    <div class="compare-row" style="margin-top:12px;">
+      <div class="compare-col">
+        <div class="clabel">รายการแผ่นที่ตัดจริงในระบบ</div>
+        <img class="shot" src="assets/172-d5-06-slabs-list-sqmt.png">
+      </div>
+      <div class="compare-col">
+        <div class="clabel">ปริมาตรคงเหลือของก้อน หลังตัดครบ 3 แผ่น</div>
+        <img class="shot" src="assets/172-d5-05-block-remaining-cbm-after-cut.png">
+      </div>
+    </div>
+    <div class="note-box good" style="margin-top:10px;"><b>ทำไมขั้นตอนนี้ไม่มีความคลาดเคลื่อนสะสม:</b> การตัดแต่ละแผ่นใช้แค่ขนาดที่วัดได้จริงจากแผ่นหิน คูณกับความหนาของก้อนที่บันทึกไว้ตั้งแต่ขั้นที่ 2 (ตัวเลขคงที่ ไม่เปลี่ยนไปมา) — ไม่มีการนำตันหรือความหนาแน่นกลับมาคำนวณซ้ำแม้แต่ครั้งเดียว ตัดกี่แผ่นก็ไม่มีจุดให้ความคลาดเคลื่อนสะสมทีละนิด</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ขั้นที่ 3/3 · BLK-26-0029</div>
+  </section>
+
+  <!-- SLIDE 6: Landed cost distribution -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">กระจายค่าขนส่ง/นำเข้า (Landed Cost)</div>
+    <h2 class="slide-title">กระจายตามสัดส่วนปริมาตรจริง คำนวณครั้งเดียวตอนรับของ</h2>
+    <div class="case-box">
+      <div class="case-icon">฿</div>
+      <div>
+        <div class="case-text-label">หลักการ</div>
+        <div class="case-text">ค่าขนส่ง/นำเข้าทั้งตู้คอนเทนเนอร์ ถูกกระจายให้แต่ละก้อนตาม "สัดส่วนปริมาตรจริง" (คิวที่ยืนยันไว้ตอนขั้นที่ 2) — คำนวณครั้งเดียวตอนรับก้อนเข้าคลัง ไม่ว่าจะตัดแผ่นไปแล้วกี่แผ่น หรือยังไม่ได้ตัดเลย ก้อนนั้นก็แบกรับส่วนแบ่งค่าขนส่งของตัวเองไว้แน่นอนตั้งแต่วันแรก</div>
+      </div>
+    </div>
+    <table class="num-table">
+      <tr><th>รายการ<span class="illus-tag">ตัวอย่างประกอบ</span></th><th>ก้อนนี้ (BLK-26-0029)</th><th>อีกก้อนในตู้เดียวกัน</th><th>รวมทั้งตู้</th></tr>
+      <tr><td>ปริมาตรที่ยืนยันจริง</td><td>3.00 คิว</td><td>5.00 คิว</td><td>8.00 คิว</td></tr>
+      <tr><td>ค่าขนส่งทั้งตู้ (จากบิลจริง)</td><td colspan="2"></td><td>16,000 บาท</td></tr>
+      <tr class="hl"><td>ค่าขนส่ง / คิว</td><td colspan="2"></td><td>16,000 ÷ 8.00 = 2,000 บาท/คิว</td></tr>
+      <tr class="hl"><td>ส่วนแบ่งค่าขนส่งของก้อนนี้</td><td>3.00 × 2,000 = 6,000 บาท</td><td>5.00 × 2,000 = 10,000 บาท</td><td>รวม 16,000 บาท ตรงกับบิลเป๊ะ</td></tr>
+    </table>
+    <div class="note-box illus"><b>หมายเหตุความโปร่งใส:</b> ตัวเลขในตารางนี้เป็น <b>ตัวอย่างประกอบ</b> เพื่ออธิบายหลักการเท่านั้น เนื่องจากก้อน BLK-26-0029 ที่ใช้เดินเรื่องในสไลด์นี้ยังไม่ถูกผูกกับตู้คอนเทนเนอร์ที่มีบิลค่าขนส่งจริง — หลักการกระจายตามสัดส่วนคิวนี้เป็นกลไกเดียวกับที่ใช้งานจริงในระบบทุกก้อนที่มีบิลค่าขนส่งผูกอยู่ (ดูตัวอย่างจากบิลจริงเพิ่มเติมได้ในเอกสาร "ต้นทุนหินก้อน + Landed Cost")</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ซื้อหินเป็นตัน → คำนวณ Cost</div>
+  </section>
+
+  <!-- SLIDE 7: Answer the client's question directly -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ตอบคำถามลูกค้าตรงๆ</div>
+    <h2 class="slide-title">"ซื้อ 5 ตัน ทำไมตัดแผ่นรวมแล้วกลับได้ 5.1 ตัน — คำนวณผิดหรือเปล่า"</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามที่กังวล</div>
+        <div class="case-text">ถ้าสั่งซื้อหิน 5 ตัน แต่พอย้อนคำนวณจากแผ่นที่ตัดได้ทั้งหมดกลับได้ตัวเลขประมาณ 5.1 ตัน — เป็นเพราะระบบคำนวณผิดพลาดสะสมทีละแผ่นหรือไม่ และถ้าเกิดขึ้นจริงจะตรวจสอบได้อย่างไร</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:220px;">ตัวอย่างจริงจากสไลด์นี้</th><th>ตัวเลข</th></tr>
+      <tr><td>สั่งซื้อจาก PO P00014</td><td>8.00 ตัน (ค่าประมาณการตอนสั่งซื้อ)</td></tr>
+      <tr class="hl"><td>น้ำหนักจากก้อนที่วัดจริงตอนรับของ</td><td>8.25 ตัน (ส่วนต่าง +0.25 ตัน หรือประมาณ 3%)</td></tr>
+    </table>
+    <div class="note-box good"><b>คำตอบ:</b> ส่วนต่างนี้มาจาก "ขนาดจริงของก้อนหินธรรมชาติ" ที่ไม่มีทางเท่ากับตัวเลขประมาณการเป๊ะๆ ตอนสั่งซื้อ — หินแต่ละก้อนถูกตัดจากภูเขาจริง ขนาดย่อมมีความแปรผันเล็กน้อยเป็นธรรมชาติ ระบบจับส่วนต่างนี้ "ครั้งเดียว" ตอนรับก้อนเข้าคลัง (ขั้นที่ 2) ด้วยการวัดจริง ไม่ใช่ปล่อยให้มันค่อยๆ คลาดเคลื่อนสะสมทีละแผ่นตอนตัด (ขั้นที่ 3 เป็นเรขาคณิตล้วนๆ ตามที่อธิบายไปแล้ว) — จึงสรุปได้ว่านี่คือความแปรผันตามธรรมชาติของก้อนหินจริง ไม่ใช่ความผิดพลาดของการคำนวณ</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ซื้อหินเป็นตัน → คำนวณ Cost</div>
+  </section>
+
+  <!-- SLIDE 8: Traceability -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ตรวจสอบย้อนกลับได้อย่างไร ถ้าตัวเลขดูไม่ตรงกัน</div>
+    <h2 class="slide-title">3 ตัวเลขที่เทียบกันได้ อยู่บนหน้าจอเดียว ไม่ต้องไล่ดูทีละแผ่น</h2>
+    <div class="qa-item">
+      <div class="qa-num">1</div>
+      <div><div class="qa-label">ใบสั่งซื้อ (PO)</div><div class="qa-val">8.00 ตัน</div><div class="qa-sub">ตัวเลขที่ตกลงซื้อกับซัพพลายเออร์ — เปิดดูได้จาก PO P00014 โดยตรง</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-num">2</div>
+      <div><div class="qa-label">ก้อนหิน (Block) — ปริมาตรที่ยืนยันจริง</div><div class="qa-val">3.00 คิว</div><div class="qa-sub">ตัวเลขที่พนักงานวัดจริงหน้างานตอนรับของ — เปิดดูได้จาก Block BLK-26-0029 ซึ่งลิงก์กลับไปหา PO เดียวกันโดยตรง</div></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-num green">3</div>
+      <div><div class="qa-label">ก้อนหิน (Block) — น้ำหนักที่คำนวณอัตโนมัติ</div><div class="qa-val">8.25 ตัน</div><div class="qa-sub">คำนวณจากปริมาตรจริง (ข้อ 2) ทันทีที่ยืนยัน — อยู่บนหน้าจอเดียวกับข้อ 2 เปรียบเทียบกับข้อ 1 ได้ในทันที</div></div>
+    </div>
+    <div class="note-box good"><b>สรุปวิธีตรวจสอบ:</b> เปิด Block เพียงหน้าจอเดียว จะเห็นทั้งปริมาตรที่ยืนยันจริง น้ำหนักที่คำนวณได้ และลิงก์ย้อนกลับไปหา PO ต้นทาง — ถ้าตัวเลขจุดไหนดูไม่สมเหตุสมผล ตรวจสอบได้ทันทีจากจุดเดียว ไม่ต้องไล่รวมยอดจากแผ่นที่ตัดไปแล้วหลายสิบแผ่นย้อนหลัง</div>
+    <div class="footer-tag">EMG-O Custom Workflow Design · ซื้อหินเป็นตัน → คำนวณ Cost</div>
+  </section>
+
+  <!-- SLIDE 9: Summary -->
+  <section class="slide dark" id="slide-9">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">จุดแปลงหน่วยเดียว ไม่มีความคลาดเคลื่อนสะสม ตรวจสอบง่าย</h2>
+    <div class="flow-bar" style="margin-bottom:22px;">
+      <span class="flow-chip">สั่งซื้อเป็นตัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ยืนยันปริมาตรจริงครั้งเดียว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ตัดแผ่นด้วยเรขาคณิตล้วนๆ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ตรวจสอบย้อนกลับได้ในหน้าจอเดียว</span>
+    </div>
+    <table class="cmp-table" style="max-width:1000px;">
+      <tr><th>คำถาม</th><th>คำตอบ</th></tr>
+      <tr class="hl"><td>คำนวณจากตันเป็นคิวยังไง</td><td><b>แปลงด้วยความหนาแน่นเฉพาะของหินชนิดนั้น ครั้งเดียวตอนสั่งซื้อ</b></td></tr>
+      <tr class="hl"><td>กระจายต้นทุนแต่ละก้อนยังไง</td><td><b>ตามสัดส่วนปริมาตรจริงที่ยืนยันตอนรับของ คำนวณครั้งเดียว ไม่เปลี่ยนไปตามการตัดแผ่น</b></td></tr>
+      <tr><td>ตัดแผ่นแล้วตัวเลขจะเพี้ยนสะสมไหม</td><td>ไม่ — ขั้นตัดแผ่นเป็นเรขาคณิตล้วนๆ ไม่แตะตัน/ความหนาแน่นอีกเลย</td></tr>
+      <tr><td>ตรวจสอบย้อนกลับได้จากไหน</td><td>เปิด Block เดียว เห็นทั้ง PO ต้นทาง ปริมาตรจริง และน้ำหนักที่คำนวณได้ ครบในหน้าจอเดียว</td></tr>
+    </table>
+    <div style="margin-top:20px;font-size:14px;color:#B9C2C8;">แนวทางนี้เป็นสิ่งที่ทีมงานสร้างและทดสอบใช้งานจริงแล้ว (ไม่ใช่ประเด็นที่ยังต้องตัดสินใจ) — มีคำถามเพิ่มเติมระหว่างใช้งานจริง ติดต่อทีมงานได้ตลอดเวลา</div>
+  </section>
+
+</div></div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 10</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+
+  document.querySelectorAll('.shot').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    });
+  });
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+</script>
+</body>
+</html>

@@ -196,6 +196,7 @@
           <li class="tree-doc"><a href="presentations/workflow-design/recompute-price-boq-explainer.html"><span class="tree-doc-tag">D2</span>"Recompute Price (BOQ)" ยังต้องใช้ไหม?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/standard-costing-explainer.html"><span class="tree-doc-tag">D3</span>ทำไมไม่ใช้ Standard/AVCO Cost?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/block-density-weight-explainer.html"><span class="tree-doc-tag">D4</span>CBM → ตัน: ความหนาแน่นตามประเภทหิน</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/stone-cost-ton-purchase-calc.html"><span class="tree-doc-tag">D5</span>ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</a></li>
         </ul>
       </details>
 
@@ -547,6 +548,15 @@
         <div class="card-title">CBM → ตัน: ความหนาแน่นตามประเภทหิน</div>
         <div class="card-desc">ลูกค้าอยากตั้งค่าความหนาแน่น (ตัน/คิว) ไว้ที่ประเภทหิน แทนให้พนักงานคำนวณน้ำหนักเอง — เพิ่ม field ที่ Material + auto-fill Weight (Ton) ที่ Block (แก้ทับได้ถ้ามีชั่งจริง) ระหว่างคุยยังยืนยันด้วยว่า Landed Cost คงเฉลี่ยตามสัดส่วน CBM เดิม ไม่เปลี่ยนเป็นเฉลี่ยเท่ากันทุกก้อน ต่อยอดเพิ่มอีก 2 จุด: ซื้อเป็นตันตรงๆ ที่ PO และเช็คสต็อกเหลือเป็นตันได้เลย ทดสอบผ่านเบราว์เซอร์จริงครบทุกจุดแล้ว</div>
         <div class="card-meta"><span class="card-date">27 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/workflow-design/stone-cost-ton-purchase-calc.html">
+      <div class="icon">D5</div>
+      <div>
+        <div class="card-title">ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</div>
+        <div class="card-desc">ตอบคำถามลูกค้าจากการประชุมทบทวนงานว่าระบบคำนวณ/กระจายต้นทุนหินยังไง และถ้าซื้อ 5 ตันแต่ตัดแผ่นรวมได้ 5.1 ตัน จะตรวจสอบย้อนกลับได้จากตรงไหน — เดินเรื่องด้วยข้อมูลจริง (PO P00014 → Block BLK-26-0029 → ตัด 3 แผ่นจริง) พร้อมสูตรคำนวณทีละแผ่นและภาคผนวก Landed Cost</div>
+        <div class="card-meta"><span class="card-date">28 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
