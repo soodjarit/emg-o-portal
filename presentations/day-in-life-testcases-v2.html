@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Day-in-the-Life Test Cases v2 — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+    --ok:#3C7A5C;
+    --ok-bg:#EAF3EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:44px 60px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow{color:#D9A465;}
+  h1.title{font-size:44px;margin:0 0 8px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  h2.slide-title{font-size:26px;margin:0 0 12px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title{color:#fff;}
+  .subtitle{font-size:19px;color:var(--muted);margin-bottom:0;}
+  .dark .subtitle{color:#B9C2C8;}
+
+  .role-tag{display:inline-flex;align-items:center;gap:6px;background:var(--charcoal);color:#fff;font-size:14px;font-weight:700;padding:5px 12px;border-radius:14px;}
+  .role-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--copper);}
+  .prio-tag{display:inline-flex;align-items:center;font-size:13px;font-weight:700;padding:5px 12px;border-radius:14px;background:#FBEEE0;color:var(--copper-dark);}
+  .prio-tag.med{background:#EFEEE9;color:var(--muted);}
+  .top-tags{display:flex;gap:8px;align-items:center;margin-bottom:12px;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:50px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:21px;color:#CBD3D8;max-width:900px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:15px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:52px;right:60px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:30px;color:white;font-weight:700;font-family:Cambria,serif;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:18px 22px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:16px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#DCE2E5;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:2px;margin-bottom:16px;}
+  .flow-chip{background:#D8D3CB;color:var(--muted);font-size:12px;padding:5px 10px;border-radius:14px;white-space:nowrap;font-weight:600;}
+  .flow-chip.current{background:var(--copper);color:#fff;box-shadow:0 2px 8px rgba(184,118,62,.5);}
+  .flow-arrow{color:var(--copper);font-size:13px;margin:0 2px;font-weight:700;}
+  .dark .flow-chip{background:rgba(255,255,255,.12);color:#B9C2C8;}
+
+  .two-col{display:flex;gap:26px;align-items:stretch;flex:1;min-height:0;}
+  .col-left{flex:1.05;display:flex;flex-direction:column;gap:11px;min-height:0;}
+  .col-right{flex:0.95;display:flex;flex-direction:column;gap:10px;justify-content:flex-start;min-height:0;}
+
+  .step-list{list-style:none;margin:0;padding:0;}
+  .step-list li{display:flex;gap:10px;margin-bottom:7px;align-items:flex-start;}
+  .step-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--copper);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .step-text{font-size:14.5px;line-height:1.4;padding-top:1px;}
+  .step-text b{color:var(--copper-dark);}
+
+  .data-map{background:var(--card);border-left:4px solid var(--copper);border-radius:8px;padding:10px 17px;}
+  .data-map-label{font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .data-map-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .data-map-table th{text-align:left;font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding-bottom:5px;border-bottom:1.5px solid #d8d3cb;}
+  .data-map-table td{padding:3.5px 8px 3.5px 0;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.35;}
+  .data-map-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap;width:1%;}
+  .data-map-table td:last-child{color:var(--copper-dark);font-weight:600;}
+  .data-map-table tr:last-child td{border-bottom:none;}
+
+  .expected-box{background:var(--ok-bg);border-left:4px solid var(--ok);border-radius:8px;padding:10px 17px;}
+  .expected-label{font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--ok);font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+  .expected-label .check{width:15px;height:15px;border-radius:50%;background:var(--ok);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;}
+  .expected-text{font-size:14px;line-height:1.42;color:#2E4B3D;}
+
+  .note-box{background:#FBF1E7;border-radius:8px;padding:9px 15px;font-size:13px;line-height:1.4;color:#6B4423;}
+  .note-box b{color:#8F5A2C;}
+
+  .shot-wrap{text-align:center;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;}
+  .shot{border-radius:9px;box-shadow:0 4px 16px rgba(0,0,0,.18);width:100%;display:block;object-fit:contain;background:#eee;max-height:430px;cursor:zoom-in;}
+  .shot-cap{font-size:12.5px;color:var(--muted);margin-top:6px;text-align:center;}
+  .dark .shot-cap{color:#9AA6AC;}
+
+  .shot-pair{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;justify-content:center;}
+  .shot-pair .shot-wrap{flex:0 1 auto;}
+  .shot-pair .shot{max-height:200px;}
+
+  .tc-id{font-family:Cambria,serif;font-weight:700;color:var(--charcoal);font-size:15px;}
+  .cat-label{font-size:12.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+
+  /* Category divider slides */
+  .cat-divider{justify-content:center;}
+  .cat-divider .cat-num{font-family:Cambria,serif;font-weight:700;color:var(--copper);font-size:22px;letter-spacing:2px;margin-bottom:10px;}
+  .cat-divider h1{font-size:38px;font-family:Cambria,serif;font-weight:700;color:#fff;margin:0 0 14px 0;line-height:1.3;}
+  .cat-divider .cat-sub{font-size:18px;color:#CBD3D8;max-width:920px;line-height:1.55;margin-bottom:20px;}
+  .cat-count{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);color:#D9A465;font-size:14px;font-weight:700;padding:7px 16px;border-radius:16px;width:fit-content;}
+
+  /* Overview data-map (gl-style) reused */
+  .data-map-table.gl td:last-child{color:var(--text);font-weight:400;}
+  .data-map-table.gl td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--charcoal);font-weight:700;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:60px;text-align:center;}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:50px;cursor:zoom-out;}
+  #lightbox.active{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+<!-- ============ SLIDE 0: TITLE ============ -->
+<section class="slide dark active" id="slide-0">
+  <div class="stone-badge">QA</div>
+  <div class="eyebrow">Empire Granite · EMG-O QA Regression Suite</div>
+  <div class="big-title">Day-in-the-Life<br>Test Cases v2</div>
+  <div class="big-sub">ทดสอบ Flow เดียวกับที่ลูกค้าเห็นในเดโม — เดินตามโครงการติดตั้งหิน 1 งานจริงต่อเนื่องกันจนจบ แต่คราวนี้ในมุมมองผู้ทดสอบ: 1 Test Case ต่อ 1 สไลด์ พร้อม Steps / ข้อมูลทดสอบ / ผลลัพธ์ที่คาดหวัง และภาพหน้าจอจริงของทุกขั้นตอน (เฉพาะกรณี happy path)</div>
+  <div class="stamp">EMG-O QA · Day-in-the-Life Test Cases v2 · จัดทำ 28 ส.ค. 2026</div>
+</section>
+
+<!-- ============ SLIDE 1: OVERVIEW ============ -->
+<section class="slide" id="slide-1">
+  <div class="eyebrow">ภาพรวม · วิธีใช้เอกสารนี้</div>
+  <h2 class="slide-title">35 Test Case ต่อเนื่องกัน 9 หมวด — ตาม Flow เดียวกับ Day-in-the-Life เดโม</h2>
+  <div class="case-box">
+    <div class="case-icon">?</div>
+    <div>
+      <div class="case-text-label">โครงสร้างแต่ละสไลด์</div>
+      <div class="case-text">แต่ละสไลด์ = 1 Test Case หนึ่งรายการ ประกอบด้วย <b>Steps</b> (ลำดับขั้นที่ต้องทำ) · <b>ข้อมูลสำหรับทดสอบ</b> (สิ่งที่ต้องคีย์เข้าไป) · <b>ผลลัพธ์ที่ควรเห็น</b> (กล่องเขียว) และภาพหน้าจอจริงของขั้นตอนนั้น — ครอบคลุมเฉพาะ happy path ไม่รวม error/negative case</div>
+    </div>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <div class="data-map">
+    <div class="data-map-label">หมวดทดสอบ (ตรงกับ Flow ด้านบนทีละขั้น)</div>
+    <table class="data-map-table gl">
+      <tr><th>หมวด</th><th>เรื่องที่คุม</th><th>จำนวนเคส</th></tr>
+      <tr><td>D1 · Setup Product</td><td>Material / Pricing Mode / Density / Costing</td><td class="num">6</td></tr>
+      <tr><td>D2 · ผูก Analytic</td><td>Analytic Distribution Model กับสินค้าหิน</td><td class="num">3</td></tr>
+      <tr><td>D3 · เสนอราคา</td><td>สร้างใบเสนอราคาจาก BOQ</td><td class="num">2</td></tr>
+      <tr><td>D4 · มัดจำ</td><td>Confirm SO → Project/Milestone → Down Payment</td><td class="num">4</td></tr>
+      <tr><td>D5 · เบิก Block</td><td>ต้นทุนจริงของ Block จาก PO + Landed Cost</td><td class="num">3</td></tr>
+      <tr><td>D6 · ตัดหิน</td><td>Cut Order + Analytic tagging (รวม 2 เคสใหม่)</td><td class="num">7</td></tr>
+      <tr><td>D7 · ค่าใช้จ่ายหน้างาน</td><td>Vendor Bill ผูก Analytic โครงการ</td><td class="num">2</td></tr>
+      <tr><td>D8 · ติดตั้ง/ปิดยอด</td><td>Milestone auto-reach + WHT + Invoice ปิดงาน</td><td class="num">5</td></tr>
+      <tr><td>D9 · ดู P&amp;L</td><td>Chart of Analytic Accounts + Gross Margin</td><td class="num">3</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ D1 · SETUP PRODUCT ============ -->
+
+<!-- TC-D1-01 -->
+<section class="slide" id="tc-d1-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-01</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้าง Material หินใหม่ ผ่าน Quick Material Setup Wizard</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดเมนู <b>Configuration &gt; Quick Material Setup</b></span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือก Setup Mode = <b>"สร้าง Material ใหม่"</b></span></li>
+        <li><span class="step-num">3</span><span class="step-text">กรอกทุกฟิลด์ตามข้อมูลตัวอย่าง (ติ๊ก <b>"ขายทั้งก้อนได้ (Block Product)"</b> ด้วย — จำเป็นสำหรับเคสถัดไป)</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กด <b>Confirm</b></span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Material Name</td><td>"Test Marble 01"</td></tr>
+          <tr><td>Category</td><td>Marble</td></tr>
+          <tr><td>Pricing Mode</td><td>Serial (per-slab)</td></tr>
+          <tr><td>Origin Country</td><td>Italy (optional)</td></tr>
+          <tr><td>Density (Ton/CBM)</td><td>2.75 (optional)</td></tr>
+          <tr><td>Slab Sales Price / Cost</td><td>1,500 / 1,000</td></tr>
+          <tr><td>ขายทั้งก้อนได้ (Block)</td><td>✔ ติ๊ก</td></tr>
+          <tr><td>Block Sales Price / Cost</td><td>18,000 / 15,000</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">สร้างสำเร็จ ไม่มี error — ระบบสร้างสินค้าให้อัตโนมัติ 2 ตัว ("Test Marble 01 - Slab" Tracking=Serial และ "Test Marble 01 - Block" Tracking=Lot) แล้วผูกเข้ากับ Material นี้ทันที — Costing Basis เริ่มต้นเป็น "Area (Sq.Mt.)" เสมอ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/138-day-in-life-material-wizard-filled.png"><div class="shot-cap">Quick Material Setup Wizard — กรอกครบตามข้อมูลด้านซ้าย</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-03 -->
+<section class="slide" id="tc-d1-03">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-03</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน → ฝ่ายจัดซื้อ</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้าง PO จริง + ยืนยัน แล้วสร้าง Block — Weight (Ton) เติมอัตโนมัติจาก Density</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด <b>Purchase &gt; Orders &gt; New</b> เลือก Vendor แล้วเพิ่มบรรทัด Block Product แล้ว <b>Confirm Order</b></span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิด <b>Stone Slab &gt; Blocks &gt; New</b> กรอก Material/Quality/Warehouse</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เลือก <b>Purchase Order Line</b> ของ PO ที่เพิ่งยืนยัน — สังเกต Supplier + Total CBM เติมอัตโนมัติทันที</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กรอก Thickness (M) แล้วดูช่อง <b>Weight (Ton)</b> โดยไม่ต้องพิมพ์เอง แล้วกด Save</span></li>
+      </ul>
+      <div class="note-box"><b>ฟีเจอร์ใหม่ (25 ส.ค. 2026):</b> Weight (Ton) = Density (Ton/CBM) ของ Material × Total CBM ของ Block — คำนวณอัตโนมัติทันทีที่มีทั้ง Density และ Total CBM</div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/143-tc-d1-03-block-weight-autofill.png"><div class="shot-cap">Block Required tab — Weight (Ton) เติมอัตโนมัติจาก Density × Total CBM</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-03b -->
+<section class="slide" id="tc-d1-03b">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-03b</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญต่ำ</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">แก้ Weight (Ton) มือหลังระบบเติมให้แล้ว (ค่าจากตาชั่งจริง)</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03 ที่มี Weight (Ton) เติมอัตโนมัติแล้ว</span></li>
+        <li><span class="step-num">2</span><span class="step-text">แก้ Weight (Ton) เป็นค่าจากตาชั่งจริงด้วยมือ</span></li>
+        <li><span class="step-num">3</span><span class="step-text">กด Save โดยไม่แตะ Total CBM หรือ Material อีก</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Weight (Ton)</td><td>แก้เป็นค่าจริงจากตาชั่ง (ต่างจากค่าคำนวณอัตโนมัติ)</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ค่าที่กรอกมือถูกเก็บไว้ตามที่พิมพ์ ไม่ถูกคำนวณทับกลับเป็นค่า Density × CBM เดิมอีก</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/144-tc-d1-03b-weight-manual-override.png"><div class="shot-cap">Weight (Ton) แก้มือแล้ว บันทึกค่าตามที่พิมพ์ ไม่ถูกคำนวณทับ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-04 -->
+<section class="slide" id="tc-d1-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-04</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">Costing Basis = Area (ค่าเริ่มต้น) คำนวณ Cost ของแผ่นจากต้นทุนจริงของ PO</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Block จาก TC-D1-03 &gt; แท็บ Slabs &gt; เพิ่ม 1 แถว ระบุ Slab L / Slab H</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ตรวจ Cost ของแผ่นที่ได้ เทียบกับ Cost/CBM ที่คำนวณจาก PO จริง</span></li>
+      </ul>
+      <div class="note-box"><b>Cost/Sq.Mt. เป็น compute field</b> มาจากสูตร PO Cost/CBM ÷ พื้นที่ (ตาม Thickness) ไม่ใช่ช่องให้พิมพ์ตรงๆ</div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Cost ของแผ่นที่ตัดได้ = Slab Sq.Mt. × Cost/Sq.Mt. ของ Block โดยไม่ต้องกรอกต้นทุนเอง — ตัวเลขตรงกับที่คำนวณจากราคาจริงใน PO ทุกบาท</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/142-day-in-life-bundle-cost-breakdown.png"><div class="shot-cap">Cost/CBM คำนวณอัตโนมัติจาก PO จริง + รายการแผ่นที่ตัดได้</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-05 -->
+<section class="slide" id="tc-d1-05">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-05</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้าง Material ผ่านฟอร์มตรงๆ โดยผูก Slab Product ที่มีอยู่แล้ว</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดเมนู <b>Configuration &gt; Materials &gt; New</b> (ไม่ใช่ Wizard)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กรอก Material Name / Category / Pricing Mode</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ผูก <b>Slab Product</b> ที่มีอยู่แล้ว (Control Policy เดิม = "Received quantities")</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กด Save แล้วเปิดสินค้านั้นอีกครั้งดูแท็บ Purchase</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Material Name</td><td>"Test Onyx 01"</td></tr>
+          <tr><td>Category</td><td>Other</td></tr>
+          <tr><td>Slab Product</td><td>"Test Onyx Slab (Pre-existing)"</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บันทึกสำเร็จ ไม่มี error — Control Policy ของสินค้า (แท็บ Purchase) ถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/145-tc-d1-05-slab-control-policy-fixed.png"><div class="shot-cap">แท็บ Purchase ของ Slab Product — Control Policy เปลี่ยนเป็น Ordered quantities อัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D1-06 -->
+<section class="slide" id="tc-d1-06">
+  <div class="top-tags">
+    <span class="tc-id">TC-D1-06</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย/แอดมิน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D1 · Setup Product</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip current">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ผูก Block Product ที่มีอยู่แล้วให้ Material เดียวกัน — หลักการเดียวกับ Slab</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Material "Test Onyx 01" จาก TC-D1-05</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ผูก <b>Block Product</b> ที่มีอยู่แล้ว (Control Policy เดิม = "Received quantities")</span></li>
+        <li><span class="step-num">3</span><span class="step-text">กด Save แล้วเปิดสินค้านั้นดูแท็บ Purchase</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Block Product</td><td>"Test Onyx Block (Pre-existing)"</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Control Policy ของ Block Product ถูกเปลี่ยนเป็น "Ordered quantities" ให้อัตโนมัติ (เหมือน Slab Product ใน TC-D1-05)</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/146-tc-d1-06-block-control-policy-fixed.png"><div class="shot-cap">แท็บ Purchase ของ Block Product — Control Policy เปลี่ยนเป็น Ordered quantities อัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D2 · ผูก ANALYTIC ============ -->
+
+<!-- TC-D2-01 -->
+<section class="slide" id="tc-d2-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D2-01</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D2 · ผูก Analytic</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้าง Analytic Distribution Model ผูกสินค้าหินกับ Account ประเภทวัสดุ 100%</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Accounting &gt; Configuration &gt; Analytic Distribution Models &gt; New</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือก Product = สินค้าหิน</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ในบรรทัด Analytic ผูก Plan "ประเภทวัสดุ" = Account ที่ตรงกับหินชนิดนั้น 100%</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กด Save</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Product</td><td>"Bianco Sardo Granite - Slab"</td></tr>
+          <tr><td>Plan "ประเภทวัสดุ"</td><td>= "Granite" 100%</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บันทึกสำเร็จ Model ปรากฏในรายการ Analytic Distribution Models</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/128-day-in-life-distribution-model.png"><div class="shot-cap">Analytic Distribution Models — ผูกไว้แล้ว Marble/Limestone/Granite</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D2-02 -->
+<section class="slide" id="tc-d2-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D2-02</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D2 · ผูก Analytic</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ขายสินค้าที่ผูก Analytic Distribution Model ไว้แล้ว — ติดป้ายให้เองอัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดใบเสนอราคาใหม่ เพิ่มบรรทัดขายสินค้าที่ผูก Model ไว้แล้ว (TC-D2-01)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิดดู Analytic Distribution ของบรรทัด (แถบ/ไอคอน Analytic ใต้ราคา)</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>สินค้า</td><td>"Bianco Sardo Granite - Slab" จำนวน 1 หน่วย</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บรรทัดขายติดป้าย Analytic Account "Granite" 100% ให้อัตโนมัติ โดยไม่ต้องเลือกมือ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/139-day-in-life-analytic-distribution-popup.png"><div class="shot-cap">คลิกป้าย Analytic บนบรรทัดขาย — เห็น Granite 100% ติดมาให้อัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D2-04 -->
+<section class="slide" id="tc-d2-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D2-04</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag med">ความสำคัญต่ำ</span>
+    <span class="cat-label">D2 · ผูก Analytic</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">แก้ % ของ Analytic Distribution Model ภายหลัง — ไม่กระทบเอกสารเก่า</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">แก้ % ใน Analytic Distribution Model เป็นค่าอื่น</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิดใบเสนอราคาเก่าที่เคยติดป้ายไปแล้วดูอีกครั้ง</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เปิดใบเสนอราคาใหม่ เพิ่มสินค้าเดียวกัน แล้วดูป้าย Analytic ที่ได้</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>สินค้า</td><td>"Test Onyx Slab (Pre-existing)" — ผูก Model Marble 100%</td></tr>
+          <tr><td>สัดส่วนใหม่</td><td>แก้ Model เป็น Marble 60%</td></tr>
+          <tr><td>ใบเสนอราคาเก่า</td><td>S00045 (สร้างไว้ก่อนแก้ Model)</td></tr>
+          <tr><td>ใบเสนอราคาใหม่</td><td>S00047 (สร้างหลังแก้ Model)</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ใบเสนอราคาเก่ายังคงค่า Analytic เดิม ไม่เปลี่ยนตาม; ใบเสนอราคาใหม่ได้ค่า Analytic ตาม Model ที่แก้ล่าสุด</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-pair">
+        <div class="shot-wrap"><img class="shot" src="assets/169-tc-d2-04-old-quote-unchanged.png"><div class="shot-cap">S00045 (ใบเก่า) หลังแก้ Model แล้ว — ยังคง Marble 100% เดิม ไม่เปลี่ยน</div></div>
+        <div class="shot-wrap"><img class="shot" src="assets/170-tc-d2-04-new-quote-updated.png"><div class="shot-cap">S00047 (ใบใหม่) สินค้าเดียวกัน — ได้ Marble 60% ตาม Model ที่แก้ล่าสุด</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D3 · เสนอราคา ============ -->
+
+<!-- TC-D3-01 -->
+<section class="slide" id="tc-d3-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D3-01</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D3 · เสนอราคา</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">สร้างใบเสนอราคาจาก BOQ ที่มีหลายหมวดงาน</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดเอกสาร BOQ ที่ประเมินราคาครบทุกหมวดแล้ว</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กดปุ่มสร้างใบเสนอราคา</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ตรวจบรรทัดที่ได้ในใบเสนอราคา</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>วัสดุหิน</td><td>9,900</td></tr>
+          <tr><td>ค่าแรงตัด-ผลิต</td><td>3,000</td></tr>
+          <tr><td>ค่าขนส่งหน้างาน</td><td>2,500</td></tr>
+          <tr><td>ค่าแรงติดตั้งหน้างาน</td><td>5,000</td></tr>
+          <tr><td>Overhead &amp; Profit</td><td>1,790</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ใบเสนอราคาได้บรรทัดครบตามหมวดใน BOQ ยอดรวมตรงกับที่ประเมินไว้ทุกบาท</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/123-day-in-life-quotation.png"><div class="shot-cap">ใบเสนอราคา S00042 — สร้างจาก BOQ0011 ครบทุกหมวดงาน</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D3-02 -->
+<section class="slide" id="tc-d3-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D3-02</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D3 · เสนอราคา</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">บรรทัดวัสดุหินในใบเสนอราคาได้ Analytic ติดมาจาก D2 อัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">สร้างใบเสนอราคาจาก BOQ ที่มีบรรทัดวัสดุหินซึ่งผูก Analytic Distribution Model ไว้แล้ว (TC-D2-01)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิดดู Analytic Distribution ของบรรทัดวัสดุหิน</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บรรทัดวัสดุหินติดป้าย Analytic ประเภทวัสดุให้เองจากขั้นตอนสร้างใบเสนอราคา ไม่ต้องเลือกมือซ้ำ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/139-day-in-life-analytic-distribution-popup.png"><div class="shot-cap">บรรทัดวัสดุหินในใบเสนอราคา — Analytic ติดป้ายมาให้เองจาก Model</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D4 · มัดจำ ============ -->
+
+<!-- TC-D4-01 -->
+<section class="slide" id="tc-d4-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D4-01</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย → ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D4 · มัดจำ</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ติ๊ก "Sold as Project" แล้ว Confirm SO — ระบบสร้าง Project ให้อัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">ติ๊ก <b>"Sold as Project"</b> บน SO ที่มีหลายบรรทัด (ไม่ใช่บรรทัด Section/Note ล้วน)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กด <b>Confirm</b></span></li>
+        <li><span class="step-num">3</span><span class="step-text">ตรวจ Project ที่เกิดขึ้น</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ระบบสร้าง Project ให้อัตโนมัติ พร้อม Task 1 ใบต่อบรรทัดสั่งซื้อที่ไม่ใช่ Section/Note</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/124-day-in-life-project.png"><div class="shot-cap">Project ที่ระบบสร้างให้อัตโนมัติหลัง Confirm SO แบบ Sold as Project</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D4-02 -->
+<section class="slide" id="tc-d4-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D4-02</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายขาย → ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D4 · มัดจำ</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">บรรทัดที่ติ๊ก Milestone ไว้ ได้ Milestone ผูกกับ Task 1:1</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Confirm SO แบบ Sold as Project ที่มีบางบรรทัดติ๊กช่อง Milestone ไว้ บางบรรทัดไม่ติ๊ก</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิด Project ที่ได้ กด <b>"Milestones"</b> (smart button)</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บรรทัดที่ติ๊ก Milestone ไว้ ได้ Milestone ผูกกับ Task ของบรรทัดนั้น 1 ต่อ 1; บรรทัดที่ไม่ติ๊กไม่มี Milestone เกิดขึ้น</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/148-tc-milestones-1to1-reached.png"><div class="shot-cap">Milestones ของโครงการ — ผูกกับ Task แต่ละใบ 1:1 ตามที่ติ๊กไว้</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D4-03 -->
+<section class="slide" id="tc-d4-03">
+  <div class="top-tags">
+    <span class="tc-id">TC-D4-03</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D4 · มัดจำ</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ยืนยัน SO แล้วออกใบแจ้งหนี้มัดจำแบบเปอร์เซ็นต์</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด SO ที่ยืนยันแล้ว ยังไม่เคยออกใบแจ้งหนี้ใดๆ กดปุ่ม <b>"Create Invoice"</b></span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือกตัวเลือก <b>"Down payment (percentage)"</b></span></li>
+        <li><span class="step-num">3</span><span class="step-text">กรอกเปอร์เซ็นต์มัดจำ แล้วกด <b>Create Draft Invoice</b></span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Down payment</td><td>30%</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ได้ใบแจ้งหนี้มัดจำยอด 30% ของราคารวม SO สถานะ Draft</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/149-tc-d4-03-downpayment-draft.png"><div class="shot-cap">ใบแจ้งหนี้มัดจำ 30% — สถานะ Draft ก่อน Post</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D4-04 -->
+<section class="slide" id="tc-d4-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D4-04</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D4 · มัดจำ</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ตรวจสมุดรายวันของใบแจ้งหนี้มัดจำหลัง Post</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดใบแจ้งหนี้มัดจำจาก TC-D4-03 ที่ถูกยืนยัน (Post) แล้ว</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ไปแท็บ <b>Journal Items</b></span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">เครดิตเข้าบัญชีหนี้สิน (เงินมัดจำรับล่วงหน้า) ไม่ใช่บัญชีรายได้ขาย — งานยังไม่เสร็จ ยังรับรู้เป็นรายได้ไม่ได้</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/150-tc-d4-04-downpayment-journal-items.png"><div class="shot-cap">Journal Items ของใบแจ้งหนี้มัดจำ — เครดิตเข้าบัญชีหนี้สิน ไม่ใช่รายได้</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D5 · เบิก BLOCK ============ -->
+
+<!-- TC-D5-01 -->
+<section class="slide" id="tc-d5-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D5-01</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D5 · เบิก Block</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">Block ที่ผูกกับ PO Line แล้ว ต้นทุนคำนวณจากราคาจริงใน PO</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Block ที่จะใช้ตัด (ผูก Purchase Order Line ที่ยืนยันแล้ว)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ดูค่า Cost/CBM (หรือ Cost/Sq.Mt. ถ้าเป็นวัสดุที่ไม่มี Block Product)</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>PO Line ราคารวม</td><td>ตามใบสั่งซื้อจริง</td></tr>
+          <tr><td>Block ปริมาตร</td><td>ตาม Total CBM จริง</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Cost/CBM = ราคารวม PO Line ÷ ปริมาตร Block ตรงกับที่คำนวณเองเป๊ะ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/142-day-in-life-bundle-cost-breakdown.png"><div class="shot-cap">Cost/CBM ของ Block คำนวณอัตโนมัติจากราคาจริงใน PO</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D5-02 -->
+<section class="slide" id="tc-d5-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D5-02</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D5 · เบิก Block</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">Block ใน Container ที่มี Landed Cost — ปันส่วนตามสัดส่วนปริมาตร</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Block ที่อยู่ใน Container ซึ่งตั้งค่า Landed Cost Total ไว้แล้ว (มี Block อื่นร่วม Container เดียวกัน)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ดูค่า Landed Cost/CBM แยกจาก PO Cost/CBM</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ตรวจ Cost/CBM รวม (คอลัมน์หลัก)</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Container Landed Cost Total</td><td>10,000 บาท</td></tr>
+          <tr><td>Block นี้</td><td>สัดส่วนปริมาตรหนึ่งของ CBM รวมทั้ง Container</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Landed Cost/CBM ถูกปันส่วนตามสัดส่วนปริมาตรของ Block นี้เทียบ Block อื่นใน Container เดียวกัน และ Cost/CBM รวม = PO Cost/CBM + Landed Cost/CBM</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/151-tc-d5-02-landed-cost-cbm.png"><div class="shot-cap">Block ในคอนเทนเนอร์เดียวกัน — Landed Cost/CBM ปันส่วนตามปริมาตร</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D5-04 -->
+<section class="slide" id="tc-d5-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D5-04</span>
+    <span class="role-tag"><span class="dot"></span>คลัง/โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D5 · เบิก Block</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">กด "Create Cut Order" จากฟอร์ม Block ที่มีต้นทุนจริงแล้ว</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดฟอร์ม Block ที่มีต้นทุนจริงจาก PO และมี SO รอตัดอยู่</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กดปุ่ม <b>"Create Cut Order"</b></span></li>
+        <li><span class="step-num">3</span><span class="step-text">ระบุขนาดที่จะตัดตาม SO แล้วยืนยัน</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Cut Order สร้างสำเร็จ อ้างอิงต้นทุนจริงของ Block นี้ (ไม่ใช่ค่าประเมินตอน Setup) ในการคำนวณต้นทุนแผ่นที่ตัดได้</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/164-tc-d5-04-cutorder-completed.png"><div class="shot-cap">EG01/STCUT/00011 — Done จริง อ้างอิง Block BDL-00002 (ต้นทุนจาก PO) ผูก S00042 Carrara White - Slab</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D6 · ตัดหิน ============ -->
+
+<!-- TC-D6-01 -->
+<section class="slide" id="tc-d6-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-01</span>
+    <span class="role-tag"><span class="dot"></span>โรงงาน</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D6 · ตัดหิน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ยืนยัน Cut Order — แผ่นที่ตัดได้ผูกกับ SO เดิมโดยอัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Cut Order (MO) ผูกกับ Sale Order Line อยู่แล้ว (สร้างจาก TC-D5-04) — ระบุขนาดที่จะตัด (L × H)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ยืนยัน Cut Order จนเสร็จ</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เปิดแผ่นที่ได้ดู Lot/Serial + ลิงก์กลับ SO</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Slab L (M)</td><td>2.0</td></tr>
+          <tr><td>Slab H (M)</td><td>1.5</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">แผ่นที่ตัดได้ถูก Hold ให้กับ Sale Order Line เดิมทันที พร้อม Lot/Serial เฉพาะแผ่น</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/132-day-in-life-mrp-production.png"><div class="shot-cap">Cut Order เสร็จสมบูรณ์ — แผ่นผูกกับ Sale Order Line เดิม</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-02 -->
+<section class="slide" id="tc-d6-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-02</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D6 · ตัดหิน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ต้นทุนวัสดุของแผ่นที่ตัดได้ ติดป้าย Analytic ตาม SO Line</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">ยืนยัน Cut Order จนเสร็จ (SO Line มี Analytic Distribution อยู่แล้วจาก D2/D3-02)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปิดรายงาน Analytic Items กรองด้วยชื่อ Cut Order นี้</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">พบรายการต้นทุนวัสดุของแผ่นนี้ ติดป้าย Analytic Account เดียวกับที่ SO Line ระบุไว้</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/166-tc-d6-02-analytic-items-material-cost.png"><div class="shot-cap">Analytic Items กรองด้วย "Stone Material Cost — S00042" — 2 บรรทัด ติด Project + Marble ตาม SO Line จริง</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-03 -->
+<section class="slide" id="tc-d6-03">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-03</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D6 · ตัดหิน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ต้นทุนแรงงานตัด ติดป้าย Analytic ทั้ง 2 มิติพร้อมกัน</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">SO Line ที่ผูก Cut Order นี้มี Analytic Distribution ตั้งไว้ 2 Plan พร้อมกัน ("โครงการ" และ "ประเภทวัสดุ")</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ยืนยัน Cut Order จนเสร็จ (มี Workorder บันทึกเวลาแล้ว)</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เปิดรายงาน Analytic Items กรองด้วยชื่อ Cut Order นี้ หารายการ "Stone Cutting Labor"</span></li>
+      </ul>
+      <div class="note-box"><b>⚠️ จุดเสี่ยง regression สูง:</b> โค้ดจุดนี้เพิ่งเปลี่ยน 26 ส.ค. 2026 (รองรับหลาย Plan พร้อมกันในบรรทัดเดียว)</div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">พบรายการต้นทุนแรงงานตัด — ติดป้ายทั้ง Analytic Account ของโครงการ และของประเภทวัสดุ ครบทั้งคู่ ไม่ใช่แค่ตัวใดตัวหนึ่ง</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/167-tc-d6-03-analytic-items-multiplan-labor.png"><div class="shot-cap">Analytic Items กรองด้วย "Stone Cutting Labor — EG01/STCUT/00011" — 2 บรรทัดเดียวกัน ติด Project + Marble พร้อมกัน</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-04 -->
+<section class="slide" id="tc-d6-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-04</span>
+    <span class="role-tag"><span class="dot"></span>โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D6 · ตัดหิน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">Cut Order แบบไม่มี SO ผูก (ตัดเข้าสต็อกล่วงหน้า) — เลือก Project (No SO)</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Cut Order Wizard แบบไม่มี SO (Block ยังไม่มี SO ผูก แต่ต้องการตัดเข้าสต็อกไว้ล่วงหน้า)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือกช่อง <b>"Project (No SO)"</b> เป็น Analytic Account ที่ต้องการ</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ยืนยัน Cut Order จนเสร็จ แล้วเปิดรายงาน Analytic Items ดู</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Reason (No SO)</td><td>งานเพิ่ม (Extra work)</td></tr>
+          <tr><td>Project (No SO)</td><td>Demo Customer - AAA Showcase - S00030</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ต้นทุนแรงงานตัดยังติดป้าย Analytic Account ที่เลือกไว้ 100% ไม่หายไปทั้งที่ไม่มี SO ผูก</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/165-tc-d6-04-cutorder-completed.png"><div class="shot-cap">EG01/STCUT/00012 — Done จริง ไม่มี SO ผูก แต่มี Reason + Project (No SO) ติดป้ายไว้</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-05 -->
+<section class="slide" id="tc-d6-05">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-05</span>
+    <span class="role-tag"><span class="dot"></span>โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญต่ำ</span>
+    <span class="cat-label">D6 · ตัดหิน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">Cut Order ครั้งแรกของบริษัทที่ยังไม่เคยมี Workcenter "Stone Cutting"</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">สั่ง Cut Order ครั้งแรกของบริษัทนี้ (ยังไม่เคยมี mrp.workcenter ชื่อ "Stone Cutting" มาก่อน)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ตรวจ Manufacturing &gt; Work Centers</span></li>
+      </ul>
+      <div class="note-box"><b>หมายเหตุการทดสอบ:</b> เปิดใช้งาน Work Orders จริงแล้ว (Manufacturing &gt; Configuration &gt; Settings) จึงเห็นหน้า list Work Centers จริงตามภาพ — Empire Granite มี Workcenter "Stone Cutting" อยู่แล้วจากการใช้งานจริงก่อนหน้านี้ จึงไม่สามารถจำลอง "ก่อนมี" ซ้ำได้บนบริษัทนี้; ตรวจแล้วว่าบริษัท Empire Stone (บริษัทที่ 2 บนอินสแตนซ์เดียวกัน) ยังไม่เคยมี Workcenter ใดๆ เลย แต่ยังไม่มี Material/Block พร้อมใช้ในบริษัทนั้นสำหรับสั่ง Cut Order จริงในรอบนี้ — ภาพนี้จึงเป็นหลักฐานเชิงทิศทาง (directional) ว่าเมื่อเปิด Work Orders แล้ว Workcenter "Stone Cutting" ถูกสร้างไว้ให้ใช้งานได้จริงตามที่ระบบควรทำ</div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ระบบสร้าง Workcenter "Stone Cutting" ให้อัตโนมัติ 1 ตัวต่อบริษัท ไม่ error แม้ยังไม่เคยตั้งมาก่อน</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/168-tc-d6-05-workcenters-list.png"><div class="shot-cap">Manufacturing &gt; Configuration &gt; Work Centers — list จริงหลังเปิด Work Orders มี "Stone Cutting" อยู่ในรายการ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-06 (NEW) -->
+<section class="slide" id="tc-d6-06">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-06</span>
+    <span class="role-tag"><span class="dot"></span>โรงงาน / ผู้จัดการโครงการ</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D6 · ตัดหิน · ใหม่</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">เปิด Factory Worklist ดูงานที่รอทำ แล้วคลิกเข้าดูรายละเอียดงานนั้น</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดเมนู <b>Stone Slab &gt; Tools &gt; Factory Worklist</b> (SO ยืนยันแล้ว มีบรรทัดที่ยังรอ Cut to Order/Produce FG อยู่)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">คลิกที่<b>แถวงาน</b>ที่ต้องการ (ไม่ใช่กดปุ่ม)</span></li>
+        <li><span class="step-num">3</span><span class="step-text">ดูรายละเอียด: ลูกค้า/สินค้า/Block ที่ต้องใช้/สถานะความพร้อม</span></li>
+        <li><span class="step-num">4</span><span class="step-text">เปิดแท็บ <b>"ประวัติการตัด"</b></span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">คลิกแถวแล้วเปิดเป็นหน้ารายละเอียดเต็ม (ไม่ใช่แค่ปุ่มในตาราง) เห็นข้อมูลงานครบ พร้อมปุ่ม Cut to Order/Produce FG และประวัติการตัดของบรรทัดนี้ (ว่างถ้ายังไม่เคยตัด)</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/tc-d6-06-factory-worklist-form.png"><div class="shot-cap">Factory Worklist — คลิกแถวเปิดเป็นหน้ารายละเอียดเต็ม พร้อมประวัติการตัด</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D6-07 (NEW) -->
+<section class="slide" id="tc-d6-07">
+  <div class="top-tags">
+    <span class="tc-id">TC-D6-07</span>
+    <span class="role-tag"><span class="dot"></span>โรงงาน</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D6 · ตัดหิน · ใหม่</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">เปิด Cut Order Wizard เลือก Block — ขนาดที่จะตัดและข้อมูล Block เติมให้อัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Cut Order Wizard จากบรรทัดที่ต้องการ (Block ที่เลือกมีการกรอก Length (M)/Height (M) ไว้จริง)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือก <b>"Cut From Block"</b></span></li>
+        <li><span class="step-num">3</span><span class="step-text">สังเกต Target L (M)/Target H (M) และกล่อง Block Spec</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>Block ที่เลือก</td><td>Block ที่มี Length/Height กรอกไว้จริง</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Target L/H เติมค่าจาก Length/Height ของ Block ให้อัตโนมัติ (แก้เองได้ภายหลัง) พร้อมกล่อง Block Spec โชว์ Remaining CBM/Remaining Weight (Ton)/ประมาณจำนวนแผ่นที่จะได้</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/157-tc-d6-07-cut-order-block-spec-real.png"><div class="shot-cap">Cut Order Wizard — Target L/H เติมอัตโนมัติจาก Block จริง พร้อม Block Spec</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D7 · ค่าใช้จ่ายหน้างาน ============ -->
+
+<!-- TC-D7-01 -->
+<section class="slide" id="tc-d7-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D7-01</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D7 · ค่าใช้จ่ายหน้างาน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">บันทึกบิลผู้ขายค่าขนส่งหน้างาน ผูก Analytic โครงการ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Accounting &gt; Vendors &gt; Bills &gt; New (มี Project อยู่แล้วจาก D4 — มี Analytic Account ของโครงการนั้นให้เลือก)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กรอกบรรทัดค่าขนส่ง</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เปิด Analytic Distribution ของบรรทัดนั้น เลือก Analytic Account ของโครงการ 100%</span></li>
+        <li><span class="step-num">4</span><span class="step-text">กด Confirm</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>รายการ</td><td>"ค่าขนส่งหน้างาน"</td></tr>
+          <tr><td>บัญชี</td><td>Freight &amp; Transportation</td></tr>
+          <tr><td>จำนวนเงิน</td><td>2,200</td></tr>
+          <tr><td>Analytic</td><td>โครงการ 100%</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บิลบันทึกสำเร็จ ผูก Analytic โครงการไว้ครบ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/158-tc-d7-01-vendor-bill-freight-analytic.png"><div class="shot-cap">บิลผู้ขายค่าขนส่งหน้างาน — ผูก Analytic โครงการ 100%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D7-02 -->
+<section class="slide" id="tc-d7-02">
+  <div class="top-tags">
+    <span class="tc-id">TC-D7-02</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag med">ความสำคัญปานกลาง</span>
+    <span class="cat-label">D7 · ค่าใช้จ่ายหน้างาน</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">บันทึกบิลค่าใช้จ่ายนอกแผนเดิม (ไม่ได้อยู่ในใบเสนอราคาตั้งแต่ต้น)</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">บันทึกบิลผู้ขายอีกใบ รายการที่ไม่เคยอยู่ในใบเสนอราคาเดิม</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ผูก Analytic โครงการเดียวกัน</span></li>
+        <li><span class="step-num">3</span><span class="step-text">กด Confirm</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>รายการ</td><td>"วัสดุยึด/กาวเสริมหน้างาน (นอกแผนเดิม)"</td></tr>
+          <tr><td>บัญชี</td><td>General subcontracting</td></tr>
+          <tr><td>จำนวนเงิน</td><td>850</td></tr>
+          <tr><td>Analytic</td><td>โครงการเดียวกัน 100%</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บิลบันทึกสำเร็จเช่นกัน แม้ไม่เคยอยู่ในใบเสนอราคาเดิมเลย — ยังติดป้ายโครงการเดียวกันได้ทันที</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/159-tc-d7-02-vendor-bill-offplan-analytic.png"><div class="shot-cap">บิลค่าใช้จ่ายนอกแผนเดิม — ผูก Analytic โครงการเดียวกันได้ทันที</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D8 · ติดตั้ง/ปิดยอด ============ -->
+
+<!-- TC-D8-01 -->
+<section class="slide" id="tc-d8-01">
+  <div class="top-tags">
+    <span class="tc-id">TC-D8-01</span>
+    <span class="role-tag"><span class="dot"></span>ผู้จัดการโครงการ → ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D8 · ติดตั้ง/ปิดยอด</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ปิด Task "ติดตั้งหน้างาน" เป็นเสร็จสมบูรณ์ → Milestone ขึ้นสถานะเองอัตโนมัติ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Task "ติดตั้งหน้างาน" ที่ผูก Milestone อยู่ 1:1 (ยังไม่ Reached)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">เปลี่ยนสถานะ (หรือลาก Kanban ไปคอลัมน์ Done) เป็นเสร็จสมบูรณ์</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เปิด Project ดู Milestones</span></li>
+      </ul>
+      <div class="note-box"><b>เงื่อนไข:</b> ทำงานเฉพาะเมื่อ Milestone นั้นผูกกับ Task เดียว (ไม่ใช่หลาย Task พร้อมกัน)</div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">Milestone ที่ผูกกับ Task นี้ขึ้นสถานะ Reached ให้อัตโนมัติ ไม่ต้องติ๊กแยก</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/148-tc-milestones-1to1-reached.png"><div class="shot-cap">Milestones ของโครงการ — ขึ้นสถานะ Reached อัตโนมัติหลังปิด Task</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D8-03 -->
+<section class="slide" id="tc-d8-03">
+  <div class="top-tags">
+    <span class="tc-id">TC-D8-03</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D8 · ติดตั้ง/ปิดยอด</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">บันทึกบิลค่าแรงติดตั้งพร้อม VAT 7% และหัก ณ ที่จ่าย 3%</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Accounting &gt; Vendors &gt; Bills &gt; New (มี Vendor ทีมติดตั้ง/subcontractor ตั้งไว้แล้ว)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กรอกบรรทัดค่าแรงติดตั้งหน้างาน ตั้งภาษีขาย VAT 7%</span></li>
+        <li><span class="step-num">3</span><span class="step-text">เพิ่มภาษีหัก ณ ที่จ่าย 3% (รายการภาษีที่ลงท้ายด้วย S = ค่าบริการ)</span></li>
+        <li><span class="step-num">4</span><span class="step-text">ผูก Analytic โครงการ แล้วกด Confirm</span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ข้อมูลสำหรับทดสอบ (Test Data)</div>
+        <table class="data-map-table">
+          <tr><td>รายการ</td><td>"ค่าแรงติดตั้งหน้างาน"</td></tr>
+          <tr><td>ราคา</td><td>5,000</td></tr>
+          <tr><td>VAT</td><td>7%</td></tr>
+          <tr><td>หัก ณ ที่จ่าย</td><td>"3% WH C S"</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บิล Post สำเร็จ ยอดสุทธิที่ต้องจ่ายผู้ขาย = ราคา + VAT − ยอดหัก ณ ที่จ่าย 3%</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/134-day-in-life-bill-wht.png"><div class="shot-cap">บิลค่าแรงติดตั้ง — VAT 7% + หัก ณ ที่จ่าย 3% คำนวณอัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D8-04 -->
+<section class="slide" id="tc-d8-04">
+  <div class="top-tags">
+    <span class="tc-id">TC-D8-04</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D8 · ติดตั้ง/ปิดยอด</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">พิมพ์ใบรับรองหัก ณ ที่จ่าย (Form 50-ทวิ) จากบิลที่ Post แล้ว</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดบิลจาก TC-D8-03 ที่ Post แล้ว สังเกตปุ่ม <b>"Print WHT Certificate"</b> บนหัวฟอร์ม (ปรากฏเฉพาะบิลที่ Post แล้วและมีหัก ณ ที่จ่าย)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กดปุ่มนั้น</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ได้ PDF ใบรับรองหัก ณ ที่จ่าย มีเลขที่ใบรับรองออกให้อัตโนมัติ พร้อมยอดฐานภาษี/อัตรา 3%/ยอดหัก ตรงกับบิล</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/161-tc-d8-04-wht-certificate-pdf.png"><div class="shot-cap">ใบรับรองหัก ณ ที่จ่าย (Form 50-ทวิ) — พิมพ์จากบิลที่ Post แล้ว</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D8-05 -->
+<section class="slide" id="tc-d8-05">
+  <div class="top-tags">
+    <span class="tc-id">TC-D8-05</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D8 · ติดตั้ง/ปิดยอด</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ออกใบแจ้งหนี้ปิดโครงการยอดเต็ม หลังเคยวางมัดจำแล้ว</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด SO ที่เคยออกใบแจ้งหนี้มัดจำไปแล้ว (TC-D4-03/04) งานเสร็จสมบูรณ์แล้ว กดปุ่ม <b>"Create Invoice"</b></span></li>
+        <li><span class="step-num">2</span><span class="step-text">เลือก <b>"Regular Invoice"</b> (ยอดที่เหลือทั้งหมด)</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Post ใบแจ้งหนี้</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">ใบแจ้งหนี้หักลบมัดจำที่เคยวางไว้ออกจากยอดที่ต้องเรียกเก็บให้อัตโนมัติ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/126-day-in-life-final-invoice.png"><div class="shot-cap">Invoice ปิดโครงการ — หักมัดจำที่เคยวางไว้ออกให้อัตโนมัติ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D8-06 -->
+<section class="slide" id="tc-d8-06">
+  <div class="top-tags">
+    <span class="tc-id">TC-D8-06</span>
+    <span class="role-tag"><span class="dot"></span>ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label">D8 · ติดตั้ง/ปิดยอด</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ตรวจสมุดรายวันของใบแจ้งหนี้ปิดโครงการ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิดใบแจ้งหนี้ปิดโครงการจาก TC-D8-05 ที่ Post แล้ว</span></li>
+        <li><span class="step-num">2</span><span class="step-text">ไปแท็บ <b>Journal Items</b></span></li>
+      </ul>
+      <div class="data-map">
+        <div class="data-map-label">ตัวอย่างจากเดโม</div>
+        <table class="data-map-table">
+          <tr><td>เงินมัดจำรับล่วงหน้า (Dr)</td><td>12,365.00</td></tr>
+          <tr><td>Sales Revenue (Cr)</td><td>14,270.00</td></tr>
+          <tr><td>Trade Receivables (Dr)</td><td>2,163.09</td></tr>
+          <tr><td>Output VAT (Cr)</td><td>258.09</td></tr>
+        </table>
+      </div>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">บัญชีเงินมัดจำรับล่วงหน้าถูกล้างเต็มยอดที่เคยตั้งไว้ (Dr), บัญชีรายได้ขายได้รับยอดเต็มราคาขาย (Cr), มี Trade Receivables + Output VAT ของส่วนที่เหลือ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/162-tc-d8-06-final-invoice-journal-items.png"><div class="shot-cap">Journal Items ของใบแจ้งหนี้ปิดโครงการ — ล้างมัดจำ + รับรู้รายได้เต็มยอด</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D9 · ดู P&L ============ -->
+
+<!-- TC-D9-01 -->
+<section class="slide dark" id="tc-d9-01">
+  <div class="top-tags">
+    <span class="tc-id" style="color:#fff;">TC-D9-01</span>
+    <span class="role-tag" style="background:rgba(255,255,255,.12);"><span class="dot"></span>ผู้บริหาร</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label" style="color:#9AA6AC;">D9 · ดู P&amp;L</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">เปิด Chart of Analytic Accounts ดูกำไรต่อโครงการ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">Accounting &gt; Reporting &gt; Analytic Accounting &gt; Chart of Analytic Accounts (โครงการมีทั้งรายได้และต้นทุนจริงครบทุกตัวผูก Analytic โครงการไว้แล้ว)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">หา Analytic Account ของโครงการ (เช่น S00042)</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">เห็นยอดกำไร/ขาดทุนสุทธิของโครงการนั้น เทียบรายได้เต็มกับต้นทุนจริงทั้งหมดที่เคยผูกไว้ครบทุกจุดตลอด flow</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/137-day-in-life-analytic-pl.png"><div class="shot-cap">Chart of Analytic Accounts — กำไรสุทธิต่อโครงการ (S00042)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D9-02 -->
+<section class="slide dark" id="tc-d9-02">
+  <div class="top-tags">
+    <span class="tc-id" style="color:#fff;">TC-D9-02</span>
+    <span class="role-tag" style="background:rgba(255,255,255,.12);"><span class="dot"></span>ผู้บริหาร</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label" style="color:#9AA6AC;">D9 · ดู P&amp;L</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">ดูกำไรข้ามโครงการ ตามประเภทวัสดุ (มุมมองที่ 2)</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Chart of Analytic Accounts (มีหลายโครงการที่เคยขายวัสดุประเภทเดียวกัน ผูก Analytic Plan "ประเภทวัสดุ" ไว้แล้ว)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กรอง/จัดกลุ่มด้วย Analytic Plan "ประเภทวัสดุ"</span></li>
+        <li><span class="step-num">3</span><span class="step-text">หา Account "Granite"</span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">เห็นยอดกำไรรวมของ "Granite" ข้ามทุกโครงการที่เคยขายวัสดุนี้ ได้จากหน้าเดียว ไม่ต้องเปิดทีละโครงการ</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/163-tc-d9-02-granite-cross-project.png"><div class="shot-cap">บัญชี "Granite" — ยอดรวมข้ามหลายโครงการในหน้าเดียว</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TC-D9-03 -->
+<section class="slide dark" id="tc-d9-03">
+  <div class="top-tags">
+    <span class="tc-id" style="color:#fff;">TC-D9-03</span>
+    <span class="role-tag" style="background:rgba(255,255,255,.12);"><span class="dot"></span>ผู้บริหาร / ฝ่ายบัญชี</span>
+    <span class="prio-tag">ความสำคัญสูง</span>
+    <span class="cat-label" style="color:#9AA6AC;">D9 · ดู P&amp;L</span>
+  </div>
+  <div class="flow-bar">
+    <span class="flow-chip">Setup Product</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ผูก Analytic</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เสนอราคา</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">มัดจำ</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">เบิก Block</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ตัดหิน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ค่าใช้จ่ายหน้างาน</span><span class="flow-arrow">→</span>
+    <span class="flow-chip">ติดตั้ง/ปิดยอด</span><span class="flow-arrow">→</span>
+    <span class="flow-chip current">ดู P&amp;L</span>
+  </div>
+  <h2 class="slide-title">กดปุ่ม "Gross Margin" บน Analytic Account ของโครงการ</h2>
+  <div class="two-col">
+    <div class="col-left">
+      <ul class="step-list">
+        <li><span class="step-num">1</span><span class="step-text">เปิด Analytic Account ของโครงการ (S00042)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">กดสมาร์ทปุ่ม/ปุ่ม <b>"Gross Margin"</b></span></li>
+      </ul>
+      <div class="expected-box">
+        <div class="expected-label"><span class="check">✓</span>ผลลัพธ์ที่ควรเห็น</div>
+        <div class="expected-text">เห็นรายการละเอียดทุกบรรทัดที่ประกอบเป็นกำไร ทั้งฝั่งรายได้ (มัดจำ, ใบแจ้งหนี้ปิดงาน) และต้นทุนจริงทุกตัว (วัสดุ, ค่าแรงตัด, ค่าแรงติดตั้ง, ขนส่ง, ค่าใช้จ่ายนอกแผน, ภาษีหัก ณ ที่จ่าย) ไม่ใช่แค่ยอดรวมก้อนเดียว</div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="shot-wrap"><img class="shot" src="assets/140-day-in-life-gross-margin-detail.png"><div class="shot-cap">Gross Margin ของ S00042 — รายการละเอียดทั้งหมด 19 บรรทัด</div></div>
+    </div>
+  </div>
+</section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 2</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+
+  function attachLightbox(){
+    document.querySelectorAll('.shot').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox').classList.add('active');
+      });
+    });
+  }
+  attachLightbox();
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
