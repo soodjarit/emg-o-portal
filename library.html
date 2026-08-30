@@ -69,12 +69,15 @@
   .subgroup.team .subgroup-title{color:#6B6E70;}
 
   .card{
-    display:flex;align-items:center;gap:18px;
+    display:flex;align-items:center;gap:18px;position:relative;
     background:var(--card);border:1px solid var(--border);border-radius:14px;
     padding:20px 22px;margin-bottom:14px;text-decoration:none;color:inherit;
     transition:box-shadow .15s ease, transform .15s ease;
   }
   .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .card.pinned{border-color:var(--copper);}
+  .pin-badge{position:absolute;top:-9px;right:16px;background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.3px;padding:3px 9px;border-radius:99px;text-transform:uppercase;}
+  .card-version{font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .icon{
     flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);
     color:#fff;display:flex;align-items:center;justify-content:center;
@@ -109,6 +112,7 @@
     <a href="index.html" class="tn-link">หน้าแรก</a>
     <a href="decisions.html" class="tn-link">บันทึกการตัดสินใจ</a>
     <a href="library.html" class="tn-link active">คลังเอกสารทั้งหมด</a>
+    <a href="archived.html" class="tn-link">เอกสารเก่า (Archived)</a>
   </div>
 </div>
 
@@ -160,7 +164,6 @@
         <summary>Ensure Supply</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="presentations/inventory-overview.html"><span class="tree-doc-tag">1</span>การจัดการสต็อก (Inventory)</a></li>
-          <li class="tree-doc"><a href="presentations/block-uom-ton-cbm-proposal.html"><span class="tree-doc-tag">2</span>หน่วยวัดก้อนหิน: ตัน หรือ คิว</a></li>
         </ul>
       </details>
 
@@ -252,7 +255,7 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite</div>
     <h1>คลังเอกสารและคู่มือทั้งหมด</h1>
-    <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว จัดหมวดตามขั้นตอนงาน — สำหรับเจาะลึกเฉพาะเรื่อง ถ้าอยากรู้ว่าตอนนี้ควรดูอะไรก่อน ดูที่ <a href="index.html" style="color:var(--copper-dark);font-weight:700;">หน้าแรก</a></div>
+    <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว จัดหมวดตามขั้นตอนงาน — สำหรับเจาะลึกเฉพาะเรื่อง ถ้าอยากรู้ว่าตอนนี้ควรดูอะไรก่อน ดูที่ <a href="index.html" style="color:var(--copper-dark);font-weight:700;">หน้าแรก</a> · เอกสารที่ถูกแทนที่แล้วย้ายไปไว้ที่ <a href="archived.html" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
   </header>
 
   <div class="category" id="project-overview">
@@ -422,15 +425,6 @@
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/block-uom-ton-cbm-proposal.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">หน่วยวัดก้อนหิน: ตัน หรือ คิว — ข้อเสนอแนวทาง</div>
-        <div class="card-desc">สถานการณ์ปัจจุบัน + ตัวอย่างตัวเลขทำไมต้องแม่นยำ + ข้อเสนอให้กรอกได้ทั้งตันและคิว แปลงอัตโนมัติ ต้นทุนยังยึดคิวเป็นหลัก พร้อม 2 คำถามที่ขอความชัดเจนเพิ่มก่อนเริ่มงาน (7 สไลด์)</div>
-        <div class="card-meta"><span class="card-date">24 ส.ค. 2026</span><span class="status-badge design">รอลูกค้ายืนยัน</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
   </div>
 
   <div class="category" id="management-accounting">
@@ -551,7 +545,8 @@
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="presentations/workflow-design/stone-cost-ton-purchase-calc.html">
+    <a class="card pinned" href="presentations/workflow-design/stone-cost-ton-purchase-calc.html">
+      <span class="pin-badge">📌 ปักหมุด</span>
       <div class="icon">D5</div>
       <div>
         <div class="card-title">ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</div>
@@ -581,7 +576,7 @@
       <div>
         <div class="card-title">Test Cases: Day-in-the-Life (Order-to-Cash)</div>
         <div class="card-desc">39 test case เดินตามลำดับ flow จริงทุกจุดในเอกสาร Day-in-the-Life ครบทุกสไลด์ในเธรดเดียว (Material Setup → Analytic → BOQ Quotation → มัดจำ+Project → ต้นทุนจริงจาก PO → Cut Order → ค่าใช้จ่ายหน้างาน → ติดตั้ง+WHT → ปิดยอด → Chart of Analytic Accounts) รวมจุดที่เคยมี Test Case ในหมวดอื่นแล้วก็ทดสอบซ้ำที่นี่เพื่อจับ regression จากโค้ดที่เปลี่ยนล่าสุด (ระบุที่มาไว้ในหมายเหตุแต่ละเคส) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
-        <div class="card-meta"><span class="card-date">27 ส.ค. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-meta"><span class="card-version">v1.1</span><span class="card-date">30 ส.ค. 2026</span><span class="status-badge confirmed">แก้ TC-D1-03 ให้ตรงกับ ADR-040</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -657,8 +652,8 @@
         <div class="icon">S1</div>
         <div>
           <div class="card-title">E2E — รับหินเข้าคลัง (Ensure Supply)</div>
-          <div class="card-desc">เปิดใบสั่งซื้อก้อนหิน → ยืนยัน → สร้างข้อมูลก้อนหินผูกกับใบสั่งซื้อ → กรอกรายละเอียด → บันทึกรับเข้าสต็อกอัตโนมัติ → เพิ่มแผ่นหิน → พร้อมขายได้ทั้ง 5 รูปแบบ — เดินระบบจริง ไม่ใช่ภาพจำลอง</div>
-          <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+          <div class="card-desc">เปิดใบสั่งซื้อก้อนหิน (กรอกเป็นตัน) → ยืนยัน → สร้างข้อมูลก้อนหินผูกกับใบสั่งซื้อ → กรอกรายละเอียด → บันทึกรับเข้าสต็อกอัตโนมัติ → เพิ่มแผ่นหิน → พร้อมขายได้ทั้ง 5 รูปแบบ — เดินระบบจริง ไม่ใช่ภาพจำลอง</div>
+          <div class="card-meta"><span class="card-version">v1.1</span><span class="card-date">30 ส.ค. 2026</span><span class="status-badge confirmed">อัปเดต — ถ่าย screenshot ใหม่ตาม ADR-040</span></div>
         </div>
         <div class="arrow">→</div>
       </a>
