@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: E2E Flow (Mode 2)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode2.xlsx" download="EMG-O Test Cases - E2E Mode 2.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#E1"><span class="tree-doc-tag">E1</span>ขาย (Sale — Mode 2, Serial per-slab)</a></li><li class="tree-doc"><a href="#E2"><span class="tree-doc-tag">E2</span>ขาย (Sale — Mode 2, Lot aggregate)</a></li><li class="tree-doc"><a href="#E3"><span class="tree-doc-tag">E3</span>จัดส่ง (Delivery — Scan Verification)</a></li><li class="tree-doc"><a href="#E4"><span class="tree-doc-tag">E4</span>บัญชี (Accounting + Payment)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: E2E Flow — Mode 2 (Ready-Made Slab)</h1>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่มีแผ่น/ล็อตหินพร้อมขายอยู่แล้วในสต็อกจนถึงจบเรื่อง ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้นข้อ Scan Verification ซึ่งเป็น gate จริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user ครอบคลุมทั้ง 2 เส้นทางย่อยของโหมด 2: ขายทีละแผ่นตามเลข Serial และขายบางส่วนจากล็อต ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงที่บันทึกไว้แล้วในเอกสาร E2E ของแต่ละเส้นทาง ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>12</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">7</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">5</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้อ้างอิง (Serial):</b> แผ่น BDL-00014-1 / BDL-00014-2 (พร้อมขายอยู่แล้ว) &rarr; SO S108405 (2 แผ่น รวม 8.32 ตร.ม. &times; 4,200/ตร.ม. เฉลี่ย = 34,944 ก่อน VAT) &rarr; Invoice INV/2026/00017 (37,390.08 รวม VAT) — จาก presentations/e2e-mode2-slab.html (ยืนยัน 21 ส.ค. 2026)<br><br>
+    <b>เรื่องราวที่ใช้อ้างอิง (Lot):</b> ล็อต BP-B-0001 (Bianco Perla Marble Slab, เหลือ 4.00 จาก 6.00 ตร.ม.) &rarr; ขาย 1.50 ตร.ม. &times; 1,200/ตร.ม. &rarr; SO S108370 &rarr; Invoice INV/2026/00016 (1,926.00 รวม VAT, Posted + Paid) — จาก presentations/e2e-mode2-lot-stock.html (รันจริง 4 ส.ค. 2026, ตรวจทาน 21 ส.ค. 2026)<br><br>
+    <b>⚠️ ยังไม่ verify:</b> TC-E2E-M2-12 เป็นการคาดการณ์ (ไม่ใช่ผลยืนยันจริง) ว่าปัญหา COGS บันทึกซ้ำที่พบใน Mode 1 (TC-E2E-M1-12) จะเกิดกับ Mode 2 ด้วย เพราะเป็นกลไก native ของ Odoo เอง ไม่ใช่โค้ดเฉพาะโหมด — ต้องเปิด Journal Entries จริงมาเช็คก่อนถือว่ายืนยันแล้ว
+  </div>
+
+  <div class="category" id="E1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E1. ขาย (Sale — Mode 2, Serial per-slab)</div>
+        <div class="category-sub">ADR-002/006/009 — เลือกทีละแผ่นตามเลข Serial · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-01</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดสินค้า Material โหมด Serial ใน Sale Order</td>
+          <td class="col-pre">มีแผ่นหินสถานะ Available อยู่แล้วอย่างน้อย 2 แผ่น จาก Material เดียวกันที่ตั้ง Pricing Mode = Serial (per-slab)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้าของ Material นั้น</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = Material โหมด Serial ที่มีแผ่นพร้อมขาย</td>
+          <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Select Slabs" ปรากฏบนบรรทัดนั้น (ไม่ใช่ "Select Lot Stock")</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-02</span></td>
+          <td class="col-scenario">กด "Select Slabs" เลือกหลายแผ่นพร้อมกันตามเลข Serial</td>
+          <td class="col-pre">ทำ TC-E2E-M2-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Select Slabs" บนบรรทัด</li><li>หน้าต่างเลือกแผ่นแสดงรายการแผ่น Available พร้อมเลข Serial ขนาด และสถานะ</li><li>ติ๊กเลือกหลายแผ่นพร้อมกันในคลิกเดียว</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">เลือก 2 แผ่น = BDL-00014-1, BDL-00014-2</td>
+          <td class="col-expected">บรรทัด SO ผูกทั้ง 2 แผ่น จำนวนรวมเป็น Sq.Mt. ของทั้ง 2 แผ่นรวมกันอัตโนมัติ (ตัวอย่างจริง: รวม 8.32 ตร.ม.)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-03</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order — ราคาเฉลี่ยคำนวณจากขนาดจริงแต่ละแผ่น</td>
+          <td class="col-pre">ทำ TC-E2E-M2-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order ราคาต่อหน่วยเป็นค่าเฉลี่ยถ่วงน้ำหนักจากขนาดจริงของทุกแผ่น (ไม่ใช่ราคาคงที่ต่อแผ่น) — ตัวอย่างจริง: S108405, 8.32 ตร.ม. &times; 4,200/ตร.ม. เฉลี่ย = 34,944 (ก่อน VAT) มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E2. ขาย (Sale — Mode 2, Lot aggregate)</div>
+        <div class="category-sub">ADR-020 — ระบุจำนวนตร.ม.บางส่วนจากล็อต ไม่ต้องขายทั้งล็อต · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-04</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดสินค้า Material โหมด Lot ใน Sale Order</td>
+          <td class="col-pre">มีล็อตหินสถานะ Available อยู่แล้ว จาก Material ที่ตั้ง Pricing Mode = Lot (aggregate, cheap stone)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New (หรือใช้ SO เดิม)</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้าของ Material โหมด Lot นี้</li></ol></td>
+          <td class="col-sample">สินค้า = Bianco Perla Marble Slab (Material โหมด Lot)</td>
+          <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Select Lot Stock" ปรากฏบนบรรทัดนั้นแทนที่จะเป็น "Select Slabs"</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-05</span></td>
+          <td class="col-scenario">กด "Select Lot Stock" ระบุจำนวนตร.ม.บางส่วนจากล็อต</td>
+          <td class="col-pre">ทำ TC-E2E-M2-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Select Lot Stock" บนบรรทัด</li><li>เลือกล็อตที่ต้องการ — ระบบแสดงจำนวนตร.ม.ที่เหลืออยู่ในล็อตนั้นให้ทันที</li><li>กรอก "Quantity to Sell (Sq.Mt.)" เป็นจำนวนบางส่วน (ไม่จำเป็นต้องขายทั้งล็อต)</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">ล็อต = BP-B-0001 (เหลือ 4.00 ตร.ม. จากทั้งล็อต 6.00 ตร.ม.)<br>Quantity to Sell (Sq.Mt.) = 1.50</td>
+          <td class="col-expected">บรรทัด SO ผูก Lot ถูกต้อง จำนวน/ราคารวมปรับตาม 1.50 ตร.ม. ที่เลือกทันที ไม่มีการเลือกแผ่นเดี่ยวใดๆ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-06</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order โหมด Lot</td>
+          <td class="col-pre">ทำ TC-E2E-M2-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — ตัวอย่างจริง: S108370, 1.50 ตร.ม. &times; 1,200/ตร.ม. = 1,800 (ก่อน VAT) ส่วนที่เหลือของล็อตเดิม (2.50 ตร.ม.) ยังคงพร้อมขายต่อได้ตามปกติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E3. จัดส่ง (Delivery — Scan Verification)</div>
+        <div class="category-sub">ADR-009 — ต้องสแกน/กรอก Serial ให้ตรงก่อน Validate เสมอ ใช้ร่วมกันทั้ง Serial และ Lot · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-07</span></td>
+          <td class="col-scenario">พยายาม Validate ใบส่งของโดยยังไม่กรอก Scanned Serial ให้ตรง<div class="note">หมายเหตุ: กันส่งแผ่น/ล็อตผิดให้ลูกค้าโดยไม่ได้ตรวจสอบก่อน (ADR-009) — ใช้ตรรกะเดียวกันไม่ว่าเป็นบรรทัด Serial หรือ Lot</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-03 หรือ TC-E2E-M2-06 เสร็จแล้ว มีใบส่งของสถานะ Ready รออยู่</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ (Delivery) ที่เกิดขึ้นอัตโนมัติ</li><li>กดปุ่ม Validate ทันทีโดยยังไม่กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial ที่จองไว้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบฟ้อง error สองภาษาทันที: "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate" พร้อมระบุชื่อ Serial ที่ยังไม่ตรง บันทึกไม่ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-08</span></td>
+          <td class="col-scenario">กรอก/สแกน Scanned Serial ให้ตรงครบทุกบรรทัดแล้ว Validate</td>
+          <td class="col-pre">ทำ TC-E2E-M2-07 เสร็จแล้ว (เจอ error มาก่อน)</td>
+          <td class="col-steps"><ol><li>เปิดแต่ละบรรทัดในใบส่งของ กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial/Lot ที่จองไว้จริงให้ครบทุกบรรทัด</li><li>กดปุ่ม Validate อีกครั้ง</li></ol></td>
+          <td class="col-sample">Scanned Serial ของแต่ละบรรทัด = Serial/Lot เดียวกับที่ระบบจองไว้ (เช่น BDL-00014-1, BDL-00014-2 หรือ BP-B-0001)</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่น/ปริมาณที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E4. บัญชี (Accounting + Payment)</div>
+        <div class="category-sub">ออกใบแจ้งหนี้ + รับชำระเงิน + ตรวจรายการบัญชี · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-09</span></td>
+          <td class="col-scenario">สร้างและยืนยันใบแจ้งหนี้ลูกค้า (Customer Invoice)</td>
+          <td class="col-pre">ทำ TC-E2E-M2-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice"</li><li>เลือก "Regular invoice" &gt; Create Draft Invoice</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง Serial: INV/2026/00017 (37,390.08); ตัวอย่างจริง Lot: INV/2026/00016 (1,926.00)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-10</span></td>
+          <td class="col-scenario">รับชำระเงิน (Register Payment) บนใบแจ้งหนี้<div class="note">หมายเหตุ: จุดนี้เป็นส่วนต่างจากเอกสาร Golden Path ของ Mode 1 ซึ่งไม่ได้เดินไปถึงขั้นตอนรับชำระเงิน — ที่นี่มีข้อมูลจริงยืนยันแล้วว่าไหลไปจนจบ</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-09 เสร็จแล้ว (Invoice = Posted)</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ &gt; กด "Register Payment"</li><li>ตรวจ/ยืนยันยอดและวิธีชำระ &gt; กด Create Payment</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "Paid" (Payment Status) — ตัวอย่างจริง: INV/2026/00016 จบที่สถานะ Posted + Paid</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-11</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีบนใบแจ้งหนี้ (รายได้ + VAT + ลูกหนี้)</td>
+          <td class="col-pre">ทำ TC-E2E-M2-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Customer Invoice &gt; กด smart button "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นเครดิต Sales Revenue, เครดิต Output VAT, เดบิต Trade Receivables (รวม) ตรงตามยอดใบแจ้งหนี้ พร้อมคู่ COGS/Inventory ที่ระบบแนบมาด้วยอัตโนมัติบนใบแจ้งหนี้ใบเดียวกัน (เดบิต COGS / เครดิต Inventory)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-12</span></td>
+          <td class="col-scenario">ตรวจว่าต้นทุนขาย (COGS) ถูกบันทึกซ้ำหรือไม่ — คาดว่าจะเกิดเหมือน Mode 1 แต่ยังไม่ได้ verify ซ้ำสำหรับ Mode 2<div class="note">⚠️ ยังไม่ได้ทดสอบจริงสำหรับเคสนี้โดยเฉพาะ — เป็นการคาดการณ์จากสาเหตุเดียวกันกับ TC-E2E-M1-12 (Odoo native display_type='cogs' บนใบแจ้งหนี้ + Journal Entry แยกจากใบส่งของ) เพราะเป็นกลไก stock valuation มาตรฐานของ Odoo ไม่ใช่โค้ดเฉพาะของโหมดการขาย ไม่ควรถือว่ายืนยันแล้วจนกว่าจะเปิด Journal Entries ของ S108405/INV-00017 จริงมาเทียบ</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-08 เสร็จแล้ว (Delivery = Done)</td>
+          <td class="col-steps"><ol><li>เปิด Accounting &gt; Journal Entries</li><li>ค้นหา entry ที่มี Reference ตรงกับเลขที่ใบส่งของ</li><li>เปิดดูรายละเอียดบรรทัด เทียบกับคู่ COGS/Inventory ที่เห็นใน TC-E2E-M2-11</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">(ยังไม่ verify) หากพฤติกรรมเหมือน Mode 1 จะเห็นคู่ COGS/Inventory ซ้ำอีกชุดในบัญชีคนละตัว — ถ้าพบจริง ให้ถือเป็น known issue เดียวกับ TC-E2E-M1-12 ไม่ใช่บั๊กใหม่ ต้องแจ้งทีม dev รวมกัน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
