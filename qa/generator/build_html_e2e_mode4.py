@@ -4,7 +4,10 @@ def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
 
 def note_html(note):
-    return ('<div class="note">%s</div>' % note) if note else ''
+    if not note:
+        return ''
+    cls = 'note note-ok' if note.startswith('✅') else 'note'
+    return '<div class="%s">%s</div>' % (cls, note)
 
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
@@ -154,6 +157,7 @@ PAGE = '''<!doctype html>
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .note-ok{color:var(--green);background:var(--green-bg);}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -181,7 +185,7 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Test Cases: E2E Flow — Mode 4 (Sold-as-Project)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ตั้งต้นจากเอกสาร BOQ ติ๊ก "Sold as Project" ยืนยันคำสั่งขายให้ระบบสร้าง Project + Task ให้อัตโนมัติ เรียกเก็บเงินแบบมัดจำ 3 งวด (30/40/30) ส่งมอบสินค้าจริง ปิดงานให้ Milestone ขึ้นสำเร็จ จนถึงตรวจสอบกำไรขาดทุนของโปรเจกต์และรายการบัญชี — ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป เดินตามได้เองแม้ไม่ใช่ technical user ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงที่ทำขึ้นเฉพาะสำหรับเอกสารนี้ ไม่ใช่ตัวเลขสมมติ — รวมถึง 3 ปัญหาจริงที่พบระหว่างทางซึ่งยังไม่ได้แก้ไข (ดูกล่องสีเหลืองใน TC-03 และ TC-09)</div>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ตั้งต้นจากเอกสาร BOQ ติ๊ก "Sold as Project" ยืนยันคำสั่งขายให้ระบบสร้าง Project + Task ให้อัตโนมัติ เรียกเก็บเงินแบบมัดจำ 3 งวด (30/40/30) ส่งมอบสินค้าจริง ปิดงานให้ Milestone ขึ้นสำเร็จ จนถึงตรวจสอบกำไรขาดทุนของโปรเจกต์และรายการบัญชี — ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป เดินตามได้เองแม้ไม่ใช่ technical user ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงที่ทำขึ้นเฉพาะสำหรับเอกสารนี้ ไม่ใช่ตัวเลขสมมติ — รวมถึง 3 ปัญหาจริงที่เคยพบระหว่างทาง ซึ่งแก้ไขและทดสอบซ้ำผ่านแล้ว (ดูกล่องสีเขียวใน TC-03 และ TC-09)</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -192,8 +196,8 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้อ้างอิง:</b> BOQ0023 (ลูกค้า "ทดสอบ Mode 4 - Boutique Villa") &rarr; Generate Quotation &rarr; SO S00102 (ติ๊ก Sold as Project) &rarr; Select Lot Stock (Vietnam Limestone Lot BLK-26-0004, 0.5 ตร.ม.) &rarr; Confirm &rarr; Project 38 + 4 Tasks สร้างอัตโนมัติ &rarr; Down Payment 3 งวด INV/2026/00012 (282.48, 30%) + 00013 (376.64, 40%) + 00014 (282.48, 30%) รวม 941.60 บาท &rarr; Delivery EG01/OUT/00059 (Done) &rarr; Task จริง 2 งาน Mark Done &rarr; Milestone "ปูพื้นหินเสร็จสมบูรณ์" Reached &rarr; Project Dashboard: Total Revenues 880 = Invoiced 880 บาท — <b>เดินสดผ่านหน้าจอ Odoo จริงทุกขั้นตอน</b> (Playwright ไม่ใช่ผ่าน <code>odoo shell</code>) บน <code>mbx-ee-dev</code> เฉพาะสำหรับเอกสารนี้ 2026-09-06 ทุกภาพประกอบด้านล่างคือภาพหน้าจอจริงจากการรันนี้ ไม่ใช่ภาพจำลอง<br><br>
-    <b>🔴 พบ 3 ปัญหาจริงยังไม่ได้แก้:</b> ทั้งหมดอยู่ในเส้นทางสินค้าโหมด Lot (ไม่เฉพาะ Mode 4) — (1) เส้นทางส่งของดึงสต็อกจากจุดพัก "Stone Hold" ที่โหมด Lot ไม่เคยย้ายของเข้าจริง ทำให้ยอดติดลบเพิ่มขึ้นทุกครั้งที่ส่งของ (2) ผลจากข้อ 1 ทำให้ตัวเลข "สต็อกคงเหลือ" ที่ระบบโชว์ต่ำกว่าของจริงมาก (3) ราคาที่ BOQ ตั้งไว้ถูกเขียนทับด้วยราคาป้ายสินค้าปกติหลังเลือกสต็อก Lot โดยไม่มีคำเตือน — ดูรายละเอียดที่ TC-03 และ TC-09
+    <b>เรื่องราวที่ใช้อ้างอิง:</b> BOQ0026 (ลูกค้า "ทดสอบ Mode 4 Retest - Riverside Condo") &rarr; Generate Quotation &rarr; SO S00109 (ติ๊ก Sold as Project) &rarr; Select Lot Stock (Vietnam Limestone Lot BLK-26-0004, 0.5 ตร.ม.) &rarr; Confirm &rarr; Project 40 + 4 Tasks สร้างอัตโนมัติ &rarr; Down Payment 3 งวด INV/2026/00015 (442.98, 30%) + 00016 (590.64, 40%) + 00017 (442.98, 30%) รวม 1,476.60 บาท &rarr; Delivery EG01/OUT/00064 (Done) &rarr; Task จริง 2 งาน Mark Done &rarr; Milestone "ปูพื้นระเบียงเสร็จสมบูรณ์" Reached &rarr; Project Dashboard: Total Revenues 1,380 = Invoiced 1,380 บาท — <b>เดินสดผ่านหน้าจอ Odoo จริงทุกขั้นตอน</b> (Playwright ไม่ใช่ผ่าน <code>odoo shell</code>) บน <code>mbx-ee-dev</code> เฉพาะสำหรับเอกสารนี้ 2026-09-06 ทุกภาพประกอบด้านล่างคือภาพหน้าจอจริงจากการรันนี้ ไม่ใช่ภาพจำลอง<br><br>
+    <b style="color:var(--green)">✅ พบ 3 ปัญหาจริง — แก้ไขและทดสอบซ้ำผ่านแล้ว:</b> รอบก่อนหน้า (BOQ0023 &rarr; SO S00102, ลูกค้า "ทดสอบ Mode 4 - Boutique Villa") พบ 3 ปัญหาจริงในเส้นทางสินค้าโหมด Lot (ไม่เฉพาะ Mode 4) — (1) เส้นทางส่งของดึงสต็อกจากจุดพัก "Stone Hold" ที่โหมด Lot ไม่เคยย้ายของเข้าจริง ทำให้ยอดติดลบเพิ่มขึ้นทุกครั้งที่ส่งของ (2) ผลจากข้อ 1 ทำให้ตัวเลข "สต็อกคงเหลือ" ที่ระบบโชว์ต่ำกว่าของจริงมาก (3) ราคาที่ BOQ ตั้งไว้ถูกเขียนทับด้วยราคาป้ายสินค้าปกติหลังเลือกสต็อก Lot โดยไม่มีคำเตือน — ทั้ง 3 ข้อแก้ไขแล้วในโค้ด (<code>stone_slab_inventory</code> commit 34be05d + 1e09854) และรันรอบนี้ (BOQ0026 &rarr; SO S00109) เพื่อยืนยันว่าผ่านจริง — ดูรายละเอียดที่ TC-03 และ TC-09
   </div>
 
 __CATEGORY_BLOCKS__
