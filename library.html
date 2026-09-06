@@ -200,6 +200,7 @@
           <li class="tree-doc"><a href="presentations/workflow-design/standard-costing-explainer.html"><span class="tree-doc-tag">D3</span>ทำไมไม่ใช้ Standard/AVCO Cost?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/block-density-weight-explainer.html"><span class="tree-doc-tag">D4</span>CBM → ตัน: ความหนาแน่นตามประเภทหิน</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/stone-cost-ton-purchase-calc.html"><span class="tree-doc-tag">D5</span>ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/stone-costing-explainer.html"><span class="tree-doc-tag">D6</span>ต้นทุนหิน: จากก้อนสู่แผ่น (หลักการ + ของจริง)</a></li>
         </ul>
       </details>
 
@@ -552,6 +553,16 @@
         <div class="card-title">ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</div>
         <div class="card-desc">ตอบคำถามลูกค้าจากการประชุมทบทวนงานว่าระบบคำนวณ/กระจายต้นทุนหินยังไง และถ้าซื้อ 5 ตันแต่ตัดแผ่นรวมได้ 5.1 ตัน จะตรวจสอบย้อนกลับได้จากตรงไหน — เดินเรื่องด้วยข้อมูลจริง (PO P00014 → Block BLK-26-0029 → ตัด 3 แผ่นจริง) พร้อมสูตรคำนวณทีละแผ่นและภาคผนวก Landed Cost</div>
         <div class="card-meta"><span class="card-date">28 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card pinned" href="presentations/workflow-design/stone-costing-explainer.html">
+      <span class="pin-badge">📌 ปักหมุด</span>
+      <div class="icon">D6</div>
+      <div>
+        <div class="card-title">ต้นทุนหิน: จากก้อนสู่แผ่น — อธิบายหลักการ + ของจริง</div>
+        <div class="card-desc">เริ่มจากหลักการบัญชีต้นทุนแปรรูปพื้นฐาน (ทำไมไม่นับต้นทุนซ้ำ) ด้วยตัวอย่างง่ายๆ จากนั้นไล่ทีละขั้นพร้อมภาพหน้าจอจริง ตามรอย Block เดียวกัน (BLK-26-0013) ตั้งแต่ซื้อจนถึงขาย พร้อมอธิบายว่าทำไม CBM เป็นหน่วยตั้งต้นของต้นทุน ส่วนตันเป็นแค่ตัวเลขคำนวณย้อนกลับ — ระหว่างรีวิว พบว่า Qty (Ton) ที่หน้า PO ไม่ auto-fill จาก CBM ค้างเป็น 0 เสมอถ้ากรอก CBM ตรงๆ แก้เป็น compute+inverse field แล้ว ตรวจสอบ PO จริงถูกต้อง (mbx-ee-dev + eg-tst)</div>
+        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge built">พบ Bug (Qty Ton ค้าง 0) + แก้แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

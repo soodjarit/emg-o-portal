@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ต้นทุนหิน: จากก้อนสู่แผ่น — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:46px 60px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+  .slide.appendix{background:var(--charcoal);color:var(--stone);}
+
+  .eyebrow{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow, .appendix .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title, .appendix h2.slide-title{color:var(--white);}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:46px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:60px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+
+  .appendix-divider{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;height:100%;}
+  .appendix-divider .a-eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#D9A465;font-weight:700;margin-bottom:16px;}
+  .appendix-divider .a-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:#fff;margin:0 0 20px 0;line-height:1.25;}
+  .appendix-divider .a-sub{font-size:17px;color:#B9C2C8;max-width:760px;line-height:1.6;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:16px 22px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:17.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:14px;text-align:center;position:relative;}
+  .hier-card.hl{background:#FBF1E7;border:2px solid var(--copper);}
+  .hier-card.gray{background:#ECECEA;border:2px dashed #9AA0A6;}
+  .hier-card .star-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;}
+  .hier-card .hlabel{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .hier-card .hdesc{font-size:15.5px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:18px;font-weight:700;flex-shrink:0;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:16.5px;}
+  .cmp-table th{text-align:left;padding:8px 10px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:8px 10px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table tr.hl td{font-weight:700;color:var(--copper-dark);background:#FBF1E7;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+
+  .step-table{width:100%;border-collapse:collapse;font-size:15px;}
+  .step-table th{text-align:left;padding:7px 9px;background:var(--charcoal-dark);color:#fff;font-size:10.5px;letter-spacing:.3px;vertical-align:top;}
+  .step-table td{padding:7px 9px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;color:var(--text);}
+  .appendix .step-table{background:var(--white);border-radius:10px;overflow:hidden;}
+  .appendix .step-table th{background:var(--charcoal-dark);}
+  .step-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:11px;}
+  .appendix .step-table code{background:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:12px 16px;font-size:15.5px;line-height:1.5;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box, .appendix .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b, .appendix .note-box b{color:#D9A465;}
+
+  .two-col{display:flex;gap:24px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:14px 0;margin-bottom:18px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:23px;padding:16px 28px;border-radius:32px;white-space:normal;max-width:280px;text-align:center;line-height:1.25;font-weight:700;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:28px;margin:0 12px;font-weight:700;}
+  .dark .flow-arrow, .appendix .flow-arrow{color:#D9A465;}
+
+  .split-box{display:flex;gap:18px;margin:14px 0;}
+  .split-card{flex:1;border-radius:14px;padding:18px;}
+  .split-card.opt-a{background:#FBEAE7;}
+  .split-card.opt-b{background:#EAF3EA;}
+  .split-card .split-label{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:7px;}
+  .split-card.opt-a .split-label{color:#A6432D;}
+  .split-card.opt-b .split-label{color:#3D7A45;}
+  .split-card .split-title{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:7px;line-height:1.3;}
+  .split-card .split-desc{font-size:16px;line-height:1.5;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:20px;left:60px;font-size:11px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag, .appendix .footer-tag{color:#8B969C;}
+
+  /* Screenshot slide layout */
+  .shot-layout{display:flex;gap:22px;flex:1;min-height:0;}
+  .shot-layout .info-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;}
+  .shot-layout .shot-col{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;}
+  .step-pill{display:inline-block;background:var(--copper);color:#fff;font-size:15px;font-weight:700;letter-spacing:.5px;padding:7px 16px;border-radius:16px;margin-bottom:12px;}
+  .shot-frame{position:relative;cursor:zoom-in;border:1px solid #ddd8d0;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.14);max-height:520px;max-width:100%;}
+  .shot-frame img{display:block;max-width:100%;max-height:520px;width:auto;height:auto;}
+  .shot-frame .zoom-hint{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:4px 9px;border-radius:10px;}
+  .shot-caption{font-size:11.5px;color:var(--muted);margin-top:8px;text-align:center;}
+
+  /* Lightbox */
+  #lightbox{position:fixed;inset:0;background:rgba(10,12,14,.92);display:none;align-items:center;justify-content:center;z-index:200;cursor:zoom-out;}
+  #lightbox.show{display:flex;}
+  #lightbox img{max-width:94vw;max-height:94vh;border-radius:6px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">COST</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Design Discussion</div>
+    <div class="big-title">ต้นทุนหิน: จากก้อนสู่แผ่น<br>อธิบายง่ายๆ แล้วดูของจริงในระบบเรา</div>
+    <div class="big-sub">เริ่มจากหลักการบัญชีต้นทุนแปรรูปพื้นฐาน (ทำไมไม่นับต้นทุนซ้ำ) ด้วยตัวอย่างง่ายๆ จากนั้นไล่ทีละขั้นพร้อมภาพหน้าจอจริงจากระบบ EMG-O — ตามรอย Block เดียวกัน (BLK-26-0013) ตั้งแต่ซื้อจนถึงขาย</div>
+    <div class="stamp">EMG-O Design Discussion · Stone Costing Explainer</div>
+  </section>
+
+  <!-- SLIDE 1: Basic principle -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">หลักการพื้นฐาน</div>
+    <h2 class="slide-title">ต้นทุนไม่ได้ถูก "บวกเพิ่ม" — แค่ถูก "ย้ายกระเป๋า"</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามที่พบบ่อย</div>
+        <div class="case-text">ซื้อหินก้อนมา 100 บาท พอตัดเป็นแผ่นแล้ว ทำไมต้อง "บันทึกต้นทุน 100 บาท" อีกรอบในบัญชีสินค้าสำเร็จรูป — นี่คิดซ้ำซ้อนหรือเปล่า?</div>
+      </div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">วัตถุดิบ</div><div class="hdesc">ซื้อหินก้อนมา 100 บาท<br>เงินอยู่ตรงนี้</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card hl"><div class="star-badge">★ ย้าย ไม่ใช่บวก</div><div class="hlabel">สินค้าสำเร็จรูป</div><div class="hdesc">ตัดเสร็จ ย้ายเงิน 100 บาท<br>มาอยู่ตรงนี้แทน</div></div>
+      <div class="hier-arrow">→</div>
+      <div class="hier-card gray"><div class="hlabel">ต้นทุนขาย</div><div class="hdesc">ขายได้แค่ไหน<br>ย้ายเฉพาะส่วนนั้นมาที่นี่</div></div>
+    </div>
+    <div class="note-box good"><b>จุดสำคัญ:</b> เงิน 100 บาทก้อนเดิม แค่เปลี่ยนที่อยู่ไปเรื่อยๆ ตามสถานะของสินค้า ไม่เคยถูกนับเป็น 2 เท่าที่จุดไหนเลย</div>
+  </section>
+
+  <!-- SLIDE 2: Numeric example -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ตัวอย่างตัวเลข</div>
+    <h2 class="slide-title">ซื้อ 100 บาท ตัดได้ 10 แผ่น ขายไป 5 แผ่น</h2>
+    <div class="case-box">
+      <div class="case-icon">฿</div>
+      <div>
+        <div class="case-text-label">โจทย์</div>
+        <div class="case-text">หินก้อน 100 บาท ตัดได้หินแผ่น 10 แผ่น (ต้นทุนแผ่นละ 10 บาท) ขายไปแล้ว 5 แผ่น แผ่นละ 200 บาท</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th>รายการ</th><th>จำนวน</th><th>มูลค่า</th></tr>
+      <tr><td>รายได้จากการขาย</td><td>5 แผ่น × 200</td><td>1,000 บาท</td></tr>
+      <tr class="bad"><td>หัก ต้นทุนขาย (เฉพาะ 5 แผ่นที่ขายไปแล้ว)</td><td>5 แผ่น × 10</td><td>(50 บาท)</td></tr>
+      <tr class="good"><td><b>กำไรขั้นต้น</b></td><td></td><td><b>950 บาท</b></td></tr>
+      <tr><td>สินค้าคงเหลือในคลัง (อีก 5 แผ่นที่ยังไม่ขาย)</td><td>5 แผ่น × 10</td><td>50 บาท</td></tr>
+    </table>
+    <div class="note-box good">ต้นทุนที่ตัดเป็นค่าใช้จ่ายแล้ว (50) + ต้นทุนที่ยังค้างในคลัง (50) = 100 บาทพอดี ไม่ขาดไม่เกินจากที่จ่ายซื้อจริง</div>
+  </section>
+
+  <!-- SLIDE 3: Two pockets -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">สรุปหลักการ</div>
+    <h2 class="slide-title">จำแค่ 2 กระเป๋า: "ยังไม่ขาย" กับ "ขายแล้ว"</h2>
+    <div class="split-box">
+      <div class="split-card opt-a">
+        <div class="split-label">กระเป๋าที่ 1 — สินค้าคงเหลือ</div>
+        <div class="split-title">ของยังอยู่ในคลัง ยังไม่ขาย</div>
+        <div class="split-desc">เป็นสินทรัพย์ — เงินต้นทุนยังจมอยู่ในรูปสินค้า ยังไม่กระทบกำไรขาดทุนใดๆ ในงบการเงิน</div>
+      </div>
+      <div class="split-card opt-b">
+        <div class="split-label">กระเป๋าที่ 2 — ต้นทุนขาย</div>
+        <div class="split-title">ของถูกขายออกไปแล้ว</div>
+        <div class="split-desc">เป็นค่าใช้จ่าย — ต้นทุนของชิ้นที่ขายได้ ถูกย้ายมาหักกับรายได้เพื่อคำนวณกำไรจริง</div>
+      </div>
+    </div>
+    <div class="note-box">กติกาเดียว: ต้นทุนจะย้ายจากกระเป๋าซ้ายไปขวา <b>ก็ต่อเมื่อของถูกขายออกจริงเท่านั้น</b> — ไม่ใช่ตอนซื้อ ไม่ใช่ตอนตัดแปรรูปเสร็จ</div>
+  </section>
+
+  <!-- SLIDE 4: Transition to real system (dark) -->
+  <section class="slide dark" id="slide-4">
+    <div class="eyebrow">ต่อไปนี้ คือของจริง</div>
+    <h2 class="slide-title" style="color:#fff;">ไล่หลักการเดียวกันนี้ทีละขั้น พร้อมภาพหน้าจอจริงจากระบบ</h2>
+    <div class="case-box">
+      <div class="case-icon">◆</div>
+      <div>
+        <div class="case-text-label">ของจริง ไม่ใช่ตัวอย่างสมมติ</div>
+        <div class="case-text">ทุกภาพหน้าจอต่อจากนี้ มาจาก Block เดียวกันจริงๆ ในระบบ — รหัส <b>BLK-26-0013</b> วัสดุ "Rosso Levanto Test" ซื้อจริง ตัดจริง ขายจริง ผ่าน Sale Order <b>S00083</b> ไม่ใช่ข้อมูลจำลองหรือ mock-up</div>
+      </div>
+    </div>
+    <div class="flow-bar" style="margin-top:20px;">
+      <span class="flow-chip gray">ซื้อ Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ตัด (MO)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ขาย + ส่งมอบ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ออกใบแจ้งหนี้ + ตัดต้นทุนขาย</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Real - PO -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ขั้นที่ 1 — ซื้อวัตถุดิบ</div>
+    <h2 class="slide-title">กระเป๋าใบที่ 1: ซื้อ Block เข้าคลัง</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 1 / 6</div>
+        <div class="case-text">ใบสั่งซื้อจริง P00033 — ซื้อ Block "Rosso Levanto Test" จำนวน <b>8.00 CBM</b> ราคา 20,000 บาท/CBM รวม 160,000 บาท</div>
+        <div class="note-box" style="margin-top:auto;">สังเกตคอลัมน์ <b>Qty (Ton)</b> คู่กับ <b>Quantity</b> (CBM) — ทั้งสองหน่วยมีให้กรอก แต่ตัวที่ระบบใช้คำนวณราคาจริงคือ CBM (Unit Price ตั้งไว้เป็นบาท/CBM)</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-01-po-block.png')">
+          <img src="assets/d6-01-po-block.png" alt="Purchase Order P00033">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Real - MO -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ขั้นที่ 2 — ตัดแปรรูป</div>
+    <h2 class="slide-title">ย้ายจากวัตถุดิบ → สินค้าสำเร็จรูป ผ่าน Manufacturing Order</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 2 / 6</div>
+        <div class="case-text">Cut Order จริง <b>EG01/STCUT/00032</b> — ตัดแผ่นขนาด 1.5 × 1.0 ม. จาก Block เดิม ใช้ Block ไป <b>0.03 CBM</b> เท่านั้น (จาก 8 CBM ทั้งก้อน)</div>
+        <div class="note-box" style="margin-top:auto;">นี่คือจุด "ย้ายกระเป๋า" ตามที่อธิบายในสไลด์ก่อนหน้า — ต้นทุนของ 0.03 CBM นี้ย้ายจากบัญชีวัตถุดิบไปเป็นต้นทุนของแผ่นที่เพิ่งตัดเสร็จ ส่วนอีก 7.97 CBM ที่เหลือยังอยู่ในบัญชีวัตถุดิบเดิม (ดูสไลด์ถัดไป)</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-04-mo.png')">
+          <img src="assets/d6-04-mo.png" alt="Manufacturing Order EG01/STCUT/00032">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: Real - SO -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ขั้นที่ 3 — ขาย</div>
+    <h2 class="slide-title">ขายแล้ว แต่ต้นทุนยังไม่ตัด จนกว่าจะส่งมอบจริง</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 3 / 6</div>
+        <div class="case-text">Sale Order จริง <b>S00083</b> ขายแผ่นที่เพิ่งตัดเสร็จ ราคา 6,750 บาท (พร้อมสินค้าอีกชิ้น "Vietnam Limestone" รวมยอด 7,704 บาท)</div>
+        <div class="note-box" style="margin-top:auto;">ตอนนี้ยืนยันการขายแล้ว (Delivered = 1.00) แต่ตามหลักการ "2 กระเป๋า" ต้นทุนยังไม่ถูกย้ายไปกระเป๋าต้นทุนขายจนกว่าการส่งมอบจะเสร็จสมบูรณ์จริง — ดูขั้นถัดไป</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-03-so.png')">
+          <img src="assets/d6-03-so.png" alt="Sale Order S00083">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Real - Delivery -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ขั้นที่ 4 — ส่งมอบ (จุดตัดต้นทุนขายจริง)</div>
+    <h2 class="slide-title">พอส่งมอบเสร็จ ตรงนี้แหละคือจุด "ย้ายกระเป๋า" จริง</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 4 / 6</div>
+        <div class="case-text">ใบส่งของจริง <b>EG01/OUT/00041</b> สถานะ Done — อ้างอิงกลับไปที่ S00083 ต้นทาง EG01/Stock</div>
+        <div class="note-box" style="margin-top:auto;">ระบบ Odoo ที่เราใช้จะสร้างรายการบัญชี (Journal Entry) อัตโนมัติ ณ จุดนี้พอดี — ตัดต้นทุนออกจากบัญชีสินค้าคงเหลือ ย้ายเข้าบัญชีต้นทุนขาย ตรงตามหลักการที่อธิบายไปตั้งแต่ต้น ไม่มีขั้นตอนพิเศษเพิ่มเติม</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-05-delivery.png')">
+          <img src="assets/d6-05-delivery.png" alt="Delivery EG01/OUT/00041">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: Real - Invoice -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ขั้นที่ 5 — ออกใบแจ้งหนี้</div>
+    <h2 class="slide-title">แต่ละบรรทัดผูก Analytic Tag ไว้ตั้งแต่ต้น</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 5 / 6</div>
+        <div class="case-text">ใบแจ้งหนี้จริง <b>INV/2026/00008</b> — สังเกตคอลัมน์ Analytic ทางขวาของแต่ละบรรทัด ผูกกับโปรเจกต์ลูกค้ารายนี้โดยอัตโนมัติ</div>
+        <div class="note-box" style="margin-top:auto;">การผูก Analytic ต่อบรรทัดแบบนี้ คือกลไกที่ทำให้แยกดูกำไร/ต้นทุนเป็นรายโปรเจกต์ได้ — เห็นผลจริงในสไลด์ถัดไป</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-06-invoice.png')">
+          <img src="assets/d6-06-invoice.png" alt="Invoice INV/2026/00008">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Real - Analytic Items (labor separated) -->
+  <section class="slide" id="slide-10">
+    <div class="eyebrow">ขั้นที่ 6 — ค่าแรงตัด แยกออกจากต้นทุนวัตถุดิบ</div>
+    <h2 class="slide-title">ต้นทุนวัตถุดิบ กับ ค่าแรงตัด เป็นคนละบรรทัดชัดเจน</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="step-pill">ขั้นตอนที่ 6 / 6</div>
+        <div class="case-text">Analytic Items ของโปรเจกต์นี้ทั้งหมด — เห็น <b>"Stone Material Cost — S00083" -600</b> กับ <b>"Stone Cutting Labor — EG01/STCUT/00032" -500</b> เป็น 2 บรรทัดแยกกันชัดเจน ไม่ปนกัน</div>
+        <div class="note-box" style="margin-top:auto;">ตรงตามที่อธิบายไปก่อนหน้า — ค่าแรงเป็นค่าประมาณ (ยังไม่เคยจับเวลาทำงานจริง) จึงถูกกันไม่ให้ปนกับต้นทุนวัตถุดิบจริงในมูลค่าสินค้าคงคลัง แต่ยังโชว์แยกไว้ที่นี่เพื่อดูกำไรโครงการได้ครบ</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-10-analytic-items.png')">
+          <img src="assets/d6-10-analytic-items.png" alt="Analytic Items breakdown">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Real - CBM as base unit (kanban card) -->
+  <section class="slide" id="slide-11">
+    <div class="eyebrow">จุดต่าง #1 — หน่วยตั้งต้นของต้นทุน</div>
+    <h2 class="slide-title">CBM คือหน่วยตั้งต้น ส่วนตันเป็นแค่ตัวเลขคำนวณย้อนกลับ</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">การ์ดสรุปของ Block เดียวกันนี้ ในหน้ารายการ Blocks — แสดงทั้ง <b>7.97 CBM</b> และ <b>21.52 Ton remaining</b> พร้อมกัน</div>
+        <div class="note-box" style="margin-top:auto;">ก้อนหินจริงมีรูปทรงไม่สม่ำเสมอ ชั่งน้ำหนักแล้วต้องเดาผ่านค่าความหนาแน่นเฉลี่ยถึงจะรู้ปริมาตร — ระบบเราจึงใช้ CBM (ปริมาตรจริงจาก PO) เป็นหน่วยตั้งต้นของต้นทุนโดยตรง ส่วนตันเป็นแค่ตัวเลขแปลงกลับไว้ดู ไม่ใช่ตัวขับเคลื่อนราคา</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-02a-blocks-list.png')">
+          <img src="assets/d6-02a-blocks-list.png" alt="Blocks list card">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Real - Bundle form full detail (CBM/Ton/thickness) -->
+  <section class="slide" id="slide-12">
+    <div class="eyebrow">รายละเอียดเต็มของ Block เดียวกัน</div>
+    <h2 class="slide-title">ทุกตัวเลขต้นทุน คำนวณจาก CBM ตรงๆ ผ่านความหนา</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">ฟอร์มเต็มของ Block BLK-26-0013 — <b>Total CBM 8.00</b>, ความหนา 0.02 ม., <b>PO Cost/CBM 20,000</b> บาท, เหลืออยู่จริง <b>Remaining CBM 7.97</b></div>
+        <div class="note-box good" style="margin-top:auto;"><b>ปริมาตร = พื้นที่ × ความหนา</b> — ต้นทุนต่อตารางเมตรจึงคำนวณจาก PO Cost/CBM คูณความหนาตรงๆ ไม่ต้องผ่านการเดาความหนาแน่นเลย</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-02b-bundle-form.png')">
+          <img src="assets/d6-02b-bundle-form.png" alt="Bundle form detail">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: Leftover block - no by-product allocation needed (dark) -->
+  <section class="slide dark" id="slide-13">
+    <div class="eyebrow">จุดต่าง #2 — ก้อนหินที่เหลือจากการตัด</div>
+    <h2 class="slide-title" style="color:#fff;">ไม่ต้องปันส่วนต้นทุนแยกเป็นสินค้าใหม่</h2>
+    <div class="two-col">
+      <div class="col-left">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">เทคนิคทั่วไปที่รู้จักกัน</div>
+          <div style="font-size:16.5px;line-height:1.6;">ถ้าตัดแล้วได้สินค้า 2 ชนิด (เช่น แผ่น + เศษก้อนที่ขายแยกได้) หลักบัญชีจะปันส่วนต้นทุนตามสัดส่วนมูลค่าขายของแต่ละชนิด — เทคนิคที่ถูกต้องและมีประโยชน์จริงในกรณีนั้น</div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:18px;">
+          <div style="font-weight:700;color:#D9A465;margin-bottom:8px;">Block เดียวกันนี้ พิสูจน์ว่าไม่ต้อง</div>
+          <div style="font-size:16.5px;line-height:1.6;">จากสไลด์ก่อนหน้า — Block นี้มี 8.00 CBM ใช้ตัดไปแค่ 0.03 CBM ที่เหลืออีก <b>7.97 CBM คืนกลับเข้าคลังเป็น Block เดิม ชนิดเดิม</b> เฉยๆ ไม่ได้ถูกแยกเป็นสินค้าใหม่ที่ต้องปันส่วนมูลค่าใดๆ</div>
+        </div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:18px;">เก็บเทคนิคปันส่วนตามมูลค่าขายไว้เป็นเครื่องมือสำรอง — ถ้าในอนาคตมีกรณีขายเศษ/ก้อนเล็กแยกเป็นสินค้าจริง ค่อยนำมาสร้างกลไกนี้เพิ่ม ไม่จำเป็นต้องสร้างไว้ล่วงหน้าตอนยังไม่มี use case จริง</div>
+  </section>
+
+  <!-- SLIDE 14: What to improve - yield/wastage factor -->
+  <section class="slide" id="slide-14">
+    <div class="eyebrow">สิ่งที่ควรปรับเพิ่ม</div>
+    <h2 class="slide-title">ยังไม่มี "ตัวคูณสูญเสียจากการตัด" (Yield / Wastage Factor)</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">เปิดหน้าต่างสร้าง Cut Order ใหม่บน Block เดียวกันนี้ (7.97 CBM เหลือ) กำหนดขนาดเป้าหมาย 3.00 × 1.60 ม. — ระบบประมาณ <b>"Est. Slabs" ให้ 83.02 แผ่น</b></div>
+        <div class="note-box bad" style="margin-top:auto;"><b>ปัญหา:</b> 83.02 คำนวณจาก ปริมาตรที่มี ÷ ปริมาตรต่อแผ่น แบบทฤษฎี 100% ยังไม่หักความหนาใบเลื่อย (kerf) หรือการเจียหน้าออกเลย — ตัวเลขจริงหลังตัดจะได้น้อยกว่านี้เสมอ</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d6-09-cut-wizard.png')">
+          <img src="assets/d6-09-cut-wizard.png" alt="Cut Order wizard estimate">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+    <div class="note-box good"><b>ข้อเสนอ:</b> เพิ่มเปอร์เซ็นต์ยอมรับการสูญเสีย (ตามชนิดหิน/ความหนา) เข้าไปในขั้นตอนประมาณการนี้ เพื่อให้ตัวเลขที่พนักงานเห็นก่อนตัดใกล้เคียงจำนวนแผ่นที่ได้จริงมากขึ้น — ไม่กระทบต้นทุนที่บันทึกจริงหลังตัดเสร็จ ซึ่งถูกต้องอยู่แล้ว (คำนวณจาก CBM ที่ใช้จริง ไม่ใช่ตัวเลขประมาณการนี้)</div>
+  </section>
+
+  <!-- SLIDE 15: Appendix divider -->
+  <section class="slide appendix" id="slide-15">
+    <div class="appendix-divider">
+      <div class="a-eyebrow">ภาคผนวก</div>
+      <div class="a-title">หลักฐานจากโค้ดจริง<br>สำหรับทีม</div>
+      <div class="a-sub">อ้างอิงตรงจากไฟล์จริงในโมดูล stone_slab_inventory (EE branch) — ไม่จำเป็นต้องนำเสนอให้ลูกค้าดูในรอบปกติ</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 16: Code evidence table -->
+  <section class="slide appendix" id="slide-16">
+    <div class="eyebrow">อ้างอิงไฟล์จริง</div>
+    <h2 class="slide-title" style="font-size:24px;">แต่ละจุดที่พูดถึง เห็นได้จากไฟล์เหล่านี้</h2>
+    <table class="step-table">
+      <tr><th style="width:140px;">เรื่อง</th><th>ไฟล์</th><th>สิ่งที่เกิดขึ้นจริงในโค้ด</th></tr>
+      <tr>
+        <td>ค่าแรงถูกแยกออก</td>
+        <td><code>mrp_production.py</code></td>
+        <td><code>_cal_price()</code> override strip ค่าแรง workcenter ออกจากมูลค่า Slab ที่โพสต์ลง GL เหลือแค่ material cost จาก consumed moves — ค่าแรงไปโพสต์แยกผ่าน <code>_post_stone_labor_cost()</code> (Analytic/Accrued Expense) แทน</td>
+      </tr>
+      <tr>
+        <td>CBM เป็นหน่วยตั้งต้น</td>
+        <td><code>stone_bundle.py</code></td>
+        <td><code>_compute_po_cost_sqmt()</code>: <code>po_cost_sqmt = po_cost_cbm × thickness_m</code> — แปลงตรงจากปริมาตร ไม่ผ่านน้ำหนัก/density เลย</td>
+      </tr>
+      <tr>
+        <td>ก้อนเหลือคืนเป็น Block เดิม</td>
+        <td><code>mrp_production.py</code></td>
+        <td><code>_stone_return_leftover_block()</code> คืน CBM ที่เหลือกลับเข้า Stone Available location ด้วย product/lot เดิม ไม่สร้างสินค้าใหม่</td>
+      </tr>
+      <tr>
+        <td>Yield factor ยังไม่มี</td>
+        <td><code>stone_cut_order_wizard.py</code></td>
+        <td>comment บรรทัด 46 ระบุตรงๆ: "Rough estimate only — remaining CBM ÷ target size — does not account for saw blade kerf loss"</td>
+      </tr>
+    </table>
+    <div class="footer-tag">EMG-O Design Discussion · Stone Costing Explainer</div>
+  </section>
+
+</div></div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 17</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+
+  function openLightbox(src){
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('show');
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('show');
+  }
+</script>
+</body>
+</html>
