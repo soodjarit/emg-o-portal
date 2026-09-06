@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: E2E Flow (Mode 1)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#E1"><span class="tree-doc-tag">E1</span>ซื้อ (Purchase)</a></li><li class="tree-doc"><a href="#E2"><span class="tree-doc-tag">E2</span>ขาย (Sale — Mode 1)</a></li><li class="tree-doc"><a href="#E3"><span class="tree-doc-tag">E3</span>ผลิต (Production)</a></li><li class="tree-doc"><a href="#E4"><span class="tree-doc-tag">E4</span>จัดส่ง (Delivery)</a></li><li class="tree-doc"><a href="#E5"><span class="tree-doc-tag">E5</span>บัญชี (Accounting)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: E2E Flow — Mode 1 (Block Direct Sale)</h1>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ต้นจนจบ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error — เดินตามได้เองแม้ไม่ใช่ technical user ทุกตัวเลข "ตัวอย่างจริง" ในเอกสารนี้มาจากการรันจริง 1 รอบบน mbx-ee-dev (2026-09-06) ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">9</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">4</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้ทดสอบจริง:</b> PO P00039 (ซื้อ Block 8.5 m&sup3; ราคา 18,000/m&sup3;) &rarr; Block BLK-26-0016 &rarr; Vendor Bill BILL/2026/09/0001 &rarr; SO S00085 (ขาย Mode 1 ให้ "ทดสอบ E2E - Test Customer") &rarr; Delivery EG01/OUT/00043 &rarr; Invoice INV/2026/00009 (227,375 รวม VAT) — เก็บไว้เป็นข้อมูลอ้างอิงจริงบน mbx-ee-dev ไม่ได้ทำบน eg-tst<br><br>
+    <b>⚠️ พบระหว่างการทดสอบจริง:</b> ต้นทุนขาย (COGS) ดูเหมือนจะถูกบันทึกซ้ำ 2 รอบ — ครั้งหนึ่งแนบมากับใบแจ้งหนี้เอง (บัญชี 511110) อีกครั้งเป็น Journal Entry แยกจากใบส่งของ (บัญชี 511100) มูลค่าเท่ากันเป๊ะ เช็คย้อนกลับไปที่ข้อมูลเก่าของ session ก่อนหน้าก็เจอรูปแบบเดียวกัน (ไม่ใช่บั๊กใหม่ที่เพิ่งเกิด) รายละเอียดอยู่ที่ TC-E2E-M1-12 — ยังไม่ควรถือว่าปิดจนกว่าทีม dev ยืนยัน
+  </div>
+
+  <div class="category" id="E1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E1. ซื้อ (Purchase)</div>
+        <div class="category-sub">ซื้อ Block หินก้อนใหม่เข้าสต๊อก · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-01</span></td>
+          <td class="col-scenario">สร้างใบสั่งซื้อ (PO) ซื้อ Block</td>
+          <td class="col-pre">มี Vendor อยู่แล้วในระบบ (หรือสร้างใหม่ได้)</td>
+          <td class="col-steps"><ol><li>เปิด Purchase &gt; Orders &gt; New</li><li>เลือก Vendor</li><li>เพิ่มบรรทัด เลือกสินค้า Block ของวัสดุที่ต้องการ (เช่น "Bianco Sardo Granite - Block")</li><li>กรอกจำนวน (หน่วยเป็น m&sup3;) และราคาต่อหน่วย</li><li>กด Confirm Order</li></ol></td>
+          <td class="col-sample">Vendor = "ทดสอบ E2E - Test Quarry Vendor"<br>สินค้า = Bianco Sardo Granite - Block<br>จำนวน = 8.5 m&sup3;<br>ราคา/หน่วย = 18,000</td>
+          <td class="col-expected">PO ยืนยันสำเร็จ (state = Purchase Order) ยอดรวมคำนวณถูกต้อง (จำนวน &times; ราคา + VAT) — ตัวอย่างจริงที่ทดสอบ: P00039 ยอดรวม 163,710</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-02</span></td>
+          <td class="col-scenario">สร้าง Block (Bundle) ผูกกับ PO — ขั้นตอนนี้คือการรับสต๊อกจริง<div class="note">หมายเหตุ: ไม่มีขั้นตอน "Validate Receipt" แยกต่างหาก — การกด Save ที่นี่คือการรับของเข้าคลังเลย ใบรับสินค้า (Receipt) ที่ระบบสร้างให้อัตโนมัติจาก PO จะถูกยกเลิกให้เองเบื้องหลัง (กันสต๊อกซ้ำ) ไม่ต้องไปกดอะไรกับมัน</div></td>
+          <td class="col-pre">ทำ TC-E2E-M1-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Blocks &gt; New</li><li>เลือก Material (ต้องตรงกับสินค้าใน PO)</li><li>เลือก Warehouse</li><li>ที่ช่อง Purchase Order Line เลือก PO Line ที่เพิ่งสร้าง</li><li>กรอก Total CBM (ตรงกับจำนวนใน PO) และ Thickness (M)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Material = Bianco Sardo Granite<br>Purchase Order Line = P00039 (บรรทัด Block)<br>Total CBM = 8.5<br>Thickness (M) = 0.02</td>
+          <td class="col-expected">บันทึกสำเร็จ ได้เลขก้อนอัตโนมัติ (เช่น BLK-26-0016) ช่อง "PO Cost / CBM" ขึ้นราคาต่อหน่วยจาก PO ให้เอง (18,000) — เปิด Inventory &gt; Blocks/Stone Available ดูจะเห็นสต๊อกก้อนนี้เข้ามาแล้วเท่ากับ Total CBM ที่กรอก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-03</span></td>
+          <td class="col-scenario">สร้างและยืนยันบิลผู้ขาย (Vendor Bill)</td>
+          <td class="col-pre">ทำ TC-E2E-M1-01 เสร็จแล้ว (PO อยู่สถานะ Purchase Order)</td>
+          <td class="col-steps"><ol><li>เปิด PO ที่สร้างไว้</li><li>กดปุ่ม "Create Bill"</li><li>ตรวจยอด/วันที่บิล</li><li>กด Confirm (ยืนยันบิล)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บิลสถานะ Posted ยอดตรงกับ PO (ตัวอย่างจริง: BILL/2026/09/0001, 163,710)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E2. ขาย (Sale — Mode 1)</div>
+        <div class="category-sub">ขายทั้งก้อนตาม CBM (ADR-019) · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-04</span></td>
+          <td class="col-scenario">สร้าง Sale Order ให้ลูกค้า</td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้า Block ของวัสดุเดียวกับที่ซื้อไว้ (TC-E2E-M1-02)</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = Bianco Sardo Granite - Block</td>
+          <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Sell Whole Block" ปรากฏบนบรรทัดนั้น</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-05</span></td>
+          <td class="col-scenario">กด "Sell Whole Block" เลือกก้อนที่ซื้อมา</td>
+          <td class="col-pre">ทำ TC-E2E-M1-04 เสร็จแล้ว, มี Block สถานะ Available จาก TC-E2E-M1-02</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Sell Whole Block" บนบรรทัด</li><li>หน้าต่าง "Select Block" เลือก Block ที่ซื้อไว้ (เช่น BLK-26-0016)</li><li>กด "Confirm Selection"</li></ol></td>
+          <td class="col-sample">เลือก Block = BLK-26-0016</td>
+          <td class="col-expected">บรรทัด SO ปรับจำนวนเป็น CBM ทั้งหมดของก้อนนั้นอัตโนมัติ (8.5) ราคาต่อหน่วยคำนวณจากต้นทุน/CBM ของก้อน (ตัวอย่างจริง: ราคาต่อหน่วย 25,000, ยอดรวมบรรทัด 212,500)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-06</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order</td>
+          <td class="col-pre">ทำ TC-E2E-M1-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นให้อัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00085 &rarr; EG01/OUT/00043)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E3. ผลิต (Production)</div>
+        <div class="category-sub">Mode 1 ไม่มีขั้นตอนนี้ · 0 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-N/A</span></td>
+          <td class="col-scenario">(ไม่มี Test Case ในหมวดนี้สำหรับ Mode 1)<div class="note">Mode 1 ขายทั้งก้อนโดยไม่ผ่านการตัด/ผลิตใดๆ — ลูกค้าซื้อก้อนดิบทั้งก้อนไปทั้งดุ้น ไปต่อที่การจัดส่งได้เลย ขั้นตอนผลิตจะมีใน Mode 3 (Cut-to-Order)/Mode 5 (FG Production) เท่านั้น ซึ่งจะทำเป็นชุด test case แยกต่างหาก</div></td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>-</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">-</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E4. จัดส่ง (Delivery)</div>
+        <div class="category-sub">ส่งของจริงออกจากคลัง · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-07</span></td>
+          <td class="col-scenario">เปิดใบส่งของ (Delivery Order) ที่เกิดขึ้นอัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-E2E-M1-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กดปุ่ม Delivery (smart button ด้านบน)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นใบส่งของสถานะ "Ready"/"Waiting" สินค้า 1 บรรทัด จำนวนตรงกับ SO (8.5 m&sup3;)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-08</span></td>
+          <td class="col-scenario">ยืนยันการส่งของจริง (Validate)</td>
+          <td class="col-pre">ทำ TC-E2E-M1-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Validate บนใบส่งของ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done — Block ก้อนนั้นหายจากสต๊อกที่ขายได้ (Available) แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E5. บัญชี (Accounting)</div>
+        <div class="category-sub">ออกใบแจ้งหนี้ + ตรวจรายการบัญชีของทั้งเรื่อง · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-09</span></td>
+          <td class="col-scenario">สร้างและยืนยันใบแจ้งหนี้ลูกค้า (Customer Invoice)</td>
+          <td class="col-pre">ทำ TC-E2E-M1-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice"</li><li>เลือก "Regular invoice" &gt; Create Draft Invoice</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT (ตัวอย่างจริง: INV/2026/00009, 227,375)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-10</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีฝั่งซื้อ — Vendor Bill</td>
+          <td class="col-pre">ทำ TC-E2E-M1-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Vendor Bill &gt; กด smart button "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็น 3 บรรทัด: เดบิต Inventory - Stone Blocks (ยอดสินค้าก่อน VAT), เดบิต Input VAT, เครดิต Trade Payables (ยอดรวม) — ตัวอย่างจริง: 153,000 / 10,710 / 163,710</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-11</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีฝั่งรายได้ + ต้นทุนขาย บนใบแจ้งหนี้</td>
+          <td class="col-pre">ทำ TC-E2E-M1-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Customer Invoice &gt; กด smart button "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็น 5 บรรทัดบนใบแจ้งหนี้ใบเดียว: เครดิต Sales Revenue, เครดิต Output VAT, เดบิต Trade Receivables (รวม), และคู่ COGS/Inventory ที่ระบบแนบมาด้วยอัตโนมัติ (เดบิต COGS / เครดิต Inventory) — ตัวอย่างจริง: รายได้ 212,500 / VAT 14,875 / ลูกหนี้ 227,375 / COGS-Inventory คู่ละ 153,000.08</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-12</span></td>
+          <td class="col-scenario">ตรวจว่าต้นทุนขาย (COGS) ถูกบันทึกซ้ำหรือไม่ — known issue<div class="note">⚠️ พบจริงจากการทดสอบ (2026-09-06): เปิด Journal Entry ที่แยกต่างหากจากใบส่งของ (ชื่อขึ้นต้น STJ) จะเห็นคู่ COGS/Inventory อีกชุดหนึ่ง มูลค่าเท่ากันเป๊ะกับที่เห็นในใบแจ้งหนี้ (TC-E2E-M1-11) แต่ใช้บัญชีคนละตัว (511100 "Cost of Goods Sold" ธรรมดา แทนที่จะเป็น 511110 "COGS - Block Direct Sale (Mode 1)") — เช็คย้อนกลับไปที่ข้อมูลอ้างอิงเก่าของ session ก่อนหน้า (INV/2026/00008) ก็เจอรูปแบบเดียวกัน แปลว่าไม่ใช่บั๊กใหม่ แต่เป็นปัญหาที่มีอยู่แล้วและไม่เคยถูกจับได้มาก่อน ต้องส่งให้ทีม dev ตรวจว่าต้นทุนขายจริงถูกนับซ้ำสองครั้งในบัญชีหรือไม่</div></td>
+          <td class="col-pre">ทำ TC-E2E-M1-08 เสร็จแล้ว (Delivery = Done)</td>
+          <td class="col-steps"><ol><li>เปิด Accounting &gt; Journal Entries</li><li>ค้นหา entry ที่มี Reference ตรงกับเลขที่ใบส่งของ (เช่น EG01/OUT/00043)</li><li>เปิดดูรายละเอียดบรรทัด</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">(พฤติกรรมที่พบจริงตอนนี้ ยังไม่ใช่ผลที่ถูกต้อง) เห็นคู่ COGS/Inventory ซ้ำอีกชุดในบัญชีคนละตัวจากข้อ 11 — ควรแจ้งทีมพัฒนาให้ตรวจสอบ ไม่ควรถือว่าผ่านการทดสอบจนกว่าจะยืนยันว่าไม่ใช่การนับซ้ำจริง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M1-13</span></td>
+          <td class="col-scenario">สรุปเทียบกำไรขั้นต้น (Gross Margin) ของรายการนี้</td>
+          <td class="col-pre">ทำ TC-E2E-M1-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>คำนวณเอง: รายได้ (ไม่รวม VAT) ลบ ต้นทุนขาย (COGS)</li><li>เทียบกับตัวเลขที่ระบบโชว์ (เช่นใน Analytic/Reporting ถ้ามี)</li></ol></td>
+          <td class="col-sample">รายได้ = 212,500<br>COGS (นับครั้งเดียว) = 153,000.08</td>
+          <td class="col-expected">กำไรขั้นต้น = 59,499.92 — ใช้ตัวเลขนี้เป็นฐานเทียบ ถ้า TC-E2E-M1-12 ยืนยันว่ามีการนับ COGS ซ้ำจริง กำไรที่ระบบสรุปในรายงานภาพรวมอาจต่ำกว่าความเป็นจริง ต้องระวังตอนอ่านรายงาน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
