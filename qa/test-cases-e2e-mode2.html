@@ -62,7 +62,7 @@
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
@@ -76,6 +76,12 @@
   .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
   .col-expected{width:250px;}
   .col-prio{width:78px;text-align:center;}
+  .col-shot{width:100px;text-align:center;}
+  .shot-thumb-link{display:inline-block;}
+  .shot-thumb{width:96px;height:72px;object-fit:cover;object-position:center 22%;border-radius:6px;border:1px solid var(--border);cursor:zoom-in;transition:transform .15s ease;}
+  .shot-thumb:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(0,0,0,.18);}
+  .no-shot{color:#C9C4BC;}
+  .shot-note{margin-top:4px;font-size:10px;color:#9A9D9F;line-height:1.4;max-width:100px;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
@@ -139,6 +145,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -150,6 +157,7 @@
           <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = Material โหมด Serial ที่มีแผ่นพร้อมขาย</td>
           <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Select Slabs" ปรากฏบนบรรทัดนั้น (ไม่ใช่ "Select Lot Stock")</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-04-so-line-select-slabs-button.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-04-so-line-select-slabs-button.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-02</span></td>
@@ -159,6 +167,7 @@
           <td class="col-sample">เลือก 2 แผ่น = BDL-00014-1, BDL-00014-2</td>
           <td class="col-expected">บรรทัด SO ผูกทั้ง 2 แผ่น จำนวนรวมเป็น Sq.Mt. ของทั้ง 2 แผ่นรวมกันอัตโนมัติ (ตัวอย่างจริง: รวม 8.32 ตร.ม.)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-06-so-slabs-confirmed-priced.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-06-so-slabs-confirmed-priced.png" loading="lazy"></a><div class="shot-note">ภาพหน้าต่างเลือกแผ่นเอง ดูได้ที่ presentations/e2e-mode2-slab.html (mode2-shot-05) — ภาพนี้คือผลลัพธ์หลังกด Confirm Selection แล้ว</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-03</span></td>
@@ -168,6 +177,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order ราคาต่อหน่วยเป็นค่าเฉลี่ยถ่วงน้ำหนักจากขนาดจริงของทุกแผ่น (ไม่ใช่ราคาคงที่ต่อแผ่น) — ตัวอย่างจริง: S108405, 8.32 ตร.ม. &times; 4,200/ตร.ม. เฉลี่ย = 34,944 (ก่อน VAT) มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-07-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-07-so-confirmed.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -191,6 +201,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -202,6 +213,7 @@
           <td class="col-sample">สินค้า = Bianco Perla Marble Slab (Material โหมด Lot)</td>
           <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Select Lot Stock" ปรากฏบนบรรทัดนั้นแทนที่จะเป็น "Select Slabs"</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/lot2-01-so-product.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/lot2-01-so-product.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-05</span></td>
@@ -211,6 +223,7 @@
           <td class="col-sample">ล็อต = BP-B-0001 (เหลือ 4.00 ตร.ม. จากทั้งล็อต 6.00 ตร.ม.)<br>Quantity to Sell (Sq.Mt.) = 1.50</td>
           <td class="col-expected">บรรทัด SO ผูก Lot ถูกต้อง จำนวน/ราคารวมปรับตาม 1.50 ตร.ม. ที่เลือกทันที ไม่มีการเลือกแผ่นเดี่ยวใดๆ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/lot2-02-wizard-qty.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/lot2-02-wizard-qty.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-06</span></td>
@@ -220,6 +233,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — ตัวอย่างจริง: S108370, 1.50 ตร.ม. &times; 1,200/ตร.ม. = 1,800 (ก่อน VAT) ส่วนที่เหลือของล็อตเดิม (2.50 ตร.ม.) ยังคงพร้อมขายต่อได้ตามปกติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/lot2-04-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/lot2-04-confirmed.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -243,6 +257,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -254,6 +269,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ระบบฟ้อง error สองภาษาทันที: "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate" พร้อมระบุชื่อ Serial ที่ยังไม่ตรง บันทึกไม่ผ่าน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-08-delivery-scan-error.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-08-delivery-scan-error.png" loading="lazy"></a><div class="shot-note">ภาพจากเส้นทาง Serial — เส้นทาง Lot มี error หน้าตาเดียวกัน ดูได้ที่ presentations/e2e-mode2-lot-stock.html (lot2-06-scan-error)</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-08</span></td>
@@ -263,6 +279,7 @@
           <td class="col-sample">Scanned Serial ของแต่ละบรรทัด = Serial/Lot เดียวกับที่ระบบจองไว้ (เช่น BDL-00014-1, BDL-00014-2 หรือ BP-B-0001)</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่น/ปริมาณที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-11-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-11-delivery-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -286,6 +303,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -297,6 +315,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง Serial: INV/2026/00017 (37,390.08); ตัวอย่างจริง Lot: INV/2026/00016 (1,926.00)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/mode2-shot-13-invoice-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/mode2-shot-13-invoice-posted.png" loading="lazy"></a><div class="shot-note">ภาพตัวอย่าง Serial — ตัวอย่าง Lot (INV/2026/00016) ดูได้ที่ presentations/e2e-mode2-lot-stock.html (lot2-11-invoice-posted)</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-10</span></td>
@@ -306,6 +325,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "Paid" (Payment Status) — ตัวอย่างจริง: INV/2026/00016 จบที่สถานะ Posted + Paid</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="../presentations/assets/lot2-13-paid-final.png" target="_blank" rel="noopener"><img class="shot-thumb" src="../presentations/assets/lot2-13-paid-final.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-11</span></td>
@@ -315,6 +335,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นเครดิต Sales Revenue, เครดิต Output VAT, เดบิต Trade Receivables (รวม) ตรงตามยอดใบแจ้งหนี้ พร้อมคู่ COGS/Inventory ที่ระบบแนบมาด้วยอัตโนมัติบนใบแจ้งหนี้ใบเดียวกัน (เดบิต COGS / เครดิต Inventory)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><span class="no-shot">—</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M2-12</span></td>
@@ -324,6 +345,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">(ยังไม่ verify) หากพฤติกรรมเหมือน Mode 1 จะเห็นคู่ COGS/Inventory ซ้ำอีกชุดในบัญชีคนละตัว — ถ้าพบจริง ให้ถือเป็น known issue เดียวกับ TC-E2E-M1-12 ไม่ใช่บั๊กใหม่ ต้องแจ้งทีม dev รวมกัน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><span class="no-shot">—</span></td>
         </tr>
       </tbody>
     </table>

@@ -62,7 +62,7 @@
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
@@ -76,6 +76,12 @@
   .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
   .col-expected{width:250px;}
   .col-prio{width:78px;text-align:center;}
+  .col-shot{width:100px;text-align:center;}
+  .shot-thumb-link{display:inline-block;}
+  .shot-thumb{width:96px;height:72px;object-fit:cover;object-position:center 22%;border-radius:6px;border:1px solid var(--border);cursor:zoom-in;transition:transform .15s ease;}
+  .shot-thumb:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(0,0,0,.18);}
+  .no-shot{color:#C9C4BC;}
+  .shot-note{margin-top:4px;font-size:10px;color:#9A9D9F;line-height:1.4;max-width:100px;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
@@ -138,6 +144,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -149,6 +156,7 @@
           <td class="col-sample">Vendor = "ทดสอบ E2E - Test Quarry Vendor"<br>สินค้า = Bianco Sardo Granite - Block<br>จำนวน = 8.5 m&sup3;<br>ราคา/หน่วย = 18,000</td>
           <td class="col-expected">PO ยืนยันสำเร็จ (state = Purchase Order) ยอดรวมคำนวณถูกต้อง (จำนวน &times; ราคา + VAT) — ตัวอย่างจริงที่ทดสอบ: P00039 ยอดรวม 163,710</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-01-po-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-01-po-confirmed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-02</span></td>
@@ -158,6 +166,7 @@
           <td class="col-sample">Material = Bianco Sardo Granite<br>Purchase Order Line = P00039 (บรรทัด Block)<br>Total CBM = 8.5<br>Thickness (M) = 0.02</td>
           <td class="col-expected">บันทึกสำเร็จ ได้เลขก้อนอัตโนมัติ (เช่น BLK-26-0016) ช่อง "PO Cost / CBM" ขึ้นราคาต่อหน่วยจาก PO ให้เอง (18,000) — เปิด Inventory &gt; Blocks/Stone Available ดูจะเห็นสต๊อกก้อนนี้เข้ามาแล้วเท่ากับ Total CBM ที่กรอก</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-02-bundle.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-02-bundle.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-03</span></td>
@@ -167,6 +176,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">บิลสถานะ Posted ยอดตรงกับ PO (ตัวอย่างจริง: BILL/2026/09/0001, 163,710)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-03-bill-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-03-bill-posted.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -190,6 +200,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -201,6 +212,7 @@
           <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = Bianco Sardo Granite - Block</td>
           <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Sell Whole Block" ปรากฏบนบรรทัดนั้น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-06-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-06-so-confirmed.png" loading="lazy"></a><div class="shot-note">ภาพจริงจากบรรทัดเดียวกันหลัง Confirm แล้ว (ปุ่ม "Sell Whole Block" ยังโชว์อยู่แม้ยืนยันแล้ว) — ไม่มีภาพแยกของสถานะ Quotation ก่อนกดปุ่ม เพราะขั้นตอนนี้ทำผ่านการันตีข้อมูลจริงครั้งเดียวจบ</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-05</span></td>
@@ -210,6 +222,7 @@
           <td class="col-sample">เลือก Block = BLK-26-0016</td>
           <td class="col-expected">บรรทัด SO ปรับจำนวนเป็น CBM ทั้งหมดของก้อนนั้นอัตโนมัติ (8.5) ราคาต่อหน่วยคำนวณจากต้นทุน/CBM ของก้อน (ตัวอย่างจริง: ราคาต่อหน่วย 25,000, ยอดรวมบรรทัด 212,500)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-06-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-06-so-confirmed.png" loading="lazy"></a><div class="shot-note">ภาพเดียวกับ TC-E2E-M1-06 (SO หลัง Confirm) — เห็นผลลัพธ์ของการเลือก Block นี้ในบรรทัด (Block/Lot = BLK-26-0016) แต่ไม่มีภาพแยกของหน้าต่าง "Select Block" ระหว่างเลือก</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-06</span></td>
@@ -219,6 +232,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นให้อัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00085 &rarr; EG01/OUT/00043)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-06-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-06-so-confirmed.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -242,6 +256,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -253,6 +268,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">-</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+          <td class="col-shot"><span class="no-shot">—</span></td>
         </tr>
       </tbody>
     </table>
@@ -276,6 +292,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -287,6 +304,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นใบส่งของสถานะ "Ready"/"Waiting" สินค้า 1 บรรทัด จำนวนตรงกับ SO (8.5 m&sup3;)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-08-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-08-delivery-done.png" loading="lazy"></a><div class="shot-note">ภาพจริงของใบส่งของนี้ แต่เป็นสถานะ Done (หลัง Validate แล้ว) เนื่องจากทดสอบจริงเดินจนจบไม่ได้ย้อนกลับมาถ่ายสถานะ Ready อีกครั้ง — จำนวน/บรรทัดสินค้าที่เห็นตรงกับที่อธิบายไว้</div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-08</span></td>
@@ -296,6 +314,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done — Block ก้อนนั้นหายจากสต๊อกที่ขายได้ (Available) แล้ว</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-08-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-08-delivery-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -319,6 +338,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -330,6 +350,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT (ตัวอย่างจริง: INV/2026/00009, 227,375)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-09-invoice-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-09-invoice-posted.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-10</span></td>
@@ -339,6 +360,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น 3 บรรทัด: เดบิต Inventory - Stone Blocks (ยอดสินค้าก่อน VAT), เดบิต Input VAT, เครดิต Trade Payables (ยอดรวม) — ตัวอย่างจริง: 153,000 / 10,710 / 163,710</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-10-bill-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-10-bill-journal-items.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-11</span></td>
@@ -348,6 +370,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น 5 บรรทัดบนใบแจ้งหนี้ใบเดียว: เครดิต Sales Revenue, เครดิต Output VAT, เดบิต Trade Receivables (รวม), และคู่ COGS/Inventory ที่ระบบแนบมาด้วยอัตโนมัติ (เดบิต COGS / เครดิต Inventory) — ตัวอย่างจริง: รายได้ 212,500 / VAT 14,875 / ลูกหนี้ 227,375 / COGS-Inventory คู่ละ 153,000.08</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-12</span></td>
@@ -357,6 +380,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">(พฤติกรรมที่พบจริงตอนนี้ ยังไม่ใช่ผลที่ถูกต้อง) เห็นคู่ COGS/Inventory ซ้ำอีกชุดในบัญชีคนละตัวจากข้อ 11 — ควรแจ้งทีมพัฒนาให้ตรวจสอบ ไม่ควรถือว่าผ่านการทดสอบจนกว่าจะยืนยันว่าไม่ใช่การนับซ้ำจริง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-12-journal-entry-stj.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-12-journal-entry-stj.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-13</span></td>
@@ -366,6 +390,7 @@
           <td class="col-sample">รายได้ = 212,500<br>COGS (นับครั้งเดียว) = 153,000.08</td>
           <td class="col-expected">กำไรขั้นต้น = 59,499.92 — ใช้ตัวเลขนี้เป็นฐานเทียบ ถ้า TC-E2E-M1-12 ยืนยันว่ามีการนับ COGS ซ้ำจริง กำไรที่ระบบสรุปในรายงานภาพรวมอาจต่ำกว่าความเป็นจริง ต้องระวังตอนอ่านรายงาน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a><div class="shot-note">ภาพเดียวกับ TC-E2E-M1-11 — ตัวเลขรายได้/COGS ที่ใช้คำนวณกำไรขั้นต้นอยู่ในภาพนี้แล้ว ไม่มีหน้าจอสรุปกำไรแยกต่างหาก</div></td>
         </tr>
       </tbody>
     </table>

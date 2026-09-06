@@ -10,6 +10,14 @@ def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
     return '<span class="prio-badge %s">%s</span>' % (cls, p)
 
+def shot_html(tc):
+    shot = tc.get('shot')
+    if not shot:
+        return '<span class="no-shot">—</span>'
+    note = tc.get('shot_note')
+    cap = ('<div class="shot-note">%s</div>' % note) if note else ''
+    return '<a class="shot-thumb-link" href="%s" target="_blank" rel="noopener"><img class="shot-thumb" src="%s" loading="lazy"></a>%s' % (shot, shot, cap)
+
 sidebar_items = []
 for c in CATEGORIES:
     tag = c['cat_id']
@@ -34,6 +42,7 @@ for c in CATEGORIES:
           <td class="col-sample">{tc['sample']}</td>
           <td class="col-expected">{tc['expected']}</td>
           <td class="col-prio">{prio_badge(tc['prio'])}</td>
+          <td class="col-shot">{shot_html(tc)}</td>
         </tr>''')
     rows_joined = '\n'.join(rows)
     category_blocks.append(f'''  <div class="category" id="{c['cat_id']}">
@@ -54,6 +63,7 @@ for c in CATEGORIES:
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
         </tr>
       </thead>
       <tbody>
@@ -127,7 +137,7 @@ PAGE = '''<!doctype html>
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1160px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
@@ -141,6 +151,12 @@ PAGE = '''<!doctype html>
   .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
   .col-expected{width:250px;}
   .col-prio{width:78px;text-align:center;}
+  .col-shot{width:100px;text-align:center;}
+  .shot-thumb-link{display:inline-block;}
+  .shot-thumb{width:96px;height:72px;object-fit:cover;object-position:center 22%;border-radius:6px;border:1px solid var(--border);cursor:zoom-in;transition:transform .15s ease;}
+  .shot-thumb:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(0,0,0,.18);}
+  .no-shot{color:#C9C4BC;}
+  .shot-note{margin-top:4px;font-size:10px;color:#9A9D9F;line-height:1.4;max-width:100px;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
