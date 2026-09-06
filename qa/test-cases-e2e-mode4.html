@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: E2E Flow (Mode 4)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode4.xlsx" download="EMG-O Test Cases - E2E Mode 4.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#F1"><span class="tree-doc-tag">F1</span>ตั้งต้นจาก BOQ — เข้าสู่โหมด Sold as Project</a></li><li class="tree-doc"><a href="#F2"><span class="tree-doc-tag">F2</span>เตรียมสต็อกหิน + ยืนยันคำสั่งขาย</a></li><li class="tree-doc"><a href="#F3"><span class="tree-doc-tag">F3</span>เรียกเก็บเงินแบบ Down Payment 30/40/30</a></li><li class="tree-doc"><a href="#F4"><span class="tree-doc-tag">F4</span>ส่งมอบสินค้าจริง</a></li><li class="tree-doc"><a href="#F5"><span class="tree-doc-tag">F5</span>ติดตามงานผ่าน Task และ Milestone</a></li><li class="tree-doc"><a href="#F6"><span class="tree-doc-tag">F6</span>ตรวจสอบบัญชี — Project P&amp;L และ Journal Items</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: E2E Flow — Mode 4 (Sold-as-Project)</h1>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ตั้งต้นจากเอกสาร BOQ ติ๊ก "Sold as Project" ยืนยันคำสั่งขายให้ระบบสร้าง Project + Task ให้อัตโนมัติ เรียกเก็บเงินแบบมัดจำ 3 งวด (30/40/30) ส่งมอบสินค้าจริง ปิดงานให้ Milestone ขึ้นสำเร็จ จนถึงตรวจสอบกำไรขาดทุนของโปรเจกต์และรายการบัญชี — ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป เดินตามได้เองแม้ไม่ใช่ technical user ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงที่ทำขึ้นเฉพาะสำหรับเอกสารนี้ ไม่ใช่ตัวเลขสมมติ — รวมถึง 3 ปัญหาจริงที่พบระหว่างทางซึ่งยังไม่ได้แก้ไข (ดูกล่องสีเหลืองใน TC-03 และ TC-09)</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>6</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">8</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">4</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">1</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้อ้างอิง:</b> BOQ0023 (ลูกค้า "ทดสอบ Mode 4 - Boutique Villa") &rarr; Generate Quotation &rarr; SO S00102 (ติ๊ก Sold as Project) &rarr; Select Lot Stock (Vietnam Limestone Lot BLK-26-0004, 0.5 ตร.ม.) &rarr; Confirm &rarr; Project 38 + 4 Tasks สร้างอัตโนมัติ &rarr; Down Payment 3 งวด INV/2026/00012 (282.48, 30%) + 00013 (376.64, 40%) + 00014 (282.48, 30%) รวม 941.60 บาท &rarr; Delivery EG01/OUT/00059 (Done) &rarr; Task จริง 2 งาน Mark Done &rarr; Milestone "ปูพื้นหินเสร็จสมบูรณ์" Reached &rarr; Project Dashboard: Total Revenues 880 = Invoiced 880 บาท — <b>เดินสดผ่านหน้าจอ Odoo จริงทุกขั้นตอน</b> (Playwright ไม่ใช่ผ่าน <code>odoo shell</code>) บน <code>mbx-ee-dev</code> เฉพาะสำหรับเอกสารนี้ 2026-09-06 ทุกภาพประกอบด้านล่างคือภาพหน้าจอจริงจากการรันนี้ ไม่ใช่ภาพจำลอง<br><br>
+    <b>🔴 พบ 3 ปัญหาจริงยังไม่ได้แก้:</b> ทั้งหมดอยู่ในเส้นทางสินค้าโหมด Lot (ไม่เฉพาะ Mode 4) — (1) เส้นทางส่งของดึงสต็อกจากจุดพัก "Stone Hold" ที่โหมด Lot ไม่เคยย้ายของเข้าจริง ทำให้ยอดติดลบเพิ่มขึ้นทุกครั้งที่ส่งของ (2) ผลจากข้อ 1 ทำให้ตัวเลข "สต็อกคงเหลือ" ที่ระบบโชว์ต่ำกว่าของจริงมาก (3) ราคาที่ BOQ ตั้งไว้ถูกเขียนทับด้วยราคาป้ายสินค้าปกติหลังเลือกสต็อก Lot โดยไม่มีคำเตือน — ดูรายละเอียดที่ TC-03 และ TC-09
+  </div>
+
+  <div class="category" id="F1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F1. ตั้งต้นจาก BOQ — เข้าสู่โหมด Sold as Project</div>
+        <div class="category-sub">ADR-021 — เริ่มจากใบประมาณราคา (BOQ) ไม่ใช่พิมพ์ Sale Order เปล่าๆ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-01</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคาจากเอกสาร BOQ ("Generate Quotation")</td>
+          <td class="col-pre">มีเอกสาร BOQ ที่กรอกรายการและราคาเรียบร้อยแล้ว (สถานะ Draft)</td>
+          <td class="col-steps"><ol><li>เปิดเอกสาร BOQ</li><li>ตรวจรายการ + % Preliminaries/Overhead ให้ครบ</li><li>กดปุ่ม "สร้างใบเสนอราคา" (สีม่วง มุมซ้ายบน)</li></ol></td>
+          <td class="col-sample">BOQ0023 — ลูกค้า "ทดสอบ Mode 4 - Boutique Villa"<br>2 รายการ: Vietnam Limestone - Slab 0.5 ตร.ม. + Dry-Lay 1.5 ตร.ม.<br>Preliminaries 5% + Overhead &amp; Profit 10%</td>
+          <td class="col-expected">สถานะ BOQ เปลี่ยนเป็น "Quotation Generated" เกิด Sale Order ใหม่ 1 ใบอัตโนมัติ ดึงทุกรายการ + ค่า Preliminaries/Overhead มาเป็นบรรทัดในใบเสนอราคาให้ครบ — ตัวอย่างจริง: BOQ0023 (รวม 1,380.00 บาท ก่อน VAT) &rarr; SO S00102</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc01-boq-document.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc01-boq-document.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-02</span></td>
+          <td class="col-scenario">ติ๊กกล่อง "Sold as Project" บนใบเสนอราคา</td>
+          <td class="col-pre">ทำ TC-E2E-M4-01 เสร็จแล้ว (มี SO ที่ยังไม่ Confirm)</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order ที่เพิ่งสร้าง</li><li>ไปแท็บ "Other Info"</li><li>ติ๊กกล่อง "Sold as Project" ในกลุ่ม INVOICING</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">กล่อง "Sold as Project" ติ๊กเรียบร้อย (ยังไม่ต้องกด Confirm ตอนนี้) — เมื่อ Confirm ในขั้นถัดไป ระบบจะสร้าง Project ให้อัตโนมัติจากช่องนี้</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc02-is-project-sale.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc02-is-project-sale.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F2. เตรียมสต็อกหิน + ยืนยันคำสั่งขาย</div>
+        <div class="category-sub">เลือกสต็อกจริงให้บรรทัดหิน แล้วยืนยัน SO ให้ระบบสร้าง Project+Task ให้อัตโนมัติ · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-03</span></td>
+          <td class="col-scenario">เลือกสต็อกจริงให้บรรทัดสินค้าหิน ("Select Lot Stock")<div class="note">🔴 พบปัญหาจริง (ยังไม่แก้): (1) ช่องแสดงสต็อกคงเหลือของ Lot นี้ขึ้นแค่ 0.54 ตร.ม. ทั้งที่ของจริงมี 2.34 ตร.ม. อยู่หน้าคลัง (2) หลังกดยืนยันจำนวนแล้ว ราคาต่อหน่วยของบรรทัดจะเปลี่ยนจากราคาที่ BOQ ตั้งไว้ (900 บาท) เป็นราคาป้ายสินค้าปกติคูณจำนวนใหม่ (400 บาท) โดยไม่มีคำเตือนใดๆ — เป็นบั๊กจริงของระบบ ไม่ใช่ขั้นตอนที่ตั้งใจให้เป็นแบบนี้ ผู้ใช้ควรตรวจราคาทุกครั้งหลังทำขั้นนี้</div></td>
+          <td class="col-pre">ทำ TC-E2E-M4-02 เสร็จแล้ว บรรทัดสินค้าหินยังไม่ได้ผูกกับสต็อกจริง</td>
+          <td class="col-steps"><ol><li>ที่บรรทัดสินค้าหิน กดลิงก์ "Select Lot Stock"</li><li>เลือก Lot ของ Material นั้น</li><li>กรอกจำนวนตร.ม.ที่จะขายจริง (ดูได้จากคำอธิบายท้ายชื่อสินค้าในบรรทัด)</li><li>กดยืนยัน</li></ol></td>
+          <td class="col-sample">Lot = BLK-26-0004<br>จำนวน = 0.5 ตร.ม.</td>
+          <td class="col-expected">บรรทัดผูกกับ Lot ที่เลือกสำเร็จ จำนวนเปลี่ยนเป็น 0.5 ตร.ม. ตามที่กรอก — ตัวอย่างจริง: ราคาต่อหน่วยเปลี่ยนจาก 900.00 เป็น 800.00×0.5 = 400.00 บาท (ดูหมายเหตุด้านซ้าย)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc03-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc03-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-04</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order — ระบบสร้าง Project ให้อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-E2E-M4-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น "Sales Order" เกิดปุ่ม/สถิติใหม่มุมบน: "Projects 1", "Tasks", "Delivery 1", "Invoices" — ไม่ต้องสร้าง Project เองแยกต่างหาก — ตัวอย่างจริง: S00102 (ยอดรวมหลังปรับราคาจาก TC-03 = 941.60 บาท รวม VAT) &rarr; Project id 38</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc02-is-project-sale.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc02-is-project-sale.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-05</span></td>
+          <td class="col-scenario">ตรวจสอบ Task ที่ระบบสร้างให้อัตโนมัติใน Project<div class="note">หมายเหตุ: แต่ละบรรทัดใน SO (รวมถึงบรรทัด Preliminaries/Overhead &amp; Profit ที่เป็นแค่ตัวเลขสรุป ไม่ใช่งานจริง) จะได้ Task ของตัวเอง 1 งานเสมอ — เป็นพฤติกรรมที่ทราบอยู่แล้ว (ยังไม่กรองออก) ไม่ใช่ error หากเห็น Task ชื่อ "BOQ Summary Line Preliminaries/Overhead &amp; Profit" ปนอยู่กับงานจริง</div></td>
+          <td class="col-pre">ทำ TC-E2E-M4-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่มสถิติ "Tasks" บน Sale Order (หรือเปิด Project แล้วดู Tasks)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็น Task ครบ 1 งานต่อ 1 บรรทัดสินค้า/บริการ — ตัวอย่างจริง: 4 Tasks ("Vietnam Limestone - Slab...", "Dry-Lay", "BOQ Summary Line Preliminaries (5%)", "BOQ Summary Line Overhead &amp; Profit (10%)")</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc04-tasks-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc04-tasks-created.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F3. เรียกเก็บเงินแบบ Down Payment 30/40/30</div>
+        <div class="category-sub">ออกใบแจ้งหนี้มัดจำ 3 งวดด้วยมือ (ไม่ใช่ระบบตัดให้อัตโนมัติ) · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-06</span></td>
+          <td class="col-scenario">สร้างใบแจ้งหนี้มัดจำงวดที่ 1 (Down Payment 30%)</td>
+          <td class="col-pre">ทำ TC-E2E-M4-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice"</li><li>เลือก "Down payment (Percentage)" &gt; กรอก 30</li><li>กด "Create Draft Invoice"</li><li>เปิดใบแจ้งหนี้ที่เกิดขึ้น &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">Down Payment = 30%</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอด 30% ของยอดรวม SO — ตัวอย่างจริง: INV/2026/00012 (282.48 บาท จาก 941.60 &times; 30%)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc05-dp1-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc05-dp1-30pct.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-07</span></td>
+          <td class="col-scenario">สร้างใบแจ้งหนี้มัดจำงวดที่ 2 (Down Payment 40%)</td>
+          <td class="col-pre">ทำ TC-E2E-M4-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice" อีกครั้ง</li><li>เลือก "Down payment (Percentage)" &gt; กรอก 40</li><li>กด "Create Draft Invoice"</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">Down Payment = 40%</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอด 40% ของยอดรวม SO — ตัวอย่างจริง: INV/2026/00013 (376.64 บาท จาก 941.60 &times; 40%)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc06-dp2-40pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc06-dp2-40pct.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-08</span></td>
+          <td class="col-scenario">สร้างใบแจ้งหนี้มัดจำงวดสุดท้าย (Down Payment 30% ปิดยอด)</td>
+          <td class="col-pre">ทำ TC-E2E-M4-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice" อีกครั้ง</li><li>เลือก "Down payment (Percentage)" &gt; กรอก 30</li><li>กด "Create Draft Invoice"</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">Down Payment = 30%</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดงวดสุดท้าย รวม 3 ใบแล้วเท่ากับยอด SO เป๊ะ — ตัวอย่างจริง: INV/2026/00014 (282.48 บาท) รวม 3 ใบ = 282.48 + 376.64 + 282.48 = 941.60 บาท ตรงกับยอด SO พอดี</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc07-dp3-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc07-dp3-30pct.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F4. ส่งมอบสินค้าจริง</div>
+        <div class="category-sub">บรรทัดสินค้าหินยังต้องเดินตามขั้นตอนส่งมอบปกติของโหมดนั้นๆ (ที่นี่คือ Mode 2 Lot) · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-09</span></td>
+          <td class="col-scenario">ส่งมอบสินค้า (Delivery) ให้ลูกค้า<div class="note">🔴 พบปัญหาจริง (ยังไม่แก้): ระบบดึงสต็อกจากจุดพัก "Stone Hold" เสมอสำหรับสินค้าโหมด Lot ทั้งที่โหมดนี้ไม่เคยมีขั้นตอนย้ายของจริงไปที่จุดพักนั้นเลย (ต่างจาก Serial/Cut-to-Order) ผลคือยอดคงเหลือที่จุดพักนั้นติดลบเพิ่มขึ้นเรื่อยๆ ทุกครั้งที่ส่งของ (จาก -1.8 เป็น -2.3 ตร.ม.ในรอบนี้) แม้ของจริงจะยังอยู่ครบที่หน้าคลัง — ใบส่งของยังคง Validate ผ่านได้ตามปกติ ไม่กระทบขั้นตอนที่ผู้ใช้เห็น</div></td>
+          <td class="col-pre">ทำ TC-E2E-M4-08 เสร็จแล้ว มีใบส่งของอัตโนมัติรออยู่ตั้งแต่ตอน Confirm</td>
+          <td class="col-steps"><ol><li>เปิด Inventory &gt; Deliveries</li><li>เปิดใบส่งของของ SO นี้</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done — ตัวอย่างจริง: EG01/OUT/00059 (Vietnam Limestone - Slab 0.5 ตร.ม.)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc08-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc08-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F5. ติดตามงานผ่าน Task และ Milestone</div>
+        <div class="category-sub">ปิดงานจริง ระบบขึ้น Milestone ให้อัตโนมัติ + ดู Gantt Chart ของทั้งโปรเจกต์ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-10</span></td>
+          <td class="col-scenario">ทำ Task งานจริงให้เสร็จ (Mark as Done) — Milestone ขึ้นสถานะสำเร็จให้อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-E2E-M4-09 เสร็จแล้ว มี Task ที่ตั้ง Milestone ไว้ล่วงหน้าตอนสร้าง BOQ (บรรทัด Dry-Lay)</td>
+          <td class="col-steps"><ol><li>เปิด Task "Dry-Lay"</li><li>เลื่อนสถานะ Task ไปช่อง/สถานะ Done</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Task ขึ้นเครื่องหมายเสร็จ และ Milestone ที่ผูกกับ Task นั้นเปลี่ยนเป็น "Reached" ให้อัตโนมัติ โดยไม่ต้องไปกดยืนยัน Milestone แยกต่างหาก — ตัวอย่างจริง: Milestone "ปูพื้นหินเสร็จสมบูรณ์ (Dry-Lay Complete)" ขึ้นเครื่องหมายถูกในหน้า Project Dashboard ทันที</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc10-dashboard-milestone-pl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc10-dashboard-milestone-pl.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-11</span></td>
+          <td class="col-scenario">เปิดดู Gantt Chart ของทั้งโปรเจกต์</td>
+          <td class="col-pre">ทำ TC-E2E-M4-05 เสร็จแล้ว (มี Task พร้อมวันที่วางแผนแล้ว)</td>
+          <td class="col-steps"><ol><li>เปิด Project ของ SO นี้</li><li>กดปุ่มสถิติ "Tasks"</li><li>สลับมุมมองด้านขวาบนเป็น "Gantt"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นแท่ง Gantt ของแต่ละ Task เรียงตามวันที่วางแผน (จากช่อง Duration ที่กรอกไว้ตอนสร้าง BOQ) กลุ่มตามผู้รับผิดชอบ — Task ที่ทำเสร็จแล้วแสดงเป็นแท่งสีเทาจาง</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc09-gantt.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc09-gantt.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F6">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F6. ตรวจสอบบัญชี — Project P&amp;L และ Journal Items</div>
+        <div class="category-sub">ยืนยันว่ารายได้ที่ผูก Analytic Account ของโปรเจกต์ถูกต้อง และใบแจ้งหนี้แต่ละใบลงบัญชีสมดุล · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-12</span></td>
+          <td class="col-scenario">ตรวจสอบกำไรขาดทุนของโปรเจกต์ (Project P&amp;L) บน Dashboard</td>
+          <td class="col-pre">ทำ TC-E2E-M4-08 เสร็จแล้ว (ออกใบแจ้งหนี้ครบ 3 งวด)</td>
+          <td class="col-steps"><ol><li>เปิด Project ของ SO นี้</li><li>ดูส่วน "Profitability" บนหน้า Dashboard ของ Project</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นยอดรายได้แยกตามหมวด (Materials / Other Services / Down Payments) รวมกันแล้วต้องเท่ากับยอดใบแจ้งหนี้ทั้งหมด (ไม่รวม VAT) — ตัวอย่างจริง: Other Services 480 + Materials 400 = Total Revenues 880 บาท ตรงกับยอด Invoiced 880 บาททั้งหมด (ออกครบ 3 งวดแล้ว จึง Expected = Invoiced พอดี ไม่มียอดค้าง "To Invoice")</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc10-dashboard-milestone-pl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc10-dashboard-milestone-pl.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M4-13</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีของใบแจ้งหนี้แต่ละงวด (Journal Items)</td>
+          <td class="col-pre">ทำ TC-E2E-M4-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้งวดใดงวดหนึ่ง &gt; กดแท็บ "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เดบิต/เครดิตสมดุลกัน (รวมเท่ากันทั้ง 2 ฝั่ง) เห็น Analytic Distribution ผูกกับบัญชี Analytic ของโปรเจกต์นี้บนบรรทัดรายได้ — ตัวอย่างจริง: INV/2026/00014 เดบิต Trade Receivables 282.48 = เครดิต Down Payment 264.00 + Output VAT 18.48 พอดี พร้อมป้าย Analytic "BOQ0023 - ทดสอบ Mode 4..."</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/mode4/tc11-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/mode4/tc11-journal-items.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

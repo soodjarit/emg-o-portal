@@ -210,6 +210,8 @@
           <li class="tree-doc"><a href="qa/test-cases-day-in-life.html"><span class="tree-doc-tag">T2</span>Test Cases: Day-in-the-Life (Order-to-Cash)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode1.html"><span class="tree-doc-tag">T3</span>Test Cases: E2E Flow — Mode 1</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">T4</span>Test Cases: E2E Flow — Mode 2</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">T5</span>Test Cases: E2E Flow — Mode 3</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode4.html"><span class="tree-doc-tag">T6</span>Test Cases: E2E Flow — Mode 4</a></li>
         </ul>
       </details>
 
@@ -599,6 +601,24 @@
       <div>
         <div class="card-title">Test Cases: E2E Flow — Mode 2 (Ready-Made Slab)</div>
         <div class="card-desc">12 test case เดินเรื่องราวเดียวต่อเนื่องจากมีแผ่น/ล็อตหินพร้อมขายอยู่แล้ว ครอบคลุมทั้ง 2 เส้นทางย่อย — ขายทีละแผ่นตาม Serial (Select Slabs) และขายบางส่วนจากล็อต (Select Lot Stock) — ต่อด้วยจุดสแกน Serial ยืนยันก่อนส่งของ (gate ที่ใช้ร่วมกันทั้ง 2 เส้นทาง), ออกใบแจ้งหนี้ และรับชำระเงินจนจบ ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — ตัวเลข "ตัวอย่างจริง" ดึงจากการรันจริงที่มีอยู่แล้วในเอกสาร E2E ของแต่ละเส้นทาง (Serial: S108405 → INV/2026/00017; Lot: S108370 → INV/2026/00016) มีเคสหนึ่งที่ยังไม่ verify (TC-E2E-M2-12 — คาดว่า COGS อาจถูกนับซ้ำเหมือน Mode 1 แต่ยังไม่ได้เปิดบัญชีจริงมาเช็ค)</div>
+        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-e2e-mode3.html">
+      <div class="icon">T5</div>
+      <div>
+        <div class="card-title">Test Cases: E2E Flow — Mode 3 (Cut-to-Order)</div>
+        <div class="card-desc">14 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → Factory Worklist → ขั้นตอนใหม่ "Request Material" (ADR-053) ย้าย Block ไปสถานีตัดก่อนตัดได้ → Cut Order → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน ไม่มี field-validation/error case ทั่วไป (ยกเว้น gate จริง 2 จุด) เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริง 1 รอบบน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (Block BLK-26-0013 → S00095 → EG01/STCUT/00036 → INV/2026/00010) ยืนยันแล้วว่าปัญหา COGS บันทึกซ้ำที่พบใน Mode 1/2 ไม่เกิดกับ Mode 3 (รันหลัง ADR-054/055 แก้ไขแล้ว)</div>
+        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-e2e-mode4.html">
+      <div class="icon">T6</div>
+      <div>
+        <div class="card-title">Test Cases: E2E Flow — Mode 4 (Sold-as-Project)</div>
+        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ตั้งต้นจากเอกสาร BOQ → ติ๊ก "Sold as Project" → ยืนยัน SO ให้ระบบสร้าง Project + Task อัตโนมัติ → เรียกเก็บเงินมัดจำ 3 งวด (30/40/30) → ส่งมอบสินค้าจริง → ปิดงานให้ Milestone ขึ้นสำเร็จอัตโนมัติ → ตรวจสอบ Project P&amp;L และ Journal Items ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงผ่านหน้าจอ Odoo จริง (Playwright) บน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (BOQ0023 → SO S00102 → Project 38 → INV/2026/00012-00014 → EG01/OUT/00059) พบ 3 known issue จริงในเส้นทางสินค้าโหมด Lot ที่ยังไม่ได้แก้ (routing ส่งของผิด, สต็อกคงเหลือรายงานต่ำกว่าจริง, ราคา BOQ ถูกเขียนทับ) — ดู TC-03/TC-09</div>
         <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
       </div>
       <div class="arrow">→</div>
