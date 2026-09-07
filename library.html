@@ -212,6 +212,7 @@
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">T4</span>Test Cases: E2E Flow — Mode 2</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">T5</span>Test Cases: E2E Flow — Mode 3</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode4.html"><span class="tree-doc-tag">T6</span>Test Cases: E2E Flow — Mode 4</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode5.html"><span class="tree-doc-tag">T7</span>Test Cases: E2E Flow — Mode 5</a></li>
         </ul>
       </details>
 
@@ -620,6 +621,15 @@
         <div class="card-title">Test Cases: E2E Flow — Mode 4 (Sold-as-Project)</div>
         <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ตั้งต้นจากเอกสาร BOQ → ติ๊ก "Sold as Project" → ยืนยัน SO ให้ระบบสร้าง Project + Task อัตโนมัติ → เรียกเก็บเงินมัดจำ 3 งวด (30/40/30) → ส่งมอบสินค้าจริง → ปิดงานให้ Milestone ขึ้นสำเร็จอัตโนมัติ → ตรวจสอบ Project P&amp;L และ Journal Items ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงผ่านหน้าจอ Odoo จริง (Playwright) บน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (BOQ0023 → SO S00102 → Project 38 → INV/2026/00012-00014 → EG01/OUT/00059) พบ 3 known issue จริงในเส้นทางสินค้าโหมด Lot ที่ยังไม่ได้แก้ (routing ส่งของผิด, สต็อกคงเหลือรายงานต่ำกว่าจริง, ราคา BOQ ถูกเขียนทับ) — ดู TC-03/TC-09</div>
         <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-e2e-mode5.html">
+      <div class="icon">T7</div>
+      <div>
+        <div class="card-title">Test Cases: E2E Flow — Mode 5 (Stone Production / FG Production)</div>
+        <div class="card-desc">12 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่เพิ่มบรรทัดสินค้าสำเร็จรูป (FG) → ยืนยัน SO → แตกเป็น 2 เส้นทางจริงตามสภาพสต็อก (FG มีของพอ ข้ามผลิตได้เลย vs. FG ไม่พอ ต้องย้าย Slab เข้าสถานีผลิต + เปิด wizard "Produce FG" ตัดจริง) → ส่งมอบ → ออกใบแจ้งหนี้ + ตรวจรายการบัญชี ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลขมาจากการรันจริงผ่านหน้าจอ Odoo (Playwright) บน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (S00112 → EG01/STFG/00012 → INV/2026/00018; S00113 → INV/2026/00019) ระหว่างสร้างเอกสารพบ+แก้ไขจริง 1 ฟีเจอร์ (ระบบไม่เคยเช็คสต็อกว่างของ FG เองก่อนขึ้นเตือนให้ผลิต) และพบ 1 known issue บัญชีที่ยังไม่ได้แก้ (Delivery ของ FG ไม่ลง COGS เลย) — ดู TC-03/TC-12</div>
+        <div class="card-meta"><span class="card-date">7 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
