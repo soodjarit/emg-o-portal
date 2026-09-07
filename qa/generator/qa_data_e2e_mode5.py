@@ -56,25 +56,41 @@
 #   FG button correctly ABSENT, line never appears on the Factory Worklist
 #   -> Delivery EG01/OUT/00067 delivers straight from stock (Done, no
 #   production step at all) -> Invoice INV/2026/00019 (32,100.00, Posted).
+#   A 3rd SO (S00114, same customer, qty 2, using the 2 still-untouched
+#   units of the fresh MO EG01/STFG/00012 batch) -> Delivery EG01/OUT/00068
+#   -> Invoice INV/2026/00020 (32,100.00, Posted) is the fixture behind
+#   TC-E2E-M5-12's accounting check specifically — see finding below for why
+#   S00112/S00113's own invoices don't work as that example.
 #
-# 🔴 OPEN FINDING, NOT FIXED (flagged to user, not silently treated as
-# passing — same discipline as Mode 4's TC-03/09 callouts): the FG's
-# Delivery posts NO accounting entry of its own at all (`stock.move
-# .account_move_id` is empty on EG01/OUT/00066's move). Production DOES
-# correctly transfer the consumed Slab's value into the FG's own inventory
-# account (Journal Entry STJ/2026/09/0011: debit 113150 "Inventory - Stone
-# FG" / credit 113110 "Inventory - Stone Blocks (Raw)", ฿2,800.00 exactly —
-# matching the Slab's real FIFO value, no labor padding, per the
-# session-101 addendum to ADR-029). But nothing ever credits that ฿2,800
-# back out of 113150 when the FG is actually delivered to the customer —
-# the invoice itself only carries Revenue/Tax/Receivable lines (see
-# TC-E2E-M5-12), so the Inventory - Stone FG account keeps the Slab's value
-# on the books forever even after the goods leave the building, and no
-# COGS ever posts for an FG sale. Root cause not chased down this session
-# (the category is real_time/FIFO like every other stone category, so this
-# isn't a valuation-method misconfiguration) — this is a genuinely open gap
-# for the user to decide how to prioritize, not something this file's build
-# should quietly work around.
+# INVESTIGATED, NOT A BUG (initially misdiagnosed as one — corrected same
+# session before publishing): S00112's and S00113's invoices (INV/2026/
+# 00018, 00019) post ZERO Cost of Goods Sold — no COGS line at all, even
+# though production correctly transferred the consumed Slab's value into
+# the FG's inventory account (Journal Entry STJ/2026/09/0011: debit 113150
+# "Inventory - Stone FG" / credit 113110 "Inventory - Stone Blocks (Raw)",
+# ฿2,800.00 exactly). First read as "FG delivery never posts COGS" and
+# written up that way — WRONG, caught by tracing Odoo's own native
+# `_run_fifo()` (stock_account/models/product.py): it draws cost from the
+# product's oldest unconsumed incoming-value layer *company-wide*, calling
+# `_run_fifo(qty)` with no `lot=` filter — completely independent of which
+# physical lot/serial a delivery's own move_line actually records. This
+# product had 5 old units in stock from before the ADR-049 labor-cost fix
+# (2026-08-15/16/19, all genuinely valued at ฿0.00 — the "historical
+# backfill declined... old demo data" gap already accepted in progress.md
+# at the time), sitting as the *oldest* layer ahead of the 6 freshly-valued
+# units this file's own G2b fixture just produced. S00112 (qty 3) +
+# S00113 (qty 2) delivered exactly 5 units combined — FIFO correctly
+# charged them against the old ฿0 layer first, by design, leaving the 6
+# fresh units (each really worth ฿466.67) completely untouched. Confirmed
+# by an isolated clean delivery of 1 more unit via `odoo shell`
+# (`picking.button_validate()`, rolled back, no residue): value computed
+# correctly as ฿466.67 the moment the old ฿0 layer was exhausted. The 3rd
+# real SO/delivery/invoice above (S00114, using the last 2 untouched fresh
+# units) proves the mechanism works correctly end to end when there's no
+# stale ฿0 layer left to draw from first: INV/2026/00020 correctly posts
+# debit 511100 "Cost of Goods Sold" ฿933.33 / credit 113150 "Inventory -
+# Stone FG" ฿933.33 (= ฿466.67 × 2, exact). No code change needed — the
+# delivery/invoice COGS mechanism for FG was never broken.
 #
 # Column model per test case (same as mode3/mode4, per
 # feedback_qa_testcase_screenshot_export):
@@ -171,12 +187,12 @@ CATEGORIES = [
          sample="-",
          expected="ใบแจ้งหนี้สถานะ Posted ยอดตรงกับ SO เป๊ะ — ตัวอย่างจริง: INV/2026/00018 (48,150.00 บาท จาก S00112)", prio="High",
          shot="assets/mode5/tc11-invoice-posted.png"),
-    dict(id="TC-E2E-M5-12", scenario="ตรวจรายการบัญชีของใบแจ้งหนี้ (Journal Items)",
-         note="🔴 พบปัญหาจริง (ยังไม่ได้แก้ไข แจ้งผู้ใช้แล้ว): ใบส่งของ (Delivery) ของ FG ไม่ได้ลงบัญชีต้นทุนขาย (COGS) เลยสักบาท — มูลค่า Slab ที่ใช้ผลิต (2,800.00 บาท) ที่โอนเข้าบัญชี \"Inventory - Stone FG\" ตอนผลิตเสร็จ ค้างอยู่ในบัญชีนั้นตลอดไป ต่อให้สินค้าถูกส่งมอบให้ลูกค้าไปแล้วก็ตาม — ต่างจาก Mode 1/2/3 ที่มีการโอนต้นทุนออกตอนส่งของ/ออกใบแจ้งหนี้ให้เห็นชัดเจน",
-         pre="ทำ TC-E2E-M5-11 เสร็จแล้ว",
+    dict(id="TC-E2E-M5-12", scenario="ตรวจรายการบัญชีของใบแจ้งหนี้ (Journal Items) — ยืนยันว่าลง COGS ถูกต้อง",
+         note="ℹ️ หมายเหตุ: ใบแจ้งหนี้ของ S00112/S00113 เองไม่มีรายการ COGS ขึ้นมา — ตอนแรกเข้าใจผิดว่าเป็นบั๊ก แต่ตรวจสอบลึกแล้วพบว่าไม่ใช่: หินที่ส่งมอบ 5 หน่วยในนั้นตรงกับสต็อกเก่าที่มีอยู่แล้ว 5 หน่วยพอดี ซึ่งเป็นข้อมูลสาธิตเก่าที่มีมูลค่าบันทึกไว้ 0.00 บาทตั้งแต่ต้น (ช่องว่างข้อมูลที่รู้และยอมรับไว้แล้วก่อนหน้านี้ ไม่ใช่ปัญหาใหม่) ระบบคิดต้นทุนแบบ FIFO จึงตัดจากของเก่า (มูลค่า 0) ก่อนของใหม่ที่เพิ่งผลิตถูกต้องแล้วตามหลัก FIFO — ไม่ใช่บั๊กของ Mode 5 เลย ดูตัวอย่างที่ยืนยันว่าระบบลงบัญชีถูกต้องจริงด้านล่าง (ใช้ของใหม่ล้วน ไม่ปนของเก่า)",
+         pre="ทำ TC-E2E-M5-11 เสร็จแล้ว (ตัวอย่างนี้ใช้ SO/Invoice อีกใบที่ขายจาก FG ล็อตใหม่ล้วน เพื่อให้เห็นรายการ COGS จริง)",
          steps=["เปิดใบแจ้งหนี้ &gt; กดแท็บ \"Journal Items\""],
          sample="-",
-         expected="เดบิต/เครดิตสมดุลกัน (รวมเท่ากันทั้ง 2 ฝั่ง) — ตัวอย่างจริง: INV/2026/00018 เดบิต Trade Receivables 48,150.00 บาท = เครดิต Sales Revenue - FG Production 45,000.00 + Output VAT 3,150.00 บาท (ไม่มีรายการ COGS ปรากฏเลย — ดูหมายเหตุสีแดงด้านบน)", prio="Medium",
+         expected="เดบิต/เครดิตสมดุลกัน (รวมเท่ากันทั้ง 2 ฝั่ง) พร้อมมีรายการ COGS ปรากฏครบ — ตัวอย่างจริง: INV/2026/00020 (SO S00114, ขาย FG ล็อตใหม่ 2 หน่วย) เดบิต Trade Receivables 32,100.00 = เครดิต Sales Revenue - FG Production 30,000.00 + Output VAT 2,100.00 บาท และมีคู่ COGS แยกสมดุลกันเอง: เดบิต 511100 Cost of Goods Sold 933.33 = เครดิต 113150 Inventory - Stone FG 933.33 บาท (933.33 = 466.67 บาท/หน่วย &times; 2 หน่วย ตรงกับต้นทุน Slab จริงเป๊ะ)", prio="Medium",
          shot="assets/mode5/tc12-journal-items.png"),
   ]),
 ]
