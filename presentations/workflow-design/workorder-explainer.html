@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Work Order บน Odoo คืออะไร — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:46px 60px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+  .slide.appendix{background:var(--charcoal);color:var(--stone);}
+
+  .eyebrow{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow, .appendix .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title, .appendix h2.slide-title{color:var(--white);}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:880px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:60px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+
+  .appendix-divider{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;height:100%;}
+  .appendix-divider .a-eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#D9A465;font-weight:700;margin-bottom:16px;}
+  .appendix-divider .a-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:#fff;margin:0 0 20px 0;line-height:1.25;}
+  .appendix-divider .a-sub{font-size:17px;color:#B9C2C8;max-width:760px;line-height:1.6;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:16px 22px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:17.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:14px;text-align:center;position:relative;}
+  .hier-card.hl{background:#FBF1E7;border:2px solid var(--copper);}
+  .hier-card.gray{background:#ECECEA;border:2px dashed #9AA0A6;}
+  .hier-card .star-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;}
+  .hier-card .hlabel{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .hier-card .hdesc{font-size:15.5px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:15px;font-weight:700;flex-shrink:0;max-width:70px;text-align:center;line-height:1.3;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:16.5px;}
+  .cmp-table th{text-align:left;padding:8px 10px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:8px 10px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table tr.hl td{font-weight:700;color:var(--copper-dark);background:#FBF1E7;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+
+  .step-table{width:100%;border-collapse:collapse;font-size:15px;}
+  .step-table th{text-align:left;padding:7px 9px;background:var(--charcoal-dark);color:#fff;font-size:10.5px;letter-spacing:.3px;vertical-align:top;}
+  .step-table td{padding:7px 9px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;color:var(--text);}
+  .appendix .step-table{background:var(--white);border-radius:10px;overflow:hidden;}
+  .appendix .step-table th{background:var(--charcoal-dark);}
+  .step-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:11px;}
+  .appendix .step-table code{background:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:12px 16px;font-size:15.5px;line-height:1.5;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box, .appendix .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b, .appendix .note-box b{color:#D9A465;}
+
+  .two-col{display:flex;gap:24px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:14px 0;margin-bottom:18px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:21px;padding:14px 24px;border-radius:32px;white-space:normal;max-width:300px;text-align:center;line-height:1.25;font-weight:700;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:26px;margin:0 10px;font-weight:700;}
+  .dark .flow-arrow, .appendix .flow-arrow{color:#D9A465;}
+
+  .split-box{display:flex;gap:18px;margin:14px 0;}
+  .split-card{flex:1;border-radius:14px;padding:18px;}
+  .split-card.opt-a{background:#EAF3EA;}
+  .split-card.opt-b{background:#FBF1E7;}
+  .split-card .split-label{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:7px;}
+  .split-card.opt-a .split-label{color:#3D7A45;}
+  .split-card.opt-b .split-label{color:#8F5A2C;}
+  .split-card .split-title{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:7px;line-height:1.3;}
+  .split-card .split-desc{font-size:16px;line-height:1.5;color:var(--text);}
+  .split-card ul{margin:8px 0 0 0;padding-left:18px;font-size:14.5px;line-height:1.6;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:20px;left:60px;font-size:11px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag, .appendix .footer-tag{color:#8B969C;}
+
+  /* Screenshot slide layout */
+  .shot-layout{display:flex;gap:22px;flex:1;min-height:0;}
+  .shot-layout .info-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;}
+  .shot-layout .shot-col{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;}
+  .step-pill{display:inline-block;background:var(--copper);color:#fff;font-size:15px;font-weight:700;letter-spacing:.5px;padding:7px 16px;border-radius:16px;margin-bottom:12px;}
+  .shot-frame{position:relative;cursor:zoom-in;border:1px solid #ddd8d0;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.14);max-height:520px;max-width:100%;}
+  .shot-frame img{display:block;max-width:100%;max-height:520px;width:auto;height:auto;}
+  .shot-frame .zoom-hint{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:4px 9px;border-radius:10px;}
+  .shot-caption{font-size:11.5px;color:var(--muted);margin-top:8px;text-align:center;}
+
+  /* Lightbox */
+  #lightbox{position:fixed;inset:0;background:rgba(10,12,14,.92);display:none;align-items:center;justify-content:center;z-index:200;cursor:zoom-out;}
+  #lightbox.show{display:flex;}
+  #lightbox img{max-width:94vw;max-height:94vh;border-radius:6px;box-shadow:0 10px 50px rgba(0,0,0,.6);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">WO</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Design Discussion</div>
+    <div class="big-title">Work Order บน Odoo คืออะไร<br>กลไกการทำงาน และความสัมพันธ์กับต้นทุน</div>
+    <div class="big-sub">อธิบายจากศูนย์ ไม่ต้องมีพื้นฐาน Odoo มาก่อน — ใช้ของจริงในระบบ EMG-O เป็นตัวอย่างทุกจุด แล้วปิดท้ายด้วยทางเลือก 2 แบบที่ต้องตัดสินใจก่อนไป Visit โรงงาน 11 ก.ย.</div>
+    <div class="stamp">EMG-O Design Discussion · Work Order Explainer</div>
+  </section>
+
+  <!-- SLIDE 1: Basic structure -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">โครงสร้างพื้นฐาน</div>
+    <h2 class="slide-title">3 คำที่ต้องรู้จัก: ใบสั่งผลิต → งานตามคิว → สถานีงาน</h2>
+    <div class="hier-row">
+      <div class="hier-card"><div class="hlabel">Manufacturing Order (MO)</div><div class="hdesc">ใบสั่งผลิต 1 ใบ<br>เช่น "ผลิต Countertop 2 แผ่น จาก Slab นี้"</div></div>
+      <div class="hier-arrow">แตกเป็นงาน<br>ตามลำดับ →</div>
+      <div class="hier-card hl"><div class="star-badge">★ หัวใจของวันนี้</div><div class="hlabel">Work Order</div><div class="hdesc">งานที่ต้องทำจริง เรียงคิว<br>เช่น "ตัด" แล้ว "ขัด"</div></div>
+      <div class="hier-arrow">แต่ละงาน<br>ทำที่ →</div>
+      <div class="hier-card gray"><div class="hlabel">Work Center</div><div class="hdesc">สถานีงาน/เครื่องจักร<br>ตั้งไว้ล่วงหน้า ใช้ซ้ำได้ทุก MO</div></div>
+    </div>
+    <div class="case-box">
+      <div class="case-icon">🍳</div>
+      <div>
+        <div class="case-text-label">เทียบง่ายๆ กับครัวร้านอาหาร</div>
+        <div class="case-text"><b>MO</b> = ใบสั่งอาหาร 1 จาน · <b>Work Order</b> = คิวงานเฉพาะจานนี้ที่ต้องผ่านแต่ละสถานี (หั่น → ผัด → จัดจาน) · <b>Work Center</b> = สถานีในครัวที่มีอยู่แล้ว (เขียง, เตา) ไม่ได้สร้างใหม่ทุกครั้งที่มีออเดอร์เข้า ใช้ซ้ำได้กับทุกจานที่ผ่านสถานีนั้น</div>
+      </div>
+    </div>
+    <div class="note-box">จุดสำคัญ: <b>Work Center ตั้งครั้งเดียว ใช้ซ้ำตลอด</b> — ส่วนที่เปลี่ยนทุกครั้งคือ Work Order ซึ่งเกิดขึ้นอัตโนมัติตามลำดับขั้นตอนที่กำหนดไว้ล่วงหน้า (Routing) เมื่อมีการยืนยัน MO</div>
+  </section>
+
+  <!-- SLIDE 2: Real - Work Centers list -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ของจริงในระบบเรา — ขั้นที่ 1</div>
+    <h2 class="slide-title">Work Center ที่มีอยู่แล้วใน EMG-O วันนี้</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">3 สถานีงานที่ตั้งไว้แล้ว: <b>Stone Cutting</b> (ตัด Block→Slab), <b>Cutting</b> กับ <b>Polishing</b> (ตัดขนาด/ขัดเงา สำหรับ FG)</div>
+        <div class="note-box" style="margin-top:auto;">คอลัมน์ขวาคือ <b>Cost per hour</b> — ต้นทุนต่อชั่วโมงของสถานีนั้น ใช้เป็นตัวคูณกับเวลาทำงาน (ดูสไลด์ถัดไป) ตอนนี้ทุกสถานีตั้งไว้เท่ากันที่ 500 บาท/ชม.</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d7-01-workcenters-list.png')">
+          <img src="assets/d7-01-workcenters-list.png" alt="Work Centers list">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Real - MO form -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ของจริงในระบบเรา — ขั้นที่ 2</div>
+    <h2 class="slide-title">หน้าตาใบสั่งผลิต (MO) จริง</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">MO จริง <b>EG01/STFG/00013</b> — ผลิต "Carrara White - Countertop" 2 แผ่น จาก Slab เดิม 1 ก้อน สถานะ <b>Done</b></div>
+        <div class="note-box" style="margin-top:auto;">สังเกตแท็บ <b>Components</b> (วัตถุดิบที่ใช้) กับแท็บ <b>Work Orders</b> ที่อยู่ข้างกัน — นี่คือจุดที่ MO แตกออกเป็นงานตามคิว ดูสไลด์ถัดไป</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d7-02-mo-form.png')">
+          <img src="assets/d7-02-mo-form.png" alt="MO form EG01/STFG/00013">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Real - Work Orders tab -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ของจริงในระบบเรา — ขั้นที่ 3</div>
+    <h2 class="slide-title">แท็บ Work Orders ของ MO เดียวกัน — ครบทั้ง 3 คำในภาพเดียว</h2>
+    <div class="shot-layout">
+      <div class="info-col">
+        <div class="case-text">MO นี้แตกเป็น 2 Work Order เรียงคิว: <b>Cutting</b> (ทำที่ Work Center "Cutting") แล้วต่อด้วย <b>Polishing</b> (ทำที่ Work Center "Polishing")</div>
+        <div class="note-box" style="margin-top:auto;">คอลัมน์ <b>Expected Duration</b> vs <b>Real Duration</b> คือหัวใจของกลไกต้นทุน — เอาไปคูณ Cost per hour ของ Work Center นั้นได้ต้นทุนแรงงาน (สไลด์ถัดไป)</div>
+      </div>
+      <div class="shot-col">
+        <div class="shot-frame" onclick="openLightbox('assets/d7-03-mo-workorders-tab.png')">
+          <img src="assets/d7-03-mo-workorders-tab.png" alt="Work Orders tab">
+          <div class="zoom-hint">🔍 คลิกดูขยาย</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Cost mechanism -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">กลไกต้นทุน</div>
+    <h2 class="slide-title">สูตรเดียว: เวลาที่ใช้ ÷ 60 × ต้นทุน/ชม. ของสถานีนั้น</h2>
+    <table class="cmp-table">
+      <tr><th>Work Order</th><th>Work Center</th><th>Real Duration</th><th>Cost/ชม.</th><th>ต้นทุนแรงงาน</th></tr>
+      <tr><td>Cutting</td><td>Cutting</td><td>120 นาที (2 ชม.)</td><td>500</td><td>1,000 บาท</td></tr>
+      <tr><td>Polishing</td><td>Polishing</td><td>120 นาที (2 ชม.)</td><td>500</td><td>1,000 บาท</td></tr>
+      <tr class="hl"><td colspan="4"><b>รวมต้นทุนแรงงานจาก Work Order ของ MO นี้</b></td><td><b>2,000 บาท</b></td></tr>
+    </table>
+    <div class="flow-bar" style="margin-top:22px;">
+      <span class="flow-chip gray">ต้นทุนวัตถุดิบ<br>(จาก Components)</span><span class="flow-arrow">+</span>
+      <span class="flow-chip">ต้นทุนแรงงาน<br>(จาก Work Order)</span><span class="flow-arrow">=</span>
+      <span class="flow-chip green">ต้นทุนรวมของ MO</span>
+    </div>
+    <div class="note-box">นี่คือกลไก<b>มาตรฐาน</b>ของ Odoo Manufacturing ทุกโรงงานที่ใช้ระบบนี้ทำงานแบบนี้เหมือนกัน — คำถามคือ EMG-O พร้อมจะใช้ตัวเลข "Real Duration" ที่เป็นเวลาทำงานจริงหรือยัง (ดูสไลด์ถัดไป)</div>
+  </section>
+
+  <!-- SLIDE 6: EMG-O reality check (dark) -->
+  <section class="slide dark" id="slide-6">
+    <div class="eyebrow">หมายเหตุสำคัญ — สถานะจริงของ EMG-O วันนี้</div>
+    <h2 class="slide-title" style="color:#fff;">ตัวเลข 500 บาท/ชม. และ Real Duration ยังเป็นค่าตั้งต้น ไม่ใช่ของจริง</h2>
+    <div class="case-box">
+      <div class="case-icon">⚠</div>
+      <div>
+        <div class="case-text-label">ตรวจสอบจากข้อมูลจริงในระบบ (30-08-2026)</div>
+        <div class="case-text">ทุก Work Order ที่เคยเกิดขึ้นจริงในระบบ (16 รายการที่ตรวจสอบ) มีค่า Real Duration <b>เท่ากับ Expected Duration เป๊ะทุกใบ</b> และผู้บันทึกเวลาคือ "OdooBot" (ระบบเติมให้อัตโนมัติ) — แปลว่าโรงงานยังไม่เคยกดจับเวลาทำงานจริงแม้แต่ครั้งเดียว</div>
+      </div>
+    </div>
+    <div class="note-box good"><b>ทางบัญชีของเราแก้ปัญหานี้ไว้แล้ว:</b> ต้นทุนแรงงานที่บันทึกเข้าบัญชีจริงของ EMG-O <b>ไม่ได้ใช้ตัวเลข Duration × Cost/ชม. นี้เลย</b> — ใช้ "ค่ามาตรฐานคงที่ต่อหมวดสินค้า" ที่ตั้งไว้ล่วงหน้าแทน (ตั้งครั้งเดียว ไม่ต้องพึ่งการจับเวลาหน้างาน) เพื่อไม่ให้ตัวเลขที่ยังไม่น่าเชื่อถือหลุดเข้าไปในบัญชีจริง</div>
+    <div class="note-box"><b>คำถามที่ตามมา:</b> เราจะปล่อยให้ Work Order เป็นแค่ "โครงกระดูก" พอให้ระบบเดินได้ต่อไป หรือจะลงทุนทำให้ตัวเลขเหล่านี้เป็นของจริง — นี่คือทางเลือก 2 แบบในสไลด์ถัดไป</div>
+  </section>
+
+  <!-- SLIDE 7: Two options split -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ทางเลือก</div>
+    <h2 class="slide-title">2 แนวทางที่เป็นไปได้สำหรับ EMG-O</h2>
+    <div class="split-box">
+      <div class="split-card opt-b">
+        <div class="split-label">ทางเลือก A — Minimal (ของปัจจุบัน)</div>
+        <div class="split-title">แค่พอสร้าง MO ได้ + track ต้นทุนได้</div>
+        <div class="split-desc">Work Center/Work Order มีแค่พอให้ระบบเดินตามลำดับขั้นตอนได้ ไม่ต้องจับเวลาจริงหน้างาน</div>
+        <ul>
+          <li>ต้นทุนแรงงาน = ค่ามาตรฐานต่อหมวดสินค้า (ตั้งครั้งเดียว)</li>
+          <li>ไม่ต้องมีวินัยกดเริ่ม/จบงานหน้าเครื่อง</li>
+          <li>ไม่ได้ใช้วางแผนกำลังผลิต/คิวงานจริง</li>
+        </ul>
+      </div>
+      <div class="split-card opt-a">
+        <div class="split-label">ทางเลือก B — Full</div>
+        <div class="split-title">เต็มรูปแบบตามมาตรฐาน Odoo Manufacturing</div>
+        <div class="split-desc">ตั้ง Routing ต่อสินค้า/หมวดจริง + ปฏิทินกะจริงต่อสถานี + พนักงานกดเริ่ม/จบงานจริงผ่านแอป Shop Floor</div>
+        <ul>
+          <li>ต้นทุนแรงงาน = เวลาจริง × Cost/ชม. (แม่นยำต่อ MO)</li>
+          <li>ใช้ดู bottleneck/วางแผนคิวงานได้จริง</li>
+          <li>ต้องมีวินัยหน้างานสม่ำเสมอ ไม่งั้นตัวเลขเพี้ยน</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note-box">ทั้ง 2 แบบใช้โครงสร้าง Work Center/Work Order เดียวกัน — ต่างกันแค่ "ความละเอียดของข้อมูลที่ใส่เข้าไป" ไม่ใช่คนละระบบ อัพเกรดจาก A ไป B ได้ภายหลังโดยไม่ต้องรื้อของเดิม</div>
+  </section>
+
+  <!-- SLIDE 7b: Implementation point count -->
+  <section class="slide" id="slide-7b">
+    <div class="eyebrow">นับจริงเป็นจุด — สำหรับตัดสินใจ</div>
+    <h2 class="slide-title">จำนวนจุดที่ต้องทำจริงบนระบบ: A vs B</h2>
+    <div class="split-box">
+      <div class="split-card opt-a">
+        <div class="split-label">A — Minimal</div>
+        <div class="split-title">⚙️ ตั้งค่าระบบ (ทีมเรา ทำครั้งเดียว) — 3 จุด</div>
+        <ul>
+          <li>รายชื่อ Work Center ต่อสถานี (มีแล้ว)</li>
+          <li>ลำดับ Operation ต่อหมวดสินค้า (เพิ่มเมื่อมีหมวด/ขั้นตอนใหม่)</li>
+          <li>ค่ามาตรฐานต้นทุนแรงงานต่อหมวด (ตั้งไว้แล้ว)</li>
+        </ul>
+        <div class="split-title" style="margin-top:14px;">🔁 งานหน้างานที่เพิ่มขึ้น — 0 ขั้นตอน</div>
+        <div class="split-desc">พนักงานทำงานเหมือนเดิมทุกอย่าง ไม่ต้องกดอะไรเพิ่ม</div>
+      </div>
+      <div class="split-card opt-b">
+        <div class="split-label">B — Full</div>
+        <div class="split-title">⚙️ ตั้งค่าระบบ (ทีมเรา ทำครั้งเดียว) — 6 จุด</div>
+        <ul>
+          <li>ใส่ Capacity ต่อสถานี (efficiency/OEE/setup-cleanup)*</li>
+          <li>ผูกปฏิทินกะทำงานจริงต่อสถานี*</li>
+          <li>แยก Routing ละเอียดต่อสินค้าแต่ละหมวด*</li>
+          <li>ติดตั้ง/ตั้งค่าแอป Shop Floor หน้างาน*</li>
+          <li>สร้าง user login พนักงานหน้างานทุกคน*</li>
+          <li>ปรับ Cost/ชม. ให้เป็นค่าจริงจากบัญชี*</li>
+        </ul>
+        <div class="split-title" style="margin-top:14px;">🔁 งานหน้างานที่เพิ่มขึ้น — 2 ขั้นตอนบังคับ/Work Order</div>
+        <div class="split-desc">กด Start + กด Finish ทุกครั้งที่เริ่ม/จบงานแต่ละสถานี (บวก Pause เพิ่มถ้าหยุดงานกลางคัน)</div>
+      </div>
+    </div>
+    <div class="note-box"><b>* ทั้ง 6 จุดของ B ต้องรอข้อมูล/ความพร้อมจากฝั่งลูกค้าก่อนตั้งได้จริง</b> (เวลาทำงานจริง, ปฏิทินกะ, รายชื่อพนักงาน, อุปกรณ์หน้างาน) — ต่างจาก A ที่ทีมเราตั้งเองได้เกือบทั้งหมด</div>
+    <div class="note-box bad"><b>คูณสเกลจริง:</b> ผลิต 20 ชิ้น/วัน ผ่าน 3 สถานี = 60 Work Order/วัน × 2 ครั้ง = <b>~120 ครั้ง/วัน</b> ที่ต้องมีคนกดปุ่มให้ครบทุกครั้ง — ผลกระทบต่อจังหวะงานหน้างานจริงเป็นสิ่งที่ต้องประเมินอย่างระมัดระวังก่อนเลือกแบบ B</div>
+  </section>
+
+  <!-- SLIDE 8: Comparison table -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">เปรียบเทียบ</div>
+    <h2 class="slide-title">A (Minimal) vs B (Full) — ต่างกันตรงไหนบ้าง</h2>
+    <table class="cmp-table">
+      <tr><th>หัวข้อ</th><th>A — Minimal (ปัจจุบัน)</th><th>B — Full</th></tr>
+      <tr><td>งานตั้งค่าตอนเริ่ม</td><td>น้อย — ตั้ง Work Center + ลำดับ operation ครั้งเดียว</td><td>มาก — เพิ่ม capacity, ปฏิทินกะ, routing ละเอียดต่อสินค้า</td></tr>
+      <tr><td>วินัยหน้างานที่ต้องมี</td><td>ไม่ต้องมี</td><td>ต้องกดเริ่ม/จบงานทุกครั้ง ทุกสถานี</td></tr>
+      <tr><td>ความแม่นยำต้นทุนแรงงาน</td><td>ปานกลาง (ค่าเฉลี่ยมาตรฐานต่อหมวด)</td><td>สูง (อิงเวลาจริงต่อ MO)</td></tr>
+      <tr><td>วางแผนกำลังผลิต/หา bottleneck</td><td>ทำไม่ได้จริง</td><td>ทำได้จริง</td></tr>
+      <tr class="hl"><td>เหมาะกับ</td><td>ธุรกิจที่เน้นความง่าย ค่าแรงประมาณการก็พอ</td><td>โรงงานที่พร้อมเก็บข้อมูลสม่ำเสมอ ต้องการตัวเลขแม่น</td></tr>
+    </table>
+  </section>
+
+  <!-- SLIDE 9: Closing note -->
+  <section class="slide dark" id="slide-9">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">เลือกทางไหนก็ได้ — แต่ต้องประเมินอย่างระมัดระวังก่อน</h2>
+    <div class="case-box">
+      <div class="case-icon">!</div>
+      <div>
+        <div class="case-text-label">ข้อควรระวังก่อนตัดสินใจ</div>
+        <div class="case-text">ทางเลือกระหว่าง A กับ B ต้องประเมินผลกระทบต่อการทำงานหน้างานปัจจุบัน (ดูสไลด์ก่อนหน้า) และข้อมูลที่เราต้องการจะเก็บเพิ่มจากโรงงาน อย่างระมัดระวัง ก่อนสรุปทิศทาง</div>
+      </div>
+    </div>
+    <div class="note-box good">ไม่ว่าจะเลือกทางไหน — โครงสร้าง Work Center 3 ตัวที่มีอยู่วันนี้ใช้ต่อยอดได้ทันที ไม่ต้องเริ่มจากศูนย์ ข้อมูลจาก Visit หน้างานวันที่ 11 (checklist หัวข้อ 7 ที่เตรียมไว้แล้ว) จะเป็นฐานสำหรับการประเมินนี้</div>
+  </section>
+
+  <!-- SLIDE 10: Appendix divider -->
+  <section class="slide appendix" id="slide-10">
+    <div class="appendix-divider">
+      <div class="a-eyebrow">ภาคผนวก</div>
+      <div class="a-title">หลักฐานจากโค้ดจริง<br>สำหรับทีม</div>
+      <div class="a-sub">อ้างอิงตรงจากไฟล์จริงในโมดูล stone_slab_inventory (EE branch) — ไม่จำเป็นต้องนำเสนอในรอบปกติ</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Code evidence table -->
+  <section class="slide appendix" id="slide-11">
+    <div class="eyebrow">อ้างอิงไฟล์จริง</div>
+    <h2 class="slide-title" style="font-size:24px;">แต่ละจุดที่พูดถึง เห็นได้จากไฟล์เหล่านี้</h2>
+    <table class="step-table">
+      <tr><th style="width:150px;">เรื่อง</th><th>ไฟล์</th><th>สิ่งที่เกิดขึ้นจริงในโค้ด</th></tr>
+      <tr>
+        <td>Work Center ตั้งครั้งเดียว ใช้ซ้ำ</td>
+        <td><code>res_company.py</code></td>
+        <td><code>_ensure_stone_workcenter(name)</code> — find-or-create ต่อบริษัท ใช้ร่วมกันทุก FG category (ADR-029), ไม่ผูก category</td>
+      </tr>
+      <tr>
+        <td>ลำดับ operation ต่อหมวดสินค้า</td>
+        <td><code>stone_fg_category_operation.py</code></td>
+        <td>1 record = 1 ลำดับ operation ของ 1 product category, resolve ชื่อไปหา Work Center ที่มีชื่อตรงกันตอน runtime</td>
+      </tr>
+      <tr>
+        <td>ต้นทุนแรงงานจาก Duration × Cost/ชม. ถูก strip ออกจากบัญชีจริง</td>
+        <td><code>mrp_production.py</code></td>
+        <td><code>_cal_price()</code> override — ตัดค่า workcenter/labor placeholder ออกจากมูลค่าที่ post ลง GL เหลือแค่ material cost เท่านั้น (ADR-046/049)</td>
+      </tr>
+      <tr>
+        <td>Real Duration ไม่เคยเป็นค่าจริง</td>
+        <td><code>mrp_production.py</code> (docstring)</td>
+        <td>ระบุตรงๆ: "all 16 existing workorder time_ids records were system-generated exact matches to duration_expected, attributed to OdooBot not a real staff member"</td>
+      </tr>
+      <tr>
+        <td>ต้นทุนแรงงานจริงที่ post เข้าบัญชี</td>
+        <td><code>mrp_production.py</code></td>
+        <td><code>_tag_stone_fg_labor_cost()</code> / <code>_tag_stone_cutting_labor_cost()</code> — ค่ามาตรฐานคงที่ต่อหมวด ไม่อ่านค่าจาก Work Order เลย</td>
+      </tr>
+    </table>
+    <div class="footer-tag">EMG-O Design Discussion · Work Order Explainer</div>
+  </section>
+
+</div></div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 13</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='Escape') closeLightbox();
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+
+  function openLightbox(src){
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('show');
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('show');
+  }
+</script>
+</body>
+</html>

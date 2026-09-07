@@ -200,6 +200,7 @@
           <li class="tree-doc"><a href="presentations/workflow-design/block-density-weight-explainer.html"><span class="tree-doc-tag">D4</span>CBM → ตัน: ความหนาแน่นตามประเภทหิน</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/stone-cost-ton-purchase-calc.html"><span class="tree-doc-tag">D5</span>ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/stone-costing-explainer.html"><span class="tree-doc-tag">D6</span>ต้นทุนหิน: จากก้อนสู่แผ่น (หลักการ + ของจริง)</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/workorder-explainer.html"><span class="tree-doc-tag">D7</span>Work Order คืออะไร — กลไก + ทางเลือก Full/Minimal</a></li>
         </ul>
       </details>
 
@@ -560,6 +561,15 @@
         <div class="card-title">ต้นทุนหิน: จากก้อนสู่แผ่น — อธิบายหลักการ + ของจริง</div>
         <div class="card-desc">เริ่มจากหลักการบัญชีต้นทุนแปรรูปพื้นฐาน (ทำไมไม่นับต้นทุนซ้ำ) ด้วยตัวอย่างง่ายๆ จากนั้นไล่ทีละขั้นพร้อมภาพหน้าจอจริง ตามรอย Block เดียวกัน (BLK-26-0013) ตั้งแต่ซื้อจนถึงขาย พร้อมอธิบายว่าทำไม CBM เป็นหน่วยตั้งต้นของต้นทุน ส่วนตันเป็นแค่ตัวเลขคำนวณย้อนกลับ — ระหว่างรีวิว พบว่า Qty (Ton) ที่หน้า PO ไม่ auto-fill จาก CBM ค้างเป็น 0 เสมอถ้ากรอก CBM ตรงๆ แก้เป็น compute+inverse field แล้ว ตรวจสอบ PO จริงถูกต้อง (mbx-ee-dev + eg-tst)</div>
         <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge built">พบ Bug (Qty Ton ค้าง 0) + แก้แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/workflow-design/workorder-explainer.html">
+      <div class="icon">D7</div>
+      <div>
+        <div class="card-title">Work Order คืออะไร — กลไก + ทางเลือก Full/Minimal</div>
+        <div class="card-desc">สอนพื้นฐาน MO/Work Order/Work Center ไม่ต้องมีความรู้ Odoo มาก่อน ใช้ Work Center 3 ตัวที่มีอยู่จริงในระบบเป็นตัวอย่าง แสดงกลไกต้นทุน (เวลา × cost/ชม.) แล้วเปิดเผยตรงๆ ว่าตัวเลขวันนี้ยังเป็น placeholder ไม่ใช่เวลาทำงานจริง ปิดท้ายด้วยทางเลือก A (Minimal, ของปัจจุบัน) vs B (Full) พร้อมนับจำนวนจุดตั้งค่าและงานหน้างานที่เพิ่มขึ้นจริงของแต่ละแบบ</div>
+        <div class="card-meta"><span class="card-date">7 ก.ย. 2026</span><span class="status-badge design">รอข้อมูลหน้างาน 11 ก.ย. เพื่อประเมินทางเลือก</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
