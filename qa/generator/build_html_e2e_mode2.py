@@ -4,7 +4,10 @@ def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
 
 def note_html(note):
-    return ('<div class="note">%s</div>' % note) if note else ''
+    if not note:
+        return ''
+    cls = 'note note-ok' if note.startswith('✅') else ('note note-new' if note.startswith('✨') else 'note')
+    return '<div class="%s">%s</div>' % (cls, note)
 
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
@@ -159,6 +162,8 @@ PAGE = '''<!doctype html>
   .shot-note{margin-top:4px;font-size:10px;color:#9A9D9F;line-height:1.4;max-width:100px;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .note-ok{color:var(--green);background:var(--green-bg);}
+  .note-new{color:var(--copper-dark);background:#F5EFE6;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -197,9 +202,10 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้อ้างอิง (Serial):</b> แผ่น BDL-00014-1 / BDL-00014-2 (พร้อมขายอยู่แล้ว) &rarr; SO S108405 (2 แผ่น รวม 8.32 ตร.ม. &times; 4,200/ตร.ม. เฉลี่ย = 34,944 ก่อน VAT) &rarr; Invoice INV/2026/00017 (37,390.08 รวม VAT) — จาก presentations/e2e-mode2-slab.html (ยืนยัน 21 ส.ค. 2026)<br><br>
-    <b>เรื่องราวที่ใช้อ้างอิง (Lot):</b> ล็อต BP-B-0001 (Bianco Perla Marble Slab, เหลือ 4.00 จาก 6.00 ตร.ม.) &rarr; ขาย 1.50 ตร.ม. &times; 1,200/ตร.ม. &rarr; SO S108370 &rarr; Invoice INV/2026/00016 (1,926.00 รวม VAT, Posted + Paid) — จาก presentations/e2e-mode2-lot-stock.html (รันจริง 4 ส.ค. 2026, ตรวจทาน 21 ส.ค. 2026)<br><br>
-    <b>⚠️ ยังไม่ verify:</b> TC-E2E-M2-12 เป็นการคาดการณ์ (ไม่ใช่ผลยืนยันจริง) ว่าปัญหา COGS บันทึกซ้ำที่พบใน Mode 1 (TC-E2E-M1-12) จะเกิดกับ Mode 2 ด้วย เพราะเป็นกลไก native ของ Odoo เอง ไม่ใช่โค้ดเฉพาะโหมด — ต้องเปิด Journal Entries จริงมาเช็คก่อนถือว่ายืนยันแล้ว
+    <b>เรื่องราวที่ใช้อ้างอิง (Serial):</b> Bundle BLK-26-0050 (บลู ซุปเปอร์เจนติ/BLUE SERPERGENTI, Marble) &rarr; SO S00107 &rarr; Delivery EG01/OUT/00077 &rarr; Invoice INV/2026/00008, Posted + Paid — รันจริงบน eg-tst 9 ก.ย. 2026<br><br>
+    <b>เรื่องราวที่ใช้อ้างอิง (Lot):</b> Bundle BLK-26-0047 (ดำอัฟริกา/BLACK AFRICA, Granite, เหลือ 6.00 ตร.ม.) &rarr; ขาย 2.00 ตร.ม. &times; 4,000/ตร.ม. = 8,000 &rarr; SO S00111 &rarr; Delivery EG01/OUT/00078 &rarr; Invoice INV/2026/00009 (8,560.00 รวม VAT, Posted + Paid) — รันจริงบน eg-tst 9 ก.ย. 2026<br><br>
+    <b>✅ บั๊กจริงที่แก้แล้ว Session นี้:</b> (1) Serial-mode ทุกเคสเคยลงบัญชีรายได้ผิดเป็นของ Mode 3 — แก้โค้ด+สร้างบัญชีใหม่แล้ว (2) เกือบทุก Bundle เก่าไม่เคยมีต้นทุนจริงฝังเข้า Odoo valuation เลยทำให้ COGS = 0 เสมอ — backfill ต้นทุนทั้งระดับ Block และ Slab แล้วทั้ง 2 ฐานข้อมูล ยืนยันด้วย live test<br><br>
+    <b>⚠️ known issue เปิดอยู่:</b> Lot-mode ยังโพสต์ COGS เป็น 0 อยู่ (ดู TC-E2E-M2-12b) — สาเหตุยังไม่พบ ต่างจาก Mode 1's TC-E2E-M1-12 (COGS ซ้ำ) นี่คือ COGS หายไปเลย ไม่ใช่ซ้ำ
   </div>
 
 __CATEGORY_BLOCKS__
