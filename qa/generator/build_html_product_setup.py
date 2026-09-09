@@ -1,4 +1,4 @@
-from qa_data_e2e_mode1 import CATEGORIES
+from qa_data_product_setup import CATEGORIES
 
 def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
@@ -81,7 +81,7 @@ PAGE = '''<!doctype html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMG-O — Test Cases: E2E Flow (Mode 1)</title>
+<title>EMG-O — Test Cases: Product/Material Setup</title>
 <style>
   :root{
     --copper:#B8763E;
@@ -180,7 +180,7 @@ PAGE = '''<!doctype html>
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode1.xlsx" download="EMG-O Test Cases - E2E Mode 1.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-product-setup.xlsx" download="EMG-O Test Cases - Product Setup.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -190,8 +190,8 @@ PAGE = '''<!doctype html>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Test Cases: E2E Flow — Mode 1 (Block Direct Sale)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ต้นจนจบ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error — เดินตามได้เองแม้ไม่ใช่ technical user ทุกตัวเลข "ตัวอย่างจริง" ในเอกสารนี้มาจากการรันจริง 1 รอบบน eg-tst (2026-09-09) ไม่ใช่ตัวเลขสมมติ ฉบับปรับปรุงนี้รวมฟีเจอร์ใหม่ (Sales Price/CBM auto-price, ปุ่มลัดสร้าง Block) และการแท็กต้นทุนแยกมิติ — เรื่องการตั้งค่า Material/Product ใหม่แยกไปอยู่เอกสาร "Test Cases: Product/Material Setup" แล้ว</div>
+    <h1>Test Cases: Product/Material Setup</h1>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ต้นจนจบของการตั้งค่าสินค้าใหม่ผ่าน Quick Material Setup Wizard — ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error — เดินตามได้เองแม้ไม่ใช่ technical user ทุกตัวเลข "ตัวอย่างจริง" ในเอกสารนี้มาจากการรันจริง 1 รอบบน eg-tst (2026-09-09) ไม่ใช่ตัวเลขสมมติ เอกสารนี้เป็น precondition ของ Golden Path Mode 1-5 ทุกฉบับ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -202,8 +202,8 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้ทดสอบจริง (ฉบับปรับปรุง 2026-09-09):</b> PO P00052 (ซื้อ Block 2.00 m&sup3; ราคา 15,000/m&sup3;) &rarr; Block BLK-26-0068 (สร้างผ่านปุ่มลัดใหม่บนบรรทัด PO) &rarr; Vendor Bill BILL/2026/09/0002 &rarr; SO S00091 (ขาย Mode 1 ให้ "E2E Test Customer" — ราคาต่อหน่วยคำนวณอัตโนมัติ 17,500 จาก Sales Price/CBM) &rarr; Delivery EG01/OUT/00067 &rarr; Invoice INV/2026/00003 (37,450 รวม VAT) — เก็บไว้เป็นข้อมูลอ้างอิงจริงบน eg-tst<br><br>
-    <b>✅ ยืนยันแล้ว:</b> บัญชีฝั่งซื้อ/ขายลงถูกบัญชีเฉพาะของ Mode 1 (ไม่ใช่บัญชีทั่วไป), ไม่มี COGS ซ้ำ (ADR-054/055 ยังใช้ได้), และ Analytic Account ทั้ง 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ติดมาอัตโนมัติทั้งฝั่งซื้อและขาย
+    <b>เรื่องราวที่ใช้ทดสอบจริง:</b> Material "SY-TST-Onyx-Rosa" (Marble, Serial, Italy, density 2.65, Finish=Polished + มุม=ไม่ลบมุม) &rarr; Slab Product [SYTST02-SL] (4,500/2,800) + Block Product [SYTST02-BL] (17,500/15,000) + Finished Good [SYTST02-FG] "Countertop" (8,500/5,200) &rarr; ยืนยันเลือกได้จริงในหน้า PO/SO &rarr; เพิ่ม Finished Good ตัวที่ 2 ("Vanity Top") ให้ Material เดิมผ่านเส้นทางลัด — เก็บไว้เป็นข้อมูลอ้างอิงจริงบน eg-tst<br><br>
+    <b>✅ ยืนยันแล้ว:</b> Slab/Block Product ได้ Category ถูกต้อง (ไม่ว่างเปล่า, บั๊กจริงที่เจอ+แก้ระหว่างสร้างเอกสารนี้), Analytic Account ของหมวดวัสดุ+วัสดุถูกสร้างอัตโนมัติ, และ wizard's "ใช้ Material เดิม" ไม่สร้าง Slab/Block ซ้ำ
   </div>
 
 __CATEGORY_BLOCKS__
@@ -227,6 +227,6 @@ PAGE = (PAGE
 )
 
 if __name__ == '__main__':
-    with open('../test-cases-e2e-mode1.html', 'w', encoding='utf-8') as f:
+    with open('../test-cases-product-setup.html', 'w', encoding='utf-8') as f:
         f.write(PAGE)
     print('wrote', len(PAGE), 'bytes')

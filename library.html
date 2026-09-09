@@ -209,6 +209,7 @@
         <ul class="tree-docs">
           <li class="tree-doc"><a href="qa/test-cases-product-sales.html"><span class="tree-doc-tag">T</span>Test Cases: Product Master &amp; Sales</a></li>
           <li class="tree-doc"><a href="qa/test-cases-day-in-life.html"><span class="tree-doc-tag">T2</span>Test Cases: Day-in-the-Life (Order-to-Cash)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-product-setup.html"><span class="tree-doc-tag">PS</span>Test Cases: Product/Material Setup</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode1.html"><span class="tree-doc-tag">T3</span>Test Cases: E2E Flow — Mode 1</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">T4</span>Test Cases: E2E Flow — Mode 2</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">T5</span>Test Cases: E2E Flow — Mode 3</a></li>
@@ -598,12 +599,21 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="qa/test-cases-product-setup.html">
+      <div class="icon">PS</div>
+      <div>
+        <div class="card-title">Test Cases: Product/Material Setup</div>
+        <div class="card-desc">12 test case เดินเรื่องราวเดียวต่อเนื่องของการตั้งค่าสินค้าใหม่ผ่าน Quick Material Setup Wizard ตั้งแต่กรอกข้อมูล Material → ตั้งราคา Slab/Block/Finished Good → ตรวจว่า Product/Analytic Account ถูกสร้างจริง → ยืนยันเลือกได้ในหน้า PO/SO → เพิ่ม Finished Good ให้ Material เดิม เป็น precondition ของเอกสาร Golden Path Mode 1-5 ทุกฉบับ พบ+แก้บั๊กจริง 2 ตัวระหว่างสร้างเอกสารนี้ (wizard crash, Product Category ว่างเปล่า) — ทุกตัวเลขมาจากการรันจริงบน eg-tst</div>
+        <div class="card-meta"><span class="card-date">9 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="qa/test-cases-e2e-mode1.html">
       <div class="icon">T3</div>
       <div>
         <div class="card-title">Test Cases: E2E Flow — Mode 1 (Block Direct Sale)</div>
-        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ซื้อ Block เข้าคลัง → ขายทั้งก้อน (Mode 1) → จัดส่ง → บันทึกบัญชีครบทุกรายการ ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริง 1 รอบบน mbx-ee-dev (PO P00039 → S00085 → INV/2026/00009) พบ known issue เรื่อง COGS ถูกบันทึกซ้ำ (TC-E2E-M1-12) ยังไม่ปิดจนกว่า dev ยืนยัน</div>
-        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ซื้อ Block เข้าคลัง (ผ่านปุ่มลัด "สร้าง Block" ใหม่บนบรรทัด PO) → ขายทั้งก้อน (Mode 1, ราคาต่อหน่วยคำนวณอัตโนมัติจาก Sales Price/CBM) → จัดส่ง → บันทึกบัญชีครบทุกรายการ → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริง 1 รอบบน eg-tst (PO P00052 → S00091 → INV/2026/00003) known issue COGS ซ้ำเดิม (TC-E2E-M1-12) ยืนยันปิดแล้วจริง</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">9 ก.ย. 2026</span><span class="status-badge confirmed">ปรับปรุงใหม่ + Analytic-Architecture</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
