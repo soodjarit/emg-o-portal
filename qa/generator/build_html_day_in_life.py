@@ -8,7 +8,10 @@ def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
 
 def note_html(note):
-    return ('<div class="note">%s</div>' % note) if note else ''
+    if not note:
+        return ''
+    cls = 'note note-ok' if note.startswith('✅') else ('note note-new' if note.startswith('✨') else 'note')
+    return '<div class="%s">%s</div>' % (cls, note)
 
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
@@ -166,6 +169,8 @@ PAGE = '''<!doctype html>
   .col-prio{width:78px;text-align:center;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .note-ok{color:var(--green);background:var(--green-bg);}
+  .note-new{color:var(--copper-dark);background:#F5EFE6;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}

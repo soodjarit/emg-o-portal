@@ -86,6 +86,8 @@
   .col-prio{width:78px;text-align:center;}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .note-ok{color:var(--green);background:var(--green-bg);}
+  .note-new{color:var(--copper-dark);background:#F5EFE6;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -166,7 +168,7 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-D1-01</span></td>
-          <td class="col-scenario">สร้าง Material ใหม่ผ่าน Quick Material Setup Wizard (สร้าง Slab + Block Product ให้อัตโนมัติ)<div class="note">regression ของ TC-A1-01 — ปรับ flow ให้ตรงกับ day-in-life.html สไลด์ 2 จริง (ใช้ wizard ไม่ใช่ฟอร์ม Material ตรงๆ ซึ่งต้องมี Slab Product อยู่ก่อนแล้วถึงจะเลือกได้ ไม่เหมาะกับ Material ใหม่เอี่ยม) — ⚠️ ต้องมีสิทธิ์ Products/Create ก่อน (group_emgo_internal_manager ยังไม่มี ณ 2026-08-27 ดู progress.md finding #1) ไม่งั้น wizard จะ error ตอนสร้าง Slab/Block Product นี้เป็น fixture หลัก ("Test Marble 01") ที่ TC-D1-02/03/03b/04 ใช้ต่อทั้งหมด</div></td>
+          <td class="col-scenario">สร้าง Material ใหม่ผ่าน Quick Material Setup Wizard (สร้าง Slab + Block Product ให้อัตโนมัติ)<div class="note">regression ของ TC-A1-01 — ปรับ flow ให้ตรงกับ day-in-life.html สไลด์ 2 จริง (ใช้ wizard ไม่ใช่ฟอร์ม Material ตรงๆ ซึ่งต้องมี Slab Product อยู่ก่อนแล้วถึงจะเลือกได้ ไม่เหมาะกับ Material ใหม่เอี่ยม) — ⚠️ ต้องมีสิทธิ์ Products/Create ก่อน (group_emgo_internal_manager ยังไม่มี ณ 2026-08-27 ดู progress.md finding #1) ไม่งั้น wizard จะ error ตอนสร้าง Slab/Block Product นี้เป็น fixture หลัก ("Test Marble 01") ที่ TC-D1-02/03/03b/04 ใช้ต่อทั้งหมด<br>✅ เคยเจอบั๊กจริงตรงนี้ (แก้แล้ว 2026-09-09) 2 จุด: (1) กด Confirm แล้วเว็บค้าง/error บนตาราง Finish/Edge ทุกครั้งที่สร้าง Material ใหม่แบบ Serial — แก้ด้วย force_save บนฟอร์ม wizard (2) Slab/Block Product ที่ wizard สร้างให้ไม่เคยมี Product Category เลย ทำให้ Bill/Invoice หลังจากนั้นลง GL ผิดบัญชีเงียบๆ — แก้ด้วย stone.material._ensure_product_category() ทั้งสองจุดแก้และ verify แล้วก่อนเผยแพร่ข้อความนี้</div></td>
           <td class="col-pre">ผู้ใช้มีสิทธิ์ EMG-O Internal Manager และมีสิทธิ์ Products/Create</td>
           <td class="col-steps"><ol><li>เปิดเมนู Configuration &gt; Quick Material Setup</li><li>เลือก Setup Mode = "สร้าง Material ใหม่"</li><li>กรอกทุกฟิลด์ตามคอลัมน์ข้อมูลตัวอย่าง (ติ๊ก "ขายทั้งก้อนได้ (Block Product)" ด้วย — จำเป็นสำหรับ TC-D1-03 ต่อไป)</li><li>กด Confirm</li></ol></td>
           <td class="col-sample">Setup Mode = "สร้าง Material ใหม่"<br>Material Name = "Test Marble 01"<br>Category = "Marble"<br>Pricing Mode = "Serial (per-slab)"<br>Origin Country = "Italy" (optional)<br>Density (Ton/CBM) = 2.75 (optional — ใส่ไว้เพื่อใช้ต่อใน TC-D1-03)<br>Slab Sales Price = 1,500<br>Slab Cost = 1,000<br>ขายทั้งก้อนได้ (Block Product) = ✔ ติ๊ก<br>Block Sales Price = 18,000<br>Block Cost = 15,000<br>มี Finished Good = ไม่ติ๊ก (ทดสอบแยกใน TC-D1-06b)</td>
