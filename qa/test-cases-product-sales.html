@@ -123,10 +123,10 @@
     <h1>Test Cases: Product Master &amp; Sales</h1>
     <div class="sub">รวม Test Case ของหมวด Product Master และการขายทั้ง 5 โหมด บนระบบ Empire Stone × Empire Granite — เขียนจากมุมมองผู้ใช้งานหน้าจอ (UI) ล้วนๆ พร้อมข้อมูลตัวอย่างที่ต้องกรอกในแต่ละขั้นตอน รวมถึง known issue/regression case ที่เคยพบมาแล้ว</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>69</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>71</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>15</b>หมวด</div>
-      <div class="stat-pill"><b style="color:var(--red)">35</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">28</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--red)">36</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">29</b>Medium Priority</div>
       <div class="stat-pill"><b style="color:var(--green)">6</b>Low Priority</div>
     </div>
   </header>
@@ -426,7 +426,7 @@
           <td class="col-id"><span class="tc-id">TC-A5-01</span></td>
           <td class="col-scenario">Material ที่ Slab Product ยังไม่มี Finish ให้เลือกเลย</td>
           <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือกเดียว ไม่มี Finish ให้เลือกหลายแบบ</td>
-          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ลองตั้งค่า Finish เป็นค่าใดก็ได้ (หรือปล่อยว่าง)</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order"</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ลองตั้งค่า Finish เป็นค่าใดก็ได้ (หรือปล่อยว่าง)</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือสร้าง MO ตัด (Manufacturing &gt; Manufacturing Orders &gt; New เลือกช่อง "Stone Bundle" เป็น Block นี้ แล้วกด Confirm)</li></ol></td>
           <td class="col-sample">Finish = เลือกอะไรก็ได้ เช่น "Polished" หรือปล่อยว่าง</td>
           <td class="col-expected">ทำงานได้ปกติเหมือนกันทุกครั้ง ไม่ error ไม่ว่าจะตั้งค่า Finish เป็นอะไร</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
@@ -435,7 +435,7 @@
           <td class="col-id"><span class="tc-id">TC-A5-02</span></td>
           <td class="col-scenario">Material ที่ Slab Product มี Finish ให้เลือกหลายแบบ<div class="note">หมายเหตุ: เคยพบบั๊กผลิตผิด Finish มาก่อน (แก้แล้ว 2026-07-19)</div></td>
           <td class="col-pre">Slab Product ของ Material นี้มีตัวเลือก Finish หลายแบบ (เช่น Polished/Honed) พร้อมใช้งานแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ตั้งค่า Finish = "Polished"</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือกด "Create Cut Order" แล้วยืนยัน MO</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้</li><li>ตั้งค่า Finish = "Polished"</li><li>ไปแท็บ Slabs เพิ่ม 1 แถว หรือสร้าง MO ตัด (เลือกช่อง "Stone Bundle" เป็น Block นี้ — ระบบ resolve BOM/Finish variant ให้อัตโนมัติผ่าน onchange) แล้วยืนยัน MO</li></ol></td>
           <td class="col-sample">Finish = "Polished"</td>
           <td class="col-expected">แผ่น/สินค้าที่ได้ตรงกับ Finish = Polished จริง ไม่ใช่ตัวเลือกเริ่มต้นแบบไม่ระบุ Finish</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -451,11 +451,11 @@
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A5-04</span></td>
-          <td class="col-scenario">Regression: เพิ่ม Finish แบบที่ 2 แล้ว Select Slabs/Cut-to-Order ต้องไม่หาย<div class="note">หมายเหตุ: พบและแก้แล้ว 2026-07-19 — regression case</div></td>
+          <td class="col-scenario">Regression: เพิ่ม Finish แบบที่ 2 แล้ว Select Slabs/สร้าง MO ตัด ต้องไม่หาย<div class="note">หมายเหตุ: พบและแก้แล้ว 2026-07-19 — regression case · ⚠️ "Cut to Order" button บน SO line ถูกรื้อออกแล้ว 13 ก.ย. 2026 (ADR-061) ปรับ step ให้ตรงกับกลไกใหม่ (native MO, ADR-062)</div></td>
           <td class="col-pre">Material ที่เพิ่งเพิ่มตัวเลือก Finish แบบที่ 2 ให้กับ Slab Product (Odoo จะปิดการใช้งาน variant เดิมอัตโนมัติ)</td>
-          <td class="col-steps"><ol><li>เปิด SO เลือก Material นี้</li><li>กด "Select Slabs" หรือ "Cut to Order"</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด SO เลือก Material นี้ กด "Select Slabs" (สำหรับแผ่นที่มีอยู่แล้ว)</li><li>แยกทดสอบฝั่งตัดใหม่: เปิด Manufacturing &gt; Manufacturing Orders &gt; New เลือกช่อง "Stone Bundle" เป็น Block ของ Material นี้</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ปุ่ม/ตัวเลือกยังใช้งานได้ปกติ ไม่หายไปเงียบๆ</td>
+          <td class="col-expected">ปุ่ม "Select Slabs" ยังใช้งานได้ปกติ ไม่หายไปเงียบๆ และ MO ตัดยัง resolve Product/BOM ตาม Finish variant ที่ถูกต้องได้ผ่าน onchange เช่นกัน (ไม่พังเพราะมี Finish ตัวที่ 2 เพิ่มมา)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -466,7 +466,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">A6. BOM ถูกสร้างอัตโนมัติ (Cut-to-Order / FG Production)</div>
-        <div class="category-sub">BOM/Workcenter/Operation Type ถูกสร้างให้อัตโนมัติแยกตาม Company · 5 test cases</div>
+        <div class="category-sub">BOM ถูกสร้างให้อัตโนมัติแยกตาม Company (Work Center ตั้งแต่ 13 ก.ย. 2026 provision ล่วงหน้าแล้ว ไม่ได้สร้างตอนนี้ — ดู ADR-062) · 5 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -485,38 +485,38 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-01</span></td>
-          <td class="col-scenario">Cut-to-Order ครั้งแรกของ Material+Company คู่ใหม่</td>
-          <td class="col-pre">Material นี้ยังไม่เคยสร้าง Cut Order สำหรับ Company นี้เลย</td>
-          <td class="col-steps"><ol><li>เปิด Block ของ Material นี้ กด "Create Cut Order" (หรือกด "Cut to Order" จาก SO line)</li><li>กรอกฟิลด์ในหน้าต่าง "Create Cut Order"</li><li>ตรวจ Manufacturing &gt; Work Centers และ Bill of Materials</li></ol></td>
-          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2<br>Cut From Block = เลือก Block ที่มีอยู่ (เช่น BLK-26-0002)</td>
-          <td class="col-expected">ระบบสร้าง Work Center "Stone Cutting", Operation Type "Stone Cutting" และ Bill of Materials ให้เองครบ ไม่ต้องตั้งค่าเอง</td>
+          <td class="col-scenario">สร้าง BOM ตัด (Cut-to-Order) ครั้งแรกของ Material+Company คู่ใหม่<div class="note">⚠️ เอกสารเดิมอ้างปุ่ม "Create Cut Order"/"Cut to Order" wizard — รื้อออกแล้ว 13 ก.ย. 2026 (ADR-061) ปรับ step ให้ตรงกับกลไกใหม่: Admin สร้าง MO เองในแอป Manufacturing (ADR-062)</div></td>
+          <td class="col-pre">Material นี้ยังไม่เคยมี Bill of Materials สำหรับตัด (Cut-to-Order) ของ Company นี้เลย และ Block ของ Material นี้อยู่ที่ Location "Stone Production" แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดเมนู Manufacturing &gt; Manufacturing Orders &gt; New</li><li>เลือกช่อง "Stone Bundle" เป็น Block ของ Material นี้ — สังเกต Product/BOM เติมอัตโนมัติผ่าน onchange</li><li>กรอก Target L (M) / Target H (M) แล้วกด Confirm</li><li>ตรวจ Manufacturing &gt; Bill of Materials ของสินค้านี้</li></ol></td>
+          <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2<br>Stone Bundle = เลือก Block ที่มีอยู่ (เช่น BLK-26-0002)</td>
+          <td class="col-expected">Confirm สำเร็จ ระบบสร้าง Bill of Materials ให้อัตโนมัติ 1 ใบ (routing Transport → Gangsaw) ไม่ต้องตั้งค่าเอง — ไม่ต้องสร้าง Work Center ใหม่ (Gangsaw/Transport มีอยู่แล้วล่วงหน้าทั้ง 8 ตัวต่อบริษัท)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-02</span></td>
-          <td class="col-scenario">Cut-to-Order ครั้งที่สองของ Material+Company เดิม</td>
+          <td class="col-scenario">สร้าง MO ตัดครั้งที่สองของ Material+Company เดิม</td>
           <td class="col-pre">ทำ TC-A6-01 ไปแล้ว มี BOM อยู่แล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order อีกครั้งของ Material/Company เดิม</li><li>ตรวจจำนวน Bill of Materials ของสินค้านี้</li></ol></td>
+          <td class="col-steps"><ol><li>สร้าง MO ตัด (เลือก Stone Bundle) อีกครั้งของ Material/Company เดิม แล้ว Confirm</li><li>ตรวจจำนวน Bill of Materials ของสินค้านี้</li></ol></td>
           <td class="col-sample">ใช้ Material/Company เดิมกับ TC-A6-01</td>
           <td class="col-expected">ใช้ BOM ใบเดิมซ้ำ ไม่มี BOM ใบใหม่เกิดขึ้นซ้อน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-03</span></td>
-          <td class="col-scenario">Material เดียวกัน Cut-to-Order จาก 2 บริษัท (Empire Granite, Empire Stone)<div class="note">หมายเหตุ: เคยพบบั๊กสลับบริษัทผิดมาก่อน (แก้แล้ว 2026-07-22)</div></td>
+          <td class="col-scenario">Material เดียวกัน สร้าง MO ตัดจาก 2 บริษัท (Empire Granite, Empire Stone)<div class="note">หมายเหตุ: เคยพบบั๊กสลับบริษัทผิดมาก่อน (แก้แล้ว 2026-07-22) — step ปรับให้ตรงกับ native MO (ADR-062)</div></td>
           <td class="col-pre">Material นี้ถูกใช้ทั้ง 2 บริษัท</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order จากคลังของ Empire Granite</li><li>สร้าง Cut Order จากคลังของ Empire Stone (Material เดียวกัน)</li><li>ตรวจ Bill of Materials ที่ได้ทั้งสองใบ</li></ol></td>
+          <td class="col-steps"><ol><li>สร้าง MO ตัด เลือก Block ของคลัง Empire Granite แล้ว Confirm</li><li>สร้าง MO ตัด เลือก Block ของคลัง Empire Stone (Material เดียวกัน) แล้ว Confirm</li><li>ตรวจ Bill of Materials ที่ได้ทั้งสองใบ</li></ol></td>
           <td class="col-sample">Material เดียวกัน ทำ 2 รอบ คนละ Company</td>
-          <td class="col-expected">ได้ BOM แยกกันคนละใบต่อบริษัท ไม่ใช้ปนกัน (แต่ละใบชี้ Work Center/Operation Type ของบริษัทตัวเอง)</td>
+          <td class="col-expected">ได้ BOM แยกกันคนละใบต่อบริษัท ไม่ใช้ปนกัน (แต่ละใบชี้ Work Center Gangsaw/Transport ของบริษัทตัวเอง)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A6-04</span></td>
-          <td class="col-scenario">ผู้ใช้สิทธิ์ EMG-O Factory Admin ธรรมดา กด Cut to Order ครั้งแรก</td>
+          <td class="col-scenario">ผู้ใช้สิทธิ์ EMG-O Factory Admin ธรรมดา สร้าง MO ตัดครั้งแรก<div class="note">⚠️ กลไกเปลี่ยนจาก wizard (เข้าถึงผ่านสิทธิ์ของโมดูลนี้เอง) เป็นสร้าง MO ตรงในแอป Manufacturing (ADR-062) — ยังไม่ยืนยันว่าสิทธิ์ "EMG-O Internal User"/group_emgo_factory ที่มีอยู่ เพียงพอให้เข้าเมนู Manufacturing &gt; Manufacturing Orders ได้เองโดยไม่ต้องเพิ่มสิทธิ์แอป Manufacturing หรือไม่ — ไม่มี ADR ที่อ่านมายืนยันเรื่องนี้ชัดเจน ต้องให้ QA จริงตรวจสอบ (flagged, ไม่ใช่ guess)</div></td>
           <td class="col-pre">ผู้ใช้ไม่มีสิทธิ์ Manufacturing Administrator (มีแค่สิทธิ์ EMG-O ปกติ)</td>
-          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้สิทธิ์จำกัดนี้</li><li>สร้าง Cut Order ครั้งแรกของ Material/Company ที่ยังไม่เคยมี BOM</li></ol></td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้สิทธิ์จำกัดนี้</li><li>เปิดเมนู Manufacturing &gt; Manufacturing Orders &gt; New สร้าง MO ตัด (เลือก Stone Bundle, Confirm) ครั้งแรกของ Material/Company ที่ยังไม่เคยมี BOM</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">สร้างสำเร็จ ไม่ขึ้น Access Error ระหว่างขั้นตอนที่ระบบสร้าง BOM/Work Center/Operation Type ให้อัตโนมัติ</td>
+          <td class="col-expected">เข้าเมนู Manufacturing Orders และสร้างสำเร็จ ไม่ขึ้น Access Error ระหว่างขั้นตอนที่ระบบสร้าง BOM ให้อัตโนมัติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
@@ -564,9 +564,9 @@
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-A7-02</span></td>
-          <td class="col-scenario">ตัดแผ่นผ่าน Cut-to-Order (มี Manufacturing Order จริง)</td>
+          <td class="col-scenario">ตัดแผ่นผ่าน Cut-to-Order (มี Manufacturing Order จริง)<div class="note">⚠️ ไม่มี "Create Cut Order" wizard แล้ว (รื้อออก 13 ก.ย. 2026, ADR-061) — ปรับ step เป็นสร้าง MO เองในแอป Manufacturing (ADR-062)</div></td>
           <td class="col-pre">Material ตั้ง "Cutting Labor Cost / Sq.Mt." มากกว่า 0 เช่นกัน และ Block อยู่ที่ Stone Production แล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order แล้ว Confirm Manufacturing Order ให้ตัดแผ่นจริง</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost และรายการ Analytic ของค่าแรงบน Sale Order</li></ol></td>
+          <td class="col-steps"><ol><li>สร้าง MO ตัด (Manufacturing &gt; Manufacturing Orders &gt; New เลือกช่อง "Stone Bundle" เป็น Block นี้) แล้ว Confirm</li><li>กด "Mark as Done" ให้ MO ตัดแผ่นจริง</li><li>เปิดเมนู Slabs หาแผ่นที่ได้ เปิดดู Total Cost และรายการ Analytic ของค่าแรงบน Sale Order</li></ol></td>
           <td class="col-sample">Target L (M) = 2.0<br>Target H (M) = 1.2</td>
           <td class="col-expected">ค่าแรงในแผ่นนี้มาจาก Cost/hr ของ Work Center × เวลาที่ใช้จริงบน Work Order เท่านั้น ไม่บวก "Cutting Labor Cost / Sq.Mt." ซ้ำเข้าไปอีก (ไม่ double-count)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -710,7 +710,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B3. Mode 3 — Cut-to-Order (MRP)</div>
-        <div class="category-sub">ADR-018 — ตัดแผ่นใหม่จาก Block ตามสั่ง · 5 test cases</div>
+        <div class="category-sub">ADR-018/061/062 — ตัดแผ่นใหม่จาก Block ตามสั่ง ผ่าน Manufacturing Order โดยตรง (ไม่มี wizard แล้ว ตั้งแต่ 13 ก.ย. 2026) · 7 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -729,47 +729,65 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-01</span></td>
-          <td class="col-scenario">สร้าง Cut Order ขณะ Block ยังไม่ได้ย้ายไป Stone Production<div class="note">หมายเหตุ: ระบบใหม่ (เพิ่ม 2026-08-16) — Block ต้องถูกย้ายไปสถานีตัดก่อนเสมอ</div></td>
+          <td class="col-scenario">Confirm MO ตัด ขณะ Block ยังไม่ได้ย้ายไป Stone Production<div class="note">⚠️ ปรับใหม่ทั้งหมด 14 ก.ย. 2026: "Create Cut Order" wizard และหน้า Factory Worklist ถูกรื้อออกแล้ว 13 ก.ย. 2026 (ADR-061) — Admin สร้าง Manufacturing Order เองตรงในแอป Manufacturing แทน (ADR-062) กฎ "Block ต้องย้ายไปสถานีตัดก่อนเสมอ" (เดิม ADR-053) ยังใช้อยู่ แค่ย้ายจุดตรวจจาก wizard ไปเป็น MO's action_confirm() โดยตรง</div></td>
           <td class="col-pre">Block อยู่ที่ Location "Stone Available" เท่านั้น ยังไม่เคยถูกย้ายไป "Stone Production"</td>
-          <td class="col-steps"><ol><li>เปิดหน้าต่าง "Create Cut Order" เลือก Block นี้ กรอก Target L / Target H</li><li>กด "Create Cut Order"</li></ol></td>
+          <td class="col-steps"><ol><li>เปิดเมนู Manufacturing &gt; Manufacturing Orders &gt; New</li><li>เลือกช่อง "Stone Bundle" เป็น Block นี้ — สังเกต Product/BOM เติมอัตโนมัติ, Target L/H เติมค่าเริ่มต้นจากขนาด Block</li><li>กด Confirm โดยไม่ย้าย Block ไปไหนก่อน</li></ol></td>
           <td class="col-sample">Target L (M) = 1.0<br>Target H (M) = 1.0</td>
-          <td class="col-expected">ระบบฟ้อง error สองภาษาแจ้งว่า Block ยังไม่ได้ย้ายไปสถานีตัด (Stone Production) เพียงพอ พร้อมบอกให้สแกน/ย้าย Block ไปก่อน บันทึกไม่ผ่าน</td>
+          <td class="col-expected">Confirm ไม่สำเร็จ ระบบฟ้อง error แจ้งว่า Block ยังไม่ได้ย้ายไปสถานีตัด (Stone Production) เพียงพอ พร้อมบอกให้สแกน/ย้าย Block ไปก่อน — MO ยังคงอยู่ที่สถานะ Draft</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-02</span></td>
-          <td class="col-scenario">ย้าย Block ไป Stone Production ก่อนสร้าง Cut Order</td>
+          <td class="col-scenario">ย้าย Block ไป Stone Production ก่อน Confirm MO</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>ทำ Internal Transfer (ผ่านแอป Inventory หรือ Barcode) ย้าย Block จาก "Stone Available" ไป "Stone Production"</li><li>เปิดหน้าต่าง "Create Cut Order" สร้างใหม่อีกครั้งด้วยขนาดเดิม</li></ol></td>
+          <td class="col-steps"><ol><li>ทำ Internal Transfer (ผ่านแอป Inventory หรือ Barcode) ย้าย Block จาก "Stone Available" ไป "Stone Production"</li><li>เปิด MO เดิมจาก TC-B3-01 (ยังเป็น Draft) กด Confirm อีกครั้งด้วยขนาดเดิม</li></ol></td>
           <td class="col-sample">Target L (M) = 1.0<br>Target H (M) = 1.0</td>
-          <td class="col-expected">สร้าง Manufacturing Order สำเร็จ ไม่ติด error</td>
+          <td class="col-expected">Confirm สำเร็จ (state=Confirmed) ไม่ติด error — ปริมาณวัตถุดิบที่จองถูกตั้งเป็น Target CBM จริง ไม่ใช่ค่า placeholder 1.0 ของ BOM และ Block lot ที่ใช้ถูก pin ไว้เฉพาะก้อนนี้</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-03</span></td>
           <td class="col-scenario">Confirm MO ที่มาจากบรรทัด SO จริง</td>
-          <td class="col-pre">Manufacturing Order มาจาก Cut Order ที่สร้างจากบรรทัด SO ที่ยังไม่มีแผ่นจริง</td>
-          <td class="col-steps"><ol><li>Confirm Manufacturing Order ให้เสร็จสมบูรณ์</li><li>ตรวจแผ่นใหม่ที่ได้ และรายการ Analytic Account ของ SO</li></ol></td>
+          <td class="col-pre">Manufacturing Order (สร้างตรงในแอป Manufacturing, เลือก Sale Order Line ตอนสร้าง) ผูกกับบรรทัด SO ที่ยังไม่มีแผ่นจริง</td>
+          <td class="col-steps"><ol><li>Confirm Manufacturing Order</li><li>กด "Mark as Done" ให้ MO เสร็จสมบูรณ์ (ตัดแผ่นจริง)</li><li>ตรวจแผ่นใหม่ที่ได้ และรายการ Analytic Account ของ SO</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">แผ่นใหม่ถูกผูกเข้ากับบรรทัด SO ที่สั่งไว้ทันที (สถานะ Hold) และค่าแรงประมาณการถูกบันทึกเข้า Analytic Account ของ SO ถูกต้อง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-04</span></td>
-          <td class="col-scenario">Block ที่สต็อกถูกจองเต็มไปกับงานอื่นแล้ว — ตัดแผ่นใหม่<div class="note">หมายเหตุ: edge case ที่เคยพบ ยังไม่เจอเคสจริงซ้ำแบบเต็มรูปแบบ</div></td>
-          <td class="col-pre">Block ที่จะตัดถูกจองสต็อกไปกับงานอื่นเต็มจำนวนแล้ว</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order และ Confirm Manufacturing Order ตัดแผ่นจาก Block นี้</li></ol></td>
+          <td class="col-scenario">2 Block ของ Material เดียวกันกองที่ Stone Production พร้อมกัน — Confirm MO ต้องจองก้อนที่เลือกจริง ไม่ใช่จองมั่ว<div class="note">🐛 บั๊กจริงที่พบและแก้แล้ว (ADR-062, 13 ก.ย. 2026): กลไกเดิมปล่อยให้ auto-reserve ทั่วไปจัดการ ทำให้ MO ไม่จองก้อนไหนเลย (0 move line) เมื่อมี Block ของวัสดุเดียวกัน 2 ก้อนขึ้นไปกองที่ Stone Production พร้อมกัน — แก้แล้วด้วยการสร้าง stock.move.line pin lot ของ Block ที่เลือกไว้ตรงตอน Confirm แทนการพึ่ง _action_assign() เฉยๆ</div></td>
+          <td class="col-pre">มี Block 2 ก้อนของ Material เดียวกัน (เช่น A และ B) อยู่ที่ Location "Stone Production" พร้อมกันทั้งคู่</td>
+          <td class="col-steps"><ol><li>สร้าง MO เลือก Stone Bundle = Block A โดยเฉพาะ</li><li>Confirm MO</li><li>เปิดดู Move Line ของวัตถุดิบที่จองไว้</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ตัดแผ่นสำเร็จ ไม่ขึ้น error "You need to supply a Lot/Serial Number" (ยืนยันว่าจุดที่เคยแก้ไว้ยังใช้ได้)</td>
-          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-expected">MO จองสต็อกจาก Block A เท่านั้น (Lot ตรงกับ Block A ที่เลือกไว้ ไม่ใช่ Block B และไม่ใช่ 0 move line) แม้มี Block อื่นของวัสดุเดียวกันกองอยู่ที่เดียวกัน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-B3-05</span></td>
-          <td class="col-scenario">Cut-to-Order ข้ามบริษัท (Block อยู่ Empire Stone, สร้างจาก SO ของ Empire Granite)</td>
-          <td class="col-pre">Block ที่จะตัดอยู่คลังของ Empire Stone แต่ SO เป็นของ Empire Granite</td>
-          <td class="col-steps"><ol><li>สร้าง Cut Order เลือก Block ของ Empire Stone</li><li>Confirm Manufacturing Order</li></ol></td>
+          <td class="col-scenario">Confirm MO ตัดโดยไม่กรอก Target L/H (ปล่อยว่างหรือ 0)</td>
+          <td class="col-pre">Block อยู่ที่ Stone Production แล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง MO เลือก Stone Bundle เป็น Block นี้</li><li>เว้น Target L (M) หรือ Target H (M) ว่าง/เป็น 0</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">Target L (M) = (เว้นว่าง)</td>
+          <td class="col-expected">Confirm ไม่สำเร็จ ระบบฟ้อง error แจ้งให้กรอก Target L/H ก่อน — MO ยังคงเป็น Draft</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B3-06</span></td>
+          <td class="col-scenario">Target CBM ที่คำนวณจาก Target L/H เกินปริมาตรที่เหลือจริงของ Block (remaining_cbm)</td>
+          <td class="col-pre">Block เหลือปริมาตรจริง (Remaining CBM) น้อยกว่าที่จะตัดตาม Target L/H ที่จะกรอก</td>
+          <td class="col-steps"><ol><li>สร้าง MO เลือก Stone Bundle เป็น Block นี้</li><li>กรอก Target L/H ที่คำนวณ CBM ได้มากกว่า Remaining CBM ของ Block</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">Target L (M) = 5.0<br>Target H (M) = 5.0 (คำนวณ CBM เกิน Remaining CBM ของ Block)</td>
+          <td class="col-expected">Confirm ไม่สำเร็จ ระบบฟ้อง error แจ้งว่าปริมาตรที่จะตัดเกินปริมาตรที่เหลือจริงของ Block — MO ยังคงเป็น Draft</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B3-07</span></td>
+          <td class="col-scenario">สร้าง MO ตัดข้ามบริษัท (Block อยู่ Empire Stone, ผูก SO ของ Empire Granite)</td>
+          <td class="col-pre">Block ที่จะตัดอยู่คลังของ Empire Stone แต่ SO เป็นของ Empire Granite — Block อยู่ที่ Stone Production ของคลัง Empire Stone แล้ว</td>
+          <td class="col-steps"><ol><li>สร้าง MO เลือก Stone Bundle เป็น Block ของ Empire Stone</li><li>Confirm MO</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">BOM/Work Center/Operation Type ที่ใช้ตรงกับบริษัทของคลังที่ Block อยู่จริง (Empire Stone) ไม่สลับบริษัทผิด</td>
+          <td class="col-expected">BOM ที่ใช้ตรงกับบริษัทของคลังที่ Block อยู่จริง (Empire Stone) ไม่สลับบริษัทผิด — Work Center ที่ใช้คือ Gangsaw/Transport ของ Empire Stone เอง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
