@@ -592,8 +592,8 @@
       <div class="icon">T</div>
       <div>
         <div class="card-title">Test Cases: Product Master &amp; Sales</div>
-        <div class="card-desc">70 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
-        <div class="card-meta"><span class="card-date">24 ส.ค. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-desc">71 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ปรับ A5/A6/A7/B3 ให้ตรงกับกลไกตัดหินใหม่ (native Manufacturing Order สร้างตรงในแอป Manufacturing ไม่มี wizard/Factory Worklist แล้ว ตั้งแต่ 13 ก.ย. 2026) พร้อมเพิ่ม edge case ของกลไกใหม่ใน B3 อีก 2 ข้อ (multi-Block reservation, target dimension validation) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">ปรับให้ตรงกลไกตัดหินใหม่ (ADR-061/062)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -601,8 +601,8 @@
       <div class="icon">T2</div>
       <div>
         <div class="card-title">Test Cases: Day-in-the-Life (Order-to-Cash)</div>
-        <div class="card-desc">39 test case เดินตามลำดับ flow จริงทุกจุดในเอกสาร Day-in-the-Life ครบทุกสไลด์ในเธรดเดียว (Material Setup → Analytic → BOQ Quotation → มัดจำ+Project → ต้นทุนจริงจาก PO → Cut Order → ค่าใช้จ่ายหน้างาน → ติดตั้ง+WHT → ปิดยอด → Chart of Analytic Accounts) รวมจุดที่เคยมี Test Case ในหมวดอื่นแล้วก็ทดสอบซ้ำที่นี่เพื่อจับ regression จากโค้ดที่เปลี่ยนล่าสุด (ระบุที่มาไว้ในหมายเหตุแต่ละเคส) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
-        <div class="card-meta"><span class="card-version">v1.1</span><span class="card-date">30 ส.ค. 2026</span><span class="status-badge confirmed">แก้ TC-D1-03 ให้ตรงกับ ADR-040</span></div>
+        <div class="card-desc">40 test case เดินตามลำดับ flow จริงทุกจุดในเอกสาร Day-in-the-Life ครบทุกสไลด์ในเธรดเดียว (Material Setup → Analytic → BOQ Quotation → มัดจำ+Project → ต้นทุนจริงจาก PO → MO ตัดหิน (native, สร้างตรงในแอป Manufacturing ไม่มี wizard แล้ว) → ค่าใช้จ่ายหน้างาน → ติดตั้ง+WHT → ปิดยอด → Chart of Analytic Accounts) รวมจุดที่เคยมี Test Case ในหมวดอื่นแล้วก็ทดสอบซ้ำที่นี่เพื่อจับ regression จากโค้ดที่เปลี่ยนล่าสุด (ระบุที่มาไว้ในหมายเหตุแต่ละเคส) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-version">v1.2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">ปรับ D5/D6 (Cut Order) ให้ตรงกับกลไก native MO ใหม่ (ADR-061/062)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
