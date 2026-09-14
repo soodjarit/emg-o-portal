@@ -639,8 +639,8 @@
       <div class="icon">T6</div>
       <div>
         <div class="card-title">Test Cases: E2E Flow — Mode 4 (Sold-as-Project)</div>
-        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ตั้งต้นจากเอกสาร BOQ → ติ๊ก "Sold as Project" → ยืนยัน SO ให้ระบบสร้าง Project + Task อัตโนมัติ → เรียกเก็บเงินมัดจำ 3 งวด (30/40/30) → ส่งมอบสินค้าจริง → ปิดงานให้ Milestone ขึ้นสำเร็จอัตโนมัติ → ตรวจสอบ Project P&amp;L และ Journal Items ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงผ่านหน้าจอ Odoo จริง (Playwright) บน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (BOQ0023 → SO S00102 → Project 38 → INV/2026/00012-00014 → EG01/OUT/00059) พบ 3 known issue จริงในเส้นทางสินค้าโหมด Lot ที่ยังไม่ได้แก้ (routing ส่งของผิด, สต็อกคงเหลือรายงานต่ำกว่าจริง, ราคา BOQ ถูกเขียนทับ) — ดู TC-03/TC-09</div>
-        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ตั้งต้นจากเอกสาร BOQ → ติ๊ก "Sold as Project" → ยืนยัน SO ให้ระบบสร้าง Project + Task อัตโนมัติ → เรียกเก็บเงินมัดจำ 3 งวด (30/40/30) → ส่งมอบสินค้าจริง → ปิดงานให้ Milestone ขึ้นสำเร็จอัตโนมัติ → ตรวจสอบ Project P&amp;L และ Journal Items ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 บน mbx-ee-dev (BOQ0029 → SO S00126 → Project 41 → INV/2026/00028-00030 → EG01/OUT/00080) ยืนยันแล้วว่า 2 บั๊กจริงที่เคยพบก่อนหน้ายังคงปิดอยู่จริง (routing ส่งของ, ราคา BOQ ถูกเขียนทับ) — กลไก BOQ→Project ไม่ถูกกระทบจากการเปลี่ยนกลไกตัดหินเมื่อวาน — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
