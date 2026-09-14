@@ -123,11 +123,11 @@
     <h1>Test Cases: Product Master &amp; Sales</h1>
     <div class="sub">รวม Test Case ของหมวด Product Master และการขายทั้ง 5 โหมด บนระบบ Empire Stone × Empire Granite — เขียนจากมุมมองผู้ใช้งานหน้าจอ (UI) ล้วนๆ พร้อมข้อมูลตัวอย่างที่ต้องกรอกในแต่ละขั้นตอน รวมถึง known issue/regression case ที่เคยพบมาแล้ว</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>71</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>81</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>15</b>หมวด</div>
-      <div class="stat-pill"><b style="color:var(--red)">36</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">29</b>Medium Priority</div>
-      <div class="stat-pill"><b style="color:var(--green)">6</b>Low Priority</div>
+      <div class="stat-pill"><b style="color:var(--red)">41</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">33</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">7</b>Low Priority</div>
     </div>
   </header>
 
@@ -588,7 +588,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B1. Mode 1 — Block Direct Sale</div>
-        <div class="category-sub">ADR-019 — ขายทั้งก้อนหินตาม CBM · 4 test cases</div>
+        <div class="category-sub">ADR-019/057 — ขายทั้งก้อนหินตาม CBM + สิทธิ์ Sale Group by Product Category · 7 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -641,6 +641,33 @@
           <td class="col-expected">ราคาต่อหน่วยตรงตามสูตรต้นทุน/ราคาขายต่อ CBM ของ Block ไม่ผิดเพี้ยน</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B1-05</span></td>
+          <td class="col-scenario">ผู้ใช้ระดับ B2B (ยังไม่ถึง Supervisor) พิมพ์/เลือก Block Product ตรงในช่อง Product ของบรรทัด SO เอง<div class="note">ADR-057: 3 กลุ่มสิทธิ์ใหม่ Supervisor/B2B/B2C — ขาย Block ทั้งก้อนได้เฉพาะ "EMG-O Sale - Supervisor" เท่านั้น เช็คที่ create()/write() ของบรรทัด ไม่ใช่แค่ปุ่ม "Sell Whole Block" (ปุ่มนั้นกันด้วยกลุ่ม Factory คนละเรื่อง)</div></td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์กลุ่ม "EMG-O Sale - B2B" เท่านั้น (ไม่มี "EMG-O Sale - Supervisor")</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้ระดับ B2B</li><li>เปิด SO เพิ่มบรรทัดใหม่</li><li>ที่ช่อง Product เลือก Block Product ของ Material ใดๆ ตรงๆ (ไม่ผ่านปุ่ม Sell Whole Block)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Save ไม่สำเร็จ ระบบฟ้อง UserError: "สิทธิ์ไม่พอ — ขาย Block ทั้งก้อนได้เฉพาะกลุ่ม &quot;EMG-O Sale - Supervisor&quot; เท่านั้น"</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B1-06</span></td>
+          <td class="col-scenario">ผู้ใช้ระดับ Supervisor (หรือ Manager ซึ่งได้สิทธิ์ Supervisor มาด้วย) เพิ่มบรรทัด Block ทั้งก้อนสำเร็จ</td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์กลุ่ม "EMG-O Sale - Supervisor" (หรือเป็น Manager)</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้ระดับ Supervisor/Manager</li><li>เปิด SO เพิ่มบรรทัดใหม่ เลือก Block Product ตรงในช่อง Product</li><li>กด Save</li><li>ทำต่อด้วยปุ่ม "Sell Whole Block" ตามขั้นตอน TC-B1-01 ปกติ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Save สำเร็จ ไม่ติด UserError ใดๆ — เดินขั้นตอน Sell Whole Block ต่อได้ตามปกติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B1-07</span></td>
+          <td class="col-scenario">แก้ไขบรรทัด Block เดิม (ไม่เปลี่ยน Product) โดยผู้ใช้ระดับต่ำกว่า Supervisor<div class="note">พฤติกรรมจริงตามโค้ด: _check_stone_sale_group_access() ถูกเรียกเฉพาะตอน create() หรือ write() ที่มี product_id อยู่ใน vals เท่านั้น — แก้ field อื่นบนบรรทัด Block เดิมไม่ไปเช็คสิทธิ์ซ้ำ ไม่ใช่บั๊ก แต่เป็นช่องว่างที่ควรรู้ไว้</div></td>
+          <td class="col-pre">มีบรรทัด Block ที่ผู้ใช้ระดับ Supervisor เพิ่มไว้แล้ว (จาก TC-B1-06), SO ยังเป็น Draft</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้ระดับ B2B หรือ B2C</li><li>เปิด SO เดิม แก้ไข Quantity หรือ Description ของบรรทัด Block นั้น (ไม่แตะช่อง Product)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">แก้ Quantity จากเดิมเป็นค่าใหม่ เช่น เปลี่ยนจำนวนหมายเหตุ/รายละเอียดบรรทัด</td>
+          <td class="col-expected">Save สำเร็จ ไม่มี UserError เรื่องสิทธิ์ Block เกิดขึ้น (ไม่มีการเช็คซ้ำเพราะไม่ได้แก้ product_id) — บันทึกไว้เป็นพฤติกรรมที่ต้องรู้ ไม่ใช่ผลลัพธ์ที่ต้องบล็อก</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -649,7 +676,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B2. Mode 2 — Ready-Made Slab (Serial / Lot)</div>
-        <div class="category-sub">ADR-002/006/009/020 — เลือกทีละแผ่น vs เลือกเป็นจำนวนตร.ม. · 4 test cases</div>
+        <div class="category-sub">ADR-002/006/009/020/058 — เลือกทีละแผ่น vs เลือกเป็นจำนวนตร.ม. + Pin Serial · 8 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -702,6 +729,42 @@
           <td class="col-expected">ราคาที่ตั้งไว้ก่อนหน้าถูกรีเซ็ตกลับเป็นราคามาตรฐานของสินค้า (พฤติกรรมของ Odoo เอง) — ต้องตั้งราคาเองหลังเลือกแผ่นเสร็จเท่านั้น</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B2-05</span></td>
+          <td class="col-scenario">Pin Serial — เลือกแผ่นเฉพาะเจาะจงตรงในช่อง "Pin Serial" ของบรรทัด SO เอง (ไม่เปิด Select Slabs)<div class="note">ADR-058 (B7): stone_pinned_lot_id — สำหรับกรณีลูกค้าเลือกแผ่นจริงที่โชว์รูมแล้ว เรียก hold_for_sale_line() ตัวเดียวกับ Select Slabs wizard</div></td>
+          <td class="col-pre">Material โหมด Serial มีแผ่นสถานะ Available อย่างน้อย 1 แผ่น</td>
+          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัดสินค้าแผ่น (Serial mode)</li><li>ที่ช่อง "Pin Serial" เลือกแผ่นที่ต้องการโดยตรง</li><li>กด Save</li></ol></td>
+          <td class="col-sample">เลือก Serial ของแผ่นที่สถานะ Available เช่น "SL-00042"</td>
+          <td class="col-expected">แผ่นที่ Pin เปลี่ยนสถานะเป็น Hold ผูกกับบรรทัดนี้ทันที (customer_id/sale_order_id/sale_line_id ตั้งค่าครบ) เหมือนผ่าน Select Slabs wizard — เปิด Select Slabs อีกครั้งจะเห็นแผ่นนี้ถูกจับไว้แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B2-06</span></td>
+          <td class="col-scenario">Pin Serial เลือกแผ่นที่ถูก Hold ไปแล้วจากบรรทัด/SO อื่น</td>
+          <td class="col-pre">มีแผ่นสถานะ Hold ผูกกับบรรทัด SO อื่นอยู่แล้ว (เช่นจาก TC-B2-05)</td>
+          <td class="col-steps"><ol><li>เปิดบรรทัด SO ใหม่ (คนละบรรทัด/คนละ SO)</li><li>ที่ช่อง "Pin Serial" พยายามเลือก Serial แผ่นเดียวกันกับที่ถูก Hold ไปแล้ว</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบฟ้อง UserError ทันที: "Slab เหล่านี้ไม่ว่างแล้ว: ..." (ข้อความเดียวกับ Select Slabs wizard) — ไม่ยอมให้ Pin ซ้ำ</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B2-07</span></td>
+          <td class="col-scenario">Confirm SO ที่ Pin Serial ไว้ → ส่งมอบต้องได้แผ่นตามที่ Pin เท่านั้น</td>
+          <td class="col-pre">บรรทัด SO นี้ Pin Serial ไว้แล้ว (จาก TC-B2-05), ยังไม่ Confirm</td>
+          <td class="col-steps"><ol><li>Confirm SO</li><li>เปิด Delivery Order ที่เกิดขึ้น ตรวจ Lot/Serial ที่ระบบเติมมาให้ในบรรทัด move</li><li>ลองสแกน/พิมพ์ยืนยันด้วย Serial แผ่นอื่น (ไม่ใช่ตัวที่ Pin ไว้) แล้วกด Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Delivery Order เติม Lot/Serial ตรงกับแผ่นที่ Pin ไว้เป็นค่าเริ่มต้น — ถ้ายืนยันด้วย Serial อื่นที่ไม่ตรง ระบบฟ้อง UserError "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate: ..." บล็อกไม่ให้ Validate ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B2-08</span></td>
+          <td class="col-scenario">Regression: ปล่อย Pin Serial ว่างไว้ (ค่าเริ่มต้น) — Select Slabs ยังทำงานปกติเหมือนก่อนมี B7</td>
+          <td class="col-pre">บรรทัด SO สินค้าแผ่น (Serial mode) ยังไม่แตะช่อง Pin Serial เลย</td>
+          <td class="col-steps"><ol><li>เพิ่มบรรทัด SO ไม่กรอกอะไรที่ช่อง Pin Serial</li><li>กด "Select Slabs" เลือกแผ่นตามขั้นตอนเดิม (TC-B2-01)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">พฤติกรรมเดิมของ Select Slabs ไม่เปลี่ยนแปลง — แผ่นใดก็ได้ที่ตรงสเปกและสถานะ Available ถูกเลือกได้ตามปกติ, Pin Serial เป็นออปชันเสริมเท่านั้นไม่ใช่ทางบังคับ</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -710,7 +773,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B3. Mode 3 — Cut-to-Order (MRP)</div>
-        <div class="category-sub">ADR-018/061/062 — ตัดแผ่นใหม่จาก Block ตามสั่ง ผ่าน Manufacturing Order โดยตรง (ไม่มี wizard แล้ว ตั้งแต่ 13 ก.ย. 2026) · 7 test cases</div>
+        <div class="category-sub">ADR-018/057/061/062 — ตัดแผ่นใหม่จาก Block ตามสั่ง ผ่าน Manufacturing Order โดยตรง (ไม่มี wizard แล้ว ตั้งแต่ 13 ก.ย. 2026) + Target Size บนบรรทัด SO · 9 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -789,6 +852,24 @@
           <td class="col-sample">-</td>
           <td class="col-expected">BOM ที่ใช้ตรงกับบริษัทของคลังที่ Block อยู่จริง (Empire Stone) ไม่สลับบริษัทผิด — Work Center ที่ใช้คือ Gangsaw/Transport ของ Empire Stone เอง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B3-08</span></td>
+          <td class="col-scenario">กรอก Target L/H/Thickness บนบรรทัด SO เอง ตอนฝ่ายขายรับออเดอร์<div class="note">ADR-057: stone_target_l/h/thickness เป็นช่องข้อมูลบนบรรทัด SO (sale.order.line) คนละช่องกับ Target L/H ของ Manufacturing Order ที่ทดสอบใน TC-B3-01/05 (mrp.production.stone_target_l/h) — เป็นข้อมูลอ้างอิงเท่านั้น ยังไม่เชื่อม auto-default ไปที่ MO ให้ (ระบุไว้ชัดว่ายังไม่ทำรอบนี้)</div></td>
+          <td class="col-pre">บรรทัด SO เป็นสินค้าแผ่น โหมด Serial (is_stone_material=True, ไม่ใช่ Lot mode/Block/FG)</td>
+          <td class="col-steps"><ol><li>เปิด SO เพิ่มบรรทัดสินค้าแผ่นนี้</li><li>กรอกช่อง "Target L (M)" / "Target H (M)" / "Target Thickness (M)" ที่ปรากฏบนบรรทัด SO เอง</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Target L (M) = 2.4<br>Target H (M) = 1.2<br>Target Thickness (M) = 0.02</td>
+          <td class="col-expected">ค่าทั้ง 3 ช่องบันทึกลงบรรทัด SO ได้ปกติ — ไม่มีช่องใดถูกบังคับกรอก (ปล่อยว่าง/เป็น 0 ก็ Save ได้ปกติ) และไม่ไปเติมช่อง Target L/H ของ Manufacturing Order ให้อัตโนมัติ (ต้องพิมพ์ซ้ำเองตอนสร้าง MO จริง)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B3-09</span></td>
+          <td class="col-scenario">Target L/H/Thickness ไม่ปรากฏบนบรรทัดที่เป็น Block / Lot mode / FG</td>
+          <td class="col-pre">มีบรรทัด SO ทั้ง 3 แบบ: Block ทั้งก้อน, Material โหมด Lot, สินค้า FG</td>
+          <td class="col-steps"><ol><li>เปิดแต่ละบรรทัดดูที่แถว/ฟอร์มของบรรทัดนั้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ช่อง Target L/H/Thickness ซ่อนอยู่ทุกกรณี — โชว์เฉพาะบรรทัดสินค้าแผ่นโหมด Serial (is_stone_material และไม่ใช่ is_stone_lot_material) เท่านั้น เหมือนกับเงื่อนไขที่ Pin Serial ใช้ (TC-B2-05)</td>
+          <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
         </tr>
       </tbody>
     </table>
@@ -1096,7 +1177,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B8. Multi-Company Visibility &amp; Security</div>
-        <div class="category-sub">กลุ่มสิทธิ์ EMG-O Internal User/Manager + การเข้าถึงข้ามบริษัท · 4 test cases</div>
+        <div class="category-sub">กลุ่มสิทธิ์ EMG-O Internal User/Manager + Sale Group (Supervisor/B2B/B2C) + การเข้าถึงข้ามบริษัท · 5 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -1147,6 +1228,15 @@
           <td class="col-steps"><ol><li>Login ด้วยผู้ใช้นี้เข้าหน้าระบบหลังบ้าน</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">เข้าหน้าระบบหลังบ้านได้ปกติเหมือน internal user ทั่วไป ไม่ใช่ถูกจำกัดสิทธิ์แบบ portal user</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-B8-05</span></td>
+          <td class="col-scenario">Regression: ผู้ใช้ระดับ Sale (B2C) บันทึกบรรทัด Stone-Material ได้สำเร็จ ไม่ติด Access Error<div class="note">หมายเหตุ: เคยพบบั๊กจุดนี้มาก่อน (แก้แล้ว 2026-09-13, ADR-060) — stone_available_lot_ids (B7) ส่ง id ของ stock.lot ให้ Web Client resolve ตอน render ช่อง Pin Serial แม้ไม่ได้ใช้ Pin Serial เลยก็ตาม ทำให้ผู้ใช้ระดับ Sale ทุกระดับ (B2C/B2B/Supervisor) Save บรรทัด Stone-Material ไม่ได้เลย ติด Access Error ของ stock.lot — แก้โดยเพิ่มสิทธิ์ read-only stock.lot ให้กลุ่ม EMG-O Internal User (access_stock_lot_emgo_user)</div></td>
+          <td class="col-pre">ผู้ใช้มีสิทธิ์กลุ่ม "EMG-O Sale - B2C" เท่านั้น ไม่มีสิทธิ์กลุ่ม Inventory/Quality ใดๆ</td>
+          <td class="col-steps"><ol><li>Login ด้วยผู้ใช้ระดับ B2C</li><li>เปิด Sales App สร้าง Quotation ใหม่</li><li>เพิ่มบรรทัดสินค้า FG (ตามสิทธิ์ B2C ที่ขายได้)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Save สำเร็จ ไม่มี Access Error เกี่ยวกับ "Lot/Serial (stock.lot)" ปรากฏขึ้นเลย แม้ผู้ใช้นี้ไม่มีสิทธิ์กลุ่ม Inventory ใดๆ — บรรทัดถูกสร้างขึ้นตามปกติ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>

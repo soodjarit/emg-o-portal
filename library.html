@@ -592,8 +592,8 @@
       <div class="icon">T</div>
       <div>
         <div class="card-title">Test Cases: Product Master &amp; Sales</div>
-        <div class="card-desc">71 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ปรับ A5/A6/A7/B3 ให้ตรงกับกลไกตัดหินใหม่ (native Manufacturing Order สร้างตรงในแอป Manufacturing ไม่มี wizard/Factory Worklist แล้ว ตั้งแต่ 13 ก.ย. 2026) พร้อมเพิ่ม edge case ของกลไกใหม่ใน B3 อีก 2 ข้อ (multi-Block reservation, target dimension validation) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
-        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">ปรับให้ตรงกลไกตัดหินใหม่ (ADR-061/062)</span></div>
+        <div class="card-desc">81 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ปรับ A5/A6/A7/B3 ให้ตรงกับกลไกตัดหินใหม่ (native Manufacturing Order สร้างตรงในแอป Manufacturing ไม่มี wizard/Factory Worklist แล้ว ตั้งแต่ 13 ก.ย. 2026) เพิ่ม edge case ของกลไกใหม่ใน B3 อีก 2 ข้อ (multi-Block reservation, target dimension validation) พร้อมปิดช่องว่างการทดสอบสิทธิ์ Sale Group by Product Category (ADR-057/058/060, 2026-09-13) อีก 10 เคสใหม่: B1 กันขาย Block ทั้งก้อนนอกกลุ่ม Supervisor, B2 Pin Serial (B7), B3 Target L/H/Thickness บนบรรทัด SO, B8 regression ปิดบั๊ก stock.lot ACL ที่เคยบล็อกผู้ใช้ Sale ทุกระดับ Save บรรทัด Stone-Material ไม่ได้ — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">เพิ่ม test coverage Sale Group/Pin Serial/Target Size (ADR-057/058/060)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
