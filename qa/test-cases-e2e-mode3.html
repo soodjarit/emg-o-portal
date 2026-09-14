@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: E2E Flow (Mode 3)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode3.xlsx" download="EMG-O Test Cases - E2E Mode 3.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#E1"><span class="tree-doc-tag">E1</span>ขาย (Sale — ก่อนมีแผ่นจริง)</a></li><li class="tree-doc"><a href="#E2"><span class="tree-doc-tag">E2</span>ผลิต (Production — ตัด Slab จริง)</a></li><li class="tree-doc"><a href="#E3"><span class="tree-doc-tag">E3</span>จัดส่ง (Delivery — Scan Verification)</a></li><li class="tree-doc"><a href="#E4"><span class="tree-doc-tag">E4</span>บัญชี (Accounting + Payment)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: E2E Flow — Mode 3 (Cut-to-Order)</h1>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก ยืนยันคำสั่งขายทั้งที่ยังไม่มีแผ่นหินจริง จนถึงฝ่ายผลิตตัดแผ่นจริงและออกใบแจ้งหนี้ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้นข้อ Confirm MO ก่อนย้าย Block และข้อ Scan Verification ซึ่งเป็น gate จริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user เขียนใหม่ทั้งชุด 14 ก.ย. 2026 รอบกลไกตัดหินใหม่ (Manufacturing Order ตรง แทนที่ Factory Worklist/Cut-to-Order wizard เดิมที่ถูกถอดออกเมื่อวาน) ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">11</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">2</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้ทดสอบจริง (รันใหม่ทั้งชุด 14 ก.ย. 2026, กลไกใหม่):</b> Block BLK-26-0028 (E2E Mode3 Fresh Test, วัสดุใหม่ล้วนๆ) &rarr; SO S00125 ยืนยันที่ราคาตั้งต้น 4,815.00 (รวม VAT) &rarr; Manufacturing Order EG01/STCUT/00042 (สร้างตรงในแอป Manufacturing ผูก Stone Block + For Sale Order Line) &rarr; บล็อกครั้งแรกเพราะ Block ยังไม่ได้ย้ายไปสถานีตัด &rarr; Internal Transfer EG01/INT/00058 &rarr; Confirm สำเร็จ &rarr; Complete Cut (แผ่น BLK-26-0028-1, 1.2&times;0.8 ม. = 0.96 ตร.ม.) &rarr; SO ราคาคำนวณใหม่อัตโนมัติเป็น 4,622.40 &rarr; Delivery EG01/OUT/00079 (สแกนยืนยัน) &rarr; Invoice INV/2026/00027 (4,622.40 รวม VAT, COGS 300.00, Posted + In Payment) — <b>เดินสดผ่านหน้าจอ Odoo จริงทุกขั้นตอนบน mbx-ee-dev</b> ไม่ใช่ผ่าน <code>odoo shell</code><br><br>
+    <b>✅ ยืนยันแล้ว:</b> กลไกตัดหินใหม่ (แทนที่ Factory Worklist/Cut-to-Order wizard เดิม 13 ก.ย. 2026) ยังคงพฤติกรรมสำคัญทั้งหมดถูกต้อง — auto-hold แผ่นเข้า SO line, ราคาคำนวณใหม่อัตโนมัติหลังตัด, บัญชีลงถูกบัญชีเฉพาะของ Mode 3, ไม่มี COGS ซ้ำจากใบส่งของ (ดู TC-E2E-M3-13) — นี่คือการทดสอบผ่านเบราว์เซอร์จริงครั้งแรกของกลไกใหม่นี้
+  </div>
+
+  <div class="category" id="E1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E1. ขาย (Sale — ก่อนมีแผ่นจริง)</div>
+        <div class="category-sub">ADR-018 — ขายได้ทันทีแม้ยังไม่มีแผ่น ราคาจะคำนวณจริงหลังตัดเสร็จ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-01</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดสินค้า Material ที่ยังไม่มีแผ่นจริงในสต็อก</td>
+          <td class="col-pre">มี Block พร้อมอยู่แล้วในสต็อก (ยังไม่ตัด) จาก Material ที่ตั้ง Pricing Mode = Serial (per-slab)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้าของ Material นั้น</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode3 Fresh Test - Slab</td>
+          <td class="col-expected">เพิ่มบรรทัดสำเร็จ ราคาต่อหน่วยขึ้นเป็นราคาตั้งต้นของสินค้า (list price) เนื่องจากยังไม่มีแผ่นจริงผูกกับบรรทัดนี้เลย (ตัวอย่างจริง: 4,500/หน่วย)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-01-so-line-added.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-01-so-line-added.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-02</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order ทั้งที่ยังไม่มีแผ่นจริง</td>
+          <td class="col-pre">ทำ TC-E2E-M3-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order ยอดรวมคำนวณจากราคาตั้งต้นของสินค้า (ตัวอย่างจริง: S00125, 4,500 + VAT 7% = 4,815.00 บาท) — ราคานี้ยังไม่ใช่ราคาจริง จะคำนวณใหม่อัตโนมัติหลังตัดเสร็จ (ดู TC-E2E-M3-07) มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ แต่ยังส่งไม่ได้เพราะยังไม่มีของจริง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-02-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-02-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E2. ผลิต (Production — ตัด Slab จริง)</div>
+        <div class="category-sub">กลไกใหม่ 13 ก.ย. 2026 — สร้าง Manufacturing Order ตรงในแอป Manufacturing ไม่ต้องผ่าน wizard แล้ว · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-03</span></td>
+          <td class="col-scenario">สร้าง Manufacturing Order ผูกกับ Block และ SO line โดยตรง<div class="note">✨ กลไกใหม่ (เปลี่ยน 13 ก.ย. 2026): ไม่มี "Factory Worklist"/"Cut to Order" wizard แล้ว — Admin สร้าง Manufacturing Order ตรงในแอป Manufacturing ได้เลย เลือก Block ที่ช่อง "Stone Block" ระบบจะเติม Product/Bill of Material ให้อัตโนมัติ</div></td>
+          <td class="col-pre">ทำ TC-E2E-M3-02 เสร็จแล้ว มี Block พร้อมอยู่แล้วในสต็อก (ยังไม่ตัด)</td>
+          <td class="col-steps"><ol><li>เปิด Manufacturing &gt; New</li><li>เลือก "Stone Block" เป็น Block ที่ต้องการตัด</li><li>กรอก "Target Slab L (M)" และ "Target Slab H (M)"</li><li>เลือก "For Sale Order Line" ผูกกับบรรทัด SO ที่รอแผ่นอยู่</li></ol></td>
+          <td class="col-sample">Stone Block = BLK-26-0028<br>Target Slab L (M) = 1.2<br>Target Slab H (M) = 0.8<br>For Sale Order Line = S00125</td>
+          <td class="col-expected">สร้าง Manufacturing Order สำเร็จ ระบบเติม Product และ Bill of Material ให้อัตโนมัติจาก Block ที่เลือก (ตัวอย่างจริง: EG01/STCUT/00042)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-03-mo-linked-to-so.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-03-mo-linked-to-so.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-04</span></td>
+          <td class="col-scenario">พยายาม Confirm Manufacturing Order โดย Block ยังไม่ได้ย้ายไปสถานีตัด</td>
+          <td class="col-pre">ทำ TC-E2E-M3-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Manufacturing Order ทันที</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบฟ้อง error สองภาษาทันที ระบุปริมาณที่ต้องการเทียบกับที่มีอยู่จริงที่สถานีตัด บันทึกไม่ผ่าน — ตัวอย่างจริง: "Block BLK-26-0028 ยังไม่ได้ย้ายไปสถานีตัด (Stone Production) เพียงพอ — ต้องการ 0.019 m&sup3; แต่อยู่ที่สถานีตัดแล้วแค่ 0.000 m&sup3;"</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-04-cut-blocked.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-04-cut-blocked.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-05</span></td>
+          <td class="col-scenario">ย้าย Block ไปสถานีตัด (Internal Transfer)</td>
+          <td class="col-pre">ทำ TC-E2E-M3-04 เสร็จแล้ว (เจอ error มาก่อน)</td>
+          <td class="col-steps"><ol><li>เปิด Inventory &gt; Internal Transfers &gt; New</li><li>Source Location = Stone Available, Destination Location = Stone Production</li><li>เพิ่มสินค้า Block นั้น กรอกจำนวนที่ต้องการย้าย</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">สินค้า = E2E Mode3 Fresh Test - Block<br>จำนวน = 0.02 m&sup3;</td>
+          <td class="col-expected">ใบย้ายสถานะเปลี่ยนเป็น Done สำเร็จ — ตัวอย่างจริง: EG01/INT/00058 — Block ก้อนนั้นย้ายไปอยู่ที่ Location "Stone Production" ครบตามจำนวนที่ย้าย</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-06-transfer-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-06-transfer-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-06</span></td>
+          <td class="col-scenario">กลับไป Confirm Manufacturing Order อีกครั้ง</td>
+          <td class="col-pre">ทำ TC-E2E-M3-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับไปที่ Manufacturing Order เดิม</li><li>กดปุ่ม Confirm อีกครั้ง</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ยืนยันสำเร็จ ไม่มี error แล้ว เพราะ Block ถูกย้ายมาสถานีตัดครบตามจำนวนแล้ว — สถานะเปลี่ยนเป็น Confirmed ปุ่ม "Complete Cut" ปรากฏพร้อมกดขั้นถัดไป</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-07-mo-confirmed-ok.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-07-mo-confirmed-ok.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-07</span></td>
+          <td class="col-scenario">กด "Complete Cut" — ได้แผ่นจริง ราคา SO คำนวณใหม่อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-E2E-M3-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Complete Cut" บน Manufacturing Order</li><li>กลับไปเปิด Sale Order เดิมดูราคา</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Manufacturing Order เสร็จสมบูรณ์ (สถานะ Done) เกิดแผ่นหินใหม่ 1 แผ่นตามขนาดที่ตัดจริง (Lot/Serial ใหม่) ผูกกับบรรทัด SO เดิมให้อัตโนมัติ ราคาต่อหน่วยของบรรทัด SO เปลี่ยนจากราคาตั้งต้นเป็นราคาจริงตามขนาดที่ตัดได้ทันที — ตัวอย่างจริง: แผ่น BLK-26-0028-1 (1.2&times;0.8 ม. = 0.96 ตร.ม.) ยอดรวม SO เปลี่ยนจาก 4,815.00 เป็น 4,622.40 (รวม VAT) ทันที เห็นการเปลี่ยนแปลงบันทึกไว้ใน chatter log ของ SO</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-09-so-price-recalc.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-09-so-price-recalc.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E3. จัดส่ง (Delivery — Scan Verification)</div>
+        <div class="category-sub">ADR-009 — ต้องสแกน/กรอก Serial ให้ตรงก่อน Validate เสมอ ยังใช้ตรรกะเดิม ไม่เปลี่ยนตามกลไกตัดใหม่ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-08</span></td>
+          <td class="col-scenario">พยายาม Validate ใบส่งของโดยยังไม่กรอก Scanned Serial ให้ตรง</td>
+          <td class="col-pre">ทำ TC-E2E-M3-07 เสร็จแล้ว มีใบส่งของสถานะ Ready รออยู่</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ (Delivery) ที่เกิดขึ้นอัตโนมัติ</li><li>ถ้าสถานะยังเป็น "Waiting" ให้กด "Check Availability" ก่อน 1 ครั้ง</li><li>กดปุ่ม Validate ทันทีโดยยังไม่กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial ของแผ่นที่ตัดจริง</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบฟ้อง error สองภาษาทันที: "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate: BLK-26-0028-1" บันทึกไม่ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-11-delivery-scan-error.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-11-delivery-scan-error.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-09</span></td>
+          <td class="col-scenario">กรอก/สแกน Scanned Serial ให้ตรงแล้ว Validate</td>
+          <td class="col-pre">ทำ TC-E2E-M3-08 เสร็จแล้ว (เจอ error มาก่อน)</td>
+          <td class="col-steps"><ol><li>เปิดบรรทัดในใบส่งของ กด "Details"</li><li>กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial ของแผ่นที่ตัดจริง แล้วกด Save</li><li>กดปุ่ม Validate อีกครั้ง</li></ol></td>
+          <td class="col-sample">Scanned Serial = BLK-26-0028-1</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่นที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว — ตัวอย่างจริง: EG01/OUT/00079</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-13-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-13-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E4. บัญชี (Accounting + Payment)</div>
+        <div class="category-sub">ออกใบแจ้งหนี้ + รับชำระเงิน + ตรวจรายการบัญชี · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-10</span></td>
+          <td class="col-scenario">สร้างและยืนยันใบแจ้งหนี้ลูกค้า (Customer Invoice)</td>
+          <td class="col-pre">ทำ TC-E2E-M3-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice"</li><li>เลือก "Regular invoice" &gt; Create Draft</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO หลังคำนวณราคาใหม่แล้ว (ตัวอย่างจริง: INV/2026/00027, 4,622.40)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-14-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-14-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-11</span></td>
+          <td class="col-scenario">รับชำระเงิน (Register Payment) บนใบแจ้งหนี้</td>
+          <td class="col-pre">ทำ TC-E2E-M3-10 เสร็จแล้ว (Invoice = Posted)</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ &gt; กด "Pay"</li><li>ตรวจ/ยืนยันยอดและวิธีชำระ &gt; กด Create Payment</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "In Payment" — ตัวอย่างจริง: INV/2026/00027 จบที่สถานะ Posted + In Payment</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-16-invoice-paid.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-16-invoice-paid.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-12</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีบนใบแจ้งหนี้ (รายได้ + COGS + VAT + ลูกหนี้)</td>
+          <td class="col-pre">ทำ TC-E2E-M3-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Customer Invoice &gt; กด smart button "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็น 5 บรรทัดบนใบแจ้งหนี้ใบเดียว: เครดิต "411130 Sales Revenue - Cut-to-Order (Mode 3)" (บัญชีเฉพาะของ Mode 3 ไม่ใช่บัญชีทั่วไป), เดบิต "113110 Inventory" (ตัดออก), เดบิต "511110 COGS - Stone Sales (all modes)", เครดิต Output VAT, เดบิต Trade Receivables — ตัวอย่างจริง INV/2026/00027: รายได้ 4,320.00 / COGS-Inventory คู่ละ 300.00 / VAT 302.40 / ลูกหนี้ 4,622.40 (ยอดรวมสมดุล 4,922.40 = 4,922.40) พร้อม Analytic Distribution ครบ 3 มิติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-15-invoice-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-15-invoice-journal-items.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M3-13</span></td>
+          <td class="col-scenario">ตรวจว่าไม่มี Journal Entry ซ้ำจากใบส่งของ (ไม่มี COGS ซ้ำ)</td>
+          <td class="col-pre">ทำ TC-E2E-M3-09 เสร็จแล้ว (Delivery = Done)</td>
+          <td class="col-steps"><ol><li>เปิด Accounting &gt; Journal Entries</li><li>ค้นหา entry ที่มี Reference ตรงกับเลขที่ใบส่งของ (เช่น EG01/OUT/00079)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ไม่พบ Journal Entry แยกต่างหากสำหรับใบส่งของนี้เลย (มีเฉพาะ entry ของขั้นตอนตัด/ผลิตซึ่งเป็นคนละเรื่องกัน) — COGS มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (INV/2026/00027) ไม่มีการนับซ้ำ ยืนยันแล้วว่ากลไกตัดใหม่ (13 ก.ย. 2026) ไม่กระทบพฤติกรรมนี้</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode3/m3-15-invoice-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode3/m3-15-invoice-journal-items.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

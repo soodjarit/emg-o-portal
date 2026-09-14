@@ -630,8 +630,8 @@
       <div class="icon">T5</div>
       <div>
         <div class="card-title">Test Cases: E2E Flow — Mode 3 (Cut-to-Order)</div>
-        <div class="card-desc">14 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → Factory Worklist → ขั้นตอนใหม่ "Request Material" (ADR-053) ย้าย Block ไปสถานีตัดก่อนตัดได้ → Cut Order → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน ไม่มี field-validation/error case ทั่วไป (ยกเว้น gate จริง 2 จุด) เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริง 1 รอบบน mbx-ee-dev รันขึ้นใหม่เฉพาะสำหรับเอกสารนี้ (Block BLK-26-0013 → S00095 → EG01/STCUT/00036 → INV/2026/00010) ยืนยันแล้วว่าปัญหา COGS บันทึกซ้ำที่พบใน Mode 1/2 ไม่เกิดกับ Mode 3 (รันหลัง ADR-054/055 แก้ไขแล้ว)</div>
-        <div class="card-meta"><span class="card-date">6 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-desc">13 test case เขียนใหม่ทั้งชุด (ไม่ใช่แค่รันสกรีนช็อตใหม่) — กลไก Factory Worklist/Cut-to-Order wizard เดิมถูกถอดออกทั้งหมด 13 ก.ย. 2026 แทนที่ด้วย Manufacturing Order ตรงในแอป Manufacturing (ผูก Stone Block + For Sale Order Line เอง ไม่ต้องผ่าน wizard) เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → สร้าง MO → ย้าย Block ไปสถานีตัด (Internal Transfer) → Confirm → Complete Cut (ราคา SO คำนวณใหม่อัตโนมัติ) → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Block BLK-26-0028 → S00125 → EG01/STCUT/00042 → INV/2026/00027) นี่คือการทดสอบผ่านเบราว์เซอร์จริงครั้งแรกของกลไกใหม่นี้ — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด — กลไกเปลี่ยน</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
