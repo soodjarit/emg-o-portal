@@ -612,8 +612,8 @@
       <div class="icon">T3</div>
       <div>
         <div class="card-title">Test Cases: E2E Flow — Mode 1 (Block Direct Sale)</div>
-        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ซื้อ Block เข้าคลัง (ผ่านปุ่มลัด "สร้าง Block" ใหม่บนบรรทัด PO) → ขายทั้งก้อน (Mode 1, ราคาต่อหน่วยคำนวณอัตโนมัติจาก Sales Price/CBM) → จัดส่ง → บันทึกบัญชีครบทุกรายการ → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริง 1 รอบบน eg-tst (PO P00052 → S00091 → INV/2026/00003) known issue COGS ซ้ำเดิม (TC-E2E-M1-12) ยืนยันปิดแล้วจริง</div>
-        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">9 ก.ย. 2026</span><span class="status-badge confirmed">ปรับปรุงใหม่ + Analytic-Architecture</span></div>
+        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ซื้อ Block เข้าคลัง (ผ่านปุ่มลัด "สร้าง Block" บนบรรทัด PO) → ขายทั้งก้อน (Mode 1, ราคาต่อหน่วยคำนวณอัตโนมัติจาก Sales Price/CBM) → จัดส่ง → บันทึกบัญชีครบทุกรายการ → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 ด้วยวัสดุทดสอบใหม่ล้วนๆ "E2E Mode1 Fresh Test" บน mbx-ee-dev (PO P00048 → BLK-26-0023 → S00120 → INV/2026/00024) COGS ตรงกับต้นทุนจริงเป๊ะ (30,000) เพราะไม่มีสต็อกเก่าจากเฟรมอื่นปนกัน — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด — Playwright สด</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
