@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>5 โหมดการขาย — ตารางเปรียบเทียบ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title{color:var(--white);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:40px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:17px;color:#CBD3D8;max-width:920px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+  .status-badge{position:absolute;top:64px;right:170px;background:#2C5A80;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:14px;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:20px 26px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:15.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .cmp-table th{text-align:left;padding:9px 11px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:9px 11px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table td b.mode-name{color:var(--charcoal-dark);}
+  .cmp-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:11.5px;}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+  .dark .cmp-table td b.mode-name{color:#fff;}
+  .dark .cmp-table code{background:rgba(255,255,255,.12);color:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:14px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b{color:#D9A465;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:14px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:12.5px;padding:7px 13px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.bad{background:#A6432D;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 5px;font-weight:700;}
+  .dark .flow-arrow{color:#D9A465;}
+
+  .num-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .num-list li{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:11px;padding:14px 18px;}
+  .dark .num-list li{background:rgba(255,255,255,.08);}
+  .num-list .n{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+  .num-list .t{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .num-list .t{color:#E4E8EA;}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">5M</div>
+    <div class="status-badge">ยืนยันแล้ว — 5 Mode ยัง Valid</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Demand Generation</div>
+    <div class="big-title">5 โหมดการขาย<br>ตารางเปรียบเทียบ (Comparison Matrix)</div>
+    <div class="big-sub">สรุปจากการทบทวนร่วมกัน: ลองตัดเรื่อง "Mode" ทิ้งแล้วมองเป็น 3 ประเภทสินค้า (Block / Slab / FG) แทน — สุดท้ายพบว่า Block และ Slab ยังต้องมีกลไก custom เสมอแม้ของจะอยู่ใน stock พร้อมขายแล้วก็ตาม (ไม่ใช่ native ล้วนๆ) ดังนั้น "5 Mode" ยังเป็นกรอบที่ valid อยู่ — หน้านี้สรุปจุดเหมือน/ต่างของทั้ง 5 Mode ไว้อ้างอิง</div>
+    <div class="stamp">EMG-O Demand Generation · Sale Modes Reference</div>
+    <div class="date-tag">16 ก.ย. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: Framing -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ที่มาของตารางนี้</div>
+    <h2 class="slide-title">ทำไมยังต้องมี 5 Mode ทั้งที่ physical product มีแค่ 3 ประเภท</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">"ลืมเรื่อง Mode ไปก่อน — เราขายสินค้า 3 ประเภท Block / Slab / FG ถ้าของมีใน stock แล้ว ก็ขายแบบ native ได้เลยไม่ใช่หรือ?"</div>
+      </div>
+    </div>
+    <div class="flow-bar" style="margin:6px 0 22px;">
+      <span class="flow-chip">Block ใน stock</span><span class="flow-arrow">→</span>
+      <span class="flow-chip bad">ยังต้อง "Select Block" wizard</span>
+      <span class="flow-arrow" style="margin-left:20px;">|</span>
+      <span class="flow-chip" style="margin-left:20px;">Slab ใน stock</span><span class="flow-arrow">→</span>
+      <span class="flow-chip bad">ยังต้อง "Select Slabs/Lot" wizard</span>
+    </div>
+    <div class="note-box good"><b>สรุปที่ตกลงกัน:</b> Block และ Slab ยังต้องผ่านกลไก custom เสมอ แม้ของจะอยู่ใน stock แล้ว — เพราะธุรกิจนี้ต้อง "hold ของทางกายภาพ" ก่อนส่งจริง (กันของก้อน/แผ่นเดียวกันถูกลูกค้าอื่นหยิบไปพลาด) ซึ่ง native reservation ของ Odoo ไม่ตอบโจทย์ตรงนี้ มีแค่ FG เท่านั้นที่ขายจาก stock ได้ใกล้เคียง native จริง — ดังนั้นกรอบ "5 Mode" ยังเป็นภาพที่ถูกต้อง ใช้อ้างอิงต่อไปได้</div>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 2: Table A -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ตารางเปรียบเทียบ (1/3)</div>
+    <h2 class="slide-title">สินค้าที่ขาย · สถานะ stock ก่อนขาย · จุดเริ่มขาย · ใช้ MRP ไหม</h2>
+    <table class="cmp-table">
+      <tr><th style="width:150px;">Mode</th><th>สินค้าที่ขาย</th><th>ของต้องอยู่ใน stock ก่อนไหม</th><th>Entry point บน SO line</th><th style="width:90px;">ใช้ MRP</th></tr>
+      <tr><td><b class="mode-name">1 · Block Direct Sale</b></td><td>Block ทั้งก้อน</td><td>ต้องมี (ทั้งก้อน)</td><td>ปุ่ม <code>Select Block</code> (wizard)</td><td>❌</td></tr>
+      <tr><td><b class="mode-name">2 · Ready-Made Slab</b></td><td>Slab ที่มีอยู่แล้ว (serial/lot)</td><td>ต้องมี</td><td>ปุ่ม <code>Select Slabs</code> / <code>Select Lot Stock</code> (wizard)</td><td>❌</td></tr>
+      <tr class="good"><td><b class="mode-name">3 · Block-to-Slab</b></td><td>Slab ใหม่ที่ยังไม่มี ต้องตัดจาก Block</td><td>ไม่ต้อง — เป็นตัวสร้างของใหม่</td><td>ไม่มี wizard แล้ว (ADR-062) — Admin สร้าง MO ตรง เลือก Block</td><td>✅</td></tr>
+      <tr><td><b class="mode-name">4 · Sold-as-Project</b></td><td>ไม่ใช่สินค้าเฉพาะ — ครอบ SO ทั้งใบ (คลุม Block/Slab/FG line ใดๆ)</td><td>ไม่เกี่ยว (แล้วแต่ line ข้างใน)</td><td>checkbox <code>is_project_sale</code> ตอน confirm SO</td><td>➖</td></tr>
+      <tr class="good"><td><b class="mode-name">5 · FG Production</b></td><td>FG (สินค้าแปรรูป เช่น Countertop)</td><td>ไม่จำเป็น — auto-match Slab ที่มี ถ้าไม่มีต้องไปสร้างผ่าน Mode 3 ก่อน</td><td>ไม่มี wizard แล้ว (ADR-067) — ปุ่ม <code>Produce FG</code> สร้าง MO ตรง</td><td>✅</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:14px;"><b>ทำไมเปลี่ยนชื่อจาก "Cut-to-Order" เป็น "Block-to-Slab" (16 ก.ย. 2026):</b> ชื่อเดิมตกค้างมาจากตอนที่กลไกนี้ยังเป็น wizard ผูกกับ SO line เป็นหลัก (ADR-018) แต่กลไกจริงวันนี้คือ "Block → Slab" ตัวเดิมเสมอ ไม่ว่าจะผูกกับอะไรหรือไม่ — MO มี field <code>sale_order_line_id</code> (ผูกกับ SO) กับ <code>production_reason</code> (ADR-032, บังคับกรอกเมื่อไม่มี SO — เช่น "งานเพิ่ม"/"ตัดซ่อม"/"อื่นๆ") ให้เลือกอย่างใดอย่างหนึ่งเสมอ พูดง่ายๆ: <b>ผูกกับ SO line = นับเป็น Sale Mode 3, ไม่ผูก = แค่ MO ปกติ (ตัดสำรองสต็อกล่วงหน้า/ตัดซ่อม) ไม่ใช่ Sale Mode ใดๆ</b> — กลไก BOM/routing/batch-cut/lot/hold เบื้องหลังเหมือนกันทุกกรณี</div>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 3: Table B -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ตารางเปรียบเทียบ (2/3)</div>
+    <h2 class="slide-title">Hold กันของถูกแย่ง · ขาย Partial ได้ไหม · Output stock ใหม่ที่เกิดขึ้น</h2>
+    <table class="cmp-table">
+      <tr><th style="width:150px;">Mode</th><th>Custom Hold กันของถูกแย่ง</th><th style="width:110px;">Partial Qty</th><th>Output stock ใหม่ที่เกิดขึ้น</th></tr>
+      <tr><td><b class="mode-name">1 · Block Direct Sale</b></td><td>pin lot เฉพาะ + บังคับปลายทาง delivery</td><td>❌ ทั้งก้อนเท่านั้น</td><td>ไม่มี</td></tr>
+      <tr><td><b class="mode-name">2 · Ready-Made Slab</b></td><td><code>hold_for_sale_line()</code> + custom location bucket (Available/Hold/Consigned)</td><td>✅ (โดยเฉพาะ lot-mode)</td><td>ไม่มี</td></tr>
+      <tr class="good"><td><b class="mode-name">3 · Block-to-Slab</b></td><td>Slab ที่เพิ่งตัดเข้า hold ให้ SO line อัตโนมัติ</td><td>➖ ตัดตามที่ระบุ</td><td>Slab ใหม่ N แผ่น (<code>stone.cut.order.slab.line</code> — 1 แถว/1 แผ่น แต่ละแผ่นได้ lot ของตัวเอง)</td></tr>
+      <tr><td><b class="mode-name">4 · Sold-as-Project</b></td><td>➖ ไม่มีกลไกของตัวเอง</td><td>➖</td><td>ไม่มี</td></tr>
+      <tr class="bad"><td><b class="mode-name">5 · FG Production</b></td><td>❌ <b>ไม่ผ่าน</b> <code>hold_for_sale_line()</code> เลย (ยืนยันจาก comment ในโค้ด)</td><td>➖</td><td>FG ใหม่ (<code>stone.fg.output.line</code> — เก็บแค่ขนาด ไม่มี product ต่อแถว รวมเป็น 1 lot เดียว)</td></tr>
+    </table>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 4: Table C -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">ตารางเปรียบเทียบ (3/3)</div>
+    <h2 class="slide-title">Intercompany EG↔ES · ผูก Project/Gantt · Wizard เฉพาะงาน Custom</h2>
+    <table class="cmp-table">
+      <tr><th style="width:150px;">Mode</th><th>Intercompany EG↔ES</th><th style="width:130px;">ผูก Project/Gantt</th><th>Wizard เฉพาะงาน Custom (BOQ)</th></tr>
+      <tr class="good"><td><b class="mode-name">1 · Block Direct Sale</b></td><td>✅ มี method เฉพาะ (<code>_process_stone_block_intercompany_trade</code>)</td><td>❌</td><td>ไม่มี</td></tr>
+      <tr class="good"><td><b class="mode-name">2 · Ready-Made Slab</b></td><td>✅ มี method เฉพาะ (<code>_process_stone_intercompany_trade</code> / <code>_process_stone_lot_intercompany_trade</code>)</td><td>❌</td><td>ไม่มี</td></tr>
+      <tr><td><b class="mode-name">3 · Block-to-Slab</b></td><td>ไม่พบ method เฉพาะในโค้ด (ยังไม่ยืนยันว่า handle ยังไง)</td><td>❌</td><td>ไม่มี</td></tr>
+      <tr class="good"><td><b class="mode-name">4 · Sold-as-Project</b></td><td>➖ ไม่เกี่ยวโดยตรง</td><td>✅ แกนหลักของ mode นี้</td><td>ตัว Mode 4 เองไม่มี — แต่ line ข้างในอาจ trigger Mode 5</td></tr>
+      <tr><td><b class="mode-name">5 · FG Production</b></td><td>ไม่พบ method เฉพาะในโค้ด</td><td>❌</td><td>✅ <code>stone.custom.bom.wizard</code> (ADR-064) — แยกกลไกจาก FG มาตรฐานโดยเจตนา ไม่ unify</td></tr>
+    </table>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 5: What's the same everywhere -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">จุดที่เหมือนกันทุก Mode</div>
+    <h2 class="slide-title">ไม่ว่าจะ Mode ไหน 3 กลไกนี้ใช้ร่วมกันหมด</h2>
+    <ul class="num-list">
+      <li><span class="n">1</span><span class="t">ทุก Mode ผ่าน security group เดียวกัน (<code>group_emgo_internal_user</code> / <code>manager</code>) — ไม่ใช้ <code>company_id</code> + <code>ir.rule</code> แบบโมดูลอื่นในระบบ</span></li>
+      <li><span class="n">2</span><span class="t">ทุก Mode ที่มีการ deliver จริง ผ่าน scan-verification guard เดียวกันตอน validate delivery (ADR-009) — สแกน lot ยืนยันก่อนส่งของเสมอ</span></li>
+      <li><span class="n">3</span><span class="t">ทุก Mode ที่มีต้นทุนวัตถุดิบ ผูกกับ Analytic Account ชุดเดียวกัน (Cost-by-Material Architecture, ADR-056) — ไม่แยกระบบบัญชีตาม Mode</span></li>
+    </ul>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 6: Caveat -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ข้อควรระวังเวลาอ่านตารางนี้</div>
+    <h2 class="slide-title">Mode 4 ไม่ใช่ "ประเภทสินค้า" แบบ 1/2/3/5 — เป็นชั้นครอบ (overlay)</h2>
+    <div class="case-box">
+      <div class="case-icon">!</div>
+      <div>
+        <div class="case-text-label">ทำไมถึงต้องแยกไว้</div>
+        <div class="case-text">Mode 1/2/3/5 คือกลไกจัดการ "สินค้าจริง" (Block/Slab/FG) แต่ Mode 4 เป็นแค่ตัวเลือก opt-in ที่ครอบ SO ทั้งใบ (สร้าง Project + Gantt) — line สินค้าข้างในของ SO ที่เป็น Mode 4 ยังต้องเป็น Mode 1/2/3/5 อย่างใดอย่างหนึ่งอยู่ดี</div>
+      </div>
+    </div>
+    <div class="note-box"><b>สรุป:</b> ถ้าจะเทียบ "5 Mode" แบบแยกขาดจากกัน (mutually exclusive) จะไม่ตรงเป๊ะ — Mode 4 ซ้อนทับกับอีก 4 Mode ได้พร้อมกัน ไม่ได้อยู่ในแกนเดียวกับ Block/Slab/FG</div>
+    <div class="footer-tag">EMG-O Demand Generation · Sale Modes Comparison</div>
+  </section>
+
+  <!-- SLIDE 7: Summary -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">3 ประเภทสินค้า + Custom Hold ที่จำเป็น = เหตุผลที่ยังต้องมี 5 Mode</h2>
+    <table class="cmp-table" style="max-width:1000px;">
+      <tr><th>คำถาม</th><th>คำตอบ</th></tr>
+      <tr class="good"><td>ยุบเหลือ 3 ประเภทสินค้า (Block/Slab/FG) แทน 5 Mode ได้ไหม</td><td><b>ยุบเป็นกรอบคิดได้ (helpful mental model) แต่ยุบเป็นกลไกจริงไม่ได้ — Block/Slab ยังต้อง custom hold เสมอ</b></td></tr>
+      <tr class="good"><td>ของอยู่ใน stock แล้ว ขาย native ได้เลยไหม</td><td>Block/Slab: <b>ไม่ได้</b> ยังต้องผ่าน Select wizard — FG: <b>ได้ใกล้เคียง native</b> (ไม่มี custom hold)</td></tr>
+      <tr class="good"><td>Mode 3 กับ Mode 5 เหมือนกันไหม</td><td>Pattern เดียวกัน (native MO ไม่มี wizard) แต่ input/output ต่างกัน — 3 ใช้ Block→N Slab (serial), 5 ใช้ Slab→FG (lot รวม)</td></tr>
+      <tr><td>Mode 4 นับเป็น Mode ที่ 6 ของสินค้าไหม</td><td>ไม่ — เป็น overlay ที่ครอบ SO ทั้งใบ ไม่ใช่ประเภทสินค้า</td></tr>
+    </table>
+    <div style="margin-top:22px;font-size:14px;color:#B9C2C8;">เก็บไว้เป็นบันทึกอ้างอิง — ถ้าอนาคตมีคำถามเรื่องโครงสร้าง 5 Mode อีก กลับมาดูหน้านี้ก่อนออกแบบใหม่</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 8</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
