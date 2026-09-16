@@ -102,7 +102,7 @@
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode1.xlsx" download="EMG-O Test Cases - E2E Mode 1.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="xlsx/emg-o-test-cases-e2e-mode1-v3.xlsx" download="EMG-O Test Cases - E2E Mode 1.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -158,7 +158,7 @@
           <td class="col-sample">Vendor = "ทดสอบ E2E - Test Quarry Vendor"<br>สินค้า = E2E Mode1 Fresh Test - Block<br>จำนวน = 2.00 m&sup3;<br>ราคา/หน่วย = 15,000</td>
           <td class="col-expected">PO ยืนยันสำเร็จ (state = Purchase Order) ยอดรวมคำนวณถูกต้อง (จำนวน &times; ราคา + VAT) — ตัวอย่างจริงที่ทดสอบ: P00048 ยอดรวม 32,100.00</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-01-po-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-01-po-confirmed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-01-po-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-01-po-confirmed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-02</span></td>
@@ -168,7 +168,7 @@
           <td class="col-sample">Thickness (M) = 0.02<br>(Total CBM/Material/Supplier/Warehouse กรอกมาให้แล้วจาก PO)</td>
           <td class="col-expected">บันทึกสำเร็จ ได้เลขก้อนอัตโนมัติ (ตัวอย่างจริง: BLK-26-0023) ช่อง "PO Cost / CBM" ขึ้น 15,000 ให้เอง, "Sales Price / CBM" ขึ้น 17,500 ให้เองจาก List Price ของ Block Product, Remaining CBM = 2.00 (รับสต๊อกเข้าจริงแล้ว)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-02-bundle-saved.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-02-bundle-saved.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-02-bundle-saved.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-02-bundle-saved.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-03</span></td>
@@ -178,7 +178,7 @@
           <td class="col-sample">Vendor = "ทดสอบ E2E - Test Quarry Vendor"<br>Auto-Complete = P00048</td>
           <td class="col-expected">บิลสถานะ Posted ยอดตรงกับ PO บัญชีที่ลงถูกต้องเป็น "113110 Inventory - Stone Blocks (Raw)" ไม่ใช่บัญชี COGS ทั่วไป (ตัวอย่างจริง: BILL/2026/09/0003, 32,100.00)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-03-bill-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-03-bill-posted.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-03-bill-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-03-bill-posted.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -214,7 +214,7 @@
           <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode1 Fresh Test - Block</td>
           <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Sell Whole Block" ปรากฏบนบรรทัดนั้น (ราคาที่ขึ้นตอนนี้เป็นแค่ List Price เริ่มต้นของสินค้า ยังไม่ใช่ราคาจริงของก้อนนี้)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-04-so-line-added.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-04-so-line-added.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-04-so-line-added.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-04-so-line-added.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-05</span></td>
@@ -224,7 +224,7 @@
           <td class="col-sample">เลือก Block = BLK-26-0023</td>
           <td class="col-expected">บรรทัด SO ปรับจำนวนเป็น CBM ทั้งหมดของก้อนนั้นอัตโนมัติ (2.00) ราคาต่อหน่วยเปลี่ยนเป็น 17,500.00 ทันที (จาก Sales Price / CBM ของก้อน) ยอดรวมบรรทัด 35,000.00</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-05-so-after-sell-whole-block.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-05-so-after-sell-whole-block.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-05-so-after-sell-whole-block.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-05-so-after-sell-whole-block.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-06</span></td>
@@ -234,7 +234,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นให้อัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00120 &rarr; EG01/OUT/00074)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-06-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-06-so-confirmed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-06-so-confirmed.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-06-so-confirmed.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -306,7 +306,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นใบส่งของสถานะ "Ready" สินค้า 1 บรรทัด จำนวนตรงกับ SO (2.00 m&sup3;)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-07-delivery-ready.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-07-delivery-ready.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-07-delivery-ready.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-07-delivery-ready.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-08</span></td>
@@ -316,7 +316,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done (ตัวอย่างจริง: EG01/OUT/00074) — Block ก้อนนั้นหายจากสต๊อกที่ขายได้ (Available) แล้ว</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-08-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-08-delivery-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-08-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-08-delivery-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -352,7 +352,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT (ตัวอย่างจริง: INV/2026/00024, 37,450.00)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-09-invoice-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-09-invoice-posted.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-09-invoice-posted.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-09-invoice-posted.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-10</span></td>
@@ -362,7 +362,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น 3 บรรทัด: เดบิต 113110 Inventory - Stone Blocks (ยอดสินค้าก่อน VAT), เดบิต 114200 Input VAT, เครดิต 212100 Trade Payables (ยอดรวม) — ตัวอย่างจริง: 30,000 / 2,100 / 32,100 บัญชีถูกต้องตรงตัว ไม่ใช่บัญชี COGS ทั่วไป</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-10-bill-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-10-bill-journal-items.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-10-bill-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-10-bill-journal-items.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-11</span></td>
@@ -372,7 +372,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น 5 บรรทัดบนใบแจ้งหนี้ใบเดียว: เครดิต 411110 Sales Revenue - Block Direct Sale (Mode 1), เดบิต 113110 Inventory (ตัดออก), เดบิต 511110 COGS - Stone Sales (all modes), เครดิต 213200 Output VAT, เดบิต 112100 Trade Receivables — ตัวอย่างจริง: รายได้ 35,000 / COGS-Inventory คู่ละ 30,000 / VAT 2,450 / ลูกหนี้ 37,450 (ยอดรวมสมดุล 67,450 = 67,450)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-12</span></td>
@@ -382,7 +382,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ไม่พบ Journal Entry แยกต่างหากสำหรับใบส่งของนี้เลย — COGS/Inventory มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (INV/2026/00024) ไม่มีการนับซ้ำ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a><div class="shot-note">ไม่มีภาพแยกของ Journal Entries ที่ว่างเปล่า — ใช้ภาพเดียวกับ TC-E2E-M1-11 อ้างอิงว่า COGS มีบันทึกอยู่ที่เดียวจริง</div></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" loading="lazy"></a><div class="shot-note">ไม่มีภาพแยกของ Journal Entries ที่ว่างเปล่า — ใช้ภาพเดียวกับ TC-E2E-M1-11 อ้างอิงว่า COGS มีบันทึกอยู่ที่เดียวจริง</div></td>
         </tr>
       </tbody>
     </table>
@@ -418,7 +418,7 @@
           <td class="col-sample">รายได้ = 35,000<br>COGS (นับครั้งเดียว) = 30,000</td>
           <td class="col-expected">กำไรขั้นต้น = 5,000.00 (35,000 &minus; 30,000) — ตัวเลขนี้ตรงกับที่เห็นในใบแจ้งหนี้ TC-E2E-M1-11 พอดี ไม่มี COGS ซ้ำมากวนตัวเลข</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a><div class="shot-note">ภาพเดียวกับ TC-E2E-M1-11 — ตัวเลขรายได้/COGS ที่ใช้คำนวณกำไรขั้นต้นอยู่ในภาพนี้แล้ว ไม่มีหน้าจอสรุปกำไรแยกต่างหาก</div></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" loading="lazy"></a><div class="shot-note">ภาพเดียวกับ TC-E2E-M1-11 — ตัวเลขรายได้/COGS ที่ใช้คำนวณกำไรขั้นต้นอยู่ในภาพนี้แล้ว ไม่มีหน้าจอสรุปกำไรแยกต่างหาก</div></td>
         </tr>
       </tbody>
     </table>
@@ -454,7 +454,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น 3 ป้ายบนบรรทัดเดียว: "E2E Mode1 Fresh Test" (วัสดุ), "BLK-26-0023" (ก้อนนี้โดยเฉพาะ), และ "Marble" (หมวดวัสดุ) — ไม่ต้องตั้งค่าเอง ระบบแท็กให้ตั้งแต่กด Sell Whole Block</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-14-so-line-with-analytic-col.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-14-so-line-with-analytic-col.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-14-so-line-with-analytic-col.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-14-so-line-with-analytic-col.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M1-15</span></td>
@@ -464,7 +464,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ทุกบรรทัดบัญชี (Inventory, COGS, Revenue) มีป้าย Analytic เดียวกันติดมาด้วย — ต้นทุน/รายได้ก้อนนี้ดึงแยกได้ทันทีจากรายงาน Analytic โดยไม่ต้องรอบัญชีมาแปะป้ายย้อนหลัง</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1/m1-11-invoice-journal-items.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode1-v3/m1-11-invoice-journal-items.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>

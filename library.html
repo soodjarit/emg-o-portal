@@ -216,11 +216,8 @@
       <details class="tree-cat" data-section="golden-path-test-cases" open>
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="qa/test-cases-e2e-mode1.html"><span class="tree-doc-tag">G1</span>Golden Path — Mode 1 (Block Direct Sale)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">G2</span>Golden Path — Mode 2 (Ready-Made Slab)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">G3</span>Golden Path — Mode 3 (Cut-to-Order)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-e2e-mode4.html"><span class="tree-doc-tag">G4</span>Golden Path — Mode 4 (Sold-as-Project)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-e2e-mode5.html"><span class="tree-doc-tag">G5</span>Golden Path — Mode 5 (Stone/FG Production)</a></li>
+          <li class="tree-doc"><a href="archived.html#qa-test-cases">Mode 1/2/4/5 (รอสร้างใหม่) → Archived</a></li>
         </ul>
       </details>
 
@@ -622,48 +619,21 @@
       <div class="category-title">Golden Path Test Case</div>
       <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 โหมดขาย — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
     </div>
-    <a class="card" href="qa/test-cases-e2e-mode1.html">
-      <div class="icon">G1</div>
-      <div>
-        <div class="card-title">Golden Path — Mode 1 (Block Direct Sale)</div>
-        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ซื้อ Block เข้าคลัง (ผ่านปุ่มลัด "สร้าง Block" บนบรรทัด PO) → ขายทั้งก้อน (Mode 1, ราคาต่อหน่วยคำนวณอัตโนมัติจาก Sales Price/CBM) → จัดส่ง → บันทึกบัญชีครบทุกรายการ → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 ด้วยวัสดุทดสอบใหม่ล้วนๆ "E2E Mode1 Fresh Test" บน mbx-ee-dev (PO P00048 → BLK-26-0023 → S00120 → INV/2026/00024) COGS ตรงกับต้นทุนจริงเป๊ะ (30,000) เพราะไม่มีสต็อกเก่าจากเฟรมอื่นปนกัน — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
-        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด — Playwright สด</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-e2e-mode2.html">
-      <div class="icon">G2</div>
-      <div>
-        <div class="card-title">Golden Path — Mode 2 (Ready-Made Slab)</div>
-        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องจากมีแผ่น/ล็อตหินพร้อมขายอยู่แล้ว ครอบคลุมทั้ง 2 เส้นทางย่อย — ขายทีละแผ่นตาม Serial (Select Slabs) และขายบางส่วนจากล็อต (Select Lot Stock) — ต่อด้วยจุดสแกน Serial ยืนยันก่อนส่งของ (gate ที่ใช้ร่วมกันทั้ง 2 เส้นทาง), ออกใบแจ้งหนี้ และรับชำระเงินจนจบ ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 ด้วยวัสดุทดสอบใหม่ล้วนๆ บน mbx-ee-dev (Serial: S00123 → INV/2026/00025; Lot: S00124 → INV/2026/00026) ระหว่างสร้างเอกสารพบ+แก้บั๊กจริงในกลไกตัดหินใหม่ (material_lot_id ไม่ผูกสำหรับโหมด Lot) ซึ่งปิด known issue เดิม (Lot-mode COGS=0) ไปด้วยในตัว — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
-        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด — พบ+แก้บั๊กจริง</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="qa/test-cases-e2e-mode3.html">
       <div class="icon">G3</div>
       <div>
         <div class="card-title">Golden Path — Mode 3 (Cut-to-Order)</div>
-        <div class="card-desc">13 test case เขียนใหม่ทั้งชุด (ไม่ใช่แค่รันสกรีนช็อตใหม่) — กลไก Factory Worklist/Cut-to-Order wizard เดิมถูกถอดออกทั้งหมด 13 ก.ย. 2026 แทนที่ด้วย Manufacturing Order ตรงในแอป Manufacturing (ผูก Stone Block + For Sale Order Line เอง ไม่ต้องผ่าน wizard) เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → สร้าง MO → ย้าย Block ไปสถานีตัด (Internal Transfer) → Confirm → Complete Cut (ราคา SO คำนวณใหม่อัตโนมัติ) → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Block BLK-26-0028 → S00125 → EG01/STCUT/00042 → INV/2026/00027) นี่คือการทดสอบผ่านเบราว์เซอร์จริงครั้งแรกของกลไกใหม่นี้ — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
-        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด — กลไกเปลี่ยน</span></div>
+        <div class="card-desc">15 test case เขียนใหม่ทั้งชุด — กลไกตัด Block→Slab เปลี่ยนเป็นวางแผนจำนวนแผ่นอัตโนมัติจากขนาดก้อน + บันทึกขนาดจริงทีละแผ่นหลังตัด + คำนวณ Yield % เทียบแผน (ADR-066) พร้อม banner นำทาง + ปุ่ม "ย้ายด่วน (Move to Production)" ใหม่บนฟอร์ม MO (Session 136-138) เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → สร้าง MO (ระบบวางแผน 2 แผ่นอัตโนมัติ) → ย้ายด่วนไปสถานีตัด → Confirm → ทำ Work Order → บันทึกขนาดจริง → Complete Cut ได้แผ่นจริง 2 แผ่นจาก 1 ก้อน (ราคา SO คำนวณใหม่อัตโนมัติ) → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Block BLK-26-0030 → S00131 → EG01/STCUT/00044 → INV/2026/00033) — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด — กลไกเปลี่ยน</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/test-cases-e2e-mode4.html">
-      <div class="icon">G4</div>
+    <a class="card" href="archived.html#qa-test-cases">
+      <div class="icon">⟳</div>
       <div>
-        <div class="card-title">Golden Path — Mode 4 (Sold-as-Project)</div>
-        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่ตั้งต้นจากเอกสาร BOQ → ติ๊ก "Sold as Project" → ยืนยัน SO ให้ระบบสร้าง Project + Task อัตโนมัติ → เรียกเก็บเงินมัดจำ 3 งวด (30/40/30) → ส่งมอบสินค้าจริง → ปิดงานให้ Milestone ขึ้นสำเร็จอัตโนมัติ → ตรวจสอบ Project P&amp;L และ Journal Items ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 บน mbx-ee-dev (BOQ0029 → SO S00126 → Project 41 → INV/2026/00028-00030 → EG01/OUT/00080) ยืนยันแล้วว่า 2 บั๊กจริงที่เคยพบก่อนหน้ายังคงปิดอยู่จริง (routing ส่งของ, ราคา BOQ ถูกเขียนทับ) — กลไก BOQ→Project ไม่ถูกกระทบจากการเปลี่ยนกลไกตัดหินเมื่อวาน — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
-        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-e2e-mode5.html">
-      <div class="icon">G5</div>
-      <div>
-        <div class="card-title">Golden Path — Mode 5 (Stone Production / FG Production)</div>
-        <div class="card-desc">13 test case เดินเรื่องราวเดียวต่อเนื่องตั้งแต่เพิ่มบรรทัดสินค้าสำเร็จรูป (FG) → ยืนยัน SO → แตกเป็น 2 เส้นทางจริงตามสภาพสต็อก (FG ไม่พอ ต้องย้าย Slab เข้าสถานีผลิต + เปิด wizard "Produce FG" ตัดจริง vs. FG มีของพอ ข้ามผลิตได้เลย) → ส่งมอบ → ออกใบแจ้งหนี้ → รับชำระเงิน → ตรวจรายการบัญชี ไม่มี field-validation/error case ทั่วไป เขียนให้ non-technical user เดินตามได้เอง — รันใหม่ทั้งชุด 14 ก.ย. 2026 บน mbx-ee-dev ด้วย Material ใหม่เฉพาะเอกสารนี้ (PO P00054 → Bundle BLK-26-0029 → MO EG01/STCUT/00043 ตัด Slab ด้วยกลไก Native MO ใหม่ → SO S00127 ผลิตจริงผ่าน MO EG01/STFG/00015 → INV/2026/00031; SO S00128 ใช้สต็อกส่วนเกิน → INV/2026/00032 — ทั้งคู่ In Payment) ยืนยันว่า wizard "Produce FG" ทำงานถูกต้องบนกลไกตัด Slab แบบใหม่ (เปลี่ยน 13 ก.ย. 2026) และ COGS ลงบัญชีถูกต้องไม่เป็น 0 ทั้ง 2 ใบแจ้งหนี้ — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
-        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">รันใหม่ทั้งชุด</span></div>
+        <div class="card-title">Mode 1, 2, 4, 5 — กำลังปรับปรุงใหม่ (Session 136-138 ก็ปรับหน้าจอ MO ที่ Mode 5 ใช้เหมือนกัน)</div>
+        <div class="card-desc">เอกสารรุ่นก่อนหน้าทั้ง 4 โหมดนี้ถูกย้ายเข้า Archived แล้ว 16 ก.ย. 2026 พร้อมกับ Mode 3 — Mode 5 (Slab→FG) ใช้หน้าจอ MO เดียวกันที่เปลี่ยนไป (banner ใหม่ + ADR-067 ถอด wizard Produce FG เดิม) จึงล้าสมัยจริง ส่วน Mode 1/2/4 เนื้อหาเองไม่ถูกกระทบโดยตรงแต่ย้ายพร้อมกันตามคำขอผู้ใช้ รอคิวสร้างใหม่ทีละโหมด — ดูรุ่นเก่าที่ Archived ระหว่างรอ</div>
+        <div class="card-meta"><span class="card-date">16 ก.ย. 2026</span><span class="status-badge design">รอสร้างใหม่</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

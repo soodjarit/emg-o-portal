@@ -186,6 +186,66 @@
         </div>
       </div>
     </div>
+    <div class="card">
+      <div class="icon">G1</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-e2e-mode1-v3.html">Golden Path — Mode 1 (Block Direct Sale) — v3</a>
+        <div class="card-desc">15 test case รุ่น 14 ก.ย. 2026 บน mbx-ee-dev (PO P00048 → BLK-26-0023 → S00120 → INV/2026/00024)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> หน้าจอ Manufacturing Order (Cut Order/FG Production) ถูกปรับใหม่พอสมควรหลังจากนี้ (ADR-066/067 + Session 136-138: กลไกตัด Block→Slab เปลี่ยนเป็นวางแผน/บันทึกจริงทีละแผ่น+yield% อัตโนมัติ, banner/step layout ใหม่บนฟอร์ม MO) — เอกสารนี้ยังไม่ผ่าน Mode 3 ในเรื่อง MO เลยไม่กระทบเนื้อหาโดยตรง แต่ย้ายเข้า Archived พร้อมกันทั้งชุด 5 โหมดตามคำขอผู้ใช้เพื่อเริ่มรอบทดสอบใหม่ทั้งหมดบนหน้าจอปัจจุบัน กำลังสร้างรุ่นใหม่ ดูสถานะที่ <a href="library.html#golden-path-test-cases">Golden Path Test Case →</a>
+          <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G2</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-e2e-mode2-v3.html">Golden Path — Mode 2 (Ready-Made Slab) — v3</a>
+        <div class="card-desc">13 test case รุ่น 14 ก.ย. 2026 บน mbx-ee-dev (Serial: S00123 → INV/2026/00025; Lot: S00124 → INV/2026/00026)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เช่นเดียวกับ Mode 1 — ย้ายเข้า Archived พร้อมกันทั้งชุด 5 โหมดเพื่อเริ่มรอบทดสอบใหม่บนหน้าจอปัจจุบันหลัง ADR-066/067 + Session 136-138 แม้เนื้อหา Mode 2 เองไม่แตะหน้าจอ MO โดยตรง กำลังสร้างรุ่นใหม่ ดูสถานะที่ <a href="library.html#golden-path-test-cases">Golden Path Test Case →</a>
+          <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G3</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-e2e-mode3-v2.html">Golden Path — Mode 3 (Cut-to-Order) — v2</a>
+        <div class="card-desc">13 test case รุ่น 14 ก.ย. 2026 บน mbx-ee-dev (Block BLK-26-0028 → S00125 → EG01/STCUT/00042 → INV/2026/00027) — อ้างอิงกลไกตัด MO แบบ qty_producing=1 แผ่นเดียว (ADR-061/062) ก่อนปรับเป็นแบบวางแผน/บันทึกจริงหลายแผ่น+yield%</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> Session 135 (ADR-066, วันเดียวกันแต่หลังเอกสารนี้ถูกสร้าง) เปลี่ยนกลไกตัด Block→Slab จาก "1 MO = 1 แผ่น" เป็นวางแผนจำนวนแผ่นล่วงหน้าอัตโนมัติจากขนาดก้อน + บันทึกขนาดจริงทีละแผ่นหลังตัด + คำนวณ yield% เทียบแผน — ต่อด้วย Session 136-138 ที่ปรับหน้าฟอร์ม MO เป็น step layout พร้อม banner นำทาง + ปุ่ม "ย้ายด่วน (Move to Production)" ใหม่ ทุกหน้าจอ/ทุกขั้นตอนที่เอกสารนี้อ้างอิงในช่วง Cut Order ไม่ตรงกับของจริงอีกต่อไป เขียนใหม่ทั้งชุดรอบกลไกปัจจุบันแล้ว ดูฉบับที่ใช้งานจริงได้ที่ <a href="qa/test-cases-e2e-mode3.html">Golden Path — Mode 3 (v3) →</a>
+          <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G4</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-e2e-mode4-v2.html">Golden Path — Mode 4 (Sold-as-Project) — v2</a>
+        <div class="card-desc">13 test case รุ่น 14 ก.ย. 2026 บน mbx-ee-dev (BOQ0029 → SO S00126 → Project 41 → INV/2026/00028-00030 → EG01/OUT/00080)</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เช่นเดียวกับ Mode 1/2 — ย้ายเข้า Archived พร้อมกันทั้งชุด 5 โหมด แม้กลไก BOQ→Project ของ Mode 4 เองไม่ถูกกระทบจาก ADR-066/067 โดยตรง กำลังสร้างรุ่นใหม่ ดูสถานะที่ <a href="library.html#golden-path-test-cases">Golden Path Test Case →</a>
+          <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G5</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-e2e-mode5-v2.html">Golden Path — Mode 5 (Stone Production / FG Production) — v2</a>
+        <div class="card-desc">13 test case รุ่น 14 ก.ย. 2026 บน mbx-ee-dev (PO P00054 → BLK-26-0029 → MO EG01/STCUT/00043 → SO S00127 → MO EG01/STFG/00015 → INV/2026/00031; SO S00128 → INV/2026/00032)</div>
+        <div class="card-meta"><span class="card-version">v2</span><span class="card-date">14 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เอกสารนี้พึ่งพาผลลัพธ์จากขั้นตอน Cut Order (ตัด Block→Slab) เป็น precondition — เมื่อกลไกนั้นเปลี่ยนไปตาม ADR-066 (วางแผน/บันทึกจริงหลายแผ่น+yield%) และหน้าฟอร์ม MO เปลี่ยนตาม Session 136-138 (รวมถึง ADR-067 ที่ถอด wizard "Produce FG" เดิมออกสำหรับ Slab→FG มาตรฐาน แทนที่ด้วย MO ตรง + FG Output Line) ทุกภาพหน้าจอในเอกสารนี้ไม่ตรงกับระบบจริงอีกต่อไป กำลังสร้างรุ่นใหม่ ดูสถานะที่ <a href="library.html#golden-path-test-cases">Golden Path Test Case →</a>
+          <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="library.html">กลับไปคลังเอกสารทั้งหมด</a></footer>

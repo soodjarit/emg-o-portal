@@ -100,7 +100,7 @@
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode5.xlsx" download="EMG-O Test Cases - E2E Mode 5.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="xlsx/emg-o-test-cases-e2e-mode5-v2.xlsx" download="EMG-O Test Cases - E2E Mode 5.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -156,7 +156,7 @@
           <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode5 Fresh Test - Countertop</td>
           <td class="col-expected">เพิ่มบรรทัดสำเร็จ ราคาต่อหน่วยขึ้นเป็นราคาตั้งต้นของสินค้า FG (ตัวอย่างจริง: 8,500/หน่วย)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-01-so-line-added.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-01-so-line-added.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-01-so-line-added.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-01-so-line-added.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-02</span></td>
@@ -166,7 +166,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order ยอดรวม 9,095.00 บาท (รวม VAT) — บรรทัดสินค้า FG ปรากฏลิงก์ "Produce FG" ให้กดเพื่อผลิต เพราะยังไม่มีสต็อก FG เลย — ตัวอย่างจริง: S00127</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-02-so-confirmed-produce-link.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-02-so-confirmed-produce-link.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-02-so-confirmed-produce-link.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-02-so-confirmed-produce-link.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -202,7 +202,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เปิด wizard สำเร็จ ช่อง "Slab to Consume" เติมให้อัตโนมัติเป็น Slab ตัวแรกที่มี Material ตรงกันและสถานะ Available (v1: จับคู่ตาม Material อย่างเดียว) พร้อมบรรทัดผลผลิตเริ่มต้น 1 บรรทัดตรงกับสินค้าที่ขาย จำนวน 1 — ตัวอย่างจริง: Slab BLK-26-0029 #1</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-03-produce-fg-wizard.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-03-produce-fg-wizard.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-03-produce-fg-wizard.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-03-produce-fg-wizard.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-04</span></td>
@@ -212,7 +212,7 @@
           <td class="col-sample">จำนวนผลผลิต = 2</td>
           <td class="col-expected">สร้าง Manufacturing Order สำเร็จ ยืนยันอัตโนมัติทันที (Confirmed) ระบบเติม Bill of Material ให้อัตโนมัติจาก FG Material ที่เลือก จำนวนที่จะผลิต = 2.00 Slab ที่เลือกถูกจับจองเป็นวัตถุดิบ (To Consume 1.00, Available) ผูกกับบรรทัด SO เดิม ("For Sale Order Line") — ตัวอย่างจริง: EG01/STFG/00015</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-04-fg-mo-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-04-fg-mo-confirmed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-04-fg-mo-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-04-fg-mo-confirmed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-05</span></td>
@@ -222,7 +222,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Manufacturing Order เสร็จสมบูรณ์ (สถานะ Done) จำนวนที่ผลิตจริง = 2.00/2.00 ได้ Lot/Serial ใหม่ของสินค้า FG (ตัวอย่างจริง: FG-EG01/STFG/00015) Slab ที่ใช้เป็นวัตถุดิบเปลี่ยนสถานะเป็น Consumed หมดสภาพขายต่อ สินค้า FG 2 หน่วยเข้าสต็อกจริง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-05-fg-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-05-fg-mo-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-05-fg-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-05-fg-mo-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -258,7 +258,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จทันที (จองสต็อกไว้ให้แล้วตั้งแต่ผลิตเสร็จ) — ตัวอย่างจริง: EG01/OUT/00081</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-06-delivery1-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-06-delivery1-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-06-delivery1-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-06-delivery1-done.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-07</span></td>
@@ -268,7 +268,7 @@
           <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode5 Fresh Test - Countertop<br>จำนวน = 1</td>
           <td class="col-expected">SO ยืนยันสำเร็จ ยอดรวม 9,095.00 บาทเท่าเดิม ใบส่งของที่เกิดขึ้นอัตโนมัติจองสต็อก (Reserved/Assigned) ได้ทันทีจากสต็อกส่วนเกินที่เหลือ โดยไม่ต้องเปิด "Produce FG" เลย — ตัวอย่างจริง: S00128</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-07-so2-confirmed-no-produce-needed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-07-so2-confirmed-no-produce-needed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-07-so2-confirmed-no-produce-needed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-07-so2-confirmed-no-produce-needed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-08</span></td>
@@ -278,7 +278,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จทันที เหมือนกับ TC-E2E-M5-06 ทุกประการ — ตัวอย่างจริง: EG01/OUT/00082</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-08-delivery2-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-08-delivery2-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-08-delivery2-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-08-delivery2-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -314,7 +314,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้ยืนยันสำเร็จ สถานะ Posted ยอดรวม 9,095.00 บาท (รวม VAT) — ตัวอย่างจริง: INV/2026/00031</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-09-invoice1-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-09-invoice1-posted.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-09-invoice1-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-09-invoice1-posted.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-10</span></td>
@@ -324,7 +324,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้ยืนยันสำเร็จ สถานะ Posted ยอดรวม 9,095.00 บาทเท่ากับใบแรกทุกประการ (ราคาขายเท่ากัน) — ตัวอย่างจริง: INV/2026/00032</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-10-invoice2-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-10-invoice2-posted.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-10-invoice2-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-10-invoice2-posted.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-11</span></td>
@@ -334,7 +334,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นรายการครบ 5 บรรทัด สมดุลกันทั้ง 2 ฝั่ง (เดบิต = เครดิต) พร้อม Analytic Distribution ผูกกับ Material/Block ทุกบรรทัด — ตัวอย่างจริง INV/2026/00031: เครดิต "411150 Sales Revenue - FG Production" 8,500.00, เครดิต "213200 Output VAT" 595.00, เดบิต "112100 Trade Receivables" 9,095.00, เครดิต "113150 Inventory - Stone FG (Finished Goods)" 375.00, เดบิต "511100 Cost of Goods Sold" 375.00 — รวมสมดุล 9,470.00 = 9,470.00 (COGS ไม่ใช่ 0 บาท ตัดจริงตามบัญชีที่ถูกต้อง)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-11-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-11-journal-items.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-11-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-11-journal-items.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-12</span></td>
@@ -344,7 +344,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "In Payment" ทันที — ตัวอย่างจริง: INV/2026/00031</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-12-invoice1-in-payment.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-12-invoice1-in-payment.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-12-invoice1-in-payment.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-12-invoice1-in-payment.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M5-13</span></td>
@@ -354,7 +354,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "In Payment" ทันทีเหมือนกัน — ตัวอย่างจริง: INV/2026/00032</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-13-invoice2-in-payment.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-13-invoice2-in-payment.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5-v2/m5-13-invoice2-in-payment.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5-v2/m5-13-invoice2-in-payment.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>

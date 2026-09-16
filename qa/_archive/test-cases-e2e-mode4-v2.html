@@ -99,7 +99,7 @@
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode4.xlsx" download="EMG-O Test Cases - E2E Mode 4.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="xlsx/emg-o-test-cases-e2e-mode4-v2.xlsx" download="EMG-O Test Cases - E2E Mode 4.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -155,7 +155,7 @@
           <td class="col-sample">BOQ0029 — ลูกค้า "ทดสอบ Mode4 Fresh - Sample Project"<br>2 รายการ: Vietnam Limestone - Slab 0.5 ตร.ม. + Dry-Lay 1.5 ตร.ม.<br>Preliminaries 5% + Overhead &amp; Profit 10%</td>
           <td class="col-expected">สถานะ BOQ เปลี่ยนเป็น "Quotation Generated" เกิด Sale Order ใหม่ 1 ใบอัตโนมัติ ดึงทุกรายการ + ค่า Preliminaries/Overhead มาเป็นบรรทัดในใบเสนอราคาให้ครบ — ตัวอย่างจริง: BOQ0029 (รวม 1,380.00 บาท ก่อน VAT) &rarr; SO S00126</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc01-boq-document.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc01-boq-document.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc01-boq-document.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc01-boq-document.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-02</span></td>
@@ -165,7 +165,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">กล่อง "Sold as Project" ติ๊กเรียบร้อย (ยังไม่ต้องกด Confirm ตอนนี้) — เมื่อ Confirm ในขั้นถัดไป ระบบจะสร้าง Project ให้อัตโนมัติจากช่องนี้</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc02-is-project-sale.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc02-is-project-sale.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc02-is-project-sale.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc02-is-project-sale.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -201,7 +201,7 @@
           <td class="col-sample">Lot = BLK-26-0004<br>จำนวน = 0.5 ตร.ม.</td>
           <td class="col-expected">บรรทัดผูกกับ Lot ที่เลือกสำเร็จ จำนวนเปลี่ยนเป็น 0.5 ตร.ม. ตามที่กรอก ราคารวมของบรรทัดยังคงเท่าเดิมกับที่ BOQ ตั้งไว้เป๊ะ (ตัวอย่างจริง: ยอดรวม SO ยังคงเป็น 1,476.60 บาท เท่าเดิม ไม่เปลี่ยนหลังผูก Lot)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc03-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc03-so-confirmed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc03-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc03-so-confirmed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-04</span></td>
@@ -211,7 +211,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">SO เปลี่ยนสถานะเป็น "Sales Order" เกิดปุ่ม/สถิติใหม่มุมบน: "Projects 1", "Tasks 3", "Delivery 1" — ไม่ต้องสร้าง Project เองแยกต่างหาก — ตัวอย่างจริง: S00126 (ยอดรวม 1,476.60 บาท รวม VAT) &rarr; Project id 41</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc04-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc04-so-confirmed.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc04-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc04-so-confirmed.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-05</span></td>
@@ -221,7 +221,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็น Task ครบ 4 งาน หนึ่งงานต่อหนึ่งบรรทัดสินค้า/บริการ — ตัวอย่างจริง: "Vietnam Limestone - Slab (ปูพื้นระเบียง) — 0.5 m²", "Dry-Lay", "BOQ Summary Line Preliminaries (5%)", "BOQ Summary Line Overhead &amp; Profit (10%)"</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc05-tasks-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc05-tasks-created.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc05-tasks-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc05-tasks-created.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -257,7 +257,7 @@
           <td class="col-sample">Down Payment = 30%</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอด 30% ของยอดรวม SO — ตัวอย่างจริง: INV/2026/00028 (442.98 บาท จาก 1,476.60 &times; 30%)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc06-dp1-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc06-dp1-30pct.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc06-dp1-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc06-dp1-30pct.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-07</span></td>
@@ -267,7 +267,7 @@
           <td class="col-sample">Down Payment = 40%</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอด 40% ของยอดรวม SO — ตัวอย่างจริง: INV/2026/00029 (590.64 บาท จาก 1,476.60 &times; 40%)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc07-dp2-40pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc07-dp2-40pct.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc07-dp2-40pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc07-dp2-40pct.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-08</span></td>
@@ -277,7 +277,7 @@
           <td class="col-sample">Down Payment = 30%</td>
           <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดงวดสุดท้าย รวม 3 ใบแล้วเท่ากับยอด SO เป๊ะ — ตัวอย่างจริง: INV/2026/00030 (442.98 บาท) รวม 3 ใบ = 442.98 + 590.64 + 442.98 = 1,476.60 บาท ตรงกับยอด SO พอดี</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc08-dp3-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc08-dp3-30pct.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc08-dp3-30pct.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc08-dp3-30pct.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -313,7 +313,7 @@
           <td class="col-sample">Scanned Serial = BLK-26-0004-LOT</td>
           <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done ดึงสต็อกจากจุดที่ของจริงอยู่ถูกต้อง — ตัวอย่างจริง: EG01/OUT/00080 (Vietnam Limestone - Slab 0.5 ตร.ม., Source Location "EG01/Stock")</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc09-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc09-delivery-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc09-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc09-delivery-done.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -349,7 +349,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Task ขึ้นป้ายสถานะ "Done" และ Milestone ที่ผูกกับ Task นั้นเปลี่ยนเป็นติ๊กถูกให้อัตโนมัติ โดยไม่ต้องไปกดยืนยัน Milestone แยกต่างหาก — ตัวอย่างจริง: Milestone "ปูพื้นเสร็จสมบูรณ์ (Dry-Lay Complete)" ขึ้นเครื่องหมายถูกในหน้า Project Dashboard ทันที</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc10-task-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc10-task-done.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc10-task-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc10-task-done.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-11</span></td>
@@ -359,7 +359,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นแท่ง Gantt ของแต่ละ Task เรียงตามวันที่วางแผน กลุ่มตามผู้รับผิดชอบ — Task ที่ทำเสร็จแล้ว (Dry-Lay) จะหายไปจากมุมมองนี้เพราะ filter เริ่มต้นกรองเฉพาะงานที่ยังเปิดอยู่ ("Open") — ปิด filter นี้ถ้าต้องการเห็นงานที่เสร็จแล้วด้วย</td>
           <td class="col-prio"><span class="prio-badge prio-low">Low</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc11-gantt.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc11-gantt.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc11-gantt.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc11-gantt.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -395,7 +395,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เห็นยอดรายได้แยกตามหมวด (Materials / Other Services / Down Payments) รวมกันแล้วต้องเท่ากับยอดใบแจ้งหนี้ทั้งหมด (ไม่รวม VAT) — ตัวอย่างจริง: Other Services 480 + Materials 900 = Total Revenues 1,380 บาท ตรงกับยอด Invoiced 1,380 บาททั้งหมด (ออกครบ 3 งวดแล้ว จึง Expected = Invoiced พอดี ไม่มียอดค้าง "To Invoice" — ยอด Materials 900 นี้คือหลักฐานว่าราคาที่ BOQ ตั้งไว้ไม่ถูกเขียนทับแล้ว, ดู TC-03)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc12-dashboard-milestone-pl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc12-dashboard-milestone-pl.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc12-dashboard-milestone-pl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc12-dashboard-milestone-pl.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-E2E-M4-13</span></td>
@@ -405,7 +405,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เดบิต/เครดิตสมดุลกัน (รวมเท่ากันทั้ง 2 ฝั่ง) เห็น Analytic Distribution ผูกกับบัญชี Analytic ของโปรเจกต์นี้บนบรรทัดรายได้ — ตัวอย่างจริง: INV/2026/00030 เดบิต Trade Receivables 442.98 = เครดิต Down Payment 414.00 + Output VAT 28.98 พอดี พร้อมป้าย Analytic "BOQ0029 - ทดสอบ Mode4 Fresh..."</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4/tc13-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4/tc13-journal-items.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode4-v2/tc13-journal-items.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode4-v2/tc13-journal-items.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
