@@ -216,8 +216,10 @@
       <details class="tree-cat" data-section="golden-path-test-cases" open>
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode1.html"><span class="tree-doc-tag">G1</span>Golden Path — Mode 1 (Block Direct Sale)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">G2</span>Golden Path — Mode 2 (Ready-Made Slab)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">G3</span>Golden Path — Mode 3 (Cut-to-Order)</a></li>
-          <li class="tree-doc"><a href="archived.html#qa-test-cases">Mode 1/2/4/5 (รอสร้างใหม่) → Archived</a></li>
+          <li class="tree-doc"><a href="archived.html#qa-test-cases">Mode 4/5 (รอสร้างใหม่) → Archived</a></li>
         </ul>
       </details>
 
@@ -421,6 +423,15 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="presentations/sale-modes-comparison.html">
+      <div class="icon">4</div>
+      <div>
+        <div class="card-title">5 โหมดการขาย — ตารางเปรียบเทียบ (Comparison Matrix)</div>
+        <div class="card-desc">เทียบทั้ง 5 Mode ทีละแกน: สินค้าที่ขาย, สถานะ stock, entry point, MRP, custom hold, partial qty, intercompany, ผูก Project — พร้อมข้อสรุปว่าทำไมยังต้องมี 5 Mode แม้มองเป็นแค่ 3 ประเภทสินค้า (Block/Slab/FG)</div>
+        <div class="card-meta"><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">ยืนยันแล้ว — 5 Mode ยัง Valid</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="category" id="ensure-supply">
@@ -619,6 +630,24 @@
       <div class="category-title">Golden Path Test Case</div>
       <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 โหมดขาย — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
     </div>
+    <a class="card" href="qa/test-cases-e2e-mode1.html">
+      <div class="icon">G1</div>
+      <div>
+        <div class="card-title">Golden Path — Mode 1 (Block Direct Sale)</div>
+        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่อง — ซื้อ Block ใหม่เข้าสต็อก (PO → "สร้าง Block" ผ่านปุ่มลัด → Vendor Bill) → ขายทั้งก้อนตาม CBM (Sell Whole Block ราคาคำนวณอัตโนมัติ) → Confirm → จัดส่ง → ออกใบแจ้งหนี้ → ตรวจรายการบัญชีทั้งฝั่งซื้อ/ขาย (ไม่ใช่บัญชี COGS ทั่วไป, ไม่มี COGS ซ้ำ) → สรุปกำไรขั้นต้น → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่กระทบจากการเปลี่ยนกลไกตัดหินของ Mode 3 เลย (ไม่มีขั้นตอนตัด) — รันสดใหม่ล่าสุดยืนยันหน้าจอปัจจุบัน ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงบน mbx-ee-dev (PO P00056 → Block BLK-26-0032 → SO S00132 → Invoice INV/2026/00034, 37,450.00)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">รันสดใหม่ ยืนยันหน้าจอปัจจุบัน</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-e2e-mode2.html">
+      <div class="icon">G2</div>
+      <div>
+        <div class="card-title">Golden Path — Mode 2 (Ready-Made Slab)</div>
+        <div class="card-desc">13 test case ครอบคลุมทั้ง 2 เส้นทางย่อย: ขายทีละแผ่นตามเลข Serial (Select Slabs) และขายบางส่วนจากล็อตหินราคาถูก (Select Lot Stock, ADR-020) เดินเรื่องตั้งแต่มีสต็อกพร้อมขาย (ตัดผ่านกลไก native MO เดียวกับ Mode 3) → เลือกขาย → สแกน Serial ยืนยันก่อนส่งเสมอ (บล็อกถ้าสแกนไม่ตรง, ADR-009) → ออกใบแจ้งหนี้ + รับชำระเงิน → ตรวจบัญชีลงถูกโหมด (Serial vs Lot คนละบัญชีรายได้) + COGS ไม่เป็น 0 ทั้งคู่ (ยืนยันซ้ำว่าบั๊ก material_lot_id ที่เคยแก้ไปยังปิดอยู่จริง) — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงบน mbx-ee-dev (Serial: SO S00133 → INV/2026/00035, 4,622.40 | Lot: SO S00134 → INV/2026/00036, 8,560.00)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">รันสดใหม่ ยืนยันหน้าจอปัจจุบัน</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="qa/test-cases-e2e-mode3.html">
       <div class="icon">G3</div>
       <div>
@@ -631,8 +660,8 @@
     <a class="card" href="archived.html#qa-test-cases">
       <div class="icon">⟳</div>
       <div>
-        <div class="card-title">Mode 1, 2, 4, 5 — กำลังปรับปรุงใหม่ (Session 136-138 ก็ปรับหน้าจอ MO ที่ Mode 5 ใช้เหมือนกัน)</div>
-        <div class="card-desc">เอกสารรุ่นก่อนหน้าทั้ง 4 โหมดนี้ถูกย้ายเข้า Archived แล้ว 16 ก.ย. 2026 พร้อมกับ Mode 3 — Mode 5 (Slab→FG) ใช้หน้าจอ MO เดียวกันที่เปลี่ยนไป (banner ใหม่ + ADR-067 ถอด wizard Produce FG เดิม) จึงล้าสมัยจริง ส่วน Mode 1/2/4 เนื้อหาเองไม่ถูกกระทบโดยตรงแต่ย้ายพร้อมกันตามคำขอผู้ใช้ รอคิวสร้างใหม่ทีละโหมด — ดูรุ่นเก่าที่ Archived ระหว่างรอ</div>
+        <div class="card-title">Mode 4, 5 — กำลังปรับปรุงใหม่ (Mode 5 ใช้หน้าจอ MO ที่เปลี่ยนไปเหมือนกัน)</div>
+        <div class="card-desc">เอกสารรุ่นก่อนหน้าถูกย้ายเข้า Archived แล้ว 16 ก.ย. 2026 — Mode 1/2/3 สร้างใหม่เสร็จแล้ว (ดูด้านบน) Mode 5 (Slab→FG) ใช้หน้าจอ MO เดียวกันที่เปลี่ยนไป (banner ใหม่ + ADR-067 ถอด wizard Produce FG เดิม) จึงล้าสมัยจริง ส่วน Mode 4 เนื้อหาเองไม่ถูกกระทบโดยตรงแต่ย้ายพร้อมกันตามคำขอผู้ใช้ รอคิวสร้างใหม่ — ดูรุ่นเก่าที่ Archived ระหว่างรอ</div>
         <div class="card-meta"><span class="card-date">16 ก.ย. 2026</span><span class="status-badge design">รอสร้างใหม่</span></div>
       </div>
       <div class="arrow">→</div>

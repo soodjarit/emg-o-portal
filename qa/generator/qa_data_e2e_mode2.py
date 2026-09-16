@@ -15,50 +15,56 @@
 # stock, for the same "avoid cross-fixture FIFO contamination" reason
 # documented in qa_data_e2e_mode1.py.
 #
-# REAL BUG FOUND + FIXED LIVE while building this doc (2026-09-14): the day
-# before (2026-09-13), Session 129/ADR-061/062 tore down the old
-# Factory-Worklist/"Cut to Order" wizard entirely, replacing it with a plain
-# native Manufacturing Order (Admin picks the Block directly on a native MO,
-# no wizard) — this had never had a real live Playwright click-through
-# before this session. Building Mode 2's Lot-aggregate fixture through that
-# new mechanism surfaced a genuine regression: every cut (regardless of
-# pricing_mode) landed on a fresh per-cut lot, but Lot-mode materials are
-# meant to pool ALL their cut stock onto one single aggregate
-# `stone_bundle.material_lot_id` (stone.slab.create() already branches on
-# this correctly — mrp_production.py's new action_stone_mark_done() just
-# never called the existing _ensure_material_lot() helper). Effect: any
-# fresh Lot-mode cut through the new MO flow was invisible to "Select Lot
-# Stock" ("Not enough lot stock left: requested 0.50 sqm, only 0.00 sqm
-# remaining" despite the physical stock genuinely existing) — this wasn't
-# scoped to this test's own fixture, it would have hit any real Lot-mode
-# use of the new cutting flow. Fixed in mrp_production.py
+# REAL BUG FOUND + FIXED LIVE on 2026-09-14 (the day after Session
+# 129/ADR-061/062 tore down the old Factory-Worklist/"Cut to Order" wizard,
+# replacing it with a plain native Manufacturing Order): every cut
+# (regardless of pricing_mode) landed on a fresh per-cut lot, but Lot-mode
+# materials are meant to pool ALL their cut stock onto one single aggregate
+# `stone_bundle.material_lot_id`. Fixed in mrp_production.py
 # (action_stone_mark_done now calls bundle._ensure_material_lot() and reuses
-# material_lot_id for lot-mode bundles instead of minting a new lot), deployed
-# to mbx-ee-dev, then re-verified live via a second real cut + sale on this
-# same doc's own fixture before writing the numbers below. As a side effect,
-# this same fix also resolves the OLD known-issue from the v1/v2 docs
-# (TC-E2E-M2-12b, Lot-mode COGS always posting ฿0) — the broken lot linkage
-# was the same root cause blocking FIFO consumption from ever finding the
-# right valuation layer. See project_emg_o memory / decisions.md for the
-# ADR entry.
+# material_lot_id for lot-mode bundles instead of minting a new lot). Also
+# resolved the OLD known-issue from the v1/v2 docs (TC-E2E-M2-12b, Lot-mode
+# COGS always posting ฿0) — the broken lot linkage was the same root cause
+# blocking FIFO consumption from ever finding the right valuation layer. See
+# project_emg_o memory / decisions.md for the ADR entry.
 #
-# Built + the whole flow executed live on mbx-ee-dev (Playwright, 2026-09-14)
-# before writing this file — every "sample data"/"expected result" below is
-# a REAL observed number from that run:
-#   - Serial (per-slab) path: Block BLK-26-0026 (E2E Mode2 Serial Fresh,
-#     Marble) cut via the new native-MO flow -> Slab BLK-26-0026-1 (1.2 x
-#     0.8 m, 0.96 Sq.Mt.) -> SO S00123 -> Delivery EG01/OUT/00077 ->
-#     Invoice INV/2026/00025 (4,622.40 incl. VAT, COGS 300.00), Posted + In
+# RE-RUN AGAIN 2026-09-16 (still v3 content-wise, screenshots + fixture
+# refreshed) — after the Mode 3 batch-cut rebuild (ADR-066, Session 139)
+# prompted the user to also archive Mode 1/2/4/5 and ask for fresh screens.
+# Mode 2's own selling UI is untouched by that change, but the underlying
+# cutting mechanism (native MO, no more wizard) is shared with Mode 3, so a
+# fresh live re-run through that same mechanism is exactly what re-verifies
+# both the material_lot_id fix and the COGS fix are still holding. Used
+# brand-new "V2" materials ("E2E Mode2 Serial Fresh V2" / "E2E Mode2 Lot
+# Fresh V2") since the original 2026-09-14 materials still had leftover
+# on-hand Block stock (would have risked FIFO cross-contamination, same
+# class of gotcha documented in qa_data_e2e_mode1.py). A real, separate
+# fixture-building gotcha found this round: a Material's Slab/Block products
+# created via the quick "Create <name>" one-liner inside the Material form
+# default to `is_storable=False` ("Track Inventory" off) — any stock move
+# against such a product marks itself "done" immediately but never creates a
+# real stock.quant, so the freshly-cut Block silently showed 0 Remaining CBM
+# even though the cut MO said "done". Fixed by explicitly enabling Track
+# Inventory on both products before purchasing — not a product bug, a
+# fixture-setup step this file's build process now knows to do.
+#
+# Built + the whole flow executed live on mbx-ee-dev (Playwright,
+# 2026-09-14, fully re-run again 2026-09-16) before writing this file, so
+# every "sample data"/"expected result" below is a REAL observed number from
+# the 2026-09-16 run, not a guess:
+#   - Serial (per-slab) path: PO P00058 (0.10 m3 @ 10,000/CBM) -> Block
+#     BLK-26-0034 (E2E Mode2 Serial Fresh V2, Marble) cut via the native-MO
+#     flow (EG01/STCUT/00045, auto-planned 5 slabs 1.2 x 0.8 m each) -> Slab
+#     BLK-26-0034-1 (0.96 Sq.Mt.) -> SO S00133 -> Delivery EG01/OUT/00087 ->
+#     Invoice INV/2026/00035 (4,622.40 incl. VAT, COGS 200.00), Posted + In
 #     Payment.
-#   - Lot (aggregate) path: Block BLK-26-0027 (E2E Mode2 Lot Fresh, Marble).
-#     First cut (1.0 Sq.Mt.) ran before the fix and landed on an orphan
-#     per-cut lot ("BLK-26-0027-1", the bug reproduction — left in place as
-#     historical evidence, harmless leftover); a second cut (also 1.0
-#     Sq.Mt.) ran after deploying the fix and correctly landed on the
-#     aggregate lot "BLK-26-0027-LOT" -> sold 0.50 of that 1.00 Sq.Mt. via
-#     SO S00124 -> Delivery EG01/OUT/00078 -> Invoice INV/2026/00026
-#     (2,140.00 incl. VAT, COGS 120.00, correctly non-zero), Posted + In
-#     Payment.
+#   - Lot (aggregate) path: PO P00059 (0.10 m3 @ 8,000/CBM) -> Block
+#     BLK-26-0035 (E2E Mode2 Lot Fresh V2, Marble) cut via the native-MO flow
+#     (EG01/STCUT/00046, auto-planned 5 slabs 1.0 x 1.0 m each, all correctly
+#     pooled onto aggregate lot "BLK-26-0035-LOT" = 5.00 Sq.Mt. total) ->
+#     sold 2.00 of that 5.00 Sq.Mt. via SO S00134 -> Delivery EG01/OUT/00088
+#     -> Invoice INV/2026/00036 (8,560.00 incl. VAT, COGS 320.00, correctly
+#     non-zero), Posted + In Payment.
 #   Both fixtures kept on mbx-ee-dev as genuine reference data.
 #
 # Column model per test case (same as qa_data.py):
@@ -73,20 +79,20 @@ CATEGORIES = [
     dict(id="TC-E2E-M2-01", scenario="เพิ่มบรรทัดสินค้า Material โหมด Serial ใน Sale Order",
          pre="มีแผ่นหินสถานะ Available อยู่แล้ว จาก Material ที่ตั้ง Pricing Mode = Serial (per-slab)",
          steps=["เปิด Sales &gt; Orders &gt; New", "เลือกลูกค้า", "เพิ่มบรรทัด เลือกสินค้าของ Material นั้น (ถ้ามี Finish หลายแบบ ระบบจะให้เลือกก่อน)"],
-         sample="ลูกค้า = \"ทดสอบ E2E - Test Customer\"<br>สินค้า = E2E Mode2 Serial Fresh - Slab",
+         sample="ลูกค้า = \"ทดสอบ E2E - Test Customer\"<br>สินค้า = E2E Mode2 Serial Fresh V2 - Slab",
          expected="เพิ่มบรรทัดสำเร็จ ปุ่ม \"Select Slabs\" ปรากฏบนบรรทัดนั้น (ไม่ใช่ \"Select Lot Stock\")", prio="Medium",
          shot="assets/e2e-mode2/m2-s01-so-line-added.png"),
     dict(id="TC-E2E-M2-02", scenario="กด \"Select Slabs\" เลือกแผ่นตามเลข Serial",
          pre="ทำ TC-E2E-M2-01 เสร็จแล้ว",
          steps=["กดปุ่ม \"Select Slabs\" บนบรรทัด", "กด \"Add a line\" — หน้าต่างเลือกแผ่นแสดงรายการแผ่น Available พร้อมเลข Serial/ขนาด/สถานะ", "ติ๊กเลือกแผ่น กด \"Select\" แล้วกด \"Confirm Selection\""],
-         sample="เลือกแผ่น = BLK-26-0026 #1 (BLK-26-0026-1)",
+         sample="เลือกแผ่น = BLK-26-0034 #1 (BLK-26-0034-1)",
          expected="บรรทัด SO ผูกแผ่นที่เลือก จำนวน/ราคาต่อหน่วยเติมอัตโนมัติจากขนาด+ราคาจริงของแผ่น (ตัวอย่างจริง: 0.96 ตร.ม. &times; 4,500/ตร.ม. = 4,320)", prio="High",
          shot="assets/e2e-mode2/m2-s02-select-slabs-dialog.png"),
     dict(id="TC-E2E-M2-03", scenario="เช็ค Analytic Distribution แล้วยืนยัน (Confirm) Sale Order",
          pre="ทำ TC-E2E-M2-02 เสร็จแล้ว",
          steps=["เปิดคอลัมน์ \"Analytic Distribution\" ถ้ายังไม่เห็น (ปุ่มตัวเลือกคอลัมน์มุมขวาบนตาราง)", "กดปุ่ม Confirm บน Sale Order"],
          sample="-",
-         expected="ช่อง Analytic Distribution ต้องมีค่าติดมาอัตโนมัติแล้วตั้งแต่ก่อน Confirm (Material + Block + หมวดวัสดุ รวม 3 มิติ) — SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00123 &rarr; EG01/OUT/00077)", prio="High",
+         expected="ช่อง Analytic Distribution ต้องมีค่าติดมาอัตโนมัติแล้วตั้งแต่ก่อน Confirm (Material + Block + หมวดวัสดุ รวม 3 มิติ) — SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00133 &rarr; EG01/OUT/00087)", prio="High",
          shot="assets/e2e-mode2/m2-s03b-analytic-col-before-confirm.png"),
   ]),
   dict(cat_id="E2", title="E2. ขาย (Sale — Mode 2, Lot aggregate)",
@@ -95,21 +101,21 @@ CATEGORIES = [
     dict(id="TC-E2E-M2-04", scenario="เพิ่มบรรทัดสินค้า Material โหมด Lot ใน Sale Order",
          pre="มีล็อตหินสถานะ Available อยู่แล้ว จาก Material ที่ตั้ง Pricing Mode = Lot (aggregate)",
          steps=["เปิด Sales &gt; Orders &gt; New (หรือใช้ SO เดิม)", "เลือกลูกค้า", "เพิ่มบรรทัด เลือกสินค้าของ Material โหมด Lot นี้"],
-         sample="สินค้า = E2E Mode2 Lot Fresh - Slab (Material โหมด Lot)",
+         sample="สินค้า = E2E Mode2 Lot Fresh V2 - Slab (Material โหมด Lot)",
          expected="เพิ่มบรรทัดสำเร็จ ปุ่ม \"Select Lot Stock\" ปรากฏบนบรรทัดนั้นแทนที่จะเป็น \"Select Slabs\"", prio="Medium",
          shot="assets/e2e-mode2/m2-l01-so-line-added.png"),
     dict(id="TC-E2E-M2-05", scenario="กด \"Select Lot Stock\" ระบุจำนวนตร.ม.บางส่วนจากล็อต",
-         note="✅ พบ+แก้บั๊กจริงระหว่างสร้างเคสนี้ (2026-09-14): กลไกตัดหินใหม่ (แทนที่ Factory Worklist เดิม เมื่อวาน) ไม่ได้ผูก lot ก้อนที่ตัดเข้ากับ material_lot_id ของ bundle ทำให้ขายผ่านปุ่มนี้ไม่ได้เลย (ระบบเห็นสต็อกเหลือ 0 ทั้งที่มีจริง) แก้ไขที่โค้ด (mrp_production.py เรียกใช้ _ensure_material_lot() ที่มีอยู่แล้ว) deploy แล้วบน mbx-ee-dev ตัวเลขด้านล่างมาจากการรันซ้ำหลังแก้แล้วจริง",
+         note="✅ ยืนยันซ้ำ (2026-09-16): บั๊กเดิม (lot ที่ตัดใหม่ไม่ผูกกับ material_lot_id ของ bundle ทำให้ขายผ่านปุ่มนี้ไม่ได้) ยังคงปิดอยู่จริง — ครั้งนี้ตัดสต๊อกใหม่ 5 แผ่น (5.00 ตร.ม.) ผ่านกลไก MO เดียวกับ Mode 3 แล้วรวมเป็นล็อตเดียวถูกต้องอัตโนมัติทันที ไม่ต้องแก้โค้ดเพิ่ม",
          pre="ทำ TC-E2E-M2-04 เสร็จแล้ว",
          steps=["กดปุ่ม \"Select Lot Stock\" บนบรรทัด", "เลือก Bundle ที่ต้องการในช่อง \"Lot (Block)\" — ระบบแสดงจำนวนตร.ม.ที่เหลืออยู่ให้ทันที", "กรอก \"Quantity to Sell (Sq.Mt.)\" เป็นจำนวนบางส่วน (ไม่จำเป็นต้องขายทั้งล็อต)", "กด \"Confirm Selection\""],
-         sample="Lot = BLK-26-0027 (เหลือ 1.00 ตร.ม. เต็มล็อต)<br>Quantity to Sell (Sq.Mt.) = 0.50",
-         expected="บรรทัด SO ผูก Lot ถูกต้อง จำนวน/ราคารวมปรับตาม 0.50 ตร.ม. ที่เลือกทันที (ตัวอย่างจริง: 0.50 &times; 4,000/ตร.ม. = 2,000) ไม่มีการเลือกแผ่นเดี่ยวใดๆ", prio="High",
+         sample="Lot = BLK-26-0035 (เหลือ 5.00 ตร.ม. เต็มล็อต)<br>Quantity to Sell (Sq.Mt.) = 2.00",
+         expected="บรรทัด SO ผูก Lot ถูกต้อง จำนวน/ราคารวมปรับตาม 2.00 ตร.ม. ที่เลือกทันที (ตัวอย่างจริง: 2.00 &times; 4,000/ตร.ม. = 8,000) ไม่มีการเลือกแผ่นเดี่ยวใดๆ", prio="High",
          shot="assets/e2e-mode2/m2-l03-qty-entered.png"),
     dict(id="TC-E2E-M2-06", scenario="เช็ค Analytic Distribution แล้วยืนยัน (Confirm) Sale Order โหมด Lot",
          pre="ทำ TC-E2E-M2-05 เสร็จแล้ว",
          steps=["เปิดคอลัมน์ \"Analytic Distribution\" ถ้ายังไม่เห็น", "กดปุ่ม Confirm บน Sale Order"],
          sample="-",
-         expected="ช่อง Analytic Distribution มีค่าติดมาอัตโนมัติเหมือนโหมด Serial — SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — ตัวอย่างจริง: S00124 &rarr; EG01/OUT/00078 ส่วนที่เหลือของล็อตเดิม (0.50 ตร.ม.) ยังคงพร้อมขายต่อได้ตามปกติ", prio="High",
+         expected="ช่อง Analytic Distribution มีค่าติดมาอัตโนมัติเหมือนโหมด Serial — SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — ตัวอย่างจริง: S00134 &rarr; EG01/OUT/00088 ส่วนที่เหลือของล็อตเดิม (3.00 ตร.ม.) ยังคงพร้อมขายต่อได้ตามปกติ", prio="High",
          shot="assets/e2e-mode2/m2-l04b-analytic-col.png"),
   ]),
   dict(cat_id="E3", title="E3. จัดส่ง (Delivery — Scan Verification)",
@@ -122,11 +128,11 @@ CATEGORIES = [
          sample="-",
          expected="ระบบฟ้อง error สองภาษาทันที: \"สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate\" พร้อมระบุชื่อ Serial/Lot ที่ยังไม่ตรง บันทึกไม่ผ่าน", prio="High",
          shot="assets/e2e-mode2/m2-s06-delivery-scan-error.png",
-         shot_note="ภาพจากเส้นทาง Serial (EG01/OUT/00077) — เส้นทาง Lot เจอ error หน้าตาเดียวกัน (ดู EG01/OUT/00078)"),
+         shot_note="ภาพจากเส้นทาง Serial (EG01/OUT/00087) — เส้นทาง Lot เจอ error หน้าตาเดียวกัน (ดู EG01/OUT/00088)"),
     dict(id="TC-E2E-M2-08", scenario="กรอก/สแกน Scanned Serial ให้ตรงครบทุกบรรทัดแล้ว Validate",
          pre="ทำ TC-E2E-M2-07 เสร็จแล้ว (เจอ error มาก่อน)",
          steps=["กด \"Details\" ที่บรรทัดสินค้า", "กรอกช่อง \"Scanned Serial\" ให้ตรงกับ Serial/Lot ที่จองไว้จริง แล้วกด Save", "กดปุ่ม Validate อีกครั้ง"],
-         sample="Scanned Serial (Serial path) = BLK-26-0026-1<br>Scanned Serial (Lot path) = BLK-26-0027-LOT",
+         sample="Scanned Serial (Serial path) = BLK-26-0034-1<br>Scanned Serial (Lot path) = BLK-26-0035-LOT",
          expected="ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่น/ปริมาณที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว", prio="High",
          shot="assets/e2e-mode2/m2-s09-delivery-done.png"),
   ]),
@@ -137,13 +143,13 @@ CATEGORIES = [
          pre="ทำ TC-E2E-M2-08 เสร็จแล้ว",
          steps=["เปิด Sale Order &gt; กด \"Create Invoice\"", "เลือก \"Regular invoice\" &gt; Create Draft", "เปิดใบแจ้งหนี้ &gt; กด Confirm"],
          sample="-",
-         expected="ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง Lot: INV/2026/00026 (2,140.00)", prio="High",
+         expected="ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง Lot: INV/2026/00036 (8,560.00)", prio="High",
          shot="assets/e2e-mode2/m2-l11-invoice-posted.png"),
     dict(id="TC-E2E-M2-10", scenario="รับชำระเงิน (Register Payment) บนใบแจ้งหนี้",
          pre="ทำ TC-E2E-M2-09 เสร็จแล้ว (Invoice = Posted)",
          steps=["เปิดใบแจ้งหนี้ &gt; กด \"Pay\"", "ตรวจ/ยืนยันยอดและวิธีชำระ &gt; กด Create Payment"],
          sample="-",
-         expected="ใบแจ้งหนี้ขึ้นสถานะ \"In Payment\" — ตัวอย่างจริงทั้งคู่ (INV/2026/00025, INV/2026/00026) จบที่สถานะ Posted + In Payment", prio="Medium",
+         expected="ใบแจ้งหนี้ขึ้นสถานะ \"In Payment\" — ตัวอย่างจริงทั้งคู่ (INV/2026/00035, INV/2026/00036) จบที่สถานะ Posted + In Payment", prio="Medium",
          shot="assets/e2e-mode2/m2-s11-invoice-paid.png"),
     dict(id="TC-E2E-M2-11", scenario="ตรวจรายการบัญชีบนใบแจ้งหนี้ (รายได้ + VAT + ลูกหนี้ + บัญชี)",
          pre="ทำ TC-E2E-M2-09 เสร็จแล้ว",
@@ -151,19 +157,19 @@ CATEGORIES = [
          sample="-",
          expected="บรรทัดรายได้ต้องขึ้นบัญชีถูกโหมด — Serial = \"411160 Sales Revenue - Serial Slab Sale (Mode 2)\", Lot = \"411120 Sales Revenue - Lot Material (Mode 2)\" — พร้อม Analytic Distribution ครบ ตรงกับใน SO", prio="High",
          shot="assets/e2e-mode2/m2-l12-invoice-journal-items.png",
-         shot_note="ภาพตัวอย่าง Lot (INV/2026/00026) — ตัวอย่าง Serial (INV/2026/00025) ดูได้จาก TC-E2E-M2-12"),
+         shot_note="ภาพตัวอย่าง Lot (INV/2026/00036) — ตัวอย่าง Serial (INV/2026/00035) ดูได้จาก TC-E2E-M2-12"),
     dict(id="TC-E2E-M2-12", scenario="ตรวจว่า Serial-mode ลงบัญชีต้นทุนขาย (COGS) ถูกต้องหรือไม่",
-         pre="ทำ TC-E2E-M2-08 เสร็จแล้ว (Delivery = Done), ใช้ Invoice ฝั่ง Serial (INV/2026/00025)",
+         pre="ทำ TC-E2E-M2-08 เสร็จแล้ว (Delivery = Done), ใช้ Invoice ฝั่ง Serial (INV/2026/00035)",
          steps=["เปิด Customer Invoice ฝั่ง Serial &gt; กด smart button \"Journal Items\""],
          sample="-",
-         expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติบนใบแจ้งหนี้ใบเดียวกัน (เดบิต \"511110 COGS - Stone Sales (all modes)\" / เครดิต \"113110 Inventory - Stone Blocks (Raw)\") พร้อม Analytic Distribution ตรงกับบรรทัดรายได้ — ตัวอย่างจริง INV/2026/00025: COGS/Inventory คู่ละ 300.00 (ยอดรวมสมดุล 4,922.40 = 4,922.40)", prio="High",
+         expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติบนใบแจ้งหนี้ใบเดียวกัน (เดบิต \"511110 COGS - Stone Sales (all modes)\" / เครดิต \"113110 Inventory - Stone Blocks (Raw)\") พร้อม Analytic Distribution ตรงกับบรรทัดรายได้ — ตัวอย่างจริง INV/2026/00035: COGS/Inventory คู่ละ 200.00 (ยอดรวมสมดุล 4,822.40 = 4,822.40)", prio="High",
          shot="assets/e2e-mode2/m2-s10-invoice-journal-items.png"),
     dict(id="TC-E2E-M2-12b", scenario="ตรวจ Lot-mode COGS ลงบัญชีถูกต้องหรือไม่",
-         note="✅ เดิมเป็น known issue เปิดอยู่ (Lot-mode COGS ขึ้น 0 บาทเสมอ, v1/v2) — ตอนนี้ปิดแล้วจริง เป็นผลพลอยได้จากการแก้บั๊ก material_lot_id ในเคส TC-E2E-M2-05 (สาเหตุเดียวกัน: lot ที่ผูกผิดทำให้ FIFO หาต้นทุนที่ถูกต้องไม่เจอ) ยืนยันด้วยการรันจริงรอบนี้ COGS ขึ้นถูกต้องไม่ใช่ 0 อีกต่อไป",
-         pre="ทำ TC-E2E-M2-08 เสร็จแล้ว (Delivery = Done), ใช้ Invoice ฝั่ง Lot (INV/2026/00026)",
+         note="✅ เดิมเป็น known issue เปิดอยู่ (Lot-mode COGS ขึ้น 0 บาทเสมอ, v1/v2) — ปิดแล้วจริง ยืนยันซ้ำอีกครั้งด้วยการรันจริงรอบนี้ (2026-09-16) COGS ขึ้นถูกต้องไม่ใช่ 0",
+         pre="ทำ TC-E2E-M2-08 เสร็จแล้ว (Delivery = Done), ใช้ Invoice ฝั่ง Lot (INV/2026/00036)",
          steps=["เปิด Customer Invoice ฝั่ง Lot &gt; กด smart button \"Journal Items\"", "เทียบกับ TC-E2E-M2-11/12 ฝั่ง Serial"],
          sample="-",
-         expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือนฝั่ง Serial — ตัวอย่างจริง INV/2026/00026: COGS/Inventory คู่ละ 120.00 (ยอดรวมสมดุล 2,260.00 = 2,260.00) ไม่ใช่ 0 บาทอีกต่อไป", prio="Medium",
+         expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือนฝั่ง Serial — ตัวอย่างจริง INV/2026/00036: COGS/Inventory คู่ละ 320.00 (ยอดรวมสมดุล 8,880.00 = 8,880.00) ไม่ใช่ 0 บาทอีกต่อไป", prio="Medium",
          shot="assets/e2e-mode2/m2-l12-invoice-journal-items.png"),
   ]),
 ]

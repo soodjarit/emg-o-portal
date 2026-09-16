@@ -21,13 +21,24 @@
 # 1/2/3 fixture: check the Block product has zero on-hand quantity
 # (stock.quant) before treating a fresh PO as a "clean" cost baseline.
 #
+# RE-RUN AGAIN 2026-09-16 (still v3 content-wise, screenshots refreshed) —
+# after the Mode 3 batch-cut rebuild (ADR-066, Session 139) prompted the user
+# to also archive Mode 1/2/4/5 and ask for fresh screens. Mode 1's own UI is
+# untouched by that change (no wizard involved in this flow at all), and the
+# "E2E Mode1 Fresh Test" material's Block product still had exactly 0 on-hand
+# (previous fixture fully sold through) — safe to reuse the same material,
+# just a brand-new PO/Block/SO/Delivery/Invoice chain. All prices matched the
+# 2026-09-14 run exactly (same product config); only the document numbers
+# changed. Screenshots in qa/assets/e2e-mode1/ are from this 2026-09-16 run.
+#
 # Built + the whole flow executed once live on mbx-ee-dev (Playwright,
-# 2026-09-14) before writing this file, so every "sample data"/"expected
-# result" below is a REAL observed number from that run, not a guess:
-#   PO P00048 (2.00 m3 @ 15,000/CBM) -> Block BLK-26-0023 (via "สร้าง Block"
-#   shortcut) -> Vendor Bill BILL/2026/09/0003 -> SO S00120 (Sell Whole
-#   Block auto-priced 17,500/CBM) -> Delivery EG01/OUT/00074 -> Invoice
-#   INV/2026/00024 (37,450 incl. VAT, COGS correctly 30,000, margin 5,000).
+# 2026-09-14, re-verified live again 2026-09-16) before writing this file,
+# so every "sample data"/"expected result" below is a REAL observed number
+# from that run, not a guess:
+#   PO P00056 (2.00 m3 @ 15,000/CBM) -> Block BLK-26-0032 (via "สร้าง Block"
+#   shortcut) -> Vendor Bill BILL/2026/09/0008 -> SO S00132 (Sell Whole
+#   Block auto-priced 17,500/CBM) -> Delivery EG01/OUT/00086 -> Invoice
+#   INV/2026/00034 (37,450 incl. VAT, COGS correctly 30,000, margin 5,000).
 #   Fixture kept on mbx-ee-dev as a genuine reference (not synthetic/seeded).
 #
 # Column model per test case (same as qa_data.py):
@@ -43,20 +54,20 @@ CATEGORIES = [
          pre="มี Material/Block Product พร้อมแล้ว (ดู Test Cases: Product/Material Setup) และมี Vendor อยู่แล้วในระบบ",
          steps=["เปิด Purchase &gt; Orders &gt; New", "เลือก Vendor", "เพิ่มบรรทัด เลือกสินค้า Block ของวัสดุที่ต้องการ", "กรอกจำนวน (หน่วยเป็น m&sup3;) และราคาต่อหน่วย", "กด Confirm Order"],
          sample="Vendor = \"ทดสอบ E2E - Test Quarry Vendor\"<br>สินค้า = E2E Mode1 Fresh Test - Block<br>จำนวน = 2.00 m&sup3;<br>ราคา/หน่วย = 15,000",
-         expected="PO ยืนยันสำเร็จ (state = Purchase Order) ยอดรวมคำนวณถูกต้อง (จำนวน &times; ราคา + VAT) — ตัวอย่างจริงที่ทดสอบ: P00048 ยอดรวม 32,100.00", prio="High",
+         expected="PO ยืนยันสำเร็จ (state = Purchase Order) ยอดรวมคำนวณถูกต้อง (จำนวน &times; ราคา + VAT) — ตัวอย่างจริงที่ทดสอบ: P00056 ยอดรวม 32,100.00", prio="High",
          shot="assets/e2e-mode1/m1-01-po-confirmed.png"),
     dict(id="TC-E2E-M1-02", scenario="สร้าง Block (Bundle) ผ่านปุ่มลัด \"สร้าง Block\" บนบรรทัด PO",
          note="กดปุ่มนี้ตรงบรรทัด PO ได้เลย ไม่ต้องเปิด Inventory &gt; Blocks &gt; New แล้วไปหา PO Line เอง ระบบกรอก Material/Supplier/Warehouse/Total CBM ให้อัตโนมัติจากบรรทัดนั้น ไม่มีขั้นตอน \"Validate Receipt\" แยกต่างหาก — Receipt ที่ระบบสร้างให้อัตโนมัติจาก PO จะถูกยกเลิกให้เองเบื้องหลัง (กันสต๊อกซ้ำ) ไม่ต้องไปกดอะไรกับมัน",
          pre="ทำ TC-E2E-M1-01 เสร็จแล้ว",
          steps=["บนบรรทัดของ PO ที่เพิ่งยืนยัน กดปุ่ม \"สร้าง Block\"", "ฟอร์มสร้าง Block เปิดขึ้นพร้อมกรอก Material/Supplier/Warehouse/Total CBM ให้แล้ว", "กรอก Thickness (M) เพิ่ม", "กด Save"],
          sample="Thickness (M) = 0.02<br>(Total CBM/Material/Supplier/Warehouse กรอกมาให้แล้วจาก PO)",
-         expected="บันทึกสำเร็จ ได้เลขก้อนอัตโนมัติ (ตัวอย่างจริง: BLK-26-0023) ช่อง \"PO Cost / CBM\" ขึ้น 15,000 ให้เอง, \"Sales Price / CBM\" ขึ้น 17,500 ให้เองจาก List Price ของ Block Product, Remaining CBM = 2.00 (รับสต๊อกเข้าจริงแล้ว)", prio="High",
+         expected="บันทึกสำเร็จ ได้เลขก้อนอัตโนมัติ (ตัวอย่างจริง: BLK-26-0032) ช่อง \"PO Cost / CBM\" ขึ้น 15,000 ให้เอง, \"Sales Price / CBM\" ขึ้น 17,500 ให้เองจาก List Price ของ Block Product, Remaining CBM = 2.00 (รับสต๊อกเข้าจริงแล้ว)", prio="High",
          shot="assets/e2e-mode1/m1-02-bundle-saved.png"),
     dict(id="TC-E2E-M1-03", scenario="สร้างและยืนยันบิลผู้ขาย (Vendor Bill)",
          pre="ทำ TC-E2E-M1-01 เสร็จแล้ว (PO อยู่สถานะ Purchase Order)",
          steps=["เปิด Accounting &gt; Vendors &gt; Bills &gt; New", "เลือก Vendor เดียวกับใน PO", "ที่ช่อง \"Auto-Complete\" เลือกเลขที่ PO — ระบบดึงบรรทัด/ยอดจาก PO มาให้อัตโนมัติ", "กรอก Bill Date", "กด Confirm"],
-         sample="Vendor = \"ทดสอบ E2E - Test Quarry Vendor\"<br>Auto-Complete = P00048",
-         expected="บิลสถานะ Posted ยอดตรงกับ PO บัญชีที่ลงถูกต้องเป็น \"113110 Inventory - Stone Blocks (Raw)\" ไม่ใช่บัญชี COGS ทั่วไป (ตัวอย่างจริง: BILL/2026/09/0003, 32,100.00)", prio="High",
+         sample="Vendor = \"ทดสอบ E2E - Test Quarry Vendor\"<br>Auto-Complete = P00056",
+         expected="บิลสถานะ Posted ยอดตรงกับ PO บัญชีที่ลงถูกต้องเป็น \"113110 Inventory - Stone Blocks (Raw)\" ไม่ใช่บัญชี COGS ทั่วไป (ตัวอย่างจริง: BILL/2026/09/0008, 32,100.00)", prio="High",
          shot="assets/e2e-mode1/m1-03-bill-posted.png"),
   ]),
   dict(cat_id="E2", title="E2. ขาย (Sale — Mode 1)",
@@ -71,15 +82,15 @@ CATEGORIES = [
     dict(id="TC-E2E-M1-05", scenario="กด \"Sell Whole Block\" เลือกก้อนที่ซื้อมา — ราคาคำนวณอัตโนมัติ",
          note="ระบบดึง \"Sales Price / CBM\" ของก้อนนั้นมาใส่ให้อัตโนมัติทันทีที่กด Confirm Selection — พิมพ์ราคาอื่นทับไว้ก่อนก็ได้ ระบบจะเขียนทับด้วยราคาจริงของก้อนเสมอ",
          pre="ทำ TC-E2E-M1-04 เสร็จแล้ว, มี Block สถานะ Available จาก TC-E2E-M1-02",
-         steps=["กดปุ่ม \"Sell Whole Block\" บนบรรทัด", "หน้าต่าง \"Select Block\" เลือก Block ที่ซื้อไว้ (เช่น BLK-26-0023)", "กด \"Confirm Selection\""],
-         sample="เลือก Block = BLK-26-0023",
+         steps=["กดปุ่ม \"Sell Whole Block\" บนบรรทัด", "หน้าต่าง \"Select Block\" เลือก Block ที่ซื้อไว้ (เช่น BLK-26-0032)", "กด \"Confirm Selection\""],
+         sample="เลือก Block = BLK-26-0032",
          expected="บรรทัด SO ปรับจำนวนเป็น CBM ทั้งหมดของก้อนนั้นอัตโนมัติ (2.00) ราคาต่อหน่วยเปลี่ยนเป็น 17,500.00 ทันที (จาก Sales Price / CBM ของก้อน) ยอดรวมบรรทัด 35,000.00", prio="High",
          shot="assets/e2e-mode1/m1-05-so-after-sell-whole-block.png"),
     dict(id="TC-E2E-M1-06", scenario="ยืนยัน (Confirm) Sale Order",
          pre="ทำ TC-E2E-M1-05 เสร็จแล้ว",
          steps=["กดปุ่ม Confirm บน Sale Order"],
          sample="-",
-         expected="SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นให้อัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00120 &rarr; EG01/OUT/00074)", prio="High",
+         expected="SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นให้อัตโนมัติ 1 ใบ (ตัวอย่างจริง: S00132 &rarr; EG01/OUT/00086)", prio="High",
          shot="assets/e2e-mode1/m1-06-so-confirmed.png"),
   ]),
   dict(cat_id="E3", title="E3. ผลิต (Production)",
@@ -102,7 +113,7 @@ CATEGORIES = [
          pre="ทำ TC-E2E-M1-07 เสร็จแล้ว",
          steps=["กดปุ่ม Validate บนใบส่งของ"],
          sample="-",
-         expected="ใบส่งของเปลี่ยนสถานะเป็น Done (ตัวอย่างจริง: EG01/OUT/00074) — Block ก้อนนั้นหายจากสต๊อกที่ขายได้ (Available) แล้ว", prio="High",
+         expected="ใบส่งของเปลี่ยนสถานะเป็น Done (ตัวอย่างจริง: EG01/OUT/00086) — Block ก้อนนั้นหายจากสต๊อกที่ขายได้ (Available) แล้ว", prio="High",
          shot="assets/e2e-mode1/m1-08-delivery-done.png"),
   ]),
   dict(cat_id="E5", title="E5. บัญชี (Accounting)",
@@ -112,7 +123,7 @@ CATEGORIES = [
          pre="ทำ TC-E2E-M1-08 เสร็จแล้ว",
          steps=["เปิด Sale Order &gt; กด \"Create Invoice\"", "เลือก \"Regular invoice\" &gt; Create Draft", "เปิดใบแจ้งหนี้ &gt; กด Confirm"],
          sample="-",
-         expected="ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT (ตัวอย่างจริง: INV/2026/00024, 37,450.00)", prio="High",
+         expected="ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT (ตัวอย่างจริง: INV/2026/00034, 37,450.00)", prio="High",
          shot="assets/e2e-mode1/m1-09-invoice-posted.png"),
     dict(id="TC-E2E-M1-10", scenario="ตรวจรายการบัญชีฝั่งซื้อ — Vendor Bill",
          pre="ทำ TC-E2E-M1-03 เสร็จแล้ว",
@@ -127,11 +138,11 @@ CATEGORIES = [
          expected="เห็น 5 บรรทัดบนใบแจ้งหนี้ใบเดียว: เครดิต 411110 Sales Revenue - Block Direct Sale (Mode 1), เดบิต 113110 Inventory (ตัดออก), เดบิต 511110 COGS - Stone Sales (all modes), เครดิต 213200 Output VAT, เดบิต 112100 Trade Receivables — ตัวอย่างจริง: รายได้ 35,000 / COGS-Inventory คู่ละ 30,000 / VAT 2,450 / ลูกหนี้ 37,450 (ยอดรวมสมดุล 67,450 = 67,450)", prio="High",
          shot="assets/e2e-mode1/m1-11-invoice-journal-items.png"),
     dict(id="TC-E2E-M1-12", scenario="ตรวจว่าต้นทุนขาย (COGS) ถูกบันทึกซ้ำหรือไม่",
-         note="✅ ตรวจซ้ำด้วย fixture ใหม่ทั้งชุด (2026-09-14, วัสดุใหม่ล้วนๆ) ยืนยันว่าการแก้ไข ADR-054/055 ยังใช้ได้ดี: ไม่มี Journal Entry แยกต่างหากจากใบส่งของอีกต่อไป COGS มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (TC-E2E-M1-11) — ตรวจแล้วไม่มี STJ entry อ้างอิงถึง EG01/OUT/00074 เลย",
+         note="✅ ตรวจซ้ำด้วย fixture ใหม่ทั้งชุด (2026-09-14, วัสดุใหม่ล้วนๆ) ยืนยันว่าการแก้ไข ADR-054/055 ยังใช้ได้ดี: ไม่มี Journal Entry แยกต่างหากจากใบส่งของอีกต่อไป COGS มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (TC-E2E-M1-11) — ตรวจแล้วไม่มี STJ entry อ้างอิงถึง EG01/OUT/00086 เลย",
          pre="ทำ TC-E2E-M1-08 เสร็จแล้ว (Delivery = Done)",
-         steps=["เปิด Accounting &gt; Journal Entries", "ค้นหา entry ที่มี Reference ตรงกับเลขที่ใบส่งของ (เช่น EG01/OUT/00074)"],
+         steps=["เปิด Accounting &gt; Journal Entries", "ค้นหา entry ที่มี Reference ตรงกับเลขที่ใบส่งของ (เช่น EG01/OUT/00086)"],
          sample="-",
-         expected="ไม่พบ Journal Entry แยกต่างหากสำหรับใบส่งของนี้เลย — COGS/Inventory มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (INV/2026/00024) ไม่มีการนับซ้ำ", prio="High",
+         expected="ไม่พบ Journal Entry แยกต่างหากสำหรับใบส่งของนี้เลย — COGS/Inventory มีบันทึกอยู่ที่เดียวคือในใบแจ้งหนี้ (INV/2026/00034) ไม่มีการนับซ้ำ", prio="High",
          shot="assets/e2e-mode1/m1-11-invoice-journal-items.png",
          shot_note="ไม่มีภาพแยกของ Journal Entries ที่ว่างเปล่า — ใช้ภาพเดียวกับ TC-E2E-M1-11 อ้างอิงว่า COGS มีบันทึกอยู่ที่เดียวจริง"),
   ]),
@@ -154,7 +165,7 @@ CATEGORIES = [
          pre="ทำ TC-E2E-M1-06 เสร็จแล้ว",
          steps=["เปิด Sale Order ที่ confirm แล้ว", "ที่ตาราง Order Lines กดไอคอนตั้งค่าคอลัมน์ (มุมขวาบนตาราง) เปิดคอลัมน์ \"Analytic Distribution\""],
          sample="-",
-         expected="เห็น 3 ป้ายบนบรรทัดเดียว: \"E2E Mode1 Fresh Test\" (วัสดุ), \"BLK-26-0023\" (ก้อนนี้โดยเฉพาะ), และ \"Marble\" (หมวดวัสดุ) — ไม่ต้องตั้งค่าเอง ระบบแท็กให้ตั้งแต่กด Sell Whole Block", prio="Medium",
+         expected="เห็น 3 ป้ายบนบรรทัดเดียว: \"E2E Mode1 Fresh Test\" (วัสดุ), \"BLK-26-0032\" (ก้อนนี้โดยเฉพาะ), และ \"Marble\" (หมวดวัสดุ) — ไม่ต้องตั้งค่าเอง ระบบแท็กให้ตั้งแต่กด Sell Whole Block", prio="Medium",
          shot="assets/e2e-mode1/m1-14-so-line-with-analytic-col.png"),
     dict(id="TC-E2E-M1-15", scenario="ตรวจว่า Analytic Account เดียวกันติดมาถึงบัญชีจริงด้วย ไม่ใช่แค่บนหน้าจอขาย",
          pre="ทำ TC-E2E-M1-11 เสร็จแล้ว",

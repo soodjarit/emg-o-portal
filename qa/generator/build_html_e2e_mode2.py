@@ -191,7 +191,7 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Test Cases: E2E Flow — Mode 2 (Ready-Made Slab)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่มีแผ่น/ล็อตหินพร้อมขายอยู่แล้วในสต็อกจนถึงจบเรื่อง ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้นข้อ Scan Verification ซึ่งเป็น gate จริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user ครอบคลุมทั้ง 2 เส้นทางย่อยของโหมด 2: ขายทีละแผ่นตามเลข Serial และขายบางส่วนจากล็อต รันใหม่ทั้งชุด 14 ก.ย. 2026 ด้วยวัสดุทดสอบใหม่ล้วนๆ บน mbx-ee-dev ตัวเลข "ตัวอย่างจริง" ทุกตัวมาจากการรันจริงรอบนี้ ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่มีแผ่น/ล็อตหินพร้อมขายอยู่แล้วในสต็อกจนถึงจบเรื่อง ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้นข้อ Scan Verification ซึ่งเป็น gate จริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user ครอบคลุมทั้ง 2 เส้นทางย่อยของโหมด 2: ขายทีละแผ่นตามเลข Serial และขายบางส่วนจากล็อต รันใหม่ล่าสุด 16 ก.ย. 2026 บน mbx-ee-dev ตัวเลข "ตัวอย่างจริง" ทุกตัวมาจากการรันจริงรอบนี้ ไม่ใช่ตัวเลขสมมติ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -202,9 +202,9 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้ทดสอบจริง (Serial):</b> Block BLK-26-0026 (E2E Mode2 Serial Fresh, Marble) ตัดผ่านกลไก MO ใหม่ &rarr; Slab BLK-26-0026-1 (0.96 ตร.ม.) &rarr; SO S00123 &rarr; Delivery EG01/OUT/00077 &rarr; Invoice INV/2026/00025 (4,622.40 รวม VAT, COGS 300.00), Posted + In Payment — รันจริงบน mbx-ee-dev 14 ก.ย. 2026<br><br>
-    <b>เรื่องราวที่ใช้ทดสอบจริง (Lot):</b> Block BLK-26-0027 (E2E Mode2 Lot Fresh, Marble) ตัดผ่านกลไก MO ใหม่เข้า lot รวม "BLK-26-0027-LOT" (เหลือ 1.00 ตร.ม.) &rarr; ขาย 0.50 ตร.ม. &times; 4,000/ตร.ม. = 2,000 &rarr; SO S00124 &rarr; Delivery EG01/OUT/00078 &rarr; Invoice INV/2026/00026 (2,140.00 รวม VAT, COGS 120.00), Posted + In Payment — รันจริงบน mbx-ee-dev 14 ก.ย. 2026<br><br>
-    <b>✅ พบ+แก้บั๊กจริงระหว่างสร้างเอกสารนี้:</b> กลไกตัดหินใหม่ (แทนที่ Factory Worklist เดิม เปลี่ยนเมื่อวาน) ไม่ผูก lot ที่ตัดเข้ากับ material_lot_id ของ bundle สำหรับวัสดุโหมด Lot ทำให้ขายผ่าน "Select Lot Stock" ไม่ได้เลย แก้ไขที่โค้ดจริง (mrp_production.py) deploy แล้วบน mbx-ee-dev — ผลพลอยได้: ปิด known issue เดิม (Lot-mode COGS เคยขึ้น 0 เสมอ) ไปด้วยในตัว เพราะเป็นสาเหตุเดียวกัน
+    <b>เรื่องราวที่ใช้ทดสอบจริง (Serial):</b> PO P00058 (0.10 m&sup3; @ 10,000/CBM) &rarr; Block BLK-26-0034 (E2E Mode2 Serial Fresh V2, Marble) ตัดผ่านกลไก MO เดียวกับ Mode 3 (EG01/STCUT/00045, วางแผน 5 แผ่นอัตโนมัติ) &rarr; Slab BLK-26-0034-1 (0.96 ตร.ม.) &rarr; SO S00133 &rarr; Delivery EG01/OUT/00087 &rarr; Invoice INV/2026/00035 (4,622.40 รวม VAT, COGS 200.00), Posted + In Payment — รันจริงบน mbx-ee-dev 16 ก.ย. 2026<br><br>
+    <b>เรื่องราวที่ใช้ทดสอบจริง (Lot):</b> PO P00059 (0.10 m&sup3; @ 8,000/CBM) &rarr; Block BLK-26-0035 (E2E Mode2 Lot Fresh V2, Marble) ตัดผ่านกลไกเดียวกันเข้า lot รวม "BLK-26-0035-LOT" (5.00 ตร.ม.) &rarr; ขาย 2.00 ตร.ม. &times; 4,000/ตร.ม. = 8,000 &rarr; SO S00134 &rarr; Delivery EG01/OUT/00088 &rarr; Invoice INV/2026/00036 (8,560.00 รวม VAT, COGS 320.00), Posted + In Payment — รันจริงบน mbx-ee-dev 16 ก.ย. 2026<br><br>
+    <b>✅ ยืนยันซ้ำ:</b> บั๊ก material_lot_id (Lot-mode ตัดใหม่แล้วขายผ่าน "Select Lot Stock" ไม่ได้ + Lot-mode COGS เคยขึ้น 0 เสมอ) ที่แก้ไปเมื่อ 14 ก.ย. ยังคงปิดอยู่จริง ทดสอบซ้ำผ่านกลไกตัดหินแบบ batch-cut ล่าสุด (ADR-066) ไม่พบการถอยกลับของบั๊ก
   </div>
 
 __CATEGORY_BLOCKS__

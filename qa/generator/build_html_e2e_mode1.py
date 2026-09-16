@@ -191,7 +191,7 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Test Cases: E2E Flow — Mode 1 (Block Direct Sale)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ต้นจนจบ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error — เดินตามได้เองแม้ไม่ใช่ technical user ทุกตัวเลข "ตัวอย่างจริง" ในเอกสารนี้มาจากการรันจริง 1 รอบบน mbx-ee-dev (2026-09-14) ด้วยวัสดุทดสอบใหม่ล้วนๆ ไม่ใช่ตัวเลขสมมติ — เรื่องการตั้งค่า Material/Product ใหม่แยกไปอยู่เอกสาร "Test Cases: Product/Material Setup" แล้ว</div>
+    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่ต้นจนจบ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error — เดินตามได้เองแม้ไม่ใช่ technical user ทุกตัวเลข "ตัวอย่างจริง" ในเอกสารนี้มาจากการรันจริงล่าสุดบน mbx-ee-dev (2026-09-16) ไม่ใช่ตัวเลขสมมติ — เรื่องการตั้งค่า Material/Product ใหม่แยกไปอยู่เอกสาร "Test Cases: Product/Material Setup" แล้ว</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -202,7 +202,7 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้ทดสอบจริง (รันใหม่ทั้งชุด 2026-09-14):</b> PO P00048 (ซื้อ Block 2.00 m&sup3; ราคา 15,000/m&sup3; วัสดุ "E2E Mode1 Fresh Test" ใหม่ล้วนๆ) &rarr; Block BLK-26-0023 (สร้างผ่านปุ่มลัดบนบรรทัด PO) &rarr; Vendor Bill BILL/2026/09/0003 &rarr; SO S00120 (ขาย Mode 1 ให้ "ทดสอบ E2E - Test Customer" — ราคาต่อหน่วยคำนวณอัตโนมัติ 17,500 จาก Sales Price/CBM) &rarr; Delivery EG01/OUT/00074 &rarr; Invoice INV/2026/00024 (37,450 รวม VAT) — เก็บไว้เป็นข้อมูลอ้างอิงจริงบน mbx-ee-dev<br><br>
+    <b>เรื่องราวที่ใช้ทดสอบจริง (รันใหม่ล่าสุด 2026-09-16):</b> PO P00056 (ซื้อ Block 2.00 m&sup3; ราคา 15,000/m&sup3; วัสดุ "E2E Mode1 Fresh Test") &rarr; Block BLK-26-0032 (สร้างผ่านปุ่มลัดบนบรรทัด PO) &rarr; Vendor Bill BILL/2026/09/0008 &rarr; SO S00132 (ขาย Mode 1 ให้ "ทดสอบ E2E - Test Customer" — ราคาต่อหน่วยคำนวณอัตโนมัติ 17,500 จาก Sales Price/CBM) &rarr; Delivery EG01/OUT/00086 &rarr; Invoice INV/2026/00034 (37,450 รวม VAT) — เก็บไว้เป็นข้อมูลอ้างอิงจริงบน mbx-ee-dev<br><br>
     <b>✅ ยืนยันแล้ว:</b> บัญชีฝั่งซื้อ/ขายลงถูกบัญชีเฉพาะของ Mode 1 (ไม่ใช่บัญชีทั่วไป), ไม่มี COGS ซ้ำ (ADR-054/055 ยังใช้ได้), COGS ตรงกับต้นทุนจริงของก้อนนี้เป๊ะ (30,000 = PO cost) เพราะใช้วัสดุใหม่ที่ไม่มีสต็อกเก่าปนกัน, และ Analytic Account ทั้ง 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ติดมาอัตโนมัติทั้งฝั่งซื้อและขาย
   </div>
 
