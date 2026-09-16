@@ -219,7 +219,8 @@
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode1.html"><span class="tree-doc-tag">G1</span>Golden Path — Mode 1 (Block Direct Sale)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode2.html"><span class="tree-doc-tag">G2</span>Golden Path — Mode 2 (Ready-Made Slab)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-e2e-mode3.html"><span class="tree-doc-tag">G3</span>Golden Path — Mode 3 (Cut-to-Order)</a></li>
-          <li class="tree-doc"><a href="archived.html#qa-test-cases">Mode 4/5 (รอสร้างใหม่) → Archived</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-e2e-mode5.html"><span class="tree-doc-tag">G5</span>Golden Path — Mode 5 (Slab → FG, Standard+Custom)</a></li>
+          <li class="tree-doc"><a href="archived.html#qa-test-cases">Mode 4 (รอสร้างใหม่) → Archived</a></li>
         </ul>
       </details>
 
@@ -657,11 +658,20 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="qa/test-cases-e2e-mode5.html">
+      <div class="icon">G5</div>
+      <div>
+        <div class="card-title">Golden Path — Mode 5 (Slab → Finished Goods)</div>
+        <div class="card-desc">13 test case เขียนใหม่ทั้งชุด+ขยายเนื้อหาใหม่ — ครอบคลุมทั้ง 2 แบบของ Mode 5: <b>Standard</b> (สินค้า BOM ตายตัว เช่น Countertop — ADR-067 ถอด wizard Produce FG เดิม "Produce FG" สร้าง MO ตรงทันที ไม่มี popup แล้ว บันทึกขนาดจริงในแท็บ FG Output ใหม่) และ <b>Custom</b> (งานสั่งทำเฉพาะ เช่น เจดีย์บัว/ซุ้มบัว — ใหม่ทั้งหมดจาก ADR-068 session เดียวกับที่เขียนเอกสารนี้ ผ่าน Stage 2 "ถอดแบบ" (Slab→N ชิ้นแชร์ Lot เดียวกัน) แล้ว Stage 3 "ประกอบ" ผ่าน wizard BOQ ที่ขยายให้เลือก Cutting Plan Lot ได้) ทั้ง 2 สายจบครบวงจรถึงบัญชี+ชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Standard: SO S00137 → INV/2026/00037, 9,630.00 | Custom: SO S00138 → INV/2026/00038, 12,840.00) — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด + Custom variant ใหม่</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="archived.html#qa-test-cases">
       <div class="icon">⟳</div>
       <div>
-        <div class="card-title">Mode 4, 5 — กำลังปรับปรุงใหม่ (Mode 5 ใช้หน้าจอ MO ที่เปลี่ยนไปเหมือนกัน)</div>
-        <div class="card-desc">เอกสารรุ่นก่อนหน้าถูกย้ายเข้า Archived แล้ว 16 ก.ย. 2026 — Mode 1/2/3 สร้างใหม่เสร็จแล้ว (ดูด้านบน) Mode 5 (Slab→FG) ใช้หน้าจอ MO เดียวกันที่เปลี่ยนไป (banner ใหม่ + ADR-067 ถอด wizard Produce FG เดิม) จึงล้าสมัยจริง ส่วน Mode 4 เนื้อหาเองไม่ถูกกระทบโดยตรงแต่ย้ายพร้อมกันตามคำขอผู้ใช้ รอคิวสร้างใหม่ — ดูรุ่นเก่าที่ Archived ระหว่างรอ</div>
+        <div class="card-title">Mode 4 — กำลังปรับปรุงใหม่</div>
+        <div class="card-desc">เอกสารรุ่นก่อนหน้าถูกย้ายเข้า Archived แล้ว 16 ก.ย. 2026 — Mode 1/2/3/5 สร้างใหม่เสร็จแล้ว (ดูด้านบน) Mode 4 (Sold-as-Project, BOQ→Project) เนื้อหาเองไม่ถูกกระทบโดยตรงจากการเปลี่ยนหน้าจอ MO แต่ย้ายพร้อมกันตามคำขอผู้ใช้เดิม รอคิวสร้างใหม่ — ดูรุ่นเก่าที่ Archived ระหว่างรอ</div>
         <div class="card-meta"><span class="card-date">16 ก.ย. 2026</span><span class="status-badge design">รอสร้างใหม่</span></div>
       </div>
       <div class="arrow">→</div>

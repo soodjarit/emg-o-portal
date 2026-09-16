@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Cases: E2E Flow (Mode 5)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-test-cases-e2e-mode5.xlsx" download="EMG-O Test Cases - E2E Mode 5.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#G1"><span class="tree-doc-tag">G1</span>เตรียมแผ่น (Slab) ก่อนผลิต — เหมือน Mode 3 ทุกประการ</a></li><li class="tree-doc"><a href="#G2"><span class="tree-doc-tag">G2</span>ขาย + ผลิต — สินค้า FG มาตรฐาน (Standard, เช่น Countertop)</a></li><li class="tree-doc"><a href="#G3"><span class="tree-doc-tag">G3</span>ขาย + ผลิต — งาน Custom สั่งทำพิเศษ (ADR-068, เช่น เจดีย์บัว/ซุ้มบัว)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Cases: E2E Flow — Mode 5 (Slab → Finished Goods)</h1>
+    <div class="sub">เรื่องราวขายสินค้าสำเร็จรูป (Finished Goods) ที่ต้องผลิตจากแผ่นหิน (Slab) ครอบคลุมทั้ง 2 แบบ: <b>Standard</b> (สินค้าที่มี BOM ตายตัว เช่น Countertop — "Produce FG" สร้าง MO ตรงเลย ไม่ผ่าน wizard แล้วตาม ADR-067) และ <b>Custom</b> (งานสั่งทำเฉพาะที่ไม่มี BOM ตายตัว เช่น เจดีย์บัว/ซุ้มบัว — ใหม่ทั้งหมดจาก ADR-068 session นี้ ผ่าน 2 ขั้น "ถอดแบบ" แล้ว "ประกอบ") เดินตามได้เองแม้ไม่ใช่ technical user เขียนใหม่ทั้งชุด 16 ก.ย. 2026 ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (ผสมทั้งเบราว์เซอร์จริงและ odoo shell ที่เรียกฟังก์ชันธุรกิจจริงตัวเดียวกับปุ่มบนหน้าจอ) ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>3</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">11</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">2</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>Standard (ADR-067) — เรื่องราวที่ใช้ทดสอบจริง:</b> Block BLK-26-0036 (E2E Mode5 Fresh Test V2, ก้อนใหม่ 3.00 CBM) &rarr; Cut MO EG01/STCUT/00048 &rarr; Slab BLK-26-0036 #1 (1.50 ตร.ม., เหลือ 2.97 CBM ไว้ขายต่อ) &rarr; SO S00137 ยืนยันที่ 9,630.00 (รวม VAT) &rarr; "Produce FG" สร้าง MO EG01/STFG/00022 ตรงทันที (ไม่มี wizard popup แล้ว) &rarr; FG Output 1 แถว (1.48&times;0.98 ม.) &rarr; Complete FG Production &rarr; Delivery EG01/OUT/00091 &rarr; Invoice INV/2026/00037 (9,630.00, COGS 480.00, Posted + In Payment)<br><br>
+    <b>Custom (ADR-068, ใหม่ทั้งหมด session นี้) — เรื่องราวที่ใช้ทดสอบจริง:</b> Slab BLK-26-0036 #2 &rarr; Stage 2 "Cutting Plan" MO EG01/STCPL/00009 (ถอดแบบเป็น 3 ชิ้น แชร์ Lot เดียวกัน CUT-EG01/STCPL/00009) &rarr; BOQ0032 + SO S00138 ขาย "เจดีย์บัว S (Custom)" ยืนยันที่ 12,840.00 &rarr; "Produce FG" เปิด wizard "สร้าง BOM จาก BOQ" เลือก Cutting Plan Lot &rarr; Stage 3 MO EG01/STFG/00023 (ค้าง Draft ให้ตรวจก่อน confirm) &rarr; Confirm (วัตถุดิบเติมจาก Lot อัตโนมัติ 3.00 หน่วย) &rarr; Produce (ปุ่มมาตรฐาน Odoo) &rarr; ชิ้นงานทั้ง 3 ชิ้นเปลี่ยนจาก Staged เป็น Consumed &rarr; Delivery EG01/OUT/00092 &rarr; Invoice INV/2026/00038 (12,840.00, COGS 76.89, Posted + In Payment)<br><br>
+    <b>✅ ยืนยันแล้ว:</b> ทั้ง 2 สายผ่านการรันจริงจบครบวงจร บัญชีสมดุลทั้งคู่ (10,110.00 และ 12,916.89) COGS ไม่เป็น 0 ทั้งคู่ Smart button เชื่อม Stage 2↔3 ถูกทั้ง 2 ทิศทาง (ADR-063-style traceability) ชิ้นงาน Custom ที่ถูกใช้ไปเปลี่ยนสถานะถูกต้องอัตโนมัติไม่ค้างเป็น WIP
+  </div>
+
+  <div class="category" id="G1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G1. เตรียมแผ่น (Slab) ก่อนผลิต — เหมือน Mode 3 ทุกประการ</div>
+        <div class="category-sub">ตัด Block เป็น Slab ล่วงหน้า ก่อนขายจริง — reuse กลไกเดียวกับ Mode 3 (Block-to-Slab) ไม่มีอะไรใหม่ · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-01</span></td>
+          <td class="col-scenario">ตัด Block เป็น Slab ไว้ล่วงหน้า (ยังไม่ผูกกับ SO ใดๆ)<div class="note">ใช้กลไกเดียวกับ Mode 3 (Block-to-Slab) เป๊ะๆ — Mode 5 ไม่มีขั้นตอนตัดของตัวเอง ต้องมี Slab พร้อมอยู่ในสต็อกก่อนเสมอ</div></td>
+          <td class="col-pre">มี Block พร้อมอยู่แล้วในสต็อก (ยังไม่ตัด) จาก Material ที่ตั้งค่า Finished Good ไว้ครบ (มี Block/Slab/FG 3 สินค้า)</td>
+          <td class="col-steps"><ol><li>เปิด Manufacturing &gt; New</li><li>เลือก Block ที่ต้องการตัด + กรอกขนาดที่ต้องการ</li><li>ย้ายด่วน (Move to Production) &gt; Confirm &gt; ทำ Work Orders &gt; Complete Cut</li></ol></td>
+          <td class="col-sample">Stone Block = BLK-26-0036<br>Target Slab L (M) = 1.50<br>Target Slab H (M) = 1.00</td>
+          <td class="col-expected">ได้แผ่นหินจริง 1 แผ่นเข้าสต็อก (ตัวอย่างจริง: BLK-26-0036 #1, 1.50 ตร.ม.) Block เหลือ CBM ส่วนที่ยังไม่ตัดไว้ขายต่อได้ (ตัวอย่างจริง: เหลือ 2.97 CBM จาก 3.00)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-04-slab-cut-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-04-slab-cut-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G2. ขาย + ผลิต — สินค้า FG มาตรฐาน (Standard, เช่น Countertop)</div>
+        <div class="category-sub">ADR-029/067 — Produce FG สร้าง MO ตรงเลย ไม่ผ่าน wizard แล้ว · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-02</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดสินค้า FG มาตรฐานใน Sale Order แล้ว Confirm</td>
+          <td class="col-pre">มี Slab พร้อมอยู่แล้วในสต็อกจาก TC-E2E-M5-01</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้า FG มาตรฐาน</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode5 Fresh Test V2 - Countertop</td>
+          <td class="col-expected">SO ยืนยันสำเร็จ ยอดรวม 9,630.00 บาท (รวม VAT) บรรทัดสินค้า FG ปรากฏลิงก์ "Produce FG" เพราะยังไม่มีสต็อก FG เลย — ตัวอย่างจริง: S00137</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-05-so1-fg-line.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-05-so1-fg-line.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-03</span></td>
+          <td class="col-scenario">กดลิงก์ "Produce FG" — ระบบสร้าง Manufacturing Order ตรงทันที ไม่มี wizard popup แล้ว<div class="note">✨ กลไกใหม่ (ADR-067, 14 ก.ย. 2026): เดิมกดแล้วเด้ง wizard ให้เลือก Slab/จำนวน ตอนนี้กดแล้วได้ MO ฉบับร่างเปิดขึ้นมาเลย ระบบจับคู่ Slab ที่ Material ตรงกันให้อัตโนมัติ ไม่ต้องเลือกเองก็ได้</div></td>
+          <td class="col-pre">ทำ TC-E2E-M5-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดลิงก์ "Produce FG" บนบรรทัดสินค้า FG ของ Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เปิดหน้า Manufacturing Order ฉบับร่างทันที (ไม่ใช่ popup) ช่อง Slab ที่ใช้ผลิตเติมให้อัตโนมัติเป็นแผ่นที่มี Material ตรงกันและสถานะ Available — ตัวอย่างจริง: MO EG01/STFG/00022, Slab BLK-26-0036 #1, ผูกกับ "For Sale Order Line" = S00137 ให้อัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-06-produce-fg-mo-draft.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-06-produce-fg-mo-draft.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-04</span></td>
+          <td class="col-scenario">ย้ายด่วน (Move to Production) แล้ว Confirm Manufacturing Order</td>
+          <td class="col-pre">ทำ TC-E2E-M5-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "ย้ายด่วน (Move to Production)" บน MO</li><li>กดปุ่ม Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Slab ถูกย้ายไปสถานีผลิต (Stone Production) สำเร็จ แล้ว Confirm ผ่านทันที ไม่มี error — สถานะ MO เปลี่ยนเป็น Confirmed</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-06-produce-fg-mo-draft.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-06-produce-fg-mo-draft.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-05</span></td>
+          <td class="col-scenario">ทำ Work Order ให้เสร็จ แล้วบันทึกขนาดจริงในแท็บ "FG Output"<div class="note">✨ กลไกใหม่ (ADR-067): แท็บนี้แทนที่ wizard เดิมทั้งหมด — Factory กรอกขนาด/จำนวนที่ตัดได้จริงหลังตัดเสร็จ ตรงกับใบรายงานตัดกระดาษของโรงงานเป๊ะ ไม่มีคอลัมน์สินค้าเพราะทุกแถวนับรวมเป็นสินค้า FG ตัวเดียวของ MO นี้อยู่แล้ว</div></td>
+          <td class="col-pre">ทำ TC-E2E-M5-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ไปแท็บ "Work Orders" กดเริ่ม/เสร็จตามลำดับจนครบ</li><li>ไปแท็บ "FG Output" เพิ่มแถวขนาดจริงที่ตัดได้</li></ol></td>
+          <td class="col-sample">Width = 1.48, Length = 0.98, Thickness = 0.02, Qty = 1</td>
+          <td class="col-expected">Work Orders ขึ้น Finished ครบ MO เปลี่ยนสถานะเป็น "To Close" แท็บ FG Output มี 1 แถวตามที่กรอก</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-07-mo1-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-07-mo1-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-06</span></td>
+          <td class="col-scenario">กด "Complete FG Production" — ได้สินค้า FG จริงเข้าสต็อก</td>
+          <td class="col-pre">ทำ TC-E2E-M5-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Complete FG Production" บน Manufacturing Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">MO เสร็จสมบูรณ์ (สถานะ Done) ได้ Lot/Serial ใหม่ของสินค้า FG (ตัวอย่างจริง: FG-EG01/STFG/00022) Slab ที่ใช้เป็นวัตถุดิบเปลี่ยนสถานะเป็น Consumed สินค้า FG 1 หน่วยเข้าสต็อกจริง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-07-mo1-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-07-mo1-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-07</span></td>
+          <td class="col-scenario">จัดส่ง ออกใบแจ้งหนี้ และรับชำระเงิน (Standard)</td>
+          <td class="col-pre">ทำ TC-E2E-M5-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของที่เกิดขึ้นอัตโนมัติ &gt; Validate</li><li>เปิด SO &gt; Create Invoice &gt; Regular Invoice &gt; Confirm</li><li>เปิดใบแจ้งหนี้ &gt; Pay &gt; ยืนยันการชำระ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ Done (ตัวอย่างจริง: EG01/OUT/00091) ใบแจ้งหนี้ Posted ยอด 9,630.00 (ตัวอย่างจริง: INV/2026/00037) แล้วขึ้น In Payment — Journal Items 5 บรรทัด สมดุล 10,110.00 = 10,110.00 (COGS 480.00 ไม่ใช่ 0)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-09-invoice1-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-09-invoice1-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G3. ขาย + ผลิต — งาน Custom สั่งทำพิเศษ (ADR-068, เช่น เจดีย์บัว/ซุ้มบัว)</div>
+        <div class="category-sub">ใหม่ทั้งหมด session นี้ — Stage 2 (ถอดแบบ) + Stage 3 (ประกอบ) สำหรับงานที่ไม่มี BOM ตายตัว · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-08</span></td>
+          <td class="col-scenario">Stage 2 — สร้าง "Cutting Plan" MO ถอดแบบ Slab เป็นชิ้นย่อย<div class="note">✨ กลไกใหม่ทั้งหมด (ADR-068, session นี้): ใช้เมื่องานสั่งทำไม่มีสินค้า FG มาตรฐานให้เลือก ต้องเอา Slab มา "ถอดแบบ" เป็นชิ้นเล็กๆ ก่อน ทุกชิ้นจาก MO เดียวกันจะแชร์ Lot เดียวกัน (กันของปนกันตอนขนย้าย ไม่ใช่ QC รายชิ้น)</div></td>
+          <td class="col-pre">มี Slab พร้อมอยู่แล้วในสต็อก (แยกจาก Slab ที่ใช้ใน G2)</td>
+          <td class="col-steps"><ol><li>เปิด Manufacturing &gt; New</li><li>เลือก "Source Slab (Cutting Plan)" เป็น Slab ที่จะถอดแบบ</li><li>ไปแท็บ "Planned/Actual Pieces" เพิ่มแถวขนาดชิ้นที่ต้องการ</li><li>ย้ายด่วน &gt; Confirm &gt; Work Orders &gt; "Complete Cutting Plan"</li></ol></td>
+          <td class="col-sample">Source Slab = BLK-26-0036 #2<br>ชิ้นที่ 1: 0.25 x 0.20 m<br>ชิ้นที่ 2: 0.20 x 0.15 m<br>ชิ้นที่ 3: 0.15 x 0.10 m</td>
+          <td class="col-expected">MO เสร็จสมบูรณ์ (ตัวอย่างจริง: EG01/STCPL/00009) ได้ชิ้นงานจริง 3 ชิ้้น สถานะ "Staged (Cutting Plan WIP)" ทุกชิ้น — แชร์ Lot เดียวกันทั้งหมด (ตัวอย่างจริง: CUT-EG01/STCPL/00009, รวม 3.00 หน่วย) ชิ้นเหล่านี้จะไม่โผล่ในหน้า "Select Slabs" ของโหมดขายอื่นเลย เพราะยังไม่ใช่สต็อกขายได้จริง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-12-stage2-pieces.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-12-stage2-pieces.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-09</span></td>
+          <td class="col-scenario">สร้าง Sale Order ขายสินค้า Custom (ไม่มี FG มาตรฐานให้เลือก)</td>
+          <td class="col-pre">ทำ TC-E2E-M5-08 เสร็จแล้ว มี BOQ Document ผูกกับ Sale Order นี้ไว้ (จำเป็นสำหรับ wizard สร้าง BOM ในขั้นถัดไป)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New (ผูก BOQ Document)</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้า Custom</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = เจดีย์บัว S (Custom)</td>
+          <td class="col-expected">SO ยืนยันสำเร็จ ยอดรวม 12,840.00 บาท (รวม VAT) บรรทัดสินค้าปรากฏลิงก์ "Produce FG" เหมือนเดิม แต่จะพาไปหน้าต่าง "สร้าง BOM จาก BOQ" แทน (ไม่ใช่สร้าง MO ตรงแบบ G2) เพราะสินค้านี้ไม่มี FG Raw Material ตายตัว — ตัวอย่างจริง: S00138</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-10-so2-custom-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-10-so2-custom-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-10</span></td>
+          <td class="col-scenario">Stage 3 — กด "Produce FG" เปิด wizard "สร้าง BOM จาก BOQ" เลือก Cutting Plan Lot<div class="note">✨ ส่วนขยายใหม่ของ wizard เดิม (ADR-064 เดิม + ADR-068 เพิ่มเข้ามา): นอกจากเลือกวัสดุจาก BOQ ได้เหมือนเดิม ตอนนี้เลือก "Cutting Plan Lot (Stage 2)" ได้ด้วย — ระบบดึงมาทั้งก้อน (จำนวนเต็มของ Lot นั้น) ไม่ต้องกรอกจำนวนเอง</div></td>
+          <td class="col-pre">ทำ TC-E2E-M5-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดลิงก์ "Produce FG" บนบรรทัดสินค้า</li><li>เลือกช่อง "Cutting Plan Lot (Stage 2)" เป็น Lot จาก Stage 2</li><li>กด "สร้าง BOM + MO"</li></ol></td>
+          <td class="col-sample">Cutting Plan Lot (Stage 2) = CUT-EG01/STCPL/00009</td>
+          <td class="col-expected">สร้าง BOM + Manufacturing Order สำเร็จ แต่ MO ยังอยู่สถานะ Draft ให้ตรวจสอบก่อน (ต่างจากงาน Custom ที่ไม่ใช้ Cutting Plan Lot ซึ่งจะ Confirm ให้อัตโนมัติทันที) — ตัวอย่างจริง: EG01/STFG/00023 มีปุ่ม "Cutting Plan MO" เชื่อมกลับไปหา MO ของ Stage 2 ให้แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-13-stage3-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-13-stage3-mo-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-11</span></td>
+          <td class="col-scenario">Confirm MO Stage 3 — ระบบเติมวัตถุดิบจาก Lot ให้อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-E2E-M5-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ตรวจแท็บ "Components" ก่อน Confirm</li><li>กดปุ่ม Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แท็บ Components เติมแถววัตถุดิบจาก Cutting Plan Lot ให้อัตโนมัติ จำนวนเท่ากับที่มีอยู่เต็มก้อน (ตัวอย่างจริง: E2E Mode5 Fresh Test V2 - Cutting Plan WIP, 3.00 หน่วย) Confirm ผ่านสำเร็จ ไม่ต้องกรอกอะไรเพิ่มเอง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-13-stage3-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-13-stage3-mo-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-12</span></td>
+          <td class="col-scenario">ทำ MO ให้เสร็จด้วยปุ่ม Produce มาตรฐานของ Odoo (ไม่มีปุ่มเฉพาะ)<div class="note">งาน Custom ใช้ปุ่ม Produce ธรรมดาของ Odoo เลย (ตาม ADR-064 เดิม "มาตรฐาน ODOO") ต่างจาก Stage 2/G2 ที่มีปุ่มเฉพาะของโมดูล</div></td>
+          <td class="col-pre">ทำ TC-E2E-M5-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กรอกจำนวนที่ผลิตจริง &gt; กด Generate Lot ถ้ายังไม่มี &gt; กดปุ่ม Produce All</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">MO เสร็จสมบูรณ์ (สถานะ Done) ได้สินค้า Custom 1 หน่วยเข้าสต็อกจริง ชิ้นงานทั้ง 3 ชิ้นจาก Stage 2 เปลี่ยนสถานะจาก "Staged" เป็น "Consumed" อัตโนมัติ (ไม่ค้างโชว์เป็น WIP อีกต่อไป) — กลับไปดูที่ MO ของ Stage 2 จะเห็นปุ่ม "Assembly MOs" เชื่อมมาที่ MO นี้แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-13-stage3-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-13-stage3-mo-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M5-13</span></td>
+          <td class="col-scenario">จัดส่ง ออกใบแจ้งหนี้ และรับชำระเงิน (Custom)</td>
+          <td class="col-pre">ทำ TC-E2E-M5-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของที่เกิดขึ้นอัตโนมัติ &gt; Validate</li><li>เปิด SO &gt; Create Invoice &gt; Regular Invoice &gt; Confirm</li><li>เปิดใบแจ้งหนี้ &gt; Pay &gt; ยืนยันการชำระ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ Done (ตัวอย่างจริง: EG01/OUT/00092) ใบแจ้งหนี้ Posted ยอด 12,840.00 (ตัวอย่างจริง: INV/2026/00038) แล้วขึ้น In Payment — Journal Items 5 บรรทัด สมดุล 12,916.89 = 12,916.89 (COGS 76.89 ไม่ใช่ 0)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/e2e-mode5/m5-16-invoice2-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/e2e-mode5/m5-16-invoice2-journal.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

@@ -4,15 +4,7 @@ def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
 
 def note_html(note):
-    if not note:
-        return ''
-    if note.startswith('✅'):
-        cls = 'note note-ok'
-    elif note.startswith('🔴'):
-        cls = 'note note-bad'
-    else:
-        cls = 'note'
-    return '<div class="%s">%s</div>' % (cls, note)
+    return ('<div class="note">%s</div>' % note) if note else ''
 
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
@@ -162,8 +154,6 @@ PAGE = '''<!doctype html>
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
-  .note-ok{color:var(--green);background:var(--green-bg);}
-  .note-bad{color:var(--red);background:var(--red-bg);}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -190,8 +180,8 @@ PAGE = '''<!doctype html>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Test Cases: E2E Flow — Mode 5 (Stone Production / FG Production)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่เพิ่มบรรทัดสินค้าสำเร็จรูป (FG) ยืนยันคำสั่งขาย แตกเป็น 2 เส้นทางจริงตามสภาพสต็อก (ต้องผลิตใหม่ vs. มีของพอ) ย้าย Slab เข้าสถานีผลิต เปิด wizard "Produce FG" ตัด/ผลิตจริง ส่งมอบสินค้า จนถึงออกใบแจ้งหนี้ รับชำระเงิน และตรวจรายการบัญชี — ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป เดินตามได้เองแม้ไม่ใช่ technical user ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงที่ทำขึ้นเฉพาะสำหรับเอกสารนี้ ไม่ใช่ตัวเลขสมมติ — รันใหม่ทั้งหมดบนกลไกตัด Slab แบบใหม่ (Native MO, เปลี่ยน 13 ก.ย. 2026) และยืนยันว่า wizard "Produce FG" ยังทำงานถูกต้องทุกประการบนกลไกใหม่นี้</div>
+    <h1>Test Cases: E2E Flow — Mode 5 (Slab → Finished Goods)</h1>
+    <div class="sub">เรื่องราวขายสินค้าสำเร็จรูป (Finished Goods) ที่ต้องผลิตจากแผ่นหิน (Slab) ครอบคลุมทั้ง 2 แบบ: <b>Standard</b> (สินค้าที่มี BOM ตายตัว เช่น Countertop — "Produce FG" สร้าง MO ตรงเลย ไม่ผ่าน wizard แล้วตาม ADR-067) และ <b>Custom</b> (งานสั่งทำเฉพาะที่ไม่มี BOM ตายตัว เช่น เจดีย์บัว/ซุ้มบัว — ใหม่ทั้งหมดจาก ADR-068 session นี้ ผ่าน 2 ขั้น "ถอดแบบ" แล้ว "ประกอบ") เดินตามได้เองแม้ไม่ใช่ technical user เขียนใหม่ทั้งชุด 16 ก.ย. 2026 ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (ผสมทั้งเบราว์เซอร์จริงและ odoo shell ที่เรียกฟังก์ชันธุรกิจจริงตัวเดียวกับปุ่มบนหน้าจอ) ไม่ใช่ตัวเลขสมมติ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -202,8 +192,9 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้อ้างอิง:</b> Material ใหม่เฉพาะสำหรับเอกสารนี้ "E2E Mode5 Fresh Test" (Marble, มีครบ Block/Slab/FG) — PO P00054 (3.00 CBM @ 15,000 = 48,150.00) &rarr; Bundle BLK-26-0029 &rarr; Vendor Bill BILL/2026/09/0006 &rarr; MO EG01/STCUT/00043 ตัด Slab BLK-26-0029-1 (1.5 ตร.ม.) &rarr; ย้ายเข้าสถานีผลิต (EG01/INT/00061) — เส้นทาง G2b (ต้องผลิต): SO S00127 (จำนวน 1, ยอด 9,095.00) &rarr; ปุ่ม "Produce FG" &rarr; wizard auto-match Slab &rarr; ผลิตจริง 2 หน่วย (เผื่อสต็อก) &rarr; MO EG01/STFG/00015 &rarr; Complete FG Production &rarr; Delivery EG01/OUT/00081 (Done) &rarr; Invoice INV/2026/00031 (Posted, In Payment) — เส้นทาง G2a (ไม่ต้องผลิต): SO S00128 (จำนวน 1, ยอด 9,095.00 เท่ากัน ใช้สต็อกส่วนเกินที่ G2b เผื่อไว้) &rarr; ไม่ต้องกด Produce FG เลย Delivery จองสต็อกสำเร็จทันที &rarr; EG01/OUT/00082 (Done) &rarr; Invoice INV/2026/00032 (Posted, In Payment) — <b>เดินสดผ่านหน้าจอ Odoo จริงทุกขั้นตอน</b> (Playwright ไม่ใช่ผ่าน <code>odoo shell</code>) บน <code>mbx-ee-dev</code> เฉพาะสำหรับเอกสารนี้ 2026-09-14 ทุกภาพประกอบด้านล่างคือภาพหน้าจอจริงจากการรันนี้ ไม่ใช่ภาพจำลอง บนกลไกตัด Slab แบบใหม่ (Native MO, เปลี่ยน 13 ก.ย. 2026) ที่เพิ่งผ่านการแก้บั๊ก material_lot_id มาหมาดๆ (ดู test-cases-e2e-mode2.html)<br><br>
-    <b>ℹ️ ข้อสังเกตจริงที่พบระหว่างรัน (ไม่ใช่บั๊ก):</b> ลิงก์ "Produce FG" บนบรรทัด SO ปรากฏอยู่เสมอไม่ว่าสต็อกจะพอหรือไม่ (ดู TC-07) — Slab ที่ตัดเสร็จใหม่ต้องย้ายเข้าสถานีผลิตด้วย Internal Transfer อีกครั้งก่อนใช้กับ "Produce FG" ได้ เหมือนกับ Block ก่อนตัดใน Mode 3 ทุกประการ (ดู TC-03) — และหนึ่ง Slab ผลิตเป็น FG ได้มากกว่าจำนวนที่ขายจริงในออเดอร์นั้น (กำหนดตอนผลิต ไม่ใช่อัตราตายตัว) ทำให้เผื่อสต็อกขายลูกค้ารายถัดไปได้เลย (ดู TC-04/TC-07)
+    <b>Standard (ADR-067) — เรื่องราวที่ใช้ทดสอบจริง:</b> Block BLK-26-0036 (E2E Mode5 Fresh Test V2, ก้อนใหม่ 3.00 CBM) &rarr; Cut MO EG01/STCUT/00048 &rarr; Slab BLK-26-0036 #1 (1.50 ตร.ม., เหลือ 2.97 CBM ไว้ขายต่อ) &rarr; SO S00137 ยืนยันที่ 9,630.00 (รวม VAT) &rarr; "Produce FG" สร้าง MO EG01/STFG/00022 ตรงทันที (ไม่มี wizard popup แล้ว) &rarr; FG Output 1 แถว (1.48&times;0.98 ม.) &rarr; Complete FG Production &rarr; Delivery EG01/OUT/00091 &rarr; Invoice INV/2026/00037 (9,630.00, COGS 480.00, Posted + In Payment)<br><br>
+    <b>Custom (ADR-068, ใหม่ทั้งหมด session นี้) — เรื่องราวที่ใช้ทดสอบจริง:</b> Slab BLK-26-0036 #2 &rarr; Stage 2 "Cutting Plan" MO EG01/STCPL/00009 (ถอดแบบเป็น 3 ชิ้น แชร์ Lot เดียวกัน CUT-EG01/STCPL/00009) &rarr; BOQ0032 + SO S00138 ขาย "เจดีย์บัว S (Custom)" ยืนยันที่ 12,840.00 &rarr; "Produce FG" เปิด wizard "สร้าง BOM จาก BOQ" เลือก Cutting Plan Lot &rarr; Stage 3 MO EG01/STFG/00023 (ค้าง Draft ให้ตรวจก่อน confirm) &rarr; Confirm (วัตถุดิบเติมจาก Lot อัตโนมัติ 3.00 หน่วย) &rarr; Produce (ปุ่มมาตรฐาน Odoo) &rarr; ชิ้นงานทั้ง 3 ชิ้นเปลี่ยนจาก Staged เป็น Consumed &rarr; Delivery EG01/OUT/00092 &rarr; Invoice INV/2026/00038 (12,840.00, COGS 76.89, Posted + In Payment)<br><br>
+    <b>✅ ยืนยันแล้ว:</b> ทั้ง 2 สายผ่านการรันจริงจบครบวงจร บัญชีสมดุลทั้งคู่ (10,110.00 และ 12,916.89) COGS ไม่เป็น 0 ทั้งคู่ Smart button เชื่อม Stage 2↔3 ถูกทั้ง 2 ทิศทาง (ADR-063-style traceability) ชิ้นงาน Custom ที่ถูกใช้ไปเปลี่ยนสถานะถูกต้องอัตโนมัติไม่ค้างเป็น WIP
   </div>
 
 __CATEGORY_BLOCKS__

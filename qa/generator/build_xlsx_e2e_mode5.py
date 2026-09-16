@@ -42,7 +42,7 @@ ws0.sheet_view.showGridLines = False
 ws0.column_dimensions['B'].width = 4
 ws0.column_dimensions['C'].width = 60
 ws0.column_dimensions['D'].width = 40
-ws0['C2'] = 'EMG-O — Test Cases: E2E Flow — Mode 5 (Stone Production / FG Production)'
+ws0['C2'] = 'EMG-O — Test Cases: E2E Flow — Mode 5 (Slab → Finished Goods)'
 ws0['C2'].font = TITLE_FONT
 ws0['C3'] = 'Empire Stone × Empire Granite — stone_slab_inventory (odoo19-ent-mbx, EE)'
 ws0['C3'].font = Font(name='Calibri', italic=True, color='6B6E70')
