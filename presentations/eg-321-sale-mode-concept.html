@@ -203,6 +203,48 @@
     <div class="footer-tag" style="color:#8B969C;">EMG-O · แนวคิด EG-321</div>
   </section>
 
+  <!-- SLIDE 3b: Production Line detail -->
+  <section class="slide" id="slide-3b">
+    <div class="eyebrow">1 Production Line</div>
+    <h2 class="slide-title">รายละเอียดสายการผลิตจริงในโรงงาน</h2>
+    <div class="flow-bar" style="margin-top:10px;">
+      <span class="flow-chip gray">Block</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Gangsaw</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">Transport</span><span class="flow-arrow">→</span>
+      <span class="flow-chip gray">Slab</span>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">Slab</span><span class="flow-arrow">→</span>
+      <span class="flow-chip blue">Surface Prep</span>
+      <span class="flow-chip blue">Polishing</span>
+      <span class="flow-chip blue">Flaming</span>
+      <span class="flow-chip blue">Sandblasting</span>
+      <span class="flow-chip blue">Cutting-to-size</span>
+      <span class="flow-chip blue">Beveling</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip green">Dry-lay (QC)</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip gray">FG</span>
+    </div>
+    <div class="note-box">รวม <b>8 Work Center จริง</b> ต่อบริษัท — <b>Gangsaw + Transport</b> ใช้ตัด Block→Slab เท่านั้น ส่วนอีก <b>6 สถานี</b> (Surface Prep / Polishing / Flaming / Sandblasting / Cutting-to-size / Beveling) เป็นขั้นตอนแปรรูป Slab→FG โดยแต่ละ <b>FG Category เลือกใช้เฉพาะสถานีที่ตัวเองต้องการ</b> ไม่จำเป็นต้องผ่านครบทุกสถานี</div>
+    <div class="note-box good"><b>Dry-lay</b> เป็นจุดตรวจสอบคุณภาพ (QC) ก่อนส่งของให้ลูกค้าดูหน้างานจริง ก่อนแพ็ค/จัดส่ง</div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 3c: Custom-carved FG sub-pipeline -->
+  <section class="slide" id="slide-3c">
+    <div class="eyebrow">งานพิเศษบนจุดขาย FG</div>
+    <h2 class="slide-title">งานแกะสลัก/ประกอบซับซ้อน (เช่น เจดีย์บัว) มี Sub-pipeline 3 ขั้น</h2>
+    <ul class="num-list">
+      <li><span class="n">1</span><span class="t"><b>หา Slab</b> — เลือกจากสต๊อกที่มีอยู่ หรือสั่งตัดใหม่จาก Block (= จุดขาย "Slab" เดิมทุกประการ ไม่มีอะไรพิเศษในขั้นนี้)</span></li>
+      <li><span class="n">2</span><span class="t"><b>Cutting Plan</b> — ตัด Slab ออกเป็นชิ้นย่อยหลายชิ้นตามแบบงาน แล้วเก็บรวมเป็น 1 Lot กลาง รอนำไปประกอบ</span></li>
+      <li><span class="n">3</span><span class="t"><b>Assembly</b> — ดึงชิ้นย่อยทั้งหมดจาก Lot มาประกอบในใบสั่งผลิต (MO) เดียว ได้ FG สำเร็จรูป 1 ชิ้น</span></li>
+    </ul>
+    <div class="note-box good"><b>ทำไมต้องแยก 3 ขั้น:</b> งานแบบนี้แต่ละชิ้นไม่เหมือนกัน (ไม่มีสูตรสำเร็จตายตัวแบบ Countertop) และมีขั้นตอนตัดชิ้นย่อย+ประกอบเพิ่มจากงานปกติ — แต่ยังนับเป็นจุดขาย <b>"FG"</b> จุดเดียวกัน ไม่ใช่จุดขายที่ 4</div>
+    <div class="note-box" style="margin-top:10px;">📄 <b>อยากดูรายละเอียดเต็ม:</b> สถานีจริงในโรงงาน, Odoo MRP feature ที่รองรับ, flow จริง+รูปจริงจาก Visit + screenshot ระบบ — ดูที่ <a href="eg-321-production-line.html" style="color:var(--copper-dark);font-weight:700;">"EG-321 Production Line"</a></div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
   <!-- SLIDE 4: 3 Sale Modes explained -->
   <section class="slide" id="slide-4">
     <div class="eyebrow">3 จุดขาย</div>
