@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>แนวคิด EG-321 — 3 จุดขาย + 2 สวิตช์ + 1 Production Line — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+    --blue:#2C5A80;
+    --green:#3D7A45;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:27px;margin:0 0 18px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title{color:var(--white);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.25;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:920px;line-height:1.6;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:96px;height:96px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:26px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.1;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;}
+  .last-update{font-size:13.5px;color:var(--muted);margin:2px 0 18px 0;}
+  .dark .last-update{color:#9AA6AC;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:20px 26px;margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:17px;line-height:1.55;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:15px;}
+  .cmp-table th{text-align:left;padding:10px 13px;background:var(--charcoal);color:#fff;font-size:13px;letter-spacing:.5px;}
+  .cmp-table td{padding:10px 13px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.45;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table td b.mode-name{color:var(--charcoal-dark);}
+  .cmp-table code{background:#EFEBE4;padding:1px 6px;border-radius:4px;font-size:13px;}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:15px 20px;font-size:15.5px;line-height:1.55;color:#6B4423;margin-top:10px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b{color:#D9A465;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:14px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:20px;font-weight:700;padding:14px 24px;border-radius:28px;white-space:normal;max-width:280px;text-align:center;}
+  .flow-chip.green{background:var(--green);}
+  .flow-chip.blue{background:var(--blue);}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:26px;margin:0 10px;font-weight:700;}
+  .dark .flow-arrow{color:#D9A465;}
+
+  .num-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .num-list li{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:11px;padding:15px 20px;}
+  .dark .num-list li{background:rgba(255,255,255,.08);}
+  .num-list .n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+  .num-list .t{font-size:16px;line-height:1.55;color:var(--text);}
+  .dark .num-list .t{color:#E4E8EA;}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  /* Mode cards (3 sale modes) */
+  .mode-grid{display:flex;gap:18px;margin-top:6px;}
+  .mode-card{flex:1;background:var(--card);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;border-top:6px solid var(--copper);}
+  .mode-card.slab{border-top-color:var(--blue);}
+  .mode-card.fg{border-top-color:var(--green);}
+  .mode-card .mc-num{width:34px;height:34px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;}
+  .mode-card.slab .mc-num{background:var(--blue);}
+  .mode-card.fg .mc-num{background:var(--green);}
+  .mode-card .mc-title{font-size:19px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal-dark);}
+  .mode-card .mc-desc{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .mode-card .mc-example{font-size:13.5px;line-height:1.5;background:#fff;border-radius:8px;padding:10px 12px;color:var(--muted);border:1px dashed #D8D2C8;}
+  .mode-card .mc-example b{color:var(--copper-dark);}
+
+  /* Switch cards */
+  .switch-grid{display:flex;gap:18px;margin-top:6px;}
+  .switch-card{flex:1;background:var(--card);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;border:2px solid var(--copper);}
+  .switch-card .sw-title{font-size:19px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal-dark);display:flex;align-items:center;gap:10px;}
+  .switch-card .sw-toggle{width:44px;height:24px;border-radius:14px;background:var(--copper);position:relative;flex-shrink:0;}
+  .switch-card .sw-toggle::after{content:'';position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;}
+  .switch-card .sw-desc{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .switch-card .sw-example{font-size:13.5px;line-height:1.5;background:#fff;border-radius:8px;padding:10px 12px;color:var(--muted);border:1px dashed #D8D2C8;}
+  .switch-card .sw-example b{color:var(--copper-dark);}
+
+  .side-by-side{display:flex;gap:24px;margin-top:8px;}
+  .sbs-col{flex:1;}
+  .sbs-col h3{font-size:15px;font-weight:700;color:var(--charcoal-dark);margin:0 0 10px 0;text-transform:uppercase;letter-spacing:.5px;}
+  .sbs-col.old h3{color:#A6432D;}
+  .sbs-col.new h3{color:#3D7A45;}
+  .sbs-box{background:var(--card);border-radius:12px;padding:16px 18px;font-size:14.5px;line-height:1.6;}
+  .sbs-box.old{border-left:5px solid #A6432D;}
+  .sbs-box.new{border-left:5px solid #3D7A45;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">3·2·1</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Internal Team Discussion</div>
+    <div class="big-title">แนวคิด "EG-321"<br>3 จุดขาย + 2 สวิตช์ + 1 Production Line</div>
+    <div class="big-sub">ทบทวนวิธีอธิบาย Sale Mode ให้ตรงกับความจริงของหน้างานมากขึ้น — เริ่มจากสิ่งที่พบตอนลง Visit โรงงาน</div>
+    <div class="stamp">EMG-O · ประชุมทีมภายใน</div>
+    <div class="date-tag">อัปเดตล่าสุด: 17 ก.ย. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: Opening / Why revisit -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ที่มาของเรื่องนี้</div>
+    <h2 class="slide-title">จากการ Visit โรงงาน 11 ก.ย. สู่คำถามเรื่องโครงสร้าง Sale Mode</h2>
+    <div class="case-box">
+      <div class="case-icon">🏭</div>
+      <div>
+        <div class="case-text-label">สิ่งที่พบหน้างาน</div>
+        <div class="case-text">จากการลง Visit โรงงานวันที่ 11 ก.ย. ทีมนำสิ่งที่พบจริงหน้างานมาปรับกระบวนการให้เหมาะกับการทำงานจริงมากขึ้น</div>
+      </div>
+    </div>
+    <div class="flow-bar" style="margin-top:20px;">
+      <span class="flow-chip">ปรับกระบวนการหน้างาน</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip green">แยก "Project" ออกจาก "BOQ"</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-chip blue">ใช้ได้กับ Sale Mode ไหนก็ได้</span>
+    </div>
+    <div class="note-box"><b>คำถามที่ตามมา:</b> พอ Project กับ BOQ แยกเป็นอิสระจากกันแล้ว "5 Sale Modes" แบบเดิมยังเป็นวิธีอธิบายที่ตรงกับความจริงที่สุดอยู่ไหม</div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 2: Old structure -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">โครงสร้างเดิม</div>
+    <h2 class="slide-title">5 Sale Modes ที่ใช้อธิบายกันมา</h2>
+    <table class="cmp-table">
+      <tr><th style="width:60px;">#</th><th>ชื่อ</th><th>คืออะไร</th></tr>
+      <tr><td><b class="mode-name">1</b></td><td><b class="mode-name">Block Direct Sale</b></td><td>ขายก้อนหินดิบทั้งก้อน</td></tr>
+      <tr><td><b class="mode-name">2</b></td><td><b class="mode-name">Ready-Made Slab</b></td><td>ขายแผ่นหินที่มีอยู่แล้วในสต๊อก</td></tr>
+      <tr><td><b class="mode-name">3</b></td><td><b class="mode-name">Block-to-Slab</b></td><td>สั่งตัดแผ่นใหม่จากก้อน</td></tr>
+      <tr><td><b class="mode-name">4</b></td><td><b class="mode-name">Sold-as-Project</b></td><td>ขายแบบมีโปรเจกต์ ติดตามงาน+เก็บเงินเป็นงวด</td></tr>
+      <tr><td><b class="mode-name">5</b></td><td><b class="mode-name">FG Production</b></td><td>ผลิตสินค้าสำเร็จรูปจากแผ่นหิน</td></tr>
+    </table>
+    <div class="note-box">มีบางจุดที่เริ่มไม่ลงตัวเมื่อดูให้ลึกขึ้น — ทีม dev ตรวจสอบมาแล้ว ไม่ต้องลงรายละเอียดในที่นี้</div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 3: New structure — EG-321 -->
+  <section class="slide dark" id="slide-3">
+    <div class="eyebrow">โครงสร้างใหม่ที่เสนอ</div>
+    <h2 class="slide-title" style="color:#fff;">แนวคิด "EG-321"</h2>
+    <div class="flow-bar" style="justify-content:center;margin:18px 0 8px;">
+      <span class="flow-chip" style="font-size:28px;padding:20px 30px;">3 จุดขาย</span>
+      <span class="flow-arrow" style="font-size:22px;">+</span>
+      <span class="flow-chip blue" style="font-size:28px;padding:20px 30px;">2 สวิตช์</span>
+      <span class="flow-arrow" style="font-size:22px;">+</span>
+      <span class="flow-chip green" style="font-size:28px;padding:20px 30px;">1 Production Line</span>
+    </div>
+    <div style="margin-top:24px;">
+      <div class="flow-bar" style="justify-content:center;">
+        <span class="flow-chip gray">Block</span><span class="flow-arrow">→</span>
+        <span class="flow-chip gray">Slab</span><span class="flow-arrow">→</span>
+        <span class="flow-chip gray">FG</span>
+      </div>
+      <div style="text-align:center;color:#B9C2C8;font-size:15px;margin-top:6px;">สายการผลิตเดียว — ขายได้ทั้ง 3 จุดบนสายนี้ พร้อมแปะสวิตช์ Project/BOQ ได้ทุกจุด</div>
+    </div>
+    <div class="footer-tag" style="color:#8B969C;">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 4: 3 Sale Modes explained -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">3 จุดขาย</div>
+    <h2 class="slide-title">ขายได้ 3 จุด บนสายการผลิตเดียวกัน</h2>
+    <div class="mode-grid">
+      <div class="mode-card">
+        <div class="mc-num">1</div>
+        <div class="mc-title">Block</div>
+        <div class="mc-desc">ขายก้อนหินดิบทั้งก้อน ยังไม่ตัดอะไรเลย</div>
+        <div class="mc-example"><b>ตัวอย่าง:</b> ลูกค้าซื้อก้อนหินอ่อน Carrara 1 ก้อน เอาไปตัดเองที่โรงงานตัวเอง</div>
+      </div>
+      <div class="mode-card slab">
+        <div class="mc-num">2</div>
+        <div class="mc-title">Slab</div>
+        <div class="mc-desc">ขายแผ่นหินที่ตัดจาก Block แล้ว (มีอยู่แล้วในสต๊อก หรือสั่งตัดใหม่ — รายละเอียดวิธีจัดหาของเท่านั้น)</div>
+        <div class="mc-example"><b>ตัวอย่าง:</b> ลูกค้าต้องการหินแกรนิต 5 ตร.ม. ปูพื้น มีของอยู่แล้วก็ส่งเลย ไม่มีก็ตัดให้ก่อน</div>
+      </div>
+      <div class="mode-card fg">
+        <div class="mc-num">3</div>
+        <div class="mc-title">FG</div>
+        <div class="mc-desc">ขายของสำเร็จรูปที่แปรรูปต่อจาก Slab แล้ว</div>
+        <div class="mc-example"><b>ตัวอย่าง:</b> เคาน์เตอร์ครัวสำเร็จรูป และงานแกะสลักพิเศษอย่าง <b>เจดีย์บัว</b> (สูตรผลิตซับซ้อนกว่า แต่ยังเป็น FG เหมือนกัน)</div>
+      </div>
+    </div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 5: 2 Switches explained -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">2 สวิตช์</div>
+    <h2 class="slide-title">แปะได้กับจุดขายไหนก็ได้ อิสระจากกัน</h2>
+    <div class="switch-grid">
+      <div class="switch-card">
+        <div class="sw-title"><span class="sw-toggle"></span>Project</div>
+        <div class="sw-desc">ติดตามงานเป็นขั้นตอน (Task/Gantt) + เก็บเงินเป็นงวดตาม Milestone</div>
+        <div class="sw-example"><b>ตัวอย่าง:</b> งานสั่งทำเจดีย์บัว ผ่อนจ่าย 3 งวด อยากเห็นความคืบหน้าแต่ละขั้น</div>
+      </div>
+      <div class="switch-card">
+        <div class="sw-title"><span class="sw-toggle"></span>BOQ</div>
+        <div class="sw-desc">เริ่มจากทำเอกสารประเมินราคาก่อน แล้วแปลงเป็นใบเสนอราคาให้อัตโนมัติ</div>
+        <div class="sw-example"><b>ตัวอย่าง:</b> งาน Countertop หลายรายการ ต้องให้ทีมประเมินราคาก่อนเสนอลูกค้า</div>
+      </div>
+    </div>
+    <table class="cmp-table" style="margin-top:20px;">
+      <tr><th>ตัวอย่างลูกค้า</th><th style="width:110px;">จุดขาย</th><th style="width:90px;">Project</th><th style="width:90px;">BOQ</th></tr>
+      <tr><td>ซื้อ Block ไปตัดเอง จ่ายเงินสด</td><td>Block</td><td>❌</td><td>❌</td></tr>
+      <tr class="good"><td>สั่งเจดีย์บัว ผ่อนจ่าย 3 งวด</td><td>FG</td><td>✅</td><td>อาจมีหรือไม่มี</td></tr>
+      <tr><td>Countertop ราคาปกติ จ่ายครบ แต่มีหลายรายการต้องประเมินราคาก่อน</td><td>FG</td><td>❌</td><td>✅</td></tr>
+    </table>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 6: Old vs New side by side -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">เทียบให้เห็นภาพ</div>
+    <h2 class="slide-title">เดิม vs ใหม่</h2>
+    <div class="side-by-side">
+      <div class="sbs-col old">
+        <h3>เดิม — 5 Modes</h3>
+        <div class="sbs-box old">
+          1. Block Direct Sale<br>
+          2. Ready-Made Slab<br>
+          3. Block-to-Slab<br>
+          4. Sold-as-Project<br>
+          5. FG Production<br><br>
+          <span style="color:#A6432D;">→ ดูเหมือนเป็น 5 ทางเลือกที่แยกขาดจากกัน ทั้งที่บางอย่างซ้อนกันอยู่</span>
+        </div>
+      </div>
+      <div class="sbs-col new">
+        <h3>ใหม่ — EG-321</h3>
+        <div class="sbs-box new">
+          <b>3 จุดขาย</b> (Block / Slab / FG) — บนสายการผลิตเดียวกัน<br><br>
+          <b>2 สวิตช์</b> (Project / BOQ) — แปะจุดไหนก็ได้ อิสระต่อกัน<br><br>
+          <span style="color:#3D7A45;">→ เห็นภาพรวมชัดขึ้น ว่าอะไรคือ "ขายอะไร" กับ "ติดตามยังไง" แยกจากกันจริง</span>
+        </div>
+      </div>
+    </div>
+    <div class="note-box good" style="margin-top:18px;"><b>หมายเหตุ:</b> ระบบเบื้องหลัง (wizard, กลไกการผลิต) ไม่ได้เปลี่ยนแปลง — เปลี่ยนแค่วิธีอธิบาย/ทำความเข้าใจ และหน้าจอ UX บางจุดเท่านั้น</div>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 7: Out of scope -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">สิ่งที่ไม่เกี่ยวกับเรื่องนี้</div>
+    <h2 class="slide-title">ฟีเจอร์เหล่านี้ยังแยกเหมือนเดิม ไม่ถูกกระทบ</h2>
+    <ul class="num-list">
+      <li><span class="n">1</span><span class="t"><b>Fabrication</b> — ซ่อม/เจียร์ของเดิมที่มีอยู่แล้ว (ไม่ใช่การขายใหม่)</span></li>
+      <li><span class="n">2</span><span class="t"><b>Intercompany Trade</b> — งานซื้อ-ขายระหว่าง EG กับ ES</span></li>
+      <li><span class="n">3</span><span class="t"><b>eCommerce Catalog</b> — หน้าร้านออนไลน์</span></li>
+      <li><span class="n">4</span><span class="t"><b>Scan Station</b> — ระบบสแกนบาร์โค้ดยืนยันของ</span></li>
+    </ul>
+    <div class="footer-tag">EMG-O · แนวคิด EG-321</div>
+  </section>
+
+  <!-- SLIDE 8: Summary -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">EG-321 = 3 จุดขาย + 2 สวิตช์ + 1 Production Line</h2>
+    <div class="case-box">
+      <div class="case-icon">✓</div>
+      <div>
+        <div class="case-text-label">สถานะ</div>
+        <div class="case-text">ทีมลงมือปรับตามแนวคิดนี้แล้ว — ขั้นต่อไปคือปรับเอกสาร/หน้าจอให้สอดคล้องกับแนวคิดนี้ต่อไป</div>
+      </div>
+    </div>
+    <div style="margin-top:22px;font-size:15px;color:#B9C2C8;">EMG-O · แนวคิด EG-321 — 17 ก.ย. 2026</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 9</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
