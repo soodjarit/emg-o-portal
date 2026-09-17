@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: สวิตช์ BOQ (EG-321)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;}
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .last-update{font-size:12.5px;color:#9A9D9F;margin:0 0 12px 0;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:820px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .gap-note{background:var(--amber-bg);color:#6B4423;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:28px;}
+  .gap-note b{color:var(--copper-dark);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:260px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:100px;text-align:center;}
+  .shot-thumb-link{display:inline-block;}
+  .shot-thumb{width:96px;height:72px;object-fit:cover;object-position:center 15%;border-radius:6px;border:1px solid var(--border);cursor:zoom-in;transition:transform .15s ease;}
+  .shot-thumb:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(0,0,0,.18);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA · แนวคิด EG-321</div>
+    <h1>Golden Path — สวิตช์ BOQ</h1>
+    <div class="last-update">อัปเดตล่าสุด: 17 ก.ย. 2026</div>
+    <div class="sub">สวิตช์ BOQ = ใบเสนอราคาเริ่มต้นจากเอกสารประเมินราคา (Bill of Quantities) ก่อน แทนที่จะพิมพ์รายการลงใบเสนอราคาตรงๆ — ใช้เมื่อสินค้า/บริการมีหลายรายการ ต้องคิดราคาละเอียดก่อนเสนอลูกค้า เอกสารนี้เป็นสวิตช์อิสระจากสวิตช์ Project อย่างสมบูรณ์ (สร้างใบเสนอราคาจาก BOQ ได้โดยไม่ต้องติ๊ก Sold as Project เลย)</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>4</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b style="color:var(--red)">3</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้ทดสอบจริง (รันสดบน eg-tst, 2026-09-17):</b> เปิดแอป "BOQ Estimation" → สร้างเอกสารใหม่ให้ลูกค้า "Empire Granite" → เพิ่มบรรทัด Zone = "Zone A" เลือก Rate Library Item "[PW-01] Protection Works - หน้างาน" จำนวน 2 หน่วย ราคา/หน่วย 1,500 → บันทึกได้ <b>BOQ0028</b> → กด "สร้างใบเสนอราคา" ได้ใบเสนอราคา <b>S00230</b> อัตโนมัติ ยอดรวม 3,000.00 ตรงตาม BOQ เป๊ะ พร้อม section header "Zone A" คั่นตามที่ตั้งไว้ — ไม่ได้ติ๊ก Sold as Project เลยตลอดเรื่องราวนี้ ยืนยันว่า 2 สวิตช์เป็นอิสระต่อกันจริง
+  </div>
+
+  <div class="gap-note"><b>ทราบแล้ว ยังไม่ทำ:</b> เอกสารนี้ยังไม่มีปุ่ม Export Excel และยังไม่ครอบคลุมการใช้ Rate Library ที่มี Cost Component หลายรายการ (ตัวอย่างจริงนี้ตั้งราคา/หน่วยตรงๆ เพื่อความเร็ว) หรือฟีเจอร์ Split Material/Labor Quotation (ADR-031) — ทำเวอร์ชันย่อไว้ก่อนประชุมทีม 17 ก.ย. จะขยายเพิ่มรอบหน้า ดูตัวอย่างเต็มรูปแบบกว่าได้ที่ "BOQ Estimation + Sold-as-Project" ในหมวด Draft Document</div>
+
+  <div class="category" id="B1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">สร้างใบเสนอราคาจากเอกสาร BOQ</div>
+        <div class="category-sub">ไม่ต้องเปิดสวิตช์ Project เลย — อิสระจากกันจริง</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SW-BOQ-01</span></td>
+          <td class="col-scenario">สร้างเอกสาร BOQ ใหม่ ระบุลูกค้า</td>
+          <td class="col-pre">มีลูกค้าอยู่แล้วในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป "BOQ Estimation" &gt; BOQ Documents &gt; New</li><li>เลือกลูกค้า</li></ol></td>
+          <td class="col-sample">ลูกค้า = Empire Granite</td>
+          <td class="col-expected">ฟอร์ม BOQ Document ใหม่เปิดขึ้น พร้อมข้อมูลลูกค้า</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/golden-path-switch-boq/03b-header-filled-retry.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/golden-path-switch-boq/03b-header-filled-retry.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SW-BOQ-02</span></td>
+          <td class="col-scenario">เพิ่มบรรทัด BOQ เลือก Rate Library Item<div class="note">เลือก Rate Library Item แล้ว Description/Unit เติมให้อัตโนมัติ — Zone/Duration/Milestone กรอกตรงบรรทัดนี้เลย เป็นข้อมูลเดียวกับที่จะถูกส่งต่อไปยัง Sale Order Line ตอน generate quotation (ตาม ADR-069)</div></td>
+          <td class="col-pre">ทำ TC-SW-BOQ-01 เสร็จแล้ว และมี Rate Library Item อยู่แล้ว</td>
+          <td class="col-steps"><ol><li>กด "Add a line"</li><li>กรอก Schedule/Zone</li><li>เลือก Rate Library Item</li><li>กรอก Quantity / Rate ต่อหน่วย</li></ol></td>
+          <td class="col-sample">Zone = "Zone A"<br>Rate = [PW-01] Protection Works - หน้างาน<br>Quantity = 2<br>Rate/Unit = 1,500</td>
+          <td class="col-expected">บรรทัดคำนวณ Amount Total = 3,000.00 อัตโนมัติ (Quantity × Rate)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/golden-path-switch-boq/07b-line-complete.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/golden-path-switch-boq/07b-line-complete.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SW-BOQ-03</span></td>
+          <td class="col-scenario">บันทึกเอกสาร BOQ</td>
+          <td class="col-pre">ทำ TC-SW-BOQ-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บันทึกสำเร็จ ได้เลขที่เอกสาร (ตัวอย่างจริง: BOQ0028) สถานะแสดง "Draft"</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/golden-path-switch-boq/08b-boq-saved.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/golden-path-switch-boq/08b-boq-saved.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SW-BOQ-04</span></td>
+          <td class="col-scenario">กด "สร้างใบเสนอราคา" (Generate Quotation)<div class="note">ใบเสนอราคาที่ได้ยังไม่ได้ติ๊ก Sold as Project เลย — สวิตช์ Project แยกอิสระจริง ต้องไปติ๊กเพิ่มเองทีหลังถ้าต้องการ</div></td>
+          <td class="col-pre">ทำ TC-SW-BOQ-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ใบเสนอราคาใหม่ (ตัวอย่างจริง: S00230) ยอดรวม 3,000.00 ตรงกับ BOQ, มีบรรทัด section "Zone A" คั่นตามที่ตั้งไว้, field "BOQ Document" บนใบเสนอราคาชี้กลับไปที่ BOQ0028</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/golden-path-switch-boq/09b-after-generate-quotation.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/golden-path-switch-boq/09b-after-generate-quotation.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
