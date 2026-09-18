@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Product Concept & Master Setup — EMG-O (EG-321)</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:50px 64px 84px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:25px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;text-wrap:balance;}
+  .dark h2.slide-title{color:#fff;}
+  h3.sub-title{font-size:15px;margin:0 0 10px 0;color:var(--copper-dark);font-weight:700;letter-spacing:.3px;}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:40px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 16px 0;line-height:1.3;}
+  #slide-0 .big-sub{font-size:17px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:80px;left:64px;font-size:13px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .stone-badge{position:absolute;top:50px;right:64px;width:84px;height:84px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:13px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.2;}
+  #slide-0 .part-flow{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;}
+  #slide-0 .part-flow span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:7px 16px;font-size:12.5px;color:#D9DEE1;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:16px 22px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start;}
+  .case-icon{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .case-text{font-size:14px;line-height:1.48;color:var(--text);}
+  .dark .case-box{background:rgba(255,255,255,.06);}
+  .dark .case-text{color:#DDE3E0;}
+  .dark .case-text-label{color:#D9A465;}
+
+  .note-box{background:#FBF1E7;border-radius:12px;padding:12px 17px;font-size:13px;line-height:1.46;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .dark .note-box{background:rgba(255,255,255,.06);color:#DDE3E0;}
+  .dark .note-box b{color:#D9A465;}
+  .note-box.warn{background:#FBEAE7;color:#7A2E20;}
+  .note-box.warn b{color:#B8432E;}
+  .note-box.good{background:#EAF4EC;color:#245234;}
+  .note-box.good b{color:#2E7D4F;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;}
+  .cmp-table th{text-align:left;padding:7px 11px;background:var(--charcoal);color:#fff;font-size:11px;letter-spacing:.3px;}
+  .cmp-table th:not(:first-child){text-align:center;}
+  .cmp-table td{padding:7px 11px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table td:not(:first-child){text-align:center;}
+  .cmp-table td:first-child{color:var(--muted);font-weight:600;text-align:left;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table td.good{color:#2E7D4F;font-weight:700;}
+  .cmp-table td.bad{color:#B8432E;font-weight:700;}
+  .dark .cmp-table td{color:#DDE3E0;}
+  .dark .cmp-table td:first-child{color:#D9A465;}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.06);}
+
+  .num-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:6px;}
+  .num-table th{text-align:left;padding:8px 12px;background:var(--card);color:var(--copper-dark);font-size:11px;letter-spacing:.3px;text-transform:uppercase;border-bottom:2px solid var(--stone);}
+  .num-table td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--stone);vertical-align:top;}
+  .num-table td:first-child{font-weight:700;color:var(--copper-dark);white-space:nowrap;}
+  .num-table tr.hl td{font-weight:700;background:#FBF0E2;}
+
+  .two-col{display:flex;gap:28px;align-items:flex-start;}
+  .col-left{flex:0 0 190px;display:flex;flex-direction:column;align-items:center;}
+  .col-right{flex:1;min-width:0;}
+
+  .plain-list{list-style:none;margin:0 0 8px 0;padding:0;}
+  .plain-list li{position:relative;padding-left:20px;margin-bottom:8px;font-size:13.5px;line-height:1.46;color:var(--text);}
+  .plain-list li:before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--copper);}
+  .dark .plain-list li{color:#DDE3E0;}
+
+  .diagram-frame{width:100%;border-radius:12px;border:1px solid var(--stone);box-shadow:0 4px 18px rgba(0,0,0,.08);overflow:hidden;background:#fff;}
+  .diagram-frame img{display:block;width:100%;height:auto;}
+
+  /* 3-type cards for Goods/Service/Combo */
+  .type3-row{display:flex;gap:16px;margin:6px 0 12px;}
+  .type3-card{flex:1;background:var(--card);border-radius:14px;padding:16px 18px;border:2px solid transparent;}
+  .type3-card.hl{border-color:var(--copper);background:#FBF0E2;}
+  .type3-card .t3-icon{font-size:22px;margin-bottom:6px;}
+  .type3-card .t3-name{font-size:15px;font-weight:700;color:var(--charcoal);font-family:Cambria,serif;margin-bottom:4px;}
+  .type3-card .t3-desc{font-size:12.5px;line-height:1.44;color:var(--muted);}
+
+  /* photo + screenshot pairing */
+  .photo-pair{display:flex;gap:18px;align-items:stretch;margin-top:6px;height:420px;}
+  .photo-pair .pp-col{flex:1;min-width:0;display:flex;flex-direction:column;height:100%;}
+  .photo-pair .pp-label{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;flex-shrink:0;}
+  .photo-pair .pp-frame{flex:1;min-height:0;border-radius:12px;overflow:hidden;border:1px solid var(--stone);box-shadow:0 3px 14px rgba(0,0,0,.10);background:#000;display:flex;align-items:center;justify-content:center;}
+  .photo-pair .pp-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .photo-pair .pp-frame.shot{background:#fff;}
+  .photo-pair .pp-frame.shot img{object-fit:contain;object-position:center;}
+  .photo-pair .pp-cap{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4;flex-shrink:0;max-height:48px;overflow:hidden;}
+
+  /* field explanation table for wizard/forms */
+  .field-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .field-table th{text-align:left;padding:6px 10px;background:var(--charcoal);color:#fff;font-size:10.5px;letter-spacing:.3px;}
+  .field-table td{padding:6px 10px;border-bottom:1px solid var(--stone);vertical-align:top;line-height:1.4;}
+  .field-table td:first-child{font-weight:700;color:var(--copper-dark);white-space:nowrap;}
+  .field-table tr:nth-child(even) td{background:#FAFAF9;}
+
+  .step-flow{display:flex;align-items:center;gap:6px;margin:14px 0;flex-wrap:wrap;}
+  .step-flow .sf-box{background:var(--card);border-radius:10px;padding:10px 14px;font-size:12.5px;font-weight:700;color:var(--charcoal);text-align:center;flex:1;min-width:120px;}
+  .step-flow .sf-box.hl{background:#FBF0E2;border:2px solid var(--copper);}
+  .step-flow .sf-arrow{color:var(--copper);font-size:18px;flex-shrink:0;}
+
+  .badge-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:3px 9px;border-radius:10px;background:var(--copper);color:#fff;margin-right:6px;}
+  .badge-tag.alt{background:var(--charcoal);}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="stone-badge">EG<br>321</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory</div>
+    <div class="big-title">Product Concept &amp; Master Setup<br>ฉบับรวมเดียว (EG-321)</div>
+    <div class="big-sub">จาก Odoo มาตรฐาน (Goods/Service/Combo) → ทำไมต้อง Custom → โครงสร้างสินค้าหิน (Material/Block/Slab/FG) → คู่มือ Setup จริงทีละระดับ พร้อมรูปจริงจากโรงงาน 11 ก.ย. จับคู่กับหน้าจอปัจจุบัน</div>
+    <div class="part-flow">
+      <span>1. Odoo Product พื้นฐาน</span>
+      <span>2. ทำไมต้อง Custom</span>
+      <span>3. โครงสร้างหิน (ภาพรวม)</span>
+      <span>4. Material/Block/Slab/FG จากรูปจริง</span>
+      <span>5. คู่มือ Setup ทีละระดับ</span>
+    </div>
+    <div class="stamp">EMG-O · เอกสารหลักฉบับเดียวเรื่อง Product — แทนที่เอกสารเก่าทั้งหมด · 18 ก.ย. 2026</div>
+  </section>
+
+  <!-- SLIDE 1: Odoo native product types -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ส่วนที่ 1 — พื้นฐาน Odoo</div>
+    <h2 class="slide-title">Odoo แบ่งสินค้าเป็น 3 ประเภทมาตรฐาน</h2>
+    <div class="case-box">
+      <div class="case-icon">i</div>
+      <div><div class="case-text-label">ก่อนพูดเรื่องหิน</div><div class="case-text">ทุกระบบ ERP ต้องมี "แนวคิดสินค้า" เป็นฐานราก — Odoo มาให้ 3 แบบตายตัว ทุก Product ที่สร้างในระบบ (รวมถึง Slab/Block/FG ของหินด้วย) ต้องเลือก 1 ใน 3 นี้เสมอ ไม่มีทางเลือกที่ 4</div></div>
+    </div>
+    <div class="type3-row">
+      <div class="type3-card hl">
+        <div class="t3-icon">📦</div>
+        <div class="t3-name">Goods (สินค้า)</div>
+        <div class="t3-desc">จับต้องได้ มีสต็อกจริง นับจำนวนได้ ต้องผ่านคลัง/การจัดส่งจริง เช่น เก้าอี้ เสื้อผ้า หรือ &mdash; หินทุกชนิดในระบบนี้</div>
+      </div>
+      <div class="type3-card">
+        <div class="t3-icon">🛠️</div>
+        <div class="t3-name">Service (บริการ)</div>
+        <div class="t3-desc">ไม่มีตัวตนจับต้อง ไม่มีสต็อก ขายเป็นชั่วโมง/งาน เช่น ค่าแรงติดตั้ง ค่าออกแบบ ค่าที่ปรึกษา</div>
+      </div>
+      <div class="type3-card">
+        <div class="t3-icon">🧩</div>
+        <div class="t3-name">Combo (ชุดรวม)</div>
+        <div class="t3-desc">มัดรวมหลาย Product เข้าด้วยกันขายเป็นชุดราคาเดียว เช่น ชุดของขวัญ, Package โปรโมชัน</div>
+      </div>
+    </div>
+    <div class="note-box"><b>ข้อสรุปสำคัญ:</b> Slab, Block, และ Finished Goods ของ EMG-O <b>ทุกตัวคือ Goods</b> ทั้งหมด — ไม่มีตัวไหนเป็น Service หรือ Combo เพราะทุกตัวจับต้องได้ มีสต็อกจริง ต้องส่งมอบจริง</div>
+  </section>
+
+  <!-- SLIDE 2: Real screenshot bridging native concept to actual system -->
+  <section class="slide" id="slide-2">
+    <div class="eyebrow">ส่วนที่ 1 — พื้นฐาน Odoo</div>
+    <h2 class="slide-title">ของจริงในระบบ: ตรงไหนคือ "Goods" ของ Odoo</h2>
+    <div class="diagram-frame" style="max-height:430px;">
+      <img src="assets/pc-shot-fg-product-form.png" style="object-fit:contain;object-position:top;height:430px;width:100%;">
+    </div>
+    <div class="note-box good" style="margin-top:10px;"><b>สังเกตมุมซ้ายบน:</b> ทุก Product ในระบบ (นี่คือ Finished Good จริง "A-Aquamarina-Countertop") มีปุ่มเลือก <b>Goods / Service / Combo</b> ให้เห็นตรงๆ — หินทุกตัวติ๊กไว้ที่ <b>Goods</b> เสมอ ส่วน field พิเศษด้านล่าง ("Is Stone FG Product", "FG Raw Material") คือส่วนที่ EMG-O เพิ่มทับบน Goods มาตรฐานอีกที — รายละเอียดในส่วนที่ 4-5</div>
+  </section>
+
+  <!-- SLIDE 3: Why native Goods alone isn't enough -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">ส่วนที่ 2 — ทำไมต้อง Custom</div>
+    <h2 class="slide-title">ถ้าใช้ Goods มาตรฐานตรงๆ (ไม่ custom อะไรเลย) จะเป็นแบบนี้</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div><div class="case-text-label">ลองสมมติ</div><div class="case-text">สร้าง Product 1 ตัวชื่อ "หินอ่อน Carrara White" แบบ Goods ธรรมดา แล้วขายตามสต็อกที่มี</div></div>
+    </div>
+    <table class="cmp-table">
+      <tr><th>คำถามจริงของธุรกิจหิน</th><th>Goods มาตรฐาน Odoo</th><th>ความจริงของหิน</th></tr>
+      <tr><td>ราคาต้นทุนเท่ากันทุกชิ้นไหม</td><td class="bad">ใช่ (สมมติเท่ากันเสมอ)</td><td>ไม่ — แต่ละก้อนซื้อมาคนละราคา คนละคุณภาพ</td></tr>
+      <tr><td>ขนาดเท่ากันทุกชิ้นไหม</td><td class="bad">ใช่ (SKU เดียว = ขนาดเดียว)</td><td>ไม่ — แผ่นที่ตัดจากก้อนเดียวกันยังหนา/กว้างไม่เท่ากันได้</td></tr>
+      <tr><td>ต้องรู้ไหมว่าแผ่นนี้มาจากก้อนไหน</td><td class="bad">ไม่รองรับ</td><td>ต้องรู้ — ต้นทุน/สี/ลายหินอ้างอิงกลับไปที่ก้อนต้นทางเสมอ</td></tr>
+      <tr><td>ขายได้กี่แบบจากวัสดุเดียวกัน</td><td class="bad">1 SKU = 1 แบบขาย</td><td>ขายได้ทั้งก้อน / เป็นแผ่น / แปรรูปเป็นสินค้าสำเร็จ</td></tr>
+    </table>
+    <div class="note-box warn"><b>สรุป:</b> Odoo Goods มาตรฐานออกแบบมาสำหรับสินค้าที่ "เหมือนกันทุกชิ้น" (เช่น เสื้อ Size M สีขาว) — หินธรรมชาติแต่ละก้อนไม่เหมือนกันเลยสักก้อน จึงต้อง custom เพิ่มบนฐาน Goods เดิม ไม่ใช่เปลี่ยนไปใช้ประเภทอื่น</div>
+  </section>
+
+  <!-- SLIDE 4: The custom solution summary -->
+  <section class="slide dark" id="slide-4">
+    <div class="eyebrow">ส่วนที่ 2 — ทำไมต้อง Custom</div>
+    <h2 class="slide-title" style="color:#fff;">ทางออก: Goods 3 ตัวที่ผูกกันด้วย "Material"</h2>
+    <div class="case-text" style="font-size:14px;line-height:1.6;margin-bottom:14px;color:#DDE3E0;">แทนที่จะสร้าง Goods 1 ตัวต่อชนิดหิน ระบบสร้าง <b style="color:#D9A465;">Goods 3 ตัวต่อชนิดหิน 1 ชนิด</b> (Slab Product / Block Product / Finished Good Product — ยังเป็น Goods ของ Odoo ปกติทุกตัว) แล้วผูกทั้ง 3 เข้าด้วยกันผ่าน record กลางตัวใหม่ที่ EMG-O สร้างเพิ่ม เรียกว่า <b style="color:#D9A465;">Material</b></div>
+    <div class="step-flow">
+      <div class="sf-box hl">Material<br><span style="font-weight:400;font-size:11px;">(record ใหม่ที่ custom เพิ่ม)</span></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box">Slab Product<br><span style="font-weight:400;font-size:11px;">(Goods)</span></div>
+      <div class="sf-box">Block Product<br><span style="font-weight:400;font-size:11px;">(Goods)</span></div>
+      <div class="sf-box">FG Product<br><span style="font-weight:400;font-size:11px;">(Goods)</span></div>
+    </div>
+    <div class="note-box" style="margin-top:10px;"><b>บวกกลไกเสริมอีก 2 ชั้น</b> ที่ Odoo ไม่มีให้: (1) <b>Block</b> record ที่เก็บต้นทุน/ขนาด/คุณภาพเฉพาะก้อนนั้นก้อนเดียว (2) <b>Slab</b> record ที่ผูกย้อนกลับไปหา Block ต้นทางเสมอ ทำให้ตรวจสอบย้อนกลับได้ทุกแผ่นว่ามาจากก้อนไหน ต้นทุนเท่าไหร่จริง</div>
+  </section>
+
+  <!-- SLIDE 5: Client's own original diagram -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">ส่วนที่ 3 — โครงสร้างสินค้าหิน (ภาพรวม)</div>
+    <h2 class="slide-title">จุดเริ่มต้น: โครงสร้างที่ลูกค้าคิดไว้เอง</h2>
+    <div class="diagram-frame" style="max-height:420px;display:flex;align-items:center;">
+      <img src="assets/pc-diagram-client-original.png" style="object-fit:contain;">
+    </div>
+    <div class="note-box" style="margin-top:10px;">ไดอะแกรมต้นฉบับจากลูกค้า: <b>Container → Block → Slab → Finish Good</b> — แนวคิดนี้ตรงกับโครงสร้างจริงในระบบเกือบทั้งหมด ต่างกันแค่คำเรียกบางคำ (สไลด์ถัดไป)</div>
+  </section>
+
+  <!-- SLIDE 6: Real structure today -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">ส่วนที่ 3 — โครงสร้างสินค้าหิน (ภาพรวม)</div>
+    <h2 class="slide-title">โครงสร้างจริงในระบบวันนี้: Material → Block → Slab (+ FG แยกอีกชั้น)</h2>
+    <table class="num-table">
+      <tr><th>ระดับ</th><th>คืออะไร</th><th>เทียบกับไดอะแกรมลูกค้า</th></tr>
+      <tr><td>1. Material</td><td>ชนิดหิน (เช่น A-Aquamarina) — ระดับ master กลาง ไม่ผูกกับก้อน/แผ่นใดแผ่นหนึ่ง เป็น record ที่ EMG-O เพิ่มขึ้นมาคุมทั้งสาย</td><td>ไม่ปรากฏในไดอะแกรมเดิม (ลูกค้าเริ่มที่ Container) — เป็นชั้นที่ต้องเพิ่มเพื่อผูก Slab/Block/FG 3 Goods เข้าด้วยกัน</td></tr>
+      <tr><td>2. Block</td><td>ก้อนหินดิบที่ซื้อเข้ามาจริง 1 ก้อน — มีต้นทุน/CBM/ความหนาของตัวเอง</td><td>= "Block" ตรงตัว (และ = "Container" ถ้านับก้อนเดียวในกล่องเดียว)</td></tr>
+      <tr><td>3. Slab</td><td>แผ่นที่ตัดออกจาก Block 1 แผ่น — ขนาดเฉพาะแผ่นนั้น ผูกย้อนกลับไปหา Block เสมอ</td><td>= "Slab" ตรงตัว</td></tr>
+      <tr><td>4. Finished Good (FG)</td><td>สินค้าสำเร็จรูปที่แปรรูปจากแผ่น (เช่น Countertop, เจดีย์บัว) พร้อมส่งมอบลูกค้า</td><td>= "Finish Good" ตรงตัว</td></tr>
+    </table>
+    <div class="note-box warn" style="margin-top:10px;"><b>ศัพท์ที่ต้องรู้ (สำคัญ):</b> ในโค้ดระบบ Block ยังใช้ชื่อ model เดิมว่า <b>Bundle</b> (เปลี่ยนคำที่ใช้คุยกับลูกค้า/หน้าจอ เป็น "Block" ตั้งแต่ 16 ส.ค. 2026 แต่ไม่ได้แก้ชื่อในโค้ด) — <b>Block กับ Bundle คือ record เดียวกัน ไม่ใช่ 2 ชั้นซ้อนกัน</b> ถ้าเห็นคำว่า Bundle ที่ไหนในระบบเก่า ให้เข้าใจว่าคือ Block</div>
+  </section>
+
+  <!-- SLIDE 7: cross-link to EG-321 -->
+  <section class="slide" id="slide-7">
+    <div class="eyebrow">ส่วนที่ 3 — โครงสร้างสินค้าหิน (ภาพรวม)</div>
+    <h2 class="slide-title">Block / Slab / FG คือ 3 "จุดขาย" ของแนวคิด EG-321</h2>
+    <div class="case-box">
+      <div class="case-icon">EG</div>
+      <div><div class="case-text-label">เอกสารที่เกี่ยวข้อง — ไม่พูดซ้ำในนี้</div><div class="case-text">โครงสร้าง Block/Slab/FG 3 ระดับนี้ &mdash; เมื่อมองจากมุม "ขายได้ตรงไหนบ้าง" จะตรงกับ 3 จุดขายของแนวคิด <b>EG-321</b> (Block = จุดขาย 1, Slab = จุดขาย 2, FG = จุดขาย 3) บวกกับ 2 สวิตช์อิสระ (Project/BOQ) ที่แปะกับจุดขายไหนก็ได้</div></div>
+    </div>
+    <div class="step-flow">
+      <div class="sf-box hl">Block<br><span style="font-weight:400;font-size:11px;">จุดขาย 1</span></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box hl">Slab<br><span style="font-weight:400;font-size:11px;">จุดขาย 2</span></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box hl">FG<br><span style="font-weight:400;font-size:11px;">จุดขาย 3</span></div>
+    </div>
+    <div class="note-box">เรื่อง "ขายยังไง / ใครซื้อจุดไหนได้บ้าง" ดูรายละเอียดเต็มที่เอกสาร <b>"แนวคิด EG-321 — 3 จุดขาย + 2 สวิตช์ + 1 Production Line"</b> (หมวดภาพรวมโครงการ) — เอกสารนี้โฟกัสเฉพาะเรื่อง <b>Product เอง</b>: มันคืออะไร และ setup ยังไง</div>
+  </section>
+
+  <!-- SLIDE 8: Material detail with real photo -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ส่วนที่ 4 — รายละเอียดแต่ละระดับ จากรูปจริง</div>
+    <h2 class="slide-title">ระดับที่ 1: Material — ชนิดหิน</h2>
+    <div class="photo-pair">
+      <div class="pp-col">
+        <div class="pp-label">รูปจริงจากโรงงาน (Visit 11 ก.ย. 2026)</div>
+        <div class="pp-frame"><img src="assets/pc-photo-block-raw.png"></div>
+        <div class="pp-cap">กองก้อนหินดิบในโกดัง — แต่ละกองคือหิน "ชนิดเดียวกัน" 1 ชนิด เช่น หินอ่อนสีขาวลายเทาแบบหนึ่ง นี่คือสิ่งที่ระบบเรียกว่า 1 Material record</div>
+      </div>
+      <div class="pp-col">
+        <div class="pp-label">หน้าจอปัจจุบัน — Material Form</div>
+        <div class="pp-frame shot"><img src="assets/pc-shot-material-form.png"></div>
+        <div class="pp-cap">ตัวอย่างจริง "A-Aquamarina" — Category Marble, Pricing Mode Serial (per-slab), Density 2.65 Ton/CBM</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:8px;"><b>สิ่งที่ Material เก็บ:</b> ชื่อชนิดหิน, หมวดหมู่ (Marble/Granite/Quartzite), Pricing Mode (Serial หรือ Lot), ความหนาแน่น, ต้นทุนค่าแรงตัด/ตร.ม. — <b>ไม่ผูกกับก้อนใดก้อนหนึ่ง</b> เป็น master กลางที่ Slab/Block/FG Product ทั้ง 3 ตัวอ้างอิงกลับมา</div>
+  </section>
+
+  <!-- SLIDE 9: Block detail -->
+  <section class="slide" id="slide-9">
+    <div class="eyebrow">ส่วนที่ 4 — รายละเอียดแต่ละระดับ จากรูปจริง</div>
+    <h2 class="slide-title">ระดับที่ 2: Block — ก้อนหินดิบที่ซื้อเข้ามาจริง</h2>
+    <div class="photo-pair">
+      <div class="pp-col">
+        <div class="pp-label">รูปจริงจากโรงงาน</div>
+        <div class="pp-frame"><img src="assets/pc-photo-block-raw.png"></div>
+        <div class="pp-cap">ก้อนหินดิบ 2 ก้อน — สังเกตตัวเลข/รหัสที่เขียนด้วยมือบนก้อน (เช่น "E3962") คือรหัสอ้างอิงจากหน้างานจริง ก่อนจะถูกบันทึกเข้าระบบเป็น Block Code (เช่น BLK-26-0001)</div>
+      </div>
+      <div class="pp-col">
+        <div class="pp-label">หน้าจอปัจจุบัน — Block Form</div>
+        <div class="pp-frame shot"><img src="assets/pc-shot-block-form.png"></div>
+        <div class="pp-cap">ตัวอย่างจริง BLK-26-0001 (Carrara White) — Total CBM 25.00, PO Cost/CBM 100.00, มีแท็บ Slab (Required/Optional) ย่อยด้านล่างเก็บรายการแผ่นที่ตัดได้จากก้อนนี้</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:8px;"><b>สิ่งที่ Block เก็บ:</b> Block Code (รหัสอัตโนมัติ), ก้อนไหนซื้อจาก PO ใบไหน, CBM/น้ำหนักรวม, ความหนา, ต้นทุนต่อ CBM — ทุกค่าเป็น <b>ค่าเฉพาะก้อนนั้นก้อนเดียว</b> ก้อนข้างๆ ที่เป็นหินชนิดเดียวกันก็มีต้นทุน/CBM ของตัวเองแยกกันคนละค่า</div>
+  </section>
+
+  <!-- SLIDE 10: Slab detail — cutting -->
+  <section class="slide" id="slide-10">
+    <div class="eyebrow">ส่วนที่ 4 — รายละเอียดแต่ละระดับ จากรูปจริง</div>
+    <h2 class="slide-title">ระดับที่ 3: Slab (ก) — ขั้นตอนตัดจาก Block</h2>
+    <div class="photo-pair">
+      <div class="pp-col">
+        <div class="pp-label">รูปจริงจากโรงงาน</div>
+        <div class="pp-frame"><img src="assets/pc-photo-slab-cutting.png"></div>
+        <div class="pp-cap">Bridge Saw กำลังตัดแผ่นหินให้ได้ขนาดที่ต้องการ — 1 Block ตัดได้หลาย Slab โดยแต่ละแผ่นขนาดไม่จำเป็นต้องเท่ากันเป๊ะ</div>
+      </div>
+      <div class="pp-col">
+        <div class="pp-label">ในระบบ</div>
+        <div class="pp-frame shot" style="background:var(--card);"><img src="assets/pc-shot-block-form.png" style="object-position:bottom;"></div>
+        <div class="pp-cap">ตารางแท็บ "Slabs" ในฟอร์ม Block (ด้านล่างของสไลด์ก่อนหน้า) — แต่ละแถวคือ 1 Slab record ที่เกิดจากการตัด พร้อม Slab L/H ที่วัดได้จริง</div>
+      </div>
+    </div>
+    <div class="note-box warn" style="margin-top:8px;"><b>ข้อสำคัญ:</b> Slab ส่วนใหญ่<b>ไม่ได้ตั้งค่าด้วยมือ</b> — เกิดขึ้นเองจากกระบวนการตัด Block จริง (มี Manufacturing Order คุมอยู่เบื้องหลัง) ยกเว้นกรณีซื้อ Slab สำเร็จรูปเข้ามาตรงๆ (ไม่ผ่าน Block) ซึ่งต้อง set cost เองเป็นกรณีพิเศษ</div>
+  </section>
+
+  <!-- SLIDE 11: Slab detail — finished/for sale -->
+  <section class="slide" id="slide-11">
+    <div class="eyebrow">ส่วนที่ 4 — รายละเอียดแต่ละระดับ จากรูปจริง</div>
+    <h2 class="slide-title">ระดับที่ 3: Slab (ข) — แผ่นสำเร็จ พร้อมขาย</h2>
+    <div class="photo-pair">
+      <div class="pp-col">
+        <div class="pp-label">รูปจริงจากโรงงาน</div>
+        <div class="pp-frame"><img src="assets/pc-photo-slab-finished.png"></div>
+        <div class="pp-cap">แผ่นหินขัดเงาเสร็จเรียงรอจำหน่าย — แต่ละแผ่นมีหมายเลขกำกับของตัวเอง (Serial Number) ตรวจสอบย้อนกลับได้ว่ามาจาก Block ก้อนไหน</div>
+      </div>
+      <div class="pp-col">
+        <div class="pp-label">หน้าจอปัจจุบัน — Slab Form</div>
+        <div class="pp-frame shot"><img src="assets/pc-shot-slab-form.png"></div>
+        <div class="pp-cap">ตัวอย่างจริง BLK-26-0127 #1 — Serial Number BLK-26-0127-1, Status Available, Total Cost 5,000.00 (ต้นทุน+ค่าแรง)</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:8px;"><b>สิ่งที่ Slab เก็บ:</b> ขนาดจริงที่วัดได้ (L/H/Sqmt) เทียบกับขนาดที่สั่งตัด, Serial Number เฉพาะแผ่น, สถานะ (Available/Hold/Consigned/Sold), ต้นทุน+ค่าแรงของแผ่นนั้น, ตำแหน่งจัดเก็บปัจจุบัน — คือ<b>หน่วยขายจริง</b>ของจุดขาย Slab</div>
+  </section>
+
+  <!-- SLIDE 12: FG detail -->
+  <section class="slide" id="slide-12">
+    <div class="eyebrow">ส่วนที่ 4 — รายละเอียดแต่ละระดับ จากรูปจริง</div>
+    <h2 class="slide-title">ระดับที่ 4: Finished Goods (FG) — สินค้าสำเร็จรูป</h2>
+    <div class="photo-pair">
+      <div class="pp-col">
+        <div class="pp-label">รูปจริงจากโรงงาน</div>
+        <div class="pp-frame"><img src="assets/pc-photo-fg-custom.png"></div>
+        <div class="pp-cap">งานแกะสลักสั่งทำพิเศษ (เจดีย์บัว/เสา) — ตัวอย่างงาน FG แบบ Custom ที่ไม่ใช่สินค้ามาตรฐานสำเร็จรูปธรรมดา</div>
+      </div>
+      <div class="pp-col">
+        <div class="pp-label">หน้าจอปัจจุบัน — FG Product Form</div>
+        <div class="pp-frame shot"><img src="assets/pc-shot-fg-product-form.png"></div>
+        <div class="pp-cap">ตัวอย่างจริง A-Aquamarina-Countertop — Product Type = Goods, Track by Lots, Cost 300.00, มี custom field "Is Stone FG Product" + "FG Raw Material" ผูกกลับไปหา Material</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:8px;"><b>2 แบบของ FG:</b> (1) <b>Standard</b> — สินค้าสูตรตายตัว เช่น Countertop ขนาดมาตรฐาน ผลิตซ้ำได้เรื่อยๆ (2) <b>Custom</b> — งานสั่งทำเฉพาะชิ้น เช่น เจดีย์บัว/ซุ้มบัว แต่ละงาน spec ไม่เหมือนกัน ใช้ "Custom Product กลาง" ตัวเดียวแทนการสร้าง Product ใหม่ทุกงาน (รายละเอียด setup ส่วนที่ 5)</div>
+  </section>
+
+  <!-- SLIDE 13: Setup flow overview -->
+  <section class="slide dark" id="slide-13">
+    <div class="eyebrow">ส่วนที่ 5 — คู่มือ Setup จริง</div>
+    <h2 class="slide-title" style="color:#fff;">ภาพรวม: ใคร Setup อะไร เมื่อไหร่</h2>
+    <table class="cmp-table">
+      <tr><th>ระดับ</th><th>วิธี Setup</th><th>ทำเมื่อไหร่</th></tr>
+      <tr><td>Material</td><td class="good">Manual — Quick Material Setup Wizard</td><td>ครั้งเดียวตอนเริ่มขายหินชนิดใหม่</td></tr>
+      <tr><td>Block</td><td class="good">Manual — ตอนรับก้อนเข้าคลัง (จาก PO)</td><td>ทุกครั้งที่ซื้อก้อนหินเข้ามาจริง</td></tr>
+      <tr><td>Slab</td><td class="bad">Auto — เกิดจากการตัด Block</td><td>ทุกครั้งที่มีคำสั่งตัด (ยกเว้นซื้อ Slab ตรง)</td></tr>
+      <tr><td>Finished Good</td><td class="good">Manual — Wizard (ตอนสร้าง Material ใหม่ หรือเพิ่มทีหลังก็ได้)</td><td>ครั้งเดียวต่อสินค้าสำเร็จรูป 1 แบบ</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:10px;">มีแค่ <b>2 จุดที่ทีมงานต้อง Setup ด้วยมือจริงๆ</b>: Material (ผ่าน Wizard) และ Block (ตอนรับของเข้าคลัง) — Slab เกิดขึ้นเองจากกระบวนการตัด ไม่ต้องตั้งค่าเอง</div>
+  </section>
+
+  <!-- SLIDE 14: Setup Material step 1 -->
+  <section class="slide" id="slide-14">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Material</div>
+    <h2 class="slide-title">Setup Material — เปิด Quick Material Setup Wizard</h2>
+    <div class="two-col">
+      <div class="col-left" style="flex:0 0 330px;">
+        <div class="diagram-frame"><img src="assets/pc-shot-wizard-new-material.png"></div>
+      </div>
+      <div class="col-right">
+        <h3 class="sub-title">เมนู: Stone Slab → Tools → Quick Material Setup</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>ความหมาย</th></tr>
+          <tr><td>Setup Mode</td><td>เลือก "สร้าง Material ใหม่" (มี Slab/Block ให้ตั้งค่าด้วย) หรือ "ใช้ Material เดิม (เพิ่มแค่ FG)"</td></tr>
+          <tr><td>Material Name</td><td>ชื่อชนิดหิน เช่น "A-Aquamarina"</td></tr>
+          <tr><td>Category</td><td>Marble / Granite / Quartzite ฯลฯ</td></tr>
+          <tr><td>Pricing Mode</td><td><b>Serial (per-slab)</b> = ตั้งราคา/track ทีละแผ่น เหมาะกับหินราคาสูง | <b>Lot (aggregate)</b> = track รวมเป็นกอง เหมาะกับหินราคาถูกที่ตัดเยอะ</td></tr>
+          <tr><td>Internal Reference</td><td>รหัสฐาน (Base Code) ใช้ auto-generate รหัส Slab/Block Product ต่อ</td></tr>
+          <tr><td>Density (Ton/CBM)</td><td>ความหนาแน่น — ใช้คำนวณน้ำหนักย้อนกลับจาก CBM อัตโนมัติ</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 15: Setup Material step 2 (rest of wizard) -->
+  <section class="slide" id="slide-15">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Material</div>
+    <h2 class="slide-title">Setup Material — Slab Product, Finish/มุม, Block &amp; FG (ตัวเลือก)</h2>
+    <div class="two-col">
+      <div class="col-left" style="flex:0 0 330px;">
+        <div class="diagram-frame"><img src="assets/pc-shot-wizard-bottom.png"></div>
+      </div>
+      <div class="col-right">
+        <table class="field-table">
+          <tr><th>ส่วน</th><th>ความหมาย</th></tr>
+          <tr><td>Slab Product<br><span class="badge-tag">บังคับ</span></td><td>Slab Sales Price / Slab Cost — ราคาตั้งต้นของแผ่น (แก้ทีหลังต่อแผ่นได้)</td></tr>
+          <tr><td>Finish / มุม<br><span class="badge-tag alt">Serial mode เท่านั้น</span></td><td>ตัวเลือกผิวหน้า (Polished/Honed/Brushed ฯลฯ) และมุม (ไม่ลบมุม/ลบมุม/ลบมุม+โค้ง) พร้อมราคาส่วนต่างต่อตัวเลือก — เปิดใช้เฉพาะโหมด Serial</td></tr>
+          <tr><td>Block Product<br><span class="badge-tag">ตัวเลือก</span></td><td>ติ๊กถ้าหินชนิดนี้ขายทั้งก้อนได้ด้วย (ไม่ใช่ทุกชนิดต้องขายทั้งก้อน)</td></tr>
+          <tr><td>Finished Good<br><span class="badge-tag">ตัวเลือก</span></td><td>ติ๊กถ้าต้องการสร้างสินค้าสำเร็จรูปพร้อมกันเลย — หรือข้ามไปทำทีหลังก็ได้ (ดูสไลด์ Setup FG)</td></tr>
+        </table>
+        <div class="note-box" style="margin-top:10px;">กด <b>"Create All"</b> ครั้งเดียว ระบบสร้าง Material + Slab Product + (Block Product ถ้าติ๊ก) + (FG Product ถ้าติ๊ก) + Analytic Account ที่เกี่ยวข้องให้พร้อมกันทั้งหมด ไม่ต้องไปสร้างทีละตัวเอง</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 16: Concrete example -->
+  <section class="slide" id="slide-16">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Material</div>
+    <h2 class="slide-title">ตัวอย่างจริง: กรอก Wizard สำหรับ "A-Aquamarina"</h2>
+    <table class="num-table">
+      <tr><th>Field</th><th>ค่าที่กรอกจริง</th></tr>
+      <tr><td>Material Name</td><td>A-Aquamarina</td></tr>
+      <tr><td>Category</td><td>Marble</td></tr>
+      <tr><td>Pricing Mode</td><td>Serial (per-slab)</td></tr>
+      <tr><td>Density</td><td>2.65 Ton/CBM</td></tr>
+      <tr><td>Block Product</td><td>✓ ติ๊ก (ขายทั้งก้อนได้)</td></tr>
+      <tr><td>Finished Good</td><td>✓ ติ๊ก — FG Product Name: "A-Aquamarina-Countertop"</td></tr>
+    </table>
+    <div class="note-box good" style="margin-top:10px;"><b>ผลลัพธ์หลังกด Create All:</b> ระบบสร้างให้อัตโนมัติ 3 Product พร้อมกัน — <code>[AAQM-SL] A-Aquamarina - Slab</code>, <code>[AAQM-BL] A-Aquamarina - Block</code>, <code>[AAQM-FG] A-Aquamarina-Countertop</code> (ดูผลจริงในหน้าจอ Material Form สไลด์ระดับ Material ก่อนหน้า) — รหัสหน้า [ ] มาจาก Internal Reference ที่กรอกไว้</div>
+  </section>
+
+  <!-- SLIDE 17: Setup Block -->
+  <section class="slide" id="slide-17">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Block</div>
+    <h2 class="slide-title">Setup Block — เกิดจากการรับของเข้าคลังจริง ไม่ใช่ Wizard</h2>
+    <div class="case-box">
+      <div class="case-icon">!</div>
+      <div><div class="case-text-label">ต่างจาก Material</div><div class="case-text">Block ไม่มี Wizard ของตัวเอง — เกิดขึ้นตอน<b>รับก้อนหินเข้าคลังจริง</b> ผ่านปุ่มลัด "สร้าง Block" จาก PO ที่ยืนยันแล้ว (หรือสร้างตรงจากเมนู Blocks ก็ได้ถ้ายังไม่มี PO)</div></div>
+    </div>
+    <table class="field-table">
+      <tr><th>Field สำคัญ</th><th>ความหมาย</th></tr>
+      <tr><td>Block Code</td><td>รหัสอัตโนมัติ (เช่น BLK-26-0001) — ใช้แทนเลขที่เขียนด้วยมือบนก้อนจริงหน้างาน</td></tr>
+      <tr><td>Material</td><td>เลือกจาก Material ที่ตั้งไว้แล้ว (ต้อง Setup Material ก่อนเสมอ)</td></tr>
+      <tr><td>Purchase Order Line</td><td>ผูกกลับไปหา PO บรรทัดที่ซื้อก้อนนี้เข้ามา — ใช้คำนวณ Landed Cost ย้อนกลับ</td></tr>
+      <tr><td>Total CBM / Thickness</td><td>ปริมาตรและความหนาของก้อนนี้ (ค่าเดียวทั้งก้อน — ถ้าต้องการ 2 ความหนา ต้องสร้าง 2 Block แยกจากก้อนตั้งต้นเดียวกัน)</td></tr>
+      <tr><td>PO Cost / CBM</td><td>ต้นทุนต่อหน่วยปริมาตร คำนวณจากราคา PO จริง — เฉพาะก้อนนี้ก้อนเดียว</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:8px;">ดูหน้าจอเต็มของ Block Form ได้ในสไลด์ "ระดับที่ 2: Block" ด้านบน (BLK-26-0001 ตัวอย่างจริง)</div>
+  </section>
+
+  <!-- SLIDE 18: Setup Slab -->
+  <section class="slide" id="slide-18">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Slab</div>
+    <h2 class="slide-title">Setup Slab — ไม่ต้อง Setup เอง เกิดจากการตัดจริง</h2>
+    <div class="note-box good"><b>ข่าวดี:</b> ระดับ Slab ไม่มีขั้นตอน "setup" ให้ทีมงานทำเอง — เกิดขึ้นอัตโนมัติทุกครั้งที่มีการตัด Block จริงผ่าน Manufacturing Order แต่ละแผ่นที่ตัดได้จะกลายเป็น 1 Slab record ทันที พร้อม Serial Number ของตัวเอง</div>
+    <table class="field-table" style="margin-top:10px;">
+      <tr><th>Field ที่ควรรู้ (ดูอัตโนมัติ ไม่ต้องกรอกเอง)</th><th>ความหมาย</th></tr>
+      <tr><td>Slab L/H (M) vs Purchased L/H</td><td>ขนาดที่วัดได้จริงหลังตัด เทียบกับขนาดที่วางแผนไว้ตอนสั่งตัด — ใช้คำนวณ Yield%</td></tr>
+      <tr><td>Serial Number</td><td>รหัสเฉพาะแผ่น auto-generate จาก Block Code + ลำดับ (เช่น BLK-26-0127-1)</td></tr>
+      <tr><td>Cost / Labor Cost</td><td>ต้นทุนวัสดุ (จากสัดส่วน CBM ของ Block) + ค่าแรงตัด (จาก Material) รวมเป็น Total Cost</td></tr>
+    </table>
+    <div class="note-box warn" style="margin-top:10px;"><b>ข้อยกเว้น:</b> กรณีซื้อ Slab สำเร็จรูปเข้ามาตรงๆ (ไม่ผ่าน Block) ต้องกำหนดต้นทุนเองเป็นกรณีพิเศษ เพราะไม่มี Block ต้นทางให้อ้างอิงต้นทุนอัตโนมัติ</div>
+  </section>
+
+  <!-- SLIDE 19: Setup FG mode A -->
+  <section class="slide" id="slide-19">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Finished Good</div>
+    <h2 class="slide-title">Setup FG — วิธีที่ 1: พร้อมกับสร้าง Material ใหม่</h2>
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div><div class="case-text-label">เมื่อไหร่ใช้วิธีนี้</div><div class="case-text">รู้อยู่แล้วตั้งแต่แรกว่าหินชนิดใหม่นี้จะทำสินค้าสำเร็จรูปด้วย — ติ๊ก "Finished Good" ในขั้นตอน Setup Material เลย (ย้อนดูสไลด์ 15)</div></div>
+    </div>
+    <table class="field-table">
+      <tr><th>Field</th><th>ความหมาย</th></tr>
+      <tr><td>FG Category</td><td>หมวดหมู่บัญชี/รายงานของสินค้าสำเร็จรูป เช่น "Stone FG - Countertop"</td></tr>
+      <tr><td>FG Product Name</td><td>ชื่อสินค้าสำเร็จรูป เช่น "A-Aquamarina-Countertop"</td></tr>
+      <tr><td>FG Sales Price / FG Cost</td><td>ราคาขาย/ต้นทุนตั้งต้น — แก้ไขทีหลังได้ที่ Product Form โดยตรง</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:10px;">วิธีนี้สร้าง Slab + Block (ถ้าติ๊ก) + FG พร้อมกันในขั้นตอนเดียว — เหมาะกับตอนเริ่มขายหินชนิดใหม่ที่วางแผนทำสินค้าสำเร็จรูปไว้แต่แรก</div>
+  </section>
+
+  <!-- SLIDE 20: Setup FG mode B -->
+  <section class="slide" id="slide-20">
+    <div class="eyebrow">ส่วนที่ 5 — Setup: Finished Good</div>
+    <h2 class="slide-title">Setup FG — วิธีที่ 2: เพิ่มให้ Material เดิมที่มีอยู่แล้ว</h2>
+    <div class="two-col">
+      <div class="col-left" style="flex:0 0 330px;">
+        <div class="diagram-frame"><img src="assets/pc-shot-wizard-fg-only.png"></div>
+      </div>
+      <div class="col-right">
+        <div class="case-box">
+          <div class="case-icon">2</div>
+          <div><div class="case-text-label">เมื่อไหร่ใช้วิธีนี้</div><div class="case-text">Material มีอยู่แล้ว (ขาย Slab/Block ปกติมานาน) แต่เพิ่งมีความต้องการทำสินค้าสำเร็จรูปแบบใหม่ทีหลัง — เช่น ลูกค้าสั่ง Custom FG ชิ้นใหม่จากหินที่มีอยู่แล้ว</div></div>
+        </div>
+        <div class="plain-list">
+          <li>เปิด Wizard เดิม (Tools → Quick Material Setup)</li>
+          <li>เลือก Setup Mode = "ใช้ Material เดิม (เพิ่มแค่ FG)"</li>
+          <li>เลือก "Material เดิม" จาก dropdown</li>
+          <li>กรอกเฉพาะส่วน Finished Good (Category/ชื่อ/ราคา/ต้นทุน) แล้ว Create All</li>
+        </div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:8px;"><b>สำหรับงาน Custom (เจดีย์บัว/ซุ้มบัว ฯลฯ):</b> ใช้ "Custom Product กลาง" ตัวเดียวแทนการสร้าง FG ใหม่ทุกงาน (ตามนโยบาย A2) — spec เฉพาะของแต่ละงานไปอยู่ที่ระดับ BOM ต่อใบสั่งขาย ไม่ใช่สร้าง Product ใหม่ทุกครั้ง</div>
+  </section>
+
+  <!-- SLIDE 21: Recap table -->
+  <section class="slide dark" id="slide-21">
+    <div class="eyebrow">สรุป</div>
+    <h2 class="slide-title" style="color:#fff;">สรุปทั้งหมดในหน้าเดียว</h2>
+    <table class="cmp-table">
+      <tr><th>ระดับ</th><th>Odoo Type</th><th>เก็บข้อมูลอะไร</th><th>Setup ยังไง</th></tr>
+      <tr><td>Material</td><td>&mdash; (record กลาง custom)</td><td>ชนิดหิน, Pricing Mode, Density</td><td>Manual — Wizard</td></tr>
+      <tr><td>Block</td><td>Goods</td><td>ก้อนดิบ 1 ก้อน, CBM, ต้นทุนเฉพาะก้อน</td><td>Manual — ตอนรับเข้าคลัง</td></tr>
+      <tr><td>Slab</td><td>Goods</td><td>แผ่นเฉพาะ, ขนาดจริง, สถานะขาย</td><td>Auto — จากการตัด</td></tr>
+      <tr><td>Finished Good</td><td>Goods</td><td>สินค้าสำเร็จรูป พร้อมส่งมอบ</td><td>Manual — Wizard (2 วิธี)</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:12px;">จำสั้นๆ: <b>Material = แบบ, Block = ก้อนจริง, Slab = แผ่นจริง, FG = สินค้าสำเร็จจริง</b> — ทุกระดับยกเว้น Material เป็น Goods มาตรฐานของ Odoo ที่ EMG-O เสริมกลไก custom ทับไว้ ไม่ได้สร้างประเภทสินค้าใหม่ขึ้นมาเอง</div>
+  </section>
+
+  <!-- SLIDE 22: Closing -->
+  <section class="slide" id="slide-22">
+    <div class="eyebrow">ปิดท้าย</div>
+    <h2 class="slide-title">เอกสารนี้คือฉบับหลักเรื่อง Product — แทนที่เอกสารเก่าทั้งหมด</h2>
+    <div class="note-box good">เอกสารนี้รวมและแทนที่: "โครงสร้างสินค้าหิน &amp; วิธีจัดการบนระบบ", "Block คืออะไร — โครงสร้างและส่วนที่ Custom", และบท "4 ประเภทสินค้า/โหมดการขาย" ในคู่มือฉบับเต็ม — เอกสารเดิมทั้ง 3 ย้ายไป Archived พร้อม link กลับมาที่นี่</div>
+    <h3 class="sub-title" style="margin-top:16px;">ดูเพิ่มเติมได้ที่</h3>
+    <ul class="plain-list">
+      <li><b>แนวคิด EG-321</b> — เรื่องการ "ขาย" 3 จุดขาย + 2 สวิตช์ (ไม่ใช่เรื่อง Product setup)</li>
+      <li><b>EG-321 Production Line</b> — รายละเอียดสายการผลิตจริง, Work Center, Dry-lay QC</li>
+      <li><b>Test Cases: Product/Material Setup</b> (QA) — 12 test case เดินทดสอบ Setup จริงทีละขั้น</li>
+      <li><b>Test Cases: Product Master &amp; Sales</b> (QA) — 81 test case ครอบคลุม edge case/security</li>
+    </ul>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)" aria-label="Previous slide">‹</button>
+  <span id="pagecount">1 / 23</span>
+  <button onclick="go(1)" aria-label="Next slide">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
