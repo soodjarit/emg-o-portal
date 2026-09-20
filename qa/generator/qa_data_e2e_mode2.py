@@ -71,6 +71,17 @@
 #   id, scenario, note (optional amber/green callout), pre, steps (list),
 #   sample (str, the "key this in" data - '-' if the case has nothing to key),
 #   expected, prio (High/Medium/Low)
+#
+# ADDED 2026-09-20 (Session 152) — new category E5, "ตัดใหม่ (Cut Order)":
+# this file previously started from "already have Slabs/Lot in stock" and
+# explicitly left Cut Order out of scope (see the file's own opening note
+# above). The client walkthrough that session covered the Cut Order sub-flow
+# for the first time end-to-end, so it now has its own category here rather
+# than a separate doc — same product classification (is_stone_material),
+# same Sale Point 2 ("จุดขาย 2"), just the "don't have a Slab yet, only a
+# Block" starting condition instead. Real run executed live on mbx-ee-dev,
+# via the real Manufacturing UI (not odoo shell) — see E5's own dict comment
+# below for the full real-data narrative.
 
 CATEGORIES = [
   dict(cat_id="E1", title="E1. ขาย (Sale — Mode 2, Serial per-slab)",
@@ -171,5 +182,92 @@ CATEGORIES = [
          sample="-",
          expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือนฝั่ง Serial — ตัวอย่างจริง INV/2026/00036: COGS/Inventory คู่ละ 320.00 (ยอดรวมสมดุล 8,880.00 = 8,880.00) ไม่ใช่ 0 บาทอีกต่อไป", prio="Medium",
          shot="assets/e2e-mode2/m2-l12-invoice-journal-items.png"),
+  ]),
+  # Session 152 (2026-09-20): ADR-061 (B3b) tore down the old "Cut to Order"
+  # wizard button entirely — Factory/Admin now creates a plain native
+  # mrp.production directly in Manufacturing and manually links
+  # stone_bundle_id (the Block) + sale_order_line_id back to the waiting SO
+  # line, no automatic trigger from the SO line at all. This category covers
+  # that whole sub-flow: SO line added with NO slab in stock yet -> Factory
+  # cuts a fresh Block via the guided Step 1/2/3 MO form -> Sales picks the
+  # newly-cut Slab back on the same SO line -> Delivery/Invoice/Payment, same
+  # as the rest of Mode 2. Real run executed live on mbx-ee-dev 2026-09-20:
+  # PO P00061 (0.10 m3 @ 10,000/CBM) -> Block BLK-26-0037 (E2E Mode2 Serial
+  # Fresh, Marble) -> SO S00146 (line added before any stock existed) -> Cut
+  # Order MO EG01/STCUT/00050 (Target 1.2x0.8m, auto-planned 5 slabs) ->
+  # Slab BLK-26-0037-1 (0.96 Sq.Mt.) -> Delivery EG01/OUT/00093 -> Invoice
+  # INV/2026/00039 (4,622.40 incl. VAT, COGS 300.00), Posted + In Payment.
+  dict(cat_id="E5", title="E5. ตัดใหม่ (Cut Order — สร้าง Slab ใหม่จาก Block เมื่อยังไม่มีสต็อก)",
+       subtitle="ADR-061/066 — Factory สร้าง Manufacturing Order ตัด Block เองโดยตรงในแอป Manufacturing ไม่มี wizard อัตโนมัติจากบรรทัด SO แล้ว · 11 test cases",
+       cases=[
+    dict(id="TC-E2E-M2-13", scenario="เพิ่มบรรทัดสินค้าใน SO ทั้งที่ยังไม่มีแผ่นพร้อมขาย",
+         pre="ยังไม่มีแผ่นหินสถานะ Available ของ Material นี้เลย มีแต่ Block พร้อมอยู่ในสต็อก (ผ่านการซื้อ PO แบบเดียวกับ Mode 1)",
+         steps=["เปิด Sales &gt; Orders &gt; New", "เลือกลูกค้า", "เพิ่มบรรทัด เลือกสินค้าของ Material นี้"],
+         sample="ลูกค้า = \"ทดสอบ E2E - Test Customer\"<br>สินค้า = E2E Mode2 Serial Fresh - Slab",
+         expected="เพิ่มบรรทัดสำเร็จ ปุ่ม \"Select Slabs\" ปรากฏเหมือนปกติ แต่ตอนนี้ยังไม่มีแผ่นให้เลือกเลย (0 Available) — ราคาที่ขึ้นเป็นแค่ List Price เริ่มต้น ต้องให้ Factory ตัดสต็อกใหม่ก่อนถึงจะขายได้จริง", prio="Medium",
+         shot="assets/e2e-mode2/m2-c01-so-line-added-no-stock.png"),
+    dict(id="TC-E2E-M2-14", scenario="Factory สร้าง Manufacturing Order ตัด Block ใหม่ (ขั้นตอนที่ 1-3)",
+         pre="ทำ TC-E2E-M2-13 เสร็จแล้ว (มี SO บรรทัดรออยู่), มี Block พร้อมอยู่ในสต็อก",
+         steps=["เปิด Manufacturing &gt; New", "ช่อง \"Stone Block\" (ขั้นตอนที่ 1) เลือก Block ที่จะตัด — ระบบดึงสินค้า/BOM ที่จะผลิตให้อัตโนมัติ", "ช่อง \"Target Slab L/H (M)\" (ขั้นตอนที่ 2) ใส่ขนาดแผ่นที่ต้องการ — ระบบคำนวณจำนวนแผ่นที่จะได้ให้อัตโนมัติ (ดูที่แท็บ Planned/Actual Slabs)", "ช่อง \"For Sale Order Line\" (ขั้นตอนที่ 3) เลือกบรรทัด SO ที่รออยู่ แล้ว Save"],
+         sample="Stone Block = BLK-26-0037<br>Target Slab L (M) = 1.20, Target Slab H (M) = 0.80<br>For Sale Order Line = S00146",
+         expected="ระบบคำนวณจำนวนแผ่นที่จะผลิตอัตโนมัติจาก CBM ที่เหลือของ Block หารด้วยขนาดแผ่นที่ตั้ง (ตัวอย่างจริง: Block เหลือ 0.10 m&sup3; &divide; (1.20&times;0.80&times;0.02) = 5 แผ่นพอดี) พร้อมสร้างบรรทัด Planned Slabs ให้ครบอัตโนมัติ — ถ้าต้องการตัดน้อยกว่าที่ระบบคำนวณ ลบบรรทัดส่วนเกินออกได้เองก่อน Confirm",
+         note="✨ ฟีเจอร์ใหม่ session นี้ — Manufacturing Order เดิมไม่มีทางผูกกลับมาที่ SO ให้เห็นได้เลย (ปุ่ม MO มาตรฐานของ Odoo นับไม่ได้เพราะ Cut Order นี้ไม่ได้ผ่านกลไก Procurement) จึงเพิ่มปุ่ม \"Cut Orders\" ใหม่ไว้บน SO (ดู TC-E2E-M2-18)",
+         prio="High", shot="assets/e2e-mode2/m2-c02-mo-block-target-soline.png"),
+    dict(id="TC-E2E-M2-15", scenario="ย้าย Block เข้าสถานีตัด (Move to Production) แล้ว Confirm MO",
+         pre="ทำ TC-E2E-M2-14 เสร็จแล้ว — ระบบเตือนว่า Block ยังไม่ได้อยู่ที่สถานีตัด (Stone Production) เพียงพอ",
+         steps=["กดปุ่ม \"ย้ายด่วน (Move to Production)\" มุมบนซ้าย — ระบบสร้าง+ยืนยัน Internal Transfer ย้าย Block ไปสถานีตัดให้อัตโนมัติในคลิกเดียว", "กด \"Confirm\""],
+         sample="-",
+         expected="แถบเตือนสีเหลืองเปลี่ยนเป็นข้อความสีเขียว \"พร้อม Confirm แล้ว\" หลังย้ายสำเร็จ — กด Confirm ผ่านทันที ไม่ต้องออกไปทำ Internal Transfer เองใน Inventory", prio="High",
+         shot="assets/e2e-mode2/m2-c03-mo-move-to-production.png"),
+    dict(id="TC-E2E-M2-16", scenario="ตัดจริงในแท็บ Work Orders แล้วกด Complete Cut",
+         pre="ทำ TC-E2E-M2-15 เสร็จแล้ว (MO สถานะ Confirmed)",
+         steps=["ไปแท็บ \"Work Orders\" ดูขั้นตอนที่ต้องทำ (เช่น Transport, Gangsaw)", "ไปแท็บ \"Planned/Actual Slabs\" กรอกขนาดจริงที่ตัดได้ในคอลัมน์ Actual L/H/Thickness (ค่าเริ่มต้น = ตามแผน)", "กดปุ่ม \"Complete Cut\""],
+         sample="-",
+         expected="MO เปลี่ยนสถานะเป็น Done ทันที — ระบบสร้าง Slab ใหม่ครบตามแผนพร้อม Serial Number ให้อัตโนมัติในตัว (ตัวอย่างจริง: 5 แผ่น, Serial Numbers 5)", prio="High",
+         shot="assets/e2e-mode2/m2-c04-mo-complete-cut-done.png"),
+    dict(id="TC-E2E-M2-17", scenario="กลับไปที่ SO เดิม เลือกแผ่นที่เพิ่งตัดได้",
+         pre="ทำ TC-E2E-M2-16 เสร็จแล้ว",
+         steps=["เปิด SO เดิมกลับมา (บรรทัดที่ทำไว้ใน TC-E2E-M2-13)", "กด \"Select Slabs\" บนบรรทัดนั้น"],
+         sample="-",
+         expected="หน้าต่าง Select Slabs เตรียมแผ่นที่เพิ่งตัดได้มาให้อัตโนมัติแล้ว (สถานะ Hold ผูกกับบรรทัดนี้โดยตรง เพราะ MO ระบุ \"For Sale Order Line\" ไว้ตั้งแต่ต้น) ไม่ต้องกด Add a line เลือกเองซ้ำ — กด \"Confirm Selection\" ได้ทันที", prio="High",
+         shot="assets/e2e-mode2/m2-c05-so-select-slabs-prefilled.png"),
+    dict(id="TC-E2E-M2-18", scenario="ยืนยัน (Confirm) Sale Order — เช็คปุ่ม Cut Orders ปรากฏ",
+         pre="ทำ TC-E2E-M2-17 เสร็จแล้ว",
+         steps=["กดปุ่ม Confirm บน Sale Order"],
+         sample="-",
+         expected="SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — smart button ใหม่ \"Cut Orders\" ปรากฏที่มุมบน (นับ Manufacturing Order ที่ตัดมาเพื่อ SO นี้โดยเฉพาะ แยกจาก \"Slabs\") กดเข้าไปเปิด MO ที่ตัดให้ตรงตัวได้เลย — ตัวอย่างจริง: S00146 &rarr; EG01/OUT/00093, Total 4,622.40", prio="High",
+         shot="assets/e2e-mode2/m2-c06-so-confirmed-cutorders-btn.png"),
+    dict(id="TC-E2E-M2-19", scenario="พยายาม Validate ใบส่งของโดยยังไม่สแกน Serial ให้ตรง",
+         note="หมายเหตุ: กันส่งแผ่นผิดให้ลูกค้าโดยไม่ได้ตรวจสอบก่อน (ADR-009) — ใช้ตรรกะเดียวกับ Mode 2 ปกติ (TC-E2E-M2-07) ไม่ว่าแผ่นนั้นจะมาจากสต็อกเดิมหรือตัดใหม่",
+         pre="ทำ TC-E2E-M2-18 เสร็จแล้ว มีใบส่งของสถานะ Ready รออยู่",
+         steps=["เปิดใบส่งของ (Delivery) ที่เกิดขึ้นอัตโนมัติ", "กดปุ่ม Validate ทันทีโดยยังไม่กรอกช่อง \"Scanned Serial\" ให้ตรงกับ Serial ที่จองไว้"],
+         sample="-",
+         expected="ระบบฟ้อง error สองภาษาทันทีเหมือน Mode 2 ปกติ: \"สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate\" พร้อมระบุชื่อแผ่นที่ยังไม่ตรง (ตัวอย่างจริง: BLK-26-0037-1) บันทึกไม่ผ่าน", prio="Medium",
+         shot="assets/e2e-mode2/m2-c07-delivery-scan-error.png"),
+    dict(id="TC-E2E-M2-20", scenario="กรอก/สแกน Scanned Serial ให้ตรงแล้ว Validate",
+         pre="ทำ TC-E2E-M2-19 เสร็จแล้ว (เจอ error มาก่อน)",
+         steps=["กด \"Details\" ที่บรรทัดสินค้า", "กรอกช่อง \"Scanned Serial\" ให้ตรงกับ Serial ที่จองไว้จริง แล้วกด Save", "กดปุ่ม Validate อีกครั้ง"],
+         sample="Scanned Serial = BLK-26-0037-1",
+         expected="ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่นที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว", prio="Medium",
+         shot="assets/e2e-mode2/m2-c08-delivery-done.png"),
+    dict(id="TC-E2E-M2-21", scenario="สร้างและยืนยันใบแจ้งหนี้ — เช็คบัญชีรายได้ที่ใช้",
+         note="ℹ️ พฤติกรรมที่ตั้งใจไว้ ไม่ใช่บั๊ก — ระบบแยกบัญชีรายได้ตามว่า \"แผ่นนี้ถูกตัดมาเพื่อออเดอร์นี้โดยเฉพาะ\" (บัญชีนี้) หรือ \"หยิบจากสต็อกที่ตัดไว้ก่อนแล้ว\" (บัญชี Serial Slab Sale ปกติ ดู TC-E2E-M2-11) — ชื่อบัญชียังใช้คำว่า \"Mode 3\" หลงเหลือจากก่อนรวม Mode เข้ากับจุดขาย 2 ไม่กระทบความถูกต้องทางบัญชี เป็นแค่ชื่อที่อาจทำให้สับสนถ้าไม่รู้ที่มา — ควรพิจารณาเปลี่ยนชื่อบัญชีให้สื่อสารตรงกับจุดขาย 2 ในรอบถัดไป",
+         pre="ทำ TC-E2E-M2-20 เสร็จแล้ว",
+         steps=["เปิด Sale Order &gt; กด \"Create Invoice\"", "เลือก \"Regular invoice\" &gt; Create Draft", "เปิดใบแจ้งหนี้ &gt; กด Confirm"],
+         sample="-",
+         expected="ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง INV/2026/00039 (4,622.40) แต่บัญชีรายได้ที่ขึ้นคือ \"Sales Revenue - Cut-to-Order (Mode 3)\" ไม่ใช่ \"Serial Slab Sale (Mode 2)\" เหมือนบรรทัดที่ขายจากสต็อกที่มีอยู่แล้ว (ดูหมายเหตุ)", prio="High",
+         shot="assets/e2e-mode2/m2-c09-invoice-posted-account.png"),
+    dict(id="TC-E2E-M2-22", scenario="ตรวจรายการบัญชี COGS/Inventory บนใบแจ้งหนี้",
+         pre="ทำ TC-E2E-M2-21 เสร็จแล้ว",
+         steps=["เปิด Customer Invoice &gt; กด smart button \"Journal Items\""],
+         sample="-",
+         expected="เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือน Mode 2 ปกติ พร้อม Analytic Distribution ครบ — ตัวอย่างจริง INV/2026/00039: เดบิต \"511110 COGS - Stone Sales (all modes)\" / เครดิต \"113110 Inventory - Stone Blocks (Raw)\" คู่ละ 300.00 ยอดรวมสมดุล 4,922.40 = 4,922.40", prio="High",
+         shot="assets/e2e-mode2/m2-c10-invoice-journal-items.png"),
+    dict(id="TC-E2E-M2-23", scenario="รับชำระเงิน (Register Payment)",
+         pre="ทำ TC-E2E-M2-21 เสร็จแล้ว (Invoice = Posted)",
+         steps=["เปิดใบแจ้งหนี้ &gt; กด \"Pay\"", "ตรวจ/ยืนยันยอดและวิธีชำระ &gt; กด Create Payment"],
+         sample="-",
+         expected="ใบแจ้งหนี้ขึ้นสถานะ \"In Payment\" — จบเส้นทาง \"ตัดใหม่\" ทั้งหมดตั้งแต่ยังไม่มีสต็อกจนถึงรับเงินสำเร็จ (ตัวอย่างจริง: INV/2026/00039)", prio="Medium",
+         shot="assets/e2e-mode2/m2-c11-invoice-paid.png"),
   ]),
 ]

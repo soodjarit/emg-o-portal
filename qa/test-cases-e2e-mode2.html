@@ -107,18 +107,18 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
-    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#E1"><span class="tree-doc-tag">E1</span>ขาย (Sale — Mode 2, Serial per-slab)</a></li><li class="tree-doc"><a href="#E2"><span class="tree-doc-tag">E2</span>ขาย (Sale — Mode 2, Lot aggregate)</a></li><li class="tree-doc"><a href="#E3"><span class="tree-doc-tag">E3</span>จัดส่ง (Delivery — Scan Verification)</a></li><li class="tree-doc"><a href="#E4"><span class="tree-doc-tag">E4</span>บัญชี (Accounting + Payment)</a></li></ul>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#E1"><span class="tree-doc-tag">E1</span>ขาย (Sale — Mode 2, Serial per-slab)</a></li><li class="tree-doc"><a href="#E2"><span class="tree-doc-tag">E2</span>ขาย (Sale — Mode 2, Lot aggregate)</a></li><li class="tree-doc"><a href="#E3"><span class="tree-doc-tag">E3</span>จัดส่ง (Delivery — Scan Verification)</a></li><li class="tree-doc"><a href="#E4"><span class="tree-doc-tag">E4</span>บัญชี (Accounting + Payment)</a></li><li class="tree-doc"><a href="#E5"><span class="tree-doc-tag">E5</span>ตัดใหม่ (Cut Order — สร้าง Slab ใหม่จาก Block เมื่อยังไม่มีสต็อก)</a></li></ul>
   </aside>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Test Cases: E2E Flow — Mode 2 (Ready-Made Slab)</h1>
-    <div class="sub">เรื่องราวเดียวต่อเนื่องกันตั้งแต่มีแผ่น/ล็อตหินพร้อมขายอยู่แล้วในสต็อกจนถึงจบเรื่อง ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้นข้อ Scan Verification ซึ่งเป็น gate จริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user ครอบคลุมทั้ง 2 เส้นทางย่อยของโหมด 2: ขายทีละแผ่นตามเลข Serial และขายบางส่วนจากล็อต รันใหม่ล่าสุด 16 ก.ย. 2026 บน mbx-ee-dev ตัวเลข "ตัวอย่างจริง" ทุกตัวมาจากการรันจริงรอบนี้ ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="sub">เรื่องราวต่อเนื่องกันตั้งแต่ต้นจนจบ ไม่ใช่การเทสฟีเจอร์แยกส่วน และไม่มีข้อไหนเป็นการดักฟิลด์บังคับ/error ทั่วไป (ยกเว้น Scan Verification และบัญชีที่ตัด Block ใหม่ ซึ่งเป็น gate/พฤติกรรมจริงของกระบวนการ) — เดินตามได้เองแม้ไม่ใช่ technical user ครอบคลุมทั้ง 3 เส้นทางย่อยของโหมด 2: ขายทีละแผ่นตามเลข Serial (มีสต็อกอยู่แล้ว), ขายบางส่วนจากล็อต, และตัดใหม่จาก Block เมื่อยังไม่มีสต็อก (E5) รันจริงบน mbx-ee-dev 16 &amp; 20 ก.ย. 2026 ตัวเลข "ตัวอย่างจริง" ทุกตัวมาจากการรันจริง ไม่ใช่ตัวเลขสมมติ</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
-      <div class="stat-pill"><b>4</b>หมวด</div>
-      <div class="stat-pill"><b style="color:var(--red)">9</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">4</b>Medium Priority</div>
+      <div class="stat-pill"><b>24</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">16</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">8</b>Medium Priority</div>
       <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
     </div>
   </header>
@@ -126,7 +126,8 @@
   <div class="flow-banner">
     <b>เรื่องราวที่ใช้ทดสอบจริง (Serial):</b> PO P00058 (0.10 m&sup3; @ 10,000/CBM) &rarr; Block BLK-26-0034 (E2E Mode2 Serial Fresh V2, Marble) ตัดผ่านกลไก MO เดียวกับ Mode 3 (EG01/STCUT/00045, วางแผน 5 แผ่นอัตโนมัติ) &rarr; Slab BLK-26-0034-1 (0.96 ตร.ม.) &rarr; SO S00133 &rarr; Delivery EG01/OUT/00087 &rarr; Invoice INV/2026/00035 (4,622.40 รวม VAT, COGS 200.00), Posted + In Payment — รันจริงบน mbx-ee-dev 16 ก.ย. 2026<br><br>
     <b>เรื่องราวที่ใช้ทดสอบจริง (Lot):</b> PO P00059 (0.10 m&sup3; @ 8,000/CBM) &rarr; Block BLK-26-0035 (E2E Mode2 Lot Fresh V2, Marble) ตัดผ่านกลไกเดียวกันเข้า lot รวม "BLK-26-0035-LOT" (5.00 ตร.ม.) &rarr; ขาย 2.00 ตร.ม. &times; 4,000/ตร.ม. = 8,000 &rarr; SO S00134 &rarr; Delivery EG01/OUT/00088 &rarr; Invoice INV/2026/00036 (8,560.00 รวม VAT, COGS 320.00), Posted + In Payment — รันจริงบน mbx-ee-dev 16 ก.ย. 2026<br><br>
-    <b>✅ ยืนยันซ้ำ:</b> บั๊ก material_lot_id (Lot-mode ตัดใหม่แล้วขายผ่าน "Select Lot Stock" ไม่ได้ + Lot-mode COGS เคยขึ้น 0 เสมอ) ที่แก้ไปเมื่อ 14 ก.ย. ยังคงปิดอยู่จริง ทดสอบซ้ำผ่านกลไกตัดหินแบบ batch-cut ล่าสุด (ADR-066) ไม่พบการถอยกลับของบั๊ก
+    <b>✅ ยืนยันซ้ำ:</b> บั๊ก material_lot_id (Lot-mode ตัดใหม่แล้วขายผ่าน "Select Lot Stock" ไม่ได้ + Lot-mode COGS เคยขึ้น 0 เสมอ) ที่แก้ไปเมื่อ 14 ก.ย. ยังคงปิดอยู่จริง ทดสอบซ้ำผ่านกลไกตัดหินแบบ batch-cut ล่าสุด (ADR-066) ไม่พบการถอยกลับของบั๊ก<br><br>
+    <b>เรื่องราวที่ใช้ทดสอบจริง (ตัดใหม่ / Cut Order, หมวด E5):</b> PO P00061 (0.10 m&sup3; @ 10,000/CBM) &rarr; Block BLK-26-0037 (E2E Mode2 Serial Fresh, Marble) &rarr; SO S00146 (เพิ่มบรรทัดไว้ก่อนที่จะมีสต็อกจริง) &rarr; Factory สร้าง Cut Order MO เอง (EG01/STCUT/00050) ผูกกับ Block + บรรทัด SO โดยตรง ผ่านฟอร์ม Manufacturing จริงทั้งหมด ไม่ใช้ shell &rarr; Target 1.2&times;0.8 ม. วางแผนอัตโนมัติ 5 แผ่นพอดี &rarr; ตัดเสร็จ (Complete Cut) &rarr; Slab BLK-26-0037-1 (0.96 ตร.ม.) &rarr; กลับไปเลือกที่ SO เดิม &rarr; Delivery EG01/OUT/00093 &rarr; Invoice INV/2026/00039 (4,622.40 รวม VAT, COGS 300.00), Posted + In Payment — รันจริงบน mbx-ee-dev 20 ก.ย. 2026
   </div>
 
   <div class="category" id="E1">
@@ -358,6 +359,142 @@
           <td class="col-expected">เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือนฝั่ง Serial — ตัวอย่างจริง INV/2026/00036: COGS/Inventory คู่ละ 320.00 (ยอดรวมสมดุล 8,880.00 = 8,880.00) ไม่ใช่ 0 บาทอีกต่อไป</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-l12-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-l12-invoice-journal-items.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E5. ตัดใหม่ (Cut Order — สร้าง Slab ใหม่จาก Block เมื่อยังไม่มีสต็อก)</div>
+        <div class="category-sub">ADR-061/066 — Factory สร้าง Manufacturing Order ตัด Block เองโดยตรงในแอป Manufacturing ไม่มี wizard อัตโนมัติจากบรรทัด SO แล้ว · 11 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">หน้าจอจริง</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-13</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดสินค้าใน SO ทั้งที่ยังไม่มีแผ่นพร้อมขาย</td>
+          <td class="col-pre">ยังไม่มีแผ่นหินสถานะ Available ของ Material นี้เลย มีแต่ Block พร้อมอยู่ในสต็อก (ผ่านการซื้อ PO แบบเดียวกับ Mode 1)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; Orders &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัด เลือกสินค้าของ Material นี้</li></ol></td>
+          <td class="col-sample">ลูกค้า = "ทดสอบ E2E - Test Customer"<br>สินค้า = E2E Mode2 Serial Fresh - Slab</td>
+          <td class="col-expected">เพิ่มบรรทัดสำเร็จ ปุ่ม "Select Slabs" ปรากฏเหมือนปกติ แต่ตอนนี้ยังไม่มีแผ่นให้เลือกเลย (0 Available) — ราคาที่ขึ้นเป็นแค่ List Price เริ่มต้น ต้องให้ Factory ตัดสต็อกใหม่ก่อนถึงจะขายได้จริง</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c01-so-line-added-no-stock.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c01-so-line-added-no-stock.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-14</span></td>
+          <td class="col-scenario">Factory สร้าง Manufacturing Order ตัด Block ใหม่ (ขั้นตอนที่ 1-3)<div class="note note-new">✨ ฟีเจอร์ใหม่ session นี้ — Manufacturing Order เดิมไม่มีทางผูกกลับมาที่ SO ให้เห็นได้เลย (ปุ่ม MO มาตรฐานของ Odoo นับไม่ได้เพราะ Cut Order นี้ไม่ได้ผ่านกลไก Procurement) จึงเพิ่มปุ่ม "Cut Orders" ใหม่ไว้บน SO (ดู TC-E2E-M2-18)</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-13 เสร็จแล้ว (มี SO บรรทัดรออยู่), มี Block พร้อมอยู่ในสต็อก</td>
+          <td class="col-steps"><ol><li>เปิด Manufacturing &gt; New</li><li>ช่อง "Stone Block" (ขั้นตอนที่ 1) เลือก Block ที่จะตัด — ระบบดึงสินค้า/BOM ที่จะผลิตให้อัตโนมัติ</li><li>ช่อง "Target Slab L/H (M)" (ขั้นตอนที่ 2) ใส่ขนาดแผ่นที่ต้องการ — ระบบคำนวณจำนวนแผ่นที่จะได้ให้อัตโนมัติ (ดูที่แท็บ Planned/Actual Slabs)</li><li>ช่อง "For Sale Order Line" (ขั้นตอนที่ 3) เลือกบรรทัด SO ที่รออยู่ แล้ว Save</li></ol></td>
+          <td class="col-sample">Stone Block = BLK-26-0037<br>Target Slab L (M) = 1.20, Target Slab H (M) = 0.80<br>For Sale Order Line = S00146</td>
+          <td class="col-expected">ระบบคำนวณจำนวนแผ่นที่จะผลิตอัตโนมัติจาก CBM ที่เหลือของ Block หารด้วยขนาดแผ่นที่ตั้ง (ตัวอย่างจริง: Block เหลือ 0.10 m&sup3; &divide; (1.20&times;0.80&times;0.02) = 5 แผ่นพอดี) พร้อมสร้างบรรทัด Planned Slabs ให้ครบอัตโนมัติ — ถ้าต้องการตัดน้อยกว่าที่ระบบคำนวณ ลบบรรทัดส่วนเกินออกได้เองก่อน Confirm</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c02-mo-block-target-soline.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c02-mo-block-target-soline.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-15</span></td>
+          <td class="col-scenario">ย้าย Block เข้าสถานีตัด (Move to Production) แล้ว Confirm MO</td>
+          <td class="col-pre">ทำ TC-E2E-M2-14 เสร็จแล้ว — ระบบเตือนว่า Block ยังไม่ได้อยู่ที่สถานีตัด (Stone Production) เพียงพอ</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "ย้ายด่วน (Move to Production)" มุมบนซ้าย — ระบบสร้าง+ยืนยัน Internal Transfer ย้าย Block ไปสถานีตัดให้อัตโนมัติในคลิกเดียว</li><li>กด "Confirm"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แถบเตือนสีเหลืองเปลี่ยนเป็นข้อความสีเขียว "พร้อม Confirm แล้ว" หลังย้ายสำเร็จ — กด Confirm ผ่านทันที ไม่ต้องออกไปทำ Internal Transfer เองใน Inventory</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c03-mo-move-to-production.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c03-mo-move-to-production.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-16</span></td>
+          <td class="col-scenario">ตัดจริงในแท็บ Work Orders แล้วกด Complete Cut</td>
+          <td class="col-pre">ทำ TC-E2E-M2-15 เสร็จแล้ว (MO สถานะ Confirmed)</td>
+          <td class="col-steps"><ol><li>ไปแท็บ "Work Orders" ดูขั้นตอนที่ต้องทำ (เช่น Transport, Gangsaw)</li><li>ไปแท็บ "Planned/Actual Slabs" กรอกขนาดจริงที่ตัดได้ในคอลัมน์ Actual L/H/Thickness (ค่าเริ่มต้น = ตามแผน)</li><li>กดปุ่ม "Complete Cut"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">MO เปลี่ยนสถานะเป็น Done ทันที — ระบบสร้าง Slab ใหม่ครบตามแผนพร้อม Serial Number ให้อัตโนมัติในตัว (ตัวอย่างจริง: 5 แผ่น, Serial Numbers 5)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c04-mo-complete-cut-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c04-mo-complete-cut-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-17</span></td>
+          <td class="col-scenario">กลับไปที่ SO เดิม เลือกแผ่นที่เพิ่งตัดได้</td>
+          <td class="col-pre">ทำ TC-E2E-M2-16 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด SO เดิมกลับมา (บรรทัดที่ทำไว้ใน TC-E2E-M2-13)</li><li>กด "Select Slabs" บนบรรทัดนั้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">หน้าต่าง Select Slabs เตรียมแผ่นที่เพิ่งตัดได้มาให้อัตโนมัติแล้ว (สถานะ Hold ผูกกับบรรทัดนี้โดยตรง เพราะ MO ระบุ "For Sale Order Line" ไว้ตั้งแต่ต้น) ไม่ต้องกด Add a line เลือกเองซ้ำ — กด "Confirm Selection" ได้ทันที</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c05-so-select-slabs-prefilled.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c05-so-select-slabs-prefilled.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-18</span></td>
+          <td class="col-scenario">ยืนยัน (Confirm) Sale Order — เช็คปุ่ม Cut Orders ปรากฏ</td>
+          <td class="col-pre">ทำ TC-E2E-M2-17 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บน Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO เปลี่ยนสถานะเป็น Sales Order มี Delivery Order เกิดขึ้นอัตโนมัติ 1 ใบ — smart button ใหม่ "Cut Orders" ปรากฏที่มุมบน (นับ Manufacturing Order ที่ตัดมาเพื่อ SO นี้โดยเฉพาะ แยกจาก "Slabs") กดเข้าไปเปิด MO ที่ตัดให้ตรงตัวได้เลย — ตัวอย่างจริง: S00146 &rarr; EG01/OUT/00093, Total 4,622.40</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c06-so-confirmed-cutorders-btn.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c06-so-confirmed-cutorders-btn.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-19</span></td>
+          <td class="col-scenario">พยายาม Validate ใบส่งของโดยยังไม่สแกน Serial ให้ตรง<div class="note">หมายเหตุ: กันส่งแผ่นผิดให้ลูกค้าโดยไม่ได้ตรวจสอบก่อน (ADR-009) — ใช้ตรรกะเดียวกับ Mode 2 ปกติ (TC-E2E-M2-07) ไม่ว่าแผ่นนั้นจะมาจากสต็อกเดิมหรือตัดใหม่</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-18 เสร็จแล้ว มีใบส่งของสถานะ Ready รออยู่</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ (Delivery) ที่เกิดขึ้นอัตโนมัติ</li><li>กดปุ่ม Validate ทันทีโดยยังไม่กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial ที่จองไว้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบฟ้อง error สองภาษาทันทีเหมือน Mode 2 ปกติ: "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate" พร้อมระบุชื่อแผ่นที่ยังไม่ตรง (ตัวอย่างจริง: BLK-26-0037-1) บันทึกไม่ผ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c07-delivery-scan-error.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c07-delivery-scan-error.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-20</span></td>
+          <td class="col-scenario">กรอก/สแกน Scanned Serial ให้ตรงแล้ว Validate</td>
+          <td class="col-pre">ทำ TC-E2E-M2-19 เสร็จแล้ว (เจอ error มาก่อน)</td>
+          <td class="col-steps"><ol><li>กด "Details" ที่บรรทัดสินค้า</li><li>กรอกช่อง "Scanned Serial" ให้ตรงกับ Serial ที่จองไว้จริง แล้วกด Save</li><li>กดปุ่ม Validate อีกครั้ง</li></ol></td>
+          <td class="col-sample">Scanned Serial = BLK-26-0037-1</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done สำเร็จ — แผ่นที่ขายหายจากสต็อกที่ขายได้ (Available) แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c08-delivery-done.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c08-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-21</span></td>
+          <td class="col-scenario">สร้างและยืนยันใบแจ้งหนี้ — เช็คบัญชีรายได้ที่ใช้<div class="note">ℹ️ พฤติกรรมที่ตั้งใจไว้ ไม่ใช่บั๊ก — ระบบแยกบัญชีรายได้ตามว่า "แผ่นนี้ถูกตัดมาเพื่อออเดอร์นี้โดยเฉพาะ" (บัญชีนี้) หรือ "หยิบจากสต็อกที่ตัดไว้ก่อนแล้ว" (บัญชี Serial Slab Sale ปกติ ดู TC-E2E-M2-11) — ชื่อบัญชียังใช้คำว่า "Mode 3" หลงเหลือจากก่อนรวม Mode เข้ากับจุดขาย 2 ไม่กระทบความถูกต้องทางบัญชี เป็นแค่ชื่อที่อาจทำให้สับสนถ้าไม่รู้ที่มา — ควรพิจารณาเปลี่ยนชื่อบัญชีให้สื่อสารตรงกับจุดขาย 2 ในรอบถัดไป</div></td>
+          <td class="col-pre">ทำ TC-E2E-M2-20 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order &gt; กด "Create Invoice"</li><li>เลือก "Regular invoice" &gt; Create Draft</li><li>เปิดใบแจ้งหนี้ &gt; กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้สถานะ Posted ยอดรวมตรงกับ SO รวม VAT — ตัวอย่างจริง INV/2026/00039 (4,622.40) แต่บัญชีรายได้ที่ขึ้นคือ "Sales Revenue - Cut-to-Order (Mode 3)" ไม่ใช่ "Serial Slab Sale (Mode 2)" เหมือนบรรทัดที่ขายจากสต็อกที่มีอยู่แล้ว (ดูหมายเหตุ)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c09-invoice-posted-account.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c09-invoice-posted-account.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-22</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชี COGS/Inventory บนใบแจ้งหนี้</td>
+          <td class="col-pre">ทำ TC-E2E-M2-21 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Customer Invoice &gt; กด smart button "Journal Items"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นคู่ COGS/Inventory แนบอัตโนมัติเหมือน Mode 2 ปกติ พร้อม Analytic Distribution ครบ — ตัวอย่างจริง INV/2026/00039: เดบิต "511110 COGS - Stone Sales (all modes)" / เครดิต "113110 Inventory - Stone Blocks (Raw)" คู่ละ 300.00 ยอดรวมสมดุล 4,922.40 = 4,922.40</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c10-invoice-journal-items.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c10-invoice-journal-items.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-E2E-M2-23</span></td>
+          <td class="col-scenario">รับชำระเงิน (Register Payment)</td>
+          <td class="col-pre">ทำ TC-E2E-M2-21 เสร็จแล้ว (Invoice = Posted)</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ &gt; กด "Pay"</li><li>ตรวจ/ยืนยันยอดและวิธีชำระ &gt; กด Create Payment</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ขึ้นสถานะ "In Payment" — จบเส้นทาง "ตัดใหม่" ทั้งหมดตั้งแต่ยังไม่มีสต็อกจนถึงรับเงินสำเร็จ (ตัวอย่างจริง: INV/2026/00039)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-thumb-link" href="assets/e2e-mode2/m2-c11-invoice-paid.png" target="_blank" rel="noopener"><img class="shot-thumb" src="assets/e2e-mode2/m2-c11-invoice-paid.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
