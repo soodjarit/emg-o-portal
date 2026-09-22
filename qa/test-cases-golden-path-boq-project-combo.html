@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: BOQ + Project ทำงานร่วมกัน (Self-Test)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1480px;margin:0 auto;padding:76px 24px 100px;}
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .last-update{font-size:12.5px;color:#9A9D9F;margin:0 0 12px 0;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:900px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 20px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .selftest-note{background:var(--green-bg);color:#1E5A38;border-radius:10px;padding:14px 18px;font-size:13.5px;line-height:1.7;margin-bottom:16px;}
+  .selftest-note b{color:var(--green);}
+
+  .gap-note{background:var(--amber-bg);color:#6B4423;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:28px;}
+  .gap-note b{color:var(--copper-dark);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1360px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:80px;}
+  .col-scenario{width:190px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:140px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:220px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:260px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-result{width:190px;}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+
+  .result-box{display:flex;flex-direction:column;gap:6px;}
+  .result-check{display:flex;gap:14px;font-size:12.5px;color:#6B6E70;}
+  .result-check label{display:flex;align-items:center;gap:5px;cursor:pointer;}
+  .result-note{border:1px dashed var(--border);border-radius:6px;padding:6px 8px;font-size:11.5px;color:#9A9D9F;min-height:34px;}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA · แนวคิด EG-321</div>
+    <h1>Golden Path — BOQ + Project ทำงานร่วมกัน</h1>
+    <div class="last-update">อัปเดตล่าสุด: 22 ก.ย. 2026</div>
+    <div class="sub">2 สวิตช์ (BOQ / Project) พิสูจน์แล้วว่าเป็นอิสระต่อกันในเอกสาร "สวิตช์ BOQ" และ "สวิตช์ Project" — เอกสารนี้สาธิต<b>เมื่อใช้ร่วมกัน</b>แบบที่ลูกค้าจริงต้องการ: เริ่มจาก Cutting List จริงที่ลูกค้าส่งมา (ไม่ใช่พิมพ์รายการมือ) → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project เพื่อติดตามงานเป็น Task ต่อ Zone พร้อม Milestone เก็บเงิน</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b style="color:var(--red)">8</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">5</b>Medium Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>THE TWO BANGKOK</b>" (ตั้งชื่อแยกจากดีลจริง "THE ONE BANGKOK" โดยเจตนา — เคสนี้เป็นแบบฝึกหัดให้ทดสอบเอง ไม่ปนกับข้อมูลดีลจริง) → สร้างเอกสาร BOQ ใหม่ → นำเข้า Cut List จริงจากไฟล์เดียวกับที่ใช้กับดีลจริง ("Import-Ready (Cut List)" sheet — หิน SPIDER GREY แบ่งเป็น 2 Elevation, รวม 184 ชิ้น 54.85 ตร.ม.) → ระบบอ่านไฟล์แล้วรวมยอดให้เป็น 2 แถว (Elevation 1 / Elevation 2 อย่างละ 27.42 ตร.ม.) → จับคู่ Rate "[MAT-003] Spider Grey" (5,440 บาท/ตร.ม.) → สร้าง BOQ Lines → กรอก Duration/Milestone ต่อ Elevation → สร้างใบเสนอราคา → ติ๊ก "Sold as Project" → Confirm → ระบบสร้าง Project + 2 Task (1 ต่อ Elevation) ให้อัตโนมัติ พร้อม Milestone ผูกอยู่
+  </div>
+
+  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> ยังไม่ได้รันจริงผ่านหน้าจอ (ต่างจาก Golden Path ชุดอื่นในหมวดนี้ที่รันสดยืนยันแล้ว) — เดินตามขั้นตอนในตารางด้านล่างตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst หรือ mbx-ee-dev) ไฟล์ Cut List ที่ใช้อยู่ที่วอลต์: <code>EMG-workspace/Document/EG-TheOneBKK-O3-9F-LiftLobby-CuttingList (draft จากแบบ).xlsx</code> (แท็บ "Import-Ready (Cut List)")</div>
+
+  <div class="gap-note"><b>ทราบแล้ว ยังไม่ทำ:</b> ยังไม่มีปุ่ม Export Excel และยังไม่มีภาพหน้าจอจริง (เพราะยังไม่ได้รัน) — เมื่อทดสอบผ่านครบแล้วสามารถขอให้ Claude รันซ้ำผ่าน Playwright เพื่ออัปเกรดเป็นเวอร์ชันมีภาพหน้าจอจริงตามมาตรฐานเอกสารชุดอื่นได้ ยอดเงินที่ระบุใน "Expected Result" คำนวณจาก Rate จริงในระบบ (MAT-003 = 5,440 บาท/ตร.ม. + ตัว adder 10% ที่ผูกกับ Rate นี้อยู่แล้ว) ตัวเลขจริงอาจต่างเล็กน้อยถ้า Rate ถูกแก้ไขหลังจากวันที่ทำเอกสารนี้</div>
+
+  <div class="category" id="BP1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">1. เตรียมข้อมูล</div>
+        <div class="category-sub">สร้างลูกค้าทดสอบ + เปิดเอกสาร BOQ ใหม่</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-01</span></td>
+          <td class="col-scenario">สร้างลูกค้าทดสอบใหม่</td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>เปิด Contacts &gt; New</li><li>เลือกประเภท Company</li><li>ตั้งชื่อ</li><li>Save</li></ol></td>
+          <td class="col-sample">ชื่อ = "THE TWO BANGKOK"</td>
+          <td class="col-expected">บันทึกผู้ติดต่อใหม่สำเร็จ พร้อมใช้เลือกเป็นลูกค้าในขั้นถัดไป</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-02</span></td>
+          <td class="col-scenario">สร้างเอกสาร BOQ ใหม่ ระบุลูกค้า</td>
+          <td class="col-pre">ทำ TC-BP-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป "BOQ Estimation" &gt; BOQ Documents &gt; New</li><li>เลือกลูกค้า</li></ol></td>
+          <td class="col-sample">ลูกค้า = THE TWO BANGKOK</td>
+          <td class="col-expected">ฟอร์ม BOQ Document ใหม่เปิดขึ้น พร้อมข้อมูลลูกค้า สถานะ "Draft"</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="BP2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">2. นำเข้า Cutting List จริง</div>
+        <div class="category-sub">สวิตช์ BOQ — เริ่มจากไฟล์จริง ไม่พิมพ์รายการเอง</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-03</span></td>
+          <td class="col-scenario">อัปโหลด Cut List แล้วให้ระบบอ่านไฟล์<div class="note">ปุ่ม "นำเข้า Cut List" อยู่แถบด้านบนของฟอร์ม BOQ Document</div></td>
+          <td class="col-pre">ทำ TC-BP-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "นำเข้า Cut List"</li><li>แนบไฟล์ .xlsx</li><li>กด "อ่านไฟล์"</li></ol></td>
+          <td class="col-sample">ไฟล์ = EG-TheOneBKK-O3-9F-LiftLobby-CuttingList (draft จากแบบ).xlsx</td>
+          <td class="col-expected">หน้าจอเปลี่ยนเป็น Preview แสดงแถวที่รวมยอดให้แล้ว 2 แถว (ตาม 2 Elevation ในไฟล์)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-04</span></td>
+          <td class="col-scenario">ตรวจยอดที่รวมมา จับคู่ Rate แล้วสร้าง BOQ Lines<div class="note">แถวที่ไม่ได้เลือก Rate จะถูกข้ามไป — ต้องเลือกให้ครบทั้ง 2 แถว</div></td>
+          <td class="col-pre">ทำ TC-BP-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ตรวจคอลัมน์ "ตรม. รวม" ของทั้ง 2 แถว</li><li>เลือก Rate Library Item ให้แต่ละแถว</li><li>กด "สร้าง BOQ Lines"</li></ol></td>
+          <td class="col-sample">แถว 1 = ELEVATION 1, 92 ชิ้น, 27.42 ตร.ม.<br>แถว 2 = ELEVATION 2, 92 ชิ้น, 27.42 ตร.ม.<br>Rate ทั้ง 2 แถว = "[MAT-003] Spider Grey"</td>
+          <td class="col-expected">กลับสู่ฟอร์ม BOQ Document เดิม พบ 2 BOQ Lines ใหม่ในแท็บ "BOQ Lines" ราคา/หน่วยเติมอัตโนมัติจาก Rate = 5,440 บาท/ตร.ม. (Amount ต่อบรรทัด = 27.42 × 5,440 = 149,164.80 บาท ทั้ง 2 บรรทัด)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="BP3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">3. เติมกำหนดงานบน BOQ</div>
+        <div class="category-sub">Duration/Milestone ที่กรอกตรงนี้จะติดไปกับใบเสนอราคาอัตโนมัติตอนสร้าง</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-05</span></td>
+          <td class="col-scenario">กรอก Duration + ติ๊ก Milestone บนแต่ละ BOQ Line<div class="note">ถ้าคอลัมน์ Duration/Milestone ไม่ขึ้น ให้กดไอคอนตัวเลือกคอลัมน์ (มุมขวาบนของตาราง BOQ Lines) แล้วติ๊กเพิ่ม</div></td>
+          <td class="col-pre">ทำ TC-BP-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่บรรทัด Elevation 1: กรอก Duration (days), ติ๊ก Milestone, ตั้งชื่อ Milestone</li><li>ทำแบบเดียวกันที่บรรทัด Elevation 2</li></ol></td>
+          <td class="col-sample">Elevation 1: Duration = 5, Milestone = "ติดตั้งผนังหิน Elevation 1 เสร็จ"<br>Elevation 2: Duration = 6, Milestone = "ติดตั้งผนังหิน Elevation 2 เสร็จ"</td>
+          <td class="col-expected">กรอกได้ตรงบนบรรทัด BOQ Line ทันที ไม่ต้องเปิดฟอร์มอื่น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-06</span></td>
+          <td class="col-scenario">บันทึกเอกสาร BOQ ตรวจยอดรวม</td>
+          <td class="col-pre">ทำ TC-BP-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Save</li><li>ดูแถบสรุปยอดด้านล่างขวา</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Direct Cost = 298,329.60 · Overhead &amp; Profit = 29,832.96 · Total = 328,162.56 บาท (คำนวณอัตโนมัติ ไม่ต้องกรอกเอง)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="BP4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">4. ออกใบเสนอราคา + เปิดสวิตช์ Project</div>
+        <div class="category-sub">2 สวิตช์มาบรรจบกันตรงนี้ — BOQ ส่งราคา+กำหนดงานให้ใบเสนอราคาอัตโนมัติ แล้วค่อยเปิดสวิตช์ Project เพิ่ม</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-07</span></td>
+          <td class="col-scenario">กด "สร้างใบเสนอราคา" (Generate Quotation)</td>
+          <td class="col-pre">ทำ TC-BP-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา" บนหัว BOQ Document</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ใบเสนอราคาใหม่ 1 ใบ ยอดรวมตรงกับ BOQ (328,162.56 บาท) มีบรรทัด section คั่น "ELEVATION 1" / "ELEVATION 2" field "BOQ Document" ชี้กลับไปที่เอกสาร BOQ เดิม</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-08</span></td>
+          <td class="col-scenario">ตรวจว่า Zone/Duration/Milestone ติดมาจาก BOQ อัตโนมัติแล้ว<div class="note">ไม่ต้องพิมพ์ซ้ำ — ค่าที่กรอกไว้ใน TC-BP-05 ถูกคัดลอกมาตอนสร้างใบเสนอราคา</div></td>
+          <td class="col-pre">ทำ TC-BP-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่แท็บ Order Lines ตรวจคอลัมน์ Zone/Duration/Milestone ของแต่ละบรรทัด</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">บรรทัด Elevation 1: Zone="ELEVATION 1", Duration=5, Milestone="ติดตั้งผนังหิน Elevation 1 เสร็จ" · บรรทัด Elevation 2: Zone="ELEVATION 2", Duration=6, Milestone ตามที่กรอก</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-09</span></td>
+          <td class="col-scenario">ติ๊กเปิดสวิตช์ "Sold as Project"</td>
+          <td class="col-pre">ทำ TC-BP-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ไปแท็บ "Other Info"</li><li>ติ๊ก checkbox "Sold as Project"</li><li>กด Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Checkbox ติ๊กได้ทันที บันทึกสำเร็จ ได้เลขที่ใบเสนอราคา</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-10</span></td>
+          <td class="col-scenario">ยืนยันคำสั่งขาย (Confirm)<div class="note">ระบบยังไม่มีสต๊อกหิน Spider Grey จริงในฐานทดสอบ — คาดว่าจะมี popup เตือนขึ้นมาก่อน ให้กด "Confirm ต่อ" เพื่อไปต่อ (ไม่ใช่บั๊ก เป็นกลไกเตือนตามปกติ)</div></td>
+          <td class="col-pre">ทำ TC-BP-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Confirm</li><li>ถ้ามี popup "ยืนยัน Confirm ทั้งที่ยังไม่มีของ" ขึ้นมา ให้กด "Confirm ต่อ"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">คำสั่งขายยืนยันสำเร็จ (state = Sales Order) ระบบสร้าง Project ให้อัตโนมัติเบื้องหลัง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="BP5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">5. ตรวจผลลัพธ์ที่ Project</div>
+        <div class="category-sub">ยืนยันว่า BOQ ↔ ใบเสนอราคา ↔ Project เชื่อมกันจริงทั้งสาย</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-11</span></td>
+          <td class="col-scenario">เปิด Project ที่สร้างขึ้นจากใบสั่งขาย ตรวจ 2 Task</td>
+          <td class="col-pre">ทำ TC-BP-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม smart button "Project" บนใบสั่งขาย</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Project ชื่อ "THE TWO BANGKOK - S00XXX" มี 2 Task ("Spider Grey" x2) ต่างกันที่ Zone (Elevation 1 / Elevation 2)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-12</span></td>
+          <td class="col-scenario">เปิด Task แต่ละใบ ตรวจ Milestone + วันวางแผน<div class="note">2 Zone ทำงานขนานกัน (ไม่ต่อคิวกัน) จึงเริ่มวันเดียวกันทั้งคู่ แต่สิ้นสุดต่างกันตาม Duration ที่กรอกไว้</div></td>
+          <td class="col-pre">ทำ TC-BP-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Task "Spider Grey" (Elevation 1)</li><li>เปิด Task "Spider Grey" (Elevation 2)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Task Elevation 1: Milestone="ติดตั้งผนังหิน Elevation 1 เสร็จ" วันวางแผนเริ่ม=วันนี้ สิ้นสุด=วันนี้+5 วัน · Task Elevation 2: Milestone ตามที่กรอก วันวางแผนเริ่ม=วันนี้ สิ้นสุด=วันนี้+6 วัน · ทั้งคู่เชื่อมกลับไปที่ Sales Order Line เดิม (field "Origin Sale Line")</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-BP-13</span></td>
+          <td class="col-scenario">เปิด Project ย้อนกลับจากเอกสาร BOQ เดิม ตรวจว่าเป็น Project เดียวกัน</td>
+          <td class="col-pre">ทำ TC-BP-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับไปเปิดเอกสาร BOQ ที่สร้างไว้ตอนต้น (TC-BP-02)</li><li>กดปุ่ม smart button "Project"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เปิด Project เดียวกับที่เห็นใน TC-BP-11 เป๊ะ (BOQ ↔ ใบเสนอราคา ↔ Project เชื่อมกันครบสาย ไม่ใช่ Project คนละอันที่บังเอิญชื่อคล้ายกัน)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
