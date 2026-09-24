@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>คำตอบ 6 ข้อสงสัย — ประชุมโครงการ MX-EG 18 ก.ย. 2569</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:52px 64px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:8px;}
+  .dark .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 16px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.32;}
+  .dark h2.slide-title{color:var(--white);}
+
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:40px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 18px 0;line-height:1.28;}
+  #slide-0 .big-sub{font-size:16.5px;color:#CBD3D8;max-width:920px;line-height:1.6;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:64px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:64px;width:86px;height:86px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:15px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.2;}
+  .date-tag{position:absolute;bottom:52px;right:64px;font-size:13px;color:#9AA6AC;text-align:right;line-height:1.6;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:18px 24px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:4px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .cmp-table th{text-align:left;padding:8px 10px;background:var(--charcoal);color:#fff;font-size:11px;letter-spacing:.5px;}
+  .cmp-table td{padding:8px 10px;border-bottom:1px solid #e6e2dc;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+  .cmp-table tr.amber td{font-weight:700;color:#8F5A2C;background:#FBF1E7;}
+  .cmp-table tr:nth-child(even) td{background:#FAFAF9;}
+  .cmp-table tr.bad:nth-child(even) td,.cmp-table tr.good:nth-child(even) td,.cmp-table tr.amber:nth-child(even) td{background-color:inherit;}
+  .cmp-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:11.5px;}
+  .dark .cmp-table td{color:#E4E8EA;background:rgba(255,255,255,.04);border-bottom-color:rgba(255,255,255,.12);}
+  .dark .cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.08);}
+  .dark .cmp-table tr.good td{color:#8FCB8F;background:rgba(61,122,69,.25);}
+  .dark .cmp-table tr.bad td{color:#E08A78;background:rgba(166,67,45,.25);}
+  .dark .cmp-table tr.amber td{color:#E8C88A;background:rgba(184,137,46,.25);}
+  .dark .cmp-table code{background:rgba(255,255,255,.12);color:#E4E8EA;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:13px 18px;font-size:13.5px;line-height:1.5;color:#6B4423;margin-top:9px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b{color:#D9A465;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-bottom:12px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:12px;padding:6px 12px;border-radius:16px;white-space:nowrap;font-weight:600;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.bad{background:#A6432D;}
+  .flow-chip.amber{background:#B8892E;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:15px;margin:0 5px;font-weight:700;}
+
+  .status-pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.4px;padding:4px 12px;border-radius:99px;margin-bottom:12px;}
+  .status-pill.green{background:#EAF3EA;color:#2C5A32;}
+  .status-pill.amber{background:#FBF1E7;color:#8F5A2C;}
+
+  .q-num{position:absolute;top:44px;right:64px;font-family:Cambria,serif;font-size:52px;font-weight:700;color:#EFEBE4;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;}
+  .mini-card{background:var(--card);border-radius:12px;padding:14px 16px;}
+  .mini-card .mc-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:6px;}
+  .mini-card .mc-text{font-size:13.5px;line-height:1.5;color:var(--text);}
+
+  .footer-tag{position:absolute;bottom:22px;left:64px;font-size:11.5px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">MX-EG</div>
+    <div class="eyebrow">Empire Stone × Empire Granite — Meeting Follow-up</div>
+    <div class="big-title">คำตอบ 6 ข้อสงสัย<br>จากประชุมโครงการ MX-EG</div>
+    <div class="big-sub">สรุปคำตอบเชิงระบบสำหรับ 6 ประเด็นที่คุณไบรท์สอบถามในที่ประชุม — แต่ละข้อระบุชัดว่า <b style="color:#8FCB8F;">ระบบรองรับอยู่แล้ว</b>, <b style="color:#D9A465;">ต้องตั้งค่าเพิ่ม</b>, หรือ<b style="color:#E08A78;">ต้องตัดสินใจขอบเขตก่อนสร้างเพิ่ม</b></div>
+    <div class="stamp">EMG-O Project Portal · Meeting Response</div>
+    <div class="date-tag">ประชุมวันที่ 18 ก.ย. 2569<br>จัดทำคำตอบ 24 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 1: Overview -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม</div>
+    <h2 class="slide-title">6 ประเด็น — 4 ข้อระบบมีคำตอบพร้อมอยู่แล้ว, 2 ข้อรอข้อมูลเพิ่มจากทีมงาน</h2>
+    <table class="cmp-table">
+      <tr><th style="width:36px;">#</th><th style="width:420px;">ประเด็น</th><th>สถานะ</th></tr>
+      <tr class="good"><td>1</td><td>Lot/Serial สำหรับส่งของตาม Cutting List</td><td>มีกลไกรองรับอยู่แล้ว</td></tr>
+      <tr class="amber"><td>2</td><td>Analytic/Project Dimension ไม่ขึ้นในใบเสนอราคา</td><td>มีกลไกอยู่แล้ว — ขอตัวอย่างจริงมาเช็ค</td></tr>
+      <tr class="good"><td>3</td><td>Item มาตรฐานกลาง + Custom BOM รายโครงการ</td><td>มีกลไกรองรับอยู่แล้ว</td></tr>
+      <tr class="amber"><td>4</td><td>ผูก Product/บัญชีค่าแรงตามประเภทงาน</td><td>ตั้งค่าพื้นฐานเสร็จ 24 ก.ย. 2569 — รอเลขบัญชีแยก Wet/Dry จริง</td></tr>
+      <tr class="good"><td>5</td><td>Progress Billing vs Milestone</td><td>Built และ verify แล้ว (19 ก.ย. 2569)</td></tr>
+      <tr class="amber"><td>6</td><td>เศษหิน/สินค้าค้างจาก Serial ที่ส่งไม่ครบ</td><td>ครอบคลุมบางส่วน — รอตัดสินใจขอบเขต</td></tr>
+    </table>
+    <div class="note-box"><b>วิธีอ่านเอกสารนี้:</b> แต่ละหน้าถัดไปอธิบาย 1 ประเด็น พร้อมกลไกจริงที่ระบบมี (หรือยังไม่มี) และสิ่งที่ต้องตัดสินใจร่วมกันถ้ามี — หน้าสุดท้ายสรุปคำถามที่ต้องการคำตอบจากทีมงานก่อนไปต่อ</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 2: Q1 -->
+  <section class="slide" id="slide-2">
+    <div class="q-num">01</div>
+    <div class="status-pill green">✓ มีกลไกรองรับอยู่แล้ว</div>
+    <div class="eyebrow">คำถามที่ 1 — Lot / Serial สำหรับส่งของตาม Cutting List</div>
+    <h2 class="slide-title">ไม่ต้องบังคับ Serial ทุกแผ่น — ระบบแยกตามชนิดหินอยู่แล้ว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">ตัดหินตาม Cutting List แล้ว เวลาทยอยส่งของจริงตามเที่ยวรถ (ส่งไม่เต็มล็อต) ควรออกใบส่งของเป็น Serial หรือคุมเป็น Lot?</div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="mc-label">หินราคาสูง (Serial ต่อแผ่น)</div>
+        <div class="mc-text">แต่ละแผ่นมีเลขกำกับของตัวเอง สแกนยืนยันก่อนส่งทุกครั้ง — ทีมงานทำอยู่แล้วเป็นมาตรฐาน ไม่ใช่ภาระใหม่</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-label">หินราคาย่อมเยา (Lot รวม)</div>
+        <div class="mc-text">คุมเป็นล็อตเดียว ส่งบางส่วนตามจำนวนได้เลย ไม่ต้องผูก Serial รายแผ่น</div>
+      </div>
+    </div>
+    <div class="note-box good"><b>สำหรับงาน Cutting List โดยเฉพาะ:</b> ตอนสร้างใบสั่งตัด มีตัวเลือก "ไม่มีงานประกอบต่อ" — ถ้าติ๊ก แต่ละชิ้นที่ตัดออกมาจะได้เลขกำกับของตัวเอง พร้อมขายทันที ไม่ต้องรอ ทยอยส่งแยกเที่ยวรถได้โดยไม่มีภาระผูกพันสต็อกค้าง</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 2b: Q1 continued — how to create a partial DO -->
+  <section class="slide" id="slide-2b">
+    <div class="q-num">01</div>
+    <div class="status-pill green">✓ Built และ verify แล้ว 24 ก.ย. 2569</div>
+    <div class="eyebrow">คำถามที่ 1 (ต่อ) — วิธีสร้างใบส่งของ (DO) เมื่อส่งของบางส่วน</div>
+    <h2 class="slide-title">ใบส่งของสร้างอัตโนมัติตอน Confirm — ส่งบางส่วนใช้กลไก "Backorder" มาตรฐานของ Odoo</h2>
+    <table class="cmp-table">
+      <tr><th style="width:60px;">ขั้นตอน</th><th style="width:520px;">การกระทำ</th><th>ผลลัพธ์</th></tr>
+      <tr><td>1</td><td>กด Confirm ใบเสนอราคา/BOQ</td><td>ระบบสร้างใบส่งของ (DO) ให้อัตโนมัติ — แต่ละแผ่นที่จองไว้มีเลขกำกับ (Serial) ผูกอยู่ในบรรทัดของตัวเองแล้ว</td></tr>
+      <tr><td>2</td><td>ถึงคิวส่งของเที่ยวแรก — เปิด DO นั้น</td><td>เห็นรายการทุกแผ่นที่รอส่ง แยกบรรทัดตาม Serial</td></tr>
+      <tr><td>3</td><td>แผ่นที่ไปกับรถเที่ยวนี้: สแกน Serial ให้ตรง</td><td>ระบบยืนยันว่าแผ่นที่ยกขึ้นรถ ตรงกับที่ลูกค้าสั่งจริง</td></tr>
+      <tr><td>4</td><td>แผ่นที่ยังไม่ส่ง (รอเที่ยวหน้า): ตั้งจำนวนเป็น 0</td><td>ระบบเข้าใจว่าแผ่นนี้ยังไม่ไปกับรถเที่ยวนี้ ไม่ต้องสแกน</td></tr>
+      <tr class="good"><td>5</td><td>กด Validate</td><td>ระบบถาม "Create Backorder?" → กดยืนยัน → DO เที่ยวนี้เสร็จเฉพาะแผ่นที่ส่งจริง + สร้าง DO ใหม่รอแผ่นที่เหลือให้อัตโนมัติ</td></tr>
+    </table>
+    <div class="note-box good"><b>ทดสอบจริงแล้ว (odoo shell, 24 ก.ย. 2569):</b> ส่ง 1 ใน 2 แผ่น → ระบบสร้าง Backorder ให้ถูกต้อง ไม่ต้องพิมพ์/สร้างใบส่งของเองเลยสักขั้นตอน — พนักงานหน้างานทำตามขั้นตอน 1-5 ด้านบนได้ทันที</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 3: Q2 -->
+  <section class="slide" id="slide-3">
+    <div class="q-num">02</div>
+    <div class="status-pill amber">◐ มีกลไกอยู่แล้ว — ขอตัวอย่างจริงมาเช็ค</div>
+    <div class="eyebrow">คำถามที่ 2 — Analytic / Project Dimension ในใบเสนอราคา</div>
+    <h2 class="slide-title">ระบบ tag โครงการให้อัตโนมัติอยู่แล้ว — น่าจะเป็นกรณีเฉพาะที่ต้องเช็คร่วมกัน</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">สร้าง Project และผูก Analytic Account ไว้แล้ว แต่เปิดหน้าใบเสนอราคา/BOQ กลับหาไม่พบหรือไม่แสดง Project Dimension</div>
+      </div>
+    </div>
+    <div class="note-box good"><b>กลไกที่มีอยู่:</b> ระบบดึง Analytic Account จากเอกสาร BOQ มาแปะให้ทุกบรรทัดในใบเสนอราคาโดยอัตโนมัติ ตั้งแต่ก่อนกดยืนยันเอกสารเสียอีก — ไม่ต้องพิมพ์เอง</div>
+    <div class="note-box"><b>สาเหตุที่พบไม่เห็นในเคสจริง มักมาจาก 2 อย่าง:</b> (1) ใบเสนอราคานั้นไม่ได้เปิดผ่านเอกสาร BOQ ตั้งแต่ต้น หรือ (2) เปิดดูผิดจุดในหน้าจอ — ไม่ใช่ช่องเดี่ยวแบบเดิม แต่เป็นตารางแยกหลายมิติ</div>
+    <div class="note-box amber"><b>ขอเพิ่มเติม:</b> รบกวนขอเลขที่ใบเสนอราคา/สกรีนช็อตของเคสจริงที่คุณไบรท์เจอปัญหา เพื่อเช็คให้ตรงจุด แทนการเดา — สิทธิ์ให้ Cost Controller ดูรายงานนี้ก็เป็นเรื่องตั้งค่าสิทธิ์เพิ่มให้ได้เลย ไม่ต้องแก้ระบบ</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 4: Q3 -->
+  <section class="slide" id="slide-4">
+    <div class="q-num">03</div>
+    <div class="status-pill green">✓ มีกลไกรองรับอยู่แล้ว</div>
+    <div class="eyebrow">คำถามที่ 3 — Item มาตรฐานกลาง + Custom BOM</div>
+    <h2 class="slide-title">ได้เลยครับ — 1 Item กลาง ใช้ได้ทุกโครงการ ต้นทุนแยกคิดใหม่ทุกงาน</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">สร้าง Item มาตรฐานกลาง (เช่น งานเจียรบัว, ชุดประตู) ชุดเดียวใช้ร่วมกันได้ทุกโครงการ แล้วค่อยปรับรายละเอียดต้นทุน (Custom BOM) รายโครงการได้ไหม?</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip">Item กลาง 1 ตัว</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เปิดขายในทุกโครงการได้</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">สร้าง BOM ใหม่สดทุกครั้งต่อโครงการ</span>
+    </div>
+    <div class="note-box good"><b>กลไกที่มีอยู่:</b> เมื่อขาย Item กลางนี้ในโครงการใหม่ ระบบเปิดหน้าจอให้ดึงรายการวัสดุจาก BOQ ของโครงการนั้นมา map เป็นสูตรต้นทุน (BOM) ให้อัตโนมัติ เจ้าหน้าที่ยืนยัน/แก้ไขทีละบรรทัดก่อนใช้จริง — ต้นทุนแต่ละโครงการจึงแม่นยำแยกกันจริง ไม่ปนกัน</div>
+    <div class="note-box"><b>ข้อแนะนำเพิ่ม:</b> ถ้าแบบงานไหนเกิดซ้ำบ่อยจนเป็นแบบมาตรฐาน (เช่น ขนาด S/M/L คงที่) แนะนำ promote ขึ้นเป็นสินค้าจริงพร้อมสูตรสำเร็จรูปแทน — ประหยัดเวลาไม่ต้อง map ใหม่ทุกครั้ง ส่วนงาน one-off จริงๆ ใช้วิธีนี้ต่อไปได้เลย</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 4b: Q3 continued — step 1 only -->
+  <section class="slide" id="slide-4b">
+    <div class="q-num">03</div>
+    <div class="status-pill green">✓ มีกลไกรองรับอยู่แล้ว</div>
+    <div class="eyebrow">คำถามที่ 3 (ต่อ) — สร้างสูตรจาก BOQ แล้ว แก้ทีหลังได้แค่ไหน</div>
+    <h2 class="slide-title">2 ขั้นตอน — ขั้นตอน 1 สร้างจาก BOQ (แก้ได้อิสระ ก่อนยืนยัน)</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">ขั้นตอน 1 — สร้างจาก BOQ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip gray">ขั้นตอน 2 — งานเริ่มแล้ว (หน้าถัดไป)</span>
+    </div>
+
+    <div class="case-box">
+      <div class="case-icon">1</div>
+      <div>
+        <div class="case-text-label">หน้าจอสร้างสูตร (ก่อนกดยืนยัน)</div>
+        <div class="case-text">ระบบดึงรายการวัสดุจาก BOQ ของงานนั้นมาขึ้นให้อัตโนมัติ — เจ้าหน้าที่ติ๊ก/ไม่ติ๊กแต่ละบรรทัด ปรับจำนวน หรือ<b>เพิ่มบรรทัดเองที่ไม่มีใน BOQ เลยก็ได้</b> ก่อนกดยืนยันสร้างจริง</div>
+      </div>
+    </div>
+
+    <div class="note-box"><b>ตัวอย่าง:</b> งาน "เจดีย์บัวเล็ก" — BOQ มี 2 รายการ (หินอ่อนสีขาว 0.5 m³ + ค่าแรงแกะสลัก) ระบบ auto-map ให้ 2 แถว เจ้าหน้าที่เห็นว่างานนี้ต้องใช้กาว Epoxy ยึดชิ้นส่วนด้วย ซึ่งไม่มีใน BOQ ตั้งแต่ต้น → <b>เพิ่มแถวที่ 3 "กาว Epoxy" เองในหน้าจอนี้ได้เลย</b> ก่อนกดยืนยัน</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 4c: Q3 continued — step 2, 2 edit types -->
+  <section class="slide" id="slide-4c">
+    <div class="q-num">03</div>
+    <div class="status-pill green">✓ มีกลไกรองรับอยู่แล้ว</div>
+    <div class="eyebrow">คำถามที่ 3 (ต่อ) — หลังยืนยันแล้ว งานเริ่มแล้ว แก้ได้ 2 แบบ</div>
+    <h2 class="slide-title">ขั้นตอน 2 — แก้ตรงหน้า MO ได้ตลอด ไม่ต้องยกเลิกงาน</h2>
+    <div class="flow-bar">
+      <span class="flow-chip gray">ขั้นตอน 1 — สร้างจาก BOQ (หน้าก่อน)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ขั้นตอน 2 — งานเริ่มแล้ว</span>
+    </div>
+
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="mc-label">แบบที่ 1 — แก้ของเดิม (เช่น เพิ่มขนาด)</div>
+        <div class="mc-text">แก้ตัวเลขจำนวนตรงบรรทัด Component บนหน้างานผลิต (MO) ได้เลย ไม่ต้องยกเลิกงาน<br><br><b>ตัวอย่าง:</b> วางแผนไว้ใช้หินอ่อน 0.5 m³ แต่หน้างานจริงวัดแล้วต้องใหญ่ขึ้นเป็น 0.6 m³ → แก้จำนวนตรงบรรทัดนั้นบนหน้า MO ได้ทันที</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-label">แบบที่ 2 — เพิ่มของใหม่ที่ไม่เคยวางแผนไว้ (เช่น เพิ่มกาว)</div>
+        <div class="mc-text">เพิ่มบรรทัด Component ใหม่บนหน้า MO ได้เลยระหว่างผลิต — ระบบรองรับ "เบิกเพิ่มระหว่างผลิต" ไว้แล้ว<br><br><b>ตัวอย่าง:</b> ระหว่างประกอบเจอว่าต้องมีน็อตยึดเสริมที่ไม่ได้วางแผนไว้เลยตั้งแต่ต้น → เพิ่มบรรทัด "น็อตยึด" บนหน้า MO ตรงๆ ไม่ต้องยกเลิกงานที่ทำค้างอยู่</div>
+      </div>
+    </div>
+
+    <div class="note-box bad"><b>ข้อควรระวัง 1 จุด:</b> การแก้ต้องทำที่<b>หน้าจอ MO ตัวจริง</b>เสมอ — ถ้าไปแก้ที่ "สูตรต้นแบบ" (BOM) ตรงๆ ผ่านหลังบ้าน/สคริปต์แทนที่จะแก้ผ่านหน้าจอปกติ หน้าจอจะโชว์ถูกแต่<b>ระบบจะไม่ตัดสต็อกจริงให้</b> (เคยเจอเป็นปัญหาจริงมาแล้วในกลไกใกล้เคียงกัน) — ใช้หน้าจอ MO ปกติเสมอ ปลอดภัย 100%</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 5: Q4 -->
+  <section class="slide" id="slide-5">
+    <div class="q-num">04</div>
+    <div class="status-pill amber">◐ ตั้งค่าพื้นฐานเสร็จแล้ว 24 ก.ย. 2569 — รอเลขบัญชีแยก Wet/Dry จริง</div>
+    <div class="eyebrow">คำถามที่ 4 — ผูก Product และบัญชีสำหรับค่าแรง</div>
+    <h2 class="slide-title">สร้าง Product ค่าแรงพร้อมใช้แล้ว 4 ตัว — บัญชียังใช้ร่วมกันชั่วคราว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">รายการค่าแรงผูกกับ Product ประเภทใด (Service?) และถ้าค่าแรงติดตั้งต่างประเภท (Wet Process vs Dry Process) ต้องแยกบันทึกรายได้/ค่าใช้จ่ายคนละหมวดบัญชี จะผูก Product อย่างไร?</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th>Product ค่าแรง</th><th style="width:200px;">ประเภท</th><th>บัญชีรายได้</th></tr>
+      <tr class="good"><td>ค่าแรงช่าง-โครงการ</td><td>Service</td><td>Service Revenue</td></tr>
+      <tr class="good"><td>ค่าแรงตัด-ผลิต</td><td>Service</td><td>Service Revenue</td></tr>
+      <tr class="good"><td>ค่าแรงติดตั้งหน้างาน - Wet Process</td><td>Service</td><td>Service Revenue (ใช้ร่วมกับ Dry ชั่วคราว)</td></tr>
+      <tr class="good"><td>ค่าแรงติดตั้งหน้างาน - Dry Process</td><td>Service</td><td>Service Revenue (ใช้ร่วมกับ Wet ชั่วคราว)</td></tr>
+    </table>
+    <div class="note-box amber"><b>ยังไม่แยกบัญชีจริงระหว่าง Wet กับ Dry:</b> การสร้างเลขบัญชีใหม่แยกเฉพาะต้องให้ฝ่ายบัญชีของลูกค้าอนุมัติก่อน — ตอนนี้ทั้งคู่ออกใบแจ้งหนี้ได้จริงแล้ว ไม่ error แค่ยังลงบัญชีเดียวกันอยู่ พอได้เลขบัญชีจริงมา แก้แค่ 1 จุดต่อ product ก็เสร็จ ไม่ต้องรื้อโครงสร้าง</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 5b: Q4 continued — how to use -->
+  <section class="slide" id="slide-5b">
+    <div class="q-num">04</div>
+    <div class="status-pill green">✓ ใช้งานได้ทันที</div>
+    <div class="eyebrow">คำถามที่ 4 (ต่อ) — วิธีใช้งานจริง</div>
+    <h2 class="slide-title">เลือก Product ค่าแรงที่ตรงงาน ตอนออกใบเสนอราคา — ที่เหลือระบบจัดการให้</h2>
+    <table class="cmp-table">
+      <tr><th style="width:60px;">ขั้นตอน</th><th>การกระทำ</th></tr>
+      <tr><td>1</td><td>เปิดใบเสนอราคา/BOQ ของงานนั้น</td></tr>
+      <tr><td>2</td><td>เพิ่มบรรทัดสินค้า → เลือก Product ค่าแรงที่ตรงกับงานจริง (เช่น งานติดตั้งแบบเปียก เลือก <b>"ค่าแรงติดตั้งหน้างาน - Wet Process"</b>)</td></tr>
+      <tr><td>3</td><td>กรอกจำนวน/ราคาตามจริง เหมือนบรรทัดสินค้าอื่นๆ ทั่วไป</td></tr>
+      <tr class="good"><td>4</td><td>ยืนยัน → ออกใบแจ้งหนี้ → รายได้เข้าบัญชี "Service Revenue" ให้อัตโนมัติ ไม่ต้องตั้งค่าเพิ่ม</td></tr>
+    </table>
+    <div class="note-box"><b>แยกดูยอดแต่ละประเภทได้อยู่แล้วระหว่างรอเลขบัญชีจริง:</b> เพราะ Wet/Dry เป็นคนละ Product กัน ถึงจะลงบัญชีเดียวกันชั่วคราว ก็ยัง filter/group รายงานตาม<b>ชื่อ Product</b>แยกยอด Wet vs Dry ได้ปกติ — ไม่ได้ปนกันจนแยกไม่ออก</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 6: Q5 -->
+  <section class="slide" id="slide-6">
+    <div class="q-num">05</div>
+    <div class="status-pill green">✓ Built และ verify แล้ว 19 ก.ย. 2569</div>
+    <div class="eyebrow">คำถามที่ 5 — Progress Billing vs Milestone</div>
+    <h2 class="slide-title">Milestone ไม่ผูกกับการเบิกเงินแล้ว — มีกลไกเบิกตาม % ความคืบหน้าจริงต่อโซน/ชั้น</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">เลือก Milestone หมายถึงเบิกเงินเมื่อจบรายการนั้นใช่ไหม? ถ้าต้องการวางบิลตาม % ความคืบหน้าจริงในแต่ละชั้น/โซน ต้องตั้งค่าอย่างไร?</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:180px;">กลไก</th><th>ทำหน้าที่อะไร</th></tr>
+      <tr><td><b>Milestone</b></td><td>เป็นแค่จุด track ว่างานเสร็จหรือยัง (reach เองอัตโนมัติเมื่อ Task นั้นเสร็จ) — <b>ไม่ผูกกับการวางบิลแล้ว</b></td></tr>
+      <tr class="good"><td><b>Progress Billing (ใหม่)</b></td><td>ตั้ง % ความคืบหน้าจริง + เกณฑ์เก็บเงิน ได้ต่อ Task — Task ผูกกับโซน/ชั้นได้โดยตรง</td></tr>
+    </table>
+    <div class="note-box good"><b>วิธีทำงาน:</b> ความคืบหน้าถึงเกณฑ์ที่ตั้งไว้ → ระบบแจ้งเตือนผู้จัดการโครงการอัตโนมัติ (ครั้งเดียวตอนข้ามเกณฑ์ ไม่แจ้งซ้ำ) → ผู้จัดการโครงการกดยืนยัน "พร้อมเก็บเงิน" เอง (ไม่ auto-invoice) → วางบิลจริงผ่านขั้นตอนเดิมตามปกติ ต้องการเบิกตามชั้น/โซนไหน ก็ตั้งเกณฑ์ที่ Task ของโซนนั้นได้เลย</div>
+    <div class="note-box"><b>เป็นฟีเจอร์ที่เพิ่งสร้างล่าสุด (19 ก.ย. 2569)</b> — ลูกค้ายังไม่เคยเห็น ดูตัวอย่างจริงจากระบบในหน้าถัดไป</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 6b: Q5 continued — real example -->
+  <section class="slide" id="slide-6b">
+    <div class="q-num">05</div>
+    <div class="status-pill green">✓ ตัวอย่างจริงจากระบบ (eg-tst)</div>
+    <div class="eyebrow">คำถามที่ 5 (ต่อ) — ตัวอย่างจริง: งาน THE ONE BANGKOK, ผนังหิน Spider Grey</div>
+    <h2 class="slide-title">โซน A คืบหน้า 65% ทะลุเกณฑ์ 50% แล้ว — ระบบแจ้งเตือนผู้จัดการโครงการอัตโนมัติ</h2>
+    <table class="cmp-table">
+      <tr><th>Task (โซน)</th><th style="width:110px;">ความคืบหน้า</th><th style="width:90px;">เกณฑ์</th><th style="width:130px;">มูลค่าที่จัดสรร</th><th style="width:110px;">สถานะ</th></tr>
+      <tr class="good"><td>ELEVATION 1 - Zone A</td><td><b>65%</b></td><td>50%</td><td>฿213,628.80</td><td><b>🔔 แจ้งเตือนแล้ว</b></td></tr>
+      <tr><td>ELEVATION 1 - Zone B</td><td>0%</td><td>50%</td><td>฿227,718.40</td><td>ยังไม่ถึงเกณฑ์</td></tr>
+      <tr><td>ELEVATION 1 - Zone C</td><td>0%</td><td>50%</td><td>฿227,718.40</td><td>ยังไม่ถึงเกณฑ์</td></tr>
+      <tr><td>… (Zone D-J อีก 7 โซน)</td><td>0%</td><td>50%</td><td>…</td><td>ยังไม่ถึงเกณฑ์</td></tr>
+    </table>
+    <div class="note-box good"><b>สิ่งที่เกิดขึ้นแล้วตอนนี้:</b> Zone A มีคนอัปเดตความคืบหน้าเป็น 65% (เกินเกณฑ์ 50% ที่ตั้งไว้) → ระบบขึ้นแจ้งเตือนที่ Task นั้น + สร้าง Activity ไปหาผู้จัดการโครงการอัตโนมัติแล้ว 1 ครั้ง — <b>แต่ยังไม่มีใครกดยืนยัน</b> เงินยังไม่ถูกเรียกเก็บ</div>
+    <div class="note-box"><b>ขั้นตอนถัดไปที่ผู้จัดการโครงการจะทำ:</b> เปิดเมนู "Billing Alerts" → เห็น Zone A ขึ้นเตือน → ตรวจงานหน้างานจริงว่าคืบหน้าตรงกับที่รายงานไหม → กดปุ่ม "ยืนยันพร้อมเก็บเงิน" → ไปออกบิลจริงตามมูลค่าที่จัดสรรไว้ (฿213,628.80) ผ่านขั้นตอน Down Payment เดิม — Zone อื่นที่ยังไม่ถึง 50% จะยังเงียบอยู่ ไม่มีการแจ้งเตือนจนกว่าจะถึงเกณฑ์ของตัวเอง</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 7: Q6 -->
+  <section class="slide" id="slide-7">
+    <div class="q-num">06</div>
+    <div class="status-pill amber">◐ ครอบคลุมบางส่วน — 4 สถานการณ์ แยกวิธีจัดการ</div>
+    <div class="eyebrow">คำถามที่ 6 — เศษหิน/สินค้าค้างจาก Serial ที่ส่งไม่ครบ</div>
+    <h2 class="slide-title">"ของค้างในสต็อก" จริงๆ แล้วมี 4 สถานการณ์ ไม่ใช่เรื่องเดียว</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามต้นทาง</div>
+        <div class="case-text">ผลิตสินค้าแปรรูปเป็น Serial (เช่น 10 แผ่น) แต่ส่งมอบจริงแค่บางส่วน (เช่น 8 แผ่น) ส่วนที่เหลือ 2 แผ่น จะล้างสต็อก/ลงบัญชีอย่างไรไม่ให้ค้างเป็น Asset?</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:280px;">สถานการณ์</th><th>วิธีจัดการ</th></tr>
+      <tr class="good"><td><b>1. ผลิตครบ แต่ส่งไม่ครบ</b> (ของดีทุกแผ่น แค่รอคิวส่ง)</td><td>ไม่ต้องล้างอะไร — เป็น Backorder ปกติ (กลไกเดียวกับคำถามที่ 1)</td></tr>
+      <tr class="good"><td><b>2. ตัดเกินจากที่งานนี้ต้องใช้จริง</b> (เศษจากแผนตัด/Cutting Plan)</td><td>มีกลไกแล้ว — ดูรายละเอียดหน้าถัดไป</td></tr>
+      <tr class="bad"><td><b>3. เศษเหลือจากงาน FG มาตรฐาน</b> (เช่น Countertop ทั่วไป ไม่ผ่าน Cutting Plan)</td><td>ยังไม่มีกลไก — ต้องคุยขอบเขตก่อนสร้างเพิ่ม</td></tr>
+      <tr><td><b>4. ผลิตเสร็จแต่ขายไม่ออกนาน</b> (aging/dead stock ไม่เกี่ยวกับการตัดเลย)</td><td>เป็นเรื่องบัญชีล้วนๆ — ตัดจำหน่าย/ตั้งด้อยค่าตามรอบปกติ ไม่ต้องสร้างกลไกในระบบ</td></tr>
+    </table>
+    <div class="note-box amber"><b>ต้องตัดสินใจ:</b> เคสที่คุณไบรท์ถามในที่ประชุมตรงกับสถานการณ์ไหนใน 4 ข้อนี้? ถ้าเป็นสถานการณ์ 3 ต้องคุยขอบเขต/ลำดับความสำคัญก่อนเริ่มสร้างกลไกเพิ่ม</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 7b: Q6 continued — scenario 2 detail -->
+  <section class="slide" id="slide-7b">
+    <div class="q-num">06</div>
+    <div class="status-pill green">✓ สถานการณ์ที่ 2 — มีกลไกรองรับอยู่แล้ว</div>
+    <div class="eyebrow">คำถามที่ 6 (ต่อ) — รายละเอียดสถานการณ์ 2: ตัดเกินจากที่ต้องใช้</div>
+    <h2 class="slide-title">เศษที่เหลือไม่ปล่อยกลับเป็นสต็อกขายได้เอง — บังคับให้เจ้าหน้าที่ตัดสินใจเสมอ</h2>
+    <div class="flow-bar">
+      <span class="flow-chip">ตัดได้ 10 ชิ้น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ใช้จริง 8 ชิ้น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip amber">2 ชิ้นที่เหลือ = "รอตัดสินใจ" อัตโนมัติ</span>
+    </div>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="mc-label">ทางเลือกที่ 1 — กู้คืนเป็นสต็อกขายจริง</div>
+        <div class="mc-text">เจ้าหน้าที่ตรวจแล้วว่าชิ้นนี้สภาพดี ขายได้จริง → กดกู้คืน → ได้เลขกำกับ (Serial) ใหม่ของตัวเอง เข้าสต็อกพร้อมขายทันที เหมือนแผ่นปกติทุกอย่าง</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-label">ทางเลือกที่ 2 — ปล่อยไว้เป็นของเสีย</div>
+        <div class="mc-text">ถ้าไม่คุ้มขาย/สภาพไม่ดี → ปล่อยค้างสถานะ "ของเสีย" ไว้ นับเป็นต้นทุนของโครงการนั้นโดยตรง ไม่ถูกนับเป็นสต็อกขายได้ ไม่ไปปนกับของดีในคลัง</div>
+      </div>
+    </div>
+    <div class="note-box"><b>จุดสำคัญที่ตอบคำถาม "ไม่ให้ค้างเป็น Asset":</b> ตราบใดที่ยังไม่มีใครกดเลือกทางใดทางหนึ่ง ชิ้นนั้นจะ<b>ไม่ถูกนับเป็นสต็อกขายได้เลย</b> (ซ่อนจากหน้าจอเลือกสินค้าขายทุกจุด) — จึงไม่มีทางที่ของค้างจะไปปรากฏเป็น Asset ปนกับของดีในรายงานสต็อกโดยไม่มีใครรู้ตัว</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 7c: Q6 continued — new safeguard, Internal Transfer -->
+  <section class="slide" id="slide-7c">
+    <div class="q-num">06</div>
+    <div class="status-pill green">✓ เพิ่มใหม่ 24 ก.ย. 2569 — กันลืมยกของจริง</div>
+    <div class="eyebrow">คำถามที่ 6 (ต่อ) — อุดช่องโหว่ "ระบบว่าย้ายแล้ว แต่ของจริงยังไม่ได้ขยับ"</div>
+    <h2 class="slide-title">ทางเลือกที่ 1 (กู้คืนสต็อก) ตอนนี้สร้างใบโอนย้ายจริงคู่กันเสมอ</h2>
+    <table class="cmp-table">
+      <tr><th style="width:170px;"></th><th>ก่อนหน้านี้</th><th>ตอนนี้ (24 ก.ย. 2569)</th></tr>
+      <tr><td>ขายได้ทันทีไหม</td><td>ขายได้ทันที</td><td>ขายได้ทันทีเหมือนเดิม (ไม่เปลี่ยน)</td></tr>
+      <tr class="good"><td>ใครเตือนให้ไปยกของจริง</td><td>ไม่มีเลย — ต้องอาศัยคนจำเอง</td><td><b>ใบโอนย้ายจริงขึ้นในระบบ WH ทันที</b> เห็นเป็นงานค้างต้องทำ</td></tr>
+    </table>
+    <div class="flow-bar">
+      <span class="flow-chip">กดกู้คืนเป็นสต็อก</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ขายได้ทันที + สร้างใบโอนย้ายจริง</span><span class="flow-arrow">→</span>
+      <span class="flow-chip amber">WH ยกของจริงแล้วกด Validate</span>
+    </div>
+    <div class="note-box good"><b>ทดสอบจริงแล้ว (odoo shell, 24 ก.ย. 2569):</b> กดกู้คืน → สต็อกขายได้ทันที แต่สต็อกจริงในระบบยังคงอยู่ที่ "พื้นที่ตัด" จนกว่าจะมีคน validate ใบโอนย้าย — พอ validate แล้วสต็อกถึงจะย้ายไป "พร้อมขาย" จริง ตรงกับตำแหน่งจริงเป๊ะทุกขั้นตอน ไม่มี error</div>
+    <div class="footer-tag">EMG-O Meeting Follow-up · 18 ก.ย. 2569</div>
+  </section>
+
+  <!-- SLIDE 8: Summary / decisions needed -->
+  <section class="slide dark" id="slide-8">
+    <div class="eyebrow">สรุป — สิ่งที่ต้องการจากทีมงานก่อนไปต่อ</div>
+    <h2 class="slide-title" style="color:#fff;">4 ข้อพร้อมใช้งานทันที — 3 คำถามที่ขอคำตอบเพิ่ม</h2>
+    <table class="cmp-table" style="margin-bottom:16px;">
+      <tr><th style="width:60px;">ข้อ</th><th>คำถามที่ขอคำตอบเพิ่ม</th></tr>
+      <tr><td>2</td><td>ขอเลขที่ใบเสนอราคา/สกรีนช็อตของเคสจริงที่ Project Dimension ไม่ขึ้น เพื่อเช็คให้ตรงจุด</td></tr>
+      <tr><td>4</td><td>ประเภทค่าแรงที่ต้องแยกบัญชีจริงมีกี่แบบ (Wet/Dry Process เพียงพอ หรือมีมากกว่านั้น) — ขอ list จากฝ่ายบัญชี/ประมาณราคา</td></tr>
+      <tr><td>6</td><td>เคสเศษหินค้างที่ถามในที่ประชุม เป็นงาน Cutting List หรืองาน FG มาตรฐานทั่วไป — ถ้าเป็นงาน FG มาตรฐาน ต้องการให้เริ่มสร้างกลไกนี้เมื่อไร</td></tr>
+    </table>
+    <div class="flow-bar">
+      <span class="flow-chip green">ข้อ 1 / 3 / 5 — ใช้งานได้เลย ไม่ต้องรอ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip amber">ข้อ 2 / 4 / 6 — รอคำตอบด้านบน</span>
+    </div>
+    <div style="margin-top:20px;font-size:14px;color:#B9C2C8;">พร้อมสาธิตกลไก Progress Billing (ข้อ 5) และ Custom BOM (ข้อ 3) ให้ดูสดได้ทันทีที่นัดหมาย</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 16</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
