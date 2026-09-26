@@ -162,6 +162,7 @@
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (เศษหิน)</a></li>
         </ul>
       </details>
 
@@ -367,6 +368,15 @@
       <div>
         <div class="card-title">Golden Path — Block → Slab → Finished Goods (v2)</div>
         <div class="card-desc">ตั้งค่า Material/ราคาใหม่ → ซื้อ Block (คำนวณ CBM/น้ำหนักอัตโนมัติ) → ขายครบทั้ง 3 ช่องทาง (Block ทั้งก้อน / Slab พร้อมขาย / BOQ-Project) → ผลิต FG หาแผ่นตรง spec อัตโนมัติ → ส่งของ → วางบิล — สร้างใหม่ทั้งชุดหลัง ADR-071/072/073 (24 test cases)</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="qa/test-cases-golden-path-lot-mode.html">
+      <div class="icon">2</div>
+      <div>
+        <div class="card-title">Golden Path — ขายวัสดุแบบ Lot-Mode (เศษหิน)</div>
+        <div class="card-desc">ADR-072 Decision 4 — สต็อกจริงเปลี่ยนเป็นนับจำนวนแผ่น (ไม่ใช่ตร.ม.ตรงๆ), แก้บั๊ก oversell, เพิ่มยอด "ตร.ม. พร้อมขาย" บนหน้า Material และฟอร์ม Lot/Serial Number ของ Odoo เอง — เดินสดผ่าน Playwright บน eg-tst ครบ 5 test cases</div>
       </div>
       <div class="arrow">→</div>
     </a>

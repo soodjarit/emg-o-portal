@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: ขายวัสดุแบบ Lot-Mode (เศษหิน/หินราคาถูก)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1200px;margin:0 auto;padding:76px 24px 100px;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:28px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .updated{font-size:12.5px;color:#9A9D9F;margin-bottom:14px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:820px;margin-bottom:20px;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .case{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:22px;}
+  .case-head{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;}
+  .case-id{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--copper-dark);font-weight:700;}
+  .case-title{font-size:17px;font-weight:700;color:var(--charcoal);font-family:Cambria,serif;}
+  .case-body{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;}
+  .case-text{flex:1;min-width:280px;font-size:13.5px;line-height:1.7;}
+  .case-text ol{margin:8px 0 0;padding-left:18px;}
+  .case-text li{margin-bottom:4px;}
+  .case-expected{margin-top:10px;background:var(--green-bg);color:var(--green);border-radius:8px;padding:8px 12px;font-size:13px;}
+  .case-shot{width:420px;flex-shrink:0;}
+  .case-shot img{width:100%;border-radius:8px;border:1px solid var(--border);display:block;box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .case-shot a{display:block;}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{padding:64px 16px 80px;}
+    .case-body{flex-direction:column;}
+    .case-shot{width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <header>
+    <div class="eyebrow">Golden Path Test Case</div>
+    <h1>ขายวัสดุแบบ Lot-Mode (เศษหิน/หินราคาถูก ขายเป็นล็อต)</h1>
+    <div class="updated">อัปเดตล่าสุด: 27 กันยายน 2026</div>
+    <div class="sub">
+      ตาม ADR-072 Decision 4 — ระบบสต็อกจริงของวัสดุแบบ Lot-Mode เปลี่ยนจาก "รับตร.ม. ตรงๆ" เป็น "นับจำนวนแผ่น" แล้วคำนวณตร.ม. ให้อัตโนมัติ
+      พร้อมแก้บั๊กที่พบระหว่างทาง: ระบบเดิมอาจปล่อยให้ขายซ้ำสต็อกที่ถูกจองไปแล้วจากออเดอร์อื่น (oversell)
+      เอกสารนี้เดินสดจริงผ่านเบราว์เซอร์ (Playwright) บน <b>eg-tst</b> ครบทุกขั้นตอน ตั้งแต่ขายจนถึงเห็นผลบนหน้าจอ native ของ Odoo เอง
+    </div>
+    <div class="flow-banner">
+      <b>Flow เดียวจบ:</b> สร้าง Sale Order → เลือกวัสดุ Lot-Mode → กด "Select Lot Stock" เลือกล็อต + จำนวนแผ่น →
+      ยืนยัน Order → ระบบจองสต็อกจริงทันที (Delivery พร้อมส่ง) → เช็คหน้า Material เห็นยอด "ตร.ม. พร้อมขาย" อัปเดตถูกต้อง →
+      เช็คฟอร์ม Lot/Serial Number ของ Odoo เอง เห็นขนาดแผ่น + ตร.ม. คำนวณให้อัตโนมัติ
+    </div>
+  </header>
+
+  <div class="case">
+    <div class="case-head">
+      <span class="case-id">L1</span>
+      <span class="case-title">เพิ่มวัสดุ Lot-Mode ลงใบเสนอราคา — ปุ่ม "Select Lot Stock" โผล่ให้กด</span>
+    </div>
+    <div class="case-body">
+      <div class="case-text">
+        <b>ทำ:</b>
+        <ol>
+          <li>สร้างใบเสนอราคาใหม่ ใส่ลูกค้า</li>
+          <li>เพิ่มสินค้า: เลือกวัสดุที่เป็น Lot-Mode (เช่น หินราคาถูกที่ตั้งค่าไว้แบบ "ขายเป็นล็อต")</li>
+        </ol>
+        <div class="case-expected">✓ ผลที่ควรเห็น: บรรทัดสินค้าโผล่ปุ่มลิงก์ "Select Lot Stock" ให้กดทันที — ต่างจากวัสดุปกติที่ไม่มีปุ่มนี้</div>
+      </div>
+      <div class="case-shot"><a href="assets/golden-path-lot-mode/L1-select-lot-stock-button.png" target="_blank"><img src="assets/golden-path-lot-mode/L1-select-lot-stock-button.png" alt="Select Lot Stock button"></a></div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-head">
+      <span class="case-id">L2</span>
+      <span class="case-title">กด Select Lot Stock — กรอกเป็น "จำนวนแผ่น" ไม่ใช่ตร.ม.</span>
+    </div>
+    <div class="case-body">
+      <div class="case-text">
+        <b>ทำ:</b> กดปุ่ม "Select Lot Stock" → เลือกล็อต (Block/Lot) → กรอก "Quantity to Sell (Pieces)" เป็นจำนวนแผ่น
+        <div class="case-expected">
+          ✓ ผลที่ควรเห็น: หน้าจอโชว์ "Remaining Pieces (Lot)" และ "Remaining Sq.Mt. (Lot)" ของล็อตนั้น พร้อมช่อง
+          "≈ Sq.M (estimate)" คำนวณตร.ม.โดยประมาณให้อัตโนมัติจากจำนวนแผ่นที่กรอก (จำนวนแผ่น × ขนาดมาตรฐานของวัสดุนั้น)
+        </div>
+      </div>
+      <div class="case-shot"><a href="assets/golden-path-lot-mode/L3-wizard-filled.png" target="_blank"><img src="assets/golden-path-lot-mode/L3-wizard-filled.png" alt="Wizard filled with piece count"></a></div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-head">
+      <span class="case-id">L3</span>
+      <span class="case-title">ยืนยัน Order — ราคาแปลงถูกต้อง + สต็อกถูกจองจริงทันที</span>
+    </div>
+    <div class="case-body">
+      <div class="case-text">
+        <b>ทำ:</b> กด "Confirm Selection" ในหน้าต่าง → กด "Confirm" ยืนยันใบสั่งขาย
+        <div class="case-expected">
+          ✓ ผลที่ควรเห็น: จำนวนบนบรรทัดสินค้ากลายเป็นจำนวนแผ่น ราคารวมคำนวณถูกต้อง (ราคาต่อตร.ม.เดิม × ตร.ม.จริงที่ขาย)
+          และมีปุ่ม "Delivery" โผล่ที่หัวเอกสาร — กดเข้าไปดูจะเห็นสถานะ "Ready" (จองสต็อกสำเร็จ) ทันทีไม่ต้องรอ
+        </div>
+      </div>
+      <div class="case-shot"><a href="assets/golden-path-lot-mode/L5-delivery-reserved.png" target="_blank"><img src="assets/golden-path-lot-mode/L5-delivery-reserved.png" alt="Delivery reserved and ready"></a></div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-head">
+      <span class="case-id">L4</span>
+      <span class="case-title">หน้า Material — ยอด "ตร.ม. พร้อมขาย" อัปเดตถูกต้องทันที (ADR-072 Decision 4)</span>
+    </div>
+    <div class="case-body">
+      <div class="case-text">
+        <b>ทำ:</b> เปิดหน้า Stone Slab → Configuration → Materials → เปิด Material ที่เพิ่งขายไป
+        <div class="case-expected">
+          ✓ ผลที่ควรเห็น: มุมขวาบนของฟอร์มมีปุ่มสรุป "ตร.ม. พร้อมขาย" โชว์ยอดรวมที่ถูกต้อง — <b>หักลบส่วนที่เพิ่งขายไปแล้วด้วย</b>
+          (ไม่ใช่แค่ยอดรวมทั้งหมดที่เคยรับเข้ามา) กดปุ่มนี้จะพาไปดูรายการ Block/Lot ทั้งหมดของวัสดุนี้ได้ทันที
+        </div>
+      </div>
+      <div class="case-shot"><a href="assets/golden-path-lot-mode/L6-material-stat.png" target="_blank"><img src="assets/golden-path-lot-mode/L6-material-stat.png" alt="Material sqm available stat"></a></div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-head">
+      <span class="case-id">L5</span>
+      <span class="case-title">ฟอร์ม Lot/Serial Number ของ Odoo เอง — เห็นขนาดแผ่น + ตร.ม. โดยไม่ต้องเปิดหน้า Stone</span>
+    </div>
+    <div class="case-body">
+      <div class="case-text">
+        <b>ทำ:</b> เมนู Inventory → Products → Lots / Serial Numbers → เปิดล็อตของ Material นี้ (ชื่อ "...-LOT")
+        <div class="case-expected">
+          ✓ ผลที่ควรเห็น: ฟอร์มมาตรฐานของ Odoo เอง (ไม่ใช่หน้าจอ custom ของ Stone) มี section "Stone Slab Dimensions"
+          โผล่มาเพิ่ม โชว์กว้าง×ยาว×หนา และสรุปเป็นตร.ม. ให้ — ประโยชน์: ฝ่ายคลัง (Factory) ที่เข้าผ่านเมนู Inventory
+          โดยตรงก็เห็นข้อมูลนี้ได้เลย ไม่ต้องสลับไปเปิดหน้า Stone Material/Bundle
+        </div>
+      </div>
+      <div class="case-shot"><a href="assets/golden-path-lot-mode/L7-native-lot-form.png" target="_blank"><img src="assets/golden-path-lot-mode/L7-native-lot-form.png" alt="Native stock.lot form with Stone Slab Dimensions"></a></div>
+    </div>
+  </div>
+
+  <footer>
+    เดินสดจริงผ่าน Playwright บน eg-tst (Material ทดสอบ "E2E GP Test Onyx (Lot-Mode)", 20 แผ่น × 2 ตร.ม./แผ่น) —
+    ทุกภาพหน้าจอในเอกสารนี้คือของจริงจากการรันจริง ไม่ใช่ mockup
+  </footer>
+</div>
+
+</body>
+</html>
