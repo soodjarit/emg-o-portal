@@ -61,6 +61,8 @@
   .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
   .category-title{font-size:23px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
   .category-sub{font-size:14px;color:#9A9D9F;}
+  .category-empty{font-size:14px;color:#9A9D9F;font-style:italic;padding:4px 0 0;}
+  .tree-cat-empty{font-size:11.5px;color:#9A9D9F;font-style:italic;padding:4px 8px 8px;}
 
   .subgroup{margin:22px 0 4px 0;padding-left:16px;border-left:3px solid var(--copper);}
   .subgroup-title{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:12px;}
@@ -155,6 +157,12 @@
           <li class="tree-doc"><a href="presentations/stone-cost-landed-cost.html"><span class="tree-doc-tag">3</span>ต้นทุนหินก้อน + Landed Cost</a></li>
         </ul>
       </details>
+
+      <details class="tree-cat" data-section="golden-path-test-cases" open>
+        <summary>Golden Path Test Case</summary>
+        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+      </details>
+
       <details class="tree-cat" data-section="client-documents" open>
         <summary>เอกสารจากลูกค้า</summary>
         <ul class="tree-docs">
@@ -175,6 +183,12 @@
           <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-combined-quotation.pdf"><span class="tree-doc-tag">C</span>ใบเสนอราคารวม 2 คอลัมน์</a></li>
         </ul>
       </details>
+
+      <details class="tree-cat" data-section="day-in-life" open>
+        <summary>Day-in-the-Life</summary>
+        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+      </details>
+
       <details class="tree-cat" data-section="working-documents" open>
         <summary>เอกสารระหว่างทำงาน</summary>
         <ul class="tree-docs">
@@ -195,6 +209,17 @@
           <li class="tree-doc"><a href="presentations/workflow-design/workorder-explainer.html"><span class="tree-doc-tag">D7</span>Work Order คืออะไร — กลไก + ทางเลือก Full/Minimal</a></li>
         </ul>
       </details>
+
+      <details class="tree-cat" data-section="qa-test-cases" open>
+        <summary>QA / Test Cases</summary>
+        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+      </details>
+
+      <details class="tree-cat" data-section="e2e-walkthroughs" open>
+        <summary>E2E Full Walkthroughs</summary>
+        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+      </details>
+
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
@@ -329,6 +354,14 @@
     </a>
   </div>
 
+  <div class="category" id="golden-path-test-cases">
+    <div class="category-header">
+      <div class="category-title">Golden Path Test Case</div>
+      <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 จุดขาย/สวิตช์ ตามแนวคิด EG-321 — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
+    </div>
+    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#golden-path-test-cases" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
+  </div>
+
   <div class="category" id="client-documents">
     <div class="category-header">
       <div class="category-title">เอกสารจากลูกค้า</div>
@@ -415,6 +448,14 @@
       </div>
       <div class="arrow">→</div>
     </a>
+  </div>
+
+  <div class="category" id="day-in-life">
+    <div class="category-header">
+      <div class="category-title">Day-in-the-Life</div>
+      <div class="category-sub">จำลองกระบวนการทั้งวัน — ร้อยทุกขั้นตอนของ 1 โครงการจริงต่อเนื่องกันจนจบ ครบทุกฝ่ายที่เกี่ยวข้อง</div>
+    </div>
+    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#day-in-life" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
   </div>
 
   <div class="category" id="working-documents">
@@ -518,6 +559,22 @@
       </div>
       <div class="arrow">→</div>
     </a>
+  </div>
+
+  <div class="category" id="qa-test-cases">
+    <div class="category-header">
+      <div class="category-title">QA / Test Cases</div>
+      <div class="category-sub">เอกสารทดสอบระบบแบบครอบคลุมฟีเจอร์ + edge case/validation — ใช้ตรวจสอบ regression ก่อนส่งมอบแต่ละรอบ</div>
+    </div>
+    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#qa-test-cases" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
+  </div>
+
+  <div class="category" id="e2e-walkthroughs">
+    <div class="category-header">
+      <div class="category-title">E2E Full Walkthroughs</div>
+      <div class="category-sub">เดินระบบจริงครบวงจร แบ่งตามขั้นตอนธุรกิจ — ครอบคลุมทั้งการรับหินเข้าคลังและการขายทั้ง 5 รูปแบบ</div>
+    </div>
+    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#e2e-walkthroughs" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
   </div>
 
   <div class="category" id="draft-document">
