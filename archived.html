@@ -81,7 +81,7 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite</div>
     <h1>เอกสารเก่า (Archived)</h1>
-    <div style="font-size:12.5px;color:#8a8d90;margin-top:2px;">อัปเดตล่าสุด: 17 ก.ย. 2026</div>
+    <div style="font-size:12.5px;color:#8a8d90;margin-top:2px;">อัปเดตล่าสุด: 26 ก.ย. 2026</div>
     <div class="sub">เอกสารที่เคยใช้งานอยู่ในคลังหลัก แต่เนื้อหาไม่ทันสมัยแล้วเพราะระบบถูกปรับไปหลังจากเอกสารนี้ถูกเขียน — เก็บไว้อ้างอิงประวัติเท่านั้น ห้ามใช้เป็นคู่มืออ้างอิงการทำงานปัจจุบัน จัดหมวดหมู่แบบเดียวกับ <a href="library.html" style="color:var(--copper-dark);font-weight:700;">คลังเอกสารทั้งหมด</a></div>
   </header>
 
@@ -158,6 +158,104 @@
     </div>
   </div>
 
+  <div class="category" id="golden-path-test-cases">
+    <div class="category-header">
+      <div class="category-title">Golden Path Test Case</div>
+      <div class="category-sub">ย้ายจากคลังเอกสารหลักตามคำขอจัดระเบียบ 26 ก.ย. 2026 — เนื้อหายังเป็นชุดล่าสุดที่ใช้งานจริง ไม่ใช่เอกสารล้าสมัย</div>
+    </div>
+    <div class="card">
+      <div class="icon">G1</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-e2e-mode1.html">Golden Path — จุดขาย 1: Block</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[3 จุดขาย]</div>
+        <div class="card-desc">15 test case เดินเรื่องราวเดียวต่อเนื่อง — ซื้อ Block ใหม่เข้าสต็อก (PO → "สร้าง Block" ผ่านปุ่มลัด → Vendor Bill) → ขายทั้งก้อนตาม CBM (Sell Whole Block ราคาคำนวณอัตโนมัติ) → Confirm → จัดส่ง → ออกใบแจ้งหนี้ → ตรวจรายการบัญชีทั้งฝั่งซื้อ/ขาย (ไม่ใช่บัญชี COGS ทั่วไป, ไม่มี COGS ซ้ำ) → สรุปกำไรขั้นต้น → ตรวจ Analytic Account 3 มิติ (Block/หมวดวัสดุ/วัสดุ) ไม่กระทบจากการเปลี่ยนกลไกตัดหินของจุดขาย Slab เลย (ไม่มีขั้นตอนตัด) — รันสดใหม่ล่าสุดยืนยันหน้าจอปัจจุบัน ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงบน mbx-ee-dev (PO P00056 → Block BLK-26-0032 → SO S00132 → Invoice INV/2026/00034, 37,450.00)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">รันสดใหม่ ยืนยันหน้าจอปัจจุบัน</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G2</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-e2e-mode2.html">Golden Path — จุดขาย 2: Slab (มีสต๊อกพร้อมขาย)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[3 จุดขาย]</div>
+        <div class="card-desc">13 test case ครอบคลุมทั้ง 2 เส้นทางย่อย: ขายทีละแผ่นตามเลข Serial (Select Slabs) และขายบางส่วนจากล็อตหินราคาถูก (Select Lot Stock, ADR-020) เดินเรื่องตั้งแต่มีสต็อกพร้อมขาย (ตัดผ่านกลไก native MO เดียวกับจุดขาย Slab อีกเส้นทาง) → เลือกขาย → สแกน Serial ยืนยันก่อนส่งเสมอ (บล็อกถ้าสแกนไม่ตรง, ADR-009) → ออกใบแจ้งหนี้ + รับชำระเงิน → ตรวจบัญชีลงถูกทาง (Serial vs Lot คนละบัญชีรายได้) + COGS ไม่เป็น 0 ทั้งคู่ (ยืนยันซ้ำว่าบั๊ก material_lot_id ที่เคยแก้ไปยังปิดอยู่จริง) — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงบน mbx-ee-dev (Serial: SO S00133 → INV/2026/00035, 4,622.40 | Lot: SO S00134 → INV/2026/00036, 8,560.00)</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">รันสดใหม่ ยืนยันหน้าจอปัจจุบัน</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G3</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-e2e-mode3.html">Golden Path — จุดขาย 2: Slab (สั่งตัดใหม่, Block-to-Slab)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[3 จุดขาย]</div>
+        <div class="card-desc">15 test case เขียนใหม่ทั้งชุด — กลไกตัด Block→Slab เปลี่ยนเป็นวางแผนจำนวนแผ่นอัตโนมัติจากขนาดก้อน + บันทึกขนาดจริงทีละแผ่นหลังตัด + คำนวณ Yield % เทียบแผน (ADR-066) พร้อม banner นำทาง + ปุ่ม "ย้ายด่วน (Move to Production)" ใหม่บนฟอร์ม MO (Session 136-138) เดินเรื่องราวเดียวต่อเนื่องตั้งแต่มี Block พร้อมอยู่แล้วในสต็อก → ยืนยันคำสั่งขายก่อนมีแผ่นจริง → สร้าง MO (ระบบวางแผน 2 แผ่นอัตโนมัติ) → ย้ายด่วนไปสถานีตัด → Confirm → ทำ Work Order → บันทึกขนาดจริง → Complete Cut ได้แผ่นจริง 2 แผ่นจาก 1 ก้อน (ราคา SO คำนวณใหม่อัตโนมัติ) → จัดส่ง (สแกน Serial ยืนยัน) → ออกใบแจ้งหนี้ + รับชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Block BLK-26-0030 → S00131 → EG01/STCUT/00044 → INV/2026/00033) — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว — จับคู่กับ G2 เป็นจุดขายเดียวกัน (Slab) แค่คนละเส้นทางจัดหาของ</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด — กลไกเปลี่ยน</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G5</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-e2e-mode5.html">Golden Path — จุดขาย 3: FG</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[3 จุดขาย]</div>
+        <div class="card-desc">13 test case เขียนใหม่ทั้งชุด+ขยายเนื้อหาใหม่ — ครอบคลุมทั้ง 2 แบบของจุดขาย FG: <b>Standard</b> (สินค้า BOM ตายตัว เช่น Countertop — ADR-067 ถอด wizard Produce FG เดิม "Produce FG" สร้าง MO ตรงทันที ไม่มี popup แล้ว บันทึกขนาดจริงในแท็บ FG Output ใหม่) และ <b>Custom</b> (งานสั่งทำเฉพาะ เช่น เจดีย์บัว/ซุ้มบัว — ใหม่ทั้งหมดจาก ADR-068 session เดียวกับที่เขียนเอกสารนี้ ผ่าน Stage 2 "ถอดแบบ" (Slab→N ชิ้นแชร์ Lot เดียวกัน) แล้ว Stage 3 "ประกอบ" ผ่าน wizard BOQ ที่ขยายให้เลือก Cutting Plan Lot ได้) ทั้ง 2 สายจบครบวงจรถึงบัญชี+ชำระเงิน — ทุกตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน mbx-ee-dev (Standard: SO S00137 → INV/2026/00037, 9,630.00 | Custom: SO S00138 → INV/2026/00038, 12,840.00) — เอกสารรุ่นก่อนหน้าย้ายไป Archived แล้ว</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">16 ก.ย. 2026</span><span class="status-badge confirmed">เขียนใหม่ทั้งชุด + Custom variant ใหม่</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">⟳</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-golden-path-switch-project.html">Golden Path — สวิตช์ Project</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[2 สวิตช์]</div>
+        <div class="card-desc">เดิมเรียก "Mode 4" — ตามแนวคิด EG-321 ไม่ใช่จุดขายที่ 4 แต่เป็นสวิตช์ "ติดตามงาน + เก็บเงินเป็นงวด" ที่แปะกับจุดขายไหนก็ได้ (ADR-069) 6 test case รันสดบน eg-tst 17 ก.ย. 2026 (ยังเป็นเวอร์ชันย่อ ไม่มี Excel export — ดูรายละเอียดในเอกสาร)</div>
+        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">สร้างใหม่ตามกรอบ EG-321</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">⟳</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-golden-path-switch-boq.html">Golden Path — สวิตช์ BOQ</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[2 สวิตช์]</div>
+        <div class="card-desc">สร้างใบเสนอราคาจากเอกสารประเมินราคา (BOQ) — อิสระจากสวิตช์ Project อย่างสมบูรณ์ 4 test case รันสดบน eg-tst 17 ก.ย. 2026 (ยังเป็นเวอร์ชันย่อ ไม่มี Excel export — ดูรายละเอียดในเอกสาร)</div>
+        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">⟳+</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-golden-path-boq-project-combo.html">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[2 สวิตช์]</div>
+        <div class="card-desc">13 test case สาธิตทั้ง 2 สวิตช์<b>ใช้ร่วมกัน</b> เริ่มจาก Cutting List จริง (ไฟล์เดียวกับดีล THE ONE BANGKOK แต่ตั้งชื่อลูกค้าทดสอบแยกเป็น "THE TWO BANGKOK") → นำเข้าไฟล์ → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project → Confirm → ตรวจ Task + Milestone ที่สร้างอัตโนมัติ ให้ผู้ใช้ทดสอบเองตามขั้นตอน (ยังไม่ได้รันจริง ไม่มีภาพหน้าจอ — มีช่องติ๊กผ่าน/ไม่ผ่าน+จดหมายเหตุในตัวเอกสาร)</div>
+        <div class="card-meta"><span class="card-date">22 ก.ย. 2026</span><span class="status-badge design">รอผู้ใช้ทดสอบเอง</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="category" id="day-in-life">
     <div class="category-header">
       <div class="category-title">Day-in-the-Life</div>
@@ -171,6 +269,17 @@
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> ถูกแทนที่ด้วยเอกสารรูปแบบเดียวกันแต่ปรับเป็นมุมมองผู้ทดสอบ ครบ 35 test case พร้อมภาพหน้าจอจริงประกอบทุกขั้นตอน ดูฉบับที่ใช้งานจริงได้ที่ <a href="presentations/day-in-life-testcases-v2.html">Test Cases v2 — 1 Case ต่อ 1 สไลด์ →</a>
           <span class="archived-on">ย้ายเข้า Archived: 2 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">1</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/day-in-life-testcases-v2.html">Test Cases v2 — 1 Case ต่อ 1 สไลด์</a>
+        <div class="card-desc">รูปแบบเดียวกับเดโม Day-in-the-Life แต่ปรับเป็นมุมมองผู้ทดสอบ: 35 test case (เฉพาะ happy path ไม่มี error case) แต่ละสไลด์มี Steps + ข้อมูลสำหรับทดสอบ + ผลลัพธ์ที่ควรเห็น พร้อมภาพหน้าจอจริงประกอบทุกขั้นตอน</div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
         </div>
       </div>
     </div>
@@ -317,6 +426,141 @@
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> เอกสารนี้พึ่งพาผลลัพธ์จากขั้นตอน Cut Order (ตัด Block→Slab) เป็น precondition — เมื่อกลไกนั้นเปลี่ยนไปตาม ADR-066 (วางแผน/บันทึกจริงหลายแผ่น+yield%) และหน้าฟอร์ม MO เปลี่ยนตาม Session 136-138 (รวมถึง ADR-067 ที่ถอด wizard "Produce FG" เดิมออกสำหรับ Slab→FG มาตรฐาน แทนที่ด้วย MO ตรง + FG Output Line) ทุกภาพหน้าจอในเอกสารนี้ไม่ตรงกับระบบจริงอีกต่อไป — รุ่นใหม่ (v3) สร้างเสร็จแล้ว 16 ก.ย. 2026 พร้อม Custom variant ใหม่จาก ADR-068 ดูฉบับที่ใช้งานจริงได้ที่ <a href="qa/test-cases-e2e-mode5.html">Golden Path — Mode 5 (v3) →</a>
           <span class="archived-on">ย้ายเข้า Archived: 16 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">T</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-product-sales.html">Test Cases: Product Master &amp; Sales</a>
+        <div class="card-desc">81 test case ครอบคลุม Product Master (<code>stone.material</code> — Pricing Mode, Costing Basis, Finish Variant, BOM auto-provisioning) และการขายทั้ง 5 โหมด + Intercompany Trade + Multi-Company Security รวม known issue/regression case ที่เคยพบมาแล้ว — ปรับ A5/A6/A7/B3 ให้ตรงกับกลไกตัดหินใหม่ (native Manufacturing Order สร้างตรงในแอป Manufacturing ไม่มี wizard/Factory Worklist แล้ว ตั้งแต่ 13 ก.ย. 2026) เพิ่ม edge case ของกลไกใหม่ใน B3 อีก 2 ข้อ (multi-Block reservation, target dimension validation) พร้อมปิดช่องว่างการทดสอบสิทธิ์ Sale Group by Product Category (ADR-057/058/060, 2026-09-13) อีก 10 เคสใหม่: B1 กันขาย Block ทั้งก้อนนอกกลุ่ม Supervisor, B2 Pin Serial (B7), B3 Target L/H/Thickness บนบรรทัด SO, B8 regression ปิดบั๊ก stock.lot ACL ที่เคยบล็อกผู้ใช้ Sale ทุกระดับ Save บรรทัด Stone-Material ไม่ได้ — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-version">v3</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">เพิ่ม test coverage Sale Group/Pin Serial/Target Size (ADR-057/058/060)</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">T2</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-day-in-life.html">Test Cases: Day-in-the-Life (Order-to-Cash)</a>
+        <div class="card-desc">40 test case เดินตามลำดับ flow จริงทุกจุดในเอกสาร Day-in-the-Life ครบทุกสไลด์ในเธรดเดียว (Material Setup → Analytic → BOQ Quotation → มัดจำ+Project → ต้นทุนจริงจาก PO → MO ตัดหิน (native, สร้างตรงในแอป Manufacturing ไม่มี wizard แล้ว) → ค่าใช้จ่ายหน้างาน → ติดตั้ง+WHT → ปิดยอด → Chart of Analytic Accounts) รวมจุดที่เคยมี Test Case ในหมวดอื่นแล้วก็ทดสอบซ้ำที่นี่เพื่อจับ regression จากโค้ดที่เปลี่ยนล่าสุด (ระบุที่มาไว้ในหมายเหตุแต่ละเคส) — ดาวน์โหลดเป็น Excel ได้ในหน้าเดียวกัน</div>
+        <div class="card-meta"><span class="card-version">v1.2</span><span class="card-date">14 ก.ย. 2026</span><span class="status-badge confirmed">ปรับ D5/D6 (Cut Order) ให้ตรงกับกลไก native MO ใหม่ (ADR-061/062)</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">PS</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/test-cases-product-setup.html">Test Cases: Product/Material Setup</a>
+        <div class="card-desc">12 test case เดินเรื่องราวเดียวต่อเนื่องของการตั้งค่าสินค้าใหม่ผ่าน Quick Material Setup Wizard ตั้งแต่กรอกข้อมูล Material → ตั้งราคา Slab/Block/Finished Good → ตรวจว่า Product/Analytic Account ถูกสร้างจริง → ยืนยันเลือกได้ในหน้า PO/SO → เพิ่ม Finished Good ให้ Material เดิม เป็น precondition ของเอกสาร Golden Path Mode 1-5 ทุกฉบับ พบ+แก้บั๊กจริง 2 ตัวระหว่างสร้างเอกสารนี้ (wizard crash, Product Category ว่างเปล่า) — ทุกตัวเลขมาจากการรันจริงบน eg-tst</div>
+        <div class="card-meta"><span class="card-date">9 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="category" id="e2e-walkthroughs">
+    <div class="category-header">
+      <div class="category-title">E2E Full Walkthroughs</div>
+      <div class="category-sub">ย้ายจากคลังเอกสารหลักตามคำขอจัดระเบียบ 26 ก.ย. 2026 — เนื้อหายังเป็นชุดล่าสุดที่ใช้งานจริง ไม่ใช่เอกสารล้าสมัย</div>
+    </div>
+    <div class="card">
+      <div class="icon">M1</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode1-block.html">E2E — โหมด 1: ขายก้อนหินทั้งก้อน (Block Sale)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">เดินระบบจริงจากมีก้อนหินพร้อมขายอยู่แล้ว → เลือกก้อนขายทั้งก้อน → ยืนยันใบสั่งขาย → กรณีขายข้ามบริษัทที่ระบบจัดการให้อัตโนมัติ → ส่งของตรงถึงลูกค้าปลายทาง → ออกใบแจ้งหนี้ — พร้อมผังไฮไลท์ทีละขั้นตอน แยกจากขั้นตอนรับหินเข้าคลังแล้ว</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">M2</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode2-slab.html">E2E — โหมด 2: ขายแผ่นหินสำเร็จรูป (Ready-Made Slab)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">เดินระบบจริงจากมีแผ่นหินพร้อมขายอยู่แล้ว → เลือกแผ่นตามหมายเลขกำกับ (เลือกได้หลายแผ่นพร้อมกัน) → ยืนยันใบสั่งขาย → ตรวจสอบแผ่นก่อนส่งของ → ออกใบแจ้งหนี้ — เพียง 4 ขั้นตอน แยกจากขั้นตอนรับหินเข้าคลังแล้ว (รวมเส้นทางหินราคาประหยัดแบบนับจำนวนไว้ในเอกสารเดียวกัน)</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">M3</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode3-cut.html">E2E — โหมด 3: ตัดตามสั่ง (Block-to-Slab)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">เดินระบบจริงจากมีก้อนหินพร้อมอยู่แล้ว → ยืนยันใบสั่งขายทั้งที่ยังไม่มีแผ่นจริง → ระบบขึ้นคิวงานตัดให้ฝ่ายผลิตอัตโนมัติ → ฝ่ายผลิตเลือกก้อนและระบุขนาดที่จะตัด → ราคาคำนวณให้อัตโนมัติ → ตรวจสอบแผ่นก่อนส่งของ → ออกใบแจ้งหนี้ — แยกจากขั้นตอนรับหินเข้าคลังแล้ว</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">M3+</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-cut-to-stock.html">E2E — เบิกก้อนหินมาตัด Slab เก็บสต็อก (ไม่ผูกคำสั่งขาย)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">กลไกเดียวกับโหมด 3 (Block-to-Slab) แต่เปิดจากหน้าก้อนหินโดยตรง ไม่ต้องมีคำสั่งขาย — เบิกก้อนหินไปสถานีตัด → เปิด Create Cut Order ระบุขนาด + เหตุผล (audit trail) → ตัดจริง → แผ่นใหม่เข้าคลัง Stone Available ทันที สถานะพร้อมขายโดยไม่ถูก Hold ผูกใคร เหมาะกับตัดสำรองสต็อกไว้รับลูกค้า Walk-in/eCommerce ล่วงหน้า — เดินระบบจริง ไม่ใช่ภาพจำลอง</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">M4</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode4-project.html">E2E — โหมด 4: งานโครงการ (Sold-as-Project)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">เดินระบบจริงตั้งแต่ประเมินราคางานจากรายการต้นทุนมาตรฐาน → สร้างใบเสนอราคา → เลือกขายแบบงานโครงการแล้วยืนยันใบสั่งขาย → ระบบสร้างโครงการพร้อมงวดงาน 30/40/30 ให้อัตโนมัติ → ติดตามความคืบหน้าผ่านผังงาน → วางบิลตามงวดโดยหักยอดที่จ่ายไปแล้วให้เอง — ไม่ต้องพึ่งขั้นตอนรับหินเข้าคลัง</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">M5</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode5-fg-production.html">E2E — โหมด 5: ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Demand Generation <span class="subgroup-sub">— ขาย 5 โหมด นับจากมีของในสต็อกแล้ว</span>]</div>
+        <div class="card-desc">เดินระบบจริงจากมีก้อนหินพร้อมอยู่แล้ว → ยืนยันใบสั่งขายสินค้าสำเร็จรูป → ระบบขึ้นคิวงานผลิตให้อัตโนมัติ → ตัดแผ่นหินดิบก่อนตามขั้นตอนปกติ → ผลิตต่อเป็นสินค้าสำเร็จรูป ระบุผลผลิตแต่ละชิ้นให้ครบ → ได้สต็อกสินค้าสำเร็จรูปจริง พร้อมแยกชุดการผลิตแต่ละครั้ง → ส่งของให้ลูกค้า → ออกใบแจ้งหนี้ — แยกจากขั้นตอนรับหินเข้าคลังแล้ว</div>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span><span class="status-badge confirmed">ปรับปรุงเนื้อหาแล้ว</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">S1</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-supply-intake.html">E2E — รับหินเข้าคลัง (Ensure Supply)</a>
+        <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[Ensure Supply <span class="subgroup-sub">— กระบวนการเดียว ใช้ร่วมก่อนทุกโหมดขาย</span>]</div>
+        <div class="card-desc">เปิดใบสั่งซื้อก้อนหิน (กรอกเป็นตัน) → ยืนยัน → สร้างข้อมูลก้อนหินผูกกับใบสั่งซื้อ → กรอกรายละเอียด → บันทึกรับเข้าสต็อกอัตโนมัติ → เพิ่มแผ่นหิน → พร้อมขายได้ทั้ง 5 รูปแบบ — เดินระบบจริง ไม่ใช่ภาพจำลอง</div>
+        <div class="card-meta"><span class="card-version">v1.1</span><span class="card-date">30 ส.ค. 2026</span><span class="status-badge confirmed">อัปเดต — ถ่าย screenshot ใหม่ตาม ADR-040</span></div>
+        <div class="archive-note">
+          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
+          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
         </div>
       </div>
     </div>
