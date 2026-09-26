@@ -160,7 +160,9 @@
 
       <details class="tree-cat" data-section="golden-path-test-cases" open>
         <summary>Golden Path Test Case</summary>
-        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
+        </ul>
       </details>
 
       <details class="tree-cat" data-section="client-documents" open>
@@ -359,7 +361,15 @@
       <div class="category-title">Golden Path Test Case</div>
       <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 จุดขาย/สวิตช์ ตามแนวคิด EG-321 — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
     </div>
-    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#golden-path-test-cases" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
+
+    <a class="card" href="qa/test-cases-golden-path-block-slab-fg.html">
+      <div class="icon">1</div>
+      <div>
+        <div class="card-title">Golden Path — Block → Slab → Finished Goods (v2)</div>
+        <div class="card-desc">ตั้งค่า Material/ราคาใหม่ → ซื้อ Block (คำนวณ CBM/น้ำหนักอัตโนมัติ) → ขายครบทั้ง 3 ช่องทาง (Block ทั้งก้อน / Slab พร้อมขาย / BOQ-Project) → ผลิต FG หาแผ่นตรง spec อัตโนมัติ → ส่งของ → วางบิล — สร้างใหม่ทั้งชุดหลัง ADR-071/072/073 (24 test cases)</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="category" id="client-documents">

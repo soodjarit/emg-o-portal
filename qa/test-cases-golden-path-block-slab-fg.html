@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: Block → Slab → Finished Goods</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-block-slab-fg.xlsx" download="EMG-O Golden Path - Block-Slab-FG.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#S1"><span class="tree-doc-tag">S1</span>ตั้งค่า Material ใหม่ (Setup)</a></li><li class="tree-doc"><a href="#S2"><span class="tree-doc-tag">S2</span>ตั้งราคาต่างกันตาม Finish/Thickness (Setup)</a></li><li class="tree-doc"><a href="#G1"><span class="tree-doc-tag">G1</span>จัดซื้อ + รับ Block เข้าคลัง (ADR-071)</a></li><li class="tree-doc"><a href="#G2"><span class="tree-doc-tag">G2</span>ขาย — เลือก Finish/Thickness ตอนสร้าง Sale Order (ADR-072)</a></li><li class="tree-doc"><a href="#G3"><span class="tree-doc-tag">G3</span>ผลิต FG ตาม Spec ที่ลูกค้าสั่ง (ADR-073)</a></li><li class="tree-doc"><a href="#G4"><span class="tree-doc-tag">G4</span>ส่งของ + วางบิล</a></li><li class="tree-doc"><a href="#M1"><span class="tree-doc-tag">M1</span>โหมดขาย 1 — ขายทั้งก้อน Block (Block Direct Sale)</a></li><li class="tree-doc"><a href="#M2"><span class="tree-doc-tag">M2</span>โหมดขาย 2 — ขาย Slab ที่มีสต็อกพร้อมขายอยู่แล้ว (Ready-Made Slab)</a></li><li class="tree-doc"><a href="#M3"><span class="tree-doc-tag">M3</span>โหมดขาย 3 — ขายแบบ BOQ/Project (Sold-as-Project)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — Block &rarr; Slab &rarr; Finished Goods (v2)</h1>
+    <div class="sub">เรื่องราวเดินตั้งแต่ตั้งค่า Material ใหม่, ซื้อก้อนหิน (Block), ขายทั้ง 3 ช่องทาง (Block ทั้งก้อน / Slab พร้อมขาย / BOQ-Project), ผลิต FG, จนถึงวางบิลลูกค้า หลังปรับ concept ใหม่ทั้งชุด (ADR-071/072/073, 25 ก.ย. 2026): Block กรอกแค่ขนาดจริง ระบบคำนวณ CBM/น้ำหนักให้เอง, Finish/Thickness ย้ายไปอยู่ที่ Slab แต่ละแผ่นแทนที่จะเป็นของ Block ทั้งก้อน, และผลิต FG ระบบหาแผ่นที่ตรง spec ลูกค้าสั่งให้อัตโนมัติ เดินตามได้เองแม้ไม่ใช่ technical user สร้างใหม่ทั้งชุด 26 ก.ย. 2026 แทนที่เอกสาร Mode 3/Mode 5 เดิมที่อ้างอิง concept ก่อนปรับ, ขยายเพิ่ม (v2) ให้ครอบคลุม Material/ราคา Setup และอีก 2 sale mode ที่เหลือ (Block ทั้งก้อน, BOQ/Project) ตัวเลข "ตัวอย่างจริง" มาจากการรันจริงรอบนี้บน eg-tst ผ่านเบราว์เซอร์จริง ไม่ใช่ตัวเลขสมมติ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>24</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>9</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">17</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">7</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>Setup:</b> Quick Material Setup Wizard สร้าง "E2E GP Test Marble" — ติ๊ก Finish/Thickness มาตรฐาน (Polished/Honed × 2cm/3cm) ให้อัตโนมัติ + ติ๊กเพิ่ม Brushed/5cm เอง &rarr; ได้ 9 variant ไม่ชนกัน &rarr; ตั้ง Extra Price แยก Finish จริง (Polished 9,000 / Honed 8,200 / Brushed 9,500)<br><br>
+    <b>G1-G4 (Block&rarr;Slab&rarr;FG หลัก):</b> PO P00133 (2.40 CBM, 46,224.00 รวม VAT) &rarr; Confirm &rarr; "สร้าง Block" &rarr; Block BLK-26-0266 (Total CBM/Weight คำนวณอัตโนมัติ) &rarr; SO S00320 เลือก Finish=Polished, Thickness=2cm &rarr; Confirm 25,680.00 &rarr; "Produce FG" หา Slab ตรง spec ให้อัตโนมัติ (BLK-26-0265 #3) &rarr; Complete FG Production &rarr; Delivery + Invoice INV/2026/00001<br><br>
+    <b>M1 (ขายทั้งก้อน Block):</b> Block BLK-26-0268 &rarr; SO S00321 "Sell Whole Block" เลือกก้อน ราคาคิดจาก CBM จริง (1.80&times;50,000=90,000) &rarr; Confirm 96,300.00 &rarr; Invoice INV/2026/00002<br><br>
+    <b>M2 (ขาย Slab พร้อมขาย) — จุดสำคัญ โค้ดเพิ่งแก้ไม่เคยรันสดมาก่อน:</b> SO S00323 เพิ่ม Slab Product ตรง &rarr; "Select Slabs" กรองถูกต้องเหลือเฉพาะ 80 แผ่น Polished/2cm ที่ Available จริง (ADR-072 variant_id domain) &rarr; เลือก 3 แผ่น &rarr; Confirm 61,632.00 &rarr; Delivery (ต้องสแกน Serial ยืนยันก่อน) &rarr; Invoice INV/2026/00003<br><br>
+    <b>M3 (BOQ/Project):</b> Rate Library ผูกสินค้าหินจริง &rarr; BOQ0041 &rarr; สร้างใบเสนอราคา SO S00324 &rarr; ติ๊ก Sold as Project &rarr; Confirm &rarr; Project + 2 Tasks สร้างอัตโนมัติ (กลไกนี้ไม่ถูกกระทบจาก ADR-071/072/073 เลย)<br><br>
+    <b>✅ สรุป:</b> ทั้ง 3 sale mode + setup ผ่านการรันจริงหมด ไม่มี error ที่เป็นบั๊กจริง (พบแค่ validation ที่ตั้งใจไว้ เช่น ต้องกรอก Sales Price/CBM ก่อน, ต้องสแกน Serial ก่อนส่งของ) M2 คือจุดเสี่ยงสูงสุดเพราะโค้ด Select Slabs เพิ่งแก้ตาม ADR-072 — ยืนยันแล้วว่าใช้งานได้จริง
+  </div>
+
+  <div class="category" id="S1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S1. ตั้งค่า Material ใหม่ (Setup)</div>
+        <div class="category-sub">Quick Material Setup Wizard — Finish/Thickness มาตรฐานติ๊กไว้ให้อัตโนมัติ เพิ่มนอกเหนือได้ในหน้าเดียว · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-01</span></td>
+          <td class="col-scenario">เปิด Quick Material Setup Wizard กรอกข้อมูล Material ใหม่ให้ครบ<div class="note">✨ 2026-09-26: Finish (Polished/Honed) และ Thickness (2cm/3cm) ติ๊กไว้ให้อัตโนมัติล่วงหน้าแล้ว ไม่ต้องเลือกเอง</div></td>
+          <td class="col-pre">ไม่มี — เปิดจากเมนูได้ทันที</td>
+          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Tools &gt; Quick Material Setup</li><li>กรอกชื่อ Material, Category, Density</li><li>ติ๊ก "ขายทั้งก้อนได้" ถ้า Material นี้ขายทั้งก้อนได้ด้วย</li></ol></td>
+          <td class="col-sample">ชื่อ = E2E GP Test Marble<br>Category = Marble<br>Density = 2.65 ตัน/คิว</td>
+          <td class="col-expected">เห็น Finish (Polished, Honed) และ Thickness (2cm, 3cm) ติ๊กไว้ให้อัตโนมัติแล้วในตาราง Finish/มุม/Thickness ด้านล่าง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp14-material-wizard-filled.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp14-material-wizard-filled.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-02</span></td>
+          <td class="col-scenario">ติ๊กเพิ่ม Finish/Thickness นอกเหนือจากค่ามาตรฐาน<div class="note">ถ้า Material นี้ต้องการตัวเลือกที่ไม่ใช่ค่ามาตรฐาน (เช่น Brushed, 5cm) แค่ติ๊กเพิ่มในหน้าเดียวกัน ไม่ต้องไปตั้งค่าที่อื่น</div></td>
+          <td class="col-pre">ทำ TC-GP-BSF-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ติ๊กเพิ่มค่า Finish/Thickness ที่ต้องการนอกเหนือจากที่ติ๊กไว้ให้แล้ว</li></ol></td>
+          <td class="col-sample">ติ๊กเพิ่ม: Finish = Brushed, Thickness = 5 cm</td>
+          <td class="col-expected">ค่าที่ติ๊กเพิ่มแสดงเป็นเลือกแล้ว (สีเขียว) อยู่ร่วมกับค่ามาตรฐานที่ติ๊กไว้ก่อนหน้า</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp15-material-wizard-extra-ticked.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp15-material-wizard-extra-ticked.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-03</span></td>
+          <td class="col-scenario">กด "Create All" สร้าง Material พร้อม Slab/Block Product ทุก Variant</td>
+          <td class="col-pre">ทำ TC-GP-BSF-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Create All"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ Material ใหม่พร้อม Slab Product ที่มี Variant ครบทุกค่าที่เลือก (มาตรฐาน + ที่เพิ่มเอง) รหัสสินค้าไม่ชนกัน — ตัวอย่างจริง: "E2E GP Test Marble" ได้ 9 variant (Polished/Honed/Brushed × 2cm/3cm/5cm) พร้อม Block Product เชื่อมให้แล้ว</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp16-material-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp16-material-created.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="S2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S2. ตั้งราคาต่างกันตาม Finish/Thickness (Setup)</div>
+        <div class="category-sub">ฝั่งแอดมิน — ปรับราคาส่วนต่างแยกตามค่า Finish/Thickness ให้สินค้าที่มีอยู่แล้ว · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-04</span></td>
+          <td class="col-scenario">เปิดหน้า Product Variant Values ของ Slab Product ปรับราคาส่วนต่างตาม Finish</td>
+          <td class="col-pre">มี Material ที่มี Finish/Thickness มากกว่า 1 ค่าแล้ว (เช่น จาก S1)</td>
+          <td class="col-steps"><ol><li>เปิด Slab Product &gt; แท็บ Attributes &amp; Variants</li><li>กด "Configure" ที่แถว Finish</li><li>เลือกค่าที่ต้องการปรับราคา กรอก Extra Price</li><li>Save</li></ol></td>
+          <td class="col-sample">Honed Extra Price = -800 บาท (ถูกกว่า Polished)<br>Brushed Extra Price = +500 บาท (แพงกว่า Polished)</td>
+          <td class="col-expected">ราคาขายจริงของแต่ละ Variant คำนวณใหม่ถูกต้องทันที — ตัวอย่างจริง: Polished 9,000 (ฐาน), Honed 8,200, Brushed 9,500 บาท (ทุก Thickness ในกลุ่มเดียวกัน)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp19-variants-computed-prices.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp19-variants-computed-prices.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G1. จัดซื้อ + รับ Block เข้าคลัง (ADR-071)</div>
+        <div class="category-sub">Block กรอกแค่ กว้าง×ยาว×สูง ระบบคำนวณ CBM/น้ำหนักให้อัตโนมัติ ไม่ต้องคีย์เอง · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-05</span></td>
+          <td class="col-scenario">สร้าง Purchase Order สั่งซื้อ Block จาก Supplier แล้ว Confirm</td>
+          <td class="col-pre">มี Material ที่ตั้งค่า Block Product ไว้แล้ว (เช่น ดำซานซี/ABSOLUTE BLACK)</td>
+          <td class="col-steps"><ol><li>เปิด Purchase &gt; New</li><li>เลือก Vendor</li><li>Add a product เลือกสินค้า Block ของ Material ที่ต้องการ</li><li>กรอก Quantity (คิว/CBM ที่ซื้อจริง)</li><li>กด Confirm Order</li></ol></td>
+          <td class="col-sample">Vendor = EMG-test<br>สินค้า = ดำซานซี/ABSOLUTE BLACK - Block<br>Quantity = 2.40 (คิว)</td>
+          <td class="col-expected">PO ยืนยันสำเร็จ ระบบคำนวณ Qty(Ton)/Price-per-Ton ให้อัตโนมัติจากความหนาแน่นของ Material — ตัวอย่างจริง: P00133, ยอดรวม 46,224.00 บาท (รวม VAT)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp01-po-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp01-po-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-06</span></td>
+          <td class="col-scenario">กดปุ่ม "สร้าง Block" บนบรรทัดของ PO</td>
+          <td class="col-pre">ทำ TC-GP-BSF-05 เสร็จแล้ว (PO ต้องอยู่สถานะ Confirmed)</td>
+          <td class="col-steps"><ol><li>บนบรรทัดสินค้าของ PO กดปุ่ม "สร้าง Block"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เปิดฟอร์ม Block ใหม่ทันที โดยกรอก Material/Supplier/Warehouse/Company/Purchase Order Line ให้อัตโนมัติจาก PO — เหลือแค่กรอกขนาดจริง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp02-block-form-prefilled.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp02-block-form-prefilled.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-07</span></td>
+          <td class="col-scenario">กรอกขนาดก้อนจริง (กว้าง×ยาว×สูง) แล้ว Save — ระบบคำนวณ CBM/น้ำหนักให้อัตโนมัติ<div class="note">✨ ADR-071: Block ไม่มีช่อง Thickness/Finish อีกต่อไป — กรอกแค่ 3 มิติ ระบบคำนวณ Total CBM (=กว้าง×ยาว×สูง) และ Weight (Ton) (=CBM×ความหนาแน่น) ให้เองทั้งคู่ ไม่ต้องคีย์เลย</div></td>
+          <td class="col-pre">ทำ TC-GP-BSF-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กรอกความยาวก้อนดิบ (ม.)</li><li>กรอกความกว้างก้อนดิบ (ม.)</li><li>กรอกความสูงก้อนดิบ (ม.)</li><li>กด Save</li></ol></td>
+          <td class="col-sample">ความยาว = 2.00 ม.<br>ความกว้าง = 1.00 ม.<br>ความสูง = 1.20 ม.</td>
+          <td class="col-expected">Total CBM และ Weight (Ton) ขึ้นให้อัตโนมัติ ไม่ต้องพิมพ์เอง — ตัวอย่างจริง: BLK-26-0266, Total CBM = 2.40, Weight (Ton) = 6.48 (2.40 × 2.7)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp03-block-cbm-weight-computed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp03-block-cbm-weight-computed.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G2. ขาย — เลือก Finish/Thickness ตอนสร้าง Sale Order (ADR-072)</div>
+        <div class="category-sub">Finish/Thickness เป็นของแต่ละ Slab ไม่ใช่ของ Block อีกต่อไป ราคาต่างกันได้จริงตามที่เลือก · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-08</span></td>
+          <td class="col-scenario">สร้าง Sale Order เพิ่มสินค้าหิน — ระบบเปิดหน้าต่างให้เลือก Finish/Thickness</td>
+          <td class="col-pre">มีลูกค้าและสินค้าหิน (FG) ที่ผูกกับ Material พร้อมแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; New</li><li>เลือกลูกค้า</li><li>Add a product เลือกสินค้าหิน (เช่น ดำซานซี/ABSOLUTE BLACK)</li></ol></td>
+          <td class="col-sample">ลูกค้า = QA-A B2C Test User<br>สินค้า = ดำซานซี/ABSOLUTE BLACK</td>
+          <td class="col-expected">หน้าต่าง "Configure your product" เปิดขึ้นให้เลือก Finish (Polished/Honed) และ Thickness (2cm/3cm) พร้อมราคารวมที่อัปเดตตามที่เลือกทันที</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp04-so-configurator-opens.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp04-so-configurator-opens.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-09</span></td>
+          <td class="col-scenario">ยืนยัน Finish/Thickness ที่ต้องการ — ราคาต่างกันจริงตามตัวเลือก<div class="note">ตั้งราคาต่างกันตาม Finish/Thickness ผ่าน price_extra ของแต่ละค่า (native Odoo variant pricing, ตั้งค่าไว้ที่ S2) — หน้าต่างเลือกโชว์ป้ายราคาส่วนต่างให้เห็นเลยว่าเลือกแล้วแพง/ถูกลงเท่าไร</div></td>
+          <td class="col-pre">เปิดหน้าต่าง Configure your product จาก TC-GP-BSF-08 แล้ว</td>
+          <td class="col-steps"><ol><li>เลือก Finish ที่ต้องการ (Polished/Honed)</li><li>เลือก Thickness ที่ต้องการ (2cm/3cm)</li><li>สังเกตราคารวมที่มุมขวาบน</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">Base (Polished, 2cm) = 12,000 บาท</td>
+          <td class="col-expected">ราคาต่างกันจริงตามตัวเลือก — ตัวอย่างจริง: Polished/2cm=12,000, Honed/2cm=11,000 (ป้าย "-1,000"), Polished/3cm=18,000 (ป้าย "+6,000"), Honed/3cm=17,000 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp05-finish-thickness-price-delta.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp05-finish-thickness-price-delta.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-10</span></td>
+          <td class="col-scenario">กด Confirm ยืนยัน Sale Order</td>
+          <td class="col-pre">ทำ TC-GP-BSF-09 เสร็จแล้ว (มีบรรทัดสินค้าหินพร้อม Finish/Thickness ที่เลือกแล้ว)</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บนหัว Sale Order</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO ยืนยันสำเร็จ เปลี่ยนสถานะเป็น Sales Order มีสมาร์ทปุ่ม Delivery ปรากฏ และลิงก์ "Produce FG" บนบรรทัดสินค้า — ตัวอย่างจริง: S00320, ยอดรวม 25,680.00 บาท (รวม VAT)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp06-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp06-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G3. ผลิต FG ตาม Spec ที่ลูกค้าสั่ง (ADR-073)</div>
+        <div class="category-sub">ระบบหา Slab ที่ Finish/Thickness ตรงกับที่ลูกค้าสั่งให้อัตโนมัติ ไม่ต้องเลือกเอง · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-11</span></td>
+          <td class="col-scenario">กดลิงก์ "Produce FG" บนบรรทัดสินค้าใน Sale Order<div class="note">✨ ADR-073: ระบบค้นหา Slab ที่มี Finish/Thickness ตรงกับที่ลูกค้าสั่งให้อัตโนมัติ (ไม่ใช่ Slab ของ Material นั้นแบบสุ่มๆ) — ถ้าลูกค้าเคยเลือก Slab แผ่นใดแผ่นหนึ่งไว้ล่วงหน้าแล้ว ระบบจะเคารพแผ่นนั้นก่อนเสมอ</div></td>
+          <td class="col-pre">ทำ TC-GP-BSF-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดลิงก์ "Produce FG" บนบรรทัดสินค้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เปิดหน้า Manufacturing Order ฉบับร่างทันที ช่อง "Slab Consumed (FG)" เติมให้อัตโนมัติเป็นแผ่นที่มี Finish/Thickness ตรงกับที่ลูกค้าสั่ง — ตัวอย่างจริง: MO EG01/STFG/00057, Slab = BLK-26-0265 #3 (Polished, 2cm ตรงกับที่ลูกค้าสั่งเป๊ะ)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp07-produce-fg-auto-matched-slab.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp07-produce-fg-auto-matched-slab.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-12</span></td>
+          <td class="col-scenario">กด "ย้ายด่วน (Move to Production)" แล้ว Confirm ใบสั่งผลิต</td>
+          <td class="col-pre">ทำ TC-GP-BSF-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "ย้ายด่วน (Move to Production)"</li><li>กดปุ่ม Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Slab ที่ระบบจับคู่ให้ถูกย้ายไปสถานีผลิต (Stone Production) สำเร็จ ไม่มี error เรื่องหาสต็อกไม่เจอ แล้ว Confirm ผ่านทันที สถานะ Component Status ขึ้นเป็น Available</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp08-move-to-production-confirm.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp08-move-to-production-confirm.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-13</span></td>
+          <td class="col-scenario">บันทึกขนาดที่ตัดได้จริงในแท็บ "FG Output"</td>
+          <td class="col-pre">ทำ TC-GP-BSF-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ไปแท็บ "FG Output"</li><li>กด Add a line</li><li>กรอกความกว้าง/ยาว/หนา/จำนวนที่ตัดได้จริง</li></ol></td>
+          <td class="col-sample">Width = 1.00 ม.<br>Length = 2.00 ม.<br>Thickness = 0.02 ม.<br>Qty = 2</td>
+          <td class="col-expected">บันทึกแถวผลผลิตจริงสำเร็จ พร้อมให้กด Complete FG Production ต่อได้</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp09-fg-output-filled.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp09-fg-output-filled.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-14</span></td>
+          <td class="col-scenario">กด "Complete FG Production" ปิดงานผลิต</td>
+          <td class="col-pre">ทำ TC-GP-BSF-13 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Complete FG Production"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">MO เปลี่ยนสถานะเป็น Done มีข้อความแจ้งผลิตสำเร็จตามจำนวนที่กรอก — ตัวอย่างจริง: "ผลิตสำเร็จ 2.00 หน่วย"</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp10-complete-fg-production-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp10-complete-fg-production-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="G4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">G4. ส่งของ + วางบิล</div>
+        <div class="category-sub">ขั้นตอนมาตรฐานของ Odoo ไม่มีอะไรเปลี่ยนจาก concept เดิม · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-15</span></td>
+          <td class="col-scenario">Validate ใบส่งของ (Delivery)</td>
+          <td class="col-pre">ทำ TC-GP-BSF-14 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดสมาร์ทปุ่ม "Delivery" จาก Sale Order</li><li>กดปุ่ม Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของเปลี่ยนสถานะเป็น Done จำนวนที่ส่งตรงกับที่ผลิตได้ — ตัวอย่างจริง: EG01/OUT/00179, 2.00/2.00</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp11-delivery-validated.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp11-delivery-validated.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-16</span></td>
+          <td class="col-scenario">สร้างและ Post ใบแจ้งหนี้ (Invoice)</td>
+          <td class="col-pre">ทำ TC-GP-BSF-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับไปที่ Sale Order กดปุ่ม "Create Invoice"</li><li>เลือก "Regular invoice" กด Create Draft</li><li>กดปุ่ม Confirm เพื่อ Post ใบแจ้งหนี้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ Post สำเร็จ ยอดตรงกับ Sale Order — ตัวอย่างจริง: INV/2026/00001, 25,680.00 บาท, ลงบัญชี "411150 Sales Revenue - FG Production" พร้อม Analytic tag ครบ 3 มิติ (Material/Block/หมวดหิน)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp12-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp12-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="M1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">M1. โหมดขาย 1 — ขายทั้งก้อน Block (Block Direct Sale)</div>
+        <div class="category-sub">ไม่มีการตัด Slab เลย ขาย Block ทั้งก้อนตรงๆ ราคาคิดจาก CBM จริง · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-17</span></td>
+          <td class="col-scenario">เพิ่มสินค้า Block ลงบรรทัด Sale Order แล้วกด "Sell Whole Block"</td>
+          <td class="col-pre">มี Block พร้อมขายอยู่แล้ว (ทำตามขั้นตอน G1 ก่อน — ตั้ง Sales Price/CBM ให้ Block ด้วยถ้า Material นี้เพิ่งสร้างใหม่)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; New เลือกลูกค้า</li><li>Add a product เลือกสินค้า Block โดยตรง (ไม่ใช่ Slab/FG)</li><li>Save</li><li>กดปุ่ม "Sell Whole Block" บนบรรทัด</li></ol></td>
+          <td class="col-sample">สินค้า = E2E GP Test Marble - Block</td>
+          <td class="col-expected">หน้าต่าง "Select Block" เปิดขึ้นให้เลือก Block ก้อนที่จะขาย</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp20-mode1-block-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp20-mode1-block-created.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-18</span></td>
+          <td class="col-scenario">เลือก Block ที่จะขาย — ราคา/จำนวนคำนวณจาก CBM จริงให้อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-GP-BSF-17 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เลือก Block ที่ต้องการจากช่อง Block</li><li>กด Confirm Selection</li><li>กลับมาที่ Sale Order กด Confirm</li></ol></td>
+          <td class="col-sample">Block = BLK-26-0268 (คงเหลือ 1.80 คิว)</td>
+          <td class="col-expected">Quantity เติมเป็น CBM ที่เหลือของ Block ให้อัตโนมัติ ราคารวมคำนวณจาก Sales Price/CBM × CBM — ตัวอย่างจริง: SO S00321, 1.80 × 50,000 = 90,000 บาท (ก่อน VAT) ยืนยันสำเร็จที่ 96,300.00 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp21-mode1-sell-whole-block.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp21-mode1-sell-whole-block.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-19</span></td>
+          <td class="col-scenario">ส่งของ + วางบิล (กลไกเดียวกับ G4)</td>
+          <td class="col-pre">ทำ TC-GP-BSF-18 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>Validate Delivery</li><li>Create Invoice &gt; Regular invoice &gt; Create Draft &gt; Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ส่งของและวางบิลสำเร็จเหมือน G4 ทุกประการ — ตัวอย่างจริง: Invoice INV/2026/00002, 96,300.00 บาท, ลงบัญชี "411110 Sales Revenue - Block"</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp22-mode1-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp22-mode1-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="M2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">M2. โหมดขาย 2 — ขาย Slab ที่มีสต็อกพร้อมขายอยู่แล้ว (Ready-Made Slab)</div>
+        <div class="category-sub">ADR-072 domain fix — กรองเฉพาะ Slab ที่ Finish/Thickness ตรงกับที่ลูกค้าสั่งเท่านั้น (รันจริงครั้งแรกหลังแก้โค้ด) · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-20</span></td>
+          <td class="col-scenario">เพิ่มสินค้า Slab (ระบุ Finish/Thickness) ลง Sale Order แล้วกด "Select Slabs"</td>
+          <td class="col-pre">มี Slab พร้อมขายอยู่แล้วในสต็อก (Finish/Thickness ตรงกับที่จะเลือกขาย)</td>
+          <td class="col-steps"><ol><li>เปิด Sales &gt; New เลือกลูกค้า</li><li>Add a product เลือกสินค้า Slab (ระบุ Finish ที่ต้องการ ไม่ใช่สินค้า FG)</li><li>Save</li><li>กดปุ่ม "Select Slabs" บนบรรทัด</li><li>กด Add a line</li></ol></td>
+          <td class="col-sample">สินค้า = ดำซานซี/ABSOLUTE BLACK - Slab (Polished)</td>
+          <td class="col-expected">รายการ Slab ที่แสดงกรองเฉพาะแผ่นที่ Finish/Thickness ตรงกับสินค้าที่เลือกและสถานะ Available เท่านั้น ไม่ปนแผ่นอื่น — ตัวอย่างจริง: เจอ 80 แผ่น Polished/2cm ที่พร้อมขาย</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp23-mode2-select-slabs-candidates.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp23-mode2-select-slabs-candidates.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-21</span></td>
+          <td class="col-scenario">เลือกแผ่นที่ต้องการ กด Confirm Selection แล้ว Confirm Sale Order</td>
+          <td class="col-pre">ทำ TC-GP-BSF-20 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ติ๊กเลือกแผ่นที่ต้องการ</li><li>กด Select แล้วกด Confirm Selection</li><li>กลับมาที่ Sale Order กด Confirm</li></ol></td>
+          <td class="col-sample">เลือก 3 แผ่น (BLK-26-0265 #4, #5, #6)</td>
+          <td class="col-expected">Quantity/ราคาบนบรรทัดอัปเดตอัตโนมัติตามจำนวนแผ่นที่เลือกจริง แผ่นที่เลือกเปลี่ยนสถานะเป็น Hold ทันที — ตัวอย่างจริง: SO S00323 ยืนยันที่ 61,632.00 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp24-mode2-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp24-mode2-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-22</span></td>
+          <td class="col-scenario">ส่งของ + วางบิล<div class="note">การส่งของ Slab ต้องกรอก "Scanned Serial" ให้ตรงกับ Serial จริงของแต่ละแผ่นก่อน Validate ได้ (ป้องกันส่งผิดแผ่น) — คลิก "Details" บนบรรทัดสินค้าเพื่อกรอก</div></td>
+          <td class="col-pre">ทำ TC-GP-BSF-21 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดสมาร์ทปุ่ม Delivery</li><li>กด Details กรอก/ยืนยัน Serial ของแต่ละแผ่นให้ตรง</li><li>Save แล้วกด Validate</li><li>กลับไป Sale Order สร้าง + Post Invoice</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ส่งของและวางบิลสำเร็จ — ตัวอย่างจริง: Invoice INV/2026/00003, 61,632.00 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp25-mode2-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp25-mode2-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="M3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">M3. โหมดขาย 3 — ขายแบบ BOQ/Project (Sold-as-Project)</div>
+        <div class="category-sub">กลไก BOQ→Project ไม่ถูกกระทบจาก ADR-071/072/073 เลย (โค้ดไม่แตะ Finish/Thickness) · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-23</span></td>
+          <td class="col-scenario">สร้าง BOQ Document ใส่รายการที่ผูกกับสินค้าหินจริง แล้วสร้างใบเสนอราคา</td>
+          <td class="col-pre">มี Rate Library Item ที่ผูกกับสินค้าหิน (Finish/Thickness) ที่ต้องการแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด BOQ Estimation &gt; BOQ Documents &gt; New</li><li>เลือกลูกค้า</li><li>เพิ่มบรรทัดเลือก Rate Library Item ที่ต้องการ กรอกจำนวน</li><li>กด "สร้างใบเสนอราคา"</li></ol></td>
+          <td class="col-sample">Rate = [GP-TEST-01] Countertop Slab (9,000/หน่วย)<br>Quantity = 2</td>
+          <td class="col-expected">ได้ Sale Order ใหม่ที่มีบรรทัดสินค้าจริงตรงกับ Rate ที่เลือก บวก Overhead & Profit อัตโนมัติ — ตัวอย่างจริง: BOQ0041 (18,000 + 1,800 = 19,800) → SO S00324</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp26-mode3-boq-document.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp26-mode3-boq-document.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BSF-24</span></td>
+          <td class="col-scenario">ติ๊ก "Sold as Project" แล้ว Confirm — ระบบสร้าง Project + Task ให้อัตโนมัติ</td>
+          <td class="col-pre">ทำ TC-GP-BSF-23 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแท็บ Other Info บน Sale Order</li><li>ติ๊ก "Sold as Project"</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO ยืนยันสำเร็จ มี Project ใหม่เชื่อมให้อัตโนมัติ พร้อม Task 1 รายการต่อ 1 บรรทัดสินค้า — ตัวอย่างจริง: Project "QA-A B2C Test User - S00324" พร้อม 2 Tasks (บรรทัดสินค้าจริง + Overhead)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-slab-fg/gp27-mode3-project-tasks.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-slab-fg/gp27-mode3-project-tasks.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
