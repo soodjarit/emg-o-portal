@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMG-O — Golden Path: BOQ + Project (Hotel Lift Lobby, live-verified)</title>
+<title>EMG-O — Golden Path: BOQ + Project (SY Resort, live-verified)</title>
 <style>
   :root{
     --copper:#B8763E;
@@ -52,11 +52,17 @@
   .verified-note{background:var(--green-bg);color:#1E5A38;border-radius:10px;padding:14px 18px;font-size:13.5px;line-height:1.7;margin-bottom:16px;}
   .verified-note b{color:var(--green);}
 
-  .fixed-note{background:var(--red-bg);color:#7A2A1B;border-radius:10px;padding:16px 20px;font-size:13.5px;line-height:1.75;margin-bottom:28px;}
+  .fixed-note{background:var(--red-bg);color:#7A2A1B;border-radius:10px;padding:16px 20px;font-size:13.5px;line-height:1.75;margin-bottom:16px;}
   .fixed-note b{color:var(--red);}
   .fixed-note ol{margin:8px 0 0 0;padding-left:20px;}
   .fixed-note li{margin-bottom:10px;}
   .fixed-note code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:12px;}
+
+  .new-note{background:var(--amber-bg);color:#5B4300;border-radius:10px;padding:16px 20px;font-size:13.5px;line-height:1.75;margin-bottom:28px;}
+  .new-note b{color:var(--amber);}
+  .new-note ul{margin:8px 0 0 0;padding-left:20px;}
+  .new-note li{margin-bottom:6px;}
+  .new-note code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:12px;}
 
   .category{margin-bottom:52px;}
   .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
@@ -101,59 +107,72 @@
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA · แนวคิด EG-321</div>
-    <h1>Golden Path — BOQ + Project ทำงานร่วมกัน (Hotel Lift Lobby)</h1>
-    <div class="last-update">อัปเดตล่าสุด: 27 ก.ย. 2026 — รันสดผ่านหน้าจอจริง (Playwright, eg-tst) แทนที่เอกสาร self-test เดิม</div>
-    <div class="sub">อัปเกรดจากเอกสาร "BOQ + Project ทำงานร่วมกัน" เดิม (1 วัสดุ, 2 Elevation, ยังไม่รันจริง) ให้สมจริงและครบสายกว่าเดิม: <b>3 วัสดุ+โครงสร้างต้นทุนละเอียด</b> (Material/Labour/วัสดุสิ้นเปลือง), <b>3 Zone จริง</b> (ไม่ใช่ 2 Elevation เท่ากันหมด), <b>Preliminaries + Performance Security %</b> ที่ไม่เคยมีเคสทดสอบมาก่อน, ปิดงานจริงจน <b>Milestone ขึ้น Reached</b> ครบทั้ง 3 Zone, และเพิ่มสถานการณ์งานเพิ่มนอก BOQ ระหว่างทางเพื่อโชว์ฟีเจอร์ใหม่ <b>Task Billing Stage</b> (แจ้งเตือนเก็บเงินตาม % ความคืบหน้า)</div>
+    <h1>Golden Path — BOQ + Project ทำงานร่วมกัน (SY Resort)</h1>
+    <div class="last-update">อัปเดตล่าสุด: 27 ก.ย. 2026 — สร้างใหม่ทั้งหมด แทนที่เอกสาร "Hotel Lift Lobby" เดิม ด้วย fixture ที่ผ่านการเลือก Slab จริงครบทุกบรรทัด</div>
+    <div class="sub">สร้างใหม่ทั้งฉบับ (ไม่ใช่แก้บางส่วน) เพราะเอกสารเดิม ("THE GRANDE VISTA HOTEL") <b>ไม่เคยมีสต๊อก Slab จริงตอนทำ</b> — ทุกบรรทัดต้อง Confirm ผ่าน popup เตือน "ยังไม่มีของ" เท่านั้น ฉบับนี้ใช้ fixture "SY Resort" ที่เดินสดผ่านหน้าจอจริงครบวงจร รวมถึงจุดที่เอกสารเดิมไม่เคยพิสูจน์: <b>เลือก Slab จริงจากสต๊อก</b> (พร้อมปุ่มใหม่ Auto-Select Slabs), <b>Recompute ราคา BOQ ให้ตรงต้นทุน Slab จริง</b>, <b>ใบเสนอราคาพิมพ์แสดงขนาด Slab จริง</b>, และ Billing Stage เวอร์ชันใหม่ที่โชว์ <b>ยอดเงินที่ควรวางบิลจริง</b> ไม่ใช่แค่ % ความคืบหน้า</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>15</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>14</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b style="color:var(--red)">9</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">6</b>Medium Priority</div>
-      <div class="stat-pill"><b style="color:var(--red)">2</b>บั๊กจริงที่พบ+แก้ระหว่างทำเอกสารนี้</div>
+      <div class="stat-pill"><b style="color:var(--amber)">5</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">5</b>ฟีเจอร์ใหม่ที่โชว์ครั้งแรกในเอกสารนี้</div>
     </div>
-    <a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-project-hotel.xlsx" download="EMG-O Golden Path - BOQ+Project Hotel.xlsx"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+    <a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-project-hotel.xlsx" download="EMG-O Golden Path - BOQ+Project SY Resort.xlsx"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>THE GRANDE VISTA HOTEL</b>" (แยกจากดีลจริง THE ONE BANGKOK โดยเจตนา) ว่าจ้างติดหินผนัง+พื้น Lift Lobby 3 ชั้น (L9/L10/L11) — ตั้ง Rate ใหม่ 2 ตัวจากวัสดุที่มีต้นทุนจริงในระบบ (ผนัง ABSOLUTE BLACK, พื้น SPIDER GREEN) → สร้าง BOQ 6 บรรทัด (2 ต่อ Zone) พร้อม Preliminaries 3% + Performance Security 5% → ออกใบเสนอราคา → ติ๊ก Sold as Project → Confirm → ระบบสร้าง Project + 6 Task (2 ต่อ Zone) พร้อม Milestone → ใส่ Task Template Set มาตรฐาน 5 ขั้นตอนในทุก Task → ปิดงานจริงครบทั้ง 3 Zone จน Milestone ขึ้น Reached → ระหว่างทางลูกค้าขอเพิ่มพื้นที่ Zone L12 นอก BOQ เดิม PM เพิ่ม Task ตรงบน Project พร้อมติดตาม Progress 50% และตั้งเกณฑ์เก็บเงิน 2 งวด (30%/70%) เห็นระบบแจ้งเตือนงวดแรกอัตโนมัติ
+    <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>SY Resort</b>" ว่าจ้างติดหินผนัง+พื้นโซน Lobby และ Pool Deck — ใช้ Rate ที่มีอยู่แล้วในระบบ (ผนัง ABSOLUTE BLACK, พื้น SPIDER GREEN) → สร้าง BOQ 4 บรรทัด (2 ต่อ Zone) พร้อม Preliminaries 3% + Performance Security 5% → ออกใบเสนอราคา → ติ๊ก Sold as Project → Confirm → ระบบสร้าง Project + 4 Task พร้อม Milestone → <b>เลือก Slab จริงจากสต๊อกทุกบรรทัด</b> ด้วยปุ่มใหม่ Auto-Select → Sync ราคา BOQ ให้ตรงต้นทุน Slab จริง → พิมพ์ใบเสนอราคาเห็นขนาด Slab จริง → ใส่ Task Template มาตรฐานในทุก Task → ปิดงานจริงจน Milestone ขึ้น Reached ครบทั้ง 2 Zone → กรอก Progress งานหนึ่งถึง 35% เห็นระบบคำนวณ "ยอดที่ควรวางบิลงวดนี้" เป็นตัวเงินจริงและแจ้งเตือนอัตโนมัติ → PM กดยืนยันพร้อมเก็บเงิน
   </div>
 
-  <div class="verified-note"><b>เอกสารนี้รันสดจริงผ่านหน้าจอ (Playwright, eg-tst) ไม่ใช่ self-test แล้ว:</b> ทุกภาพหน้าจอในตารางด้านล่างคือภาพจริงจากการรัน ไม่ใช่ mockup — Fixture จริง: BOQ <code>BOQ0042</code> → SO <code>S00338</code> (ยอดรวม ฿424,827.45 รวม VAT) → Project id <code>35</code> "THE GRANDE VISTA HOTEL - S00338" → 6 Task จริง + 30 Sub-task + Task เพิ่มเติม 1 ใบ (id 251, Zone L12)</div>
+  <div class="verified-note"><b>เอกสารนี้รันสดจริงผ่านหน้าจอ (Playwright, eg-tst):</b> ทุกภาพหน้าจอในตารางด้านล่างคือภาพจริงจากการรัน ไม่ใช่ mockup — Fixture จริง: BOQ <code>BOQ0044</code> → SO <code>S00340</code> (ยอดรวม ฿441,105.36 รวม VAT) → Project id <code>37</code> "SY Resort - S00340" → 4 Task จริง (252-255) + 20 Sub-task, ทุก Task ปิด Done ครบ, Milestone 2 ตัว Reached ทั้งคู่, Billing Stage id <code>3</code> บน Task 253 (Confirmed) — fixture นี้เก็บไว้ใช้ซ้ำได้บน <code>eg-tst</code></div>
 
-  <div class="fixed-note">
-    <b>🐛 บั๊กจริง 2 ตัวที่พบและแก้ระหว่างสร้างเอกสารนี้ (deploy แล้วทั้ง eg-tst/mbx-ee-dev, push แล้ว):</b>
-    <ol>
-      <li><b>BOQ Summary Line กลายเป็น Task ปลอมบน Project</b> — ครั้งแรกที่มีคนติ๊ก Preliminaries % และ Performance Security % พร้อมกับ Sold as Project บรรทัดสรุปยอด ("Preliminaries (3%)", "Overhead & Profit", "Performance Security") ถูกสร้างเป็น Task จริงบน Project ไปด้วย (ไม่มี Zone/ไม่มี Milestone) ทั้งที่ไม่ใช่งานจริง แก้โดยกรองบรรทัด BOQ Summary Line ออกก่อนจัดกลุ่ม Zone ใน <code>_stone_project_zones()</code> (<code>sale_order.py</code>) — commit <code>a2a12ee</code></li>
-      <li><b>Milestone ไม่ยอมขึ้น Reached หลัง Apply Task Template Set</b> — พอใส่ Template 5 ขั้นตอนย่อยลงใน Task ที่ถือ Milestone อยู่ Sub-task ทั้ง 5 ใบได้ Milestone เดียวกับ Task แม่ไปโดยอัตโนมัติ (พฤติกรรมปกติของ Odoo core) ทำให้เงื่อนไขเดิมที่เช็คว่า "Milestone ต้องมี Task เดียว" ไม่ผ่านอีกต่อไป แม้ Task แม่จะ Done จริงแล้วก็ตาม แก้โดยเช็คจาก field ที่ระบุว่าเป็น Task ต้นตัวจริงจาก SO แทนการนับจำนวน Task — commit <code>ecd5671</code></li>
-    </ol>
+  <div class="new-note">
+    <b>🆕 5 ฟีเจอร์ใหม่ที่เอกสารเดิมไม่เคยมี เพราะสร้างก่อนจะมีของจริง:</b>
+    <ul>
+      <li><b>เลือก Slab จริงจากสต๊อก</b> — เอกสารเดิม (TC-BPH-07 เดิม) ระบุตรงๆ ว่า "ยังไม่มีสต๊อกจริง" ทุกบรรทัด Confirm ผ่าน popup เตือนเท่านั้น ฉบับนี้เลือก Slab จริงครบทุกบรรทัด</li>
+      <li><b>ปุ่ม Auto-Select Slabs</b> — เลือก Slab ให้อัตโนมัติจนครบพื้นที่ที่ต้องการ พร้อมแจ้งเตือนเมื่อเลือกได้ไม่พอดี (เพราะ Slab มีขนาดตายตัว ไม่สามารถตัดแบ่งได้)</li>
+      <li><b>Recompute BOQ Prices แบบ bulk</b> — ย้ายจากปุ่มต่อบรรทัดมาเป็นปุ่มเดียวที่ header ทำทุกบรรทัดพร้อมกัน</li>
+      <li><b>ใบเสนอราคา (EGQ) พิมพ์แสดงขนาด Slab จริง</b> — ใต้แต่ละบรรทัดสินค้าจะโชว์เลข Block/ขนาด W×H×หนา ของทุกแผ่นที่เลือกจริง</li>
+      <li><b>Billing Stage โชว์ "ยอดที่ควรวางบิลงวดนี้" เป็นตัวเงิน</b> — ไม่ใช่แค่ % ความคืบหน้าเหมือนเดิม คำนวณเป็นส่วนต่างจากงวดก่อนหน้าอัตโนมัติ</li>
+    </ul>
   </div>
 
   <!-- ============ Category 1 ============ -->
   <div class="category" id="C1">
     <div class="category-header">
-      <div><div class="category-title">1. เตรียม Rate ใหม่</div><div class="category-sub">ตั้ง Rate สำหรับผนัง+พื้น จากวัสดุที่มีต้นทุนจริงในระบบอยู่แล้ว — แยก Material/Labour/วัสดุสิ้นเปลืองเป็นคนละก้อนตั้งแต่ต้น</div></div>
+      <div><div class="category-title">1. เตรียม BOQ หลายวัสดุ หลาย Zone</div><div class="category-sub">ใช้ Rate ที่มีอยู่แล้วในระบบ (ไม่ต้องสร้างใหม่) — 4 บรรทัด (ผนัง+พื้น × 2 Zone) พร้อม Preliminaries/Performance Security</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-01</span></td>
-          <td class="col-scenario">สร้าง Rate ผนัง ABSOLUTE BLACK (3 Cost Component)</td>
+          <td class="col-id"><span class="tc-id">TC-SYR-01</span></td>
+          <td class="col-scenario">เปิดเอกสาร BOQ ใหม่ ผูกลูกค้า SY Resort</td>
           <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>BOQ Estimation &gt; Rate Library &gt; New</li><li>ตั้งรหัส/ชื่อ/หน่วย/สินค้าอ้างอิง</li><li>เพิ่ม Cost Component 3 แถว: Material, Labour, Other</li></ol></td>
-          <td class="col-sample">[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)<br>Material 3,450 + Labour 400 + Other (วัสดุสิ้นเปลือง) 150 = 4,000 บาท/ตร.ม.</td>
-          <td class="col-expected">Rate บันทึกสำเร็จ Total Rate/Unit คำนวณอัตโนมัติ = 4,000 บาท ตรงกับผลรวม 3 Component</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/05-rate-wall-cost-components.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/05-rate-wall-cost-components.png">ดูภาพ</a></td>
+          <td class="col-steps"><ol><li>Contacts &gt; New &gt; ตั้งชื่อลูกค้า</li><li>BOQ Estimation &gt; BOQ Documents &gt; New เลือกลูกค้า</li></ol></td>
+          <td class="col-sample">ลูกค้า = "SY Resort"</td>
+          <td class="col-expected">เปิดฟอร์ม BOQ Document ใหม่ สถานะ Draft พร้อม Analytic Account ผูกอัตโนมัติ</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-01-boq-document.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-01-boq-document.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-02</span></td>
-          <td class="col-scenario">สร้าง Rate พื้น SPIDER GREEN (3 Cost Component)</td>
-          <td class="col-pre">-</td>
-          <td class="col-steps"><ol><li>ทำแบบเดียวกับ TC-BPH-01</li></ol></td>
-          <td class="col-sample">[FLOOR-SPGRN-2CM] พื้น SPIDER GREEN (หนา 2 ซม.)<br>Material 3,850 + Labour 500 + Other 150 = 4,500 บาท/ตร.ม.</td>
-          <td class="col-expected">Rate Library มี 2 รายการใหม่ พร้อมใช้ในเอกสาร BOQ</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/04-rate-library-list.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/04-rate-library-list.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-02</span></td>
+          <td class="col-scenario">เพิ่ม 4 บรรทัด BOQ (ผนัง+พื้น × 2 Zone) พร้อม Duration/Milestone<div class="note">Milestone ติ๊กเฉพาะบรรทัด "พื้น" ของแต่ละ Zone เพราะเป็นบรรทัดสุดท้ายที่ทำเสร็จ (ผนังทำก่อนพื้นเสมอ)</div></td>
+          <td class="col-pre">ทำ TC-SYR-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เพิ่มบรรทัด เลือก Rate ผนัง ระบุ Zone/Qty/Duration</li><li>เพิ่มบรรทัด เลือก Rate พื้น ระบุ Zone/Qty/Duration/Milestone</li><li>ทำซ้ำอีกรอบสำหรับ Pool Deck</li></ol></td>
+          <td class="col-sample">Lobby: ผนัง 12 ตร.ม. (4 วัน) + พื้น 20 ตร.ม. (5 วัน, Milestone "lobby เสร็จ")<br>Pool Deck: ผนัง 15 ตร.ม. (5 วัน) + พื้น 25 ตร.ม. (6 วัน, Milestone "Pool Deck เสร็จ + ส่งมอบงาน")</td>
+          <td class="col-expected">4 BOQ Lines ราคา/หน่วยเติมอัตโนมัติจาก Rate — Amount Direct Cost รวม = 310,500 บาท</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-01-boq-document.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-01-boq-document.png">ดูภาพ</a></td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SYR-03</span></td>
+          <td class="col-scenario">ตั้ง Preliminaries 3% + Performance Security 5% ตรวจยอดรวม</td>
+          <td class="col-pre">ทำ TC-SYR-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กรอก Preliminaries % = 3</li><li>กรอก Performance Security % = 5</li><li>Save ดูแถบสรุปยอด</li></ol></td>
+          <td class="col-sample">Preliminaries 3%, Performance Security 5%</td>
+          <td class="col-expected">Direct Cost 310,500 + Preliminaries 9,315 + Overhead&amp;Profit 29,970 + Performance Security 15,525 = <b>Amount Total 365,310 บาท</b></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-01-boq-document.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-01-boq-document.png">ดูภาพ</a></td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
     </table></div>
@@ -162,39 +181,29 @@
   <!-- ============ Category 2 ============ -->
   <div class="category" id="C2">
     <div class="category-header">
-      <div><div class="category-title">2. สร้าง BOQ หลายวัสดุ หลาย Zone</div><div class="category-sub">6 บรรทัด (ผนัง+พื้น × 3 ชั้น) + เปิดใช้ Preliminaries/Performance Security ที่ไม่เคยมีเคสทดสอบมาก่อน</div></div>
+      <div><div class="category-title">2. ออกใบเสนอราคา + เปิดสวิตช์ Project</div><div class="category-sub">BOQ ส่งราคา+กำหนดงานให้ใบเสนอราคาอัตโนมัติ แล้วค่อยเปิดสวิตช์ Project เพิ่ม</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-03</span></td>
-          <td class="col-scenario">สร้างลูกค้าใหม่ + เปิดเอกสาร BOQ</td>
-          <td class="col-pre">ทำหมวด 1 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>Contacts &gt; New &gt; ตั้งชื่อบริษัท</li><li>BOQ Estimation &gt; BOQ Documents &gt; New เลือกลูกค้า</li></ol></td>
-          <td class="col-sample">ลูกค้า = "THE GRANDE VISTA HOTEL"</td>
-          <td class="col-expected">เปิดฟอร์ม BOQ Document ใหม่ สถานะ Draft พร้อม Analytic Account ผูกอัตโนมัติ</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/02-boq-document-header.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/02-boq-document-header.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-04</span></td>
+          <td class="col-scenario">กด "สร้างใบเสนอราคา" (Generate Quotation)</td>
+          <td class="col-pre">ทำ TC-SYR-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา" บนหัว BOQ Document</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ใบเสนอราคาใหม่ S00340 มี Section คั่นทั้ง 2 Zone field "BOQ Document" ชี้กลับไป BOQ0044</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-04</span></td>
-          <td class="col-scenario">เพิ่ม 6 บรรทัด BOQ (ผนัง+พื้น × 3 ชั้น) พร้อม Duration/Milestone<div class="note">Milestone ติ๊กเฉพาะบรรทัด "พื้น" ของแต่ละ Zone เพราะเป็นบรรทัดสุดท้ายที่ทำเสร็จในชั้นนั้น (ผนังทำก่อนพื้นเสมอ)</div></td>
-          <td class="col-pre">ทำ TC-BPH-03 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เพิ่มบรรทัด เลือก Rate ผนัง ระบุ Zone/Qty/Duration</li><li>เพิ่มบรรทัด เลือก Rate พื้น ระบุ Zone/Qty/Duration/Milestone</li><li>ทำซ้ำอีก 2 รอบสำหรับ L10/L11</li></ol></td>
-          <td class="col-sample">L9/L10/L11: ผนัง 18 ตร.ม. + พื้น 9 ตร.ม. ต่อชั้น, Duration 6 วันทุกบรรทัด<br>Milestone: "L9 Lift Lobby เสร็จ" / "L10...เสร็จ" / "L11...เสร็จ + ส่งมอบงาน"</td>
-          <td class="col-expected">6 BOQ Lines ราคา/หน่วยเติมอัตโนมัติจาก Rate — Direct Cost รวม = 337,500 บาท</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/03-boq-lines-and-totals.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/03-boq-lines-and-totals.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-        </tr>
-        <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-05</span></td>
-          <td class="col-scenario">ตั้ง Preliminaries 3% + Performance Security 5% ตรวจยอดรวม<div class="note">ครั้งแรกที่มีเคสทดสอบ 2 ค่านี้ — ก่อนหน้านี้เป็น 0 มาตลอด</div></td>
-          <td class="col-pre">ทำ TC-BPH-04 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กรอก Preliminaries % = 3</li><li>กรอก Performance Security % = 5</li><li>Save ดูแถบสรุปยอด</li></ol></td>
-          <td class="col-sample">Preliminaries 3%, Performance Security 5%</td>
-          <td class="col-expected">Direct Cost 337,500 + Preliminaries 10,125 + Overhead&amp;Profit 32,535 (9.64% ผสม เพราะ Other bucket ไม่มี Adder) + Performance Security 16,875 = <b>Total 397,035 บาท</b></td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/03-boq-lines-and-totals.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/03-boq-lines-and-totals.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-05</span></td>
+          <td class="col-scenario">ติ๊ก "Sold as Project" + Confirm</td>
+          <td class="col-pre">ทำ TC-SYR-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>แท็บ Other Info ติ๊ก "Sold as Project"</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">SO ยืนยันสำเร็จ (state = Sales Order) ยอดรวม 441,105.36 บาท (รวม VAT 7%) ระบบสร้าง Project + 4 Task ให้อัตโนมัติเบื้องหลัง</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -204,39 +213,29 @@
   <!-- ============ Category 3 ============ -->
   <div class="category" id="C3">
     <div class="category-header">
-      <div><div class="category-title">3. ออกใบเสนอราคา + เปิดสวิตช์ Project</div><div class="category-sub">2 สวิตช์มาบรรจบกันตรงนี้ — BOQ ส่งราคา+กำหนดงานให้ใบเสนอราคาอัตโนมัติ แล้วค่อยเปิดสวิตช์ Project เพิ่ม</div></div>
+      <div><div class="category-title">3. เลือก Slab จริงจากสต๊อก 🆕</div><div class="category-sub">จุดที่เอกสารเดิมไม่เคยพิสูจน์ได้เลย เพราะไม่มีสต๊อกตอนทำ — ใช้ปุ่มใหม่ Auto-Select Slabs</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-06</span></td>
-          <td class="col-scenario">กด "สร้างใบเสนอราคา" (Generate Quotation)</td>
-          <td class="col-pre">ทำ TC-BPH-05 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา" บนหัว BOQ Document</li></ol></td>
-          <td class="col-sample">-</td>
-          <td class="col-expected">ได้ใบเสนอราคาใหม่ S00338 มี Section คั่นทั้ง 3 ชั้น field "BOQ Document" ชี้กลับไป BOQ0042</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/06-sale-order-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/06-sale-order-confirmed.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-06</span></td>
+          <td class="col-scenario">กด "Select Slabs" บนบรรทัดผนัง Lobby ใช้ปุ่ม Auto-Select<div class="note">🆕 Slab มีขนาดตายตัว (3.00×1.60 ม. = 4.80 ตร.ม./แผ่น) ตัดแบ่งไม่ได้ — เลือก 3 แผ่นเพื่อให้ครบ 12 ตร.ม. จะได้จริง 14.40 ตร.ม. เกินเป้าเล็กน้อย ระบบเตือนเป็นสีเหลืองให้รู้ ไม่ใช่ error</div></td>
+          <td class="col-pre">ทำ TC-SYR-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>บรรทัดผนัง Lobby กด "Select Slabs"</li><li>กดปุ่ม "Auto-Select Slabs"</li></ol></td>
+          <td class="col-sample">ต้องการ 12.00 ตร.ม. ระบบเลือกให้ 3 แผ่น = 14.40 ตร.ม.</td>
+          <td class="col-expected">ระบบเลือก Slab จากสต๊อกจริงให้อัตโนมัติ 3 แผ่น (BLK-26-0265 #7/#8/#9) พร้อมข้อความเตือน "พื้นที่ที่เลือกยังไม่ตรงกับที่ต้องการ (เลือกแล้ว 14.40 ตร.ม. / ต้องการ 12.00 ตร.ม.)"</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-08-select-slabs-wizard.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-08-select-slabs-wizard.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-07</span></td>
-          <td class="col-scenario">ตรวจ Zone/ราคาต่อบรรทัดตรงกับ BOQ<div class="note">สินค้าหินขายเป็น "Units" (จำนวนแผ่น) ไม่ใช่ตร.ม. — ราคาต่อบรรทัดยังคงถูกต้องเพราะระบบเก็บยอดเต็มไว้ที่ Price/Unit ไม่ใช่คูณจาก Qty</div></td>
-          <td class="col-pre">ทำ TC-BPH-06 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดแท็บ Order Lines ตรวจคอลัมน์ Zone/ราคาของทุกบรรทัด</li></ol></td>
-          <td class="col-sample">-</td>
-          <td class="col-expected">6 บรรทัดจริง แต่ละบรรทัดมีปุ่ม "Select Slabs" (ยังไม่มีสต๊อกจริง) คอลัมน์ Zone = L9/L10/L11 ตรงกับ BOQ Line เดิม</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/07-sale-order-lines.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/07-sale-order-lines.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
-        </tr>
-        <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-08</span></td>
-          <td class="col-scenario">ติ๊ก "Sold as Project" + Confirm<div class="note">ระบบยังไม่มีสต๊อกหินจริงในฐานทดสอบ — จะมี popup เตือน "ยืนยันทั้งที่ยังไม่มีของ" ขึ้นมาก่อน กด "Confirm ต่อ" เพื่อไปต่อ (กลไกเตือนปกติ ไม่ใช่บั๊ก)</div></td>
-          <td class="col-pre">ทำ TC-BPH-07 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>แท็บ Other Info ติ๊ก "Sold as Project"</li><li>กด Confirm</li><li>เจอ popup เตือน กด "Confirm ต่อ"</li></ol></td>
-          <td class="col-sample">-</td>
-          <td class="col-expected">SO ยืนยันสำเร็จ (state = Sales Order) ยอดรวม 424,827.45 บาท (รวม VAT 7%) ระบบสร้าง Project ให้อัตโนมัติเบื้องหลัง</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/06-sale-order-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/06-sale-order-confirmed.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-07</span></td>
+          <td class="col-scenario">ทำซ้ำให้ครบทั้ง 4 บรรทัด ตรวจราคาอัปเดตจากจำนวน Slab จริง</td>
+          <td class="col-pre">ทำ TC-SYR-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ทำ Select Slabs ให้ครบทั้ง 4 บรรทัด (ผนัง/พื้น × Lobby/Pool Deck)</li><li>ตรวจคอลัมน์ Slabs และ Quantity บนแต่ละบรรทัด</li></ol></td>
+          <td class="col-sample">ผนัง Lobby 3 แผ่น×19,200=57,600 / พื้น Lobby 5 แผ่น×21,600=108,000 / ผนัง Pool Deck 4 แผ่น×19,200=76,800 / พื้น Pool Deck 5 แผ่น×21,600=108,000</td>
+          <td class="col-expected">ทุกบรรทัดมีคอลัมน์ "Slabs" แสดงเลข Block+ขนาดจริงของทุกแผ่นที่เลือก ราคาบรรทัดคำนวณจากจำนวนแผ่น×ราคาต่อแผ่น ไม่ใช่ตร.ม.เดิมจาก BOQ</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -246,29 +245,19 @@
   <!-- ============ Category 4 ============ -->
   <div class="category" id="C4">
     <div class="category-header">
-      <div><div class="category-title">4. ตรวจ Project ที่สร้างขึ้น + ใส่ Template งานมาตรฐาน</div><div class="category-sub">6 Task หลัก (ผูกกลับ BOQ ผ่าน SO Line ตรงๆ) แตกเป็น 5 ขั้นตอนย่อยจริงต่อ Task</div></div>
+      <div><div class="category-title">4. Sync ราคา BOQ ให้ตรงต้นทุน Slab จริง 🆕</div><div class="category-sub">ราคาที่ตั้งไว้ตอนทำ BOQ เป็นราคาประมาณจาก Rate — พอเลือก Slab จริงแล้วต้อง sync ให้ตรงกันอีกที</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-09</span></td>
-          <td class="col-scenario">เปิด Project ตรวจ 6 Task (2 ต่อ Zone)</td>
-          <td class="col-pre">ทำ TC-BPH-08 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กด smart button "Project" บนใบสั่งขาย</li></ol></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-08</span></td>
+          <td class="col-scenario">กด "Recompute BOQ Prices" ปุ่มเดียวที่ header อัปเดตทุกบรรทัดพร้อมกัน<div class="note">🆕 เดิมเป็นปุ่มแยกต่อบรรทัด ตอนนี้ย้ายมาเป็นปุ่มเดียวที่หัวใบสั่งขาย กดครั้งเดียวคำนวณให้ทุกบรรทัดสรุปยอด (Preliminaries/Overhead &amp; Profit/Performance Security) ตาม % เดิมที่ตั้งไว้ แต่จากต้นทุน Slab จริง</div></td>
+          <td class="col-pre">ทำ TC-SYR-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Recompute BOQ Prices" บนหัวใบสั่งขาย</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Project "THE GRANDE VISTA HOTEL - S00338" มี 6 Task: ผนัง+พื้น × 3 Zone แต่ละ Task ผูก Zone ถูกต้อง</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-        </tr>
-        <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-10</span></td>
-          <td class="col-scenario">Apply Task Template Set "งานติดตั้งหน้างานมาตรฐาน (5 ขั้นตอน)" ให้ทุก Task<div class="note">Template นี้มีอยู่แล้วในระบบ ไม่ต้องสร้างใหม่ — รื้อถอน/เตรียมพื้นที่ → เตรียมพื้นผิว → ติดตั้งหิน → QC/ขัดผิว → ส่งมอบ/ทำความสะอาด รวม 6 วัน ตรงกับ Duration ที่ตั้งไว้</div></td>
-          <td class="col-pre">ทำ TC-BPH-09 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Task แต่ละใบ กด "Apply Template"</li><li>เลือก Template Set + วันเริ่ม</li><li>ทำซ้ำครบทั้ง 6 Task</li></ol></td>
-          <td class="col-sample">-</td>
-          <td class="col-expected">แต่ละ Task มี 5 Sub-task ย่อยจริง ("Sub-tasks 5/5" แสดงบนหัว Task) ผูกกลับ Task แม่เดิม</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/09-task-with-milestone-and-subtasks.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/09-task-with-milestone-and-subtasks.png">ดูภาพ</a></td>
+          <td class="col-expected">บรรทัดสรุปยอด 3 บรรทัด (Preliminaries/Overhead &amp; Profit/Performance Security) คำนวณใหม่จาก Direct Cost จริงหลังเลือก Slab แถบเตือน "ราคายังไม่ตรงกับต้นทุนจริง" (ถ้ามี) หายไป</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -278,30 +267,20 @@
   <!-- ============ Category 5 ============ -->
   <div class="category" id="C5">
     <div class="category-header">
-      <div><div class="category-title">5. ปิดงานจริงครบ 3 Zone</div><div class="category-sub">ทำ Sub-task + Task ให้ Done จริง ตรวจว่า Milestone ขึ้น Reached ถูกต้อง (จุดที่เจอบั๊กที่ 2)</div></div>
+      <div><div class="category-title">5. พิมพ์ใบเสนอราคาแสดงขนาด Slab จริง 🆕</div><div class="category-sub">ลูกค้าเห็นได้เองว่าได้แผ่นหินขนาดไหนจริงๆ ไม่ใช่แค่ตัวเลข ตร.ม. รวม</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-11</span></td>
-          <td class="col-scenario">ทำ Sub-task ทุกใบ + Task หลักให้ Done ครบทั้ง 3 Zone</td>
-          <td class="col-pre">ทำ TC-BPH-10 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดแต่ละ Sub-task ตั้งสถานะ Done ทีละใบ (5 ใบ/Task)</li><li>ตั้ง Task หลักเป็น Done</li><li>ทำซ้ำครบทั้ง 6 Task</li></ol></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-09</span></td>
+          <td class="col-scenario">กด "พิมพ์ใบเสนอราคา (EGQ)" ตรวจ PDF แสดงขนาด Slab จริง</td>
+          <td class="col-pre">ทำ TC-SYR-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "พิมพ์ใบเสนอราคา (EGQ)" บนหัวใบสั่งขาย</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ทุก Task ขึ้น "Done" พร้อมเครื่องหมายถูกสีเขียว การ์ดย้ายไปคอลัมน์ "Done" บน Kanban</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-        </tr>
-        <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-12</span></td>
-          <td class="col-scenario">ตรวจ Milestone ขึ้น "Reached" ครบทั้ง 3 Zone<div class="note">🐛 จุดที่เจอบั๊กที่ 2 — ก่อนแก้ Milestone ไม่ยอมขึ้น Reached เลยแม้ Task แม่จะ Done แล้ว เพราะ Sub-task ที่มาจาก Template ได้ Milestone เดียวกันไปด้วยอัตโนมัติ (พฤติกรรม Odoo core) แก้แล้วตาม fixed-note ด้านบน</div></td>
-          <td class="col-pre">ทำ TC-BPH-11 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Task "พื้น" ของแต่ละ Zone (ตัวถือ Milestone)</li><li>ตรวจ field Milestone</li></ol></td>
-          <td class="col-sample">-</td>
-          <td class="col-expected">Milestone ทั้ง 3 ("L9 Lift Lobby เสร็จ" / "L10...เสร็จ" / "L11...เสร็จ + ส่งมอบงาน") ขึ้นสถานะ Reached ถูกต้องทุกตัว</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/08-project-tasks-kanban.png">ดูภาพ</a></td>
-          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-expected">PDF แยกตาราง Zone ละ 1 ตาราง ใต้ชื่อสินค้าแต่ละบรรทัดโชว์เลข Block+ขนาด W×H×หนา=ตร.ม. ของทุกแผ่นที่เลือกจริง (เช่น "BLK-26-0265 #7 (3.00×1.60×0.020 ม. = 4.80 ตร.ม.)")</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-07-egq-print.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-07-egq-print.png">ดูภาพ</a></td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
     </table></div>
@@ -310,46 +289,78 @@
   <!-- ============ Category 6 ============ -->
   <div class="category" id="C6">
     <div class="category-header">
-      <div><div class="category-title">6. งานเพิ่มนอก BOQ เดิม + แจ้งเตือนเก็บเงินตาม Progress</div><div class="category-sub">สถานการณ์จริงที่พบบ่อย: ลูกค้าขอเพิ่มพื้นที่กลางโปรเจกต์ ก่อนออก Change Order เป็นทางการ — ทดสอบฟีเจอร์ใหม่ Task Billing Stage ที่ยังไม่มีเคสทดสอบมาก่อนเลย</div></div>
+      <div><div class="category-title">6. ตรวจ Project + ใส่ Template + ปิดงานจน Milestone Reached</div><div class="category-sub">4 Task หลัก (ผูกกลับ BOQ ผ่าน Origin Sale Line ตรงๆ) แตกเป็น 5 ขั้นตอนย่อยจริงต่อ Task</div></div>
     </div>
     <div class="table-scroll"><table class="tc-table">
       <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
       <tbody>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-13</span></td>
-          <td class="col-scenario">PM เพิ่ม Task ใหม่ตรงบน Project สำหรับ Zone L12 (นอก BOQ เดิม)<div class="note">ต้องผูก "Sales Order Item" ให้ Task นี้ด้วย (ไม่ใช่แค่สร้าง Task เปล่า) ไม่งั้นแท็บ Billing Stages จะไม่ขึ้นให้เห็น — เป็นเงื่อนไขตั้งใจของฟีเจอร์นี้ (ต้องมีมูลค่าติดกับ Task ก่อนถึงจะตั้งเกณฑ์เก็บเงินได้)</div></td>
-          <td class="col-pre">ทำ TC-BPH-12 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เพิ่มบรรทัดใหม่ในใบสั่งขาย S00338 (นอกรอบ BOQ เดิม)</li><li>สร้าง Task ใหม่บน Project ผูก Zone + Sales Order Item ที่เพิ่ง เพิ่ม</li><li>ตั้งสถานะ In Progress</li></ol></td>
-          <td class="col-sample">Zone = "L12 Lift Lobby (Extra Scope)"<br>มูลค่า = 48,000 บาท (12 ตร.ม. × 4,000 Rate เดิม)</td>
-          <td class="col-expected">Task ใหม่ขึ้นในคอลัมน์ "In Progress" field "Origin Sale Line Value" = 48,000 บาท</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/11-task-l12-progress-and-billing.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/11-task-l12-progress-and-billing.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-10</span></td>
+          <td class="col-scenario">เปิด Task ตรวจฟิลด์ Zone/Origin Sale Line<div class="note">field "Sales Order Item" มาตรฐานของ Odoo ถูกซ่อนแล้ว (ไม่ได้ใช้งาน) — Task ผูกกับใบสั่งขายผ่านฟิลด์ "Origin Sale Line" ของระบบเราเองเท่านั้น ซึ่งเป็นตัวกำหนดว่าแท็บ Billing Stages จะขึ้นให้เห็นหรือไม่</div></td>
+          <td class="col-pre">ทำ TC-SYR-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด smart button "Project" บนใบสั่งขาย</li><li>เปิด Task "พื้น SPIDER GREEN — 20 m²"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Project "SY Resort - S00340" มี 4 Task ผูก Zone ถูกต้อง Task ที่เปิดมี Zone = Lobby, Origin Sale Line ชี้กลับ S00340, Origin Sale Line Value = 108,000 บาท ไม่มีฟิลด์ "Sales Order Item" ปรากฏ</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-05-task-zone-origin.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-05-task-zone-origin.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-14</span></td>
-          <td class="col-scenario">กรอก Progress 50% + ตั้งเกณฑ์เก็บเงิน 2 งวด เห็นงวดแรกแจ้งเตือนอัตโนมัติ</td>
-          <td class="col-pre">ทำ TC-BPH-13 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กรอก Progress % = 50</li><li>แท็บ Billing Stages เพิ่ม 2 แถว: งวดที่ 1 (เกณฑ์ 30%), งวดที่ 2 (เกณฑ์ 70%)</li></ol></td>
-          <td class="col-sample">งวดที่ 1 (มัดจำเริ่มงาน 30%) / งวดที่ 2 (กลางงาน 70%)</td>
-          <td class="col-expected">งวดที่ 1: "Is Reached" ✅ (เพราะ 50 ≥ 30) / งวดที่ 2: ยังไม่ขึ้น (50 &lt; 70) — ระบบโพสต์ chatter แจ้งเตือนงวดที่ 1 อัตโนมัติ + สร้าง Activity ให้ PM</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/12-task-billing-stages-list.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/12-task-billing-stages-list.png">ดูภาพ</a></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-11</span></td>
+          <td class="col-scenario">Apply Task Template Set ให้ทุก Task</td>
+          <td class="col-pre">ทำ TC-SYR-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Task แต่ละใบ กด "Apply Template"</li><li>เลือก Template Set + วันเริ่ม</li><li>ทำซ้ำครบทั้ง 4 Task</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แต่ละ Task มี 5 Sub-task ย่อยจริง ("Sub-tasks 5/5" แสดงบนหัว Task) วันที่ Planned เรียงต่อกันอัตโนมัติตาม Duration</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-04-project-tasks-kanban.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-04-project-tasks-kanban.png">ดูภาพ</a></td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SYR-12</span></td>
+          <td class="col-scenario">ปิด Sub-task+Task ทุกใบให้ Done ครบ 4 Task ตรวจ Milestone ขึ้น Reached</td>
+          <td class="col-pre">ทำ TC-SYR-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแต่ละ Sub-task ตั้งสถานะ Done ทีละใบ (5 ใบ/Task)</li><li>ตั้ง Task หลักเป็น Done</li><li>ทำซ้ำครบทั้ง 4 Task</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ทุก Task ขึ้น "Done" การ์ดย้ายไปคอลัมน์ Done บน Kanban — Milestone ทั้ง 2 ("lobby เสร็จ" / "Pool Deck เสร็จ + ส่งมอบงาน") ขึ้นสถานะ Reached ถูกต้องทุกตัว</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-04-project-tasks-kanban.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-04-project-tasks-kanban.png">ดูภาพ</a></td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- ============ Category 7 ============ -->
+  <div class="category" id="C7">
+    <div class="category-header">
+      <div><div class="category-title">7. ติดตาม Billing Stage ตาม Progress 🆕</div><div class="category-sub">Billing Stage เวอร์ชันใหม่ที่โชว์ยอดเงินจริงที่ควรวางบิล ไม่ใช่แค่ % ความคืบหน้าเหมือนเดิม</div></div>
+    </div>
+    <div class="table-scroll"><table class="tc-table">
+      <thead><tr><th class="col-id">TC ID</th><th class="col-scenario">Scenario</th><th class="col-pre">Precondition</th><th class="col-steps">Steps</th><th class="col-sample">ข้อมูลตัวอย่าง</th><th class="col-expected">Expected Result</th><th class="col-shot">ภาพหน้าจอ</th><th class="col-prio">Priority</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-SYR-13</span></td>
+          <td class="col-scenario">กรอก Progress 35% + ตั้งเกณฑ์เก็บเงินงวดที่ 1 (30%) ตรวจ "ยอดที่ควรวางบิลงวดนี้"<div class="note">🆕 คอลัมน์ "ยอดที่ควรวางบิลงวดนี้" คำนวณจากส่วนต่างของงวดนี้กับงวดก่อนหน้า — งวดแรกไม่มีงวดก่อนหน้า จึงเท่ากับ % เกณฑ์ × มูลค่า Task ตรงๆ</div></td>
+          <td class="col-pre">ทำ TC-SYR-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Task "พื้น SPIDER GREEN — 20 m²" กรอก Progress % = 35</li><li>แท็บ Billing Stages เพิ่มแถวใหม่: "งวดที่ 1 (มัดจำ 30%)" เกณฑ์ 30%</li></ol></td>
+          <td class="col-sample">Origin Sale Line Value = 108,000 บาท, เกณฑ์งวดที่ 1 = 30%</td>
+          <td class="col-expected">"ยอดที่ควรวางบิลงวดนี้" = 32,400 บาท (30% × 108,000) — "Is Reached" ✅ (เพราะ 35 ≥ 30) — ระบบโพสต์ chatter แจ้งเตือนอัตโนมัติ + สร้าง Activity ให้ PM</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-06-billing-stage-list.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-06-billing-stage-list.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
-          <td class="col-id"><span class="tc-id">TC-BPH-15</span></td>
+          <td class="col-id"><span class="tc-id">TC-SYR-14</span></td>
           <td class="col-scenario">PM กดยืนยันพร้อมเก็บเงินงวดที่ 1</td>
-          <td class="col-pre">ทำ TC-BPH-14 เสร็จแล้ว</td>
+          <td class="col-pre">ทำ TC-SYR-13 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>แท็บ Billing Stages แถวงวดที่ 1 กดปุ่ม "ยืนยันพร้อมเก็บเงิน"</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">งวดที่ 1: "Confirmed" ✅ พร้อมวันที่ยืนยัน — แจ้งเตือน/Activity ของงวดนี้เคลียร์ (ยังต้องไปออก Invoice จริงผ่าน Down Payment wizard เองแยกต่างหาก ระบบไม่ออกบิลให้อัตโนมัติ)</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/12-task-billing-stages-list.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/12-task-billing-stages-list.png">ดูภาพ</a></td>
+          <td class="col-expected">งวดที่ 1: "Confirmed" ✅ พร้อมวันที่ยืนยัน — Activity ของงวดนี้เคลียร์อัตโนมัติ (ยังต้องไปออก Invoice จริงผ่าน Down Payment wizard เองแยกต่างหาก ระบบไม่ออกบิลให้อัตโนมัติ)</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-06-billing-stage-list.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-06-billing-stage-list.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
     </table></div>
   </div>
 
-  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · แทนที่เอกสาร "BOQ + Project ทำงานร่วมกัน" (self-test) เดิม · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · สร้างใหม่ทั้งฉบับแทนที่เอกสาร "BOQ + Project ทำงานร่วมกัน (Hotel Lift Lobby)" เดิม · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
   </div>
 </div>
 

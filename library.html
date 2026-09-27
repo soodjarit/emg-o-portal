@@ -163,7 +163,7 @@
         <ul class="tree-docs">
           <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (เศษหิน)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-hotel.html"><span class="tree-doc-tag">3</span>Golden Path — BOQ + Project (Hotel Lift Lobby)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-hotel.html"><span class="tree-doc-tag">3</span>Golden Path — BOQ + Project (SY Resort)</a></li>
         </ul>
       </details>
 
@@ -385,8 +385,8 @@
     <a class="card" href="qa/test-cases-golden-path-boq-project-hotel.html">
       <div class="icon">3</div>
       <div>
-        <div class="card-title">Golden Path — BOQ + Project (Hotel Lift Lobby)</div>
-        <div class="card-desc">อัปเกรดจากเอกสาร self-test เดิม — ตั้ง Rate ใหม่ 2 ตัวจากวัสดุจริง (Material/Labour/วัสดุสิ้นเปลืองแยกก้อน) → BOQ 3 Zone หลายวัสดุ + Preliminaries/Performance Security ที่ไม่เคยเทสต์มาก่อน → ปิดงานจริงจน Milestone Reached ครบ → งานเพิ่มนอก BOQ โชว์ฟีเจอร์ใหม่ Task Billing Stage — เดินสดผ่าน Playwright บน eg-tst พบ+แก้บั๊กจริง 2 ตัวระหว่างทำ (15 test cases)</div>
+        <div class="card-title">Golden Path — BOQ + Project (SY Resort)</div>
+        <div class="card-desc">สร้างใหม่ทั้งฉบับแทนที่เอกสาร "Hotel Lift Lobby" เดิม (ไม่เคยมีสต๊อกจริงตอนทำ) — ครั้งแรกที่พิสูจน์ครบวงจรจริง: เลือก Slab จริงจากสต๊อก + ปุ่มใหม่ Auto-Select Slabs, Recompute ราคา BOQ ให้ตรงต้นทุน Slab จริงแบบ bulk, ใบเสนอราคาพิมพ์แสดงขนาด Slab จริง, ปิดงานจน Milestone Reached ครบ, และ Billing Stage เวอร์ชันใหม่ที่โชว์ยอดเงินที่ควรวางบิลจริง ไม่ใช่แค่ % — เดินสดผ่าน Playwright บน eg-tst (14 test cases)</div>
       </div>
       <div class="arrow">→</div>
     </a>
