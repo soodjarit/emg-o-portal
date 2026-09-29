@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: ค่าแรง 4 สถานการณ์ (Self-Test)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  .layout{max-width:1480px;margin:0 auto;padding:76px 24px 100px;}
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 6px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .last-update{font-size:12.5px;color:#9A9D9F;margin:0 0 12px 0;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:900px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 20px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .selftest-note{background:var(--green-bg);color:#1E5A38;border-radius:10px;padding:14px 18px;font-size:13.5px;line-height:1.7;margin-bottom:16px;}
+  .selftest-note b{color:var(--green);}
+
+  .gap-note{background:var(--amber-bg);color:#6B4423;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:28px;}
+  .gap-note b{color:var(--copper-dark);}
+
+  .prereq-box{background:#FBF8F3;border:1px solid var(--border);border-left:4px solid var(--copper);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.7;color:#5B4632;}
+  .prereq-box b{color:var(--copper-dark);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1360px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:80px;}
+  .col-scenario{width:190px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:240px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:220px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:270px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-result{width:190px;}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+
+  .result-box{display:flex;flex-direction:column;gap:6px;}
+  .result-check{display:flex;gap:14px;font-size:12.5px;color:#6B6E70;}
+  .result-check label{display:flex;align-items:center;gap:5px;cursor:pointer;}
+  .result-note{border:1px dashed var(--border);border-radius:6px;padding:6px 8px;font-size:11.5px;color:#9A9D9F;min-height:34px;}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+
+<div class="layout">
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA · Labor Cost</div>
+    <h1>Golden Path — ค่าแรง 4 สถานการณ์</h1>
+    <div class="last-update">อัปเดตล่าสุด: 29 ก.ย. 2026</div>
+    <div class="sub">ทดสอบ 3 สถานการณ์ค่าแรงที่เพิ่งสร้างใหม่ (ติดตั้งพนักงานเอง / ว่าจ้างผู้รับเหมา / ตัดหินแบบมือ) ตั้งแต่กดบันทึกจนถึงรายการบัญชีจริง รวมทางแก้ไขเมื่อกรอกผิด — ดูคำอธิบายหลักการก่อนทดสอบได้ที่ <a href="../presentations/workflow-design/labor-cost-explainer.html" style="color:var(--copper-dark);font-weight:700;">เอกสารอธิบายแนวคิด "ค่าแรง 4 สถานการณ์" →</a> ไม่รวมการตัดหินผ่าน Work Center เพราะเป็นกลไกเดิมของระบบ ไม่ใช่ของใหม่รอบนี้</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>11</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b style="color:var(--red)">7</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">4</b>Medium Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>ลำดับการทดสอบ:</b> เริ่มจากตั้งค่าบริษัทให้พร้อมก่อน (หมวด 1) แล้วค่อยไล่ทดสอบทีละสถานการณ์ — ติดตั้งพนักงานเอง (หมวด 2) → ว่าจ้างผู้รับเหมา (หมวด 3) → ตัดหินแบบมือ (หมวด 4) แต่ละหมวดมีกล่อง <b>"ต้องเตรียมอะไรก่อน"</b> บอกไว้ว่าต้องมี record อะไรอยู่ในระบบก่อนเริ่มกดตามขั้นตอนในตาราง — ถ้ายังไม่มี ให้ไปสร้างตามที่บอกไว้ก่อน ไม่งั้นจะกดตามขั้นตอนไม่ได้
+  </div>
+
+  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> เดินตามขั้นตอนในตารางแต่ละหมวดตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst) — ทุกขั้นตอน/ผลลัพธ์ที่ระบุในตารางตรวจสอบกับโค้ดจริงแล้ว และเคยรันผ่านหน้าจอจริงมาแล้ว 1 รอบเมื่อ 29 ก.ย. 2026 (ดู record อ้างอิงในกล่องด้านล่าง)</div>
+
+  <div class="gap-note"><b>Record อ้างอิงจากรอบทดสอบจริงครั้งก่อน (29 ก.ย. 2026):</b> Task 276 (ติดตั้งพนักงานเอง, บันทึกจริง 3 วัน = 4,500 บาท, JE MISC/2026/09/0013) · SO 352 (ว่าจ้างผู้รับเหมา, ได้ RFQ P00137 + P00138, ยืนยัน P00137 ที่เหลือถูกยกเลิกอัตโนมัติ) · SO 353 (ทดสอบปิดสวิตช์ Auto-RFQ, ไม่มี RFQ เกิดขึ้นจริง) — ถ้าทดสอบรอบใหม่ได้ผลต่างจากนี้ ให้จดในคอลัมน์หมายเหตุ ไม่ต้องกังวลว่าตัวเลข/เลขที่เอกสารจะไม่ตรงกัน (สร้าง record ใหม่ทุกรอบ)</div>
+
+  <div class="category" id="LC1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">1. เตรียมความพร้อม — ตั้งค่าบริษัท</div>
+        <div class="category-sub">ทำครั้งเดียว ก่อนทดสอบหมวดอื่น — ถ้าเคยตั้งไว้แล้วให้แค่ตรวจสอบว่ายังตั้งอยู่</div>
+      </div>
+    </div>
+    <div class="prereq-box"><b>ต้องเตรียมอะไรก่อน:</b> แค่มีสิทธิ์เปิดหน้า Settings &gt; Companies (สิทธิ์ Administrator หรือ Accounting) ไม่ต้องมี record อื่นเตรียมไว้ก่อน</div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-01</span></td>
+          <td class="col-scenario">ตั้งอัตราค่าแรงติดตั้ง/วัน<div class="note">ฟิลด์ชื่อเทคนิค: stone_install_labor_rate_per_day — Odoo แสดงเป็นชื่อ auto-label ใกล้เคียงคำนี้</div></td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>เปิด Settings &gt; General Settings &gt; Companies</li><li>เปิดบริษัท Empire Granite</li><li>หาฟิลด์ "Install Labor Rate Per Day" ใต้ Currency</li><li>ใส่ตัวเลข &gt; 0 ถ้ายังว่าง</li><li>Save</li></ol></td>
+          <td class="col-sample">1,500 บาท/วัน</td>
+          <td class="col-expected">บันทึกค่าได้ ตัวเลขไม่เป็น 0 (ถ้าเป็น 0 หมวด 2 จะบันทึกค่าแรงไม่ได้เพราะยอดเป็นศูนย์)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-02</span></td>
+          <td class="col-scenario">เปิดสวิตช์ Auto-RFQ + ตั้งผู้รับเหมาอย่างน้อย 2 ราย<div class="note">ช่องผู้รับเหมาจะซ่อนอยู่จนกว่าจะติ๊กเปิดสวิตช์ก่อน — ต้องมี 2 รายขึ้นไปถึงจะทดสอบหมวด 3 (เทียบราคา) ได้จริง</div></td>
+          <td class="col-pre">อยู่หน้าเดิมจาก TC-LC-01</td>
+          <td class="col-steps"><ol><li>หาฟิลด์ "Auto Rfq Enabled" ติ๊กเปิด</li><li>ช่อง "Preferred Subcontractors" จะโผล่ขึ้นมา</li><li>เลือกผู้รับเหมาอย่างน้อย 2 ราย (ถ้ายังไม่มี Contact ประเภทผู้รับเหมา ให้สร้างใหม่ก่อน)</li><li>Save</li></ol></td>
+          <td class="col-sample">ผู้รับเหมา A, ผู้รับเหมา B</td>
+          <td class="col-expected">บันทึกสำเร็จ เห็น tag ชื่อผู้รับเหมาทั้ง 2 รายในช่อง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="LC2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">2. ติดตั้งพนักงานเอง</div>
+        <div class="category-sub">บันทึกค่าแรงหน้างานที่พนักงานประจำไปติดตั้งเอง (ไม่ใช่ผู้รับเหมา)</div>
+      </div>
+    </div>
+    <div class="prereq-box"><b>ต้องเตรียมอะไรก่อน:</b> ต้องมี Sale Order ที่ Confirm แบบ "ขายเป็นโปรเจกต์" (ติ๊ก Sold as Project) แล้ว — ระบบจะสร้าง Project + Task ให้อัตโนมัติ 1 ใบขึ้นไป ถ้ายังไม่มีให้สร้าง SO ใหม่แบบนี้ก่อน (เลือกลูกค้า → ใส่สินค้าหิน → แท็บ Other Info ติ๊ก "Sold as Project" → Confirm) แล้วค่อยเริ่มทำ TC-LC-03 ที่ Task ที่ได้มา</div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-03</span></td>
+          <td class="col-scenario">กรอกจำนวนวันติดตั้ง แล้วบันทึกค่าแรง<div class="note">ถ้ากดแล้วขึ้น error ว่าไม่มีผังบัญชี ให้แจ้งฝ่ายบัญชีสร้างบัญชี "COGS - Site Installation Labor" และ "Accrued Expenses" ก่อน (ไม่ใช่บั๊ก เป็น setup ที่ต้องมี)</div></td>
+          <td class="col-pre">มี Task จาก SO ที่ Sold-as-Project แล้ว (ดูกล่องเตรียมข้อมูลด้านบน)</td>
+          <td class="col-steps"><ol><li>เปิด Task ที่ต้องการ</li><li>ไปแท็บ "Installation Labor"</li><li>กรอกจำนวนวัน</li><li>กดปุ่ม "บันทึกค่าแรงติดตั้ง"</li></ol></td>
+          <td class="col-sample">จำนวนวัน = 3<br>(× 1,500 = 4,500 บาท)</td>
+          <td class="col-expected">ขึ้นข้อความยืนยันใน Chatter ว่าบันทึกค่าแรงแล้ว พร้อมเลขที่ Journal Entry ฟิลด์จำนวนวันล็อก แก้ไม่ได้อีก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-04</span></td>
+          <td class="col-scenario">ตรวจว่าบันทึกซ้ำไม่ได้ (กันบันทึกซ้ำ)</td>
+          <td class="col-pre">ทำ TC-LC-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ดูที่แท็บ "Installation Labor" เดิม</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ปุ่ม "บันทึกค่าแรงติดตั้ง" หายไปแล้ว (ไม่ใช่กดไม่ได้ แต่หายไปเลย) เห็นปุ่ม "แก้ไข/ยกเลิกรายการ" แทน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-05</span></td>
+          <td class="col-scenario">แก้ไขจำนวนวันที่กรอกผิด (ทางแก้เมื่อพลาด)<div class="note">ทดสอบเสมือนกรอกผิด แล้วต้องแก้ — ไม่ต้องให้ฝ่ายบัญชีไปแก้ JE มือ</div></td>
+          <td class="col-pre">ทำ TC-LC-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "แก้ไข/ยกเลิกรายการ"</li><li>กดยืนยันในกล่องเตือนที่ขึ้นมา</li><li>ฟิลด์จำนวนวันจะแก้ไขได้อีกครั้ง — ใส่ตัวเลขใหม่</li><li>กด "บันทึกค่าแรงติดตั้ง" อีกครั้ง</li></ol></td>
+          <td class="col-sample">แก้จาก 3 วัน เป็น 2 วัน<br>(× 1,500 = 3,000 บาท)</td>
+          <td class="col-expected">Chatter ขึ้นข้อความว่ายกเลิกรายการเดิมแล้ว (พร้อมเลขที่ JE เดิม) บันทึกรายการใหม่สำเร็จด้วยยอด 3,000 บาท รายการเดิม 4,500 ไม่ได้ถูกลบ แต่มีรายการกลับรายการหักล้างอยู่คู่กัน (ยอดสุทธิในบัญชี = 3,000 บาทพอดี)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="LC3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">3. ว่าจ้างผู้รับเหมา (Auto-RFQ)</div>
+        <div class="category-sub">ให้ระบบส่ง RFQ หาผู้รับเหมาที่ตั้งไว้ล่วงหน้าให้อัตโนมัติ แล้วเลือกเจ้าที่ต้องการ</div>
+      </div>
+    </div>
+    <div class="prereq-box"><b>ต้องเตรียมอะไรก่อน:</b> ต้องมีใบเสนอราคางานติดตั้ง (BOQ Labor Quotation) ที่ยังไม่ได้ Confirm — สร้างจากแอป "BOQ Estimation" &gt; New เลือกประเภทเอกสารเป็น "Labor" ใส่รายการงานติดตั้ง แล้วกด "สร้างใบเสนอราคา" จะได้ Sale Order ที่ผูกกับ BOQ นี้ ยังไม่ต้อง Confirm — เอาไว้ Confirm ใน TC-LC-06 และต้องทำ TC-LC-02 (เปิดสวิตช์ Auto-RFQ) ให้เสร็จก่อนด้วย</div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-06</span></td>
+          <td class="col-scenario">Confirm ใบเสนอราคา → ให้ระบบสร้าง RFQ อัตโนมัติ</td>
+          <td class="col-pre">มีใบเสนอราคา BOQ Labor ที่ยังไม่ Confirm (ดูกล่องเตรียมข้อมูลด้านบน) + TC-LC-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบเสนอราคา</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ยืนยันสำเร็จ + เกิด RFQ ฉบับร่างใหม่ 1 ใบต่อผู้รับเหมา 1 ราย (2 รายที่ตั้งไว้ = 2 RFQ) เช็คได้จากเมนู Purchase &gt; Requests for Quotation</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-07</span></td>
+          <td class="col-scenario">เปิด RFQ ดูแท็บเทียบราคาผู้รับเหมา<div class="note">ถ้าไม่เห็นแท็บ "Alternatives" ให้เช็คว่า Purchase &gt; Configuration &gt; Settings เปิด "Purchase Agreements" ไว้หรือยัง (สวิตช์เนทีฟของ Odoo คนละตัวกับ Auto-RFQ)</div></td>
+          <td class="col-pre">ทำ TC-LC-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด RFQ ใบใดใบหนึ่งที่เพิ่งได้มา</li><li>ดูแท็บ "Alternatives"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็นรายการ RFQ อีกใบ (ของผู้รับเหมาอีกราย) อยู่ในแท็บเดียวกัน พร้อมปุ่ม "Compare Product Lines" เทียบราคาได้</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-08</span></td>
+          <td class="col-scenario">เลือกยืนยัน PO เจ้าที่ต้องการ</td>
+          <td class="col-pre">ทำ TC-LC-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด RFQ ของผู้รับเหมาที่ต้องการเลือก</li><li>กด Confirm Order</li><li>จะมีกล่องเตือนถามว่าจะทำอย่างไรกับผู้รับเหมารายอื่น — เลือก "Cancel Alternatives"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">PO ที่เลือกยืนยันสำเร็จ (สถานะ Purchase Order) ส่วน RFQ ของผู้รับเหมารายอื่นถูกยกเลิกอัตโนมัติ (สถานะ Cancelled)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-09</span></td>
+          <td class="col-scenario">ปิดสวิตช์ Auto-RFQ แล้วทดสอบว่าไม่มี RFQ เกิดขึ้น<div class="note">อย่าลืมเปิดสวิตช์กลับคืนหลังทดสอบเสร็จ ไม่งั้นหมวด 3 นี้จะใช้ทดสอบซ้ำไม่ได้ในรอบถัดไป</div></td>
+          <td class="col-pre">ทำ TC-LC-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ไปหน้า Settings &gt; Companies ปิดสวิตช์ "Auto Rfq Enabled" แล้ว Save</li><li>สร้างใบเสนอราคา BOQ Labor ใหม่อีก 1 ใบ (เหมือนที่เตรียมไว้ตอนต้นหมวดนี้)</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ยืนยันสำเร็จตามปกติ แต่ไม่มี RFQ ใดๆ เกิดขึ้นเลย (เช็คที่ Purchase &gt; Requests for Quotation ไม่พบรายการใหม่)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="category" id="LC4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">4. ตัดหินแบบมือ</div>
+        <div class="category-sub">ค่าแรงกะประมาณของ Slab ที่ตัดนอกขั้นตอน Work Center ปกติ</div>
+      </div>
+    </div>
+    <div class="prereq-box"><b>ต้องเตรียมอะไรก่อน:</b> ต้องมี Slab สถานะ "ว่าง" (available) อย่างน้อย 1 แผ่นในสต็อก และ Sale Order ที่มี Order Line เปิดรออยู่สำหรับสินค้าหินแผ่นนั้น (ยังไม่ต้อง Confirm SO) — ถ้ายังไม่มี Slab ว่าง ให้สร้างผ่านขั้นตอนปกติของธุรกิจ (ซื้อ Block → ตัด) หรือขอให้ฝ่ายผลิตช่วยชี้ Slab ที่มีอยู่แล้วในระบบ</div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-10</span></td>
+          <td class="col-scenario">จับคู่ (Hold) Slab กับ Sale Order Line</td>
+          <td class="col-pre">มี Slab ว่าง + SO ที่มี line รออยู่ (ดูกล่องเตรียมข้อมูลด้านบน)</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order</li><li>กดปุ่ม "Select Slabs" ที่บรรทัดสินค้าหิน</li><li>เลือก Slab ที่ต้องการ</li><li>กดยืนยัน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Slab เปลี่ยนสถานะเป็น "จอง" (Hold) ราคาต่อหน่วยในบรรทัด SO อัปเดตอัตโนมัติตาม Slab ที่เลือก และมีรายการบัญชีค่าแรงกะประมาณเกิดขึ้นเงียบๆ เบื้องหลัง (เช็คได้จาก Accounting &gt; Journal Entries ค้นหาชื่อ Slab)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-LC-11</span></td>
+          <td class="col-scenario">เปลี่ยนใจ เลือก Slab แผ่นใหม่แทน<div class="note">สถานการณ์จริงที่พบบ่อย: "ลูกค้าเปลี่ยนใจเลือกลายหิน" — ทดสอบว่ารายการบัญชีเก่าไม่ค้างซ้อนกับรายการใหม่</div></td>
+          <td class="col-pre">ทำ TC-LC-10 เสร็จแล้ว + มี Slab ว่างอีกแผ่นสำรองไว้</td>
+          <td class="col-steps"><ol><li>เปิด Sale Order เดิม</li><li>กดปุ่ม "Select Slabs" อีกครั้งที่บรรทัดเดิม</li><li>เลือก Slab แผ่นใหม่แทนแผ่นเดิม</li><li>กดยืนยัน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Slab แผ่นเดิมกลับสถานะเป็น "ว่าง" อีกครั้ง และรายการบัญชีค่าแรงของแผ่นเดิมถูกกลับรายการอัตโนมัติ (ไม่ค้างในบัญชี) ส่วน Slab แผ่นใหม่มีรายการค่าแรงของตัวเองเกิดขึ้นแทน — ยอดสุทธิในบัญชีเท่ากับค่าแรงของแผ่นใหม่เท่านั้น ไม่ใช่ผลรวมของทั้ง 2 แผ่น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

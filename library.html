@@ -162,8 +162,12 @@
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (เศษหิน)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (Slab คุมเป็น Lot)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-hotel.html"><span class="tree-doc-tag">3</span>Golden Path — BOQ + Project (SY Resort)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-boq.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ BOQ (EG-321)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">5</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">6</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-labor-cost.html"><span class="tree-doc-tag">7</span>Golden Path — ค่าแรง 4 สถานการณ์ (Self-Test)</a></li>
         </ul>
       </details>
 
@@ -211,6 +215,7 @@
           <li class="tree-doc"><a href="presentations/workflow-design/stone-cost-ton-purchase-calc.html"><span class="tree-doc-tag">D5</span>ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/stone-costing-explainer.html"><span class="tree-doc-tag">D6</span>ต้นทุนหิน: จากก้อนสู่แผ่น (หลักการ + ของจริง)</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/workorder-explainer.html"><span class="tree-doc-tag">D7</span>Work Order คืออะไร — กลไก + ทางเลือก Full/Minimal</a></li>
+          <li class="tree-doc"><a href="presentations/workflow-design/labor-cost-explainer.html"><span class="tree-doc-tag">D8</span>ค่าแรง 4 สถานการณ์ — ใครทำงาน คิดต้นทุนแบบไหน ลงบัญชีอย่างไร</a></li>
         </ul>
       </details>
 
@@ -376,7 +381,7 @@
     <a class="card" href="qa/test-cases-golden-path-lot-mode.html">
       <div class="icon">2</div>
       <div>
-        <div class="card-title">Golden Path — ขายวัสดุแบบ Lot-Mode (เศษหิน)</div>
+        <div class="card-title">Golden Path — ขายวัสดุแบบ Lot-Mode (Slab คุมสต็อกเป็น Lot)</div>
         <div class="card-desc">ADR-072 Decision 4 — สต็อกจริงเปลี่ยนเป็นนับจำนวนแผ่น (ไม่ใช่ตร.ม.ตรงๆ), แก้บั๊ก oversell, เพิ่มยอด "ตร.ม. พร้อมขาย" บนหน้า Material และฟอร์ม Lot/Serial Number ของ Odoo เอง — เดินสดผ่าน Playwright บน eg-tst ครบ 5 test cases</div>
       </div>
       <div class="arrow">→</div>
@@ -387,6 +392,46 @@
       <div>
         <div class="card-title">Golden Path — BOQ + Project (SY Resort)</div>
         <div class="card-desc">สร้างใหม่ทั้งฉบับแทนที่เอกสาร "Hotel Lift Lobby" เดิม (ไม่เคยมีสต๊อกจริงตอนทำ) — ครั้งแรกที่พิสูจน์ครบวงจรจริง: เลือก Slab จริงจากสต๊อก + ปุ่มใหม่ Auto-Select Slabs, Recompute ราคา BOQ ให้ตรงต้นทุน Slab จริงแบบ bulk, ใบเสนอราคาพิมพ์แสดงขนาด Slab จริง, ปิดงานจน Milestone Reached ครบ, และ Billing Stage เวอร์ชันใหม่ที่โชว์ยอดเงินที่ควรวางบิลจริง ไม่ใช่แค่ % — เดินสดผ่าน Playwright บน eg-tst (14 test cases)</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="qa/test-cases-golden-path-switch-boq.html">
+      <div class="icon">4</div>
+      <div>
+        <div class="card-title">Golden Path — สวิตช์ BOQ (EG-321)</div>
+        <div class="card-desc">สวิตช์ BOQ = ใบเสนอราคาเริ่มต้นจากเอกสารประเมินราคา (Bill of Quantities) ก่อน แทนที่จะพิมพ์รายการลงใบเสนอราคาตรงๆ — ใช้เมื่อสินค้า/บริการมีหลายรายการ ต้องคิดราคาละเอียดก่อนเสนอลูกค้า พิสูจน์ว่าเป็นสวิตช์อิสระจากสวิตช์ Project อย่างสมบูรณ์ (สร้างใบเสนอราคาจาก BOQ ได้โดยไม่ต้องติ๊ก Sold as Project เลย) — เดินสดผ่าน Playwright (4 test cases)</div>
+        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="qa/test-cases-golden-path-switch-project.html">
+      <div class="icon">5</div>
+      <div>
+        <div class="card-title">Golden Path — สวิตช์ Project (EG-321)</div>
+        <div class="card-desc">เดิมเรียก "Mode 4 (Sold-as-Project)" — ตามแนวคิด EG-321 ไม่ใช่จุดขายที่ 4 แต่เป็นสวิตช์ที่แปะกับใบสั่งขายจุดขายไหนก็ได้ (Block/Slab/FG) เพื่อเปิดการติดตามงานเป็น Task + เก็บเงินเป็นงวดผ่าน Milestone (ADR-021, ปรับกลไก Milestone ใหม่ ADR-069) สาธิตด้วยสินค้าบริการ "Protection Works" แต่สวิตช์นี้ใช้ได้กับสินค้าจริงประเภทไหนก็ได้ ไม่ต้องมี BOQ ก็เปิดใช้ได้ — เดินสดผ่าน Playwright (6 test cases)</div>
+        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="qa/test-cases-golden-path-boq-project-combo.html">
+      <div class="icon">6</div>
+      <div>
+        <div class="card-title">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</div>
+        <div class="card-desc">2 สวิตช์ (BOQ / Project) พิสูจน์แล้วว่าเป็นอิสระต่อกันในเอกสารสวิตช์ทั้ง 2 ข้างต้น — เอกสารนี้สาธิตเมื่อใช้ร่วมกันแบบที่ลูกค้าจริงต้องการ: เริ่มจาก Cutting List จริงที่ลูกค้าส่งมา → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project เพื่อติดตามงานเป็น Task ต่อ Zone พร้อม Milestone เก็บเงิน (13 test cases)</div>
+        <div class="card-meta"><span class="card-date">22 ก.ย. 2026</span><span class="status-badge design">ให้ผู้ใช้ทดสอบเอง — ยังไม่ได้รันจริงผ่านหน้าจอ</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="qa/test-cases-golden-path-labor-cost.html">
+      <div class="icon">7</div>
+      <div>
+        <div class="card-title">Golden Path — ค่าแรง 4 สถานการณ์ (Self-Test)</div>
+        <div class="card-desc">ทดสอบ 3 ฟีเจอร์ค่าแรงที่เพิ่งสร้างใหม่ (ติดตั้งพนักงานเอง / ว่าจ้างผู้รับเหมา Auto-RFQ / ตัดหินแบบมือ) ตั้งแต่ตั้งค่าบริษัท จนถึงรายการบัญชีจริง รวมทางแก้ไขเมื่อกรอกผิด — แต่ละหมวดมีกล่อง "ต้องเตรียมอะไรก่อน" บอก record ที่ต้องมีล่วงหน้าให้ non-technical user ตามได้เอง ไม่ต้องเดา ดูคำอธิบายหลักการคู่กันได้ที่เอกสาร "ค่าแรง 4 สถานการณ์" ในหมวด Workflow Design (11 test cases)</div>
+        <div class="card-meta"><span class="card-date">29 ก.ย. 2026</span><span class="status-badge built">รันสดผ่านหน้าจอจริงรอบแรกแล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -586,6 +631,15 @@
         <div class="card-title">Work Order คืออะไร — กลไก + ทางเลือก Full/Minimal</div>
         <div class="card-desc">สอนพื้นฐาน MO/Work Order/Work Center ไม่ต้องมีความรู้ Odoo มาก่อน ใช้ Work Center 3 ตัวที่มีอยู่จริงในระบบเป็นตัวอย่าง แสดงกลไกต้นทุน (เวลา × cost/ชม.) แล้วเปิดเผยตรงๆ ว่าตัวเลขวันนี้ยังเป็น placeholder ไม่ใช่เวลาทำงานจริง ปิดท้ายด้วยทางเลือก A (Minimal, ของปัจจุบัน) vs B (Full) พร้อมนับจำนวนจุดตั้งค่าและงานหน้างานที่เพิ่มขึ้นจริงของแต่ละแบบ</div>
         <div class="card-meta"><span class="card-date">7 ก.ย. 2026</span><span class="status-badge design">รอข้อมูลหน้างาน 11 ก.ย. เพื่อประเมินทางเลือก</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="presentations/workflow-design/labor-cost-explainer.html">
+      <div class="icon">D8</div>
+      <div>
+        <div class="card-title">ค่าแรง 4 สถานการณ์ — ใครทำงาน คิดต้นทุนแบบไหน ลงบัญชีอย่างไร</div>
+        <div class="card-desc">อธิบายทั้ง 4 สถานการณ์ที่ค่าแรงเกิดขึ้นในระบบ (ตัดผ่าน Work Center อัตโนมัติ / ตัดมือ / ติดตั้งพนักงานเอง / ว่าจ้างผู้รับเหมา) แต่ละแบบใครทำงาน เป็นบิลจริงหรือประมาณการ ลงบัญชีที่ไหน — ปิดท้ายด้วยหลักการรวม (ประมาณการก่อน เคลียร์ทีหลัง ผ่านบัญชี Accrued Expenses) และกลไกแก้ไข/ยกเลิกรายการเมื่อกรอกผิด ซึ่งเป็นฟีเจอร์ที่เพิ่งสร้าง+ทดสอบผ่านหน้าจอจริงในวันเดียวกัน</div>
+        <div class="card-meta"><span class="card-date">29 ก.ย. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว (Labor Cost ข้อ 1/2/3)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

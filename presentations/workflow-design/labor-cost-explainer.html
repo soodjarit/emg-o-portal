@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ค่าแรง 4 สถานการณ์ — EMG-O</title>
+<style>
+  :root{
+    --charcoal:#33424B;
+    --charcoal-dark:#212B31;
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --stone:#E9E4DC;
+    --card:#F5F4F2;
+    --white:#FFFFFF;
+    --text:#26313A;
+    --muted:#6B7680;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#c9cdd0;font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  #stage-wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  #stage{position:relative;width:1280px;height:720px;background:var(--white);box-shadow:0 10px 40px rgba(0,0,0,.35);flex-shrink:0;}
+  .slide{position:absolute;top:0;left:0;width:1280px;height:720px;padding:46px 60px;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+  .slide.active{display:flex;}
+  .slide.dark{background:var(--charcoal-dark);color:var(--stone);}
+  .slide.appendix{background:var(--charcoal);color:var(--stone);}
+
+  .eyebrow{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:6px;}
+  .dark .eyebrow, .appendix .eyebrow{color:#D9A465;}
+  h2.slide-title{font-size:26px;margin:0 0 14px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;line-height:1.3;}
+  .dark h2.slide-title, .appendix h2.slide-title{color:var(--white);}
+
+  /* Title slide */
+  #slide-0{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  #slide-0 .big-title{font-size:44px;font-family:Cambria,serif;font-weight:700;color:var(--white);margin:0 0 10px 0;line-height:1.25;}
+  #slide-0 .updated{font-size:14px;color:#D9A465;font-weight:700;margin-bottom:18px;}
+  #slide-0 .big-sub{font-size:18px;color:#CBD3D8;max-width:860px;line-height:1.55;}
+  #slide-0 .stamp{position:absolute;bottom:52px;left:60px;font-size:14px;color:#9AA6AC;letter-spacing:1px;}
+  #slide-0 .badge{position:absolute;top:52px;right:60px;width:80px;height:80px;border-radius:50%;background:var(--copper);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:700;font-family:Cambria,serif;text-align:center;line-height:1.15;}
+
+  .appendix-divider{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;height:100%;}
+  .appendix-divider .a-eyebrow{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#D9A465;font-weight:700;margin-bottom:16px;}
+  .appendix-divider .a-title{font-size:42px;font-family:Cambria,serif;font-weight:700;color:#fff;margin:0 0 20px 0;line-height:1.25;}
+  .appendix-divider .a-sub{font-size:17px;color:#B9C2C8;max-width:760px;line-height:1.6;}
+
+  .case-box{background:var(--card);border-radius:14px;padding:16px 22px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+  .dark .case-box{background:rgba(255,255,255,.08);}
+  .case-icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:var(--copper);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;font-family:Cambria,serif;}
+  .case-text-label{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:3px;}
+  .dark .case-text-label{color:#D9A465;}
+  .case-text{font-size:17.5px;line-height:1.5;color:var(--text);}
+  .dark .case-text{color:#E4E8EA;}
+
+  .hier-row{display:flex;gap:12px;margin:14px 0;align-items:stretch;}
+  .hier-card{flex:1;background:var(--card);border-radius:12px;padding:14px;text-align:center;position:relative;}
+  .hier-card.hl{background:#FBF1E7;border:2px solid var(--copper);}
+  .hier-card.gray{background:#ECECEA;border:2px dashed #9AA0A6;}
+  .hier-card .star-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;}
+  .hier-card .hlabel{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:5px;}
+  .hier-card .hdesc{font-size:15.5px;color:var(--text);line-height:1.4;}
+  .hier-arrow{align-self:center;color:var(--copper);font-size:18px;font-weight:700;flex-shrink:0;}
+
+  .cmp-table{width:100%;border-collapse:collapse;font-size:15.5px;}
+  .cmp-table th{text-align:left;padding:8px 10px;background:var(--charcoal);color:#fff;font-size:11.5px;letter-spacing:.5px;}
+  .cmp-table td{padding:8px 10px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;}
+  .cmp-table tr.hl td{font-weight:700;color:var(--copper-dark);background:#FBF1E7;}
+  .cmp-table tr.bad td{font-weight:700;color:#A6432D;background:#FBEAE7;}
+  .cmp-table tr.good td{font-weight:700;color:#3D7A45;background:#EAF3EA;}
+
+  .step-table{width:100%;border-collapse:collapse;font-size:15px;}
+  .step-table th{text-align:left;padding:7px 9px;background:var(--charcoal-dark);color:#fff;font-size:10.5px;letter-spacing:.3px;vertical-align:top;}
+  .step-table td{padding:7px 9px;border-bottom:1px solid #e6e2dc;vertical-align:top;line-height:1.4;color:var(--text);}
+  .appendix .step-table{background:var(--white);border-radius:10px;overflow:hidden;}
+  .appendix .step-table th{background:var(--charcoal-dark);}
+  .step-table code{background:#EFEBE4;padding:1px 5px;border-radius:4px;font-size:11px;}
+  .appendix .step-table code{background:#E4E8EA;}
+
+  .je-table{width:100%;border-collapse:collapse;font-size:16px;margin-top:6px;}
+  .je-table th{text-align:left;padding:8px 10px;background:var(--charcoal);color:#fff;font-size:11px;letter-spacing:.5px;}
+  .je-table td{padding:8px 10px;border-bottom:1px solid #e6e2dc;}
+  .je-table td.dr{color:#3D7A45;font-weight:700;}
+  .je-table td.cr{color:#A6432D;font-weight:700;}
+
+  .note-box{background:#FBF1E7;border-radius:11px;padding:12px 16px;font-size:15.5px;line-height:1.5;color:#6B4423;margin-top:8px;}
+  .note-box b{color:#8F5A2C;}
+  .note-box.bad{background:#FBEAE7;color:#7A2E20;}
+  .note-box.bad b{color:#A6432D;}
+  .note-box.good{background:#EAF3EA;color:#2C5A32;}
+  .note-box.good b{color:#3D7A45;}
+  .dark .note-box, .appendix .note-box{background:rgba(255,255,255,.08);color:#E4E8EA;}
+  .dark .note-box b, .appendix .note-box b{color:#D9A465;}
+
+  .two-col{display:flex;gap:24px;align-items:flex-start;}
+  .col-left{flex:1;}
+  .col-right{flex:1;}
+
+  .flow-bar{display:flex;align-items:center;flex-wrap:wrap;gap:14px 0;margin-bottom:18px;}
+  .flow-chip{background:var(--copper);color:#fff;font-size:20px;padding:14px 24px;border-radius:32px;white-space:normal;max-width:280px;text-align:center;line-height:1.25;font-weight:700;}
+  .flow-chip.green{background:#3D7A45;}
+  .flow-chip.gray{background:#7A8288;}
+  .flow-arrow{color:var(--copper);font-size:26px;margin:0 10px;font-weight:700;}
+  .dark .flow-arrow, .appendix .flow-arrow{color:#D9A465;}
+
+  .split-box{display:flex;gap:18px;margin:14px 0;}
+  .split-card{flex:1;border-radius:14px;padding:18px;}
+  .split-card.opt-a{background:#FBEAE7;}
+  .split-card.opt-b{background:#EAF3EA;}
+  .split-card.neutral{background:rgba(255,255,255,.08);}
+  .split-card .split-label{font-size:11.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:7px;}
+  .split-card.opt-a .split-label{color:#A6432D;}
+  .split-card.opt-b .split-label{color:#3D7A45;}
+  .split-card.neutral .split-label{color:#D9A465;}
+  .split-card .split-title{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:7px;line-height:1.3;}
+  .split-card.neutral .split-title{color:#fff;}
+  .split-card .split-desc{font-size:16px;line-height:1.5;color:var(--text);}
+  .split-card.neutral .split-desc{color:#E4E8EA;}
+
+  .footer-tag{position:absolute;bottom:20px;left:60px;font-size:11px;color:var(--muted);letter-spacing:.5px;}
+  .dark .footer-tag, .appendix .footer-tag{color:#8B969C;}
+
+  #nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:50;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:24px;}
+  #nav button{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  #nav button:hover{background:var(--copper-dark);}
+  #nav a{background:var(--copper);color:#fff;border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+  #nav a:hover{background:var(--copper-dark);}
+  #nav span{color:#fff;font-size:13px;min-width:50px;text-align:center;}
+
+  @media print{
+    #nav{display:none;}
+    #stage-wrap{width:auto;height:auto;overflow:visible;background:none;}
+    #stage{box-shadow:none;}
+    .slide{position:relative;display:block !important;page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+  <!-- SLIDE 0: Title -->
+  <section class="slide dark active" id="slide-0">
+    <div class="badge">LABOR<br>COST</div>
+    <div class="eyebrow">Empire Granite · Stone Slab Inventory — Design Discussion</div>
+    <div class="big-title">ค่าแรง 4 สถานการณ์<br>ใครทำงาน คิดต้นทุนแบบไหน ลงบัญชีอย่างไร</div>
+    <div class="updated">อัปเดตล่าสุด: 29 ก.ย. 2026</div>
+    <div class="big-sub">หินแผ่นเดียวกัน อาจผ่านมือคนทำงานได้หลายแบบ — พนักงานเราเอง ผู้รับเหมาภายนอก หรือเครื่องจักรในโรงงาน แต่ละแบบคิดต้นทุนค่าแรงและลงบัญชีต่างกัน สไลด์นี้ไล่ทีละสถานการณ์ จนถึงรายการบัญชี (Journal Entry) จริงที่เกิดขึ้นในระบบ</div>
+    <div class="stamp">EMG-O Design Discussion · Labor Cost Explainer</div>
+  </section>
+
+  <!-- SLIDE 1: Overview table -->
+  <section class="slide" id="slide-1">
+    <div class="eyebrow">ภาพรวม</div>
+    <h2 class="slide-title">ค่าแรง 1 เรื่อง เกิดได้ 4 สถานการณ์ ในระบบเรา</h2>
+    <div class="case-box">
+      <div class="case-icon">?</div>
+      <div>
+        <div class="case-text-label">คำถามที่พบบ่อย</div>
+        <div class="case-text">งานตัดหิน งานติดตั้ง มีหลายคนทำได้ — พนักงานเราเอง ผู้รับเหมา หรือเครื่องจักรในโรงงาน แล้วแต่ละแบบ ต้นทุนค่าแรงไปโผล่ที่บัญชีไหน เมื่อไหร่ และเป็นตัวเลขจริงหรือแค่กะประมาณ?</div>
+      </div>
+    </div>
+    <table class="cmp-table">
+      <tr><th style="width:230px;">สถานการณ์</th><th style="width:180px;">ใครทำงาน</th><th style="width:170px;">บิลจริง หรือ ประมาณการ</th><th>ลงบัญชีที่ไหน/เมื่อไหร่</th></tr>
+      <tr><td><b>1. ตัดหิน ผ่าน Work Center</b></td><td>เครื่องจักร + ช่างในโรงงาน (ขั้นตอนปกติ)</td><td>ประมาณการ (เวลามาตรฐาน)</td><td>อัตโนมัติ ตอนปิด Manufacturing Order</td></tr>
+      <tr><td><b>2. ตัดหิน แบบมือ (ไม่ผ่าน Work Center)</b></td><td>ช่างตัดในโรงงาน (นอกขั้นตอน MO)</td><td>ประมาณการ (rate/แผ่น)</td><td>ตอนจับคู่ Slab กับ Sale Order (Hold)</td></tr>
+      <tr><td><b>3. ติดตั้งหน้างาน โดยพนักงานเอง</b></td><td>พนักงานประจำ (เงินเดือน)</td><td>ประมาณการ (rate/วัน)</td><td>PM กดปุ่ม "บันทึกค่าแรงติดตั้ง" ที่ Task</td></tr>
+      <tr class="hl"><td><b>4. ว่าจ้างผู้รับเหมาติดตั้ง</b></td><td>ผู้รับเหมาภายนอก</td><td><b>บิลจริง</b> จากผู้รับเหมา</td><td>มาตรฐาน PO → Vendor Bill ตอนได้บิลจริง</td></tr>
+    </table>
+    <div class="note-box"><b>สังเกต:</b> 3 ใน 4 สถานการณ์เป็น "ค่าแรงประมาณการ" ที่ยังไม่มีบิลจริงตอนบันทึก มีแค่กรณีผู้รับเหมาเท่านั้นที่เป็นบิลจริงตั้งแต่ต้น — รายละเอียดหลักการนี้อยู่ท้ายสไลด์</div>
+  </section>
+
+  <!-- SLIDE 2: Concept split -->
+  <section class="slide dark" id="slide-2">
+    <div class="eyebrow">แนวคิดหลัก</div>
+    <h2 class="slide-title" style="color:#fff;">แบ่งง่ายๆ 2 มิติ: งานอยู่ที่ไหน × ใครเป็นคนทำ</h2>
+    <div class="split-box">
+      <div class="split-card neutral">
+        <div class="split-label">งานตัด — ในโรงงาน</div>
+        <div class="split-title">ผ่าน Work Center (ปกติ) หรือ ตัดมือ (นอกขั้นตอน)</div>
+        <div class="split-desc">ทั้งคู่เป็นช่างของบริษัทเอง ต่างกันแค่ผ่านขั้นตอน Manufacturing Order มาตรฐานหรือไม่ — ถ้าผ่าน ระบบคิดให้อัตโนมัติ ถ้าไม่ผ่าน ต้องมีกลไกคิดแยกตอนขาย</div>
+      </div>
+      <div class="split-card neutral">
+        <div class="split-label">งานติดตั้ง — หน้างานลูกค้า</div>
+        <div class="split-title">พนักงานเราเอง หรือ ผู้รับเหมาภายนอก</div>
+        <div class="split-desc">พนักงานเราเอง = เงินเดือน ไม่มีบิล ต้องกะประมาณเอง / ผู้รับเหมา = มีบิลจริงจากภายนอก ใช้ขั้นตอนจัดซื้อมาตรฐานได้เลย</div>
+      </div>
+    </div>
+    <div class="note-box">กติกาที่ใช้ตัดสินว่าสถานการณ์ไหนต้อง "กะประมาณ" กับสถานการณ์ไหนเป็น "บิลจริง" ง่ายมาก: <b>มีบิลจากภายนอกไหม?</b> มี → ใช้ขั้นตอนจัดซื้อปกติ ไม่มี (เงินเดือน/เวลามาตรฐาน) → ต้องมีกลไกกะประมาณแล้วรอเคลียร์ทีหลัง</div>
+  </section>
+
+  <!-- SLIDE 3: Type 1 - Work Center auto-cut -->
+  <section class="slide" id="slide-3">
+    <div class="eyebrow">สถานการณ์ที่ 1 — ตัดหิน ผ่าน Work Center (ค่าเริ่มต้นของระบบ)</div>
+    <h2 class="slide-title">งานตัดปกติในโรงงาน ระบบคิดค่าแรงให้อัตโนมัติ</h2>
+    <div class="case-box">
+      <div class="case-icon">⚙</div>
+      <div>
+        <div class="case-text-label">เกิดขึ้นเมื่อไหร่</div>
+        <div class="case-text">Cut Order ทุกใบที่ผ่านขั้นตอน Work Center ในโรงงาน (Manufacturing Order) — ระบบคำนวณ "เวลามาตรฐาน" ของงานนั้นคูณอัตราต่อชั่วโมงของ Work Center ให้เองทั้งหมด ไม่ต้องมีใครกรอกอะไรเพิ่ม</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">MO ตัดหินเสร็จ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">เวลามาตรฐาน × อัตรา/ชม.</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">โพสต์ JE อัตโนมัติ</span>
+    </div>
+    <table class="je-table">
+      <tr><th>บัญชี</th><th style="width:140px;">เดบิต</th><th style="width:140px;">เครดิต</th></tr>
+      <tr><td>COGS – FG Production (Fabrication)</td><td class="dr">✓</td><td></td></tr>
+      <tr><td>Accrued Expenses (รอตั้งเบิก)</td><td></td><td class="cr">✓</td></tr>
+    </table>
+    <div class="note-box bad"><b>ข้อควรรู้:</b> "เวลามาตรฐาน" ไม่ใช่เวลาที่จับจริง (ธุรกิจนี้ยังไม่เคยจับเวลาทำงานจริงในระบบ) — จึงถูกกันไม่ให้ปนกับมูลค่าสินค้าคงคลังของแผ่นหิน มีแค่รายการบัญชีแยกต่างหากนี้เท่านั้นที่สะท้อนค่าแรง</div>
+  </section>
+
+  <!-- SLIDE 4: Type 2 - Manual-cut -->
+  <section class="slide" id="slide-4">
+    <div class="eyebrow">สถานการณ์ที่ 2 — ตัดหิน แบบมือ (ไม่ผ่าน Work Center)</div>
+    <h2 class="slide-title">งานตัดนอกขั้นตอนปกติ คิดค่าแรงกะประมาณต่อแผ่น</h2>
+    <div class="case-box">
+      <div class="case-icon">✂</div>
+      <div>
+        <div class="case-text-label">เกิดขึ้นเมื่อไหร่</div>
+        <div class="case-text">บาง Slab ถูกตัดนอกขั้นตอน MO ปกติ (เช่น งานเร่ง หรือ Slab ที่มีอยู่แล้วในสต็อก) — ระบบยังต้องคิดค่าแรงกะประมาณให้ตอนที่ Slab นั้นถูกจับคู่ขายจริง (Hold for Sale Line) ไม่งั้นกำไรโครงการจะดูดีเกินจริงเพราะไม่มีค่าแรงเข้ามาเลย</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">จับคู่ Slab กับ Sale Order (Hold)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">คิดค่าแรงกะประมาณ/แผ่น</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">โพสต์ JE ทันที</span>
+    </div>
+    <table class="je-table">
+      <tr><th>บัญชี</th><th style="width:140px;">เดบิต</th><th style="width:140px;">เครดิต</th></tr>
+      <tr><td>COGS – FG Production (Fabrication) - Manual Estimate</td><td class="dr">✓</td><td></td></tr>
+      <tr><td>Accrued Expenses (รอตั้งเบิก)</td><td></td><td class="cr">✓</td></tr>
+    </table>
+    <div class="note-box good"><b>ตั้งใจแยกบัญชีจากสถานการณ์ที่ 1:</b> ใช้คนละบัญชี "COGS" กันเพื่อให้ฝ่ายบัญชีแยกได้ว่าค่าแรงก้อนไหนผ่านขั้นตอนมาตรฐาน ก้อนไหนเป็นกะประมาณมือ — และถ้าเปลี่ยนใจเลือก Slab แผ่นอื่นแทน (ยกเลิก Hold) ระบบกลับรายการ JE นี้ให้อัตโนมัติ ไม่ทิ้งค้างในบัญชี</div>
+  </section>
+
+  <!-- SLIDE 5: Type 3 - Own employee install -->
+  <section class="slide" id="slide-5">
+    <div class="eyebrow">สถานการณ์ที่ 3 — พนักงานเราเองไปติดตั้งหน้างาน</div>
+    <h2 class="slide-title">งานติดตั้งโดยพนักงานประจำ (เงินเดือน ไม่มีบิลจากใคร)</h2>
+    <div class="case-box">
+      <div class="case-icon">👷</div>
+      <div>
+        <div class="case-text-label">เกิดขึ้นเมื่อไหร่</div>
+        <div class="case-text">โปรเจกต์ที่มีการติดตั้งหน้างานโดยพนักงานของบริษัทเอง (ไม่ใช่ผู้รับเหมา) — PM กรอกจำนวนวันที่ใช้ติดตั้งจริงที่ Task แล้วกดปุ่ม <b>"บันทึกค่าแรงติดตั้ง"</b> เพื่อคิดค่าแรงตามอัตรา/วันที่บริษัทตั้งไว้</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">PM กรอกจำนวนวัน</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">กด "บันทึกค่าแรงติดตั้ง"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">โพสต์ JE ทันที (ล็อกฟิลด์)</span>
+    </div>
+    <table class="je-table">
+      <tr><th>บัญชี</th><th style="width:140px;">เดบิต</th><th style="width:140px;">เครดิต</th></tr>
+      <tr><td>COGS – Site Installation Labor</td><td class="dr">✓</td><td></td></tr>
+      <tr><td>Accrued Expenses (รอตั้งเบิก)</td><td></td><td class="cr">✓</td></tr>
+    </table>
+    <div class="note-box good"><b>กดผิดได้ แก้ได้เสมอ:</b> พอกดบันทึกแล้วฟิลด์จำนวนวันจะล็อก แต่มีปุ่ม <b>"แก้ไข/ยกเลิกรายการ"</b> ให้กดกลับรายการบัญชีได้ทันที แล้วแก้จำนวนวันใหม่ กดบันทึกซ้ำได้เลย — ไม่ต้องให้ฝ่ายบัญชีไปแก้ JE มือ (จุดนี้ทดสอบจริงผ่านหน้าจอเรียบร้อยแล้ว 29 ก.ย. 2026)</div>
+  </section>
+
+  <!-- SLIDE 6: Type 4 - Subcontractor -->
+  <section class="slide" id="slide-6">
+    <div class="eyebrow">สถานการณ์ที่ 4 — ว่าจ้างผู้รับเหมาภายนอก</div>
+    <h2 class="slide-title">ผู้รับเหมาติดตั้ง คือบิลจริง ไม่ใช่ค่าประมาณ</h2>
+    <div class="case-box">
+      <div class="case-icon">📋</div>
+      <div>
+        <div class="case-text-label">เกิดขึ้นเมื่อไหร่</div>
+        <div class="case-text">เมื่อยืนยันใบเสนอราคางานติดตั้ง (BOQ Labor Quotation) ระบบสร้าง RFQ ฉบับร่างให้อัตโนมัติ ส่งไปหาผู้รับเหมาที่ตั้งไว้ล่วงหน้าในบริษัท (Preferred Subcontractors) ทุกรายพร้อมกัน เพื่อให้ฝ่ายจัดซื้อเทียบราคาก่อนเลือก</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">Confirm ใบเสนอราคา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">สร้าง RFQ ร่างให้ทุกผู้รับเหมา</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">จัดซื้อเทียบ + เลือกเจ้าที่ชนะ</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ยืนยัน PO → รอบิลจริง</span>
+    </div>
+    <div class="note-box"><b>จุดต่างสำคัญจาก 3 สถานการณ์ก่อนหน้า:</b> อันนี้ไม่ใช่ "ค่าแรงประมาณการที่รอเคลียร์ทีหลัง" แต่เป็นขั้นตอนจัดซื้อ → ใบสั่งซื้อ → บิลผู้ขาย ตามมาตรฐานบัญชีทั่วไป ไม่มีรายการประมาณการใดๆ ที่ต้องกลับรายการภายหลัง — บริษัทมีสวิตช์เปิด/ปิดฟีเจอร์สร้าง RFQ อัตโนมัตินี้ได้ที่หน้าตั้งค่าบริษัทด้วย เผื่อบางช่วงไม่ต้องการให้ระบบสร้างให้อัตโนมัติ</div>
+  </section>
+
+  <!-- SLIDE 7: Unifying principle -->
+  <section class="slide dark" id="slide-7">
+    <div class="eyebrow">หลักการรวม</div>
+    <h2 class="slide-title" style="color:#fff;">3 ใน 4 สถานการณ์ ใช้หลักบัญชีเดียวกัน</h2>
+    <div class="split-box">
+      <div class="split-card neutral">
+        <div class="split-label">ขั้นที่ 1 — วันที่งานเกิดขึ้นจริง</div>
+        <div class="split-title">ยังไม่มีบิลจริง แต่คิดค่าแรงกะประมาณ บันทึกเข้าบัญชีทันที</div>
+        <div class="split-desc">ตัดผ่าน Work Center / ตัดมือ / ติดตั้งพนักงานเอง — ทั้ง 3 แบบ Debit บัญชี COGS เฉพาะของตัวเอง (แยกกันชัดเจน) Credit เข้าบัญชี "Accrued Expenses" (รอตั้งเบิก) เดียวกันทุกแบบ</div>
+      </div>
+      <div class="split-card neutral">
+        <div class="split-label">ขั้นที่ 2 — เมื่อบิลจริงมาถึง</div>
+        <div class="split-title">ฝ่ายบัญชีเคลียร์ Accrued Expenses ให้ตรงกับรายจ่ายจริง</div>
+        <div class="split-desc">บิลค่าแรงจากผู้รับเหมา หรือรอบจ่ายเงินเดือนจริง มาถึงเมื่อไหร่ ฝ่ายบัญชีตัดยอดในบัญชี Accrued Expenses ออกให้ตรงกับตัวเลขจริง</div>
+      </div>
+    </div>
+    <div class="note-box good"><b>ทำไมต้องทำแบบนี้:</b> เพื่อให้กำไรโครงการ (มองผ่าน Analytic ต่อโปรเจกต์) เห็นค่าแรงตั้งแต่วันที่งานเกิดขึ้นจริง ไม่ต้องรอบิลจริงมาถึงก่อนถึงจะเห็นตัวเลข — ป้องกันปัญหา "กำไรดูดีเกินจริงเพราะยังไม่มีบิลมาลงบัญชี"</div>
+  </section>
+
+  <!-- SLIDE 8: Correction path -->
+  <section class="slide" id="slide-8">
+    <div class="eyebrow">ใส่ผิดได้ แก้ไขได้เสมอ</div>
+    <h2 class="slide-title">ทุกรายการประมาณการ มีทางแก้ ไม่ต้องพึ่งฝ่ายบัญชีแก้ JE มือ</h2>
+    <div class="case-box">
+      <div class="case-icon">↺</div>
+      <div>
+        <div class="case-text-label">ใช้ได้กับ</div>
+        <div class="case-text">งานติดตั้งพนักงานเอง และ งานตัดมือ (2 สถานการณ์ที่ผู้ใช้เป็นคนกดบันทึกเอง) — ถ้ากรอกจำนวนวันหรือแผ่นผิด มีปุ่มยกเลิกรายการให้กดได้ทันทีจากหน้า Task/Slab เอง</div>
+      </div>
+    </div>
+    <div class="flow-bar">
+      <span class="flow-chip gray">กด "แก้ไข/ยกเลิกรายการ"</span><span class="flow-arrow">→</span>
+      <span class="flow-chip">ระบบสร้างรายการกลับรายการ (Reversal)</span><span class="flow-arrow">→</span>
+      <span class="flow-chip green">ยอดกลับเป็นศูนย์ → แก้ตัวเลขแล้วบันทึกใหม่ได้</span>
+    </div>
+    <div class="note-box good"><b>หลักการสำคัญ:</b> รายการเดิมไม่เคยถูก "แก้ไข" หรือ "ลบ" ตรงๆ — ใช้วิธีสร้างรายการกลับรายการเข้าไปแทน (มาตรฐานบัญชี ตรวจสอบย้อนหลังได้เต็มรูปแบบ ไม่มีรายการหายไปโดยไม่มีร่องรอย)</div>
+  </section>
+
+  <!-- SLIDE 9: Appendix divider -->
+  <section class="slide appendix" id="slide-9">
+    <div class="appendix-divider">
+      <div class="a-eyebrow">ภาคผนวก</div>
+      <div class="a-title">หลักฐานจากโค้ดจริง<br>สำหรับทีม</div>
+      <div class="a-sub">อ้างอิงตรงจากไฟล์จริงในโมดูล stone_slab_inventory (EE branch) — ไม่จำเป็นต้องนำเสนอให้ลูกค้าดูในรอบปกติ</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Code evidence table -->
+  <section class="slide appendix" id="slide-10">
+    <div class="eyebrow">อ้างอิงไฟล์จริง</div>
+    <h2 class="slide-title" style="font-size:24px;">แต่ละสถานการณ์ เห็นได้จากไฟล์เหล่านี้</h2>
+    <table class="step-table">
+      <tr><th style="width:220px;">สถานการณ์</th><th style="width:170px;">ไฟล์</th><th>Method หลัก</th></tr>
+      <tr>
+        <td>1. ตัดหิน ผ่าน Work Center</td>
+        <td><code>mrp_production.py</code></td>
+        <td><code>_post_stone_labor_cost()</code> เรียกผ่าน <code>_post_stone_estimated_cost()</code> — โพสต์ JE ตอนปิด MO อัตโนมัติ</td>
+      </tr>
+      <tr>
+        <td>2. ตัดหิน แบบมือ</td>
+        <td><code>stone_slab.py</code></td>
+        <td><code>_post_stone_manual_labor_cost()</code> ตอน <code>hold_for_sale_line()</code> / กลับรายการผ่าน <code>release_from_sale_line()</code></td>
+      </tr>
+      <tr>
+        <td>3. ติดตั้งพนักงานเอง</td>
+        <td><code>project_task.py</code></td>
+        <td><code>action_stone_post_install_labor_cost()</code> / กลับรายการผ่าน <code>action_stone_reverse_install_labor_cost()</code></td>
+      </tr>
+      <tr>
+        <td>4. ผู้รับเหมา (Auto-RFQ)</td>
+        <td><code>sale_order.py</code></td>
+        <td><code>_stone_auto_rfq_labor_subcontractors()</code> เรียกจาก <code>action_confirm()</code> — ใช้ Purchase "Alternative POs" (native)</td>
+      </tr>
+    </table>
+    <div class="note-box">ทั้ง 3 กลไกกลับรายการ (สถานการณ์ 2 และ 3) ใช้ method เดียวกันของ Odoo: <code>account.move._reverse_moves(cancel=True)</code> — มาตรฐานเดียวกับที่ Odoo ใช้ทั่วทั้งระบบบัญชี ไม่ใช่กลไกที่เขียนขึ้นเองใหม่</div>
+    <div class="footer-tag">EMG-O Design Discussion · Labor Cost Explainer</div>
+  </section>
+
+</div></div>
+
+<div id="nav">
+  <a id="home-btn" href="../../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <button onclick="go(-1)">‹</button>
+  <span id="pagecount">1 / 11</span>
+  <button onclick="go(1)">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    document.getElementById('pagecount').textContent = (idx+1)+' / '+slides.length;
+  }
+  function go(d){
+    idx = Math.min(slides.length-1, Math.max(0, idx+d));
+    render();
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  function scaleStage(){
+    const wrap = document.getElementById('stage-wrap');
+    const stage = document.getElementById('stage');
+    const scale = Math.min(wrap.clientWidth/1280, wrap.clientHeight/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+  render();
+</script>
+</body>
+</html>
