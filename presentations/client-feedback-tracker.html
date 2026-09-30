@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — ติดตาม Feedback ลูกค้า (คุณไบรท์)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:18px;left:18px;width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:80;}
+  #home-btn:hover{background:var(--copper-dark);}
+
+  .wrap{max-width:900px;margin:0 auto;padding:44px 24px 100px;}
+  header{margin-bottom:8px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 8px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .updated{font-size:13px;color:#9A9D9F;margin-bottom:14px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:680px;margin-bottom:18px;}
+
+  .summary-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+  .summary-pill{font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:99px;}
+  .summary-pill.green{background:var(--green-bg);color:var(--green);}
+  .summary-pill.amber{background:var(--amber-bg);color:var(--amber);}
+  .summary-pill.red{background:var(--red-bg);color:var(--red);}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0 8px;font-size:12.5px;color:#787B7D;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .legend .dot{width:9px;height:9px;border-radius:50%;}
+  .legend .dot.green{background:var(--green);}
+  .legend .dot.amber{background:var(--amber);}
+  .legend .dot.red{background:var(--red);}
+
+  .group{margin-bottom:44px;}
+  .group-head{font-size:20px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);margin-bottom:6px;padding-bottom:10px;border-bottom:2px solid var(--charcoal);}
+  .group-desc{font-size:13px;color:#8A8D8F;margin-bottom:16px;}
+
+  .item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+  .item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
+  .item-title{font-size:15px;font-weight:700;color:var(--charcoal);}
+  .tag{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:99px;white-space:nowrap;}
+  .tag.done{background:var(--green-bg);color:var(--green);}
+  .tag.pending{background:var(--amber-bg);color:var(--amber);}
+  .tag.blocked{background:var(--red-bg);color:var(--red);}
+
+  .quote{font-size:13px;font-style:italic;color:#6B6E70;background:#FAF8F5;border-left:3px solid var(--copper);padding:8px 14px;border-radius:0 8px 8px 0;margin-bottom:10px;line-height:1.55;}
+  .field{font-size:13.5px;line-height:1.55;margin-bottom:6px;}
+  .field b{color:var(--charcoal);}
+  .verify{font-size:12.5px;line-height:1.5;color:var(--copper-dark);background:#FBF6EF;border-radius:8px;padding:8px 14px;margin-top:8px;}
+  .verify b{color:var(--copper-dark);}
+
+  footer{margin-top:48px;font-size:13px;color:#9A9D9F;padding-top:20px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg>
+</a>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite</div>
+    <h1>ติดตาม Feedback ลูกค้า (คุณไบรท์)</h1>
+    <div class="updated">อัปเดตล่าสุด: 30 ก.ย. 2569 — อ้างอิง Session 182 (internal tracker: <code>client-feedback-2026-09-25.md</code>)</div>
+    <div class="sub">สรุป Feedback ทุกข้อจากบันทึกการประชุมกับคุณไบรท์ เทียบกับสถานะจริงในระบบ พร้อมข้อความต้นฉบับ สิ่งที่ทีมงานทำไป และจุดที่ไปตรวจสอบหลักฐานในระบบได้ด้วยตัวเอง</div>
+    <div class="summary-bar">
+      <span class="summary-pill green">✅ ทำ/ตอบแล้ว 19 ข้อ</span>
+      <span class="summary-pill amber">💬 รอสื่อสาร/ยืนยัน 3 ข้อ</span>
+      <span class="summary-pill red">⏳ รอข้อมูล/decision จากลูกค้า 5 ข้อ</span>
+    </div>
+    <div class="legend">
+      <span><span class="dot green"></span>เสร็จแล้ว / มีกลไกอยู่แล้ว</span>
+      <span><span class="dot amber"></span>รอสื่อสาร หรือ รอข้อมูล/ตัดสินใจจากลูกค้า</span>
+      <span><span class="dot red"></span>บล็อก ยังทำต่อไม่ได้</span>
+    </div>
+  </header>
+
+  <!-- ================= GROUP A ================= -->
+  <div class="group">
+    <div class="group-head">กลุ่ม A — มีกลไกอยู่แล้ว / ตอบลูกค้าได้เลย</div>
+    <div class="group-desc">ระบบรองรับอยู่แล้วตั้งแต่ต้น หรือเป็นหลักการที่ตอบลูกค้าไปแล้ว ไม่ต้อง build เพิ่ม</div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">1. Slab thickness เป็น Attribute / Block ไม่มี Thickness-Finish</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"หินบล็อกธรรมชาติยังไม่ผ่านการแปรรูป จึงไม่ควรมีฟิลด์ความหนา (Thickness) หรือ Finish...ควรกำหนดมิติด้วยขนาด กว้าง×ยาว×สูง (CBM) และคิดน้ำหนักเป็น 'ตัน' [25 ก.ย. 69]" + "สำหรับแผ่นสแลป เสนอให้ใช้ความหนามาตรฐาน (2, 2.5, 3, 5 cm) เป็น Attribute โดยไม่ต้องแยกเป็น Product Code ใหม่ เพื่อป้องกันรหัสสินค้าแตกกระจายเกิน 500+ รหัส [25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> Built จริง — Block ถอด Thickness/Finish ออกหมด ยึด กว้าง×ยาว×สูง เป็นข้อมูลหลัก, Thickness ของ Slab เป็น Attribute จริง ผูกกับแต่ละแผ่น (ไม่ใช่ Block/Bundle) — verified ทั้ง odoo shell และ Playwright</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Sales > เปิด SO บรรทัด Slab ใดๆ > ดู Attribute "ความหนา" ที่ตัวแปรสินค้า หรือ Settings > Attributes > "Thickness" (6 ค่า) — DB <code>eg-tst</code>/<code>mbx-ee-dev</code></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">2. Fixed Price ไม่ควรเปลี่ยนตามขนาดจริงบน Invoice</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ราคารวมที่ตกลงกับลูกค้าใน SO/Quotation ต้องคงเดิม ห้ามระบบปรับราคาขายบน Invoice อัตโนมัติเมื่อขนาดจริงเปลี่ยนหลังตัด [25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> เป็นหลักการเดิมของระบบอยู่แล้ว ราคาไม่ recompute อัตโนมัติ</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> เปิด Invoice ของ Golden Path Block <code>S00239</code> เทียบราคากับ SO ต้นทาง ต้องเท่ากัน</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">3. Delivery Order ส่งของบางส่วนได้ (Partial)</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="field" style="color:#9A9D9F;font-style:italic;">(ไม่มีข้อความต้นฉบับตรงในไฟล์ tracker — ตอบไปแล้วในเอกสาร 18Sep meeting doc)</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> ใช้กลไก Backorder มาตรฐานของ Odoo</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Inventory > Transfers > ส่ง Delivery ไม่ครบจำนวน > ระบบสร้าง Backorder ให้อัตโนมัติ (ทดสอบกับ DO ใดก็ได้)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">4. Project Dimension ติด tag อัตโนมัติบนใบเสนอราคา</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="field" style="color:#9A9D9F;font-style:italic;">(ไม่มีข้อความต้นฉบับตรงในไฟล์ tracker — ตอบไปแล้วในเอกสาร 18Sep meeting doc, มี edge case รอ screenshot ดู กลุ่ม C ข้อ 2)</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> Auto-tag Project Dimension จาก BOQ อยู่แล้ว</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> เปิด BOQ Document (เช่น SY Resort) > SO ที่สร้างจาก BOQ > เช็ค Analytic Distribution บรรทัด ต้องมี Project tag</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">5. Custom BOM ร่วมกับ Item มาตรฐานกลาง</div><span class="tag done">ตอบแล้ว</span></div>
+      <div class="quote">"สอบถามการใช้ Item มาตรฐานกลางร่วมกับ Custom BOM สำหรับงานสั่งตัดพิเศษ (ชุดประตู, เจียรบัว) เพื่อลดภาระสร้าง Item ใหม่จำนวนมาก [18 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> ตอบแนวคิดแล้ว: "1 Item กลาง ใช้ได้ทุกโครงการ ต้นทุนแยกคิดใหม่ทุกงาน"</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— เป็นคำตอบเชิงหลักการ ไม่มี record ให้ตรวจสอบ</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">6. เศษหิน &gt;50% ไม่ปล่อยกลับสต็อกอัตโนมัติ</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"เศษหินก้อนเหลือจากการตัดเกิน 50% ให้รับกลับเข้าสต็อกเพื่อใช้ต่อ [14 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> บังคับ staff ตัดสินใจ + สร้างใบโอนย้ายจริง (ADR-068)</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Inventory > Stone > Cut Order ที่มีเศษเหลือ &gt;50% > ปุ่ม "Recover Scrap to Stock"</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">7. ขอตรวจสอบสูตร Landing Cost (CBM)</div><span class="tag pending">รอส่งคำอธิบาย</span></div>
+      <div class="quote">"กังวล/ขอตรวจสอบสูตรคำนวณ Landing Cost ที่คิดตาม CBM รวมถึงทศนิยมและป้องกันกรณี CBM ผลผลิตรวมสูงกว่าวัตถุดิบ [28 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> มีกลไกอยู่แล้ว (<code>landed_cost_sqmt</code>) — ยังไม่ได้ส่งคำอธิบายให้ลูกค้า (ดู กลุ่ม C ข้อ 1)</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Sales > Stone Material form > ฟิลด์ "Landed Cost / Sq.M" ของ Material ที่มี Bundle</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">8. Progress Billing ตาม % ความคืบหน้าจริงต่อโซน/ชั้น</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"เสนอเปลี่ยนจากเบิกจ่ายตาม Milestone รายรายการ มาเป็นเบิกตาม % ความคืบหน้าจริงของโครงการในแต่ละชั้น/โซน [18 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> Built ครบ (Phase 13) — demo จริงแล้ว</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> BOQ Document (เช่น SY Resort) > Billing Stage tab > ดูโซน A 65% เทียบเกณฑ์ที่ตั้งไว้ 50%</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">9. แยก/รวมใบเสนอราคาค่าแรง-ค่าของ</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ต้องการออกใบเสนอราคาแยกใบค่าแรง/ใบค่าของ หรือรวมกันได้ตามความยืดหยุ่น [14 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> รองรับอยู่แล้วในโครงสร้าง BOQ</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> BOQ Document form > ดู Labor tab / Material tab แยกกัน</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">10. งบ VPS ทดสอบ ~1,000฿/เดือน</div><span class="tag done">อนุมัติแล้ว</span></div>
+      <div class="quote">"ยินดีรับผิดชอบค่าบริการ VPS ทดสอบรายเดือน (~1,000 บาท) [14/21 ส.ค., 18 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> ลูกค้าอนุมัติแล้ว ไม่ต้องทำอะไรเพิ่ม</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— ไม่เกี่ยวกับระบบ</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">11. แยก Product ค่าแรง Wet/Dry Process</div><span class="tag done">สร้างแล้ว</span></div>
+      <div class="quote">"เสนอแยก Product ค่าแรงตามประเภทการติดตั้งจริง (Wet/Dry/Semi-Dry Process) เพราะต้องลงบันทึกรายได้/ค่าใช้จ่ายคนละหมวดบัญชี [18 ก.ย., 25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> สร้างแล้ว (4 products) — บัญชียังผูกรวมกันชั่วคราว รอ กลุ่ม D ข้อ 1</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Sales > Products > ค้นหา "ค่าแรง" filter Wet/Dry/Semi-Dry Process (4 รายการ)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">12. หน่วยหลัก ตร.ม. (Slab) / ตัน (Block) ให้สอดคล้องทุกจุด</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ใช้ตารางเมตร (Sq.m.) เป็นหน่วยหลักสำหรับ Slab/FG และน้ำหนักตันสำหรับ Block [25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> Built ครบทั้ง 2 หน่วย — ระหว่างทางเจอ+แก้บั๊ก oversell จริงด้วย (stock ที่ถูกจองไว้ไม่เคยถูกหัก)</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> SO line (Material ใดๆ) > ฟิลด์ <code>qty_sqmt</code>/<code>price_per_sqmt</code> (Slab) หรือ <code>qty_ton</code>/<code>price_per_ton</code> (Block); Material form > <code>sqmt_available</code></div>
+    </div>
+  </div>
+
+  <!-- ================= GROUP B ================= -->
+  <div class="group">
+    <div class="group-head">กลุ่ม B — ต้อง build เพิ่ม</div>
+    <div class="group-desc">ปิดครบแล้ว 6/7 ข้อ เหลือ #10 เดียวที่ยัง block</div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">2. รหัสสินค้าภายในสไตล์ SAP (หมวด 1-1/1-2)</div><span class="tag pending">ย้ายไปกลุ่ม D</span></div>
+      <div class="quote">"ยืนยันความจำเป็นของฟิลด์รหัสสินค้าภายใน (เช่น หมวด 1-1 สำหรับแกรนิต, 1-2 สำหรับหินอ่อน ตามระบบ SAP เดิม) ควบคู่กับชื่อสินค้า เพราะพนักงานคุ้นชินการค้นหาด้วยรหัส [28 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> เช็คโค้ดพบว่า <code>default_code</code> (Internal Reference) มี mechanism อยู่แล้ว ไม่ต้อง build ใหม่ — ย้ายไปรอไฟล์ผังรหัสจริงจากลูกค้าที่กลุ่ม D ข้อ 5</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Inventory > Stone Material > New > "Quick Material Setup Wizard" > ฟิลด์ <code>base_code</code> → auto ต่อท้าย -SL/-BL/-FG</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">3. ผัง Location 5 โรง × ล็อก ABCD × 4 แถว + บังคับยิงบาร์โค้ดทุกการย้าย</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ผังคลังเก็บสแลปปัจจุบันมี 5 โรงย่อย แต่ละโรงแบ่งเป็นล็อก ABCD แยกย่อยโรงละ 4 แถว [21 ส.ค. 69]" + "พนักงานย้ายแผ่นสแลปไปโชว์ลูกค้าโดยไม่มีเอกสารบันทึก...ออกกฎให้ยิงบาร์โค้ดบันทึกการย้ายทุกครั้ง [21 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> สร้างผัง Location จริง 5 Plant × 4 Lock × 4 Row ใต้ทุก bucket (Available/Hold/Consigned/Production/Showroom) ทั้ง 2 บริษัท + แก้บั๊กจริงที่เจอระหว่างทาง (sync สถานะแผ่นหินตอนสแกนเข้าแถวลึกๆ) — ชื่อยังเป็น placeholder รอลูกค้าให้ชื่อจริง (ADR-075)</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Inventory > Configuration > Locations > ใต้ทุก bucket ทั้ง 2 บริษัท จะเห็น Plant 1-5 &gt; Lock A-D &gt; Row 1-4 — DB <code>eg-tst</code>/<code>mbx-ee-dev</code>, verify จริงบน slab <code>BLK-26-0265 #14</code></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">4. Alert แจ้งเตือนขายต่ำกว่าต้นทุน (Under Price)</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"เห็นด้วยกับ Alert แจ้งเตือนกรณีขายต่ำกว่าต้นทุน (Under Price) [25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> เตือนตอน Confirm SO ทุกโหมด (Block/Slab/Lot/FG) ไม่ block ลูกค้ายัง "Confirm ต่อ" ได้</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Sales > สร้าง SO ตั้งราคาต่ำกว่าต้นทุน > กด Confirm > popup เตือนขึ้น</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">6. ใบส่งของ (DO) แสดงขนาด + รวมตารางเมตร</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ขอให้ใบส่งของ (Delivery Order) แสดงขนาด (กว้าง×ยาว) และคำนวณพื้นที่รวมเป็นตารางเมตร ให้ตรงกับใบเสนอราคา/เอกสารตรวจรับหน้างาน [25 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> เพิ่มคอลัมน์ขนาด + แถวรวมตารางเมตร บนใบส่งของจริงที่พิมพ์ออกมา</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Inventory > Delivery ที่มี Slab > พิมพ์ "Proof of Delivery" — ตัวอย่างจริง <code>EG01/OUT/00181</code> (S00323) บน <code>eg-tst</code></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">7. Cost Controller เป็น role/group เฉพาะ</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ต้องการพนักงาน 1 คนทำหน้าที่ Cost Controller คุม Analytic Account/Dimension และการสร้าง Item [18 ก.ย. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> สร้าง group ใหม่ให้สิทธิ์ Products/Create + Analytic Accounting + Accounting read-only</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Settings > Users &amp; Companies > Groups > "EMG-O Cost Controller" — มอบให้ <code>emgdemo</code> แล้วบน <code>eg-tst</code></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">8. Default Analytic Dimension ลดภาระคลิกพนักงานขาย</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"กังวลภาระงานหากต้องกรอก Analytic Dimension ทุกบรรทัด สนับสนุนการตั้งค่า Default ช่วยลดคลิก [21 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> เพิ่ม default มิติ "Department" อัตโนมัติ (มิติอื่นมี default อยู่แล้ว) พนักงานยังแก้เองได้เสมอ</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Accounting > Configuration > Analytic Distribution Models > ดู record ใหม่ default Department = Sale; หรือสร้าง SO line ใหม่เช็ค auto-fill</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">9. รายงาน P&amp;L แยกตาม Analytic Account/โครงการ</div><span class="tag done">เสร็จแล้ว</span></div>
+      <div class="quote">"ต้องการรายงาน P&amp;L เจาะลึกตาม Analytic Account ของแต่ละโครงการ [28 ส.ค. 69]"</div>
+      <div class="field"><b>สิ่งที่ทำ:</b> native report มีอยู่แล้วแต่ rule hardcode เก่า + user ทั่วไปเข้าไม่ได้ — แก้ทั้งคู่ (ผูกกับ Cost Controller group ข้อ 7)</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Accounting > Reporting > Profit and Loss > Horizontal Group "By Project" > filter SY Resort/Grande Vista Hotel — DB <code>eg-tst</code></div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">10. ต้นทุนรายสถานีผลิต (Workstation Cost)</div><span class="tag blocked">บล็อก</span></div>
+      <div class="quote">"เตรียมนำโครงสร้างต้นทุนรายสถานีผลิต (Workstation Cost) เช่น เครื่องขัด, เครื่องตัดแก๊งซอว์ มาหารือกับที่ปรึกษาบัญชี [25 ก.ย. 69]"</div>
+      <div class="field"><b>สถานะ:</b> ยังไม่เริ่ม — รอกลุ่ม D ข้อ 2 (ตัวเลขจริงจากนักบัญชีลูกค้า)</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— ยังไม่มีอะไรให้ตรวจสอบในระบบ</div>
+    </div>
+  </div>
+
+  <!-- ================= GROUP C ================= -->
+  <div class="group">
+    <div class="group-head">กลุ่ม C — ต้องสื่อสาร/อธิบายลูกค้า</div>
+    <div class="group-desc">ของมีอยู่แล้วในระบบ แค่ยังไม่ได้สื่อสาร/ขอยืนยันกับลูกค้า</div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">1. อธิบายสูตร Landing Cost (CBM) + ยืนยันทศนิยม/validation</div><span class="tag pending">รอส่ง</span></div>
+      <div class="field">เดียวกับ กลุ่ม A ข้อ 7 — เตรียมคำอธิบายสูตรและ validation ป้องกัน CBM ผลผลิตเกินวัตถุดิบ ส่งให้ลูกค้ายืนยัน</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> ดู กลุ่ม A ข้อ 7</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">2. ขอ SO จริง/screenshot เคส Project Dimension ไม่ขึ้นบนใบเสนอราคา</div><span class="tag pending">รอลูกค้า</span></div>
+      <div class="field">Mechanism หลักทำงานถูกอยู่แล้ว (ดู กลุ่ม A ข้อ 4) ต้องรอตัวอย่างจริงจากลูกค้าก่อนไล่หา edge case</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— รอ input จากลูกค้าก่อน ยังไม่มีจุดตรวจสอบในระบบ</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">3. ยืนยันความเข้าใจเรื่อง "ของค้างสต็อก" 4 สถานการณ์</div><span class="tag pending">รอ confirm</span></div>
+      <div class="field">อธิบายไปแล้วใน 18Sep meeting doc — รอลูกค้ายืนยันว่าเข้าใจตรงกันหรือยังมีคำถามต่อ</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> ดู กลุ่ม A ข้อ 6 (เศษหิน) + กลุ่ม B ข้อ 3 (บาร์โค้ดบังคับย้าย)</div>
+    </div>
+  </div>
+
+  <!-- ================= GROUP D ================= -->
+  <div class="group">
+    <div class="group-head">กลุ่ม D — รอข้อมูล/decision จากลูกค้าหรือทีมงาน</div>
+    <div class="group-desc">งานที่ทำต่อไม่ได้จนกว่าจะได้ข้อมูล/คำตัดสินใจจากฝั่งลูกค้า</div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">1. รายชื่อประเภทค่าแรงจริง + เลขบัญชีจริง</div><span class="tag pending">รอนักบัญชีลูกค้า</span></div>
+      <div class="field">เดียวกับ กลุ่ม A ข้อ 11 — Wet/Dry Process ใช้บัญชีร่วมกันชั่วคราวเพราะรอสิ่งนี้</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> ดู กลุ่ม A ข้อ 11 (products สร้างแล้ว รอผูกบัญชีจริง)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">2. ตัวเลข Workstation Cost จริง</div><span class="tag pending">รอที่ปรึกษาบัญชี</span></div>
+      <div class="field">เดียวกับ กลุ่ม B ข้อ 10 — เครื่องขัด/แก๊งซอว์ ฯลฯ ต้องคุยกับที่ปรึกษาบัญชีลูกค้าก่อน</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— ยังไม่มีอะไรให้ตรวจสอบ</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">3. ยืนยันนโยบายเลือก Analytic Dimension เอง vs auto</div><span class="tag pending">รอยืนยัน</span></div>
+      <div class="quote">"ประเภทโครงการ/มิติอื่น (3-7 มิติ) พนักงานต้องเลือกเองตามเนื้องานจริง ไม่ควรตั้งระบบรันอัตโนมัติทั้งหมด [28 ส.ค., 18 ก.ย. 69]"</div>
+      <div class="field">ต้องเช็คว่า design ปัจจุบัน (default ข้อ B8) ไม่ over-automate เกินกว่าที่ลูกค้าต้องการ</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> Sales > SO line ใดๆ > เช็คว่า Analytic Distribution แก้ไขเองได้เสมอ (ไม่ล็อก)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">4. เศษเล็กจากตัด Slab → ปันส่วนเป็น Project Cost</div><span class="tag pending">รอกฎบัญชี</span></div>
+      <div class="quote">"เศษเล็กจากการตัดสแลบ ให้คำนวณปันส่วนเป็นต้นทุนรวมโครงการ (Project Cost/Waste) ไปเลย ไม่ต้องบันทึกเป็นสต็อกค้างในระบบ [25 ก.ย. 69]"</div>
+      <div class="field">เป็นกฎบัญชีที่ต้องคุยกับ Cost Controller/นักบัญชีก่อนเขียนโค้ด — ตรงกับ open finding ที่ FG มาตรฐานยังนับ Slab ใช้ 100% เสมอ ไม่มี leftover/offcut tracking</div>
+      <div class="verify" style="color:#9A9D9F;background:transparent;padding:0;">— ยังไม่มีอะไรให้ตรวจสอบ (design-level เท่านั้น)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-top"><div class="item-title">5. รหัสสินค้าสไตล์ SAP (auto-generate ตามหมวด)</div><span class="tag pending">รอไฟล์จากลูกค้า</span></div>
+      <div class="field">ย้ายจาก กลุ่ม B ข้อ 2 — mechanism มีอยู่แล้ว ไม่ต้อง build รอลูกค้าเอาไฟล์ผังรหัสเดิมมาให้ดูก่อนตัดสินใจว่าต้อง auto-generate ตามหมวดหรือปล่อย free-text ต่อไป</div>
+      <div class="verify"><b>📍 จุดตรวจสอบ:</b> ดู กลุ่ม B ข้อ 2</div>
+    </div>
+  </div>
+
+  <footer>
+    ที่มา: <code>client-feedback-2026-09-25.md</code> (internal tracker) · จัดทำโดยทีมพัฒนา EMG-O · เอกสารนี้อยู่ในหมวด "เอกสารระหว่างทำงาน" — ใช้ติดตามสถานะภายใน ไม่ใช่เอกสารส่งมอบลูกค้าโดยตรง
+  </footer>
+</div>
+
+</body>
+</html>
