@@ -94,7 +94,7 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA · แนวคิด EG-321</div>
     <h1>Golden Path — BOQ + Project ทำงานร่วมกัน</h1>
-    <div class="last-update">อัปเดตล่าสุด: 22 ก.ย. 2026</div>
+    <div class="last-update">อัปเดตล่าสุด: 30 ก.ย. 2026</div>
     <div class="sub">2 สวิตช์ (BOQ / Project) พิสูจน์แล้วว่าเป็นอิสระต่อกันในเอกสาร "สวิตช์ BOQ" และ "สวิตช์ Project" — เอกสารนี้สาธิต<b>เมื่อใช้ร่วมกัน</b>แบบที่ลูกค้าจริงต้องการ: เริ่มจาก Cutting List จริงที่ลูกค้าส่งมา (ไม่ใช่พิมพ์รายการมือ) → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project เพื่อติดตามงานเป็น Task ต่อ Zone พร้อม Milestone เก็บเงิน</div>
     <div class="stat-row">
       <div class="stat-pill"><b>13</b>Test Case ทั้งหมด</div>
@@ -104,12 +104,12 @@
   </header>
 
   <div class="flow-banner">
-    <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>THE TWO BANGKOK</b>" (ตั้งชื่อแยกจากดีลจริง "THE ONE BANGKOK" โดยเจตนา — เคสนี้เป็นแบบฝึกหัดให้ทดสอบเอง ไม่ปนกับข้อมูลดีลจริง) → สร้างเอกสาร BOQ ใหม่ → เลือก Rate ที่ใช้ในโปรเจกต์นี้ → นำเข้า Cut List จริงผ่านไฟล์ Cut List Template ที่กรอกไว้แล้ว (ดาวน์โหลดได้จาก Library หมวด "ตัวอย่างเอกสารจากระบบ" — หิน SPIDER GREEN แบ่งเป็น 2 Elevation, รวม 184 ชิ้น 54.85 ตร.ม.) → ระบบอ่านไฟล์แล้วรวมยอดให้เป็น 2 แถว (Elevation 1 / Elevation 2 อย่างละ 27.42 ตร.ม.) พร้อมจับคู่ Rate "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN" ให้อัตโนมัติ (เลือกจาก dropdown ในไฟล์ตั้งแต่ตอนกรอก ไม่ต้องมาเลือกซ้ำตอน import) → สร้าง BOQ Lines → กรอก Duration/Milestone ต่อ Elevation → สร้างใบเสนอราคา → ติ๊ก "Sold as Project" → Confirm → ระบบสร้าง Project + 2 Task (1 ต่อ Elevation) ให้อัตโนมัติ พร้อม Milestone ผูกอยู่
+    <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>THE TWO BANGKOK</b>" (ตั้งชื่อแยกจากดีลจริง "THE ONE BANGKOK" โดยเจตนา — เคสนี้เป็นแบบฝึกหัดให้ทดสอบเอง ไม่ปนกับข้อมูลดีลจริง) → สร้างเอกสาร BOQ ใหม่ → เลือก Rate ที่ใช้ในโปรเจกต์นี้ (3 แบบผสมกัน) → นำเข้า Cut List จริงผ่านไฟล์ Cut List Template ที่กรอกไว้แล้ว (ดาวน์โหลดได้จาก Library หมวด "ตัวอย่างเอกสารจากระบบ" — ผนัง SPIDER GREEN + แถบผนัง ABSOLUTE BLACK 2 Elevation + พื้น SPIDER GREEN 1 ชุด รวม 190 ชิ้น 60.06 ตร.ม.) → ระบบอ่านไฟล์แล้วรวมยอดให้เป็น 5 แถว (2 สีผนัง × 2 Elevation + พื้น 1 แถว) พร้อมจับคู่ Rate ให้อัตโนมัติครบทั้ง 5 แถว ตามที่เลือกจาก dropdown ในไฟล์ตั้งแต่ตอนกรอก (ไม่ต้องมาเลือกซ้ำตอน import) → สร้าง BOQ Lines → กรอก Duration/Milestone ต่อบรรทัด (5 บรรทัด) → สร้างใบเสนอราคา → ติ๊ก "Sold as Project" → Confirm → ระบบสร้าง Project + 5 Task ให้อัตโนมัติ พร้อม Milestone ผูกอยู่ทุกบรรทัด — ผนังสีหลัก/สีแถบในโซนเดียวกันต่อคิวกันเอง (ไม่ขนานกัน) ส่วนพื้นเป็นคนละไทม์ไลน์อิสระ
   </div>
 
-  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> ยังไม่ได้รันจริงผ่านหน้าจอ (ต่างจาก Golden Path ชุดอื่นในหมวดนี้ที่รันสดยืนยันแล้ว) — เดินตามขั้นตอนในตารางด้านล่างตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst หรือ mbx-ee-dev) ไฟล์ Cut List ที่ใช้อยู่ที่วอลต์: <code>EMG-workspace/Document/EG-TheOneBKK-O3-9F-LiftLobby-CuttingList (draft จากแบบ).xlsx</code> (แท็บ "Import-Ready (Cut List)")</div>
+  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> ยังไม่ได้รันจริงผ่านหน้าจอ (ต่างจาก Golden Path ชุดอื่นในหมวดนี้ที่รันสดยืนยันแล้ว — แต่ตัวเลขทุกจุดในเอกสารนี้ผ่านการรันจริงผ่านโค้ด ORM บน eg-tst แล้วทีละขั้น ไม่ได้กะประมาณ) — เดินตามขั้นตอนในตารางด้านล่างตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst หรือ mbx-ee-dev) ไฟล์ Cut List ที่ใช้คือไฟล์สำเร็จรูปจาก Library หมวด "ตัวอย่างเอกสารจากระบบ" (<code>cutlist-import-example-lift-lobby.xlsx</code>) ไม่ใช่ไฟล์ draft มือเดิมในวอลต์แล้ว</div>
 
-  <div class="gap-note"><b>ทราบแล้ว ยังไม่ทำ:</b> ยังไม่มีปุ่ม Export Excel และยังไม่มีภาพหน้าจอจริง (เพราะยังไม่ได้รัน) — เมื่อทดสอบผ่านครบแล้วสามารถขอให้ Claude รันซ้ำผ่าน Playwright เพื่ออัปเกรดเป็นเวอร์ชันมีภาพหน้าจอจริงตามมาตรฐานเอกสารชุดอื่นได้ ยอดเงินที่ระบุใน "Expected Result" คำนวณจาก Rate จริงในระบบ (WALL-SPGRN-2CM = 4,400 บาท/ตร.ม. + ตัว adder 10% ที่ผูกกับ BOQ นี้อยู่แล้ว) ตัวเลขจริงอาจต่างเล็กน้อยถ้า Rate ถูกแก้ไขหลังจากวันที่ทำเอกสารนี้ (แก้ไข 30 ก.ย. 2569: เปลี่ยนจาก "Spider Grey"/MAT-003 เดิม เพราะวัสดุนั้นไม่มีอยู่จริงในระบบ — ดูรายละเอียดที่ log.md — เปลี่ยนมาใช้ SPIDER GREEN ที่มีอยู่จริงแทน และไฟล์ตัวอย่างเปลี่ยนมา generate จากปุ่ม "สร้างเทมเพลต Cut List" จริงในระบบแทนการพิมพ์มือ ทำให้ Rate จับคู่อัตโนมัติ ไม่ต้องเลือกเองแล้วเหมือนขั้นตอนเดิม)</div>
+  <div class="gap-note"><b>ทราบแล้ว ยังไม่ทำ:</b> ยังไม่มีปุ่ม Export Excel และยังไม่มีภาพหน้าจอจริง (เพราะยังไม่ได้รัน) — เมื่อทดสอบผ่านครบแล้วสามารถขอให้ Claude รันซ้ำผ่าน Playwright เพื่ออัปเกรดเป็นเวอร์ชันมีภาพหน้าจอจริงตามมาตรฐานเอกสารชุดอื่นได้ ยอดเงินที่ระบุใน "Expected Result" คำนวณจาก Rate จริงในระบบ (WALL-SPGRN-2CM = 4,400, WALL-ABSBLK-2CM = 4,000, FLOOR-SPGRN-2CM = 4,500 บาท/ตร.ม.) + Overhead &amp; Profit ที่คำนวณแยกทีละ Cost Component ของแต่ละ Rate ไม่ใช่ % เดียวคูณทั้งก้อน (Material 10% + Labour 10% + Other 0% — ผลรวมออกมาเป็น % แบบผสม ~9.65% ของ Direct Cost ไม่ใช่ 10% พอดี) ตัวเลขจริงอาจต่างเล็กน้อยถ้า Rate ถูกแก้ไขหลังจากวันที่ทำเอกสารนี้ (แก้ไข 30 ก.ย. 2569 รอบ 1: เปลี่ยนจาก "Spider Grey"/MAT-003 เดิม เพราะวัสดุนั้นไม่มีอยู่จริงในระบบ — เปลี่ยนมาใช้ SPIDER GREEN แทน และไฟล์ตัวอย่างเปลี่ยนมา generate จากปุ่ม "สร้างเทมเพลต Cut List" จริงในระบบ · แก้ไข 30 ก.ย. 2569 รอบ 2: ขยายไฟล์ตัวอย่างจาก 1 Rate เป็น 3 Rate ผสมกันในไฟล์เดียว (ผนัง SPIDER GREEN หลัก + แถบ ABSOLUTE BLACK accent + พื้น SPIDER GREEN) เพื่อโชว์ว่าระบบจับคู่ Rate อัตโนมัติได้หลายแบบพร้อมกัน ไม่ใช่แค่แบบเดียว — ทำให้จำนวน BOQ Lines/Milestone/Task ทั้งสายขยายจาก 2 เป็น 5 ตามไปด้วย)</div>
 
   <div class="category" id="BP1">
     <div class="category-header">
@@ -147,9 +147,9 @@
           <td class="col-id"><span class="tc-id">TC-BP-02</span></td>
           <td class="col-scenario">สร้างเอกสาร BOQ ใหม่ ระบุลูกค้า + เลือก Rate ที่ใช้ในโปรเจกต์<div class="note">ต้องเลือก Rate ก่อน ปุ่ม "สร้างเทมเพลต Cut List" ถึงจะโผล่ขึ้นมาที่แถบด้านบน</div></td>
           <td class="col-pre">ทำ TC-BP-01 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดแอป "BOQ Estimation" &gt; BOQ Documents &gt; New</li><li>เลือกลูกค้า</li><li>ที่ฟิลด์ "รายการที่ใช้ในโปรเจกต์นี้ (สำหรับเทมเพลต Cut List)" เพิ่ม Rate ที่จะใช้</li></ol></td>
-          <td class="col-sample">ลูกค้า = THE TWO BANGKOK<br>Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"</td>
-          <td class="col-expected">ฟอร์ม BOQ Document ใหม่เปิดขึ้น พร้อมข้อมูลลูกค้า สถานะ "Draft" — หลังเลือก Rate แล้ว ปุ่ม "สร้างเทมเพลต Cut List" ปรากฏที่แถบด้านบน</td>
+          <td class="col-steps"><ol><li>เปิดแอป "BOQ Estimation" &gt; BOQ Documents &gt; New</li><li>เลือกลูกค้า</li><li>ที่ฟิลด์ "รายการที่ใช้ในโปรเจกต์นี้ (สำหรับเทมเพลต Cut List)" เพิ่ม Rate ที่จะใช้ทั้ง 3 แบบ<div class="note">ต้องเพิ่มให้ครบทั้ง 3 แบบ — ไฟล์ตัวอย่างใช้ Rate 3 แบบผสมกัน ถ้าเพิ่มไม่ครบ ตอน import แถวที่ไม่มี Rate อยู่ในรายการนี้จะจับคู่ไม่ได้ (ต้องมาเลือกเองทีหลัง)</div></li></ol></td>
+          <td class="col-sample">ลูกค้า = THE TWO BANGKOK<br>Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)", "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)", "[FLOOR-SPGRN-2CM] พื้น SPIDER GREEN (หนา 2 ซม.)"</td>
+          <td class="col-expected">ฟอร์ม BOQ Document ใหม่เปิดขึ้น พร้อมข้อมูลลูกค้า สถานะ "Draft" — หลังเลือก Rate ครบทั้ง 3 แบบแล้ว ปุ่ม "สร้างเทมเพลต Cut List" ปรากฏที่แถบด้านบน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -186,7 +186,7 @@
           <td class="col-pre">ทำ TC-BP-02 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กดปุ่ม "นำเข้า Cut List"</li><li>แนบไฟล์ .xlsx</li><li>กด "อ่านไฟล์"</li></ol></td>
           <td class="col-sample">ไฟล์ = cutlist-import-example-lift-lobby.xlsx (Library &gt; ตัวอย่างเอกสารจากระบบ)</td>
-          <td class="col-expected">หน้าจอเปลี่ยนเป็น Preview แสดงแถวที่รวมยอดให้แล้ว 2 แถว (ตาม 2 Elevation ในไฟล์) — คอลัมน์ Rate เติมให้อัตโนมัติแล้วทั้ง 2 แถว (ไม่ว่างเหมือนขั้นตอนแบบเดิม)</td>
+          <td class="col-expected">หน้าจอเปลี่ยนเป็น Preview แสดงแถวที่รวมยอดให้แล้ว 5 แถว (2 Elevation × 2 สีผนัง + พื้น 1 แถว) — คอลัมน์ Rate เติมให้อัตโนมัติแล้วครบทั้ง 5 แถว (ไม่ว่างเหมือนขั้นตอนแบบเดิม) — ถ้า TC-BP-02 เพิ่ม Rate ไม่ครบ 3 แบบ จะมีบางแถวที่ Rate ว่าง ให้กลับไปเพิ่ม Rate ที่ขาดในฟอร์ม BOQ Document ก่อน แล้วอัปโหลดไฟล์ซ้ำ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -194,9 +194,9 @@
           <td class="col-id"><span class="tc-id">TC-BP-04</span></td>
           <td class="col-scenario">ตรวจยอดที่รวมมา (Rate จับคู่ให้อัตโนมัติแล้ว) แล้วสร้าง BOQ Lines<div class="note">ต่างจากไฟล์ freeform แบบเดิม — ไฟล์จาก Cut List Template ล็อก Rate มาจาก dropdown ในไฟล์อยู่แล้ว ไม่ต้องมาเลือกเองตรงนี้อีก</div></td>
           <td class="col-pre">ทำ TC-BP-03 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>ตรวจคอลัมน์ "ตรม. รวม" ของทั้ง 2 แถว</li><li>ตรวจว่าคอลัมน์ Rate เติมมาให้แล้วถูกต้องทั้ง 2 แถว</li><li>กด "สร้าง BOQ Lines"</li></ol></td>
-          <td class="col-sample">แถว 1 = ELEVATION 1, 92 ชิ้น, 27.42 ตร.ม.<br>แถว 2 = ELEVATION 2, 92 ชิ้น, 27.42 ตร.ม.<br>Rate ทั้ง 2 แถว = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"</td>
-          <td class="col-expected">กลับสู่ฟอร์ม BOQ Document เดิม พบ 2 BOQ Lines ใหม่ในแท็บ "BOQ Lines" ราคา/หน่วยเติมอัตโนมัติจาก Rate = 4,400 บาท/ตร.ม. (Amount ต่อบรรทัด = 27.42 × 4,400 = 120,648.00 บาท ทั้ง 2 บรรทัด)</td>
+          <td class="col-steps"><ol><li>ตรวจคอลัมน์ "ตรม. รวม" ของทั้ง 5 แถว</li><li>ตรวจว่าคอลัมน์ Rate เติมมาให้แล้วถูกต้องครบทั้ง 5 แถว</li><li>กด "สร้าง BOQ Lines"</li></ol></td>
+          <td class="col-sample">แถว 1 = ELEVATION 1, 20 ชิ้น, 5.61 ตร.ม., Rate = "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)"<br>แถว 2 = ELEVATION 1, 72 ชิ้น, 21.81 ตร.ม., Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"<br>แถว 3 = ELEVATION 2, 20 ชิ้น, 5.61 ตร.ม., Rate = "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)"<br>แถว 4 = ELEVATION 2, 72 ชิ้น, 21.81 ตร.ม., Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"<br>แถว 5 = FLOOR, 6 ชิ้น, 5.22 ตร.ม., Rate = "[FLOOR-SPGRN-2CM] พื้น SPIDER GREEN (หนา 2 ซม.)"</td>
+          <td class="col-expected">กลับสู่ฟอร์ม BOQ Document เดิม พบ 5 BOQ Lines ใหม่ในแท็บ "BOQ Lines" ราคา/หน่วยเติมอัตโนมัติจาก Rate ของแต่ละบรรทัด — Amount: แถว 1 = 5.61×4,000 = 22,440.00 · แถว 2 = 21.81×4,400 = 95,964.00 · แถว 3 = 5.61×4,000 = 22,440.00 · แถว 4 = 21.81×4,400 = 95,964.00 · แถว 5 = 5.22×4,500 = 23,490.00 บาท</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -231,9 +231,9 @@
           <td class="col-id"><span class="tc-id">TC-BP-05</span></td>
           <td class="col-scenario">กรอก Duration + ติ๊ก Milestone บนแต่ละ BOQ Line<div class="note">ถ้าคอลัมน์ Duration/Milestone ไม่ขึ้น ให้กดไอคอนตัวเลือกคอลัมน์ (มุมขวาบนของตาราง BOQ Lines) แล้วติ๊กเพิ่ม</div></td>
           <td class="col-pre">ทำ TC-BP-04 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>ที่บรรทัด Elevation 1: กรอก Duration (days), ติ๊ก Milestone, ตั้งชื่อ Milestone</li><li>ทำแบบเดียวกันที่บรรทัด Elevation 2</li></ol></td>
-          <td class="col-sample">Elevation 1: Duration = 5, Milestone = "ติดตั้งผนังหิน Elevation 1 เสร็จ"<br>Elevation 2: Duration = 6, Milestone = "ติดตั้งผนังหิน Elevation 2 เสร็จ"</td>
-          <td class="col-expected">กรอกได้ตรงบนบรรทัด BOQ Line ทันที ไม่ต้องเปิดฟอร์มอื่น</td>
+          <td class="col-steps"><ol><li>ที่บรรทัด 1 (ผนัง ABSOLUTE BLACK, Elevation 1): กรอก Duration (days), ติ๊ก Milestone, ตั้งชื่อ Milestone</li><li>ทำแบบเดียวกันกับอีก 4 บรรทัดที่เหลือ</li></ol></td>
+          <td class="col-sample">แถว 1 (ABSBLK, Elevation 1): Duration = 2, Milestone = "ติดตั้งแถบผนังหิน ABSOLUTE BLACK Elevation 1 เสร็จ"<br>แถว 2 (SPGRN, Elevation 1): Duration = 5, Milestone = "ติดตั้งผนังหิน SPIDER GREEN Elevation 1 เสร็จ"<br>แถว 3 (ABSBLK, Elevation 2): Duration = 2, Milestone = "ติดตั้งแถบผนังหิน ABSOLUTE BLACK Elevation 2 เสร็จ"<br>แถว 4 (SPGRN, Elevation 2): Duration = 6, Milestone = "ติดตั้งผนังหิน SPIDER GREEN Elevation 2 เสร็จ"<br>แถว 5 (FLOOR): Duration = 3, Milestone = "ติดตั้งพื้นหิน Lobby เสร็จ"</td>
+          <td class="col-expected">กรอกได้ตรงบนบรรทัด BOQ Line ทันที ไม่ต้องเปิดฟอร์มอื่น — บรรทัด ABSBLK/SPGRN ที่อยู่ Elevation เดียวกันจะต่อคิวกันเป็นไทม์ไลน์เดียว (ดู TC-BP-12) ไม่ใช่ขนานกัน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -243,7 +243,7 @@
           <td class="col-pre">ทำ TC-BP-05 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กด Save</li><li>ดูแถบสรุปยอดด้านล่างขวา</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Direct Cost = 241,296.00 · Overhead &amp; Profit = 24,129.60 · Total = 265,425.60 บาท (คำนวณอัตโนมัติ ไม่ต้องกรอกเอง)</td>
+          <td class="col-expected">Direct Cost = 260,298.00 · Overhead &amp; Profit = 25,128.90 (~9.65% ของ Direct Cost — คำนวณแยกทีละ Cost Component ของแต่ละ Rate ไม่ใช่ % เดียวคูณทั้งก้อน) · Total = 285,426.90 บาท (คำนวณอัตโนมัติ ไม่ต้องกรอกเอง)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -280,7 +280,7 @@
           <td class="col-pre">ทำ TC-BP-06 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา" บนหัว BOQ Document</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ได้ใบเสนอราคาใหม่ 1 ใบ ยอดรวมตรงกับ BOQ (265,425.60 บาท) มีบรรทัด section คั่น "ELEVATION 1" / "ELEVATION 2" field "BOQ Document" ชี้กลับไปที่เอกสาร BOQ เดิม</td>
+          <td class="col-expected">ได้ใบเสนอราคาใหม่ 1 ใบ ยอดรวมตรงกับ BOQ (285,426.90 บาท) มีบรรทัด section คั่น 3 อัน "ELEVATION 1" / "ELEVATION 2" / "FLOOR" (แต่ละ Elevation section มี 2 บรรทัดย่อยตามสีผนัง) มีบรรทัดสรุป "Overhead &amp; Profit (~9.65%)" ต่อท้าย field "BOQ Document" ชี้กลับไปที่เอกสาร BOQ เดิม</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -290,7 +290,7 @@
           <td class="col-pre">ทำ TC-BP-07 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่แท็บ Order Lines ตรวจคอลัมน์ Zone/Duration/Milestone ของแต่ละบรรทัด</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">บรรทัด Elevation 1: Zone="ELEVATION 1", Duration=5, Milestone="ติดตั้งผนังหิน Elevation 1 เสร็จ" · บรรทัด Elevation 2: Zone="ELEVATION 2", Duration=6, Milestone ตามที่กรอก</td>
+          <td class="col-expected">ทั้ง 5 บรรทัด Zone/Duration/Milestone ตรงกับที่กรอกไว้ใน TC-BP-05 เป๊ะ — เช่น บรรทัด "ผนัง SPIDER GREEN (หนา 2 ซม.) — 21.81 m²" Zone="ELEVATION 1", Duration=5, Milestone="ติดตั้งผนังหิน SPIDER GREEN Elevation 1 เสร็จ"</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
@@ -306,7 +306,7 @@
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-BP-10</span></td>
-          <td class="col-scenario">ยืนยันคำสั่งขาย (Confirm)<div class="note">ระบบอาจยังไม่มีสต๊อก Slab SPIDER GREEN พร้อมขายพอดีตามที่ต้องการในฐานทดสอบ — ถ้าไม่พอ คาดว่าจะมี popup เตือนขึ้นมาก่อน ให้กด "Confirm ต่อ" เพื่อไปต่อ (ไม่ใช่บั๊ก เป็นกลไกเตือนตามปกติ)</div></td>
+          <td class="col-scenario">ยืนยันคำสั่งขาย (Confirm)<div class="note">ระบบอาจยังไม่มีสต๊อก Slab SPIDER GREEN หรือ ABSOLUTE BLACK พร้อมขายพอดีตามที่ต้องการในฐานทดสอบ (ทั้ง 3 Rate ที่ใช้) — ถ้าไม่พอ คาดว่าจะมี popup เตือนขึ้นมาก่อน ให้กด "Confirm ต่อ" เพื่อไปต่อ (ไม่ใช่บั๊ก เป็นกลไกเตือนตามปกติ)</div></td>
           <td class="col-pre">ทำ TC-BP-09 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กด Confirm</li><li>ถ้ามี popup "ยืนยัน Confirm ทั้งที่ยังไม่มีของ" ขึ้นมา ให้กด "Confirm ต่อ"</li></ol></td>
           <td class="col-sample">-</td>
@@ -343,21 +343,21 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-BP-11</span></td>
-          <td class="col-scenario">เปิด Project ที่สร้างขึ้นจากใบสั่งขาย ตรวจ 2 Task</td>
+          <td class="col-scenario">เปิด Project ที่สร้างขึ้นจากใบสั่งขาย ตรวจ 5 Task</td>
           <td class="col-pre">ทำ TC-BP-10 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กดปุ่ม smart button "Project" บนใบสั่งขาย</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Project ชื่อ "THE TWO BANGKOK - S00XXX" มี 2 Task ("ผนัง SPIDER GREEN" x2) ต่างกันที่ Zone (Elevation 1 / Elevation 2)</td>
+          <td class="col-expected">Project ชื่อ "THE TWO BANGKOK - S00XXX" มี 5 Task: "ผนัง ABSOLUTE BLACK (หนา 2 ซม.) — 5.61 m²" x2, "ผนัง SPIDER GREEN (หนา 2 ซม.) — 21.81 m²" x2, "พื้น SPIDER GREEN (หนา 2 ซม.) — 5.22 m²" x1 — แยกกันด้วย Zone (Elevation 1 / Elevation 2 / Floor)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-BP-12</span></td>
-          <td class="col-scenario">เปิด Task แต่ละใบ ตรวจ Milestone + วันวางแผน<div class="note">2 Zone ทำงานขนานกัน (ไม่ต่อคิวกัน) จึงเริ่มวันเดียวกันทั้งคู่ แต่สิ้นสุดต่างกันตาม Duration ที่กรอกไว้</div></td>
+          <td class="col-scenario">เปิด Task แต่ละใบ ตรวจ Milestone + วันวางแผน<div class="note">3 Zone (Elevation 1 / Elevation 2 / Floor) ทำงานขนานกัน เริ่มวันเดียวกันหมด — แต่<b>ภายในโซนเดียวกัน</b> บรรทัด ABSOLUTE BLACK กับ SPIDER GREEN ต่อคิวกันเป็นไทม์ไลน์เดียว (ABSBLK ทำก่อนตามลำดับที่ import เข้ามา แล้ว SPGRN ต่อจากวันที่ ABSBLK จบ) ไม่ใช่ขนานกันทุก Task</div></td>
           <td class="col-pre">ทำ TC-BP-11 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด Task "ผนัง SPIDER GREEN" (Elevation 1)</li><li>เปิด Task "ผนัง SPIDER GREEN" (Elevation 2)</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Task "ผนัง ABSOLUTE BLACK...5.61 m²" (Elevation 1)</li><li>เปิด Task "ผนัง SPIDER GREEN...21.81 m²" (Elevation 1)</li><li>เปิด Task "ผนัง ABSOLUTE BLACK...5.61 m²" (Elevation 2)</li><li>เปิด Task "ผนัง SPIDER GREEN...21.81 m²" (Elevation 2)</li><li>เปิด Task "พื้น SPIDER GREEN...5.22 m²" (Floor)</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Task Elevation 1: Milestone="ติดตั้งผนังหิน Elevation 1 เสร็จ" วันวางแผนเริ่ม=วันนี้ สิ้นสุด=วันนี้+5 วัน · Task Elevation 2: Milestone ตามที่กรอก วันวางแผนเริ่ม=วันนี้ สิ้นสุด=วันนี้+6 วัน · ทั้งคู่เชื่อมกลับไปที่ Sales Order Line เดิม (field "Origin Sale Line")</td>
+          <td class="col-expected">Task ABSBLK Elevation 1: เริ่ม=วันนี้ สิ้นสุด=วันนี้+2 วัน · Task SPGRN Elevation 1: เริ่ม=วันนี้+2 วัน สิ้นสุด=วันนี้+7 วัน (ต่อจาก ABSBLK) · Task ABSBLK Elevation 2: เริ่ม=วันนี้ สิ้นสุด=วันนี้+2 วัน · Task SPGRN Elevation 2: เริ่ม=วันนี้+2 วัน สิ้นสุด=วันนี้+8 วัน (ต่อจาก ABSBLK) · Task FLOOR: เริ่ม=วันนี้ สิ้นสุด=วันนี้+3 วัน (ขนานกับ Elevation ทั้ง 2 ไม่ต่อคิว) · Milestone แต่ละใบตรงกับชื่อที่กรอกไว้ใน TC-BP-05 · ทุก Task เชื่อมกลับไปที่ Sales Order Line เดิม (field "Origin Sale Line")</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
