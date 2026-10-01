@@ -83,6 +83,15 @@
   .result-note{border:1px dashed var(--border);border-radius:6px;padding:6px 8px;font-size:11.5px;color:#9A9D9F;min-height:34px;}
 
   footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+  #export-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);
+    border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--copper-dark);text-decoration:none;
+    margin-bottom:20px;transition:background .15s ease;}
+  #export-btn:hover{background:var(--amber-bg);}
+  .col-shot{width:120px;text-align:center;}
+  .shot-thumb{display:block;width:100px;height:66px;object-fit:cover;object-position:top;border-radius:6px;
+    border:1px solid var(--border);margin:0 auto 4px;transition:transform .15s ease;}
+  .shot-thumb:hover{transform:scale(1.05);}
+  .shot-link{font-size:11px;color:var(--copper-dark);text-decoration:none;}
 </style>
 </head>
 <body>
@@ -101,15 +110,16 @@
       <div class="stat-pill"><b style="color:var(--red)">8</b>High Priority</div>
       <div class="stat-pill"><b style="color:var(--amber)">5</b>Medium Priority</div>
     </div>
+      <a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-project-combo.xlsx" download="EMG-O Golden Path - BOQ+Project Combo.xlsx"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
   </header>
 
   <div class="flow-banner">
     <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>THE TWO BANGKOK</b>" (ตั้งชื่อแยกจากดีลจริง "THE ONE BANGKOK" โดยเจตนา — เคสนี้เป็นแบบฝึกหัดให้ทดสอบเอง ไม่ปนกับข้อมูลดีลจริง) → สร้างเอกสาร BOQ ใหม่ → เลือก Rate ที่ใช้ในโปรเจกต์นี้ (3 แบบผสมกัน) → นำเข้า Cut List จริงผ่านไฟล์ Cut List Template ที่กรอกไว้แล้ว (ดาวน์โหลดได้จาก Library หมวด "ตัวอย่างเอกสารจากระบบ" — ผนัง SPIDER GREEN + แถบผนัง ABSOLUTE BLACK 2 Elevation + พื้น SPIDER GREEN 1 ชุด รวม 190 ชิ้น 60.06 ตร.ม.) → ระบบอ่านไฟล์แล้วรวมยอดให้เป็น 5 แถว (2 สีผนัง × 2 Elevation + พื้น 1 แถว) พร้อมจับคู่ Rate ให้อัตโนมัติครบทั้ง 5 แถว ตามที่เลือกจาก dropdown ในไฟล์ตั้งแต่ตอนกรอก (ไม่ต้องมาเลือกซ้ำตอน import) → สร้าง BOQ Lines → กรอก Duration/Milestone ต่อบรรทัด (5 บรรทัด) → สร้างใบเสนอราคา → ติ๊ก "Sold as Project" → Confirm → ระบบสร้าง Project + 5 Task ให้อัตโนมัติ พร้อม Milestone ผูกอยู่ทุกบรรทัด — ผนังสีหลัก/สีแถบในโซนเดียวกันต่อคิวกันเอง (ไม่ขนานกัน) ส่วนพื้นเป็นคนละไทม์ไลน์อิสระ
   </div>
 
-  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> <b>รันจริงผ่านหน้าจอแล้ว</b> เมื่อ 30 ก.ย. 2026 (เดินสดทีละขั้นกับผู้ใช้บน eg-tst ผ่านครบ 13 จาก 13 เคส — พบและแก้ไขแล้ว 1 จุดในระบบ + 1 จุดในเอกสาร ดูรายการแก้ไข รอบ 3 ด้านล่าง) ตัวเลขทุกจุดผ่านการรันจริงทีละขั้น ไม่ได้กะประมาณ — เดินตามขั้นตอนในตารางด้านล่างตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst หรือ mbx-ee-dev) ไฟล์ Cut List ที่ใช้คือไฟล์สำเร็จรูปจาก Library หมวด "ตัวอย่างเอกสารจากระบบ" (<code>cutlist-import-example-lift-lobby.xlsx</code>) ไม่ใช่ไฟล์ draft มือเดิมในวอลต์แล้ว</div>
+  <div class="selftest-note"><b>เอกสารนี้ให้ผู้ใช้ทดสอบเอง:</b> <b>รันจริงผ่านหน้าจอซ้ำพร้อมถ่ายภาพ</b> เมื่อ 1 ต.ค. 2026 (Playwright บน eg-tst ผ่านครบ 13 จาก 13 เคส — fixture รอบนี้: BOQ <code>BOQ0092</code> → SO <code>S00415</code> → Project <code>47</code> ตัวเลขทุกตัวตรงกับ Expected Result) รอบแรกเดินสดกับผู้ใช้เมื่อ 30 ก.ย. 2026 (พบและแก้ไขแล้ว 1 จุดในระบบ + 1 จุดในเอกสาร ดูรายการแก้ไข รอบ 3 ด้านล่าง) · ภาพ BOQ Lines ซ่อนคอลัมน์ "รายชิ้น" ไว้ให้ภาพไม่ยาวเกินไป (190 ชิ้น) · ภาพ TC-BP-06 ใช้ภาพเดียวกับ TC-BP-05 เพราะยอดรวมอยู่ในหน้าเดียวกัน ตัวเลขทุกจุดผ่านการรันจริงทีละขั้น ไม่ได้กะประมาณ — เดินตามขั้นตอนในตารางด้านล่างตามลำดับ แล้วติ๊ก "ผ่าน/ไม่ผ่าน" + จดหมายเหตุในคอลัมน์ขวาสุดระหว่างทดสอบจริงบนเครื่อง (แนะนำ eg-tst หรือ mbx-ee-dev) ไฟล์ Cut List ที่ใช้คือไฟล์สำเร็จรูปจาก Library หมวด "ตัวอย่างเอกสารจากระบบ" (<code>cutlist-import-example-lift-lobby.xlsx</code>) ไม่ใช่ไฟล์ draft มือเดิมในวอลต์แล้ว</div>
 
-  <div class="gap-note"><b>ทราบแล้ว ยังไม่ทำ:</b> ยังไม่มีปุ่ม Export Excel และยังไม่มีภาพหน้าจอจริง (รอบที่รันเป็นการเดินสดแบบไม่ได้ถ่ายภาพ) — ถ้าต้องการสามารถขอให้ Claude รันซ้ำผ่าน Playwright เพื่ออัปเกรดเป็นเวอร์ชันมีภาพหน้าจอจริงตามมาตรฐานเอกสารชุดอื่นได้ ยอดเงินที่ระบุใน "Expected Result" คำนวณจาก Rate จริงในระบบ (WALL-SPGRN-2CM = 4,400, WALL-ABSBLK-2CM = 4,000, FLOOR-SPGRN-2CM = 4,500 บาท/ตร.ม.) + Overhead &amp; Profit ที่คำนวณแยกทีละ Cost Component ของแต่ละ Rate ไม่ใช่ % เดียวคูณทั้งก้อน (Material 10% + Labour 10% + Other 0% — ผลรวมออกมาเป็น % แบบผสม ~9.65% ของ Direct Cost ไม่ใช่ 10% พอดี) ตัวเลขจริงอาจต่างเล็กน้อยถ้า Rate ถูกแก้ไขหลังจากวันที่ทำเอกสารนี้ (แก้ไข 30 ก.ย. 2569 รอบ 1: เปลี่ยนจาก "Spider Grey"/MAT-003 เดิม เพราะวัสดุนั้นไม่มีอยู่จริงในระบบ — เปลี่ยนมาใช้ SPIDER GREEN แทน และไฟล์ตัวอย่างเปลี่ยนมา generate จากปุ่ม "สร้างเทมเพลต Cut List" จริงในระบบ · แก้ไข 30 ก.ย. 2569 รอบ 2: ขยายไฟล์ตัวอย่างจาก 1 Rate เป็น 3 Rate ผสมกันในไฟล์เดียว (ผนัง SPIDER GREEN หลัก + แถบ ABSOLUTE BLACK accent + พื้น SPIDER GREEN) เพื่อโชว์ว่าระบบจับคู่ Rate อัตโนมัติได้หลายแบบพร้อมกัน ไม่ใช่แค่แบบเดียว — ทำให้จำนวน BOQ Lines/Milestone/Task ทั้งสายขยายจาก 2 เป็น 5 ตามไปด้วย · แก้ไข 30 ก.ย. 2569 รอบ 3 (จากการรันจริงบน eg-tst ตามเอกสารนี้ทีละขั้น): สลับลำดับ TC-BP-08/09 ให้ถูกต้อง (ต้องติ๊ก "Sold as Project" ก่อน คอลัมน์ Zone/Duration/Milestone ถึงจะโผล่ในตาราง Order Lines — เอกสารเดิมเรียงผิด) และเปลี่ยน label บรรทัดสรุปที่ลูกค้าเห็นจาก "Overhead &amp; Profit" เป็น "Project Management Fee" (ทั้งบน Quotation SO line, ปุ่ม Recompute BOQ Prices, และ EGQ PDF — คำว่า "Profit" ไม่เหมาะโชว์ลูกค้าตรงๆ) ฟิลด์ภายใน (Amount Overhead &amp; Profit บนฟอร์ม BOQ Document เอง) ยังคงใช้ชื่อเดิมไว้ตามปกติ เพราะเป็นศัพท์บัญชีที่ทีมงานใช้ภายใน ไม่ใช่สิ่งที่ลูกค้าเห็น)</div>
+  <div class="gap-note"><b>หมายเหตุเพิ่มเติม:</b> เพิ่มปุ่ม Export Excel และภาพหน้าจอจริงแล้ว (1 ต.ค. 2026) ยอดเงินที่ระบุใน "Expected Result" คำนวณจาก Rate จริงในระบบ (WALL-SPGRN-2CM = 4,400, WALL-ABSBLK-2CM = 4,000, FLOOR-SPGRN-2CM = 4,500 บาท/ตร.ม.) + Overhead &amp; Profit ที่คำนวณแยกทีละ Cost Component ของแต่ละ Rate ไม่ใช่ % เดียวคูณทั้งก้อน (Material 10% + Labour 10% + Other 0% — ผลรวมออกมาเป็น % แบบผสม ~9.65% ของ Direct Cost ไม่ใช่ 10% พอดี) ตัวเลขจริงอาจต่างเล็กน้อยถ้า Rate ถูกแก้ไขหลังจากวันที่ทำเอกสารนี้ (แก้ไข 30 ก.ย. 2569 รอบ 1: เปลี่ยนจาก "Spider Grey"/MAT-003 เดิม เพราะวัสดุนั้นไม่มีอยู่จริงในระบบ — เปลี่ยนมาใช้ SPIDER GREEN แทน และไฟล์ตัวอย่างเปลี่ยนมา generate จากปุ่ม "สร้างเทมเพลต Cut List" จริงในระบบ · แก้ไข 30 ก.ย. 2569 รอบ 2: ขยายไฟล์ตัวอย่างจาก 1 Rate เป็น 3 Rate ผสมกันในไฟล์เดียว (ผนัง SPIDER GREEN หลัก + แถบ ABSOLUTE BLACK accent + พื้น SPIDER GREEN) เพื่อโชว์ว่าระบบจับคู่ Rate อัตโนมัติได้หลายแบบพร้อมกัน ไม่ใช่แค่แบบเดียว — ทำให้จำนวน BOQ Lines/Milestone/Task ทั้งสายขยายจาก 2 เป็น 5 ตามไปด้วย · แก้ไข 30 ก.ย. 2569 รอบ 3 (จากการรันจริงบน eg-tst ตามเอกสารนี้ทีละขั้น): สลับลำดับ TC-BP-08/09 ให้ถูกต้อง (ต้องติ๊ก "Sold as Project" ก่อน คอลัมน์ Zone/Duration/Milestone ถึงจะโผล่ในตาราง Order Lines — เอกสารเดิมเรียงผิด) และเปลี่ยน label บรรทัดสรุปที่ลูกค้าเห็นจาก "Overhead &amp; Profit" เป็น "Project Management Fee" (ทั้งบน Quotation SO line, ปุ่ม Recompute BOQ Prices, และ EGQ PDF — คำว่า "Profit" ไม่เหมาะโชว์ลูกค้าตรงๆ) ฟิลด์ภายใน (Amount Overhead &amp; Profit บนฟอร์ม BOQ Document เอง) ยังคงใช้ชื่อเดิมไว้ตามปกติ เพราะเป็นศัพท์บัญชีที่ทีมงานใช้ภายใน ไม่ใช่สิ่งที่ลูกค้าเห็น)</div>
 
   <div class="category" id="BP1">
     <div class="category-header">
@@ -129,6 +139,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
           <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
         </tr>
       </thead>
@@ -141,6 +152,7 @@
           <td class="col-sample">ชื่อ = "THE TWO BANGKOK"</td>
           <td class="col-expected">บันทึกผู้ติดต่อใหม่สำเร็จ พร้อมใช้เลือกเป็นลูกค้าในขั้นถัดไป</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-01-customer.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-01-customer.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -151,6 +163,7 @@
           <td class="col-sample">ลูกค้า = THE TWO BANGKOK<br>Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)", "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)", "[FLOOR-SPGRN-2CM] พื้น SPIDER GREEN (หนา 2 ซม.)"</td>
           <td class="col-expected">ฟอร์ม BOQ Document ใหม่เปิดขึ้น พร้อมข้อมูลลูกค้า สถานะ "Draft" — หลังเลือก Rate ครบทั้ง 3 แบบแล้ว ปุ่ม "สร้างเทมเพลต Cut List" ปรากฏที่แถบด้านบน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-02-boq-new.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-02-boq-new.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
       </tbody>
@@ -176,6 +189,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
           <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
         </tr>
       </thead>
@@ -188,6 +202,7 @@
           <td class="col-sample">ไฟล์ = cutlist-import-example-lift-lobby.xlsx (Library &gt; ตัวอย่างเอกสารจากระบบ)</td>
           <td class="col-expected">หน้าจอเปลี่ยนเป็น Preview แสดงแถวที่รวมยอดให้แล้ว 5 แถว (2 Elevation × 2 สีผนัง + พื้น 1 แถว) — คอลัมน์ Rate เติมให้อัตโนมัติแล้วครบทั้ง 5 แถว (ไม่ว่างเหมือนขั้นตอนแบบเดิม) — ถ้า TC-BP-02 เพิ่ม Rate ไม่ครบ 3 แบบ จะมีบางแถวที่ Rate ว่าง ให้กลับไปเพิ่ม Rate ที่ขาดในฟอร์ม BOQ Document ก่อน แล้วอัปโหลดไฟล์ซ้ำ</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-03-import-preview.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-03-import-preview.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -198,6 +213,7 @@
           <td class="col-sample">แถว 1 = ELEVATION 1, 20 ชิ้น, 5.61 ตร.ม., Rate = "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)"<br>แถว 2 = ELEVATION 1, 72 ชิ้น, 21.81 ตร.ม., Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"<br>แถว 3 = ELEVATION 2, 20 ชิ้น, 5.61 ตร.ม., Rate = "[WALL-ABSBLK-2CM] ผนัง ABSOLUTE BLACK (หนา 2 ซม.)"<br>แถว 4 = ELEVATION 2, 72 ชิ้น, 21.81 ตร.ม., Rate = "[WALL-SPGRN-2CM] ผนัง SPIDER GREEN (หนา 2 ซม.)"<br>แถว 5 = FLOOR, 6 ชิ้น, 5.22 ตร.ม., Rate = "[FLOOR-SPGRN-2CM] พื้น SPIDER GREEN (หนา 2 ซม.)"</td>
           <td class="col-expected">กลับสู่ฟอร์ม BOQ Document เดิม พบ 5 BOQ Lines ใหม่ในแท็บ "BOQ Lines" ราคา/หน่วยเติมอัตโนมัติจาก Rate ของแต่ละบรรทัด — Amount: แถว 1 = 5.61×4,000 = 22,440.00 · แถว 2 = 21.81×4,400 = 95,964.00 · แถว 3 = 5.61×4,000 = 22,440.00 · แถว 4 = 21.81×4,400 = 95,964.00 · แถว 5 = 5.22×4,500 = 23,490.00 บาท</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-04-boq-lines.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-04-boq-lines.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
       </tbody>
@@ -223,6 +239,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
           <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
         </tr>
       </thead>
@@ -235,6 +252,7 @@
           <td class="col-sample">แถว 1 (ABSBLK, Elevation 1): Duration = 2, Milestone = "ติดตั้งแถบผนังหิน ABSOLUTE BLACK Elevation 1 เสร็จ"<br>แถว 2 (SPGRN, Elevation 1): Duration = 5, Milestone = "ติดตั้งผนังหิน SPIDER GREEN Elevation 1 เสร็จ"<br>แถว 3 (ABSBLK, Elevation 2): Duration = 2, Milestone = "ติดตั้งแถบผนังหิน ABSOLUTE BLACK Elevation 2 เสร็จ"<br>แถว 4 (SPGRN, Elevation 2): Duration = 6, Milestone = "ติดตั้งผนังหิน SPIDER GREEN Elevation 2 เสร็จ"<br>แถว 5 (FLOOR): Duration = 3, Milestone = "ติดตั้งพื้นหิน Lobby เสร็จ"</td>
           <td class="col-expected">กรอกได้ตรงบนบรรทัด BOQ Line ทันที ไม่ต้องเปิดฟอร์มอื่น — บรรทัด ABSBLK/SPGRN ที่อยู่ Elevation เดียวกันจะต่อคิวกันเป็นไทม์ไลน์เดียว (ดู TC-BP-12) ไม่ใช่ขนานกัน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-05-durations.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-05-durations.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -245,6 +263,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Direct Cost = 260,298.00 · Overhead &amp; Profit = 25,128.90 (~9.65% ของ Direct Cost — คำนวณแยกทีละ Cost Component ของแต่ละ Rate ไม่ใช่ % เดียวคูณทั้งก้อน) · Total = 285,426.90 บาท (คำนวณอัตโนมัติ ไม่ต้องกรอกเอง)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-05-durations.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-05-durations.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
       </tbody>
@@ -270,6 +289,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
           <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
         </tr>
       </thead>
@@ -282,6 +302,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ได้ใบเสนอราคาใหม่ 1 ใบ ยอดรวมตรงกับ BOQ (285,426.90 บาท) มีบรรทัด section คั่น 3 อัน "ELEVATION 1" / "ELEVATION 2" / "FLOOR" (แต่ละ Elevation section มี 2 บรรทัดย่อยตามสีผนัง) มีบรรทัดสรุป "Project Management Fee (~9.65%)" ต่อท้าย (ชื่อลูกค้าเห็น — เปลี่ยนจาก "Overhead & Profit" เดิม ดูหมายเหตุด้านบน) field "BOQ Document" ชี้กลับไปที่เอกสาร BOQ เดิม</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-07-quotation.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-07-quotation.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -292,6 +313,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Checkbox ติ๊กได้ทันที บันทึกสำเร็จ ได้เลขที่ใบเสนอราคา</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-08-sold-as-project.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-08-sold-as-project.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -302,6 +324,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">ทั้ง 5 บรรทัด Zone/Duration/Milestone ตรงกับที่กรอกไว้ใน TC-BP-05 เป๊ะ — เช่น บรรทัด "ผนัง SPIDER GREEN (หนา 2 ซม.) — 21.81 m²" Zone="ELEVATION 1", Duration=5, Milestone="ติดตั้งผนังหิน SPIDER GREEN Elevation 1 เสร็จ"</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-09-zone-duration-milestone.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-09-zone-duration-milestone.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -312,6 +335,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">คำสั่งขายยืนยันสำเร็จ (state = Sales Order) ระบบสร้าง Project ให้อัตโนมัติเบื้องหลัง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-10-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-10-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
       </tbody>
@@ -337,6 +361,7 @@
           <th class="col-sample">ข้อมูลตัวอย่าง</th>
           <th class="col-expected">Expected Result</th>
           <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
           <th class="col-result">ผลทดสอบจริง (กรอกเอง)</th>
         </tr>
       </thead>
@@ -349,6 +374,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Project ชื่อ "THE TWO BANGKOK - S00XXX" มี 5 Task: "ผนัง ABSOLUTE BLACK (หนา 2 ซม.) — 5.61 m²" x2, "ผนัง SPIDER GREEN (หนา 2 ซม.) — 21.81 m²" x2, "พื้น SPIDER GREEN (หนา 2 ซม.) — 5.22 m²" x1 — แยกกันด้วย Zone (Elevation 1 / Elevation 2 / Floor)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-11-project-tasks.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-11-project-tasks.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -359,6 +385,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">Task ABSBLK Elevation 1: เริ่ม=วันนี้ สิ้นสุด=วันนี้+2 วัน · Task SPGRN Elevation 1: เริ่ม=วันนี้+2 วัน สิ้นสุด=วันนี้+7 วัน (ต่อจาก ABSBLK) · Task ABSBLK Elevation 2: เริ่ม=วันนี้ สิ้นสุด=วันนี้+2 วัน · Task SPGRN Elevation 2: เริ่ม=วันนี้+2 วัน สิ้นสุด=วันนี้+8 วัน (ต่อจาก ABSBLK) · Task FLOOR: เริ่ม=วันนี้ สิ้นสุด=วันนี้+3 วัน (ขนานกับ Elevation ทั้ง 2 ไม่ต่อคิว) · Milestone แต่ละใบตรงกับชื่อที่กรอกไว้ใน TC-BP-05 · ทุก Task เชื่อมกลับไปที่ Sales Order Line เดิม (field "Origin Sale Line")</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-12-task-detail.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-12-task-detail.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
         <tr>
@@ -369,6 +396,7 @@
           <td class="col-sample">-</td>
           <td class="col-expected">เปิด Project เดียวกับที่เห็นใน TC-BP-11 เป๊ะ (BOQ ↔ ใบเสนอราคา ↔ Project เชื่อมกันครบสาย ไม่ใช่ Project คนละอันที่บังเอิญชื่อคล้ายกัน)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-combo/bp-13-boq-to-project.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-combo/bp-13-boq-to-project.png">ดูภาพ</a></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
       </tbody>
