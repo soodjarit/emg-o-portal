@@ -164,7 +164,7 @@
           <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (Slab คุมเป็น Lot)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-hotel.html"><span class="tree-doc-tag">3</span>Golden Path — BOQ + Project (SY Resort)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-boq.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ BOQ (EG-321)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-boq.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">5</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">6</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-labor-cost.html"><span class="tree-doc-tag">7</span>Golden Path — ค่าแรง 4 สถานการณ์ (Self-Test)</a></li>
@@ -190,6 +190,7 @@
           <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000004-labor-quotation.pdf"><span class="tree-doc-tag">L</span>ใบเสนอราคา — Labor</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-combined-quotation.pdf"><span class="tree-doc-tag">C</span>ใบเสนอราคารวม 2 คอลัมน์</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-lift-lobby.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List (นำเข้า BOQ)</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-marine-hotel.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — Marine Hotel (Golden Path สวิตช์ BOQ)</a></li>
         </ul>
       </details>
 
@@ -401,9 +402,9 @@
     <a class="card" href="qa/test-cases-golden-path-switch-boq.html">
       <div class="icon">4</div>
       <div>
-        <div class="card-title">Golden Path — สวิตช์ BOQ (EG-321)</div>
-        <div class="card-desc">สวิตช์ BOQ = ใบเสนอราคาเริ่มต้นจากเอกสารประเมินราคา (Bill of Quantities) ก่อน แทนที่จะพิมพ์รายการลงใบเสนอราคาตรงๆ — ใช้เมื่อสินค้า/บริการมีหลายรายการ ต้องคิดราคาละเอียดก่อนเสนอลูกค้า พิสูจน์ว่าเป็นสวิตช์อิสระจากสวิตช์ Project อย่างสมบูรณ์ (สร้างใบเสนอราคาจาก BOQ ได้โดยไม่ต้องติ๊ก Sold as Project เลย) — เดินสดผ่าน Playwright (4 test cases)</div>
-        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
+        <div class="card-title">Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</div>
+        <div class="card-desc">เดินครบทุกขั้นของสวิตช์ BOQ: เลือก Rate → นำเข้า Cut List จริง → วัสดุสิ้นเปลือง + ค่าแรงติดตั้งหน้างานรายโซน → ใบเสนอราคา → Confirm → ล็อกราคาไม่ให้เปลี่ยนเมื่อเลือก Slab จริง + รายงานส่วนต่าง · 21 เคส self-test ตัวเลขผ่านการรันจริงด้วยโค้ดบน eg-tst</div>
+        <div class="card-meta"><span class="card-date">1 ต.ค. 2026</span><span class="status-badge built">Self-test — ตัวเลข verify ด้วยโค้ดแล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -531,6 +532,15 @@
         <div class="card-title">ตัวอย่างไฟล์ Cut List สำหรับนำเข้า BOQ (Lift Lobby)</div>
         <div class="card-desc">ไฟล์นี้เป็นไฟล์<b>นำเข้า</b> ไม่ใช่เอกสารพิมพ์ออกจากระบบเหมือนตัวอย่างอื่นในหมวดนี้ — generate จากปุ่มจริง "สร้างเทมเพลต Cut List" บนฟอร์ม BOQ Document แล้วกรอกข้อมูลจริงลงไป (ไม่ใช่ไฟล์พิมพ์มือแบบเดิม) มี Rate ผสมกัน 3 แบบในไฟล์เดียว (ผนัง SPIDER GREEN, ผนัง ABSOLUTE BLACK แถบ accent, พื้น SPIDER GREEN) เพื่อโชว์ว่าระบบจับคู่ Rate ให้อัตโนมัติทีละแบบตาม dropdown ที่เลือกไว้ในแต่ละแถว รวม 190 ชิ้น 60.06 ตร.ม. แบ่งเป็น 5 กลุ่ม (2 Elevation × ผนัง 2 สี + พื้น 1 กลุ่ม) — verified ผ่าน wizard จริงบน eg-tst แล้ว ใช้ประกอบเอกสาร Golden Path "BOQ + Project ทำงานร่วมกัน" (TC-BP-03)</div>
         <div class="card-meta"><span class="card-date">30 ก.ย. 2026</span><span class="status-badge built">Verified — parse ผ่านจริง</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/cutlist-import-example-marine-hotel.xlsx">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ Cut List สำหรับนำเข้า BOQ (Marine Hotel)</div>
+        <div class="card-desc">ไฟล์ตัวอย่างขนาดเล็กสำหรับ Golden Path "สวิตช์ BOQ ครบวงจร" — 2 Rate (ผนัง/พื้น SPIDER GREEN) 2 โซน รวม 30 ชิ้น ผนัง 12.00 ตร.ม. + พื้น 18.00 ตร.ม. ตัวเลขกลมๆ ตรวจง่าย — parse ผ่านจริงบน eg-tst</div>
+        <div class="card-meta"><span class="card-date">1 ต.ค. 2026</span><span class="status-badge built">Verified — parse ผ่านจริง</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

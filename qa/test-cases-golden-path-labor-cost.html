@@ -317,7 +317,7 @@
           <td class="col-pre">มี Slab ว่าง + SO ที่มี line รออยู่ (ดูกล่องเตรียมข้อมูลด้านบน)</td>
           <td class="col-steps"><ol><li>เปิด Sale Order</li><li>กดปุ่ม "Select Slabs" ที่บรรทัดสินค้าหิน</li><li>เลือก Slab ที่ต้องการ</li><li>กดยืนยัน</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Slab เปลี่ยนสถานะเป็น "จอง" (Hold) ราคาต่อหน่วยในบรรทัด SO อัปเดตอัตโนมัติตาม Slab ที่เลือก และมีรายการบัญชีค่าแรงกะประมาณเกิดขึ้นเงียบๆ เบื้องหลัง (เช็คได้จาก Accounting &gt; Journal Entries ค้นหาชื่อ Slab)</td>
+          <td class="col-expected">Slab เปลี่ยนสถานะเป็น "จอง" (Hold) ราคาต่อหน่วยในบรรทัด SO อัปเดตอัตโนมัติตาม Slab ที่เลือก (กรณี SO ยังเป็นใบเสนอราคา Draft — ถ้า SO ถูก Confirm ไปแล้ว ระบบล็อกยอดบรรทัดไว้ตามที่ตกลง: จำนวนแผ่น/ราคาต่อแผ่นเปลี่ยนตาม Slab แต่ยอดรวมของบรรทัดไม่เปลี่ยน ส่วนต่างดูได้ที่รายงาน Stone Slab &gt; Reports &gt; Slab Price Variance — อัปเดต 1 ต.ค. 2026) และมีรายการบัญชีค่าแรงกะประมาณเกิดขึ้นเงียบๆ เบื้องหลัง (เช็คได้จาก Accounting &gt; Journal Entries ค้นหาชื่อ Slab)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-result"><div class="result-box"><div class="result-check"><label><input type="checkbox">ผ่าน</label><label><input type="checkbox">ไม่ผ่าน</label></div><div class="result-note">หมายเหตุ:</div></div></td>
         </tr>
