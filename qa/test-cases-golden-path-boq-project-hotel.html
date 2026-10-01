@@ -123,7 +123,7 @@
     <b>เรื่องราวที่ใช้ทดสอบ:</b> ลูกค้าสมมติ "<b>SY Resort</b>" ว่าจ้างติดหินผนัง+พื้นโซน Lobby และ Pool Deck — ใช้ Rate ที่มีอยู่แล้วในระบบ (ผนัง ABSOLUTE BLACK, พื้น SPIDER GREEN) → สร้าง BOQ 4 บรรทัด (2 ต่อ Zone) พร้อม Preliminaries 3% + Performance Security 5% → ออกใบเสนอราคา → ติ๊ก Sold as Project → Confirm → ระบบสร้าง Project + 4 Task พร้อม Milestone → <b>เลือก Slab จริงจากสต๊อกทุกบรรทัด</b> ด้วยปุ่มใหม่ Auto-Select → Sync ราคา BOQ ให้ตรงต้นทุน Slab จริง → พิมพ์ใบเสนอราคาเห็นขนาด Slab จริง → ใส่ Task Template มาตรฐานในทุก Task → ปิดงานจริงจน Milestone ขึ้น Reached ครบทั้ง 2 Zone → กรอก Progress งานหนึ่งถึง 35% เห็นระบบคำนวณ "ยอดที่ควรวางบิลงวดนี้" เป็นตัวเงินจริงและแจ้งเตือนอัตโนมัติ → PM กดยืนยันพร้อมเก็บเงิน
   </div>
 
-  <div class="verified-note"><b>เอกสารนี้รันสดจริงผ่านหน้าจอ (Playwright, eg-tst):</b> ทุกภาพหน้าจอในตารางด้านล่างคือภาพจริงจากการรัน ไม่ใช่ mockup — Fixture จริง: BOQ <code>BOQ0044</code> → SO <code>S00340</code> (ยอดรวม ฿441,105.36 รวม VAT) → Project id <code>37</code> "SY Resort - S00340" → 4 Task จริง (252-255) + 20 Sub-task, ทุก Task ปิด Done ครบ, Milestone 2 ตัว Reached ทั้งคู่, Billing Stage id <code>3</code> บน Task 253 (Confirmed) — fixture นี้เก็บไว้ใช้ซ้ำได้บน <code>eg-tst</code><br><b>⚠️ ปรับลำดับขั้น 1 ต.ค. 2026:</b> การรันสดและภาพหน้าจอทั้งหมดทำก่อนมีฟีเจอร์ล็อกราคาหลัง Confirm (ลำดับเดิมคือ Confirm ก่อนแล้วค่อยเลือก Slab) — ตอนนี้เอกสารเรียงใหม่เป็น เลือก Slab → Sync → Confirm (TC-SYR-05 ถึง 09) ตัวเลขทุกตัวในเคสที่ปรับผ่านการรันซ้ำด้วยโค้ดบน <code>eg-tst</code> แล้ว (ได้ 441,105.36 และมูลค่า Task เท่าเดิมเป๊ะ) แต่ภาพหน้าจอของ TC-SYR-05 ถึง 09 ยังเป็นภาพชุดเดิม จึงอาจเห็นสถานะ "Sales Order" ในภาพแม้ขั้นนั้นใบยังเป็น Draft — จะถ่ายใหม่เมื่อรันสดซ้ำ</div>
+  <div class="verified-note"><b>เอกสารนี้รันสดจริงผ่านหน้าจอ (Playwright, eg-tst):</b> ทุกภาพหน้าจอในตารางด้านล่างคือภาพจริงจากการรัน ไม่ใช่ mockup — Fixture จริง: BOQ <code>BOQ0044</code> → SO <code>S00340</code> (ยอดรวม ฿441,105.36 รวม VAT) → Project id <code>37</code> "SY Resort - S00340" → 4 Task จริง (252-255) + 20 Sub-task, ทุก Task ปิด Done ครบ, Milestone 2 ตัว Reached ทั้งคู่, Billing Stage id <code>3</code> บน Task 253 (Confirmed) — fixture นี้เก็บไว้ใช้ซ้ำได้บน <code>eg-tst</code><br><b>ปรับลำดับขั้น + ถ่ายภาพใหม่ 1 ต.ค. 2026:</b> ลำดับเดิมคือ Confirm ก่อนแล้วค่อยเลือก Slab — ตอนนี้เป็น เลือก Slab → Sync → Confirm (TC-SYR-05 ถึง 09) เพราะหลัง Confirm ระบบล็อกยอดบรรทัดหิน ภาพ <b>TC-SYR-04 ถึง 09 ถ่ายใหม่จากการรันซ้ำบน <code>eg-tst</code></b> ด้วยลำดับใหม่ (fixture รอบสอง: BOQ <code>BOQ0090</code> → SO <code>S00413</code> → Project <code>46</code> ได้ยอด 412,248.00 / รวม VAT 441,105.36 และมูลค่า Task 57,600 / 108,000 / 76,800 / 108,000 ตรงทุกตัว) หมายเหตุ: ภาพ TC-SYR-07 และ 08 เป็นภาพ "ตารางบรรทัด" ตัดจากใบเดียวกันหลัง Confirm (ตัวเลขบรรทัดหินและบรรทัดสรุปเหมือนกับตอนยังเป็น Draft ทุกประการ) · ภาพ TC-SYR-01 ถึง 03 และ 10 ถึง 15 ยังเป็นภาพจากการรันรอบแรก (SO S00340) ซึ่งไม่ได้รับผลจากการเปลี่ยนลำดับ</div>
 
   <div class="new-note">
     <b>🆕 5 ฟีเจอร์ใหม่ที่เอกสารเดิมไม่เคยมี เพราะสร้างก่อนจะมีของจริง:</b>
@@ -192,8 +192,8 @@
           <td class="col-pre">ทำ TC-SYR-03 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>กดปุ่ม "สร้างใบเสนอราคา" บนหัว BOQ Document</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ได้ใบเสนอราคาใหม่ S00340 มี Section คั่นทั้ง 2 Zone field "BOQ Document" ชี้กลับไป BOQ0044</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
+          <td class="col-expected">ได้ใบเสนอราคาใหม่ S00413 มี Section คั่นทั้ง 2 Zone field "BOQ Document" ชี้กลับไป BOQ0090</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-04-quotation-draft.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-04-quotation-draft.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
@@ -203,7 +203,7 @@
           <td class="col-steps"><ol><li>แท็บ Other Info ติ๊ก "Sold as Project"</li><li>Save (ปล่อยสถานะเป็นใบเสนอราคา ยังไม่กด Confirm)</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">บันทึกสำเร็จ ใบยังเป็น Quotation (Draft) ยอดก่อนภาษี 365,310.00 บาท (รวม VAT 7% = 390,881.70) — บรรทัดหิน 4 บรรทัดยังเป็น จำนวน 1 × ราคาจาก BOQ (ผนัง Lobby 48,000 / พื้น Lobby 90,000 / ผนัง Pool Deck 60,000 / พื้น Pool Deck 112,500) บรรทัดสรุป 3 บรรทัด = 9,315 / 29,970 / 15,525</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-05-sold-as-project.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-05-sold-as-project.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -224,8 +224,8 @@
           <td class="col-pre">ทำ TC-SYR-05 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>บรรทัดผนัง Lobby กด "Select Slabs"</li><li>กดปุ่ม "Auto-Select Slabs"</li></ol></td>
           <td class="col-sample">ต้องการ 12.00 ตร.ม. ระบบเลือกให้ 3 แผ่น = 14.40 ตร.ม.</td>
-          <td class="col-expected">ระบบเลือก Slab จากสต๊อกจริงให้อัตโนมัติ 3 แผ่น (BLK-26-0265 #7/#8/#9) พร้อมข้อความเตือน "พื้นที่ที่เลือกยังไม่ตรงกับที่ต้องการ (เลือกแล้ว 14.40 ตร.ม. / ต้องการ 12.00 ตร.ม.)"</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-08-select-slabs-wizard.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-08-select-slabs-wizard.png">ดูภาพ</a></td>
+          <td class="col-expected">ระบบเลือก Slab จากสต๊อกจริงให้อัตโนมัติ 3 แผ่น (BLK-26-0265 #16/#17/#18) พร้อมข้อความเตือน "พื้นที่ที่เลือกยังไม่ตรงกับที่ต้องการ (เลือกแล้ว 14.40 ตร.ม. / ต้องการ 12.00 ตร.ม.)"</td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-06-select-slabs-wizard.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-06-select-slabs-wizard.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@
           <td class="col-steps"><ol><li>ทำ Select Slabs ให้ครบทั้ง 4 บรรทัด (ผนัง/พื้น × Lobby/Pool Deck)</li><li>ตรวจคอลัมน์ Slabs และ Quantity บนแต่ละบรรทัด</li></ol></td>
           <td class="col-sample">ผนัง Lobby 3 แผ่น×19,200=57,600 / พื้น Lobby 5 แผ่น×21,600=108,000 / ผนัง Pool Deck 4 แผ่น×19,200=76,800 / พื้น Pool Deck 5 แผ่น×21,600=108,000</td>
           <td class="col-expected">ทุกบรรทัดมีคอลัมน์ "Slabs" แสดงเลข Block+ขนาดจริงของทุกแผ่นที่เลือก ราคาบรรทัดคำนวณจากจำนวนแผ่น×ราคาต่อแผ่น ไม่ใช่ตร.ม.เดิมจาก BOQ · ยอดรวมใบก่อนภาษีขยับจาก 365,310.00 เป็น <b>405,210.00</b> (รวม VAT 7% = 433,574.70) เพราะ Slab จริงเกินพื้นที่ที่ BOQ ตั้งไว้ — ใบยังเป็น Draft จึงขยับตามได้ตามปกติ บรรทัดสรุป 3 บรรทัดยังเป็นค่าเดิม (9,315 / 29,970 / 15,525) รอ Sync ใน TC-SYR-08</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-07-lines-with-slabs.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-07-lines-with-slabs.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
       </tbody>
@@ -257,7 +257,7 @@
           <td class="col-steps"><ol><li>ที่แถบเตือนใต้ตาราง Order Lines กดลิงก์ "Recompute จาก Slab จริง (ใช้ % เดิม)"</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">บรรทัดสรุปยอด 3 บรรทัดคำนวณใหม่จาก Direct Cost จริง 405,210.00: Preliminaries (3%) = <b>10,512.00</b> · Project Management Fee = <b>33,816.00</b> · Performance Security (5%) = <b>17,520.00</b> · ยอดรวมใบก่อนภาษี = <b>412,248.00</b> (รวม VAT 7% = <b>441,105.36</b>) · แถบเตือน "ราคายังไม่ตรงกับต้นทุนจริง" หายไป</td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-08-after-sync.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-08-after-sync.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
         </tr>
       </tbody>
@@ -279,7 +279,7 @@
           <td class="col-steps"><ol><li>กด Confirm บนใบสั่งขาย</li><li>ถ้ามี popup เตือน ให้อ่านแล้วกด "Confirm ต่อ" (Slab เลือกครบแล้ว ปกติไม่ควรมีเตือนเรื่องสต๊อก)</li><li>กดปุ่ม smart button "Project" ดูผลลัพธ์</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">SO ยืนยันสำเร็จ (state = Sales Order) ยอดก่อนภาษี <b>412,248.00</b> (รวม VAT 7% = <b>441,105.36</b>) ตรงกับก่อนกด Confirm เป๊ะ · ระบบสร้าง Project + 4 Task ให้อัตโนมัติ โดยมูลค่าของ Task (Origin Sale Line Value) เป็นยอดหลังเลือก Slab: ผนัง Lobby <b>57,600</b> · พื้น Lobby <b>108,000</b> · ผนัง Pool Deck <b>76,800</b> · พื้น Pool Deck <b>108,000</b></td>
-          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-02-so-confirmed.png">ดูภาพ</a></td>
+          <td class="col-shot"><a class="shot-link" href="assets/golden-path-boq-project-hotel/sy-09-so-confirmed.png" target="_blank"><img class="shot-thumb" src="assets/golden-path-boq-project-hotel/sy-09-so-confirmed.png">ดูภาพ</a></td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
         </tr>
         <tr>
