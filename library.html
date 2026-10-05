@@ -155,19 +155,15 @@
           <li class="tree-doc"><a href="presentations/analytic-accounting.html"><span class="tree-doc-tag">1</span>กำไรรายโครงการ (Analytic Accounting)</a></li>
           <li class="tree-doc"><a href="presentations/wht-certificate.html"><span class="tree-doc-tag">2</span>ใบรับรองหัก ณ ที่จ่าย (WHT)</a></li>
           <li class="tree-doc"><a href="presentations/stone-cost-landed-cost.html"><span class="tree-doc-tag">3</span>ต้นทุนหินก้อน + Landed Cost</a></li>
+          <li class="tree-doc"><a href="presentations/price-lock-after-confirm.html"><span class="tree-doc-tag">4</span>ล็อกราคาหลังยืนยันใบสั่งขาย</a></li>
         </ul>
       </details>
 
       <details class="tree-cat" data-section="golden-path-test-cases" open>
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-block-slab-fg.html"><span class="tree-doc-tag">1</span>Golden Path — Block → Slab → FG (v2)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-lot-mode.html"><span class="tree-doc-tag">2</span>Golden Path — ขาย Lot-Mode (Slab คุมเป็น Lot)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-hotel.html"><span class="tree-doc-tag">3</span>Golden Path — BOQ + Project (SY Resort)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-boq.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">5</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">6</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-labor-cost.html"><span class="tree-doc-tag">7</span>Golden Path — ค่าแรง 4 สถานการณ์ (Self-Test)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">1</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">2</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
         </ul>
       </details>
 
@@ -211,8 +207,6 @@
       <details class="tree-cat" data-section="custom-workflow-design" open>
         <summary>Custom Workflow Design</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="presentations/workflow-design/stone-scan-barcode-migration.html"><span class="tree-doc-tag">D1</span>/stone-scan → Barcode App มาตรฐาน</a></li>
-          <li class="tree-doc"><a href="presentations/workflow-design/recompute-price-boq-explainer.html"><span class="tree-doc-tag">D2</span>"Recompute Price (BOQ)" ยังต้องใช้ไหม?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/standard-costing-explainer.html"><span class="tree-doc-tag">D3</span>ทำไมไม่ใช้ Standard/AVCO Cost?</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/block-density-weight-explainer.html"><span class="tree-doc-tag">D4</span>CBM → ตัน: ความหนาแน่นตามประเภทหิน</a></li>
           <li class="tree-doc"><a href="presentations/workflow-design/stone-cost-ton-purchase-calc.html"><span class="tree-doc-tag">D5</span>ซื้อหินเป็นตัน → คำนวณและกระจาย Cost อย่างไร</a></li>
@@ -235,14 +229,13 @@
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (29 บท)</a></li>
+          <li class="tree-doc"><a href="manual/30-block.html"><span class="tree-doc-tag">BK</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (30 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
           <div class="tree-subgroup-label">BOQ Estimation</div>
           <ul class="tree-docs">
-            <li class="tree-doc"><a href="presentations/boq-sold-as-project.html"><span class="tree-doc-tag">B1</span>BOQ Estimation + Sold-as-Project</a></li>
             <li class="tree-doc"><a href="presentations/boq-quickstart-sales.html"><span class="tree-doc-tag">B2</span>สำหรับทีมขายมือใหม่ (Quickstart)</a></li>
-            <li class="tree-doc"><a href="presentations/boq-quickstart-operations.html"><span class="tree-doc-tag">B3</span>สำหรับทีม Operation</a></li>
             <li class="tree-doc"><a href="presentations/boq-quickstart-setup.html"><span class="tree-doc-tag">B4</span>เตรียมระบบให้ทีมขายใช้งานได้</a></li>
             <li class="tree-doc"><a href="manual/boq-examples.html"><span class="tree-doc-tag">B5</span>ตัวอย่าง BOQ 5 แบบ</a></li>
           </ul>
@@ -364,6 +357,14 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="presentations/price-lock-after-confirm.html">
+      <div class="icon">4</div>
+      <div>
+        <div class="card-title">ล็อกราคาหลังยืนยันใบสั่งขาย</div>
+        <div class="card-desc">ราคาที่ลูกค้าตกลงตอนยืนยัน คือราคาที่จ่ายจริง แม้เลือกแผ่นหินจริงทีหลัง — พร้อมรายงานส่วนต่างราคาให้ผู้บริหาร</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="category" id="golden-path-test-cases">
@@ -372,45 +373,12 @@
       <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 จุดขาย/สวิตช์ ตามแนวคิด EG-321 — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
     </div>
 
-    <a class="card" href="qa/test-cases-golden-path-block-slab-fg.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">Golden Path — Block → Slab → Finished Goods (v2)</div>
-        <div class="card-desc">ตั้งค่า Material/ราคาใหม่ → ซื้อ Block (คำนวณ CBM/น้ำหนักอัตโนมัติ) → ขายครบทั้ง 3 ช่องทาง (Block ทั้งก้อน / Slab พร้อมขาย / BOQ-Project) → ผลิต FG หาแผ่นตรง spec อัตโนมัติ → ส่งของ → วางบิล — สร้างใหม่ทั้งชุดหลัง ADR-071/072/073 (24 test cases)</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
 
-    <a class="card" href="qa/test-cases-golden-path-lot-mode.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">Golden Path — ขายวัสดุแบบ Lot-Mode (Slab คุมสต็อกเป็น Lot)</div>
-        <div class="card-desc">ADR-072 Decision 4 — สต็อกจริงเปลี่ยนเป็นนับจำนวนแผ่น (ไม่ใช่ตร.ม.ตรงๆ), แก้บั๊ก oversell, เพิ่มยอด "ตร.ม. พร้อมขาย" บนหน้า Material และฟอร์ม Lot/Serial Number ของ Odoo เอง — เดินสดผ่าน Playwright บน eg-tst ครบ 5 test cases</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
 
-    <a class="card" href="qa/test-cases-golden-path-boq-project-hotel.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ + Project (SY Resort)</div>
-        <div class="card-desc">สร้างใหม่ทั้งฉบับแทนที่เอกสาร "Hotel Lift Lobby" เดิม (ไม่เคยมีสต๊อกจริงตอนทำ) — ครั้งแรกที่พิสูจน์ครบวงจรจริง: เลือก Slab จริงจากสต๊อก + ปุ่มใหม่ Auto-Select Slabs, Recompute ราคา BOQ ให้ตรงต้นทุน Slab จริงแบบ bulk, ใบเสนอราคาพิมพ์แสดงขนาด Slab จริง, ปิดงานจน Milestone Reached ครบ, และ Billing Stage เวอร์ชันใหม่ที่โชว์ยอดเงินที่ควรวางบิลจริง ไม่ใช่แค่ % — เดินสดผ่าน Playwright บน eg-tst (14 test cases)</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
 
-    <a class="card" href="qa/test-cases-golden-path-switch-boq.html">
-      <div class="icon">4</div>
-      <div>
-        <div class="card-title">Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</div>
-        <div class="card-desc">เดินครบทุกขั้นของสวิตช์ BOQ: เลือก Rate → นำเข้า Cut List จริง → วัสดุสิ้นเปลือง + ค่าแรงติดตั้งหน้างานรายโซน → ใบเสนอราคา → Confirm → ล็อกราคาไม่ให้เปลี่ยนเมื่อเลือก Slab จริง + รายงานส่วนต่าง · 21 เคส self-test ตัวเลขผ่านการรันจริงด้วยโค้ดบน eg-tst</div>
-        <div class="card-meta"><span class="card-date">1 ต.ค. 2026</span><span class="status-badge built">Self-test — ตัวเลข verify ด้วยโค้ดแล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
 
     <a class="card" href="qa/test-cases-golden-path-switch-project.html">
-      <div class="icon">5</div>
+      <div class="icon">1</div>
       <div>
         <div class="card-title">Golden Path — สวิตช์ Project (EG-321)</div>
         <div class="card-desc">เดิมเรียก "Mode 4 (Sold-as-Project)" — ตามแนวคิด EG-321 ไม่ใช่จุดขายที่ 4 แต่เป็นสวิตช์ที่แปะกับใบสั่งขายจุดขายไหนก็ได้ (Block/Slab/FG) เพื่อเปิดการติดตามงานเป็น Task + เก็บเงินเป็นงวดผ่าน Milestone (ADR-021, ปรับกลไก Milestone ใหม่ ADR-069) สาธิตด้วยสินค้าบริการ "Protection Works" แต่สวิตช์นี้ใช้ได้กับสินค้าจริงประเภทไหนก็ได้ ไม่ต้องมี BOQ ก็เปิดใช้ได้ — เดินสดผ่าน Playwright (6 test cases)</div>
@@ -420,7 +388,7 @@
     </a>
 
     <a class="card" href="qa/test-cases-golden-path-boq-project-combo.html">
-      <div class="icon">6</div>
+      <div class="icon">2</div>
       <div>
         <div class="card-title">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</div>
         <div class="card-desc">2 สวิตช์ (BOQ / Project) พิสูจน์แล้วว่าเป็นอิสระต่อกันในเอกสารสวิตช์ทั้ง 2 ข้างต้น — เอกสารนี้สาธิตเมื่อใช้ร่วมกันแบบที่ลูกค้าจริงต้องการ: เริ่มจาก Cutting List จริงที่ลูกค้าส่งมา → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project เพื่อติดตามงานเป็น Task ต่อ Zone พร้อม Milestone เก็บเงิน (13 test cases)</div>
@@ -429,15 +397,6 @@
       <div class="arrow">→</div>
     </a>
 
-    <a class="card" href="qa/test-cases-golden-path-labor-cost.html">
-      <div class="icon">7</div>
-      <div>
-        <div class="card-title">Golden Path — ค่าแรง 4 สถานการณ์ (Self-Test)</div>
-        <div class="card-desc">ทดสอบ 3 ฟีเจอร์ค่าแรงที่เพิ่งสร้างใหม่ (ติดตั้งพนักงานเอง / ว่าจ้างผู้รับเหมา Auto-RFQ / ตัดหินแบบมือ) ตั้งแต่ตั้งค่าบริษัท จนถึงรายการบัญชีจริง รวมทางแก้ไขเมื่อกรอกผิด — แต่ละหมวดมีกล่อง "ต้องเตรียมอะไรก่อน" บอก record ที่ต้องมีล่วงหน้าให้ non-technical user ตามได้เอง ไม่ต้องเดา ดูคำอธิบายหลักการคู่กันได้ที่เอกสาร "ค่าแรง 4 สถานการณ์" ในหมวด Workflow Design (11 test cases)</div>
-        <div class="card-meta"><span class="card-date">29 ก.ย. 2026</span><span class="status-badge built">รันสดผ่านหน้าจอจริงรอบแรกแล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
   </div>
 
   <div class="category" id="client-documents">
@@ -598,24 +557,6 @@
       <div class="category-title">Custom Workflow Design</div>
       <div class="category-sub">บันทึกจุดที่ EMG-O ใช้ Odoo standard กับจุดที่ต้อง custom เพิ่ม — เพิ่มทุกครั้งที่คุยกันได้ข้อสรุป</div>
     </div>
-    <a class="card" href="presentations/workflow-design/stone-scan-barcode-migration.html">
-      <div class="icon">D1</div>
-      <div>
-        <div class="card-title">/stone-scan → Barcode App มาตรฐาน</div>
-        <div class="card-desc">เทียบ flow ปัจจุบันกับที่เสนอ จุดไหน standard จุดไหนต้อง custom เพิ่ม พร้อมเหตุผลของแต่ละจุด</div>
-        <div class="card-meta"><span class="card-date">16 ส.ค. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/workflow-design/recompute-price-boq-explainer.html">
-      <div class="icon">D2</div>
-      <div>
-        <div class="card-title">"Recompute Price (BOQ)" — ยังต้องใช้ไหม?</div>
-        <div class="card-desc">ทดสอบสดผ่าน Playwright บนข้อมูลจริง (eg-odoo19-ee): ยังต้องใช้ปุ่มนี้อยู่ แต่พบ bug จริง — กดแล้วราคาพุ่งเกือบ 2 เท่าของยอด quote เดิม เพราะ conflict กับ ADR-024 ที่เพิ่มมาทีหลัง พร้อมข้อเสนอแก้สูตร</div>
-        <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span><span class="status-badge built">พบ Bug + แก้แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="presentations/workflow-design/standard-costing-explainer.html">
       <div class="icon">D3</div>
       <div>
@@ -695,39 +636,30 @@
       <div class="category-title">Draft Document</div>
       <div class="category-sub">ฉบับร่าง — ยังไม่ final</div>
     </div>
+    <a class="card" href="manual/30-block.html">
+      <div class="icon">BK</div>
+      <div>
+        <div class="card-title">Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่ 4 ต.ค.)</div>
+        <div class="card-desc">ตั้งแต่ซื้อ Block, รับของ กรอกขนาด, แก้ขนาด, คืนของ ไปจนถึงตัดเป็นแผ่น — ภาพหน้าจอจริงทุกขั้น</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (29 บท)</div>
+        <div class="card-title">คู่มือฉบับเต็ม (30 บท)</div>
         <div class="card-desc">ทุกโหมดการขาย (1-5), การจัดซื้อ, BOQ, Intercompany, Scan Station, WHT — แยกไฟล์รายบท พร้อม screenshot ทุกขั้นตอน</div>
       </div>
       <div class="arrow">→</div>
     </a>
     <div class="subgroup">
       <div class="subgroup-title">BOQ Estimation <span class="subgroup-sub">— เชื่อมโยงกับฟีเจอร์ ADR-031 (Cost Component Buckets + Split Quotation) แล้ว</span></div>
-      <a class="card" href="presentations/boq-sold-as-project.html">
-        <div class="icon">B1</div>
-        <div>
-          <div class="card-title">BOQ Estimation + Sold-as-Project (ฉบับเต็ม)</div>
-          <div class="card-desc">Rate Library → BOQ Document → ใบเสนอราคา → ผูกสินค้าจริง → Project + Gantt + วางบิลเป็นงวด → ดูกำไรจริง</div>
-          <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span><span class="status-badge confirmed">อัปเดต — link ADR-031</span></div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
       <a class="card" href="presentations/boq-quickstart-sales.html">
         <div class="icon">B2</div>
         <div>
           <div class="card-title">สำหรับทีมขายมือใหม่ (Quickstart)</div>
           <div class="card-desc">สมมติว่า Rate Library มีคนเตรียมไว้ให้หมดแล้ว — เหลือแค่ 3 ขั้นตอนที่ sale ต้องทำจริง จนถึงพิมพ์/ส่งออกให้ลูกค้า</div>
           <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span><span class="status-badge confirmed">อัปเดต — link ADR-031</span></div>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="presentations/boq-quickstart-operations.html">
-        <div class="icon">B3</div>
-        <div>
-          <div class="card-title">สำหรับทีม Operation (หลังลูกค้าตกลงซื้อ)</div>
-          <div class="card-desc">เลือกแผ่นจริง → Recompute Price → ส่งของ → ออกใบแจ้งหนี้ — งานต่อจากที่ทีมขายส่งมอบมา</div>
         </div>
         <div class="arrow">→</div>
       </a>
