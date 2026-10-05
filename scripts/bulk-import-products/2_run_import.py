@@ -142,6 +142,7 @@ for m in data['materials']:
             'categ_id': fg_category.id,
             'stone_is_fg': True,
             'stone_fg_material_id': material.id,
+            'uom_id': env.ref('uom.product_uom_square_meter').id,
             'default_code': m['fg_code'],
             'list_price': 0.0,
             'standard_price': 0.0,
