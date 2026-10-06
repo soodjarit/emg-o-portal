@@ -75,7 +75,7 @@ PAGE = '''<!doctype html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMG-O — Golden Path: FG Countertop (Slab=lot)</title>
+<title>EMG-O — Golden Path: FG (Countertop + Custom FG)</title>
 <style>
   :root{
     --copper:#B8763E;
@@ -170,7 +170,7 @@ PAGE = '''<!doctype html>
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-fg.xlsx" download="EMG-O Golden Path - FG Countertop (Slab=lot).xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-fg.xlsx" download="EMG-O Golden Path - FG (Countertop + Custom FG).xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -180,8 +180,8 @@ PAGE = '''<!doctype html>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Golden Path — FG Countertop (Slab=lot) (ชุดที่ 3 จาก 3)</h1>
-    <div class="sub">เรื่องราวของ FG แบบ Countertop (ท็อปครัวคิดเป็น ตร.ม.) ตั้งแต่ใบสั่งขายพร้อมรายชิ้นและงานแปรรูป → ใบสั่งผลิตที่ระบบเลือก Slab ให้ → ย้ายไปสถานีผลิต → บันทึกชิ้นที่ตัดได้และเศษ → ปิดงาน → เศษกลับเข้าสต็อก → ส่งของ → ออกใบแจ้งหนี้ — ใช้ Slab จากชุดที่ 2 · ชุดสุดท้ายของ 3 ชุด · รันจริงบน eg-tst 5 ต.ค. 2026</div>
+    <h1>Golden Path — FG (A: Countertop · B: Custom FG เจดีย์บัว)</h1>
+    <div class="sub">เรื่องราวของ FG 2 ประเภทในเอกสารเดียว — <b>A Countertop</b> (ท็อปครัวคิดเป็น ตร.ม. ตัดจาก Slab): ใบสั่งขายพร้อมรายชิ้นและงานแปรรูป → ใบสั่งผลิต → เศษกลับเข้าสต็อก → ส่งของ → ใบแจ้งหนี้ · <b>B Custom FG</b> (เจดีย์บัวประกอบจากหินหลายชนิด): โหลดสูตรจาก BOQ → Confirm ได้ใบสั่งผลิตครบ → ตัดหิน → ประกอบได้ Serial 1 ตัวต่อชิ้น → ส่งของ → ใบแจ้งหนี้ — FG ทั้งสองประเภทลงโซน Stone FG · ทุกขั้นรันจริงผ่านหน้าจอบน eg-tst 6 ต.ค. 2026 พร้อมภาพจริง</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -192,10 +192,13 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 5 ต.ค. 2026):</b> SO S00178 ลูกค้า Demo Hotel Customer ซื้อ Countertop GP Block Marble 3 ชิ้น (3.48 ตร.ม. × 12,000 = 41,760.00) + งานขอบโค้งมน 3.60 ม. + งานเจาะช่องเตา/ซิงค์ = 45,720.00 + VAT = 48,920.40 &rarr; Confirm ได้ใบสั่งผลิต EG01/STFG/00034 &rarr; ระบบเลือก Slab BLK-26-0006-3 และ -4 (7.50 ตร.ม. พอสำหรับงาน 3.83 ตร.ม. รวมเผื่อเสีย 10%) &rarr; ย้ายด่วนไปสถานีผลิต &rarr; Confirm &rarr; บันทึกเศษ 2 ก้อน (1.44 + 2.50 ตร.ม.) &rarr; Complete ได้ FG 3 Lot (ต้นทุน 1,153.44 = 331.45 ต่อ ตร.ม.) &rarr; เศษ OC-EG01/STFG/00034-01, -02 เข้า Returned - Inspect แล้วตรวจนำกลับไปขาย &rarr; ส่งของ EG01/OUT/00062 (ระบบจอง Lot ให้ครบ) &rarr; ใบแจ้งหนี้ INV/2026/00006 (Posted)<br><br>
-    <b>ข้อสังเกตจากการรันจริง:</b> (1) แท็บ Components ยังโชว์แผ่นมาตรฐานตามสูตร (Honed 3 cm) ที่ Not Available / Consumed 0.00 คู่กับแผ่นจริงที่ใช้ — แสดงผลเท่านั้น ไม่กระทบสต็อก (TC-GP-FG-06, 11) (2) ปิดงานได้โดยไม่ต้องกด Start ใน Work Orders — ขั้นตอนจับเวลาไม่ได้ทดสอบ (TC-GP-FG-08)<br><br>
-    <b>เจดีย์บัว (FG แบบ Serial) ยังไม่อยู่ในชุดนี้ — ทำผ่านหน้าจอไม่ได้ตลอดทาง:</b> (ก) สินค้าเจดีย์บัวไม่ได้ผูก "FG Raw Material" ไว้ ระหว่างรันผมตั้งเป็น GP Block Marble ราคา 8,500 VAT 7% ให้ (ข) พอ Confirm SO ระบบสร้างใบสั่งผลิตให้ แต่กด Complete FG Production ไม่ได้ ขึ้นว่า "Serial FG is not available yet" (ค) เส้นทางที่ระบบออกแบบไว้สำหรับของแกะสลัก คือ Cutting Plan → Assembly (Phase 5b) ซึ่งตอนนี้สร้างได้ด้วยโค้ดเท่านั้น ยังไม่มีปุ่มบนหน้าจอ — ไม่ได้แก้โค้ดสินค้า ยกเลิก S00179 และใบสั่งผลิตที่ลองไว้แล้ว<br><br>
-    <b>ของที่ค้างอยู่บน eg-tst:</b> Slab BLK-26-0006-5 อยู่ที่ Stone Production (ย้ายไปตอนลองเจดีย์บัว) · Slab BLK-26-0006-3, -4 ถูกใช้ไปแล้ว · เศษ OC-EG01/STFG/00034-01, -02 และ FG-EG01/STFG/00034-01..03 (ส่งแล้ว)
+    <b>เส้นทางที่รันจริง (eg-tst, 6 ต.ค. 2026):</b><br>
+    <b>A Countertop —</b> SO S00193 ลูกค้า A-test-customer ซื้อ GP Block Marble 3 ชิ้น (3.48 ตร.ม. × 12,000 = 41,760.00) + งานขอบโค้งมน 3.60 ม. + งานเจาะช่องเตา/ซิงค์ = 45,720.00 + VAT = 48,920.40 &rarr; ใบสั่งผลิต EG01/STFG/00046 (Slab BLK-26-0006-9, -10) &rarr; ย้ายด่วน &rarr; Confirm &rarr; บันทึกเศษ 2 ก้อน &rarr; Complete ได้ FG 3 Lot (ต้นทุนวัสดุ 1,153.44) ลงโซน Stone FG &rarr; เศษ OC-…-01, -02 ตรวจแล้วกลับไปขาย &rarr; ส่งของ EG01/OUT/00076 &rarr; ใบแจ้งหนี้ INV/2026/00011<br>
+    <b>B Custom FG —</b> SO S00194 เจดีย์บัว 3 ชิ้น × 50,000 = 150,000.00 + VAT = 160,500.00 &rarr; โหลด BOQ0023 (ต้นทุนประมาณ 960.92 ต่อชิ้น) &rarr; Confirm ได้งานประกอบ EG01/STFG/00047 + ใบตัดหิน EG01/STCPL/00011 (NERO 6 ชิ้น) และ 00012 (GP 3 ชิ้น) &rarr; ตัดเสร็จได้ WIP 2,899.80 + 1,215.00 &rarr; Produce ได้ Serial CB-00013..15 ชิ้นละ 1,502.10 (รวมวัสดุสิ้นเปลือง) ลงโซน Stone FG &rarr; ส่งของ EG01/OUT/00077 (จอง Serial ของงานนี้ให้เอง) &rarr; ใบแจ้งหนี้ INV/2026/00012<br><br>
+    <b>กติกาต้นทุนที่ใช้ทั้งสองเรื่อง:</b> ต้นทุนรวมของ FG (วัสดุ + วัสดุสิ้นเปลือง + ค่าแรง/แปรรูป) ต้องไม่ต่ำกว่า 50% ของยอดขาย — ค่าแรงเป็นอัตรามาตรฐานชั่วคราว ระบบเติมส่วนต่างให้ถึง 50% (TC-GP-FG-18, 32) ต้องปรับเป็นค่าแรงจริงก่อนใช้งานจริง<br><br>
+    <b>ข้อสังเกตจากการรันจริง:</b> (1) ขั้นตอน Work Orders (จับเวลา) ไม่ได้ทดสอบ ปิดงานได้โดยไม่ต้องกด Start · (2) กดปุ่มปิดงานตอน MO ยังเป็น Draft ไม่ได้แล้ว ต้อง Confirm ก่อน · (3) วัสดุสิ้นเปลือง (กาว/ซีลแลนท์) ต้องมีสต็อกที่ Stone Production จึงจะเข้าต้นทุน Serial · (4) งานแปรรูปแบบบริการยังไม่มีต้นทุนของตัวเอง ค่าแปรรูปเข้าต้นทุนผ่านค่าแรงของ FG<br>
+    <b>ไม่อยู่ในชุดนี้:</b> FG คืนของ · ข้ามบริษัท EG↔ES · แก้/ยกเลิกใบขายหลัง Confirm · ขั้นตอนจับเวลา Work Orders<br><br>
+    <b>ของที่ค้างอยู่บน eg-tst:</b> ข้อมูลทดสอบ S00184, 187–190 และ Serial รุ่นก่อน (CB-00001..12) · Slab BLK-26-0006-9, -10 และ NERO 1 แผ่นถูกใช้ไปแล้ว
   </div>
 
 __CATEGORY_BLOCKS__

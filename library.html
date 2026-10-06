@@ -164,7 +164,7 @@
         <ul class="tree-docs">
           <li class="tree-doc"><a href="qa/test-cases-golden-path-block.html"><span class="tree-doc-tag">1</span>Golden Path — Block (ใหม่ หลัง Slab = Lot)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-slab.html"><span class="tree-doc-tag">2</span>Golden Path — Slab (Slab=lot) (ชุดที่ 2 จาก 3)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-fg.html"><span class="tree-doc-tag">3</span>Golden Path — FG Countertop (Slab=lot) (ชุดที่ 3 จาก 3)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-fg.html"><span class="tree-doc-tag">3</span>Golden Path — FG: Countertop + Custom FG เจดีย์บัว (ชุดที่ 3 จาก 3)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">5</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
         </ul>
@@ -234,7 +234,8 @@
         <ul class="tree-docs">
           <li class="tree-doc"><a href="manual/30-block.html"><span class="tree-doc-tag">BK</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
           <li class="tree-doc"><a href="manual/31-slab.html"><span class="tree-doc-tag">SL</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
-          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (31 บท)</a></li>
+          <li class="tree-doc"><a href="manual/32-fg-countertop.html"><span class="tree-doc-tag">FG</span>FG Countertop — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (32 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
           <div class="tree-subgroup-label">BOQ Estimation</div>
@@ -402,8 +403,8 @@
     <a class="card" href="qa/test-cases-golden-path-fg.html">
       <div class="icon">3</div>
       <div>
-        <div class="card-title">Golden Path — FG Countertop (Slab=lot) (ชุดที่ 3 จาก 3: Block → Slab → FG)</div>
-        <div class="card-desc">ใบสั่งขาย Countertop พร้อมรายชิ้นและงานแปรรูป → ใบสั่งผลิตที่ระบบเลือก Slab ให้ → ย้ายไปสถานีผลิต → บันทึกชิ้นที่ตัดได้และเศษ → ปิดงาน → เศษกลับเข้าสต็อก → ส่งของ → ใบแจ้งหนี้ — 17 test cases รันจริงบน eg-tst พร้อมภาพหน้าจอและ Export Excel (เจดีย์บัว Serial ยังทำผ่านหน้าจอไม่ได้ ระบุไว้ในเอกสาร)</div>
+        <div class="card-title">Golden Path — FG: A Countertop + B Custom FG เจดีย์บัว (ชุดที่ 3 จาก 3: Block → Slab → FG)</div>
+        <div class="card-desc">เรื่องเดียว สอง FG: A ท็อปครัว (รายชิ้น + งานแปรรูป → ผลิต → เศษกลับสต็อก → ส่งของ → ใบแจ้งหนี้) และ B เจดีย์บัว (โหลดสูตรจาก BOQ → ตัดหิน → ประกอบได้ Serial → ส่งของ → ใบแจ้งหนี้) พร้อมตรวจต้นทุน · 32 เคส รันจริงบน eg-tst 6 ต.ค. 2026 พร้อมภาพจริง</div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -683,10 +684,18 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="manual/32-fg-countertop.html">
+      <div class="icon">FG</div>
+      <div>
+        <div class="card-title">FG Countertop — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่ 6 ต.ค.)</div>
+        <div class="card-desc">ตั้งแต่ใบสั่งขายชิ้นงาน + งานแปรรูป, ผลิตจาก Slab, เศษกลับเข้าสต็อก, ส่งของ ไปจนถึงใบแจ้งหนี้ — ภาพหน้าจอจริงทุกขั้น</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (31 บท)</div>
+        <div class="card-title">คู่มือฉบับเต็ม (32 บท)</div>
         <div class="card-desc">ทุกโหมดการขาย (1-5), การจัดซื้อ, BOQ, Intercompany, Scan Station, WHT — แยกไฟล์รายบท พร้อม screenshot ทุกขั้นตอน</div>
       </div>
       <div class="arrow">→</div>

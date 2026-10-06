@@ -42,9 +42,9 @@ ws0.sheet_view.showGridLines = False
 ws0.column_dimensions['B'].width = 4
 ws0.column_dimensions['C'].width = 60
 ws0.column_dimensions['D'].width = 40
-ws0['C2'] = 'EMG-O — Golden Path: FG Countertop (ชุดที่ 3 จาก 3)'
+ws0['C2'] = 'EMG-O — Golden Path: FG (A Countertop + B Custom FG เจดีย์บัว)'
 ws0['C2'].font = TITLE_FONT
-ws0['C3'] = 'Empire Stone × Empire Granite — stone_slab_inventory (odoo19-ent-mbx, EE) — post ADR-071/072/073'
+ws0['C3'] = 'Empire Stone × Empire Granite — stone_slab_inventory (odoo19-ent-mbx, EE) — stone_slab_inventory 2.108.0 + boq_estimation 1.24.0, run live 2026-10-06'
 ws0['C3'].font = Font(name='Calibri', italic=True, color='6B6E70')
 
 real_cases = [tc for c in CATEGORIES for tc in c['cases'] if not tc['id'].endswith('N/A')]
