@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: Slab (Slab=lot)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-slab.xlsx" download="EMG-O Golden Path - Slab (Slab=lot).xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#S1"><span class="tree-doc-tag">S1</span>ตัด Block เป็น Slab (Cut Order)</a></li><li class="tree-doc"><a href="#S2"><span class="tree-doc-tag">S2</span>รับ Slab สำเร็จรูปจากผู้ขาย (Purchase)</a></li><li class="tree-doc"><a href="#S3"><span class="tree-doc-tag">S3</span>ขาย Slab (Sales)</a></li><li class="tree-doc"><a href="#S4"><span class="tree-doc-tag">S4</span>ลูกค้าคืน Slab (Return)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — Slab (Slab=lot) (ชุดที่ 2 จาก 3)</h1>
+    <div class="sub">เรื่องราวของ Slab ตั้งแต่ตัด Block เป็น Slab (Cut Order) → ซื้อ Slab สำเร็จรูปจากผู้ขาย → ขายเป็นรายแผ่น → ส่งของโดยสแกน Serial → ออกใบแจ้งหนี้ → ลูกค้าคืน Slab แล้วตรวจนำกลับไปขาย — ใช้ Block ที่เหลือจากชุดที่ 1 ชุดถัดไปคือ FG · รันจริงบน eg-tst 5 ต.ค. 2026</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>18</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">17</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 5 ต.ค. 2026):</b> ใบตัด EG01/STCUT/00021 เลือก BLK-26-0006 (6.00 m³) &rarr; ย้ายไปสถานีตัด &rarr; เลือกเหตุผล &rarr; Confirm &rarr; Complete Cut ได้ 80 แผ่น (BLK-26-0006-1 ถึง -80, แผ่นละ 3.00 × 1.25 × 0.02 ม. = 3.75 ตร.ม., ต้นทุนแผ่นละ 1,215) &rarr; PO P00055 ซื้อ Slab สำเร็จรูป 4 แผ่น @ 1,300/ตร.ม. &rarr; รับของ EG01/IN/00057 กรอกขนาดจริง ได้ SLB-26-0001..0004 (มูลค่า 24,382.80) &rarr; SO S00174 ขาย 4 แผ่น (15.00 ตร.ม. × 4,500 = 67,500.00 + VAT = 72,225.00) &rarr; ส่งของ EG01/OUT/00058 (สแกน Serial) &rarr; INV/2026/00003 (ต้นทุนขาย 4,860.00) &rarr; ลูกค้าคืนทั้ง 4 แผ่น ใบรับคืน EG01/IN/00058 เข้า Returned - Inspect &rarr; ตรวจแล้วนำกลับไปขาย (Available)<br><br>
+    <b>ของที่เหลือไว้ให้ชุด FG:</b> Slab BLK-26-0006-1 ถึง -80 (80 แผ่น Available — 4 แผ่นแรกขายแล้วรับคืนกลับมา) และ SLB-26-0001..0004 พร้อมใช้ · Block BLK-26-0007 (5.04 m³) ยังไม่ถูกตัด<br><br>
+    <b>ข้อสังเกตจากการรันจริง 4 ข้อ (ไม่ใช่บั๊กที่ทำให้ flow ล้ม):</b> (1) ใบตัดที่ไม่มีใบสั่งขายต้องเลือก "Reason (No SO)" ก่อน Confirm — ดู TC-GP-SLB-03 (2) ใบส่งของ Slab ต้องสแกน Serial ทุกแผ่นก่อน Validate — ดู TC-GP-SLB-12 (3) ใบเสนอราคาใช้ขนาดมาตรฐาน 3.00 × 1.60 ทำให้ขึ้นแถบเตือน "ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า" เมื่อ Confirm — ดู TC-GP-SLB-11 (4) ใบรับคืน Slab ไม่เลือกแผ่นให้เอง ต้องระบุเองใน Details และแผ่นที่คืนจะเข้าสถานะ "รอตรวจ" ก่อน — ดู TC-GP-SLB-15 ถึง 18
+  </div>
+
+  <div class="category" id="S1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S1. ตัด Block เป็น Slab (Cut Order)</div>
+        <div class="category-sub">เปิดใบตัด → ย้าย Block ไปสถานีตัด → Confirm → ตัดเสร็จได้ Slab รายแผ่น · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-01</span></td>
+          <td class="col-scenario">สร้างใบตัด (Cut Order) แล้วเลือก Block ที่จะตัด</td>
+          <td class="col-pre">มี Block ในคลัง (จากชุด Block เช่น BLK-26-0006 ซึ่งมี 6.00 m³)</td>
+          <td class="col-steps"><ol><li>เปิดแอป Manufacturing &gt; Operations &gt; Manufacturing Orders &gt; New</li><li>ที่ "Stone Block" เลือก Block ที่จะตัด</li></ol></td>
+          <td class="col-sample">Stone Block = BLK-26-0006</td>
+          <td class="col-expected">ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ในแท็บ "Planned/Actual Slabs" = 80 แถว (แถวละ 1 แผ่น, 3.00 × 1.25 × 0.02 ม.) — Block 6.00 m³ ตัดได้ 80 แผ่นพอดี</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-01-cut-order-block.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-01-cut-order-block.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-02</span></td>
+          <td class="col-scenario">ย้าย Block ไปสถานีตัด (ย้ายด่วน)<div class="note">แถบเตือนสีส้มบนหน้าใบตัดจะเปลี่ยนเป็น "พร้อม Confirm แล้ว" เมื่อเปิดหน้านี้ใหม่ (รีเฟรช) — เป็นแค่ข้อความ ไม่กระทบการทำงาน</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-01 เสร็จแล้ว และกด Save แล้ว</td>
+          <td class="col-steps"><ol><li>บนใบตัด กดปุ่ม "ย้ายด่วน (Move to Production)"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบแจ้งเตือนสีเขียวว่า "ย้ายสำเร็จ Block BLK-26-0006 ย้ายไป Stone Production แล้ว 6.000 หน่วย — กด Confirm ได้เลย" (Block ถูกย้ายจาก Stone Available ไปสถานีตัดแล้ว)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-02-move-to-production.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-02-move-to-production.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-03</span></td>
+          <td class="col-scenario">เลือกเหตุผลของใบตัด แล้วกด Confirm<div class="note">ใบตัดที่ไม่ได้ผูกกับใบสั่งขาย ต้องเลือก "Reason (No SO)" ก่อนเสมอ ถ้าไม่เลือก ระบบจะไม่ให้ Confirm — กรณีตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)"</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ขั้นตอนที่ 3 ช่อง "Reason (No SO)" เลือกเหตุผล</li><li>กด Save</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">Reason (No SO) = อื่นๆ (Other)</td>
+          <td class="col-expected">ใบตัดเปลี่ยนสถานะเป็น In Progress (ใบตัดตัวอย่างจริง EG01/STCUT/00021) — ปุ่ม Complete Cut พร้อมใช้งาน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-03-confirm-reason.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-03-confirm-reason.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-04</span></td>
+          <td class="col-scenario">ตัดเสร็จ กด Complete Cut ได้ Slab ทุกแผ่น<div class="note">ต้นทุน Block ถูกแบ่งให้ทุกแผ่นเท่ากัน: Block 6.00 m³ ต้นทุน 97,200 บาท ÷ 80 แผ่น = 1,215 บาทต่อแผ่น (ตรวจจากต้นทุนขายตอนขายใน TC-GP-SLB-13) — ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ Actual L/H/Thickness ในแท็บ Planned/Actual Slabs ก่อนกดปุ่ม</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>(ถ้าตัดจริงได้ขนาดต่างจากแผน แก้ Actual L / H / Thickness ในแท็บ Planned/Actual Slabs)</li><li>กดปุ่ม "Complete Cut"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบแจ้งเตือนสีเขียว "Complete Cut สำเร็จ EG01/STCUT/00021 ตัดได้ 80 แผ่นจาก BLK-26-0006" · ใบตัดขึ้น Done · Quantity 80.00 · ปุ่ม Serial Numbers แสดง 80</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-04-complete-cut.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-04-complete-cut.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-05</span></td>
+          <td class="col-scenario">ตรวจ Slab ที่ตัดได้ในรายการ Slab<div class="note">ภาพตัวอย่างถ่ายหลังขาย 4 แผ่นไปแล้ว (TC-GP-SLB-10 ถึง 13) จึงแสดง 76 แผ่นที่ยัง Available — ตอนตัดเสร็จใหม่ๆ จะเห็น 80 แผ่น</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Slabs &gt; All Slabs</li><li>ที่ช่องค้นหาพิมพ์ชื่อ Block แล้วกด Enter</li></ol></td>
+          <td class="col-sample">ค้นหา = BLK-26-0006</td>
+          <td class="col-expected">เห็น Slab ชื่อ BLK-26-0006-1, -2, -3 … ต่อเนื่องไปถึง -80 แผ่นละบรรทัด ขนาด 3.00 × 1.25 × 0.020 ม. = 3.75 ตร.ม. (รวม 300 ตร.ม.) สถานะ Available คอลัมน์ Block ชี้กลับไปที่ BLK-26-0006</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-05-slab-list.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-05-slab-list.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="S2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S2. รับ Slab สำเร็จรูปจากผู้ขาย (Purchase)</div>
+        <div class="category-sub">ซื้อแผ่นสำเร็จรูปเป็นราคาต่อตร.ม. — ระบบคิดมูลค่าจากขนาดจริงของแต่ละแผ่น · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-06</span></td>
+          <td class="col-scenario">สร้างใบสั่งซื้อ (PO) Slab สำเร็จรูป ราคาต่อตารางเมตร แล้ว Confirm<div class="note">ช่อง "Qty (Sq.M)" ระบบคำนวณให้จากขนาดมาตรฐานของสินค้า (4 แผ่น × 4.80 = 19.20 ตร.ม.) เป็นแค่ปริมาณโดยประมาณ — มูลค่าจริงจะคิดจากขนาดที่วัดได้ตอนรับของ (TC-GP-SLB-07)</div></td>
+          <td class="col-pre">มีหินชนิดนี้ในระบบ (GP Block Marble จากชุด Block) · มีผู้ขายในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป Purchase &gt; New เลือก Vendor</li><li>กด "Add a product" เลือก "GP Block Marble - Slab"</li><li>ช่อง Quantity ใส่จำนวนแผ่น</li><li>ช่อง Price / Sq.M ใส่ราคาต่อตารางเมตร</li><li>กด Confirm Order</li></ol></td>
+          <td class="col-sample">Vendor = Demo Stone Supplier<br>Quantity = 4 แผ่น<br>Price / Sq.M = 1,300</td>
+          <td class="col-expected">PO ขึ้นสถานะ Purchase Order: Qty (Sq.M) 19.20, Quantity 4.00 · ยอดก่อน VAT 24,960.00 บาท, VAT 1,747.20, รวม 26,707.20 (ตัวอย่างจริง P00055) มีสมาร์ทปุ่ม Receipt 1 ใบ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-06-po-slab.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-06-po-slab.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-07</span></td>
+          <td class="col-scenario">รับของ กรอกขนาดจริงของแต่ละแผ่น แล้ว Validate</td>
+          <td class="col-pre">ทำ TC-GP-SLB-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ PO กดปุ่ม Receive เปิดใบรับของ</li><li>ที่แถวสินค้า กด "Details" จะเห็น 4 แถว (แถวละ 1 แผ่น)</li><li>แต่ละแถวกรอก กว้าง / ยาว / หนา ของแผ่นที่วัดได้จริง (ช่อง Lot/Serial เว้นว่างได้ ระบบตั้งชื่อให้เอง)</li><li>กด Save แล้วกด Validate</li></ol></td>
+          <td class="col-sample">แผ่น 1: กว้าง 1.58 × ยาว 2.95<br>แผ่น 2: กว้าง 1.60 × ยาว 3.00<br>แผ่น 3: กว้าง 1.55 × ยาว 2.90<br>แผ่น 4: กว้าง 1.60 × ยาว 3.00<br>หนาทุกแผ่น = 0.02 ม.</td>
+          <td class="col-expected">ใบรับของขึ้น Done (EG01/IN/00057) แยกเป็น 4 บรรทัดบรรทัดละ 1 แผ่น · ระบบตั้งชื่อ Lot ให้เอง SLB-26-0001 ถึง SLB-26-0004 · มูลค่าสต็อกรวม 24,382.80 บาท (= พื้นที่จริง 18.756 ตร.ม. × 1,300 — แผ่นละ 6,059.30 / 6,240.00 / 5,843.50 / 6,240.00)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-07-receipt-sizes.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-07-receipt-sizes.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-08</span></td>
+          <td class="col-scenario">ตรวจ Slab ที่รับเข้ามาในรายการ Slab</td>
+          <td class="col-pre">ทำ TC-GP-SLB-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Slabs &gt; All Slabs</li><li>ที่ช่องค้นหาพิมพ์ SLB-26 แล้วกด Enter</li></ol></td>
+          <td class="col-sample">ค้นหา = SLB-26</td>
+          <td class="col-expected">เห็น 4 แผ่น ขนาดและพื้นที่ตรงกับที่วัด: 1.58 × 2.95 = 4.66 · 1.60 × 3.00 = 4.80 · 1.55 × 2.90 = 4.50 · 1.60 × 3.00 = 4.80 ตร.ม. สถานะ Available (คอลัมน์ Block ว่าง เพราะซื้อมาเป็นแผ่นสำเร็จ ไม่ได้ตัดจาก Block ของเรา)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-08-received-slabs.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-08-received-slabs.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="S3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S3. ขาย Slab (Sales)</div>
+        <div class="category-sub">ขายเป็นรายแผ่น เลือก Slab ที่ต้องการ → ส่งของโดยสแกน Serial → ออกใบแจ้งหนี้ · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-09</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคา (SO) และเลือกสินค้า Slab</td>
+          <td class="col-pre">มี Slab พร้อมขายใน Stone Available · มีลูกค้าในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; New เลือกลูกค้า</li><li>กด "Add a product" เลือก "GP Block Marble - Slab"</li><li>ในหน้าต่าง Configure your product เลือก Finish และ Thickness แล้วกด Confirm</li><li>กด Save</li></ol></td>
+          <td class="col-sample">ลูกค้า = Demo Hotel Customer<br>Finish = Polished · Thickness = 2 cm</td>
+          <td class="col-expected">ได้บรรทัดสินค้า "GP Block Marble - Slab (Polished, 2 cm)" ราคา 4,500 บาท/ตร.ม. (ตอนนี้ยังเป็นขนาดมาตรฐาน 3.00 × 1.60 = 4.80 ตร.ม. → 21,600 บาท — ยอดจริงจะคำนวณใหม่เมื่อเลือกแผ่นในขั้นถัดไป) · บันทึกแล้วได้เลขที่ใบ S00174</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-09-so-configurator.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-09-so-configurator.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-10</span></td>
+          <td class="col-scenario">เลือก Slab ที่จะขาย (หน้าต่างเลือก Slab / Lot)</td>
+          <td class="col-pre">ทำ TC-GP-SLB-09 เสร็จแล้ว (บรรทัดสินค้าถูกบันทึกแล้ว)</td>
+          <td class="col-steps"><ol><li>ที่บรรทัดสินค้า กดปุ่มไอคอนรายการ "เลือก Slab / Select Slabs" ท้ายบรรทัด</li><li>ในหน้าต่าง กด "Add a line" แล้วเลือก Slab ทีละแผ่น (พิมพ์ชื่อแล้วเลือก) — ทำซ้ำจนครบ</li><li>กด "ยืนยันการเลือก"</li></ol></td>
+          <td class="col-sample">เลือก 4 แผ่น: BLK-26-0006-1, -2, -3, -4</td>
+          <td class="col-expected">หน้าต่างแสดงขนาด จำนวนที่ว่าง และตร.ม. ของแต่ละแผ่น พื้นที่ที่เลือกรวม 15.00 ตร.ม. · พอกดยืนยัน บรรทัดสินค้าเปลี่ยนเป็น "4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม." พร้อมรายชื่อแผ่นที่เลือก · ยอดก่อน VAT 67,500.00 บาท, VAT 4,725.00, รวม 72,225.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-10-select-slabs.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-10-select-slabs.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-11</span></td>
+          <td class="col-scenario">กด Confirm ใบสั่งขาย<div class="note">แถบสีแดง "ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า" ขึ้นเพราะใบเสนอราคาใช้ขนาดมาตรฐาน 3.00 × 1.60 (4.80 ตร.ม./แผ่น) แต่แผ่นจริงที่เลือกคือ 3.75 ตร.ม./แผ่น — ระบบล็อกยอดไว้ที่ 67,500 และเตือนเซลล์ให้แจ้งลูกค้า เป็นพฤติกรรมตามออกแบบ (ล็อกยอด ADR-079) ไม่ใช่ข้อผิดพลาด</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บนใบสั่งขาย</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">สถานะเป็น Sales Order · ยอดคงเดิม 67,500.00 + VAT 4,725.00 = 72,225.00 · มีสมาร์ทปุ่ม Delivery 1 ใบ และ Slabs 4 แผ่น · คอลัมน์ Delivered ยังเป็น 0.00 จาก 4.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-11-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-11-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-12</span></td>
+          <td class="col-scenario">ส่งของ: สแกน Serial ทุกแผ่นก่อน Validate<div class="note">ใบส่งของ Slab บังคับให้สแกน (หรือพิมพ์) ชื่อ Serial ของทุกแผ่นให้ตรงกับที่จะส่งก่อน Validate เพื่อกันส่งผิดแผ่น — ถ้ายังไม่สแกน ระบบจะแจ้งว่า "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate" พร้อมรายชื่อแผ่นที่ขาด (เจอจริงในรอบทดสอบนี้)</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ SO กดสมาร์ทปุ่ม Delivery</li><li>ที่แถวสินค้ากด "Details"</li><li>ที่คอลัมน์ "Scanned Serial" ของแต่ละแถว สแกนหรือพิมพ์ชื่อ Serial ให้ตรงกับแผ่นในแถวนั้น</li><li>กด Save แล้วกด Validate</li></ol></td>
+          <td class="col-sample">แถว 1 → BLK-26-0006-1<br>แถว 2 → BLK-26-0006-2<br>แถว 3 → BLK-26-0006-3<br>แถว 4 → BLK-26-0006-4</td>
+          <td class="col-expected">ใบส่งของขึ้น Done ปริมาณ 4.00 (ตัวอย่างจริง EG01/OUT/00058) ตัดสต็อกจาก Stone Available — Slab ทั้ง 4 แผ่นไม่อยู่ในรายการ Available อีกต่อไป (เหลือ 76 แผ่นของ BLK-26-0006)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-12-delivery-scanned.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-12-delivery-scanned.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-13</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ และตรวจรายการบัญชี (รายได้ + ต้นทุนขาย)</td>
+          <td class="col-pre">ทำ TC-GP-SLB-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ SO กด Create Invoice &gt; เลือก Regular invoice &gt; Create Draft</li><li>ที่ใบแจ้งหนี้ กด Confirm</li><li>เปิดแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ขึ้น Posted (INV/2026/00003) · รายการบัญชีสมดุลที่ 77,085.00: รายได้ 411100 = 67,500.00 · VAT ขาย 213200 = 4,725.00 · ลูกหนี้ 112100 = 72,225.00 · ต้นทุนขาย 511110 = 4,860.00 และตัดสต็อกออกจากบัญชี 113120 = 4,860.00 (= 4 แผ่น × 1,215 ตรงกับต้นทุนต่อแผ่นจาก TC-GP-SLB-04)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-13-invoice-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-13-invoice-journal.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="S4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">S4. ลูกค้าคืน Slab (Return)</div>
+        <div class="category-sub">ลูกค้าส่งแผ่นคืน → รับเข้าที่ "รอตรวจ" → ตรวจแล้วนำกลับไปขายได้อีก · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-14</span></td>
+          <td class="col-scenario">เปิดใบคืนจากใบส่งของ (Return)<div class="note">หน้าต่าง Return ขึ้นจำนวนเป็น 0.00 ตามที่ออกแบบ — ให้กด "Return All" (คืนทั้งหมด) หรือแก้จำนวนเอง ปลายทางของใบคืนถูกตั้งเป็น "Returned - Inspect" ให้อัตโนมัติ เพราะแผ่นที่ลูกค้าคืนต้องตรวจก่อนเสมอ</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-12 เสร็จแล้ว (ใบส่งของ EG01/OUT/00058 สถานะ Done)</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของที่สถานะ Done (จาก SO กดสมาร์ทปุ่ม Delivery)</li><li>กดปุ่ม "Return" ด้านบน</li><li>ในหน้าต่าง Return กดปุ่ม "Return All"</li></ol></td>
+          <td class="col-sample">คืนทั้ง 4 แผ่นของใบส่งของ EG01/OUT/00058</td>
+          <td class="col-expected">ระบบสร้างใบรับคืนใหม่ทันที (ตัวอย่างจริง EG01/IN/00058) สถานะ Ready · รับจาก Demo Hotel Customer · ปลายทาง Stone Inventory/Returned - Inspect · อ้างอิง "Return of EG01/OUT/00058" · Demand 4.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-14-return-wizard.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-14-return-wizard.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-15</span></td>
+          <td class="col-scenario">ระบุแผ่นที่ลูกค้าส่งคืนจริง (Details)<div class="note">ใบรับคืนของ Slab เริ่มต้นโดยไม่เลือกแผ่นไว้ให้ ผู้รับของต้องระบุเองว่าแผ่นไหนกลับมา (ดีกว่าให้ระบบเดา เพราะลูกค้าอาจคืนไม่ครบ) ช่อง Lot/Serial จะแสดงเฉพาะแผ่นที่ถูกส่งไปที่ลูกค้าเท่านั้น</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-14 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่แถวสินค้าของใบรับคืน กด "Details"</li><li>กด "Add a line" แล้วพิมพ์ชื่อ Slab เลือกจากรายการ ใส่จำนวน 1 — ทำซ้ำทีละแผ่น</li><li>กด Save</li></ol></td>
+          <td class="col-sample">BLK-26-0006-1, -2, -3, -4 (แผ่นละ 1)</td>
+          <td class="col-expected">ตาราง Detailed Operations แสดง 4 แถว ปลายทาง Store To ทุกแถวเป็น Stone Inventory/Returned - Inspect · รวม 4.00 Units ตรงกับ Demand</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-15-return-details.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-15-return-details.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-16</span></td>
+          <td class="col-scenario">กด Validate รับของคืน</td>
+          <td class="col-pre">ทำ TC-GP-SLB-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Validate บนใบรับคืน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบรับคืนขึ้น Done · Quantity 4.00 จาก Demand 4.00 · Effective Date เป็นเวลาที่กด · แชตด้านขวาบันทึก Ready → Done</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-16-return-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-16-return-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-17</span></td>
+          <td class="col-scenario">ตรวจว่า Slab ที่คืนอยู่ในสถานะ "รอตรวจ"</td>
+          <td class="col-pre">ทำ TC-GP-SLB-16 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Slabs &gt; All Slabs</li><li>ลบตัวกรอง "Available" ออก แล้วค้นหาชื่อ Slab ที่คืน</li><li>เปิดแผ่นที่คืน ดูช่อง Location และ Status</li></ol></td>
+          <td class="col-sample">BLK-26-0006-1</td>
+          <td class="col-expected">แผ่นที่คืนขึ้นสถานะ "Returned - Pending Inspection" (สีส้ม) อยู่ที่ Stone Inventory/Returned - Inspect · ยังไม่ถูกนับเป็นของพร้อมขาย (ไม่โผล่ในตัวกรอง Available) · แผ่นอื่นของ Block เดียวกันยังเป็น Available ตามเดิม</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-17-returned-pending.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-17-returned-pending.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SLB-18</span></td>
+          <td class="col-scenario">ตรวจแผ่นแล้ว นำกลับไปขายได้อีก<div class="note">ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม "ชำรุด — ตัดทิ้ง (Scrap)" แทน (ไม่ได้ทดสอบในชุดนี้ เพราะเป็นเส้นทางนอก Happy Path) การรับคืนในชุดนี้ยังไม่รวมการออกใบลดหนี้ (Credit Note) ให้ลูกค้า</div></td>
+          <td class="col-pre">ทำ TC-GP-SLB-17 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดหน้าของ Slab ที่คืน (ที่สถานะ Returned - Pending Inspection)</li><li>กดปุ่ม "ตรวจแล้ว — นำกลับไปขาย" ด้านบนซ้าย</li><li>ทำซ้ำกับแผ่นที่เหลือ</li></ol></td>
+          <td class="col-sample">BLK-26-0006-1, -2, -3, -4</td>
+          <td class="col-expected">สถานะเปลี่ยนเป็น Available · Location กลับเป็น Stone Inventory/Stone Available · ปุ่มตรวจแล้ว/ชำรุดหายไป · ต้นทุนยังเป็น 1,215.00 บาทเท่าเดิม · Slab กลับมาเลือกขายได้ใหม่ (BLK-26-0006 กลับเป็น 80 แผ่น Available)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-slab/gp-slab-18-inspect-ok.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-slab/gp-slab-18-inspect-ok.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

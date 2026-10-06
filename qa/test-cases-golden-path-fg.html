@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: FG Countertop (Slab=lot)</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-fg.xlsx" download="EMG-O Golden Path - FG Countertop (Slab=lot).xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#F1"><span class="tree-doc-tag">F1</span>ใบสั่งขาย Countertop (ท็อปครัว)</a></li><li class="tree-doc"><a href="#F2"><span class="tree-doc-tag">F2</span>ผลิต Countertop (FG Production)</a></li><li class="tree-doc"><a href="#F3"><span class="tree-doc-tag">F3</span>เศษหินกลับเข้าสต็อก</a></li><li class="tree-doc"><a href="#F4"><span class="tree-doc-tag">F4</span>ส่งของและเก็บเงิน Countertop</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — FG Countertop (Slab=lot) (ชุดที่ 3 จาก 3)</h1>
+    <div class="sub">เรื่องราวของ FG แบบ Countertop (ท็อปครัวคิดเป็น ตร.ม.) ตั้งแต่ใบสั่งขายพร้อมรายชิ้นและงานแปรรูป → ใบสั่งผลิตที่ระบบเลือก Slab ให้ → ย้ายไปสถานีผลิต → บันทึกชิ้นที่ตัดได้และเศษ → ปิดงาน → เศษกลับเข้าสต็อก → ส่งของ → ออกใบแจ้งหนี้ — ใช้ Slab จากชุดที่ 2 · ชุดสุดท้ายของ 3 ชุด · รันจริงบน eg-tst 5 ต.ค. 2026</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>17</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">15</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">2</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 5 ต.ค. 2026):</b> SO S00178 ลูกค้า Demo Hotel Customer ซื้อ Countertop GP Block Marble 3 ชิ้น (3.48 ตร.ม. × 12,000 = 41,760.00) + งานขอบโค้งมน 3.60 ม. + งานเจาะช่องเตา/ซิงค์ = 45,720.00 + VAT = 48,920.40 &rarr; Confirm ได้ใบสั่งผลิต EG01/STFG/00034 &rarr; ระบบเลือก Slab BLK-26-0006-3 และ -4 (7.50 ตร.ม. พอสำหรับงาน 3.83 ตร.ม. รวมเผื่อเสีย 10%) &rarr; ย้ายด่วนไปสถานีผลิต &rarr; Confirm &rarr; บันทึกเศษ 2 ก้อน (1.44 + 2.50 ตร.ม.) &rarr; Complete ได้ FG 3 Lot (ต้นทุน 1,153.44 = 331.45 ต่อ ตร.ม.) &rarr; เศษ OC-EG01/STFG/00034-01, -02 เข้า Returned - Inspect แล้วตรวจนำกลับไปขาย &rarr; ส่งของ EG01/OUT/00062 (ระบบจอง Lot ให้ครบ) &rarr; ใบแจ้งหนี้ INV/2026/00006 (Posted)<br><br>
+    <b>ข้อสังเกตจากการรันจริง:</b> (1) แท็บ Components ยังโชว์แผ่นมาตรฐานตามสูตร (Honed 3 cm) ที่ Not Available / Consumed 0.00 คู่กับแผ่นจริงที่ใช้ — แสดงผลเท่านั้น ไม่กระทบสต็อก (TC-GP-FG-06, 11) (2) ปิดงานได้โดยไม่ต้องกด Start ใน Work Orders — ขั้นตอนจับเวลาไม่ได้ทดสอบ (TC-GP-FG-08)<br><br>
+    <b>เจดีย์บัว (FG แบบ Serial) ยังไม่อยู่ในชุดนี้ — ทำผ่านหน้าจอไม่ได้ตลอดทาง:</b> (ก) สินค้าเจดีย์บัวไม่ได้ผูก "FG Raw Material" ไว้ ระหว่างรันผมตั้งเป็น GP Block Marble ราคา 8,500 VAT 7% ให้ (ข) พอ Confirm SO ระบบสร้างใบสั่งผลิตให้ แต่กด Complete FG Production ไม่ได้ ขึ้นว่า "Serial FG is not available yet" (ค) เส้นทางที่ระบบออกแบบไว้สำหรับของแกะสลัก คือ Cutting Plan → Assembly (Phase 5b) ซึ่งตอนนี้สร้างได้ด้วยโค้ดเท่านั้น ยังไม่มีปุ่มบนหน้าจอ — ไม่ได้แก้โค้ดสินค้า ยกเลิก S00179 และใบสั่งผลิตที่ลองไว้แล้ว<br><br>
+    <b>ของที่ค้างอยู่บน eg-tst:</b> Slab BLK-26-0006-5 อยู่ที่ Stone Production (ย้ายไปตอนลองเจดีย์บัว) · Slab BLK-26-0006-3, -4 ถูกใช้ไปแล้ว · เศษ OC-EG01/STFG/00034-01, -02 และ FG-EG01/STFG/00034-01..03 (ส่งแล้ว)
+  </div>
+
+  <div class="category" id="F1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F1. ใบสั่งขาย Countertop (ท็อปครัว)</div>
+        <div class="category-sub">เปิดใบสั่งขาย → ใส่รายการชิ้นงานและงานแปรรูป → ตรวจราคา → Confirm · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-01</span></td>
+          <td class="col-scenario">สร้างใบสั่งขาย แล้วเลือกสินค้า Countertop<div class="note">Countertop คิดเป็นตารางเมตร (m²) ตามชิ้นงานที่ลูกค้าสั่ง ไม่ใช่เป็นแผ่น — ตอนเลือกสินค้า จำนวนจะขึ้น 1.00 m² ไว้ก่อน แล้วถูกแทนที่ด้วยพื้นที่รวมของชิ้นงานในขั้นถัดไป</div></td>
+          <td class="col-pre">มีลูกค้า (Demo Hotel Customer) และสินค้า Countertop ที่ผูกกับวัสดุแล้ว (GP Block Marble ราคา 12,000 ต่อ m²)</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New</li><li>เลือก Customer</li><li>กด "Add a product" เลือกสินค้า Countertop</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer · Product = GP Block Marble</td>
+          <td class="col-expected">ใบเสนอราคาใหม่ (ตัวอย่างจริง S00178) มีบรรทัดสินค้า GP Block Marble หน่วย m² ราคา 12,000.00 ต่อหน่วย และมีไอคอนรายการชิ้นงานบนบรรทัด</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-01-so-product.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-01-so-product.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-02</span></td>
+          <td class="col-scenario">ใส่รายการชิ้นงาน (กว้าง × ยาว ของแต่ละชิ้น)</td>
+          <td class="col-pre">ทำ TC-GP-FG-01 เสร็จแล้ว และกด Save แล้ว</td>
+          <td class="col-steps"><ol><li>กดไอคอนรายชิ้น (ไอคอนรายการ) บนบรรทัดสินค้า</li><li>กดปุ่ม "New" แล้วกรอกรหัสชิ้น กว้าง ยาว และจำนวน</li><li>ทำซ้ำจนครบทุกชิ้น แล้วปิดหน้าต่าง</li></ol></td>
+          <td class="col-sample">A ท็อปครัว 2.40 × 0.65 · B เกาะกลาง 1.20 × 0.60 · C ท็อปอ่างล้างจาน 2.00 × 0.60 (ชิ้นละ 1)</td>
+          <td class="col-expected">ตารางรายชิ้นแสดง 3 ชิ้น พื้นที่ 1.56 + 0.72 + 1.20 = 3.48 ตร.ม. และจำนวนในใบสั่งขายเปลี่ยนเป็น 3.48 m² ตามพื้นที่จริงอัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-02-pieces.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-02-pieces.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-03</span></td>
+          <td class="col-scenario">เพิ่มงานแปรรูป (ขอบ / เจาะช่อง) ให้แต่ละชิ้น</td>
+          <td class="col-pre">ทำ TC-GP-FG-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่แถวของชิ้นงาน กดไอคอนประแจ (งานแปรรูป)</li><li>กด "Add a line" เลือกงานแปรรูป (เช่น งานขอบ โค้งมน) แล้วติ๊กด้านที่ทำขอบ</li><li>เพิ่มงานเจาะ/ตัดช่อง เลือกประเภท (ช่องเตา / ช่องซิงค์)</li><li>กด Save — ทำซ้ำกับชิ้นอื่น</li></ol></td>
+          <td class="col-sample">A: ขอบโค้งมนด้านกว้าง 1 (2.40 ม.) + ตัดช่องเตา · B: ขอบโค้งมนด้านกว้าง 1 (1.20 ม.) · C: ตัดช่องซิงค์</td>
+          <td class="col-expected">ระบบคำนวณความยาวขอบให้เองจากด้านที่ติ๊ก (A = 2.400, B = 1.200) และงานเจาะนับเป็นจุด (1.000) — ราคาตามชนิดงานแต่ละแบบ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-03-ops.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-03-ops.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-04</span></td>
+          <td class="col-scenario">ตรวจใบเสนอราคา — งานแปรรูปกลายเป็นบรรทัดบริการให้เอง</td>
+          <td class="col-pre">ทำ TC-GP-FG-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับมาที่หน้าใบเสนอราคา ดูบรรทัดสินค้าและยอดรวม</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใต้บรรทัดหิน 3.48 m² = 41,760.00 มีบรรทัดบริการเพิ่มให้เอง: งานขอบ โค้งมน 3.60 ม. @ 350 = 1,260.00 · งานเจาะ (ช่องเตา) 1 จุด = 1,500.00 · งานเจาะ (ช่องซิงค์) 1 จุด = 1,200.00 — รวมก่อน VAT 45,720.00 + VAT 7% = 48,920.40 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-04-quotation-total.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-04-quotation-total.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-05</span></td>
+          <td class="col-scenario">กด Confirm ยืนยันใบสั่งขาย</td>
+          <td class="col-pre">ทำ TC-GP-FG-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบเสนอราคาเปลี่ยนเป็น Sales Order · มีสมาร์ทปุ่มใหม่ "Delivery 1" และ "FG Production 1" ที่ด้านบน (ระบบสร้างใบสั่งผลิตฉบับร่างให้เองทันที)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-05-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-05-confirmed.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F2. ผลิต Countertop (FG Production)</div>
+        <div class="category-sub">เปิดใบสั่งผลิต → ระบบเลือก Slab ให้ → ย้ายไปสถานีผลิต → Confirm → บันทึกชิ้นที่ตัดได้ + เศษ → Complete · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-06</span></td>
+          <td class="col-scenario">เปิดใบสั่งผลิต FG — ระบบเลือก Slab ให้ครบพื้นที่<div class="note">แถบเตือนสีส้มและแท็บ Components ยังแสดงแผ่นมาตรฐานตามสูตร (Honed 3 cm, Not Available) ไว้ก่อน — จะถูกแทนที่ด้วยแผ่นที่เลือกจริงตอน Confirm เป็นแค่ข้อความ ไม่กระทบการทำงาน</div></td>
+          <td class="col-pre">ทำ TC-GP-FG-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>บน Sales Order กดสมาร์ทปุ่ม "FG Production"</li><li>เปิดแท็บ "Slab ที่จะตัด" ดูรายการ Slab และพื้นที่</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งผลิต EG01/STFG/00034 (Draft) — พื้นที่งาน 3.48 ตร.ม. · ต้องใช้รวมเผื่อเสีย 3.83 ตร.ม. (เผื่อเสีย 10% ตามที่ตั้งไว้ในบริษัท) · ระบบเลือก Slab ให้เอง 2 แผ่น (BLK-26-0006-3 และ -4 แผ่นละ 3.75 ตร.ม.) รวม 7.50 ตร.ม. พอสำหรับงาน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-06-mo-sources.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-06-mo-sources.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-07</span></td>
+          <td class="col-scenario">ย้าย Slab ไปสถานีผลิต (ย้ายด่วน)</td>
+          <td class="col-pre">ทำ TC-GP-FG-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "ย้ายด่วน (Move to Production)" บนใบสั่งผลิต</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ระบบแจ้งเตือนสีเขียว "ย้ายสำเร็จ ย้าย 2 lot ไป Stone Production แล้ว — กด Confirm ได้เลย" (Slab ทั้ง 2 แผ่นออกจาก Stone Available มาอยู่สถานีผลิต)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-07-move-to-production.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-07-move-to-production.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-08</span></td>
+          <td class="col-scenario">กด Confirm ใบสั่งผลิต<div class="note">แท็บ Work Orders มี 4 ขั้นตอน (ตัดตามแบบ → ทำขอบ → เจาะ/ตัดช่อง → ตรวจก่อนส่ง) แต่ไม่ต้องกด Start ทีละขั้นก็ปิดงานได้ ในชุดนี้ข้ามส่วนจับเวลา — ขั้นตอนเหล่านี้ไม่ได้ทดสอบ · ช่อง Component Status ยังขึ้น Not Available แม้ย้าย Slab มาแล้ว แต่ไม่ขวางการ Complete</div></td>
+          <td class="col-pre">ทำ TC-GP-FG-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งผลิตเป็น Confirmed · ข้อความนำทางสีฟ้าบอกขั้นถัดไป (กรอก FG Output แล้วกด Complete FG Production)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-08-mo-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-08-mo-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-09</span></td>
+          <td class="col-scenario">ตรวจรายการชิ้นที่ตัดได้จริง (FG Output)<div class="note">รายการนี้ถูกเติมให้จากชิ้นงานในใบสั่งขาย โรงงานแก้เฉพาะชิ้นที่ตัดออกมาไม่ตรง และความหนา 0.00 ไม่ต้องกรอก — ระบบใช้ความหนาของ Slab ที่ตัด (0.02 ม.) ให้เอง</div></td>
+          <td class="col-pre">ทำ TC-GP-FG-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแท็บ "FG Output" ดูรายการ</li><li>(ถ้าตัดจริงได้ขนาดต่างจากที่สั่ง แก้ Width/Length/Qty ในแถวนั้น)</li></ol></td>
+          <td class="col-sample">ตัดได้ตรงตามสั่ง จึงไม่ต้องแก้</td>
+          <td class="col-expected">มี 3 แถวตรงกับชิ้น A (2.40 × 0.65), B (1.20 × 0.60), C (2.00 × 0.60) พร้อมหมายเหตุงานแปรรูปของแต่ละชิ้น (เช่น งานขอบ × 2.4, ช่องเตา × 1) ให้ช่างอ่านตอนตัด</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-09-fg-output.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-09-fg-output.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-10</span></td>
+          <td class="col-scenario">บันทึกเศษหินที่เหลือจากการตัด</td>
+          <td class="col-pre">ทำ TC-GP-FG-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแท็บ "เศษที่เหลือ"</li><li>กด "Add a line" เลือก Slab ต้นทาง ใส่ กว้าง ยาว จำนวนชิ้น</li><li>ทำซ้ำสำหรับเศษแต่ละก้อน แล้วกด Save</li></ol></td>
+          <td class="col-sample">เศษจาก -3: 1.20 × 1.20 (1 ชิ้น) · เศษจาก -4: 2.00 × 1.25 (1 ชิ้น)</td>
+          <td class="col-expected">ตารางเศษแสดง 2 แถว พื้นที่ 1.44 และ 2.50 ตร.ม. รวม 3.94 ตร.ม. — คอลัมน์ต้นทุนยังเป็น 0.00 จนกว่าจะปิดงาน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-10-offcut-entry.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-10-offcut-entry.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-11</span></td>
+          <td class="col-scenario">กด Complete FG Production ปิดงานผลิต<div class="note">หลังปิดงาน แท็บ Components ยังมีแถวแผ่นมาตรฐานตามสูตร (Honed 3 cm) ที่ Consumed 0.00 คู่กับแถวแผ่นจริงที่ใช้ (Polished 2 cm, Consumed 2.00) — เป็นแค่การแสดงผล ไม่กระทบสต็อก</div></td>
+          <td class="col-pre">ทำ TC-GP-FG-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม "Complete FG Production"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แจ้งเตือนสีเขียว "Complete FG Production สำเร็จ EG01/STFG/00034 ผลิตสำเร็จ 3.48 หน่วย" · ใบสั่งผลิตขึ้น Done · Quantity 3.48 / 3.48 · Slab 2 แผ่นถูกใช้ไป (Consumed 2.00) · ได้ FG 3 Lot ตามขนาดชิ้น (FG-EG01/STFG/00034-01 ถึง -03) เข้าสต็อกคลัง และต้นทุนรวม 1,153.44 บาท (331.45 ต่อ m²) = ค่า Slab 2,430.00 หักส่วนของเศษ 1,276.56</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-11-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-11-mo-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F3. เศษหินกลับเข้าสต็อก</div>
+        <div class="category-sub">เศษที่เหลือกลายเป็น Lot ใหม่รอตรวจ → ตรวจแล้วนำกลับไปขาย · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-12</span></td>
+          <td class="col-scenario">ตรวจว่าเศษถูกบันทึกเป็น Lot ใหม่ในสถานะ "รอตรวจ"</td>
+          <td class="col-pre">ทำ TC-GP-FG-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Slabs &gt; All Slabs</li><li>ลบตัวกรอง "Available" ออก แล้วค้นหา "OC-EG01/STFG/00034"</li><li>เปิดเศษ OC-EG01/STFG/00034-01 ดู Location, Status และต้นทุน</li></ol></td>
+          <td class="col-sample">OC-EG01/STFG/00034-01</td>
+          <td class="col-expected">เศษแต่ละก้อนเป็น Lot ของตัวเอง ขนาดจริง (1.20 × 1.20 × 0.02 ม. = 1.44 ตร.ม.) · อยู่ที่ Stone Inventory/Returned - Inspect · Status "Returned - Pending Inspection" · ต้นทุน 466.56 บาท (ส่วนแบ่งตามพื้นที่) — ก้อนที่ 2 (2.00 × 1.25) ต้นทุน 810.00 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-12-offcut-pending.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-12-offcut-pending.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-13</span></td>
+          <td class="col-scenario">ตรวจเศษแล้วนำกลับไปขายได้<div class="note">ถ้าเศษแตกหรือใช้ไม่ได้ ให้กด "ชำรุด — ตัดทิ้ง (Scrap)" แทน (ไม่ได้ทดสอบในชุดนี้ เพราะนอก Happy Path)</div></td>
+          <td class="col-pre">ทำ TC-GP-FG-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดหน้าเศษที่สถานะ Returned - Pending Inspection</li><li>กดปุ่ม "ตรวจแล้ว — นำกลับไปขาย" ด้านบนซ้าย</li><li>ทำซ้ำกับเศษก้อนที่เหลือ</li></ol></td>
+          <td class="col-sample">OC-EG01/STFG/00034-01 และ -02</td>
+          <td class="col-expected">สถานะเปลี่ยนเป็น Available · Location เป็น Stone Inventory/Stone Available · ปุ่มตรวจแล้ว/ชำรุดหายไป · ต้นทุนยังเป็น 466.56 และ 810.00 บาทเท่าเดิม — เศษกลับมาขายเป็น Slab ขนาดเล็กได้</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-13-offcut-ok.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-13-offcut-ok.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="F4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">F4. ส่งของและเก็บเงิน Countertop</div>
+        <div class="category-sub">ใบส่งของ → Validate → ใบแจ้งหนี้ → Post · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-14</span></td>
+          <td class="col-scenario">เปิดใบส่งของ ตรวจว่าระบบจอง FG ถูก Lot</td>
+          <td class="col-pre">ทำ TC-GP-FG-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Sales Order กดสมาร์ทปุ่ม "Delivery"</li><li>ที่แถวสินค้า กด "Details" ดูรายการ Lot</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ EG01/OUT/00062 สถานะ Ready · Product Availability = Available · Detailed Operations ระบุ Lot ครบ 3 แถว: FG-EG01/STFG/00034-01 (1.56 m²), -02 (0.72 m²), -03 (1.20 m²) รวม 3.48 m² ตรงกับที่สั่ง — ไม่ต้องสแกนหรือเลือก Lot เอง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-14-delivery-details.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-14-delivery-details.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-15</span></td>
+          <td class="col-scenario">กด Validate ส่งของ</td>
+          <td class="col-pre">ทำ TC-GP-FG-14 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Validate บนใบส่งของ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของขึ้น Done · Quantity 3.48 จาก Demand 3.48 · มี Effective Date · ปุ่ม Traceability ปรากฏ (ย้อนดูได้ว่าสินค้ามาจาก Slab แผ่นไหน)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-15-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-15-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-16</span></td>
+          <td class="col-scenario">สร้างใบแจ้งหนี้จาก Sales Order</td>
+          <td class="col-pre">ทำ TC-GP-FG-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับไปที่ Sales Order กดปุ่ม "Create Invoice"</li><li>เลือก "Regular invoice" แล้วกด "Create Draft"</li></ol></td>
+          <td class="col-sample">Regular invoice</td>
+          <td class="col-expected">ได้ใบแจ้งหนี้ฉบับร่าง 4 บรรทัดตรงกับ Sales Order: GP Block Marble 3.48 m² = 41,760.00 · งานขอบ 3.60 ม. = 1,260.00 · งานเจาะช่องเตา 1,500.00 · งานเจาะช่องซิงค์ 1,200.00 — รวม 45,720.00 + VAT 3,200.40 = 48,920.40 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-16-invoice-draft.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-16-invoice-draft.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FG-17</span></td>
+          <td class="col-scenario">กด Confirm ใบแจ้งหนี้ให้ Posted</td>
+          <td class="col-pre">ทำ TC-GP-FG-16 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Confirm บนใบแจ้งหนี้</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ INV/2026/00006 เป็น Posted · ยอดค้างชำระ 48,920.40 บาท · บรรทัดหินติดแท็ก Analytic (Sale / Marble / GP Block Marble / BLK-26-0006) ทำให้รายงานต้นทุนอ้างอิงกลับไปถึง Block ต้นทางได้ · มีปุ่ม Pay และ Credit Note พร้อมใช้</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg/gp-fg-17-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg/gp-fg-17-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: Block</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-block.xlsx" download="EMG-O Golden Path - Block.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#B1"><span class="tree-doc-tag">B1</span>ตั้งค่าหินชนิดใหม่ (Setup)</a></li><li class="tree-doc"><a href="#B2"><span class="tree-doc-tag">B2</span>สั่งซื้อ Block (Purchase)</a></li><li class="tree-doc"><a href="#B3"><span class="tree-doc-tag">B3</span>รับ Block เข้าคลัง (Receipt)</a></li><li class="tree-doc"><a href="#B4"><span class="tree-doc-tag">B4</span>ดูและจัดการ Block</a></li><li class="tree-doc"><a href="#B5"><span class="tree-doc-tag">B5</span>ขาย Block ทั้งก้อน (Sell Whole Block)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — Block (ชุดที่ 1 จาก 3)</h1>
+    <div class="sub">เรื่องราวของ Block ตั้งแต่ตั้งค่าหินชนิดใหม่ → สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน → ดู/แก้ขนาด → ขายทั้งก้อน → ส่งของ → ออกใบแจ้งหนี้ — สร้างใหม่หลังปรับแนวคิด Slab = Lot (ADR-087) ชุดถัดไปคือ Slab แล้ว FG · รันจริงบน eg-tst 5 ต.ค. 2026</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>12</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">9</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">3</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 5 ต.ค. 2026):</b> Material "GP Block Marble" (Quick Setup) &rarr; ตั้งราคาขาย Block 45,000/m³ &rarr; PO P00054 (40 ตัน = 14.81 m³ @ 6,000/ตัน, 239,922.00 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00050 กรอก 2 ก้อน (BLK-26-0006 6.24 m³, BLK-26-0007 5.04 m³) &rarr; Validate + Backorder &rarr; รับก้อนที่ 3 จาก EG01/IN/00052 (BLK-26-0008 3.53 m³) &rarr; แก้ขนาด BLK-26-0006 สูง 1.30&rarr;1.25 (6.24&rarr;6.00 m³) &rarr; ขาย BLK-26-0008 ทั้งก้อน SO S00173 (158,850.00 + VAT = 169,969.50) &rarr; ส่งของ EG01/OUT/00057 &rarr; INV/2026/00001 (ต้นทุนขาย 57,186.00)<br><br>
+    <b>ของที่เหลือไว้ให้ชุด Slab:</b> BLK-26-0006 (6.00 m³) และ BLK-26-0007 (5.04 m³) ยังอยู่ใน Stone Available พร้อมตัด<br><br>
+    <b>ข้อสังเกตจากการรันจริง 2 ข้อ (ไม่ใช่บั๊กที่ทำให้ flow ล้ม):</b> (1) Quick Material Setup ไม่ถามราคาขาย Block ถ้าลืมตั้ง ระบบจะเตือนตอน Validate ใบรับของ — ดู TC-GP-BLK-02 (2) สต็อก Block ถูกบันทึกในบัญชี "Inventory - Stone Slabs (Ready-Made)" — ดู TC-GP-BLK-12
+  </div>
+
+  <div class="category" id="B1">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B1. ตั้งค่าหินชนิดใหม่ (Setup)</div>
+        <div class="category-sub">สร้างหิน 1 ชนิดพร้อมสินค้า Block และตั้งราคาขายต่อลูกบาศก์เมตร · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-01</span></td>
+          <td class="col-scenario">สร้างหินชนิดใหม่ด้วย Quick Material Setup พร้อมสินค้า Block</td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite ได้แล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Tools &gt; Quick Material Setup</li><li>กรอกชื่อหิน เลือก Category ใส่ความหนาแน่น และราคาขาย/ต้นทุน Slab</li><li>เลื่อนลงล่างสุด ติ๊ก "BLOCK PRODUCT (ขายทั้งก้อนได้)"</li><li>กด "Create All"</li></ol></td>
+          <td class="col-sample">ชื่อ = GP Block Marble<br>Category = Marble<br>Density = 2.7 ตัน/ลบ.ม.<br>Slab Sales Price = 4,500 · Slab Cost = 3,000<br>ติ๊ก Block Product</td>
+          <td class="col-expected">ระบบเปิดหน้า Material ใหม่ พร้อมตาราง LINKED PRODUCTS ที่มีแถว Slab (By Unique Serial Number) และแถว Block (By Lots) — Block ถูกคุมสต็อกเป็น Lot</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-01-material-created.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-01-material-created.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-02</span></td>
+          <td class="col-scenario">ตั้งราคาขายของสินค้า Block ต่อลูกบาศก์เมตร (ก่อนรับของ)<div class="note">⚠️ ต้องทำก่อนรับของ: หินที่ติ๊ก "ขายทั้งก้อนได้" ต้องมีราคาขายต่อลบ.ม. ถ้าลืม ระบบจะไม่ยอมให้ Validate ใบรับของ และแจ้งว่า "กรุณากรอกราคาขาย/คิว ก่อนบันทึก Block" (พบจริงในรอบทดสอบนี้ — Quick Setup ยังไม่ถามราคานี้ให้)</div></td>
+          <td class="col-pre">ทำ TC-GP-BLK-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Inventory &gt; Products &gt; "GP Block Marble - Block"</li><li>ช่อง Sales Price (ต่อ m³) กรอกราคา</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Sales Price = 45,000 บาท ต่อ m³</td>
+          <td class="col-expected">บันทึกราคา 45,000.00 ต่อ m³ ได้ — ราคานี้จะถูกใส่เป็น "Sales Price / CBM" ให้ทุก Block ที่รับเข้ามาใหม่อัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-02-block-price.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-02-block-price.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B2">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B2. สั่งซื้อ Block (Purchase)</div>
+        <div class="category-sub">ซื้อเป็นตัน — ระบบแปลงเป็นลูกบาศก์เมตรให้เอง · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-03</span></td>
+          <td class="col-scenario">สร้างใบสั่งซื้อ (PO) Block เป็นตัน แล้ว Confirm<div class="note">ช่อง "จำนวน" บน PO คือปริมาณโดยประมาณที่สั่ง ไม่ใช่จำนวนก้อน — ขนาดจริงของแต่ละก้อนจะกรอกตอนรับของ ปริมาตรที่ระบบคำนวณปัดทศนิยม 2 ตำแหน่ง (40 ตัน แสดงเป็น 39.99 ตัน = 14.81 ลบ.ม.)</div></td>
+          <td class="col-pre">ทำ TC-GP-BLK-02 เสร็จแล้ว · มีผู้ขายในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป Purchase &gt; New</li><li>เลือก Vendor แล้วกด "Add a product" เลือก "GP Block Marble - Block"</li><li>กรอก Qty (Ton) และ Price / Ton — ช่อง Quantity (m³) และ Price/m³ คำนวณให้เอง</li><li>กด Confirm Order</li></ol></td>
+          <td class="col-sample">Vendor = Demo Stone Supplier<br>Qty (Ton) = 40<br>Price / Ton = 6,000</td>
+          <td class="col-expected">PO ขึ้นสถานะ Purchase Order — Quantity 14.81 m³, ราคา 16,200 ต่อ m³ (=6,000×2.7), ยอดก่อน VAT 239,922.00 บาท มีปุ่ม Receive และสมาร์ทปุ่ม Receipt 1 ใบ (ตัวอย่างจริง P00054)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-03-po-line.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-03-po-line.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B3">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B3. รับ Block เข้าคลัง (Receipt)</div>
+        <div class="category-sub">หัวใจของชุดนี้ — 1 แถว = 1 ก้อนจริง กรอกขนาดที่วัดได้จริง · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-04</span></td>
+          <td class="col-scenario">เปิดใบรับของ แล้วกรอกขนาดจริงของ Block 2 ก้อน</td>
+          <td class="col-pre">ทำ TC-GP-BLK-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ PO กดปุ่ม Receive เปิดใบรับของ (ปลายทาง = Stone Available)</li><li>ที่แถวสินค้า Block กด "Details"</li><li>แถวแรกกรอก ยาว × กว้าง × สูง ของก้อนที่ 1</li><li>กด "Add a line" แล้วกรอกขนาดของก้อนที่ 2</li><li>กด Save</li></ol></td>
+          <td class="col-sample">ก้อน 1: ยาว 3.0 × กว้าง 1.6 × สูง 1.3 ม.<br>ก้อน 2: ยาว 2.8 × กว้าง 1.5 × สูง 1.2 ม.</td>
+          <td class="col-expected">ระบบคำนวณปริมาตรและน้ำหนักให้ทุกแถว: ก้อน 1 = 6.24 m³ / 16.85 ตัน, ก้อน 2 = 5.04 m³ / 13.61 ตัน, รวม 11.28 m³ — กลับมาที่ใบรับของแถว Block แสดง Quantity 11.28 จากความต้องการ 14.81</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-04-details-sizes.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-04-details-sizes.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-05</span></td>
+          <td class="col-scenario">กด Validate รับของ (รับยังไม่ครบ → สร้าง Backorder)<div class="note">รับ 11.28 จากที่สั่ง 14.81 — Odoo ถามว่าจะรับส่วนที่เหลือทีหลังไหม เลือก "Create Backorder" เพื่อให้เหลือใบรับสำหรับก้อนที่ยังไม่มาถึง</div></td>
+          <td class="col-pre">ทำ TC-GP-BLK-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดปุ่ม Validate บนใบรับของ</li><li>เมื่อมีหน้าต่าง "Create Backorder?" กด "Create Backorder"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบรับของขึ้น Done · ระบบแจ้งเตือนสีเขียวว่า "สร้าง Block สำเร็จ BLK-26-0006 รับสต็อกเข้าคลังแล้ว 6.240 m3" และ BLK-26-0007 (5.040 m3) · ระบบสร้างใบรับใหม่ (Backorder) สำหรับส่วนที่เหลือให้อัตโนมัติ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-05-validate-backorder.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-05-validate-backorder.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-06</span></td>
+          <td class="col-scenario">ตรวจว่าได้ Block 2 ก้อนในระบบ และ PO ขึ้นยอดรับแล้ว</td>
+          <td class="col-pre">ทำ TC-GP-BLK-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Blocks</li><li>ดูการ์ด Block ที่เพิ่งเกิด</li><li>กลับไปที่ PO ดูคอลัมน์ Received</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">มี Block ใหม่ 2 ใบ: BLK-26-0006 (เหลือ 6.24 CBM / 16.85 ตัน) และ BLK-26-0007 (เหลือ 5.04 CBM / 13.61 ตัน) ชื่อหินและผู้ขายถูกต้อง · PO แสดง Received = 11.28 จาก 14.81</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-06-blocks-list.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-06-blocks-list.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-07</span></td>
+          <td class="col-scenario">รับ Block ก้อนที่ 3 จากใบ Backorder จนครบ</td>
+          <td class="col-pre">ทำ TC-GP-BLK-05 เสร็จแล้ว (มีใบ Backorder)</td>
+          <td class="col-steps"><ol><li>เปิดใบรับของที่เป็น Backorder (จากสมาร์ทปุ่ม Receipt บน PO)</li><li>กด Details กรอกขนาดก้อนที่ 3 แล้ว Save</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">ก้อน 3: ยาว 2.0 × กว้าง 1.47 × สูง 1.2 ม.</td>
+          <td class="col-expected">ได้ BLK-26-0008 (3.528 m³ / 9.53 ตัน) ใบรับขึ้น Done และไม่ถามเรื่อง Backorder อีก · PO แสดง Received = 14.81 ครบ (ตัวอย่างจริง: Backorder EG01/IN/00052)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-07-backorder-received.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-07-backorder-received.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B4">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B4. ดูและจัดการ Block</div>
+        <div class="category-sub">ดูข้อมูลของ Block และแก้ขนาดเมื่อวัดผิด · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-08</span></td>
+          <td class="col-scenario">เปิดหน้า Block ดูขนาด ปริมาตร น้ำหนัก ต้นทุน และที่มา</td>
+          <td class="col-pre">ทำ TC-GP-BLK-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Blocks</li><li>คลิกการ์ด BLK-26-0006</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เห็น Material = GP Block Marble, ผู้ขาย, ใบ PO ที่มา (P00054), ขนาด 3.00 × 1.60 × 1.30 ม., Total CBM 6.24, น้ำหนัก 16.85 ตัน, ราคาขาย 45,000/CBM, ต้นทุน PO 16,200/CBM, Lot BLK-26-0006-BLK, คงเหลือ 6.24, ประมาณการผลผลิตแผ่น 312 ตร.ม. (65 แผ่น) · ปุ่ม "แก้ขนาด" อยู่ด้านซ้ายบน</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-08-block-form.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-08-block-form.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-09</span></td>
+          <td class="col-scenario">แก้ขนาด Block ที่วัดผิด (ผู้จัดการคลัง) พร้อมเหตุผล<div class="note">ใช้ได้เฉพาะ Inventory Manager และต้องใส่เหตุผลทุกครั้ง — ระบบปรับสต็อกส่วนต่างด้วยการปรับสต็อกมาตรฐานของ Odoo และเก็บประวัติให้</div></td>
+          <td class="col-pre">ทำ TC-GP-BLK-08 เสร็จแล้ว · Block นี้ยังไม่ถูกตัด</td>
+          <td class="col-steps"><ol><li>เปิด Block BLK-26-0006 กดปุ่ม "แก้ขนาด"</li><li>ในช่อง "สูงใหม่" ใส่ความสูงที่วัดซ้ำได้</li><li>เขียนเหตุผลที่แก้</li><li>กดปุ่ม "แก้ขนาด" ในหน้าต่าง</li><li>เปิดแท็บ "ประวัติแก้ขนาด"</li></ol></td>
+          <td class="col-sample">สูงใหม่ = 1.25 ม. (เดิม 1.30)<br>เหตุผล = วัดซ้ำหน้างาน ความสูงจริง 1.25 ม. (กรอกตอนรับของผิด)</td>
+          <td class="col-expected">Total CBM เปลี่ยน 6.24 → 6.00 · แท็บประวัติมี 1 แถว: เวลา, ผู้แก้, ขนาดเดิม/ใหม่, CBM เดิม/ใหม่, ปรับสต็อก −0.24, พร้อมเหตุผล</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-09-resize-history.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-09-resize-history.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B5">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B5. ขาย Block ทั้งก้อน (Sell Whole Block)</div>
+        <div class="category-sub">ขาย → ส่งของ → ออกใบแจ้งหนี้ และตรวจต้นทุนขาย · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-10</span></td>
+          <td class="col-scenario">สร้างใบสั่งขาย เลือก "Sell Whole Block" แล้ว Confirm</td>
+          <td class="col-pre">มี Block ที่ยังไม่ถูกตัด (เช่น BLK-26-0008) · มีลูกค้าในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; New เลือกลูกค้า</li><li>Add a product เลือก "GP Block Marble - Block" แล้วกด Save</li><li>ที่บรรทัดสินค้ากดลิงก์ "Sell Whole Block"</li><li>ในหน้าต่าง Select Block เลือกก้อนที่ต้องการ แล้วกด "Confirm Selection"</li><li>กด Confirm</li></ol></td>
+          <td class="col-sample">ลูกค้า = Demo Hotel Customer<br>Block = BLK-26-0008</td>
+          <td class="col-expected">จำนวนและราคาขึ้นให้เองจากปริมาตรจริง: 3.53 m³ × 45,000 = 158,850.00 บาท (+ VAT 11,119.50 = 169,969.50) · SO เป็น Sales Order และมีสมาร์ทปุ่ม Delivery 1 ใบ (ตัวอย่างจริง S00173)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-10-so-line.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-10-so-line.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-11</span></td>
+          <td class="col-scenario">ส่งของ (Delivery) Block ให้ลูกค้า</td>
+          <td class="col-pre">ทำ TC-GP-BLK-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ SO กดสมาร์ทปุ่ม Delivery</li><li>ตรวจว่า Source Location = Stone Available แล้วกด Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของขึ้น Done ปริมาณ 3.53 m³ / 9.53 ตัน ตัดสต็อกออกจาก Stone Available (ตัวอย่างจริง EG01/OUT/00057)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-11-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-11-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BLK-12</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ และตรวจรายการบัญชี (รายได้ + ต้นทุนขาย)<div class="note">ข้อสังเกตสำหรับฝ่ายบัญชี: ในรอบทดสอบนี้ สต็อก Block ถูกตัดจากบัญชี 113120 "Inventory - Stone Slabs (Ready-Made)" ซึ่งชื่อเป็นของ Slab — ยอดตัวเลขถูกต้อง แต่ควรให้ฝ่ายบัญชีดูว่าต้องการแยกบัญชีสต็อก Block หรือไม่ (ยังไม่ได้ตัดสินใจ)</div></td>
+          <td class="col-pre">ทำ TC-GP-BLK-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ SO กด Create Invoice &gt; เลือก Regular invoice &gt; Create Draft</li><li>ที่ใบแจ้งหนี้ กด Confirm</li><li>เปิดแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ขึ้น Posted (INV/2026/00001) · รายการบัญชีสมดุลที่ 227,155.50: รายได้ 411100 = 158,850.00 · ต้นทุนขาย 511110 = 57,186.00 (=3.53 × 16,200 ตรงกับต้นทุน PO) · ตัดสต็อก 113120 = 57,186.00 · VAT 213200 = 11,119.50 · ลูกหนี้ 112100 = 169,969.50</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block/gp-blk-12-invoice-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block/gp-blk-12-invoice-journal.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>30. Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 30 / 31</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 31 บท</div>
+    <div class="nav-section">ภาพรวม</div>
+    <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="30-block.html" class="nav-link active"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="05-sell-fabrication.html" class="nav-link"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="08-intercompany.html" class="nav-link"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="14-cut-to-order.html" class="nav-link"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ส่งของ & ต้นทุน</div>
+    <a href="06-delivery.html" class="nav-link"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <div class="nav-section">ฟีเจอร์เสริม</div>
+    <a href="09-ecommerce-catalog.html" class="nav-link"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="16-quote-plain-stone.html" class="nav-link"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">คืนสินค้า</div>
+    <a href="23-returns-rma.html" class="nav-link"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+  </nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">30</span> Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 4 ตุลาคม 2569 (2026-10-04) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.105.0 · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายเรื่อง <strong>Block</strong> ตั้งแต่ว่า Block คืออะไร ทำไมระบบคิดแบบนี้ ไล่ไปทีละขั้นตั้งแต่ซื้อเข้ามาจนถึงตัดเป็นแผ่น และสุดท้ายคือ "ถ้าเกิดเหตุการณ์แบบนี้ ระบบจะทำอะไร" ทุกภาพเป็นหน้าจอที่ทดลองใช้งานจริง ไม่ใช่ภาพจำลอง และทุกเงื่อนไขในบทนี้ผ่านการทดลองแล้ว</p>
+
+<h2>1. Block คืออะไร</h2>
+<p><strong>Block คือหินก้อนดิบหนึ่งก้อนที่ซื้อเข้ามา ยังไม่ได้ตัด</strong> เป็นวัตถุดิบต้นทางของงานทั้งสาย: Block → ตัดเป็น Slab (แผ่น) → ขายหรือผลิตเป็นสินค้าสำเร็จรูป</p>
+<div class="kv">
+<div>1 ก้อนจริง</div><div>= 1 เอกสาร Block = 1 เลข Lot (เช่น <code>BLK-26-0319</code>)</div>
+<div>ขนาด</div><div>กว้าง × ยาว × สูง เป็นเมตร (วัดจริงตอนรับของ)</div>
+<div>ปริมาตร</div><div>ระบบคำนวณจาก กว้าง×ยาว×สูง (ลูกบาศก์เมตร หรือ ลบ.ม.) ไม่ต้องพิมพ์เอง</div>
+<div>น้ำหนัก (ตัน)</div><div>ปริมาตร × ความหนาแน่นของหินชนิดนั้น (ตัวอย่างในบทนี้ใช้ 2.7 ตัน/ลบ.ม.) แก้ได้ถ้าชั่งจริงแล้วไม่ตรง</div>
+<div>ซื้อขายเป็น</div><div><strong>ตัน</strong> (ระบบแสดงตันให้เห็นทุกหน้าที่เกี่ยวข้อง)</div>
+<div>นับสต็อก/ต้นทุนเป็น</div><div>ลูกบาศก์เมตร</div>
+<div>ความหนา / ผิว (Finish)</div><div><strong>Block ไม่มี</strong> — ไปตัดสินใจตอนตัดเป็นแผ่น (Slab)</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">Block รู้แค่ "ก้อนนี้ใหญ่เท่าไร หนักเท่าไร ซื้อมาราคาเท่าไร"</span></div><div class="callout-body">ส่วนว่าจะตัดหนากี่เซนติเมตร ผิวแบบไหน เป็นเรื่องของ <strong>แผ่นที่ตัดออกมา</strong> ก้อนเดียวกันจึงตัดเป็นแผ่นหนาไม่เท่ากันได้ ตามที่ลูกค้าแต่ละงานสั่ง</div></div>
+
+<h2>2. แนวคิดหลัก 5 ข้อ</h2>
+<ol>
+<li><strong>หนึ่งก้อนจริง = หนึ่ง Block</strong> ซื้อ 3 ก้อนต้องมี Block 3 เอกสาร ตัวเลข "จำนวน" ในใบสั่งซื้อ (PO) คือปริมาตรที่สั่งโดยประมาณ ไม่ใช่จำนวนก้อน</li>
+<li><strong>ซื้อขายเป็นตัน แต่ระบบนับสต็อกเป็น ลบ.ม.</strong> ตัวเลขตันที่เห็นคำนวณจากปริมาตร ถ้าไม่ได้ชั่งจริงก็ใช้ค่านี้</li>
+<li><strong>ของเข้าคลังตอนกด Validate ที่ใบรับของ</strong> เหมือนการรับของใน Odoo ปกติ ไม่มีปุ่ม "สร้าง Block" แยกที่ต้องจำอีกแล้ว</li>
+<li><strong>ส่วนที่ระบบเราเพิ่มเอง ทำงานต่อท้ายขั้นตอนปกติ</strong> คือช่องกว้าง/ยาว/สูง, การตั้งเลข Lot, และการสร้างเอกสาร Block ส่วนตัวเลขสต็อกและมูลค่าเป็นของ Odoo เอง</li>
+<li><strong>ขนาดผิดแก้ได้ แต่ต้องมีเหตุผลและมีประวัติ</strong> ระบบไม่ให้แก้ตัวเลขสต็อกตรงๆ</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. สั่งซื้อ</b>ใบสั่งซื้อ (PO)</div><div class="ar">→</div>
+<div class="st hl"><b>2. รับของ</b>กรอก กว้าง×ยาว×สูง ทีละก้อน แล้ว Validate</div><div class="ar">→</div>
+<div class="st"><b>3. Block ในคลัง</b>ระบบสร้างเอกสาร Block ให้เอง</div><div class="ar">→</div>
+<div class="st"><b>4. เก็บบิล</b>Vendor Bill ตามปริมาตรที่รับจริง</div><div class="ar">→</div>
+<div class="st"><b>5. สั่งตัด</b>ใบตัด (Cut Order) → Slab</div>
+</div>
+<p>นอกเหนือจากนี้มีอีก 2 เส้นทางที่เกิดได้: <strong>แก้ขนาด</strong> (ถ้าวัดผิด) และ <strong>คืนของ</strong> (ถ้าส่งคืนผู้ขาย)</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 สั่งซื้อ (Purchase Order)</h3>
+<p>สร้างใบสั่งซื้อตามปกติ เลือกสินค้าที่เป็น Block ของหินชนิดนั้น ใส่จำนวน (ปริมาตรโดยประมาณ) และราคา ช่อง <strong>Qty (Ton)</strong> แสดงตันที่คำนวณให้ ตัวอย่างนี้สั่ง 4.00 ลบ.ม. = 10.80 ตัน</p>
+<figure class="screenshot"><img src="assets/block-po.webp" alt="ใบสั่งซื้อ Block"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ยังไม่ต้องรู้ขนาดจริงตอนสั่งซื้อ</span></div><div class="callout-body">ขนาดจริงวัดได้ตอนของมาถึง และกรอกที่ใบรับของ ไม่ต้องกลับมาแก้ใบสั่งซื้อ</div></div>
+
+<h3>4.2 รับของ (Receipt) — ขั้นตอนที่สำคัญที่สุด</h3>
+<p>เมื่อยืนยันใบสั่งซื้อ ระบบสร้างใบรับของให้ สังเกตแถบสีฟ้าด้านบนที่บอกว่าเป็น "รับ Block" และบอกวิธีกรอก</p>
+<figure class="screenshot"><img src="assets/block-receipt.webp" alt="ใบรับของ Block"/></figure>
+<ol>
+<li>กดคำว่า <strong>Details</strong> ที่แถวสินค้า จะเปิดหน้าต่าง <strong>Detailed Operations</strong></li>
+<li><strong>1 แถว = 1 ก้อนจริง</strong> กรอก ยาว / กว้าง / สูง (เมตร) ของก้อนนั้น</li>
+<li>ถ้ามีหลายก้อน กด <strong>Add a line</strong> เพิ่มแถวทีละก้อน</li>
+<li>ช่อง Quantity ระบบคำนวณให้เอง (ล็อก พิมพ์ทับไม่ได้) และช่อง <strong>Qty (Ton)</strong> แสดงตันของแต่ละก้อน</li>
+</ol>
+<figure class="screenshot"><img src="assets/block-modal-empty.webp" alt="หน้าต่าง Detailed Operations ก่อนกรอกขนาด"/></figure>
+<figure class="screenshot"><img src="assets/block-dims-two.webp" alt="กรอกขนาด 2 ก้อน"/></figure>
+<p>ตัวอย่าง: ก้อนที่ 1 ขนาด 3.00 × 0.40 × 1.60 ม. = 1.92 ลบ.ม. (5.18 ตัน) ก้อนที่ 2 ขนาด 2.80 × 0.45 × 1.50 ม. = 1.89 ลบ.ม. (5.10 ตัน) รวม 3.81 ลบ.ม.</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ถ้ายังไม่กรอกขนาดแล้วกด Validate ระบบจะไม่ให้ผ่าน</span></div><div class="callout-body">ระบบแจ้งให้กรอก ยาว × กว้าง × สูง ของทุกก้อนก่อน นี่คือการป้องกันไม่ให้มี Block ที่ไม่รู้ขนาดเข้าคลัง<figure class="screenshot"><img src="assets/block-err-nodims.webp" alt="ข้อความเตือนเมื่อไม่กรอกขนาด"/></figure></div></div>
+
+<p>เมื่อกรอกครบแล้วกด <strong>Validate</strong> ถ้าปริมาตรที่รับจริงน้อยกว่าที่สั่ง (ตัวอย่างนี้สั่ง 4.00 รับ 3.81) Odoo จะถามเรื่อง Backorder:</p>
+<figure class="screenshot"><img src="assets/block-backorder.webp" alt="หน้าต่างถาม Backorder"/></figure>
+<table class="cond"><tr><th>ตัวเลือก</th><th>ใช้เมื่อ</th></tr>
+<tr><td><strong>Create Backorder</strong></td><td>ผู้ขายจะส่งส่วนที่เหลือมาทีหลัง ระบบเปิดใบรับของใบใหม่ไว้รอ</td></tr>
+<tr><td><strong>No Backorder</strong></td><td>ผู้ขายส่งครบแล้วเท่าที่จะส่ง ส่วนที่ขาดไม่มีมาอีก</td></tr></table>
+
+<p>หลัง Validate ระบบทำให้อัตโนมัติ และขึ้นข้อความยืนยันที่มุมจอทีละก้อน:</p>
+<ul>
+<li>ตั้งเลข Lot ให้ทุกก้อน (เช่น <code>BLK-26-0319-BLK</code>)</li>
+<li>ย้ายของจาก "Vendors - Stone" เข้า <strong>Stone Inventory / Stone Available</strong></li>
+<li>บันทึกมูลค่าตามราคาในใบสั่งซื้อ</li>
+<li>สร้างเอกสาร Block ให้ทุกก้อน พร้อมขนาด ผู้ขาย และใบสั่งซื้อที่มา</li>
+</ul>
+<figure class="screenshot"><img src="assets/block-receipt-done.webp" alt="ใบรับของสถานะ Done พร้อมข้อความสร้าง Block สำเร็จ"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ช่อง "Destination Location" ที่หัวใบรับของยังแสดง EG01/Stock</span></div><div class="callout-body">เป็นค่าตั้งต้นของ Odoo ที่หัวเอกสาร แต่ของ Block ถูกเก็บเข้า <strong>Stone Available</strong> จริง (ตรวจแล้วที่ตารางสต็อก) ไม่ได้ไปอยู่ที่ EG01/Stock</div></div>
+
+<h3>4.3 Block ในคลัง</h3>
+<p>ไปที่เมนู <strong>Stone Slab → Blocks</strong> จะเห็น Block ทั้งหมดเป็นการ์ด ตัวเลขท้ายการ์ดคือปริมาตรและตันที่เหลือ (ปกติระบบซ่อน Block ที่ใช้หมดแล้ว)</p>
+<figure class="screenshot"><img src="assets/block-block-list.webp" alt="หน้ารวม Block"/></figure>
+<p>เปิด Block ดูรายละเอียด: ขนาด ปริมาตร น้ำหนัก ผู้ขาย ใบสั่งซื้อที่มา ราคาขาย ต้นทุนต่อ ลบ.ม. และจำนวนแผ่นที่คาดว่าจะตัดได้</p>
+<figure class="screenshot"><img src="assets/block-block-form.webp" alt="หน้า Block"/></figure>
+<p>Block ที่เกิดจากใบรับของ <strong>ช่องขนาดจะถูกล็อก</strong> ถ้าต้องแก้ ให้ใช้ปุ่ม "แก้ขนาด" (หัวข้อ 4.5)</p>
+
+<h3>4.4 เก็บเงิน — ใบแจ้งหนี้ผู้ขาย (Vendor Bill)</h3>
+<p>ใบสั่งซื้อจะแสดงช่อง <strong>Received</strong> เป็นปริมาตรที่รับจริง (3.81) ไม่ใช่ 4.00 ที่สั่ง</p>
+<figure class="screenshot"><img src="assets/block-po-received.webp" alt="ใบสั่งซื้อหลังรับของ"/></figure>
+<p>สร้างบิลที่ <strong>Accounting → Vendors → Bills → New</strong> เลือกผู้ขาย แล้วที่ช่อง <strong>Auto-Complete</strong> เลือกใบสั่งซื้อ ระบบดึงรายการมาให้ <strong>ตามปริมาตรที่รับจริง</strong>:</p>
+<figure class="screenshot"><img src="assets/block-bill.webp" alt="ใบแจ้งหนี้ผู้ขายดึงจำนวนตามที่รับจริง"/></figure>
+<p>ตัวอย่าง: รับจริง 3.81 ลบ.ม. × 27,000 = 102,870 บาท (ไม่ใช่ 4.00 × 27,000 = 108,000)</p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">ปรับปรุงแล้ว</span><span class="callout-title">บิลตามที่รับจริง ไม่ใช่ตามที่สั่ง</span></div><div class="callout-body">ในการทดลองพบว่าเดิมบิลดึงจำนวนตามที่สั่ง (ถ้าสั่ง 2.00 รับจริง 1.92 บิลจะเป็น 2.00) จึงปรับให้สินค้า Block ใช้ "ตามปริมาณที่รับ" แล้ว (4 ตุลาคม 2569) ส่วนใบสั่งซื้อที่เปิดไว้ก่อนวันนี้ ให้ตรวจจำนวนในบิลก่อน Confirm ทุกครั้ง</div></div>
+
+<h3>4.5 แก้ขนาด Block (ถ้าวัดผิด)</h3>
+<p>เปิดหน้า Block กดปุ่ม <strong>แก้ขนาด</strong> (มุมซ้ายบน) ปุ่มนี้ใช้ได้เฉพาะผู้มีสิทธิ์ <strong>Inventory Administrator</strong> หน้าต่างจะแสดงขนาดเดิมและขนาดใหม่เทียบกัน</p>
+<figure class="screenshot"><img src="assets/block-resize-noreason.webp" alt="หน้าต่างแก้ขนาด ช่องเหตุผลเป็นสีแดงเมื่อไม่กรอก"/></figure>
+<p><strong>ต้องระบุเหตุผลทุกครั้ง</strong> ถ้าเว้นว่าง ระบบแจ้ง "Missing required fields" และไม่บันทึก</p>
+<figure class="screenshot"><img src="assets/block-resize-filled.webp" alt="กรอกขนาดใหม่และเหตุผล"/></figure>
+<p>เมื่อกดแก้ขนาด ระบบจะ:</p>
+<ul><li>เปลี่ยนขนาดและปริมาตรของ Block</li><li>ปรับสต็อกส่วนต่างให้ (ตัวอย่างนี้สูง 1.60 → 1.50 ปริมาตร 1.92 → 1.80 ปรับลด 0.12)</li><li>บันทึกประวัติ ใครแก้ เมื่อไร จากอะไรเป็นอะไร เพราะอะไร ที่แท็บ <strong>ประวัติแก้ขนาด</strong></li></ul>
+<figure class="screenshot"><img src="assets/block-resize-history.webp" alt="แท็บประวัติแก้ขนาด"/></figure>
+<table class="cond"><tr><th>เงื่อนไข</th><th>ผล</th></tr>
+<tr><td>ไม่ใช่ Inventory Administrator</td><td class="no">ไม่เห็นปุ่ม ใช้ไม่ได้</td></tr>
+<tr><td>ไม่ใส่เหตุผล</td><td class="no">บันทึกไม่ได้</td></tr>
+<tr><td>ปริมาตรใหม่น้อยกว่าที่ตัดไปแล้ว</td><td class="no">ไม่อนุญาต</td></tr>
+<tr><td>ปริมาตรลดลง แต่ของใน Stone Available ไม่พอจะหักส่วนต่าง</td><td class="no">ไม่อนุญาต ต้องเคลียร์ของที่ค้างที่อื่นก่อน</td></tr>
+<tr><td>เงื่อนไขครบ</td><td class="ok">แก้ได้ ปรับสต็อกส่วนต่าง และบันทึกประวัติ</td></tr></table>
+
+<h3>4.6 สั่งตัดเป็นแผ่น (Cut Order)</h3>
+<p>ใบตัดสร้างจากใบสั่งขายที่ต้องการแผ่น ใช้ปริมาตรจาก Block ใน Stone Available เมื่อกด <strong>Complete Cut</strong> ได้ Slab ตามจำนวนแผ่นจริง ที่เหลือของ Block ลดลงตามที่ตัด ระบบมีแถบเตือนสีเหลืองเมื่อ <strong>ขนาดแผ่นที่ตั้งไว้ไม่พอดีกับ Block</strong> (เตือนเฉยๆ ไม่ห้าม ให้ตรวจก่อนตัดจริง) มี 2 กรณี:</p>
+<p><strong>(ก)</strong> ความหนารวมของแผ่นทั้งหมดเกินความกว้างของ Block</p>
+<figure class="screenshot"><img src="assets/block-mo-thickness.webp" alt="เตือนความหนารวมเกินความกว้างของ Block"/></figure>
+<p><strong>(ข)</strong> ความยาวหรือความสูงของแผ่นใหญ่กว่า Block</p>
+<figure class="screenshot"><img src="assets/block-mo-oversize.webp" alt="เตือนแผ่นยาวหรือสูงเกินก้อน"/></figure>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ใบตัดใช้ประเภทปฏิบัติการ "Stone Cutting"</span></div><div class="callout-body">ระบบตั้งให้อัตโนมัติ เพื่อให้หักปริมาตรจาก Stone Available ถูกที่ (เคยพบว่าตัดจากคลังผิดที่ในใบตัดเก่าก่อนแก้ไข)</div></div>
+
+<h3>4.7 คืน Block ให้ผู้ขาย</h3>
+<p><strong>ใบรับของที่ Validate แล้ว ยกเลิกไม่ได้</strong> ถ้ากดยกเลิก ระบบแจ้งว่า "You cannot cancel a stock move that has been set to Done" ให้ใช้การ <strong>คืนของ (Return)</strong> แทน:</p>
+<ol><li>เปิดใบรับของที่ Done กดปุ่ม <strong>Return</strong></li><li>กด <strong>Return All</strong> (ถ้าคืนทั้งหมด) หน้าต่างเริ่มต้นแสดง 0.00 ซึ่งเป็นปกติของ Odoo</li><li>ระบบสร้างใบคืน กด <strong>Validate</strong></li></ol>
+<figure class="screenshot"><img src="assets/block-return-wizard.webp" alt="หน้าต่าง Return"/></figure>
+<figure class="screenshot"><img src="assets/block-return-done.webp" alt="ใบคืนสถานะ Done"/></figure>
+<p>ผลลัพธ์: สต็อกถูกหักออกจาก Stone Available, ช่อง Received ในใบสั่งซื้อกลับเป็น 0 และ <strong>เอกสาร Block ยังอยู่เป็นประวัติ แต่คงเหลือ 0.00</strong></p>
+<figure class="screenshot"><img src="assets/block-block-after-return.webp" alt="Block หลังคืนของ คงเหลือ 0"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">คืนได้เฉพาะส่วนที่ยังอยู่ในคลัง</span></div><div class="callout-body">ถ้า Block ถูกตัดไปบางส่วนแล้ว ส่วนที่ตัดไปแล้วคืนผู้ขายไม่ได้ (เป็นไปตามหลักของ Odoo) กรณีนี้ยังไม่ได้ทดลองกับ Block ที่ตัดบางส่วน หากเจอให้แจ้งทีมดูแลระบบ</div></div>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<h3>5.1 ตอนรับของ</h3>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>กด Validate โดยไม่กรอก ยาว/กว้าง/สูง</td><td class="no">ไม่ให้ผ่าน แจ้งให้กรอกก่อน</td></tr>
+<tr><td>เพิ่มแถวก้อนที่ 2, 3 ในหน้า Detailed Operations</td><td class="ok">รับครบทุกก้อนที่กรอกขนาดไว้ (ทดลองแล้ว ได้ Block 2 เอกสารจากแถว 2 แถว)</td></tr>
+<tr><td>รับน้อยกว่าที่สั่ง</td><td>Odoo ถามสร้าง Backorder หรือไม่ ตามหัวข้อ 4.2</td></tr>
+<tr><td>พิมพ์ทับช่อง Quantity ของ Block</td><td class="no">ทำไม่ได้ ช่องล็อก ใช้ปริมาตรจากขนาดเสมอ</td></tr>
+<tr><td>ใบรับของมีสินค้าอื่นปน</td><td>กฎ Block ใช้กับแถว Block เท่านั้น แถวอื่นทำตามเดิม</td></tr>
+<tr><td>รับสินค้าที่เป็น Slab (แผ่น) ผ่านใบสั่งซื้อ</td><td class="no">ยังกันไว้ตามกฎเดิม Slab ไม่รับผ่านทางนี้</td></tr></table>
+<h3>5.2 ขนาด ปริมาตร น้ำหนัก</h3>
+<table class="cond"><tr><th>หัวข้อ</th><th>กฎ</th></tr>
+<tr><td>ปริมาตร</td><td>กว้าง × ยาว × สูง เสมอ สต็อกเก็บทศนิยม 2 ตำแหน่ง (เป็นธรรมชาติของ Odoo) ขนาดแต่ละด้านเก็บ 3 ตำแหน่ง</td></tr>
+<tr><td>ตัน</td><td>ปริมาตร × ความหนาแน่นของหิน ระบบกรอกให้ตอนรับของ ถ้าชั่งจริงไม่ตรงให้แก้ที่หน้า Block</td></tr>
+<tr><td>ราคาซื้อ</td><td>ต้นทุนต่อ ลบ.ม. = ยอดเงินในใบสั่งซื้อ ÷ ปริมาตรที่สั่ง</td></tr></table>
+<h3>5.3 หลายบริษัท</h3>
+<p>ทดลองรับ Block ทั้งบริษัท <strong>Empire Granite (EG)</strong> และ <strong>Empire Stone (ES)</strong> บนระบบทดสอบ ผลคือ แต่ละบริษัทเข้าคลังของบริษัทตัวเอง (Stone Available ของคลังนั้น) Block สังกัดบริษัทที่รับ และบิลตามที่รับจริงเหมือนกัน</p>
+<h3>5.4 ใครทำอะไรได้</h3>
+<table class="cond"><tr><th>งาน</th><th>สิทธิ์ที่ต้องมี</th></tr>
+<tr><td>สร้างใบสั่งซื้อ</td><td>Purchase User ขึ้นไป</td></tr>
+<tr><td>รับของ / กรอกขนาด / Validate</td><td>Inventory User ขึ้นไป</td></tr>
+<tr><td>ดูและใช้งานเอกสาร Block</td><td>EMG-O Internal User</td></tr>
+<tr><td>แก้ขนาด Block</td><td>Inventory Administrator เท่านั้น (ปุ่มซ่อนสำหรับคนอื่น)</td></tr></table>
+<p>หมายเหตุ: การซ่อนปุ่มสำหรับผู้ที่ไม่ใช่ Inventory Administrator ตั้งตามที่ออกแบบ ยังไม่ได้ลองล็อกอินด้วยผู้ใช้ระดับต่ำกว่าเพื่อยืนยันบนหน้าจอ</p>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม</th><th>ตอนนี้</th></tr>
+<tr><td>ต้องกดปุ่มสร้าง Block แยก (ผู้ใช้มักลืม)</td><td class="ok">Validate ใบรับของ Block ก็เกิดให้เอง</td></tr>
+<tr><td>ต้องยกเลิกใบรับของ แล้วสร้าง Block เอง</td><td class="ok">ไม่ต้องยกเลิกอีก</td></tr>
+<tr><td>กรอกขนาดที่หน้า Block</td><td class="ok">กรอกที่ใบรับของ ตอนวัดจริง</td></tr>
+<tr><td>แก้ขนาดได้ตรงๆ ไม่มีบันทึก</td><td class="ok">แก้ผ่านปุ่ม มีเหตุผลและประวัติ</td></tr>
+<tr><td>บิลผู้ขายดึงตามที่สั่ง</td><td class="ok">ตามที่รับจริง</td></tr></table>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">ยังใช้ทางเดิม</span><span class="callout-title">Block ที่สร้างเองโดยไม่มีใบสั่งซื้อ, Container, และการรับ Slab</span></div><div class="callout-body">ส่วนเหล่านี้ไม่ได้เปลี่ยน ยังใช้วิธีเดิมตามบทที่ 02 และ 15 (บางส่วนของสองบทนั้นที่พูดถึงปุ่มสร้าง Block จากใบสั่งซื้อ ให้ถือบทนี้เป็นหลักสำหรับการซื้อ Block)</div></div>
+
+<h2>7. คำถามที่พบบ่อย</h2>
+<p><strong>ใส่ 3 ในช่องจำนวนของใบสั่งซื้อ คือซื้อ 3 ก้อนหรือเปล่า</strong><br/>ไม่ใช่ครับ คือปริมาตร 3 ลบ.ม. โดยประมาณ จำนวนก้อนมาจากจำนวนแถวที่กรอกที่ใบรับของ</p>
+<p><strong>กรอกขนาดผิดแล้ว Validate ไปแล้ว ทำอย่างไร</strong><br/>ใช้ปุ่ม "แก้ขนาด" ที่หน้า Block (หัวข้อ 4.5) ต้องเป็น Inventory Administrator และระบุเหตุผล</p>
+<p><strong>รับของแล้วผู้ขายส่งผิด อยากคืนทั้งก้อน</strong><br/>ใช้ Return ที่ใบรับของ (หัวข้อ 4.7) Block จะคงเหลือ 0 และยังเก็บเป็นประวัติ</p>
+<p><strong>ทำไมน้ำหนักตันไม่ตรงกับที่ชั่ง</strong><br/>ตันที่เห็นคำนวณจากปริมาตร × ความหนาแน่น ถ้าชั่งจริงได้ต่างจากนี้ ให้แก้ช่อง Weight (Ton) ที่หน้า Block (ต้นทุนยังคิดตาม ลบ.ม. ไม่เปลี่ยน)</p>
+<p><strong>บิลผู้ขายต้องจ่ายตามตันหรือ ลบ.ม.</strong><br/>บิลคิดตามหน่วยของสินค้า Block ใน PO ซึ่งตอนนี้ราคาต่อ ลบ.ม. × ปริมาตรที่รับจริง ตัวเลขตันแสดงเพื่ออ้างอิง</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>คืน Block ที่ถูกตัดบางส่วนไปแล้ว ยังไม่ได้ทดลอง</li>
+<li>ใบตัดเก่าบางใบ (ก่อน 4 ตุลาคม 2569) หักสต็อกจากที่ผิด ทีมดูแลระบบจะทยอยตรวจแก้</li>
+<li>สิทธิ์ผู้ใช้ระดับต่ำ ยังไม่ได้ลองล็อกอินยืนยันบนหน้าจอ</li>
+<li>บิลของใบสั่งซื้อที่เปิดก่อน 4 ตุลาคม 2569 อาจยังตั้งค่าเป็น "ตามที่สั่ง" ให้ตรวจก่อน Confirm</li>
+</ul>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-084 (Block รับผ่านใบรับของ), ADR-071 (ขนาดและปริมาตร) — claude-knowledge vault · ทดลองบน eg-tst และ mbx-ee-dev เมื่อ 2026-10-04</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="29-fg-production.html"><span class="dir">← ก่อนหน้า</span>29. ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+  <a href="31-slab.html" class="next"><span class="dir">ถัดไป →</span>31. Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>

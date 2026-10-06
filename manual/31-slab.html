@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>31. Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 31 / 31</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 31 บท</div>
+    <div class="nav-section">ภาพรวม</div>
+    <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link active"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="05-sell-fabrication.html" class="nav-link"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="08-intercompany.html" class="nav-link"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="14-cut-to-order.html" class="nav-link"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ส่งของ & ต้นทุน</div>
+    <a href="06-delivery.html" class="nav-link"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <div class="nav-section">ฟีเจอร์เสริม</div>
+    <a href="09-ecommerce-catalog.html" class="nav-link"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="16-quote-plain-stone.html" class="nav-link"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">คืนสินค้า</div>
+    <a href="23-returns-rma.html" class="nav-link"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+  </nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">31</span> Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 6 ตุลาคม 2569 (2026-10-06) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.106 (หลังรอบ Slab = Lot, ADR-087) · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ เมื่อ 5 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายเรื่อง <strong>Slab (แผ่นหิน)</strong> ตั้งแต่ว่า Slab คืออะไร ทำไมระบบคิดแบบนี้ ไล่ไปทีละขั้นตั้งแต่ได้แผ่นมา (ตัดจาก Block หรือซื้อแผ่นสำเร็จรูป) จนถึงขาย ส่งของ ออกใบแจ้งหนี้ และรับคืน และสุดท้ายคือ "ถ้าเกิดเหตุการณ์แบบนี้ ระบบจะทำอะไร" ทุกภาพเป็นหน้าจอที่ทดลองใช้งานจริง ไม่ใช่ภาพจำลอง และตัวเลขทุกตัวในบทนี้มาจากการทดลองรอบเดียวกัน อ่านคู่กับ <a href="30-block.html">บทที่ 30 Block</a> ซึ่งเป็นต้นทางของ Slab</p>
+
+<h2>1. Slab คืออะไร</h2>
+<p><strong>Slab คือแผ่นหินหนึ่งแผ่น</strong> ที่ได้จากการตัด Block หรือซื้อแผ่นสำเร็จรูปจากผู้ขาย เป็นสินค้าที่ขายให้ลูกค้าได้โดยตรง หรือเป็นวัตถุดิบของสินค้าสำเร็จรูป (FG) เช่น เคาน์เตอร์</p>
+<div class="kv">
+<div>1 แผ่นจริง</div><div>= 1 เลข Serial (เช่น <code>BLK-26-0006-1</code> ตัดจาก Block, หรือ <code>SLB-26-0001</code> ซื้อสำเร็จรูป)</div>
+<div>ขนาด</div><div>กว้าง × ยาว × หนา เป็นเมตร เก็บไว้ที่ตัวแผ่นเอง (ตัวอย่างในบทนี้ 3.00 × 1.25 × 0.02 ม.)</div>
+<div>พื้นที่</div><div>ระบบคำนวณจาก กว้าง × ยาว เป็น <strong>ตารางเมตร (ตร.ม.)</strong> ไม่ต้องพิมพ์เอง</div>
+<div>ซื้อขายเป็น</div><div><strong>ตร.ม.</strong> (ราคาต่อตร.ม. เช่น 4,500 ฿/ตร.ม.)</div>
+<div>นับสต็อกเป็น</div><div><strong>แผ่น</strong> (1 แผ่น = 1 หน่วย)</div>
+<div>ผิว (Finish) / ความหนา</div><div>เป็นตัวเลือกของสินค้า เช่น Polished, 2 ซม. — ต่างกันคือสินค้าคนละตัว</div>
+<div>ต้นทุน</div><div>คำนวณครั้งเดียวตอนแผ่นถูกสร้าง และเก็บไว้ที่แผ่น (ไม่เปลี่ยนตาม Block ภายหลัง)</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">Slab รู้ว่า "แผ่นนี้ขนาดเท่าไร ต้นทุนเท่าไร ตอนนี้อยู่ไหน"</span></div><div class="callout-body">แผ่นหนึ่งแผ่นคือ <strong>เลข Serial หนึ่งเลข</strong> ที่มีขนาดติดอยู่ ราคาขายจึงคิดจากขนาดจริงของแผ่นที่เลือก ไม่ใช่ขนาดมาตรฐาน</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>หนึ่งแผ่นจริง = หนึ่ง Serial</strong> ซื้อ 4 แผ่นก็มี Serial 4 เลข ตัวเลข "จำนวน" ในใบสั่งซื้อคือจำนวนแผ่น</li>
+<li><strong>ซื้อขายเป็น ตร.ม. แต่นับสต็อกเป็นแผ่น</strong> ตร.ม. ของแต่ละแผ่นมาจากขนาดจริงของแผ่นนั้น แผ่นต่างขนาดกันจึงมีพื้นที่ต่างกัน</li>
+<li><strong>แผ่นเกิดได้ 2 ทางเท่านั้น</strong> คือ (ก) ตัดจาก Block ด้วยใบตัด (Cut Order) หรือ (ข) ซื้อแผ่นสำเร็จรูปผ่านใบรับของ (Receipt) ทางที่สองกรอกขนาดทีละแผ่นที่ใบรับของ เหมือนที่ Block กรอกขนาดตอนรับของ</li>
+<li><strong>สถานะของแผ่นดูจาก "ตำแหน่งที่แผ่นอยู่"</strong> ไม่มีใครพิมพ์สถานะเอง เช่น อยู่ Stone Available = พร้อมขาย, อยู่ที่ลูกค้า = ขายแล้ว, อยู่ Returned - Inspect = รอตรวจ</li>
+<li><strong>เลือกแผ่นก่อนขายได้ทีละแผ่น</strong> ที่ใบสั่งขายเลือกได้เลยว่าจะขายแผ่นเลขไหน ตามการออกแบบแผ่นที่ถูกเลือกไว้แล้วคนอื่นเลือกซ้ำไม่ได้</li>
+<li><strong>ส่งของต้องสแกน Serial</strong> ระบบกันการส่งผิดแผ่น ต้องสแกนหรือพิมพ์ชื่อ Serial ให้ตรงกับแผ่นที่ส่งก่อนกด Validate</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. ได้แผ่นมา</b>ตัดจาก Block หรือซื้อสำเร็จรูป</div><div class="ar">→</div>
+<div class="st hl"><b>2. Slab ในคลัง</b>แผ่นละ 1 Serial มีขนาดและต้นทุน</div><div class="ar">→</div>
+<div class="st"><b>3. ขาย</b>ใบสั่งขาย เลือกแผ่น</div><div class="ar">→</div>
+<div class="st"><b>4. ส่งของ</b>สแกน Serial ทุกแผ่น</div><div class="ar">→</div>
+<div class="st"><b>5. เก็บเงิน</b>ใบแจ้งหนี้ + ต้นทุนขาย</div>
+</div>
+<p>นอกเหนือจากนี้มีอีก 1 เส้นทาง: <strong>ลูกค้าคืนแผ่น</strong> (รับเข้าที่ "รอตรวจ" แล้วนำกลับไปขาย หรือตัดทิ้ง)</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 ได้แผ่นจากการตัด Block (Cut Order)</h3>
+<p>ทางที่หนึ่ง: ตัด Block ที่มีอยู่ในคลังให้เป็นแผ่น ไปที่ <strong>Manufacturing → Operations → Manufacturing Orders → New</strong> แล้วเลือก <strong>Stone Block</strong> ที่จะตัด</p>
+<figure class="screenshot"><img src="assets/slab-01-cut-order-block.webp" alt="ใบตัดเลือก Block"/></figure>
+<p>ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ที่แท็บ <strong>Planned/Actual Slabs</strong> ตัวอย่างนี้ Block 6.00 ลบ.ม. ตัดได้ 80 แผ่นพอดี (แถวละ 1 แผ่น)</p>
+<p><strong>ขั้นที่ 1: ย้าย Block ไปสถานีตัด</strong> หลังกด Save แล้วกดปุ่ม <strong>ย้ายด่วน (Move to Production)</strong></p>
+<figure class="screenshot"><img src="assets/slab-02-move-to-production.webp" alt="ย้าย Block ไปสถานีตัด"/></figure>
+<p>ระบบแจ้งสีเขียวว่า Block ย้ายไป Stone Production แล้ว (ย้ายจาก Stone Available ไปสถานีตัด) แล้วกด Confirm ได้เลย</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แถบเตือนสีส้มเปลี่ยนเป็น "พร้อม Confirm แล้ว" เมื่อเปิดหน้านี้ใหม่</span></div><div class="callout-body">เป็นแค่ข้อความบนหน้าจอ ไม่กระทบการทำงาน</div></div>
+<p><strong>ขั้นที่ 2: เลือกเหตุผลแล้ว Confirm</strong> ใบตัดที่ไม่ผูกกับใบสั่งขาย ต้องเลือกช่อง <strong>Reason (No SO)</strong> ก่อนเสมอ ถ้าตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)" แล้ว Save และ Confirm ใบตัดเปลี่ยนเป็น In Progress</p>
+<figure class="screenshot"><img src="assets/slab-03-confirm-reason.webp" alt="เลือกเหตุผลและ Confirm ใบตัด"/></figure>
+<p><strong>ขั้นที่ 3: ตัดเสร็จ กด Complete Cut</strong> ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ <strong>Actual L / H / Thickness</strong> ที่แท็บ Planned/Actual Slabs ก่อนกดปุ่ม</p>
+<figure class="screenshot"><img src="assets/slab-04-complete-cut.webp" alt="Complete Cut ได้ 80 แผ่น"/></figure>
+<p>ระบบแจ้ง "Complete Cut สำเร็จ ตัดได้ 80 แผ่นจาก BLK-26-0006" ใบตัดขึ้น Done และปุ่ม Serial Numbers แสดง 80</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้นทุน</span><span class="callout-title">ต้นทุน Block ถูกแบ่งให้ทุกแผ่นเท่ากัน</span></div><div class="callout-body">Block 6.00 ลบ.ม. ต้นทุน 97,200 บาท ÷ 80 แผ่น = <strong>1,215 บาทต่อแผ่น</strong> (ยืนยันจากต้นทุนขายตอนออกใบแจ้งหนี้ หัวข้อ 4.8) แม้แผ่นที่ตัดได้ขนาดไม่เท่าแผนก็ตาม ต้นทุนต่อแผ่นยังเท่ากัน</div></div>
+
+<h3>4.2 ตรวจ Slab ที่ตัดได้</h3>
+<p>ไปที่ <strong>Stone Slab → Slabs → All Slabs</strong> แล้วพิมพ์ชื่อ Block ในช่องค้นหา จะเห็นแผ่นแยกเป็นแผ่นละบรรทัด ตั้งแต่ <code>BLK-26-0006-1</code> ต่อเนื่องถึง <code>-80</code> ขนาด 3.00 × 1.25 × 0.020 ม. = 3.75 ตร.ม. (รวม 300 ตร.ม.) สถานะ Available และคอลัมน์ Block ชี้กลับไปที่ Block ต้นทาง</p>
+<figure class="screenshot"><img src="assets/slab-05-slab-list.webp" alt="รายการ Slab ที่ตัดได้"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ภาพนี้แสดง 76 แผ่น ไม่ใช่ 80</span></div><div class="callout-body">ภาพถ่ายหลังขายและส่งของไป 4 แผ่นแล้ว (หัวข้อ 4.6 และ 4.7) ตอนตัดเสร็จใหม่ๆ จะเห็น 80 แผ่น</div></div>
+
+<h3>4.3 ซื้อ Slab สำเร็จรูป — ใบสั่งซื้อ (PO)</h3>
+<p>ทางที่สอง: ซื้อแผ่นสำเร็จรูปจากผู้ขาย สร้างใบสั่งซื้อที่ <strong>Purchase → New</strong> เลือกผู้ขาย กด <strong>Add a product</strong> เลือกสินค้า Slab ของหินชนิดนั้น ใส่จำนวนแผ่น และราคา <strong>Price / Sq.M</strong> (ราคาต่อตารางเมตร) แล้วกด Confirm Order</p>
+<figure class="screenshot"><img src="assets/slab-06-po-slab.webp" alt="ใบสั่งซื้อ Slab ราคาต่อตร.ม."/></figure>
+<p>ตัวอย่าง: สั่ง 4 แผ่น ราคา 1,300 ฿/ตร.ม. ช่อง <strong>Qty (Sq.M)</strong> ระบบคำนวณให้ 19.20 ตร.ม. (4 แผ่น × 4.80 จากขนาดมาตรฐานของสินค้า) ยอดก่อน VAT 24,960 บาท</p>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ตัวเลข ตร.ม. และยอดใน PO เป็นค่าโดยประมาณ</span></div><div class="callout-body">มูลค่าจริงจะคิดจากขนาดที่วัดได้ตอนรับของ (หัวข้อถัดไป) ไม่ต้องรู้ขนาดจริงตอนสั่งซื้อ</div></div>
+
+<h3>4.4 รับของ (Receipt) — กรอกขนาดจริงทีละแผ่น</h3>
+<ol>
+<li>ที่ PO กดปุ่ม <strong>Receive</strong> เปิดใบรับของ</li>
+<li>ที่แถวสินค้ากด <strong>Details</strong> จะเห็นแถวละ 1 แผ่น</li>
+<li>แต่ละแถวกรอก <strong>กว้าง / ยาว / หนา</strong> ของแผ่นที่วัดได้จริง (ช่อง Lot/Serial เว้นว่างได้ ระบบตั้งชื่อให้เอง)</li>
+<li>กด Save แล้วกด <strong>Validate</strong></li>
+</ol>
+<p>ตัวอย่าง: แผ่น 1 กว้าง 1.58 × ยาว 2.95 · แผ่น 2 กว้าง 1.60 × ยาว 3.00 · แผ่น 3 กว้าง 1.55 × ยาว 2.90 · แผ่น 4 กว้าง 1.60 × ยาว 3.00 หนาทุกแผ่น 0.02 ม.</p>
+<figure class="screenshot"><img src="assets/slab-07-receipt-sizes.webp" alt="กรอกขนาดจริงของแต่ละแผ่นที่ใบรับของ"/></figure>
+<p>หลัง Validate ใบรับของขึ้น Done แยกเป็นบรรทัดละ 1 แผ่น ระบบตั้งชื่อ Serial ให้เอง (<code>SLB-26-0001</code> ถึง <code>SLB-26-0004</code>) และ <strong>มูลค่าสต็อกคิดจากพื้นที่จริงของแต่ละแผ่น</strong> ไม่ใช่ขนาดมาตรฐาน:</p>
+<table class="cond"><tr><th>แผ่น</th><th>ขนาด (ม.)</th><th>พื้นที่ (ตร.ม.)</th><th>มูลค่า (× 1,300)</th></tr>
+<tr><td>SLB-26-0001</td><td>1.58 × 2.95</td><td>4.66</td><td>6,059.30</td></tr>
+<tr><td>SLB-26-0002</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
+<tr><td>SLB-26-0003</td><td>1.55 × 2.90</td><td>4.50</td><td>5,843.50</td></tr>
+<tr><td>SLB-26-0004</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
+<tr><td><strong>รวม</strong></td><td></td><td><strong>18.756</strong></td><td><strong>24,382.80</strong></td></tr></table>
+
+<h3>4.5 ตรวจ Slab ที่รับเข้ามา</h3>
+<p>ที่ <strong>Stone Slab → Slabs → All Slabs</strong> ค้นหา <code>SLB-26</code> จะเห็น 4 แผ่นตามขนาดที่วัด สถานะ Available <strong>คอลัมน์ Block ว่าง</strong> เพราะซื้อมาเป็นแผ่นสำเร็จ ไม่ได้ตัดจาก Block ของเรา</p>
+<figure class="screenshot"><img src="assets/slab-08-received-slabs.webp" alt="Slab ที่รับเข้ามา"/></figure>
+
+<h3>4.6 ขาย Slab — ใบสั่งขาย (SO)</h3>
+<p><strong>สร้างใบเสนอราคา:</strong> ที่ <strong>Sales → New</strong> เลือกลูกค้า กด Add a product เลือกสินค้า Slab ในหน้าต่าง <strong>Configure your product</strong> เลือก <strong>Finish</strong> และ <strong>Thickness</strong> แล้วกด Confirm และ Save</p>
+<figure class="screenshot"><img src="assets/slab-09-so-configurator.webp" alt="เลือกผิวและความหนาของ Slab"/></figure>
+<p>ได้บรรทัดสินค้า "Slab (Polished, 2 cm)" ราคา 4,500 บาท/ตร.ม. ตอนนี้ยอดยังเป็นราคาตามขนาดมาตรฐาน (3.00 × 1.60 = 4.80 ตร.ม. → 21,600 บาท) ยอดจริงจะคำนวณใหม่เมื่อเลือกแผ่นในขั้นถัดไป</p>
+<p><strong>เลือกแผ่นที่จะขาย:</strong> ที่ท้ายบรรทัดสินค้า กดปุ่มไอคอนรายการ <strong>เลือก Slab / Select Slabs</strong> ในหน้าต่างกด <strong>Add a line</strong> แล้วเลือก Slab ทีละแผ่น (พิมพ์ชื่อแล้วเลือก) ทำซ้ำจนครบ แล้วกด <strong>ยืนยันการเลือก</strong></p>
+<figure class="screenshot"><img src="assets/slab-10-select-slabs.webp" alt="หน้าต่างเลือก Slab / Lot"/></figure>
+<p>หน้าต่างแสดงขนาด จำนวนที่ว่าง และ ตร.ม. ของแต่ละแผ่น ตัวอย่างเลือก 4 แผ่น (<code>BLK-26-0006-1</code> ถึง <code>-4</code>) พื้นที่รวม 15.00 ตร.ม. พอยืนยัน บรรทัดสินค้าเปลี่ยนเป็น <strong>"4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม."</strong> ยอดก่อน VAT 67,500 บาท, VAT 4,725, รวม 72,225</p>
+<p><strong>กด Confirm ใบสั่งขาย:</strong> สถานะเป็น Sales Order มีสมาร์ทปุ่ม Delivery 1 ใบ และ Slabs 4 แผ่น</p>
+<figure class="screenshot"><img src="assets/slab-11-so-confirmed.webp" alt="ใบสั่งขาย Confirm แล้ว"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">แถบสีแดง "ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า" คือคำเตือน ไม่ใช่ข้อผิดพลาด</span></div><div class="callout-body">ใบเสนอราคาใช้ขนาดมาตรฐาน 3.00 × 1.60 (4.80 ตร.ม./แผ่น) แต่แผ่นจริงที่เลือกคือ 3.75 ตร.ม./แผ่น ระบบ <strong>ล็อกยอดไว้ที่ 67,500</strong> และเตือนเซลล์ให้แจ้งลูกค้า เป็นพฤติกรรมตามออกแบบ (ADR-079, 085) ไม่ห้ามการ Confirm</div></div>
+
+<h3>4.7 ส่งของ — สแกน Serial ทุกแผ่น</h3>
+<p>ที่ SO กดสมาร์ทปุ่ม <strong>Delivery</strong> แล้วที่แถวสินค้ากด <strong>Details</strong> ที่คอลัมน์ <strong>Scanned Serial</strong> ของแต่ละแถว สแกนหรือพิมพ์ชื่อ Serial ให้ตรงกับแผ่นในแถวนั้น กด Save แล้วกด <strong>Validate</strong></p>
+<figure class="screenshot"><img src="assets/slab-12-delivery-scanned.webp" alt="ใบส่งของสแกน Serial ครบทุกแผ่น"/></figure>
+<p>ใบส่งของขึ้น Done ปริมาณ 4.00 ตัดสต็อกจาก Stone Available แผ่นทั้ง 4 ไม่อยู่ในรายการ Available อีก (เหลือ 76 แผ่นของ Block เดิม)</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ถ้ายังไม่สแกนหรือสแกนไม่ตรง ระบบจะไม่ให้ Validate</span></div><div class="callout-body">ระบบแจ้ง "สแกน Serial ไม่ตรง กรุณาสแกนให้ครบก่อน Validate" พร้อมรายชื่อแผ่นที่ขาด เป็นการกันส่งผิดแผ่น (เจอจริงในรอบทดลอง)</div></div>
+
+<h3>4.8 เก็บเงิน — ใบแจ้งหนี้และรายการบัญชี</h3>
+<p>ที่ SO กด <strong>Create Invoice</strong> เลือก Regular invoice แล้ว Create Draft จากนั้นที่ใบแจ้งหนี้กด Confirm และเปิดแท็บ <strong>Journal Items</strong></p>
+<figure class="screenshot"><img src="assets/slab-13-invoice-journal.webp" alt="ใบแจ้งหนี้และรายการบัญชี"/></figure>
+<table class="cond"><tr><th>รายการ</th><th>บัญชี</th><th>จำนวนเงิน (บาท)</th></tr>
+<tr><td>รายได้</td><td>411100</td><td>67,500.00</td></tr>
+<tr><td>VAT ขาย</td><td>213200</td><td>4,725.00</td></tr>
+<tr><td>ลูกหนี้</td><td>112100</td><td>72,225.00</td></tr>
+<tr><td>ต้นทุนขาย</td><td>511110</td><td>4,860.00</td></tr>
+<tr><td>ตัดสต็อกออก</td><td>113120</td><td>4,860.00</td></tr></table>
+<p>ต้นทุนขาย 4,860 = 4 แผ่น × 1,215 ตรงกับต้นทุนต่อแผ่นที่คิดไว้ตอนตัด (หัวข้อ 4.1) เพราะต้นทุนผูกกับแผ่นแต่ละแผ่น ไม่ใช่เฉลี่ยทั้งกอง</p>
+
+<h3>4.9 ลูกค้าคืน Slab (Return)</h3>
+<p>เปิดใบส่งของที่ Done กดปุ่ม <strong>Return</strong> แล้วกด <strong>Return All</strong> (หน้าต่างเริ่มต้นแสดง 0.00 ซึ่งเป็นปกติของ Odoo)</p>
+<figure class="screenshot"><img src="assets/slab-14-return-wizard.webp" alt="หน้าต่าง Return"/></figure>
+<p>ระบบสร้างใบรับคืน ปลายทางถูกตั้งเป็น <strong>Stone Inventory / Returned - Inspect</strong> ให้อัตโนมัติ เพราะแผ่นที่ลูกค้าคืนต้องตรวจก่อนเสมอ</p>
+<p><strong>ระบุแผ่นที่คืนจริง:</strong> ที่แถวสินค้ากด Details แล้ว Add a line พิมพ์ชื่อ Slab ใส่จำนวน 1 ทำซ้ำทีละแผ่น (ใบรับคืนไม่เลือกแผ่นไว้ให้ ผู้รับของต้องระบุเอง เพราะลูกค้าอาจคืนไม่ครบ และรายการที่ให้เลือกจะมีเฉพาะแผ่นที่อยู่ที่ลูกค้า)</p>
+<figure class="screenshot"><img src="assets/slab-15-return-details.webp" alt="ระบุแผ่นที่ลูกค้าคืน"/></figure>
+<p>กด <strong>Validate</strong> ใบรับคืนขึ้น Done</p>
+<figure class="screenshot"><img src="assets/slab-16-return-done.webp" alt="ใบรับคืน Done"/></figure>
+<p>แผ่นที่คืนขึ้นสถานะ <strong>Returned - Pending Inspection</strong> (สีส้ม) อยู่ที่ Returned - Inspect ยังไม่ถูกนับเป็นของพร้อมขาย (ไม่โผล่ในตัวกรอง Available)</p>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">หาแผ่นที่คืนไม่เจอ ให้เอาตัวกรอง "Available" ออก</span></div><div class="callout-body">รายการ Slab เปิดมาพร้อมตัวกรอง Available จึงซ่อนแผ่นที่รอตรวจไว้</div></div>
+<figure class="screenshot"><img src="assets/slab-17-returned-pending.webp" alt="Slab ที่คืนอยู่ในสถานะรอตรวจ"/></figure>
+<p><strong>ตรวจแล้ว นำกลับไปขาย:</strong> เปิดหน้า Slab ที่คืน กดปุ่ม <strong>ตรวจแล้ว — นำกลับไปขาย</strong> ทำซ้ำกับแผ่นที่เหลือ สถานะกลับเป็น Available ที่ Stone Available ต้นทุนยังเป็น 1,215 บาทเท่าเดิม และเลือกขายได้ใหม่</p>
+<figure class="screenshot"><img src="assets/slab-18-inspect-ok.webp" alt="ตรวจแล้ว กลับเป็น Available"/></figure>
+<p>ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม <strong>ชำรุด — ตัดทิ้ง (Scrap)</strong> แทน (ยังไม่ได้ทดลองกดในรอบนี้)</p>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<h3>5.1 การได้แผ่นมา</h3>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>ใบตัดที่ไม่ผูกใบสั่งขาย ไม่เลือก Reason (No SO)</td><td class="no">ไม่ให้ Confirm ให้เลือกเหตุผลก่อน (ตัดเข้าสต็อกเลือก "อื่นๆ")</td></tr>
+<tr><td>ตัดได้ขนาดจริงต่างจากแผน</td><td class="ok">แก้ Actual L / H / Thickness ก่อน Complete Cut แผ่นเก็บขนาดจริง</td></tr>
+<tr><td>ซื้อ Slab สำเร็จรูป</td><td class="ok">ระบบตั้งชื่อ Serial ให้เอง (SLB-yy-nnnn) มูลค่า = ฿/ตร.ม. ใน PO × พื้นที่จริงของแต่ละแผ่น</td></tr></table>
+
+<h3>5.2 การขาย ส่งของ เก็บเงิน</h3>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>เลือกแผ่นเข้าใบสั่งขาย</td><td class="ok">จำนวน = จำนวนแผ่น, ยอด = ตร.ม. จริงของแผ่นที่เลือก × ฿/ตร.ม.</td></tr>
+<tr><td>ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า</td><td>เตือนด้วยแถบสีแดง แต่ไม่ห้าม ยอดถูกล็อกตามที่ตกลง</td></tr>
+<tr><td>แผ่นที่เลือกไว้ในใบสั่งขายอื่นแล้ว</td><td>ตามการออกแบบ (ADR-087) คนอื่นเลือกซ้ำไม่ได้ ยังไม่ได้ทดลองกดยืนยันบนหน้าจอ</td></tr>
+<tr><td>Validate ใบส่งของโดยไม่สแกน Serial ให้ครบ</td><td class="no">ไม่ให้ผ่าน แจ้งรายชื่อแผ่นที่ขาด</td></tr>
+<tr><td>ส่งของครบ</td><td class="ok">แผ่นออกจาก Stone Available ไปอยู่ที่ลูกค้า</td></tr>
+<tr><td>ออกใบแจ้งหนี้</td><td class="ok">ต้นทุนขายตามต้นทุนของแผ่นที่ส่งจริง (แผ่นละ 1,215 ในตัวอย่าง)</td></tr></table>
+
+<h3>5.3 การคืนของ</h3>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>ลูกค้าคืนแผ่น</td><td class="ok">เข้า Returned - Inspect ทุกกรณี ต้องตรวจก่อน</td></tr>
+<tr><td>ระหว่างรอตรวจ</td><td>ไม่นับเป็นของพร้อมขาย ไม่โผล่ในตัวกรอง Available</td></tr>
+<tr><td>ตรวจแล้วใช้ได้</td><td class="ok">กลับ Stone Available เป็น Serial เดิม ต้นทุนเดิม</td></tr>
+<tr><td>ตรวจแล้วชำรุด</td><td>ใช้ปุ่ม "ชำรุด — ตัดทิ้ง (Scrap)"</td></tr>
+<tr><td>เลือก Serial ในใบรับคืน</td><td>เลือกได้เฉพาะแผ่นที่อยู่ที่ลูกค้า ไม่เลือกให้ล่วงหน้า</td></tr></table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม</th><th>ตอนนี้</th></tr>
+<tr><td>แผ่นเป็นเอกสารแยกอีกชนิด มีสถานะที่ต้องซิงค์กับตำแหน่งสต็อก</td><td class="ok">แผ่น = เลข Serial ของ Odoo เอง สถานะดูจากตำแหน่งที่อยู่</td></tr>
+<tr><td>ขนาดมี 2 ชุด (ขนาดคิดต้นทุน / ขนาดคิดราคา) ทำให้ราคาเพี้ยนได้</td><td class="ok">ขนาดชุดเดียว เก็บที่แผ่น</td></tr>
+<tr><td>ซื้อ Slab ผ่านใบสั่งซื้อไม่ได้ ต้องเพิ่มแถวมือที่หน้า Block</td><td class="ok">ซื้อผ่านใบรับของ กรอกขนาดทีละแผ่น เหมือน Block</td></tr>
+<tr><td>ต้นทุนขายเป็นเฉลี่ยตามลำดับเข้าก่อน ผิดเมื่อแผ่นต้นทุนต่างกัน</td><td class="ok">ต้นทุนขายตามต้นทุนของแผ่นนั้น</td></tr>
+<tr><td>พักแผ่นที่เลือกไว้ใน Hold ย้ายสต็อกจริง</td><td class="ok">เลือกแล้วแค่กันไม่ให้คนอื่นเลือกซ้ำ สต็อกไม่ย้ายจนกว่าส่งของ</td></tr>
+<tr><td>ลูกค้าคืนแล้วเข้าคลังทั่วไป</td><td class="ok">เข้า Returned - Inspect เสมอ ตรวจก่อนค่อยนำกลับไปขาย</td></tr></table>
+
+<h2>7. คำถามที่พบบ่อย</h2>
+<p><strong>ใส่ 4 ในช่องจำนวนของ PO Slab คือซื้อ 4 ตร.ม. หรือเปล่า</strong><br/>ไม่ใช่ครับ คือ 4 แผ่น ส่วนตร.ม. ระบบคำนวณให้เป็นค่าโดยประมาณ มูลค่าจริงคิดจากขนาดที่วัดตอนรับของ</p>
+<p><strong>ทำไมยอดใบสั่งขายไม่ตรงกับ ตร.ม. × ราคาที่เสนอไว้ตอนแรก</strong><br/>ตอนเสนอราคา ระบบใช้ขนาดมาตรฐาน (3.00 × 1.60) พอเลือกแผ่นจริง ระบบคิดจากขนาดจริง และล็อกยอดไว้ตามที่ตกลงกับลูกค้า ถ้าต่างกันมากจะมีแถบสีแดงเตือน</p>
+<p><strong>ทำไมสแกน Serial ไม่ผ่าน</strong><br/>ชื่อที่สแกนต้องตรงกับแผ่นในแถวนั้น ตรวจจากคอลัมน์ Lot ของแถว และสแกนให้ครบทุกแถวก่อน Validate</p>
+<p><strong>ลูกค้าคืนแผ่นแล้วหาแผ่นไม่เจอใน All Slabs</strong><br/>เอาตัวกรอง Available ออก แผ่นที่รอตรวจจะแสดงสถานะ Returned - Pending Inspection</p>
+<p><strong>ทำไมแผ่นที่ตัดจาก Block เดียวกันต้นทุนเท่ากันหมด</strong><br/>ระบบแบ่งต้นทุน Block ให้ทุกแผ่นเท่ากัน ไม่ถ่วงตามขนาดจริงของแผ่น (ดูข้อจำกัดข้อ 1)</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>ต้นทุนจากใบตัดแบ่งเท่ากันทุกแผ่น แม้แผ่นที่ตัดได้เล็กกว่าแผน (ตั้งใจเลื่อนไว้ ตามที่ผู้ใช้ตัดสินใจ)</li>
+<li>การคืนที่ตรวจแล้วชำรุด (Scrap) ยังไม่ได้ทดลอง และรายการบัญชีของการตัดทิ้งยังไม่ได้ตรวจสอบ</li>
+<li>การรับคืนในบทนี้ยังไม่รวมการออกใบลดหนี้ (Credit Note) ให้ลูกค้า</li>
+<li>การขายข้ามบริษัท (EG↔ES) และการซื้อ Slab สำเร็จรูปแล้วออกใบแจ้งหนี้ผู้ขาย ยังไม่ได้เดินจริงหลังรอบ Slab = Lot (ดูบทที่ 08)</li>
+<li>เศษหินที่เหลือจากใบตัดยังไม่ถูกบันทึกกลับเข้าสต็อกเป็นแผ่น/เศษ</li>
+</ul>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-087 (Slab = Lot/Serial), ADR-079/085 (ล็อกยอดและเตือนขนาดต่าง), ADR-084 (รับผ่านใบรับของ) — claude-knowledge vault · ทดลองบน eg-tst เมื่อ 2026-10-05 (ชุดตัวอย่าง TC-GP-SLB-01 ถึง 18)</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="30-block.html"><span class="dir">← ก่อนหน้า</span>30. Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
