@@ -127,9 +127,9 @@
       <details class="tree-cat" data-section="project-overview" open>
         <summary>ภาพรวมโครงการ</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="presentations/product-concept-stone-management.html"><span class="tree-doc-tag">1</span>โครงสร้างสินค้าหิน &amp; วิธีจัดการบนระบบ</a></li>
-          <li class="tree-doc"><a href="presentations/block-custom-explainer.html"><span class="tree-doc-tag">2</span>Block คืออะไร — โครงสร้างและส่วน Custom</a></li>
-          <li class="tree-doc"><a href="presentations/eg-321-sale-mode-concept.html"><span class="tree-doc-tag">EG</span>แนวคิด EG-321 — 3 จุดขาย + 2 สวิตช์ + 1 Production Line</a></li>
+          <li class="tree-doc"><a href="manual/30-block.html"><span class="tree-doc-tag">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
+          <li class="tree-doc"><a href="manual/31-slab.html"><span class="tree-doc-tag">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
+          <li class="tree-doc"><a href="manual/32-fg.html"><span class="tree-doc-tag">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="presentations/eg-321-production-line.html"><span class="tree-doc-tag">EG</span>EG-321 Production Line — เจาะรายละเอียดสายการผลิต + Odoo MRP</a></li>
         </ul>
       </details>
@@ -232,9 +232,6 @@
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="manual/30-block.html"><span class="tree-doc-tag">BK</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
-          <li class="tree-doc"><a href="manual/31-slab.html"><span class="tree-doc-tag">SL</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
-          <li class="tree-doc"><a href="manual/32-fg-countertop.html"><span class="tree-doc-tag">FG</span>FG Countertop — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่)</a></li>
           <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (32 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
@@ -261,25 +258,29 @@
   <div class="category" id="project-overview">
     <div class="category-header">
       <div class="category-title">ภาพรวมโครงการ</div>
-      <div class="category-sub">ปูพื้นก่อนเริ่ม — เข้าใจภาพรวมระบบและโครงสร้างสินค้าหิน</div>
+      <div class="category-sub">ปูพื้นก่อนเริ่ม — เข้าใจ Block, Slab, FG และสายการผลิต ตั้งแต่นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
     </div>
-    <a class="card pinned" href="presentations/product-concept-master.html">
-      <span class="pin-badge">📌 ปักหมุด</span>
-      <div class="icon">PC</div>
+    <a class="card" href="manual/30-block.html">
+      <div class="icon">BK</div>
       <div>
-        <div class="card-title">Product Concept & Master Setup ฉบับรวมเดียว (EG-321)</div>
-        <div class="card-desc">เอกสารหลักเรื่อง Product — จาก Odoo มาตรฐาน (Goods/Service/Combo) → ทำไมต้อง Custom → โครงสร้างสินค้าหิน Material/Block/Slab/FG → คู่มือ Setup จริงทีละระดับ พร้อมรูปจริงจากโรงงาน 11 ก.ย. จับคู่กับหน้าจอปัจจุบัน (23 สไลด์) — แทนที่เอกสารเก่าทั้งหมดเรื่อง product concept/master setup</div>
-        <div class="card-meta"><span class="card-date">18 ก.ย. 2026</span><span class="status-badge confirmed">เอกสารหลักฉบับเดียว</span></div>
+        <div class="card-title">Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+        <div class="card-desc">ตั้งแต่ซื้อ Block, รับของ กรอกขนาด, แก้ขนาด, คืนของ ไปจนถึงตัดเป็นแผ่น — ภาพหน้าจอจริงทุกขั้น</div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card pinned" href="presentations/eg-321-sale-mode-concept.html">
-      <span class="pin-badge">📌 ปักหมุด</span>
-      <div class="icon">EG</div>
+    <a class="card" href="manual/31-slab.html">
+      <div class="icon">SL</div>
       <div>
-        <div class="card-title">แนวคิด EG-321 — 3 จุดขาย + 2 สวิตช์ + 1 Production Line</div>
-        <div class="card-desc">ทบทวนโครงสร้าง Sale Mode ใหม่: 3 จุดขาย (Block/Slab/FG) บนสายการผลิตเดียวกัน + 2 สวิตช์อิสระ (Project/BOQ) แทนกรอบ "5 Sale Modes" เดิม — มาจากการทบทวนหลัง Visit โรงงาน 11 ก.ย. และการแยก Project/BOQ ให้เป็นอิสระ (ADR-069)</div>
-        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">แนวคิดล่าสุด</span></div>
+        <div class="card-title">Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+        <div class="card-desc">ตั้งแต่ตัดจาก Block หรือซื้อแผ่นสำเร็จรูป, ขาย เลือกแผ่น, ส่งของสแกน Serial, ใบแจ้งหนี้ ไปจนถึงรับคืนและตรวจ — ภาพหน้าจอจริงทุกขั้น</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="manual/32-fg.html">
+      <div class="icon">FG</div>
+      <div>
+        <div class="card-title">FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+        <div class="card-desc">2 เส้นทาง: Countertop (ชิ้นงาน + งานแปรรูป ผลิตจาก Slab) และ Custom FG เจดีย์บัว (โหลด BOQ → ตัดหิน → ประกอบ → Serial) ไปจนถึงส่งของ ใบแจ้งหนี้ และต้นทุน — ภาพหน้าจอจริงทุกขั้น</div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -288,7 +289,7 @@
       <div>
         <div class="card-title">EG-321 Production Line — เจาะรายละเอียดสายการผลิต</div>
         <div class="card-desc">ต่อจาก EG-321: สถานีจริง 8 Work Center, Odoo MRP feature ที่รองรับแต่ละแนวคิด, flow จริง Block→Slab→FG + Dry-lay QC + Custom-Carved sub-pipeline — พร้อมรูปจริงจาก Visit โรงงาน 11 ก.ย. และ screenshot จริงจากระบบ</div>
-        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
+        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">ล่าสุด</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -668,30 +669,6 @@
       <div class="category-title">Draft Document</div>
       <div class="category-sub">ฉบับร่าง — ยังไม่ final</div>
     </div>
-    <a class="card" href="manual/30-block.html">
-      <div class="icon">BK</div>
-      <div>
-        <div class="card-title">Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่ 4 ต.ค.)</div>
-        <div class="card-desc">ตั้งแต่ซื้อ Block, รับของ กรอกขนาด, แก้ขนาด, คืนของ ไปจนถึงตัดเป็นแผ่น — ภาพหน้าจอจริงทุกขั้น</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="manual/31-slab.html">
-      <div class="icon">SL</div>
-      <div>
-        <div class="card-title">Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่ 6 ต.ค.)</div>
-        <div class="card-desc">ตั้งแต่ตัดจาก Block หรือซื้อแผ่นสำเร็จรูป, ขาย เลือกแผ่น, ส่งของสแกน Serial, ใบแจ้งหนี้ ไปจนถึงรับคืนและตรวจ — ภาพหน้าจอจริงทุกขั้น</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="manual/32-fg-countertop.html">
-      <div class="icon">FG</div>
-      <div>
-        <div class="card-title">FG Countertop — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (ใหม่ 6 ต.ค.)</div>
-        <div class="card-desc">ตั้งแต่ใบสั่งขายชิ้นงาน + งานแปรรูป, ผลิตจาก Slab, เศษกลับเข้าสต็อก, ส่งของ ไปจนถึงใบแจ้งหนี้ — ภาพหน้าจอจริงทุกขั้น</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
