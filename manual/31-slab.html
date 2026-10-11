@@ -72,7 +72,7 @@
     <h1><span class="chapter-num">31</span> Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
   </div>
   <div class="page-content">
-<p class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ตรวจชื่อปุ่ม/หน้าจอกับโค้ด stone_slab_inventory เวอร์ชัน 19.0.2.109.6 (หลังรอบ Slab = Lot, ADR-087) · ภาพหน้าจอมาจากการทดลองใช้งานจริงบนระบบทดสอบ เมื่อ 5 ตุลาคม 2569 (หน้าใบตัดและหน้าฟอร์ม Slab ถูกปรับ layout ภายหลัง ภาพบางภาพจึงต่างจากหน้าจอปัจจุบันเล็กน้อย ข้อความในบทเป็นไปตามระบบล่าสุด)</p>
+<p class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ตรวจชื่อปุ่ม/หน้าจอกับโค้ด stone_slab_inventory เวอร์ชัน 19.0.2.109.11 (หลังรอบ Slab = Lot, ADR-087) · ภาพหน้าจอทุกภาพถ่ายใหม่จากระบบทดสอบเมื่อ 11 ตุลาคม 2569 ด้วยข้อมูลชุดเดียวกันตลอดทั้งบท (Block BLK-26-0036 ขนาด 3.00 × 1.60 × 1.25 ม. = 6.00 ลบ.ม.)</p>
 <style>
 .doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
@@ -96,7 +96,7 @@ table.cond td.no{background:#fdeeee}
 <h2>1. Slab คืออะไร</h2>
 <p><strong>Slab คือแผ่นหินหนึ่งแผ่น</strong> ที่ได้จากการตัด Block หรือซื้อแผ่นสำเร็จรูปจากผู้ขาย เป็นสินค้าที่ขายให้ลูกค้าได้โดยตรง หรือเป็นวัตถุดิบของสินค้าสำเร็จรูป (FG) เช่น เคาน์เตอร์</p>
 <div class="kv">
-<div>1 แผ่นจริง</div><div>= 1 เลข Serial (เช่น <code>BLK-26-0006-1</code> ตัดจาก Block, หรือ <code>SLB-26-0001</code> ซื้อสำเร็จรูป)</div>
+<div>1 แผ่นจริง</div><div>= 1 เลข Serial (เช่น <code>BLK-26-0036-1</code> ตัดจาก Block, หรือ <code>SLB-26-0030</code> ซื้อสำเร็จรูป)</div>
 <div>ขนาด</div><div>กว้าง × ยาว × หนา เป็นเมตร เก็บไว้ที่ตัวแผ่นเอง (ตัวอย่างในบทนี้ 3.00 × 1.25 × 0.02 ม.)</div>
 <div>พื้นที่</div><div>ระบบคำนวณจาก กว้าง × ยาว เป็น <strong>ตารางเมตร (ตร.ม.)</strong> ไม่ต้องพิมพ์เอง</div>
 <div>ซื้อขายเป็น</div><div><strong>ตร.ม.</strong> (ราคาต่อตร.ม. เช่น 4,500 ฿/ตร.ม.)</div>
@@ -139,10 +139,9 @@ table.cond td.no{background:#fdeeee}
 <figure class="screenshot"><img src="assets/slab-03-confirm-reason.webp" alt="เลือกเหตุผลและ Confirm ใบตัด"/></figure>
 <p><strong>ขั้นที่ 3: ตัดเสร็จ กด ตัดเสร็จ</strong> ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ <strong>จริง L / จริง H / จริง ความหนา</strong> ที่แท็บ Slab ที่ตัดได้ (แผน/จริง) ก่อนกดปุ่ม</p>
 <figure class="screenshot"><img src="assets/slab-04-complete-cut.webp" alt="ใบตัดที่ Done แล้ว ได้ 80 แผ่น"/></figure>
-<p>ระบบแจ้ง "Complete Cut สำเร็จ ตัดได้ 80 แผ่นจาก BLK-26-0006" ใบตัดขึ้น Done และปุ่ม Serial Numbers แสดง 80 (ภาพคือใบตัดที่ Done แล้ว: การ์ดสรุปแสดง "ตัดได้จริง 80 แผ่น 300.00 ตร.ม. (100% ของแผน)" และแท็บ "Slab ที่ตัดได้ (แผน/จริง)" มี 80 แถว)</p>
+<p>ระบบแจ้ง "Complete Cut สำเร็จ ตัดได้ 80 แผ่นจาก BLK-26-0036" ใบตัดขึ้น Done และปุ่ม Serial Numbers แสดง 80 (ภาพคือใบตัดที่ Done แล้ว: การ์ดสรุปแสดง "ตัดได้จริง 80 แผ่น 300.00 ตร.ม. (100% ของแผน)" และแท็บ "Slab ที่ตัดได้ (แผน/จริง)" มี 80 แถว แสดงหน้าละ 40 แถว)</p>
 <div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้นทุน</span><span class="callout-title">ต้นทุน Block ถูกแบ่งให้ทุกแผ่นเท่ากัน</span></div><div class="callout-body">Block 6.00 ลบ.ม. ต้นทุน 97,200 บาท ÷ 80 แผ่น = <strong>1,215 บาทต่อแผ่น</strong> (ยืนยันจากต้นทุนขายตอนออกใบแจ้งหนี้ หัวข้อ 4.8) แม้แผ่นที่ตัดได้ขนาดไม่เท่าแผนก็ตาม ต้นทุนต่อแผ่นยังเท่ากัน ตัวเลข 97,200 บาทในตัวอย่างคือต้นทุน Block ในรอบทดลอง ถ้า Block มีค่าขนส่งนำเข้า (Landed Cost) ต้นทุนส่วนนี้รวมอยู่ในต้นทุน Block และถูกแบ่งลงแผ่นด้วย ดูบทที่ 33</div></div>
-<p><strong>หน้าใบตัดปัจจุบัน:</strong> หลังเลือก Block ระบบแสดงการ์ดสรุป (ชนิดงาน, Block, ขนาดเป้าหมาย, ความคืบหน้า, "จะได้ Slab"), บรรทัดสถานะ Block, แถบ "ขั้นตอนถัดไป" และกลุ่มขั้นตอนที่ 1–3 (ภาพตัวอย่างใช้ Block อีกก้อนหนึ่ง จึงเป็นตัวเลขคนละชุดกับตัวอย่างในบท)</p>
-<figure class="screenshot"><img src="assets/slab-19-cut-order-current.webp" alt="หน้าใบตัดปัจจุบัน หลังเลือก Block"/></figure>
+<p><strong>หน้าใบตัดปัจจุบัน:</strong> หลังเลือก Block ระบบแสดงการ์ดสรุป (ชนิดงาน, Block, ขนาดเป้าหมาย, ความคืบหน้า, "จะได้ Slab"), บรรทัดสถานะ Block, แถบ "ขั้นตอนถัดไป" และกลุ่มขั้นตอนที่ 1–3</p>
 <div class="callout callout-note"><div class="callout-head"><span class="callout-tag">เพิ่มเติม</span><span class="callout-title">ตัวช่วยและข้อกันพลาดของใบตัด (เพิ่มหลัง 6 ต.ค.)</span></div><div class="callout-body"><ul>
 <li><strong>สร้างแผนใหม่</strong> — ที่แท็บ "Slab ที่ตัดได้ (แผน/จริง)" กดเพื่อคำนวณแผนตัดใหม่จากขนาดที่ระบุ จำนวนแผ่นถูกจำกัดตามความกว้างของ Block (1 แผ่นต่อ 1 ชั้น) ถ้าแก้เฉพาะความหนา ระบบคำนวณแผนใหม่ให้</li>
 <li><strong>ความหนา "Other"</strong> — กรอกเป็น <strong>ซม.</strong> (เช่น 3.5) และบังคับกรอกก่อน Confirm</li>
@@ -153,9 +152,8 @@ table.cond td.no{background:#fdeeee}
 </ul></div></div>
 
 <h3>4.2 ตรวจ Slab ที่ตัดได้</h3>
-<p>ไปที่ <strong>Stone Slab → Slabs → All Slabs</strong> แล้วพิมพ์ชื่อ Block ในช่องค้นหา จะเห็นแผ่นแยกเป็นแผ่นละบรรทัด ตั้งแต่ <code>BLK-26-0006-1</code> ต่อเนื่องถึง <code>-80</code> ขนาด 3.00 × 1.25 × 0.020 ม. = 3.75 ตร.ม. (รวม 300 ตร.ม.) สถานะ Available และคอลัมน์ Block ชี้กลับไปที่ Block ต้นทาง</p>
+<p>ไปที่ <strong>Stone Slab → Slabs → All Slabs</strong> แล้วพิมพ์ชื่อ Block ในช่องค้นหา จะเห็นแผ่นแยกเป็นแผ่นละบรรทัด ตั้งแต่ <code>BLK-26-0036-1</code> ต่อเนื่องถึง <code>-80</code> ขนาด 3.00 × 1.25 × 0.020 ม. = 3.75 ตร.ม. (รวม 300 ตร.ม.) สถานะ Available และคอลัมน์ Block ชี้กลับไปที่ Block ต้นทาง</p>
 <figure class="screenshot"><img src="assets/slab-05-slab-list.webp" alt="รายการ Slab ที่ตัดได้"/></figure>
-<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ภาพนี้แสดง 76 แผ่น ไม่ใช่ 80</span></div><div class="callout-body">ภาพถ่ายหลังขายและส่งของไป 4 แผ่นแล้ว (หัวข้อ 4.6 และ 4.7) ตอนตัดเสร็จใหม่ๆ จะเห็น 80 แผ่น</div></div>
 
 <h3>4.3 ซื้อ Slab สำเร็จรูป — ใบสั่งซื้อ (PO)</h3>
 <p>ทางที่สอง: ซื้อแผ่นสำเร็จรูปจากผู้ขาย สร้างใบสั่งซื้อที่ <strong>Purchase → New</strong> เลือกผู้ขาย กด <strong>Add a product</strong> เลือกสินค้า Slab ของหินชนิดนั้น ใส่จำนวนแผ่น และราคา <strong>Price / Sq.M</strong> (ราคาต่อตารางเมตร) แล้วกด Confirm Order</p>
@@ -172,19 +170,19 @@ table.cond td.no{background:#fdeeee}
 </ol>
 <p>ตัวอย่าง: แผ่น 1 กว้าง 1.58 × ยาว 2.95 · แผ่น 2 กว้าง 1.60 × ยาว 3.00 · แผ่น 3 กว้าง 1.55 × ยาว 2.90 · แผ่น 4 กว้าง 1.60 × ยาว 3.00 หนาทุกแผ่น 0.02 ม.</p>
 <figure class="screenshot"><img src="assets/slab-07-receipt-sizes.webp" alt="กรอกขนาดจริงของแต่ละแผ่นที่ใบรับของ"/></figure>
-<p>หลัง Validate ใบรับของขึ้น Done แยกเป็นบรรทัดละ 1 แผ่น ระบบตั้งชื่อ Serial ให้เอง (<code>SLB-26-0001</code> ถึง <code>SLB-26-0004</code>) และ <strong>มูลค่าสต็อกคิดจากพื้นที่จริงของแต่ละแผ่น</strong> ไม่ใช่ขนาดมาตรฐาน:</p>
+<p>หลัง Validate ใบรับของขึ้น Done แยกเป็นบรรทัดละ 1 แผ่น ระบบตั้งชื่อ Serial ให้เอง (<code>SLB-26-0030</code> ถึง <code>SLB-26-0033</code>) และ <strong>มูลค่าสต็อกคิดจากพื้นที่จริงของแต่ละแผ่น</strong> ไม่ใช่ขนาดมาตรฐาน:</p>
 <table class="cond"><tr><th>แผ่น</th><th>ขนาด (ม.)</th><th>พื้นที่ (ตร.ม.)</th><th>มูลค่า (× 1,300)</th></tr>
-<tr><td>SLB-26-0001</td><td>1.58 × 2.95</td><td>4.66</td><td>6,059.30</td></tr>
-<tr><td>SLB-26-0002</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
-<tr><td>SLB-26-0003</td><td>1.55 × 2.90</td><td>4.50</td><td>5,843.50</td></tr>
-<tr><td>SLB-26-0004</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
+<tr><td>SLB-26-0030</td><td>1.58 × 2.95</td><td>4.66</td><td>6,059.30</td></tr>
+<tr><td>SLB-26-0031</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
+<tr><td>SLB-26-0032</td><td>1.55 × 2.90</td><td>4.50</td><td>5,843.50</td></tr>
+<tr><td>SLB-26-0033</td><td>1.60 × 3.00</td><td>4.80</td><td>6,240.00</td></tr>
 <tr><td><strong>รวม</strong></td><td></td><td><strong>18.756</strong></td><td><strong>24,382.80</strong></td></tr></table>
 
 <h3>4.5 ตรวจ Slab ที่รับเข้ามา</h3>
 <p>ที่ <strong>Stone Slab → Slabs → All Slabs</strong> ค้นหา <code>SLB-26</code> จะเห็น 4 แผ่นตามขนาดที่วัด สถานะ Available <strong>คอลัมน์ Block ว่าง</strong> เพราะซื้อมาเป็นแผ่นสำเร็จ ไม่ได้ตัดจาก Block ของเรา</p>
 <figure class="screenshot"><img src="assets/slab-08-received-slabs.webp" alt="Slab ที่รับเข้ามา"/></figure>
 <p><strong>หน้าฟอร์ม Slab:</strong> เปิดแผ่นใดแผ่นหนึ่งจะเห็นการ์ดสรุป (สถานะ ราคาต่อ ตร.ม. และต่อแผ่น) กับแท็บ <strong>ข้อมูล Slab</strong> (ชั้นวาง เศษ รูป) · <strong>ระบบเติม/คำนวณให้</strong> (ขนาด สต็อก ต้นทุน) · <strong>ที่มา / เอกสารที่ผูก</strong> (Block ใบตัด ใบขาย) และ <strong>ประวัติแก้ขนาด</strong> (ถ้ามี)</p>
-<figure class="screenshot"><img src="assets/slab-20-slab-form.webp" alt="หน้าฟอร์ม Slab SLB-26-0001"/></figure>
+<figure class="screenshot"><img src="assets/slab-20-slab-form.webp" alt="หน้าฟอร์ม Slab SLB-26-0030"/></figure>
 <p><strong>แก้ขนาดที่บันทึกผิด:</strong> กดปุ่ม <strong>แก้ขนาด</strong> บนหัวฟอร์ม กรอก กว้าง/ยาว/หนา ใหม่และ <strong>เหตุผล</strong> (บังคับ) ระบบบันทึกประวัติไว้ที่แท็บ "ประวัติแก้ขนาด"</p>
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ข้อจำกัด</span><span class="callout-title">ใครแก้ได้ และแก้ไม่ได้เมื่อไร</span></div><div class="callout-body">เฉพาะ <strong>ผู้จัดการสต็อก (Inventory Manager)</strong> เท่านั้น และแก้ไม่ได้ถ้าแผ่นขายหรือใช้ไปแล้ว หรือถูกเลือกอยู่ในใบสั่งขายที่ยังเปิด (ให้เอาออกจากใบสั่งขายก่อน)</div></div>
 
@@ -194,7 +192,7 @@ table.cond td.no{background:#fdeeee}
 <p>ได้บรรทัดสินค้า "Slab (Polished, 2 cm)" ราคา 4,500 บาท/ตร.ม. ตอนนี้ยอดยังเป็นราคาตามขนาดมาตรฐาน (3.00 × 1.60 = 4.80 ตร.ม. → 21,600 บาท) ยอดจริงจะคำนวณใหม่เมื่อเลือกแผ่นในขั้นถัดไป</p>
 <p><strong>เลือกแผ่นที่จะขาย:</strong> ที่ท้ายบรรทัดสินค้า กดปุ่มไอคอนรายการ <strong>เลือก Slab / Select Slabs</strong> ในหน้าต่างกด <strong>Add a line</strong> แล้วเลือก Slab ทีละแผ่น (พิมพ์ชื่อแล้วเลือก) ทำซ้ำจนครบ แล้วกด <strong>ยืนยันการเลือก</strong></p>
 <figure class="screenshot"><img src="assets/slab-10-select-slabs.webp" alt="หน้าต่างเลือก Slab / Lot"/></figure>
-<p>หน้าต่างแสดงขนาด จำนวนที่ว่าง และ ตร.ม. ของแต่ละแผ่น ตัวอย่างเลือก 4 แผ่น (<code>BLK-26-0006-1</code> ถึง <code>-4</code>) พื้นที่รวม 15.00 ตร.ม. พอยืนยัน บรรทัดสินค้าเปลี่ยนเป็น <strong>"4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม."</strong> ยอดก่อน VAT 67,500 บาท, VAT 4,725, รวม 72,225</p>
+<p>หน้าต่างแสดงขนาด จำนวนที่ว่าง และ ตร.ม. ของแต่ละแผ่น ตัวอย่างเลือก 4 แผ่น (<code>BLK-26-0036-1</code> ถึง <code>-4</code>) พื้นที่รวม 15.00 ตร.ม. พอยืนยัน บรรทัดสินค้าเปลี่ยนเป็น <strong>"4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม."</strong> ยอดก่อน VAT 67,500 บาท, VAT 4,725, รวม 72,225</p>
 <p><strong>กด Confirm ใบสั่งขาย:</strong> สถานะเป็น Sales Order มีสมาร์ทปุ่ม Delivery 1 ใบ และ Slabs 4 แผ่น</p>
 <figure class="screenshot"><img src="assets/slab-11-so-confirmed.webp" alt="ใบสั่งขาย Confirm แล้ว"/></figure>
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">แถบสีแดง "ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า" คือคำเตือน ไม่ใช่ข้อผิดพลาด</span></div><div class="callout-body">ใบเสนอราคาใช้ขนาดมาตรฐาน 3.00 × 1.60 (4.80 ตร.ม./แผ่น) แต่แผ่นจริงที่เลือกคือ 3.75 ตร.ม./แผ่น ระบบ <strong>ล็อกยอดไว้ที่ 67,500</strong> และเตือนเซลล์ให้แจ้งลูกค้า เป็นพฤติกรรมตามออกแบบ (ADR-079, 085) ไม่ห้ามการ Confirm</div></div>
@@ -229,7 +227,9 @@ table.cond td.no{background:#fdeeee}
 <figure class="screenshot"><img src="assets/slab-17-returned-pending.webp" alt="Slab ที่คืนอยู่ในสถานะรอตรวจ"/></figure>
 <p><strong>ตรวจแล้ว นำกลับไปขาย:</strong> เปิดหน้า Slab ที่คืน กดปุ่ม <strong>ตรวจแล้ว — นำกลับไปขาย</strong> ทำซ้ำกับแผ่นที่เหลือ สถานะกลับเป็น Available ที่ Stone Available ต้นทุนยังเป็น 1,215 บาทเท่าเดิม และเลือกขายได้ใหม่</p>
 <figure class="screenshot"><img src="assets/slab-18-inspect-ok.webp" alt="ตรวจแล้ว กลับเป็น Available"/></figure>
-<p>ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม <strong>ชำรุด — ตัดทิ้ง (Scrap)</strong> แทน ระบบถามยืนยัน แล้วสร้างเอกสาร Scrap ของ Odoo ตัดแผ่นออกจากสต็อก Returned - Inspect ให้เอง (ยังไม่ได้ทดลองกดบนหน้าจอ และยังไม่ได้ตรวจรายการบัญชี)</p>
+<p>ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม <strong>ชำรุด — ตัดทิ้ง (Scrap)</strong> แทน ระบบถามยืนยัน "ตัดทิ้งแผ่นนี้ออกจากสต็อก?" กด Ok แล้วสร้างเอกสาร Scrap ของ Odoo (เช่น SP/00007 สถานะ Done) ย้ายแผ่นจาก Returned - Inspect ไป Inventory adjustment ให้เอง แผ่นแสดงสถานะ <strong>Elsewhere</strong> และที่เก็บเป็น Inventory adjustment (ทดลองกดบนระบบทดสอบแล้ว แต่ยังไม่ได้ตรวจรายการบัญชีของการตัดทิ้ง)</p>
+<figure class="screenshot"><img src="assets/slab-21-scrap.webp" alt="Slab ที่ตัดทิ้งแล้ว สถานะ Elsewhere"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">การ์ดอาจยังเขียน "ถูกเลือกในใบขาย"</span></div><div class="callout-body">หลังคืนและตรวจแล้ว การ์ดสรุปของแผ่นอาจยังแสดง "ถูกเลือกในใบขาย: S0xxxxx" ของใบขายเดิม เป็นเพียงประวัติการเลือก ไม่ได้กันไม่ให้ขายซ้ำ (ระบบกันเฉพาะแผ่นที่ถูกเลือกในใบเสนอราคาที่ยังเป็นร่างหรือส่งแล้ว) ถ้าอยากแก้ขนาดแผ่นนั้น ระบบจะยังไม่ให้แก้จนกว่าจะเอาออกจากใบขายเดิม</div></div>
 
 <h2>5. สรุปเงื่อนไขทั้งหมด</h2>
 <h3>5.1 การได้แผ่นมา</h3>
@@ -277,7 +277,7 @@ table.cond td.no{background:#fdeeee}
 <h2>8. ข้อจำกัดที่ทราบ</h2>
 <ul>
 <li>ต้นทุนจากใบตัดแบ่งเท่ากันทุกแผ่น แม้แผ่นที่ตัดได้เล็กกว่าแผน (ตั้งใจเลื่อนไว้ ตามที่ผู้ใช้ตัดสินใจ)</li>
-<li>การคืนที่ตรวจแล้วชำรุด (Scrap): ปุ่มสร้างเอกสาร Scrap ของ Odoo ให้เอง แต่ยังไม่ได้ทดลองกดบนหน้าจอ และรายการบัญชีของการตัดทิ้งยังไม่ได้ตรวจสอบ</li>
+<li>การคืนที่ตรวจแล้วชำรุด (Scrap): ปุ่มสร้างเอกสาร Scrap ของ Odoo ให้เอง ทดลองกดบนระบบทดสอบแล้วใช้งานได้ แต่รายการบัญชีของการตัดทิ้งยังไม่ได้ตรวจสอบ</li>
 <li>การรับคืนในบทนี้ยังไม่รวมการออกใบลดหนี้ (Credit Note) ให้ลูกค้า</li>
 <li>การขายข้ามบริษัท (EG↔ES) และการซื้อ Slab สำเร็จรูปแล้วออกใบแจ้งหนี้ผู้ขาย ยังไม่ได้เดินจริงหลังรอบ Slab = Lot (ดูบทที่ 08)</li>
 <li>เศษหินที่เหลือจากใบตัดยังไม่ถูกบันทึกกลับเข้าสต็อกเป็นแผ่น/เศษ</li>
