@@ -11,7 +11,7 @@
 <div class="topbar">
   <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
-  <span class="chapter-crumb">บทที่ 30 / 31</span>
+  <span class="chapter-crumb">บทที่ 30 / 33</span>
 </div>
 <div class="wrap">
   <nav class="sidebar">
@@ -19,13 +19,15 @@
       <div class="brand-mark">EG</div>
       <div class="brand-name">EMG-O</div>
     </div>
-    <div class="brand-sub">คู่มือฉบับเต็ม — 31 บท</div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 33 บท</div>
     <div class="nav-section">ภาพรวม</div>
     <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
     <div class="nav-section">รับสินค้า & สต็อก</div>
     <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
     <a href="30-block.html" class="nav-link active"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
     <div class="nav-section">โหมดการขาย</div>
     <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
@@ -70,7 +72,7 @@
     <h1><span class="chapter-num">30</span> Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
   </div>
   <div class="page-content">
-<p class="doc-date">อัปเดตล่าสุด: 4 ตุลาคม 2569 (2026-10-04) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.105.0 · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ</p>
+<p class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.6 · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ</p>
 <style>
 .doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
@@ -157,14 +159,15 @@ table.cond td.no{background:#fdeeee}
 <li>สร้างเอกสาร Block ให้ทุกก้อน พร้อมขนาด ผู้ขาย และใบสั่งซื้อที่มา</li>
 </ul>
 <figure class="screenshot"><img src="assets/block-receipt-done.webp" alt="ใบรับของสถานะ Done พร้อมข้อความสร้าง Block สำเร็จ"/></figure>
-<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ช่อง "Destination Location" ที่หัวใบรับของยังแสดง EG01/Stock</span></div><div class="callout-body">เป็นค่าตั้งต้นของ Odoo ที่หัวเอกสาร แต่ของ Block ถูกเก็บเข้า <strong>Stone Available</strong> จริง (ตรวจแล้วที่ตารางสต็อก) ไม่ได้ไปอยู่ที่ EG01/Stock</div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ปลายทางของใบรับของ Block คือ Stone Inventory/Stone Available</span></div><div class="callout-body">ช่อง "Destination Location" ที่หัวใบรับของ (และช่อง Store To ในหน้าต่าง Details) แสดง <strong>Stone Inventory/Stone Available</strong> ตั้งแต่ตอนเปิดใบรับของ ไม่ใช่ EG01/Stock แล้ว (เวอร์ชันก่อนหน้าแสดง EG01/Stock ที่หัวเอกสาร)</div></div>
 
 <h3>4.3 Block ในคลัง</h3>
 <p>ไปที่เมนู <strong>Stone Slab → Blocks</strong> จะเห็น Block ทั้งหมดเป็นการ์ด ตัวเลขท้ายการ์ดคือปริมาตรและตันที่เหลือ (ปกติระบบซ่อน Block ที่ใช้หมดแล้ว)</p>
 <figure class="screenshot"><img src="assets/block-block-list.webp" alt="หน้ารวม Block"/></figure>
-<p>เปิด Block ดูรายละเอียด: ขนาด ปริมาตร น้ำหนัก ผู้ขาย ใบสั่งซื้อที่มา ราคาขาย ต้นทุนต่อ ลบ.ม. และจำนวนแผ่นที่คาดว่าจะตัดได้</p>
+<p>เปิด Block จะเห็น <strong>การ์ดสรุป</strong> ด้านบนสุดของหน้า (อ่านอย่างเดียว) แบ่งเป็น 4 ช่อง: <strong>ขนาดก้อน</strong> (ยาว × กว้าง × สูง, ลบ.ม., ตัน) · <strong>คงเหลือ</strong> (ลบ.ม. และตัน) · <strong>ราคาขาย</strong> (บาท/ตัน เป็นตัวหลัก ใต้ลงมาคือ บาท/ลบ.ม. และบาท/ตร.ม. ของ Slab) · <strong>ผลการตัด</strong> (ถ้ายังไม่ตัดจะแสดงจำนวนแผ่นและ ตร.ม. โดยประมาณ) บรรทัดล่างของการ์ดคือต้นทุน (บาท/ตัน และบาท/ลบ.ม.) กับใบสั่งซื้อที่มา และมีป้ายสถานะ "ใช้ได้" / "ใช้หมดแล้ว" ข้างเลข Block</p>
+<p>ใต้การ์ดเป็นแท็บ: <strong>ข้อมูล Block</strong> (ขั้นตอนที่ 1 รับ Block เข้าคลัง — คลัง, Material, บรรทัดใบสั่งซื้อ, ขนาด · ขั้นตอนที่ 2 ราคาขาย แก้ได้ทั้งบาท/ตัน, บาท/ลบ.ม., บาท/ตร.ม.) · <strong>ระบบเติม/คำนวณให้</strong> (ดูเฉยๆ) · <strong>ข้อมูลเพิ่มเติม (ไม่บังคับ)</strong> · <strong>Slabs</strong> · <strong>Photos</strong> และแท็บ <strong>ประวัติแก้ขนาด</strong> จะโผล่เป็นแท็บสุดท้ายหลังมีการแก้ขนาดอย่างน้อย 1 ครั้ง</p>
 <figure class="screenshot"><img src="assets/block-block-form.webp" alt="หน้า Block"/></figure>
-<p>Block ที่เกิดจากใบรับของ <strong>ช่องขนาดจะถูกล็อก</strong> ถ้าต้องแก้ ให้ใช้ปุ่ม "แก้ขนาด" (หัวข้อ 4.5)</p>
+<p>Block ที่เกิดจากใบรับของ <strong>ช่องขนาดจะถูกล็อก</strong> ถ้าต้องแก้ ให้ใช้ปุ่ม "แก้ขนาด" (หัวข้อ 4.5) ซึ่งอยู่มุมซ้ายบนของหน้า</p>
 
 <h3>4.4 เก็บเงิน — ใบแจ้งหนี้ผู้ขาย (Vendor Bill)</h3>
 <p>ใบสั่งซื้อจะแสดงช่อง <strong>Received</strong> เป็นปริมาตรที่รับจริง (3.81) ไม่ใช่ 4.00 ที่สั่ง</p>
@@ -180,7 +183,7 @@ table.cond td.no{background:#fdeeee}
 <p><strong>ต้องระบุเหตุผลทุกครั้ง</strong> ถ้าเว้นว่าง ระบบแจ้ง "Missing required fields" และไม่บันทึก</p>
 <figure class="screenshot"><img src="assets/block-resize-filled.webp" alt="กรอกขนาดใหม่และเหตุผล"/></figure>
 <p>เมื่อกดแก้ขนาด ระบบจะ:</p>
-<ul><li>เปลี่ยนขนาดและปริมาตรของ Block</li><li>ปรับสต็อกส่วนต่างให้ (ตัวอย่างนี้สูง 1.60 → 1.50 ปริมาตร 1.92 → 1.80 ปรับลด 0.12)</li><li>บันทึกประวัติ ใครแก้ เมื่อไร จากอะไรเป็นอะไร เพราะอะไร ที่แท็บ <strong>ประวัติแก้ขนาด</strong></li></ul>
+<ul><li>เปลี่ยนขนาดและปริมาตรของ Block</li><li>ปรับสต็อกส่วนต่างให้ (ตัวอย่างนี้สูง 1.60 → 1.50 ปริมาตร 1.92 → 1.80 ปรับลด 0.12)</li><li>บันทึกประวัติ ใครแก้ เมื่อไร จากอะไรเป็นอะไร เพราะอะไร ที่แท็บ <strong>ประวัติแก้ขนาด</strong> (แท็บสุดท้ายของหน้า Block) หลังแก้ ตัน/คงเหลือ/จำนวนแผ่นที่คาดว่าจะตัดได้ ในการ์ดสรุปจะปรับตามขนาดใหม่ทันที</li></ul>
 <figure class="screenshot"><img src="assets/block-resize-history.webp" alt="แท็บประวัติแก้ขนาด"/></figure>
 <table class="cond"><tr><th>เงื่อนไข</th><th>ผล</th></tr>
 <tr><td>ไม่ใช่ Inventory Administrator</td><td class="no">ไม่เห็นปุ่ม ใช้ไม่ได้</td></tr>
@@ -190,7 +193,8 @@ table.cond td.no{background:#fdeeee}
 <tr><td>เงื่อนไขครบ</td><td class="ok">แก้ได้ ปรับสต็อกส่วนต่าง และบันทึกประวัติ</td></tr></table>
 
 <h3>4.6 สั่งตัดเป็นแผ่น (Cut Order)</h3>
-<p>ใบตัดสร้างจากใบสั่งขายที่ต้องการแผ่น ใช้ปริมาตรจาก Block ใน Stone Available เมื่อกด <strong>Complete Cut</strong> ได้ Slab ตามจำนวนแผ่นจริง ที่เหลือของ Block ลดลงตามที่ตัด ระบบมีแถบเตือนสีเหลืองเมื่อ <strong>ขนาดแผ่นที่ตั้งไว้ไม่พอดีกับ Block</strong> (เตือนเฉยๆ ไม่ห้าม ให้ตรวจก่อนตัดจริง) มี 2 กรณี:</p>
+<p>ใบตัดคือใบ Manufacturing Order ชนิด "ตัด Slab จาก Block" สร้างที่ <strong>Manufacturing → Manufacturing Orders → New</strong> แล้วเลือก <strong>Block ที่จะตัด</strong> ในขั้นตอนที่ 1 ระบบแสดงการ์ดสรุป (Block ที่ตัด, เหลือกี่ ลบ.ม., ขนาดเป้าหมาย, ความหนา, จำนวนแผ่นและ ตร.ม. ที่คาดว่าจะได้) และข้อความสีเขียว/เหลืองบอกว่า Block พอหรือไม่ จากนั้นกรอกตามขั้นตอน: <strong>ขั้นตอนที่ 2</strong> ขนาดแผ่น L × H, ผิวหน้า (Finish) และความหนา (ถ้าเลือก <strong>Other</strong> ให้กรอกเป็น <strong>ซม.</strong>) · <strong>ขั้นตอนที่ 3</strong> ผูกกับบรรทัดใบขาย (SO) <em>หรือ</em> ระบุเหตุผลกรณีไม่มี SO ถ้าไม่เลือกอย่างใดอย่างหนึ่ง กด Confirm ไม่ผ่าน ใช้ปริมาตรจาก Block ใน Stone Available เมื่อกด <strong>Complete Cut</strong> ได้ Slab ตามจำนวนแผ่นจริง ที่เหลือของ Block ลดลงตามที่ตัด แผนแผ่นที่ตัดอยู่ที่แท็บ <strong>Slab ที่ตัดได้ (แผน/จริง)</strong> (ปุ่ม "สร้างแผนใหม่" คำนวณจากขนาดที่ระบุ)</p>
+<p>ระบบมีแถบเตือนสีเหลืองเมื่อ <strong>ขนาดแผ่นที่ตั้งไว้ไม่พอดีกับ Block</strong> และตั้งแต่ 8 ตุลาคม 2569 <strong>ไม่ใช่แค่เตือน</strong> — ใบตัดที่ขนาดแผนไม่พอดีกับ Block จะกด <strong>Confirm</strong> หรือ <strong>Complete Cut</strong> ไม่ผ่าน (ข้อความ "ตัดจริงไม่ได้") จนกว่าจะแก้แผนที่แท็บ Slab ที่ตัดได้ มี 2 กรณี:</p>
 <p><strong>(ก)</strong> ความหนารวมของแผ่นทั้งหมดเกินความกว้างของ Block</p>
 <figure class="screenshot"><img src="assets/block-mo-thickness.webp" alt="เตือนความหนารวมเกินความกว้างของ Block"/></figure>
 <p><strong>(ข)</strong> ความยาวหรือความสูงของแผ่นใหญ่กว่า Block</p>
@@ -199,7 +203,8 @@ table.cond td.no{background:#fdeeee}
 
 <h3>4.7 คืน Block ให้ผู้ขาย</h3>
 <p><strong>ใบรับของที่ Validate แล้ว ยกเลิกไม่ได้</strong> ถ้ากดยกเลิก ระบบแจ้งว่า "You cannot cancel a stock move that has been set to Done" ให้ใช้การ <strong>คืนของ (Return)</strong> แทน:</p>
-<ol><li>เปิดใบรับของที่ Done กดปุ่ม <strong>Return</strong></li><li>กด <strong>Return All</strong> (ถ้าคืนทั้งหมด) หน้าต่างเริ่มต้นแสดง 0.00 ซึ่งเป็นปกติของ Odoo</li><li>ระบบสร้างใบคืน กด <strong>Validate</strong></li></ol>
+<ol><li>เปิดใบรับของที่ Done กดปุ่ม <strong>Return</strong></li><li>กด <strong>Return All</strong> (ถ้าคืนทั้งหมด) หน้าต่างเริ่มต้นแสดง 0.00 ซึ่งเป็นปกติของ Odoo</li><li>ระบบสร้างใบคืน (EG01/OUT/…) และ <strong>จองก้อนเดิมให้เอง</strong> ใบคืนขึ้นสถานะ <strong>Ready</strong> กด <strong>Validate</strong> ได้เลย (ถ้าอยากตรวจ กด Details จะเห็นแถวของ Block ก้อนเดิมพร้อมปริมาตร)</li></ol>
+<p>ใบคืน Block เลือกได้เฉพาะ <strong>Block ของใบรับของเดิม</strong> เท่านั้น: ในหน้า Details ถ้ากด Add a line รายการจะมีแต่ก้อนของใบรับของนั้น และถ้าพยายามใส่ Lot ของก้อนอื่น ระบบแจ้งว่าคืนได้เฉพาะ Block ของใบรับของเดิม (ปรับปรุง 11 ตุลาคม 2569)</p>
 <figure class="screenshot"><img src="assets/block-return-wizard.webp" alt="หน้าต่าง Return"/></figure>
 <figure class="screenshot"><img src="assets/block-return-done.webp" alt="ใบคืนสถานะ Done"/></figure>
 <p>ผลลัพธ์: สต็อกถูกหักออกจาก Stone Available, ช่อง Received ในใบสั่งซื้อกลับเป็น 0 และ <strong>เอกสาร Block ยังอยู่เป็นประวัติ แต่คงเหลือ 0.00</strong></p>
@@ -253,7 +258,7 @@ table.cond td.no{background:#fdeeee}
 <li>สิทธิ์ผู้ใช้ระดับต่ำ ยังไม่ได้ลองล็อกอินยืนยันบนหน้าจอ</li>
 <li>บิลของใบสั่งซื้อที่เปิดก่อน 4 ตุลาคม 2569 อาจยังตั้งค่าเป็น "ตามที่สั่ง" ให้ตรวจก่อน Confirm</li>
 </ul>
-<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-084 (Block รับผ่านใบรับของ), ADR-071 (ขนาดและปริมาตร) — claude-knowledge vault · ทดลองบน eg-tst และ mbx-ee-dev เมื่อ 2026-10-04</div>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-084 (Block รับผ่านใบรับของ), ADR-071 (ขนาดและปริมาตร) — claude-knowledge vault · ทดลองบน eg-tst และ mbx-ee-dev เมื่อ 2026-10-04 · ภาพหน้าจอและหัวข้อ 4.1–4.7 ตรวจซ้ำบน eg-tst (v19.0.2.109.6) เมื่อ 2026-10-11</div>
 <hr/>
   </div>
 </div>

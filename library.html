@@ -130,6 +130,7 @@
           <li class="tree-doc"><a href="manual/30-block.html"><span class="tree-doc-tag">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="manual/31-slab.html"><span class="tree-doc-tag">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="manual/32-fg.html"><span class="tree-doc-tag">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
+          <li class="tree-doc"><a href="manual/33-landed-cost.html"><span class="tree-doc-tag">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="presentations/eg-321-production-line.html"><span class="tree-doc-tag">EG</span>EG-321 Production Line — เจาะรายละเอียดสายการผลิต + Odoo MRP</a></li>
         </ul>
       </details>
@@ -162,7 +163,7 @@
       <details class="tree-cat" data-section="golden-path-test-cases" open>
         <summary>Golden Path Test Case</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-block.html"><span class="tree-doc-tag">1</span>Golden Path — Block (ใหม่ หลัง Slab = Lot)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-block-purchase-to-cut.html"><span class="tree-doc-tag">1</span>Golden Path — Block: ซื้อ ตัด คืน (ชุดที่ 1 จาก 3)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-slab.html"><span class="tree-doc-tag">2</span>Golden Path — Slab (Slab=lot) (ชุดที่ 2 จาก 3)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-fg.html"><span class="tree-doc-tag">3</span>Golden Path — FG: Countertop + Custom FG เจดีย์บัว (ชุดที่ 3 จาก 3)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
@@ -232,7 +233,7 @@
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (32 บท)</a></li>
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (33 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
           <div class="tree-subgroup-label">BOQ Estimation</div>
@@ -281,6 +282,14 @@
       <div>
         <div class="card-title">FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
         <div class="card-desc">2 เส้นทาง: Countertop (ชิ้นงาน + งานแปรรูป ผลิตจาก Slab) และ Custom FG เจดีย์บัว (โหลด BOQ → ตัดหิน → ประกอบ → Serial) ไปจนถึงส่งของ ใบแจ้งหนี้ และต้นทุน — ภาพหน้าจอจริงทุกขั้น</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="manual/33-landed-cost.html">
+      <div class="icon">LC</div>
+      <div>
+        <div class="card-title">Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+        <div class="card-desc">ค่าขนส่ง/ภาษีของตู้คอนเทนเนอร์ที่มาเป็นใบแจ้งหนี้หลายใบ หลายสกุลเงิน (บาท/USD) แบ่งตามคิวเข้ามูลค่า Block และส่งต่อถึงต้นทุน Slab พร้อมตัวอย่างตัวเลขจริง</div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -379,11 +388,11 @@
       <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 จุดขาย/สวิตช์ ตามแนวคิด EG-321 — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
     </div>
 
-    <a class="card" href="qa/test-cases-golden-path-block.html">
+    <a class="card" href="qa/test-cases-golden-path-block-purchase-to-cut.html">
       <div class="icon">1</div>
       <div>
-        <div class="card-title">Golden Path — Block (ชุดที่ 1 จาก 3: Block → Slab → FG)</div>
-        <div class="card-desc">สร้างใหม่หลังปรับแนวคิด Slab = Lot — ตั้งค่าหิน → สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน (Backorder) → ดู/แก้ขนาด Block → ขายทั้งก้อน → ส่งของ → ใบแจ้งหนี้ + ตรวจต้นทุน · รันสดบน eg-tst พร้อมภาพจริงทุก case (12 test cases) · 5 ต.ค. 2026</div>
+        <div class="card-title">Golden Path — Block: ซื้อ รับ เก็บเงิน แก้ขนาด ตัด และคืน (ชุดที่ 1 จาก 3: Block → Slab → FG)</div>
+        <div class="card-desc">สั่งซื้อเป็นตัน → รับของกรอกขนาด → บิลผู้ขายตามที่รับจริง → แก้ขนาด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · 8 เคส รันจริงโดยผู้ใช้บน eg-tst 11 ต.ค. 2569</div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -672,7 +681,7 @@
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (32 บท)</div>
+        <div class="card-title">คู่มือฉบับเต็ม (33 บท)</div>
         <div class="card-desc">ทุกโหมดการขาย (1-5), การจัดซื้อ, BOQ, Intercompany, Scan Station, WHT — แยกไฟล์รายบท พร้อม screenshot ทุกขั้นตอน</div>
       </div>
       <div class="arrow">→</div>
