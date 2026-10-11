@@ -11,7 +11,7 @@
 <div class="topbar">
   <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
-  <span class="chapter-crumb">บทที่ 31 / 31</span>
+  <span class="chapter-crumb">บทที่ 31 / 33</span>
 </div>
 <div class="wrap">
   <nav class="sidebar">
@@ -19,13 +19,15 @@
       <div class="brand-mark">EG</div>
       <div class="brand-name">EMG-O</div>
     </div>
-    <div class="brand-sub">คู่มือฉบับเต็ม — 31 บท</div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 33 บท</div>
     <div class="nav-section">ภาพรวม</div>
     <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
     <div class="nav-section">รับสินค้า & สต็อก</div>
     <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
     <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="31-slab.html" class="nav-link active"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
     <div class="nav-section">โหมดการขาย</div>
     <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
@@ -70,7 +72,7 @@
     <h1><span class="chapter-num">31</span> Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
   </div>
   <div class="page-content">
-<p class="doc-date">อัปเดตล่าสุด: 6 ตุลาคม 2569 (2026-10-06) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.106 (หลังรอบ Slab = Lot, ADR-087) · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ เมื่อ 5 ตุลาคม 2569</p>
+<p class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ตรวจชื่อปุ่ม/หน้าจอกับโค้ด stone_slab_inventory เวอร์ชัน 19.0.2.109.6 (หลังรอบ Slab = Lot, ADR-087) · ภาพหน้าจอมาจากการทดลองใช้งานจริงบนระบบทดสอบ เมื่อ 5 ตุลาคม 2569 (หน้าใบตัดและหน้าฟอร์ม Slab ถูกปรับ layout ภายหลัง ภาพบางภาพจึงต่างจากหน้าจอปัจจุบันเล็กน้อย ข้อความในบทเป็นไปตามระบบล่าสุด)</p>
 <style>
 .doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
@@ -128,17 +130,27 @@ table.cond td.no{background:#fdeeee}
 <h3>4.1 ได้แผ่นจากการตัด Block (Cut Order)</h3>
 <p>ทางที่หนึ่ง: ตัด Block ที่มีอยู่ในคลังให้เป็นแผ่น ไปที่ <strong>Manufacturing → Operations → Manufacturing Orders → New</strong> แล้วเลือก <strong>Stone Block</strong> ที่จะตัด</p>
 <figure class="screenshot"><img src="assets/slab-01-cut-order-block.webp" alt="ใบตัดเลือก Block"/></figure>
-<p>ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ที่แท็บ <strong>Planned/Actual Slabs</strong> ตัวอย่างนี้ Block 6.00 ลบ.ม. ตัดได้ 80 แผ่นพอดี (แถวละ 1 แผ่น)</p>
-<p><strong>ขั้นที่ 1: ย้าย Block ไปสถานีตัด</strong> หลังกด Save แล้วกดปุ่ม <strong>ย้ายด่วน (Move to Production)</strong></p>
+<p>ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ที่แท็บ <strong>Slab ที่ตัดได้ (แผน/จริง)</strong> ตัวอย่างนี้ Block 6.00 ลบ.ม. ตัดได้ 80 แผ่นพอดี (แถวละ 1 แผ่น)</p>
+<p><strong>ขั้นที่ 1: ย้าย Block ไปสถานีตัด</strong> หลังกด Save แล้วกดปุ่ม <strong>ย้ายไปสถานีตัด</strong></p>
 <figure class="screenshot"><img src="assets/slab-02-move-to-production.webp" alt="ย้าย Block ไปสถานีตัด"/></figure>
 <p>ระบบแจ้งสีเขียวว่า Block ย้ายไป Stone Production แล้ว (ย้ายจาก Stone Available ไปสถานีตัด) แล้วกด Confirm ได้เลย</p>
-<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แถบเตือนสีส้มเปลี่ยนเป็น "พร้อม Confirm แล้ว" เมื่อเปิดหน้านี้ใหม่</span></div><div class="callout-body">เป็นแค่ข้อความบนหน้าจอ ไม่กระทบการทำงาน</div></div>
-<p><strong>ขั้นที่ 2: เลือกเหตุผลแล้ว Confirm</strong> ใบตัดที่ไม่ผูกกับใบสั่งขาย ต้องเลือกช่อง <strong>Reason (No SO)</strong> ก่อนเสมอ ถ้าตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)" แล้ว Save และ Confirm ใบตัดเปลี่ยนเป็น In Progress</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แถบเตือนสีส้ม "ขั้นตอนถัดไป: กดปุ่ม ย้ายไปสถานีตัด" อาจยังค้างอยู่ จนกว่าจะเปิดหน้านี้ใหม่</span></div><div class="callout-body">เป็นแค่ข้อความบนหน้าจอ ไม่กระทบการทำงาน เมื่อพร้อมแล้วระบบจะขึ้นแถบเขียว "พร้อมแล้ว: ตรวจสอบขนาดและจำนวนด้านล่าง แล้วกด Confirm" (ถ้ามีคำเตือนขนาดหรือ variant ขึ้นอยู่ จะไม่แสดงแถบเขียว)</div></div>
+<p><strong>ขั้นที่ 2: เลือกเหตุผลแล้ว Confirm</strong> ใบตัดที่ไม่ผูกกับใบสั่งขาย ต้องเลือกช่อง <strong>เหตุผล (กรณีไม่มี SO)</strong> (ในกลุ่ม "ขั้นตอนที่ 3 — ผูกกับ Sale Order หรือระบุเหตุผล") ก่อนเสมอ ถ้าตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)" แล้ว Save และ Confirm ใบตัดเปลี่ยนเป็น In Progress</p>
 <figure class="screenshot"><img src="assets/slab-03-confirm-reason.webp" alt="เลือกเหตุผลและ Confirm ใบตัด"/></figure>
-<p><strong>ขั้นที่ 3: ตัดเสร็จ กด Complete Cut</strong> ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ <strong>Actual L / H / Thickness</strong> ที่แท็บ Planned/Actual Slabs ก่อนกดปุ่ม</p>
-<figure class="screenshot"><img src="assets/slab-04-complete-cut.webp" alt="Complete Cut ได้ 80 แผ่น"/></figure>
-<p>ระบบแจ้ง "Complete Cut สำเร็จ ตัดได้ 80 แผ่นจาก BLK-26-0006" ใบตัดขึ้น Done และปุ่ม Serial Numbers แสดง 80</p>
-<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้นทุน</span><span class="callout-title">ต้นทุน Block ถูกแบ่งให้ทุกแผ่นเท่ากัน</span></div><div class="callout-body">Block 6.00 ลบ.ม. ต้นทุน 97,200 บาท ÷ 80 แผ่น = <strong>1,215 บาทต่อแผ่น</strong> (ยืนยันจากต้นทุนขายตอนออกใบแจ้งหนี้ หัวข้อ 4.8) แม้แผ่นที่ตัดได้ขนาดไม่เท่าแผนก็ตาม ต้นทุนต่อแผ่นยังเท่ากัน</div></div>
+<p><strong>ขั้นที่ 3: ตัดเสร็จ กด ตัดเสร็จ</strong> ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ <strong>จริง L / จริง H / จริง ความหนา</strong> ที่แท็บ Slab ที่ตัดได้ (แผน/จริง) ก่อนกดปุ่ม</p>
+<figure class="screenshot"><img src="assets/slab-04-complete-cut.webp" alt="ใบตัดที่ Done แล้ว ได้ 80 แผ่น"/></figure>
+<p>ระบบแจ้ง "Complete Cut สำเร็จ ตัดได้ 80 แผ่นจาก BLK-26-0006" ใบตัดขึ้น Done และปุ่ม Serial Numbers แสดง 80 (ภาพคือใบตัดที่ Done แล้ว: การ์ดสรุปแสดง "ตัดได้จริง 80 แผ่น 300.00 ตร.ม. (100% ของแผน)" และแท็บ "Slab ที่ตัดได้ (แผน/จริง)" มี 80 แถว)</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้นทุน</span><span class="callout-title">ต้นทุน Block ถูกแบ่งให้ทุกแผ่นเท่ากัน</span></div><div class="callout-body">Block 6.00 ลบ.ม. ต้นทุน 97,200 บาท ÷ 80 แผ่น = <strong>1,215 บาทต่อแผ่น</strong> (ยืนยันจากต้นทุนขายตอนออกใบแจ้งหนี้ หัวข้อ 4.8) แม้แผ่นที่ตัดได้ขนาดไม่เท่าแผนก็ตาม ต้นทุนต่อแผ่นยังเท่ากัน ตัวเลข 97,200 บาทในตัวอย่างคือต้นทุน Block ในรอบทดลอง ถ้า Block มีค่าขนส่งนำเข้า (Landed Cost) ต้นทุนส่วนนี้รวมอยู่ในต้นทุน Block และถูกแบ่งลงแผ่นด้วย ดูบทที่ 33</div></div>
+<p><strong>หน้าใบตัดปัจจุบัน:</strong> หลังเลือก Block ระบบแสดงการ์ดสรุป (ชนิดงาน, Block, ขนาดเป้าหมาย, ความคืบหน้า, "จะได้ Slab"), บรรทัดสถานะ Block, แถบ "ขั้นตอนถัดไป" และกลุ่มขั้นตอนที่ 1–3 (ภาพตัวอย่างใช้ Block อีกก้อนหนึ่ง จึงเป็นตัวเลขคนละชุดกับตัวอย่างในบท)</p>
+<figure class="screenshot"><img src="assets/slab-19-cut-order-current.webp" alt="หน้าใบตัดปัจจุบัน หลังเลือก Block"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">เพิ่มเติม</span><span class="callout-title">ตัวช่วยและข้อกันพลาดของใบตัด (เพิ่มหลัง 6 ต.ค.)</span></div><div class="callout-body"><ul>
+<li><strong>สร้างแผนใหม่</strong> — ที่แท็บ "Slab ที่ตัดได้ (แผน/จริง)" กดเพื่อคำนวณแผนตัดใหม่จากขนาดที่ระบุ จำนวนแผ่นถูกจำกัดตามความกว้างของ Block (1 แผ่นต่อ 1 ชั้น) ถ้าแก้เฉพาะความหนา ระบบคำนวณแผนใหม่ให้</li>
+<li><strong>ความหนา "Other"</strong> — กรอกเป็น <strong>ซม.</strong> (เช่น 3.5) และบังคับกรอกก่อน Confirm</li>
+<li><strong>Block ที่ตัดได้</strong> — ใต้ช่อง Block แสดง ลบ.ม. ที่เหลือ ขนาด และผลตรวจว่าแผนใส่ Block ได้จริงหรือไม่ ถ้าแผนตัดใส่ Block ไม่ได้ ระบบไม่ให้ Confirm และไม่ให้ตัดเสร็จ</li>
+<li><strong>ผิว/ความหนาที่ไม่มีสินค้า Slab ของวัสดุนั้น</strong> — ระบบย้อนค่ากลับ และไม่ให้ Confirm จนกว่าจะมี variant นั้น</li>
+<li>ช่อง Block และบรรทัด SO ในใบตัดแสดงเฉพาะของ <strong>วัสดุเดียวกัน</strong>; หัวใบตัดแสดง "จะได้ Slab" ตรงกับผิวและความหนาที่เลือก</li>
+<li>ใบตัดที่ถูก reverse จะมีแถบแดงเตือนบนหัวใบตัด</li>
+</ul></div></div>
 
 <h3>4.2 ตรวจ Slab ที่ตัดได้</h3>
 <p>ไปที่ <strong>Stone Slab → Slabs → All Slabs</strong> แล้วพิมพ์ชื่อ Block ในช่องค้นหา จะเห็นแผ่นแยกเป็นแผ่นละบรรทัด ตั้งแต่ <code>BLK-26-0006-1</code> ต่อเนื่องถึง <code>-80</code> ขนาด 3.00 × 1.25 × 0.020 ม. = 3.75 ตร.ม. (รวม 300 ตร.ม.) สถานะ Available และคอลัมน์ Block ชี้กลับไปที่ Block ต้นทาง</p>
@@ -171,6 +183,10 @@ table.cond td.no{background:#fdeeee}
 <h3>4.5 ตรวจ Slab ที่รับเข้ามา</h3>
 <p>ที่ <strong>Stone Slab → Slabs → All Slabs</strong> ค้นหา <code>SLB-26</code> จะเห็น 4 แผ่นตามขนาดที่วัด สถานะ Available <strong>คอลัมน์ Block ว่าง</strong> เพราะซื้อมาเป็นแผ่นสำเร็จ ไม่ได้ตัดจาก Block ของเรา</p>
 <figure class="screenshot"><img src="assets/slab-08-received-slabs.webp" alt="Slab ที่รับเข้ามา"/></figure>
+<p><strong>หน้าฟอร์ม Slab:</strong> เปิดแผ่นใดแผ่นหนึ่งจะเห็นการ์ดสรุป (สถานะ ราคาต่อ ตร.ม. และต่อแผ่น) กับแท็บ <strong>ข้อมูล Slab</strong> (ชั้นวาง เศษ รูป) · <strong>ระบบเติม/คำนวณให้</strong> (ขนาด สต็อก ต้นทุน) · <strong>ที่มา / เอกสารที่ผูก</strong> (Block ใบตัด ใบขาย) และ <strong>ประวัติแก้ขนาด</strong> (ถ้ามี)</p>
+<figure class="screenshot"><img src="assets/slab-20-slab-form.webp" alt="หน้าฟอร์ม Slab SLB-26-0001"/></figure>
+<p><strong>แก้ขนาดที่บันทึกผิด:</strong> กดปุ่ม <strong>แก้ขนาด</strong> บนหัวฟอร์ม กรอก กว้าง/ยาว/หนา ใหม่และ <strong>เหตุผล</strong> (บังคับ) ระบบบันทึกประวัติไว้ที่แท็บ "ประวัติแก้ขนาด"</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ข้อจำกัด</span><span class="callout-title">ใครแก้ได้ และแก้ไม่ได้เมื่อไร</span></div><div class="callout-body">เฉพาะ <strong>ผู้จัดการสต็อก (Inventory Manager)</strong> เท่านั้น และแก้ไม่ได้ถ้าแผ่นขายหรือใช้ไปแล้ว หรือถูกเลือกอยู่ในใบสั่งขายที่ยังเปิด (ให้เอาออกจากใบสั่งขายก่อน)</div></div>
 
 <h3>4.6 ขาย Slab — ใบสั่งขาย (SO)</h3>
 <p><strong>สร้างใบเสนอราคา:</strong> ที่ <strong>Sales → New</strong> เลือกลูกค้า กด Add a product เลือกสินค้า Slab ในหน้าต่าง <strong>Configure your product</strong> เลือก <strong>Finish</strong> และ <strong>Thickness</strong> แล้วกด Confirm และ Save</p>
@@ -213,13 +229,15 @@ table.cond td.no{background:#fdeeee}
 <figure class="screenshot"><img src="assets/slab-17-returned-pending.webp" alt="Slab ที่คืนอยู่ในสถานะรอตรวจ"/></figure>
 <p><strong>ตรวจแล้ว นำกลับไปขาย:</strong> เปิดหน้า Slab ที่คืน กดปุ่ม <strong>ตรวจแล้ว — นำกลับไปขาย</strong> ทำซ้ำกับแผ่นที่เหลือ สถานะกลับเป็น Available ที่ Stone Available ต้นทุนยังเป็น 1,215 บาทเท่าเดิม และเลือกขายได้ใหม่</p>
 <figure class="screenshot"><img src="assets/slab-18-inspect-ok.webp" alt="ตรวจแล้ว กลับเป็น Available"/></figure>
-<p>ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม <strong>ชำรุด — ตัดทิ้ง (Scrap)</strong> แทน (ยังไม่ได้ทดลองกดในรอบนี้)</p>
+<p>ถ้าตรวจแล้วแผ่นชำรุด ให้กดปุ่ม <strong>ชำรุด — ตัดทิ้ง (Scrap)</strong> แทน ระบบถามยืนยัน แล้วสร้างเอกสาร Scrap ของ Odoo ตัดแผ่นออกจากสต็อก Returned - Inspect ให้เอง (ยังไม่ได้ทดลองกดบนหน้าจอ และยังไม่ได้ตรวจรายการบัญชี)</p>
 
 <h2>5. สรุปเงื่อนไขทั้งหมด</h2>
 <h3>5.1 การได้แผ่นมา</h3>
 <table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
-<tr><td>ใบตัดที่ไม่ผูกใบสั่งขาย ไม่เลือก Reason (No SO)</td><td class="no">ไม่ให้ Confirm ให้เลือกเหตุผลก่อน (ตัดเข้าสต็อกเลือก "อื่นๆ")</td></tr>
-<tr><td>ตัดได้ขนาดจริงต่างจากแผน</td><td class="ok">แก้ Actual L / H / Thickness ก่อน Complete Cut แผ่นเก็บขนาดจริง</td></tr>
+<tr><td>ใบตัดที่ไม่ผูกใบสั่งขาย ไม่เลือก เหตุผล (กรณีไม่มี SO)</td><td class="no">ไม่ให้ Confirm ให้เลือกเหตุผลก่อน (ตัดเข้าสต็อกเลือก "อื่นๆ")</td></tr>
+<tr><td>ตัดได้ขนาดจริงต่างจากแผน</td><td class="ok">แก้ จริง L / จริง H / จริง ความหนา ก่อนกด ตัดเสร็จ แผ่นเก็บขนาดจริง</td></tr>
+<tr><td>แผนตัดใส่ Block ไม่ได้จริง / ผิวหรือความหนาที่เลือกไม่มีสินค้า Slab</td><td class="no">ไม่ให้ Confirm (และไม่ให้ตัดเสร็จ) จนกว่าจะแก้แผนหรือสร้าง variant</td></tr>
+<tr><td>แก้ขนาด Slab ที่บันทึกผิด</td><td>เฉพาะ Inventory Manager ต้องระบุเหตุผล มีประวัติ; แผ่นที่ขาย/ใช้แล้ว หรือถูกเลือกอยู่ในใบขายที่เปิด แก้ไม่ได้</td></tr>
 <tr><td>ซื้อ Slab สำเร็จรูป</td><td class="ok">ระบบตั้งชื่อ Serial ให้เอง (SLB-yy-nnnn) มูลค่า = ฿/ตร.ม. ใน PO × พื้นที่จริงของแต่ละแผ่น</td></tr></table>
 
 <h3>5.2 การขาย ส่งของ เก็บเงิน</h3>
@@ -227,6 +245,7 @@ table.cond td.no{background:#fdeeee}
 <tr><td>เลือกแผ่นเข้าใบสั่งขาย</td><td class="ok">จำนวน = จำนวนแผ่น, ยอด = ตร.ม. จริงของแผ่นที่เลือก × ฿/ตร.ม.</td></tr>
 <tr><td>ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า</td><td>เตือนด้วยแถบสีแดง แต่ไม่ห้าม ยอดถูกล็อกตามที่ตกลง</td></tr>
 <tr><td>แผ่นที่เลือกไว้ในใบสั่งขายอื่นแล้ว</td><td>ตามการออกแบบ (ADR-087) คนอื่นเลือกซ้ำไม่ได้ ยังไม่ได้ทดลองกดยืนยันบนหน้าจอ</td></tr>
+<tr><td>ใบส่งของจอง Slab</td><td class="ok">จองทั้งแผ่นเสมอ ไม่แบ่งแผ่นเดียวให้สองใบสั่ง ถ้าแผ่นไหนว่างไม่เต็มแผ่น ระบบข้ามไปลองแผ่นถัดไป</td></tr>
 <tr><td>Validate ใบส่งของโดยไม่สแกน Serial ให้ครบ</td><td class="no">ไม่ให้ผ่าน แจ้งรายชื่อแผ่นที่ขาด</td></tr>
 <tr><td>ส่งของครบ</td><td class="ok">แผ่นออกจาก Stone Available ไปอยู่ที่ลูกค้า</td></tr>
 <tr><td>ออกใบแจ้งหนี้</td><td class="ok">ต้นทุนขายตามต้นทุนของแผ่นที่ส่งจริง (แผ่นละ 1,215 ในตัวอย่าง)</td></tr></table>
@@ -258,7 +277,7 @@ table.cond td.no{background:#fdeeee}
 <h2>8. ข้อจำกัดที่ทราบ</h2>
 <ul>
 <li>ต้นทุนจากใบตัดแบ่งเท่ากันทุกแผ่น แม้แผ่นที่ตัดได้เล็กกว่าแผน (ตั้งใจเลื่อนไว้ ตามที่ผู้ใช้ตัดสินใจ)</li>
-<li>การคืนที่ตรวจแล้วชำรุด (Scrap) ยังไม่ได้ทดลอง และรายการบัญชีของการตัดทิ้งยังไม่ได้ตรวจสอบ</li>
+<li>การคืนที่ตรวจแล้วชำรุด (Scrap): ปุ่มสร้างเอกสาร Scrap ของ Odoo ให้เอง แต่ยังไม่ได้ทดลองกดบนหน้าจอ และรายการบัญชีของการตัดทิ้งยังไม่ได้ตรวจสอบ</li>
 <li>การรับคืนในบทนี้ยังไม่รวมการออกใบลดหนี้ (Credit Note) ให้ลูกค้า</li>
 <li>การขายข้ามบริษัท (EG↔ES) และการซื้อ Slab สำเร็จรูปแล้วออกใบแจ้งหนี้ผู้ขาย ยังไม่ได้เดินจริงหลังรอบ Slab = Lot (ดูบทที่ 08)</li>
 <li>เศษหินที่เหลือจากใบตัดยังไม่ถูกบันทึกกลับเข้าสต็อกเป็นแผ่น/เศษ</li>
@@ -269,7 +288,7 @@ table.cond td.no{background:#fdeeee}
 </div>
 <div class="chapter-nav">
   <a href="30-block.html"><span class="dir">← ก่อนหน้า</span>30. Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
-  <span></span>
+  <a class="next" href="32-fg.html"><span class="dir">ถัดไป →</span>32. FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
 </div>
   </main>
 </div>
