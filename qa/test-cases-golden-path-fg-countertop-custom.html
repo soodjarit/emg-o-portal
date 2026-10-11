@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: FG Countertop และ Custom FG</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-fg-countertop-custom.xlsx" download="EMG-O Golden Path - FG Countertop และ Custom FG.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>Countertop — ขายเป็น ตร.ม. ตัดจาก Slab ที่ระบบเลือกให้</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>Custom FG (เจดีย์บัว) — เตรียมสูตรจาก BOQ แล้วขายเป็นชิ้น</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>Custom FG — ตัดหินทีละชนิด ประกอบ ส่งมอบ และเก็บเงิน</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — FG: Countertop และ Custom FG (เจดีย์บัว) ขายถึงเก็บเงิน</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.12 + การแก้ 3 จุดระหว่างทดสอบ (ยังไม่ commit)</div>
+    <div class="sub">สองเส้นทางของสินค้า FG เดินครบวงจรหนึ่งครั้ง: <b>A Countertop</b> ขายเป็น ตร.ม. ใส่ชิ้นงานและงานขอบ/เจาะในใบขาย ระบบเลือก Slab ให้ ตัด ส่งของ เก็บเงิน &rarr; <b>B/C Custom FG เจดีย์บัว</b> ขายเป็นชิ้น เตรียมสูตรจาก BOQ (นำเข้า Cut List) ตัดหินทีละชนิด ประกอบ ส่งของ เก็บเงิน · รันจริงโดยผู้ใช้บน eg-tst เมื่อ 11 ต.ค. 2569 · ชุดเก่า (6 ต.ค.) ยังเก็บไว้ เพราะหน้าจอและชื่อปุ่มเปลี่ยนไปแล้ว</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>18</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>3</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">17</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 11 ต.ค. 2569, ผู้ใช้ emgdemo):</b><br>
+    <b>A</b> S00215 (GP Block Marble 3.48 ตร.ม. + ขอบ + เจาะ = 48,920.40) &rarr; ใบสั่งผลิต EG01/STFG/00060 (Slab BLK-26-0006-24, -25) &rarr; FG 3 Lot &rarr; ส่งของ EG01/OUT/00109 &rarr; INV/2026/00025 · รันซ้ำหลังแก้โค้ดเป็น S00216 &rarr; EG01/STFG/00061 &rarr; EG01/OUT/00110 &rarr; INV/2026/00026<br>
+    <b>B/C</b> BOQ0024 (นำเข้าจาก Cut List 14 แถว ต้นทุน 3,906.92/ชิ้น) &rarr; S00217 (เจดีย์บัว 3 ชิ้น 160,500) &rarr; งานประกอบ EG01/STFG/00062 + ใบตัดหิน EG01/STCPL/00020 (NERO) และ 00021 (GP) &rarr; ส่งของ EG01/OUT/00111 (Serial CB-00025 ถึง -27) &rarr; INV/2026/00027<br><br>
+    <b>ข้อสังเกตจากการรันจริง:</b> (1) เส้นทาง A รอบแรกพบแถวแดง Not Available ใน Components และใบส่งของจอง FG งานเก่าปน แก้แล้วและรันซ้ำผ่าน — ดู TC-GP-FGS-05, 07 (2) เพิ่มปุ่ม "คัดลอกแผนเป็นขนาดจริง" ในใบตัดหิน — ดู TC-GP-FGS-13, 14 (3) ต้นทุนที่ลงบัญชีของ Custom FG ถูกกติกาต้นทุนขั้นต่ำ 50% ครอบ ไม่ตรงกับประมาณการ BOQ — ดู TC-GP-FGS-18 (ควรถามลูกค้า)<br>
+    <b>ยังไม่ครอบคลุมใน Golden Path นี้:</b> การบันทึกเศษที่เหลือ (ใบสั่งผลิต A และใบตัดหิน) · ตรวจเศษแล้วนำกลับไปขาย · Unbuild · สินค้า Custom Product 01 · การแก้ขนาดชิ้นหลัง Confirm · กรณีผิดพลาด (ตามหลัก Golden Path ไม่รวมเคสดักข้อผิดพลาด)
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. Countertop — ขายเป็น ตร.ม. ตัดจาก Slab ที่ระบบเลือกให้</div>
+        <div class="category-sub">ใส่ชิ้นงานและงานแปรรูปในใบขาย ระบบสร้างใบสั่งผลิต FG เลือก Slab ให้ ตัด ส่งของ เก็บเงิน · 8 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-01</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคา เลือกสินค้า FG ที่ผูกกับวัสดุ<div class="note">ในระบบไม่มีสินค้าชื่อ "Countertop" — เส้นทาง A ใช้สินค้า FG ที่ผูกกับวัสดุ 1 ชนิด (ตัวอย่างนี้ GP Block Marble) ถ้าเลือกสินค้าที่ติ๊ก Custom FG (เช่นเจดีย์บัว) ระบบจะเดินเส้นทาง B แทน</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสินค้า FG GP Block Marble และ Slab ของวัสดุนี้ในคลัง</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New</li><li>เลือก Customer</li><li>กด "Add a product" เลือก GP Block Marble แล้วกด Save</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer<br>สินค้า = GP Block Marble (12,000 บาท/ตร.ม.)</td>
+          <td class="col-expected">บรรทัดสินค้า จำนวน 1.00 หน่วย ตร.ม. ราคา 12,000.00 · ยอดก่อน VAT 12,000.00 VAT 7% 840.00 · ท้ายบรรทัดมีไอคอนรายชิ้นงาน (ตัวอย่างจริง S00215)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-01-quote.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-01-quote.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-02</span></td>
+          <td class="col-scenario">ใส่รายการชิ้นงาน 3 ชิ้น<div class="note">กด Save ทุกชิ้นก่อนเพิ่มชิ้นต่อไป · จำนวนในใบขายที่เป็น 1.00 ไว้ก่อน จะถูกแทนที่ด้วยพื้นที่รวมของชิ้นงานเอง</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่บรรทัด GP Block Marble กดไอคอนรายชิ้น</li><li>กด New แล้วกรอก ชื่อชิ้น กว้าง ยาว จำนวน กด Save ทีละชิ้นให้ครบ 3 ชิ้น</li><li>ดูยอดรวมที่ท้ายตาราง แล้วกด Save ที่ใบขาย</li></ol></td>
+          <td class="col-sample">ท็อปครัว 2.40 × 0.65<br>เกาะกลาง 1.20 × 0.60<br>ท็อปอ่างล้างจาน 2.00 × 0.60 (อย่างละ 1 ชิ้น)</td>
+          <td class="col-expected">พื้นที่ 1.56 / 0.72 / 1.20 ตร.ม. รวม 3.48 ตร.ม. · จำนวนในบรรทัดใบขายเปลี่ยนเป็น 3.48 เอง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-02-pieces.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-02-pieces.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-03</span></td>
+          <td class="col-scenario">เพิ่มงานขอบและงานเจาะ แล้วตรวจใบเสนอราคา<div class="note">ขอบของชิ้นงานเรียก A, B, C, D มองจากด้านบน: A = ด้านกว้างบน, B = ด้านยาวขวา, C = ด้านกว้างล่าง, D = ด้านยาวซ้าย · ระบบคำนวณความยาวขอบให้เอง เลือกด้านไหนความยาวก็ตามด้านนั้น (ตอนรันรอบ 2 ผู้ทดสอบเลือกด้านต่างไป ได้ขอบ 3.05 ม. ยอดรวม 48,714.43 บาท ส่วนอื่นเหมือนกัน)</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่แถวชิ้นท็อปครัว กดไอคอนประแจ กด Add a line เลือก "งานขอบโค้งมน" ติ๊กขอบ A แล้วเพิ่ม "ตัดช่องเตา" 1 จุด กด Save</li><li>ชิ้นเกาะกลาง: ประแจ &gt; "งานขอบโค้งมน" ติ๊กขอบ A กด Save</li><li>ชิ้นท็อปอ่างล้างจาน: ประแจ &gt; "ตัดช่องซิงค์" 1 จุด กด Save</li><li>กลับที่ใบขาย กด Save แล้วดูบรรทัดและยอดรวม</li></ol></td>
+          <td class="col-sample">ขอบ A: ท็อปครัว (2.40 ม.) + เกาะกลาง (1.20 ม.) = 3.60 ม. × 350<br>ตัดช่องเตา 1 จุด 1,500<br>ตัดช่องซิงค์ 1 จุด 1,200</td>
+          <td class="col-expected">บรรทัดหิน 3.48 ตร.ม. × 12,000 = 41,760.00 · งานขอบ 3.60 ม. × 350 = 1,260.00 · ตัดช่องเตา 1,500.00 · ตัดช่องซิงค์ 1,200.00 · ยอดก่อน VAT 45,720.00, VAT 7% 3,200.40, รวม 48,920.40 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-03-quote-total.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-03-quote-total.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-04</span></td>
+          <td class="col-scenario">Confirm ใบขาย แล้วเปิดใบสั่งผลิต FG ที่ระบบสร้างให้</td>
+          <td class="col-pre">ทำ TC-GP-FGS-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Confirm บนใบเสนอราคา</li><li>กดสมาร์ทปุ่ม FG Production</li><li>ดูการ์ดสรุปด้านบน และแท็บ "ผลผลิต FG"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งผลิตสถานะ Draft ชื่อแนว EG01/STFG/xxxxx (ตัวอย่างจริง EG01/STFG/00060) ป้าย "ผลิต FG จาก Slab" ผูกกับบรรทัดใบขาย · การ์ดแสดง "ต้องใช้ 3.83 ตร.ม." และ "Slab ที่เลือก 7.50 ตร.ม." ป้ายเขียว "พอ" · แถบเหลืองบอกให้กด "ย้ายไปสถานีตัด" ก่อน Confirm · แท็บผลผลิต FG มี 3 แถว (2.40 × 0.65, 1.20 × 0.60, 2.00 × 0.60) พร้อมหมายเหตุงานขอบและงานเจาะให้ช่างอ่าน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-04-mo-draft.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-04-mo-draft.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-05</span></td>
+          <td class="col-scenario">ย้าย Slab ไปสถานีตัด แล้ว Confirm ใบสั่งผลิต<div class="note">ตั้งแต่ 11 ต.ค. 2569 แท็บ Components แสดงเฉพาะ Slab ที่ระบบเลือกจริง (Polished, 2 cm) — ก่อนแก้ จะมีแถว "Honed, 3 cm" ป้ายแดง Not Available ค้างอยู่ ซึ่งลูกค้าเห็นแล้วเข้าใจผิดว่าของไม่พอ</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแท็บ "Slab ที่จะตัด" ตรวจว่ามี Slab ของ GP Block Marble ครบ (ถ้ายังไม่มี กด "เลือก Slab อัตโนมัติ")</li><li>กดปุ่ม "ย้ายไปสถานีตัด" แล้วดูข้อความมุมจอ</li><li>กด Confirm แล้วเปิดแท็บ Components</li></ol></td>
+          <td class="col-sample">Slab ที่ระบบเลือก = BLK-26-0006-24 และ -25 (แผ่นละ 3.00 × 1.25 ม. รวม 7.50 ตร.ม.)</td>
+          <td class="col-expected">ข้อความ "ย้ายสำเร็จ ... ย้าย 2 lot ไป Stone Production แล้ว — กด Confirm ได้เลย" · สถานะ Confirmed ปุ่มเปลี่ยนเป็น "ผลิต FG เสร็จ" · Components มีแถวเดียว Slab (Polished, 2 cm) 2.00 Units ป้ายเขียว Available</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-05-mo-components.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-05-mo-components.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-06</span></td>
+          <td class="col-scenario">ผลิต FG เสร็จ (Complete FG Production)<div class="note">แท็บ "เศษที่เหลือ" กรอกได้ (Slab ต้นทาง ขนาด จำนวน) เพื่อให้เศษได้ Lot ของตัวเองและหักต้นทุนส่วนเศษออกจาก FG — ในการรันจริงไม่ได้กรอกเศษ ต้นทุน Slab ทั้งแผ่นจึงเข้า FG ทั้งหมด (ยังไม่ได้ทดสอบกรณีมีเศษในรอบนี้ ดูผลของเดิมในบท 32 หัวข้อ A.8–A.10)</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่แท็บ "ผลผลิต FG" ตรวจขนาดจริง (ตัดตรงแบบไม่ต้องแก้ ความหนา 0.00 ปล่อยไว้ ระบบใช้ความหนาของ Slab)</li><li>กดปุ่ม "ผลิต FG เสร็จ"</li><li>ดูสถานะและสมาร์ทปุ่ม</li></ol></td>
+          <td class="col-sample">ไม่กรอกเศษ</td>
+          <td class="col-expected">ข้อความ "Complete FG Production สำเร็จ ... ผลิตสำเร็จ 3.48 หน่วย" · สถานะ Done · ได้ FG 3 Lot (ตัวอย่าง FG-EG01/STFG/00061-01 = 2.40 × 0.65 · -02 = 1.20 × 0.60 · -03 = 2.00 × 0.60) อยู่ที่ EG01/Stock/Stone FG รวม 3.48 ตร.ม. · มูลค่าวัสดุ FG 2,430.00 บาท (Slab 2 แผ่น) · มีสมาร์ทปุ่ม Traceability / Product Moves</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-06-mo-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-06-mo-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-07</span></td>
+          <td class="col-scenario">ส่งของ — ตรวจ Lot แล้ว Validate<div class="note">⚠ ก่อนแก้ (11 ต.ค. 2569) ใบส่งของ Countertop อาจจอง FG ของงานเก่าปน แล้วขึ้นป้ายแดง Not Available ต้องลบแถวผิดและเพิ่ม Lot ที่ถูกเอง · หลังแก้ ระบบจองเฉพาะ Lot ที่ใบสั่งผลิตของบรรทัดนี้ผลิตให้ครบเอง แต่ยังควรเปิด Details ดูก่อน Validate ทุกครั้ง · ต้องส่งของ (Done) ก่อนจึงออกใบแจ้งหนี้ได้ ถ้ากด Create Invoice ก่อน ระบบแจ้ง "No items are available to invoice"</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Details ที่แถวสินค้า ตรวจแถว Lot ว่าเป็นของใบสั่งผลิตนี้ครบ 3 แถว</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Details แสดง 3 แถวจาก Stone FG: -01 (1.56), -02 (0.72), -03 (1.20) รวม 3.48 ตร.ม. ไม่มี Lot ของงานอื่น · ใบส่งของเป็น Done Demand 3.48 Quantity 3.48 ตร.ม. และใบขายคอลัมน์ Delivered เป็น 3.48 (ตัวอย่างจริง EG01/OUT/00110)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-07-delivery-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-07-delivery-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-08</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ Confirm และตรวจรายการบัญชี</td>
+          <td class="col-pre">ทำ TC-GP-FGS-07 เสร็จแล้ว (ใบส่งของ Done)</td>
+          <td class="col-steps"><ol><li>กลับที่ใบขาย กด Create Invoice เลือก Regular invoice กด Create</li><li>กด Confirm บนใบแจ้งหนี้</li><li>เปิดแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ Posted ยอดก่อน VAT 45,720.00, VAT 3,200.40, รวม 48,920.40 · เครดิต 411100 รายได้ 4 บรรทัด (41,760 / 1,260 / 1,500 / 1,200) · เครดิต 213200 ภาษีขาย 3,200.40 · เดบิต 112100 ลูกหนี้ 48,920.40 · เดบิต 511110 ต้นทุนขาย 2,430.00 เครดิต 113150 สินค้าคงเหลือ Stone FG 2,430.00 (ตรงกับต้นทุน FG) (ตัวอย่างจริง INV/2026/00025)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-08-invoice-journal.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-08-invoice-journal.webp" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. Custom FG (เจดีย์บัว) — เตรียมสูตรจาก BOQ แล้วขายเป็นชิ้น</div>
+        <div class="category-sub">นำเข้า Cut List เป็น BOQ ขายเป็นชิ้น โหลด BOQ เป็นสูตร Confirm แล้วระบบสร้างใบสั่งผลิตให้ครบ · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-09</span></td>
+          <td class="col-scenario">นำเข้าไฟล์ Cut List เป็น BOQ (ทำครั้งเดียวต่อรุ่นสินค้า)<div class="note">การนำเข้าตั้งเผื่อเสียของหินเป็น 0% (ถ้าต้องการ 10% ให้ตั้งที่บรรทัดหินเอง) · แถววัสดุสิ้นเปลือง/ค่าแรงแสดงเป็น "ชิ้น 0 × 0 mm" เป็นเพียงการแสดงผล · Rate ใหม่ 7 รายการ (ตั้งเครื่อง ตัด ประกอบ ขัดเก็บงาน บรรจุ ไม้ลัง น้ำยาขัดเงา) เป็นราคาตัวอย่าง ต้องปรับเป็นราคาจริงก่อนใช้งาน</div></td>
+          <td class="col-pre">มี Rate ครบ 14 รายการ · ไฟล์ตัวอย่าง cutlist-import-example-chedi-bua-custom-fg.xlsx (หน้า Library)</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents &gt; New เลือก Customer</li><li>ใส่ Rate ทั้ง 14 รายการในช่อง "รายการที่ใช้ในโปรเจกต์นี้ (สำหรับเทมเพลต Cut List)" แล้ว Save</li><li>กดปุ่ม "นำเข้า Cut List" เลือกไฟล์ .xlsx แล้วกด "อ่านไฟล์"</li><li>ตรวจหน้า Preview แล้วกด "สร้าง BOQ Lines"</li></ol></td>
+          <td class="col-sample">Customer = A-test-customer<br>ไฟล์ = cutlist-import-example-chedi-bua-custom-fg.xlsx</td>
+          <td class="col-expected">Preview แสดง 14 กลุ่ม จับคู่ Rate ให้เองทุกแถว (NERO 4 ชิ้น 0.36 ตร.ม. · GP 6 ชิ้น 0.54 ตร.ม. · วัสดุสิ้นเปลือง 5 แถว · ค่าแรง 7 แถว) · ได้ BOQ Line 14 แถว หินมีรายชิ้น (เช่น N-01: 450 × 300 mm) · ต้นทุนรวม 3,906.92 บาทต่อชิ้น = หิน 754.92 + วัสดุสิ้นเปลือง 675.00 + ค่าแรง 2,477.00 (ตัวอย่างจริง BOQ0024)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-09-boq-preview.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-09-boq-preview.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-10</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคา เลือกสินค้า Custom FG<div class="note">จำนวนในบรรทัดคือจำนวนชิ้นสำเร็จรูป ราคาตั้งไว้ที่สินค้า แก้ได้ที่บรรทัด · สินค้าต้องติ๊ก "เป็น Custom FG" และไม่ผูกวัสดุเดียว</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสินค้า เจดีย์บัว (Custom FG, 50,000 บาท/ชิ้น)</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New เลือก Customer</li><li>กด "Add a product" เลือก เจดีย์บัว ใส่จำนวน 3</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Customer = A-test-customer<br>สินค้า = เจดีย์บัว<br>จำนวน = 3 ชิ้น × 50,000</td>
+          <td class="col-expected">ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · บรรทัดสินค้ามีไอคอน "โหลด BOQ" และ "ดูสูตร" · ต้นทุน/ชิ้น (ประมาณ) ยังเป็น 0.00 เพราะยังไม่ได้โหลดสูตร (ตัวอย่างจริง S00217)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-10-quote-custom.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-10-quote-custom.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-11</span></td>
+          <td class="col-scenario">โหลด BOQ เป็นสูตรของบรรทัด<div class="note">สูตรเป็นสำเนาจาก BOQ ณ ตอนโหลด แก้ BOQ ภายหลังไม่กระทบ และหลัง Confirm สูตรถูกล็อก</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-09 และ TC-GP-FGS-10 เสร็จแล้ว (ใบเสนอราคา Save แล้ว)</td>
+          <td class="col-steps"><ol><li>ที่บรรทัดเจดีย์บัว กดไอคอน "โหลด BOQ" (ชี้เมาส์ดูชื่อไอคอนได้)</li><li>เลือก BOQ ที่เตรียมไว้ แล้วกดปุ่ม "โหลด BOQ"</li><li>กดไอคอน "ดูสูตร / ต้นทุน" ตรวจรายการ</li></ol></td>
+          <td class="col-sample">BOQ = BOQ0024</td>
+          <td class="col-expected">สูตร 14 แถว (ปริมาณต่อ 1 ชิ้นงาน): NERO 0.36 ตร.ม. × 1,611.00 = 579.96 · GP Block Marble Slab 0.54 ตร.ม. × 324.00 = 174.96 · วัสดุสิ้นเปลือง 5 แถว · ค่าแรง 7 แถว (ตั้งเครื่อง 1,200 · ตัด 225 · ประกอบ 360 · ขัดเก็บงาน 126 · เคลือบเงา 162 · กันซึม 54 · บรรจุ 350) · รวม 3,906.92 บาท/ชิ้น · ทุกแถวเผื่อเสีย 0.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-11-recipe.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-11-recipe.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-12</span></td>
+          <td class="col-scenario">Confirm ใบขาย — ระบบสร้างใบสั่งผลิตให้ครบ<div class="note">ปุ่ม FG Production บนใบขายแสดงเฉพาะใบงานประกอบ ใบตัดหินอยู่ในปุ่ม "แผนตัด" บนใบงานประกอบ · วัสดุสิ้นเปลือง 3 รายการและค่าแรง 7 รายการที่ไม่มีสินค้าผูกจะไม่ขึ้นใน Components (เป็นแถวต้นทุนอย่างเดียว)</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Confirm บนใบเสนอราคา</li><li>กดสมาร์ทปุ่ม FG Production เปิดใบงานประกอบ ดูแท็บ Components</li><li>กดสมาร์ทปุ่ม "แผนตัด" บนใบงานประกอบ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ใบสั่งผลิต 3 ใบ สถานะ Draft: งานประกอบ EG01/STFG/00062 (3.00 Units, ป้าย "งานกำหนดเอง (Custom)") · ใบตัดหิน NERO EG01/STCPL/00020 (12 ชิ้น = 4 × 3) · ใบตัดหิน GP EG01/STCPL/00021 (18 ชิ้น = 6 × 3) · Components ของงานประกอบมี กาว/epoxy 2.70 ตร.ม. และ ซีลแลนท์ 2.70 ตร.ม. ป้ายเขียว Available</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-12-mo-draft-components.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-12-mo-draft-components.webp" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. Custom FG — ตัดหินทีละชนิด ประกอบ ส่งมอบ และเก็บเงิน</div>
+        <div class="category-sub">ใบตัดหินแต่ละชนิด (ใช้ปุ่มคัดลอกแผน) งานประกอบ Produce All ส่งของ ใบแจ้งหนี้ และตรวจต้นทุนค่าแรง · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-13</span></td>
+          <td class="col-scenario">ใบตัดหิน NERO — ย้ายไปสถานีตัด Confirm กรอกขนาดจริง แล้วถอดแบบเสร็จ<div class="note">ปุ่ม "คัดลอกแผนเป็นขนาดจริง" (เพิ่มเมื่อ 11 ต.ค. 2569) เติมขนาดจริงจากแผนให้ทุกแถวที่ยังว่างในครั้งเดียว แล้วช่างแก้เฉพาะชิ้นที่ตัดไม่ตรงแบบ ค่าที่กรอกไว้แล้วไม่ถูกทับ · ไม่ได้บันทึกเศษที่เหลือ ต้นทุน Slab ทั้งแผ่นจึงเข้า WIP ทั้งหมด (2,899.80 สูงกว่าประมาณการสูตร 579.96 × 3 = 1,739.88)</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบงานประกอบ กดสมาร์ทปุ่ม "แผนตัด" เปิด EG01/STCPL/00020 (NERO)</li><li>ตรวจแท็บ "Slab ที่จะตัด" กดปุ่ม "ย้ายไปสถานีตัด" แล้ว Confirm</li><li>เปิดแท็บ "ชิ้นงาน (แผน/จริง)" กดปุ่ม "คัดลอกแผนเป็นขนาดจริง"</li><li>กดปุ่ม "ถอดแบบเสร็จ"</li></ol></td>
+          <td class="col-sample">Slab ที่ระบบเลือก = BLK-26-0002-23 (2.00 × 0.90 ม.)<br>ชิ้นงาน 12 ชิ้น: 0.45 × 0.30 และ 0.30 × 0.15 หนา 0.02 อย่างละ 6 ชิ้น</td>
+          <td class="col-expected">ข้อความ "ย้ายสำเร็จ 1 lot ไป Stone Production" · หลังกดปุ่มคัดลอก ช่อง "จริง L / จริง H / จริง ความหนา" ครบทุกแถวเท่าแผน · ใบเป็น Done การ์ด "แผน 1.08 ตร.ม. ตัดได้จริง 1.08 ตร.ม." · ได้ WIP Lot CUT-EG01/STCPL/00020 จำนวน 12 ชิ้น ที่ Stone Production มูลค่า 2,899.80 บาท · ช่อง "ป้อนให้งานประกอบ" = EG01/STFG/00062</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-13-cp-nero-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-13-cp-nero-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-14</span></td>
+          <td class="col-scenario">ใบตัดหิน GP Block Marble — ทำแบบเดียวกัน<div class="note">ปุ่มคัดลอกเติมเฉพาะช่องที่ว่าง — ถ้าแก้แถวหนึ่งเอง ปุ่มไม่ทับค่านั้น (ทดสอบแล้ว) · ถ้าช่างพิมพ์ขนาดจริงใหญ่กว่าแผน การ์ด "ตัดได้จริง" จะสูงกว่าแผน แต่ต้นทุนไม่เปลี่ยน เพราะต้นทุนคิดจาก Slab ที่ใช้จริง</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-13 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับที่ใบงานประกอบ กดสมาร์ทปุ่ม "แผนตัด" เปิด EG01/STCPL/00021 (GP)</li><li>ย้ายไปสถานีตัด และ Confirm</li><li>แท็บ "ชิ้นงาน (แผน/จริง)" กดปุ่ม "คัดลอกแผนเป็นขนาดจริง"</li><li>กดปุ่ม "ถอดแบบเสร็จ"</li></ol></td>
+          <td class="col-sample">Slab ที่ระบบเลือก = BLK-26-0006-28<br>ชิ้นงาน 18 ชิ้น: 0.20 × 0.45 (12 ชิ้น) และ 0.30 × 0.30 (6 ชิ้น) หนา 0.02</td>
+          <td class="col-expected">ใบเป็น Done จำนวน 18.00 · แผน 1.62 ตร.ม. · ได้ WIP Lot CUT-EG01/STCPL/00021 จำนวน 18 ชิ้น ที่ Stone Production มูลค่า 1,215.00 บาท (Slab ทั้งแผ่น)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-14-cp-gp-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-14-cp-gp-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-15</span></td>
+          <td class="col-scenario">Confirm งานประกอบ แล้ว Produce All<div class="note">Confirm งานประกอบไม่ได้จนกว่าใบตัดหินที่ผูกกันทุกใบจะ Done · ใบงานประกอบที่ Done แล้วมีปุ่ม Unbuild (ยังไม่ได้ทดลอง)</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-14 เสร็จแล้ว (ใบตัดหินทั้ง 2 ใบ Done)</td>
+          <td class="col-steps"><ol><li>เปิดใบงานประกอบ EG01/STFG/00062 กด Confirm</li><li>ตรวจแท็บ Components</li><li>กดปุ่ม "Produce All"</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Component Status = Available · ช่อง "Lot จาก Cutting Plan" แสดง CUT-EG01/STCPL/00020 และ 00021 · Components: กาว/epoxy 2.70 ตร.ม., ซีลแลนท์ 2.70 ตร.ม., WIP NERO 12, WIP GP 18 · หลัง Produce All สถานะ Done Quantity 3.00 / 3.00 มีสมาร์ทปุ่ม Serial Numbers 3 · ได้ FG เจดีย์บัว 3 ชิ้น (Serial ตัวอย่าง CB-00025 ถึง -27) มูลค่าวัสดุ 4,506.30 บาท (= 2,899.80 + 1,215.00 + 324.00 + 67.50) ชิ้นละ 1,502.10</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-15-assembly-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-15-assembly-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-16</span></td>
+          <td class="col-scenario">ส่งของ Custom FG ตาม Serial<div class="note">ถ้ากด Create Invoice ก่อนส่งของ ระบบแจ้ง "Cannot create an invoice. No items are available to invoice" ให้ Validate ใบส่งของให้เป็น Done ก่อน</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Details ตรวจ Serial ทั้ง 3 ตัว</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Details แสดง Serial 3 ตัวจาก EG01/Stock/Stone FG ตัวละ 1.00 Units (ไม่มี FG ของงานอื่นปน) · ใบส่งของ Done Demand 3.00 Quantity 3.00 Units (ตัวอย่างจริง EG01/OUT/00111) · ใบขาย Delivered = 3.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-16-delivery-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-16-delivery-done.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-17</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ Confirm และตรวจรายการบัญชี</td>
+          <td class="col-pre">ทำ TC-GP-FGS-16 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับที่ใบขาย กด Create Invoice เลือก Regular invoice</li><li>กด Confirm บนใบแจ้งหนี้</li><li>เปิดแท็บ Journal Items</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ Posted ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · เครดิต 411100 รายได้ 150,000.00 · เครดิต 213200 ภาษีขาย 10,500.00 · เดบิต 112100 ลูกหนี้ 160,500.00 · เดบิต 511110 ต้นทุนขาย 4,506.30 เครดิต 113150 สินค้าคงเหลือ Stone FG 4,506.30 (ต้นทุนวัสดุของ FG ไม่รวมค่าแรง) (ตัวอย่างจริง INV/2026/00027)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-fg-countertop-custom/gp-fgs-17-invoice-journal.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-fg-countertop-custom/gp-fgs-17-invoice-journal.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-FGS-18</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีค่าแรงของงานประกอบ<div class="note">⚠ ข้อสังเกตที่ควรถามลูกค้า: ต้นทุนรวมที่ลงบัญชี 75,000 บาท (วัสดุ 4,506.30 + ค่าแรง 70,493.70) ต่างจากประมาณการ BOQ 11,720.76 (3,906.92 × 3) มาก เพราะระบบมีกติกาต้นทุนไม่ต่ำกว่า 50% ของรายได้ แล้วเติมส่วนต่างเป็นค่าแรง แถวค่าแรงและวัสดุสิ้นเปลือง (ที่ไม่มีสินค้า) ใน BOQ ไม่ถูกนำไปลงบัญชีเลย ใช้เป็นประมาณการในสูตรเท่านั้น · กติกา 50% เป็นการออกแบบเดิมของระบบ (ตั้งค่าได้) ไม่ใช่ความผิดพลาดของการรัน</div></td>
+          <td class="col-pre">ทำ TC-GP-FGS-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Accounting &gt; Journal Entries</li><li>ค้นหา "FG Production Labor" ของงานประกอบ EG01/STFG/00062</li><li>เปิดรายการ ดูเดบิตและเครดิต</li></ol></td>
+          <td class="col-sample">รายได้บรรทัดงาน = 150,000 · วัสดุ FG = 4,506.30 · ต้นทุนขั้นต่ำ 50%</td>
+          <td class="col-expected">รายการ MISC/2026/10/0026 "FG Production Labor — EG01/STFG/00062" เดบิต 511120 ค่าแรง 70,493.70 เครดิต 212300 (บัญชีค้างจ่ายค่าแรง) 70,493.70 (= 50% × 150,000 − 4,506.30) · ค่าแรงนี้ไม่รวมอยู่ในต้นทุนขาย 4,506.30 ของใบแจ้งหนี้</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot">-</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
