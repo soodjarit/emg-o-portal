@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>33. Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 33 / 33</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 33 บท</div>
+    <div class="nav-section">ภาพรวม</div>
+    <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link active"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="05-sell-fabrication.html" class="nav-link"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="08-intercompany.html" class="nav-link"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="14-cut-to-order.html" class="nav-link"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ส่งของ & ต้นทุน</div>
+    <a href="06-delivery.html" class="nav-link"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <div class="nav-section">ฟีเจอร์เสริม</div>
+    <a href="09-ecommerce-catalog.html" class="nav-link"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="16-quote-plain-stone.html" class="nav-link"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">คืนสินค้า</div>
+    <a href="23-returns-rma.html" class="nav-link"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+  </nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">33</span> Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 8 ตุลาคม 2569 (2026-10-08) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.1 · ภาพหน้าจอทั้งหมดมาจากการทดลองใช้งานจริงบนระบบทดสอบ เมื่อ 8 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายเรื่อง <strong>Landed Cost (ต้นทุนนำเข้า)</strong> ของหินก้อน (Block) ที่มาเป็นตู้คอนเทนเนอร์ ว่าค่าขนส่ง ค่าภาษี ค่าพิธีการ ที่จ่ายแยกต่างหากจากค่าหิน ถูกบวกเข้าต้นทุนของ Block อย่างไร และส่งต่อไปถึงต้นทุนของ Slab ที่ตัดออกมา โดยมีตัวอย่างจริงที่ตู้มีหลายใบแจ้งหนี้ และมีใบหนึ่งเป็นเงินดอลลาร์สหรัฐ (USD)</p>
+
+<h2>1. Landed Cost คืออะไร</h2>
+<p><strong>Landed Cost คือค่าใช้จ่ายที่เกิดขึ้นเพื่อให้หินมาถึงโรงงาน</strong> นอกเหนือจากราคาหินในใบสั่งซื้อ เช่น ค่าระวางเรือ ค่าขนส่งในประเทศ อากรขาเข้า ค่าพิธีการศุลกากร ผู้ให้บริการส่งใบแจ้งหนี้ (Vendor Bill) มาแยกต่างหาก มักมาหลังจากรับหินเข้าคลังแล้ว และอาจมาหลายใบ ต่างสกุลเงิน</p>
+<div class="kv">
+<div>ค่าใช้จ่ายมาจาก</div><div>ใบแจ้งหนี้ผู้ขาย (Vendor Bill) ตั้งแต่ 1 ใบขึ้นไปต่อตู้ ใช้สินค้าบริการ Freight (IMP-003) เป็นรายการในบิล</div>
+<div>ผูกกับ</div><div><strong>ตู้คอนเทนเนอร์ (Container)</strong> — ตู้เดียวมีหลาย Block ได้ และมาจากหลายใบสั่งซื้อได้</div>
+<div>แบ่งให้ Block ตาม</div><div><strong>ปริมาตร (คิว/CBM)</strong> ของแต่ละ Block ที่รับเข้ามา</div>
+<div>สกุลเงิน</div><div>บิลเป็น USD ได้ ระบบแปลงเป็นบาทตามอัตราแลกเปลี่ยนของวันที่บิล</div>
+<div>ผลลัพธ์</div><div>มูลค่าสต็อก Block เพิ่มขึ้น และต้นทุน Slab ที่ตัดจาก Block นั้นสูงขึ้นตาม</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">ค่าขนส่งไม่ใช่ค่าใช้จ่ายของเดือนนั้น แต่เป็นส่วนหนึ่งของราคาหิน</span></div><div class="callout-body">เมื่อกดปุ่มบนหน้าตู้ ระบบเอาค่าขนส่งไป <strong>บวกเข้ามูลค่าสต็อก Block</strong> (บัญชีสินค้าคงเหลือ) ไม่ปล่อยให้เป็นค่าใช้จ่ายทันที พอตัดเป็น Slab และขาย ต้นทุนขายจึงรวมค่าขนส่งไปด้วย</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>Block เข้าคลังด้วยใบรับของจริง</strong> ตอนรับของ Block มีมูลค่าเท่าราคาหินก่อน ค่าขนส่งยังไม่เข้า</li>
+<li><strong>ค่าขนส่งมาทีหลังเป็นใบแจ้งหนี้</strong> ผูกใบแจ้งหนี้เข้ากับตู้ แล้วจึงกดลงต้นทุน ไม่ต้องรอให้ครบทุกใบ มาใบไหนลงใบนั้น</li>
+<li><strong>ใบแจ้งหนี้หนึ่งใบ = เอกสาร Landed Cost หนึ่งใบ</strong> ตรวจย้อนได้ว่าต้นทุนส่วนเพิ่มนี้มาจากบิลไหน</li>
+<li><strong>แบ่งตามคิว</strong> Block ที่ใหญ่กว่าได้ส่วนแบ่งค่าขนส่งมากกว่า (ตามที่ลูกค้ายืนยัน)</li>
+<li><strong>กดซ้ำได้ ไม่ลงซ้ำ</strong> บิลที่ลงต้นทุนแล้ว ระบบข้ามให้ ไม่สร้างรายการซ้ำ</li>
+<li><strong>Slab ได้ต้นทุนจาก Block</strong> ตอนตัด (Cut Order) ระบบแบ่งมูลค่า Block ให้ Slab ทุกแผ่น มูลค่านี้รวมค่าขนส่งแล้ว (ดูบท 31)</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. สั่งซื้อและรับ Block</b>ใบสั่งซื้อหินหลายใบ รับเข้าคลัง</div><div class="ar">→</div>
+<div class="st"><b>2. สร้างตู้</b>ผูก Block เข้าตู้</div><div class="ar">→</div>
+<div class="st"><b>3. บันทึกใบแจ้งหนี้ค่าขนส่ง</b>หลายใบ บาท/USD</div><div class="ar">→</div>
+<div class="st"><b>4. ผูกบิลกับตู้</b>ที่ช่อง Landed Cost Bills</div><div class="ar">→</div>
+<div class="st hl"><b>5. กดปุ่ม "ลงต้นทุนค่าขนส่งเข้าสต็อก"</b>ระบบสร้าง Landed Cost ต่อบิล</div><div class="ar">→</div>
+<div class="st"><b>6. ตัด Block เป็น Slab</b>ต้นทุน Slab รวมค่าขนส่ง</div>
+</div>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 ผูกใบแจ้งหนี้ค่าขนส่งเข้ากับตู้</h3>
+<p>เมนู Stone Slab → Containers → เปิดตู้ ช่อง <strong>Landed Cost Bills (Vendor Bills)</strong> เลือกใบแจ้งหนี้ได้หลายใบ ช่อง <strong>Landed Cost Total</strong> รวมให้เป็นบาททันที ตัวอย่างนี้ตู้ LCT-CNT-01 มี 3 Block และ 2 บิล: บิลแรก 10,400 บาท บิลที่สองเป็น USD (ก่อนภาษี 500 USD อัตรา 35 บาทต่อ USD = 17,500 บาท) รวม 27,900 บาท</p>
+<figure class="screenshot"><img src="assets/landed-01-container-bills.webp" alt="หน้าตู้คอนเทนเนอร์ที่ผูกใบแจ้งหนี้ 2 ใบ"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ใบแจ้งหนี้ต้องยืนยัน (Post) แล้ว</span></div><div class="callout-body">ใบแจ้งหนี้ต้องสร้างที่เมนูบัญชี (Accounting → Vendors → Bills) ไม่ใช่ใบสั่งซื้อ และรายการในบิลใช้สินค้า Freight (IMP-003) บิลที่ยกเลิกแล้วไม่ถูกนับในยอดรวม</div></div>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">บิล USD ต้องมีอัตราแลกเปลี่ยน</span></div><div class="callout-body">ถ้าระบบยังไม่มีอัตรา USD ของวันที่บิล ต้องตั้งอัตราที่เมนูสกุลเงินก่อน ไม่เช่นนั้นยอดบาทจะผิด</div></div>
+
+<h3>4.2 กดปุ่มลงต้นทุน</h3>
+<p>ปุ่ม <strong>ลงต้นทุนค่าขนส่งเข้าสต็อก</strong> อยู่มุมซ้ายบนของหน้าตู้ (เห็นเมื่อมีบิลผูกอยู่) กดแล้วระบบสร้างเอกสาร Landed Cost ให้ <strong>1 ใบต่อบิล</strong> คำนวณ และยืนยัน (Posted) ทันที ใบเอกสารอ้างถึงบิลต้นทาง ใบรับของที่ได้รับผลกระทบ และรายการบัญชี</p>
+<figure class="screenshot"><img src="assets/landed-02-lc-posted.webp" alt="Landed Cost LC/2026/0009 สถานะ Posted"/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">กดซ้ำได้ ไม่ลงซ้ำ</span></div><div class="callout-body">ทดลองกดปุ่มซ้ำหลายครั้งแล้ว ระบบไม่สร้างรายการเพิ่ม ทำให้มาบิลใหม่แล้วกดอีกครั้งได้เลย ระบบลงให้เฉพาะบิลที่ยังไม่ได้ลง</div></div>
+
+<h3>4.3 ตรวจว่าแต่ละ Block ได้ค่าขนส่งเท่าไร</h3>
+<p>เมนู Inventory → Operations → Landed Costs → เปิดเอกสาร → แท็บ <strong>Valuation Adjustments</strong> แสดงมูลค่าเดิม มูลค่าใหม่ และส่วนที่เพิ่มของแต่ละ Block บิลแรก (10,400 บาท) แบ่งตามคิว 8.40 : 2.00</p>
+<figure class="screenshot"><img src="assets/landed-04-valuation-thb.webp" alt="การแบ่งค่าขนส่งบิลบาท ให้ Block 2 รายการ"/></figure>
+<p>บิลที่สอง (USD → 17,500 บาท) แบ่งด้วยสัดส่วนเดียวกัน และบวกต่อจากมูลค่าที่เพิ่มขึ้นแล้วจากบิลแรก</p>
+<figure class="screenshot"><img src="assets/landed-03-valuation-usd.webp" alt="การแบ่งค่าขนส่งบิล USD ที่แปลงเป็นบาท"/></figure>
+<table class="cond"><tr><th>Block</th><th>คิว</th><th>ราคาหินเดิม</th><th>บิล 1 (บาท)</th><th>บิล 2 (USD)</th><th>มูลค่าสุดท้าย</th></tr>
+<tr><td>CORCHIA GREY</td><td>8.40</td><td>84,000.00</td><td>+8,400.00</td><td>+14,134.62</td><td><strong>106,534.62</strong></td></tr>
+<tr><td>COSMIC BLACK</td><td>2.00</td><td>40,000.00</td><td>+2,000.00</td><td>+3,365.38</td><td><strong>45,365.38</strong></td></tr>
+<tr><td><strong>รวม</strong></td><td>10.40</td><td>124,000.00</td><td>+10,400.00</td><td>+17,500.00</td><td><strong>151,900.00</strong></td></tr></table>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">ตรวจสอบ</span><span class="callout-title">ผลรวมตรงกับยอดบนหน้าตู้</span></div><div class="callout-body">ส่วนที่เพิ่มรวม 10,400 + 17,500 = 27,900 บาท เท่ากับ Landed Cost Total บนหน้าตู้ ไม่มีเศษหายหรือเกิน</div></div>
+
+<h3>4.4 ผลต่อบัญชี</h3>
+<p>แต่ละเอกสาร Landed Cost สร้างรายการบัญชีสมุด Inventory Valuation: เดบิตสินค้าคงเหลือ (113120) เครดิตบัญชีค่าขนส่งที่บิลลงไว้ (511100) ทำให้ค่าขนส่งที่บิลบันทึกเป็นค่าใช้จ่ายถูกหักล้างออก และไปอยู่ในมูลค่าสต็อกแทน</p>
+
+<h3>4.5 ตัด Block เป็น Slab — ต้นทุน Slab รวมค่าขนส่ง</h3>
+<p>เมื่อสร้างใบตัด (Cut Order) ต้นทุนของ Slab ทุกแผ่นมาจากมูลค่า Block ณ ตอนตัด ซึ่ง <strong>รวมค่าขนส่งแล้ว</strong> บวกค่าแรงตัด (ขั้นตอน Gangsaw) ที่เกิดขึ้นจริง</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ข้อนี้ผลจากการทดสอบอัตโนมัติ ยังไม่มีภาพหน้าจอ</span></div><div class="callout-body">ชุดทดสอบตัด Block ที่ใบรับของมีมูลค่า 59,400 บาท (รวมค่าขนส่งแล้ว) ได้ Slab ที่ต้นทุนรวมไม่ต่ำกว่า 59,400 บาท ส่วนที่เกินคือค่าแรงตัด ตัวเลขยอดรวมไม่ตรงกับตัวอย่างข้างบนเพราะเป็นชุดข้อมูลทดสอบคนละชุด</div></div>
+
+<h2>5. สรุปเงื่อนไข</h2>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>ตู้มีหลายบิล</td><td class="ok">ลงต้นทุนทีละบิล แต่ละบิลได้เอกสาร Landed Cost ของตัวเอง ยอดรวมบนตู้บวกทุกบิล</td></tr>
+<tr><td>บิลเป็น USD</td><td class="ok">แปลงเป็นบาทตามอัตราของวันที่บิล แล้วจึงแบ่ง (ทดลองจริง 500 USD → 17,500 บาท)</td></tr>
+<tr><td>ตู้มี Block จากหลายใบสั่งซื้อ (หลายใบรับของ)</td><td class="ok">ค่าขนส่งแบ่งให้ทุก Block ตามคิวรวมกัน</td></tr>
+<tr><td>กดปุ่มซ้ำ</td><td class="ok">ข้ามบิลที่ลงแล้ว ไม่ลงซ้ำ</td></tr>
+<tr><td>บิลยังไม่ Post หรือถูกยกเลิก</td><td class="no">ไม่ลงต้นทุน (บิลยกเลิกไม่นับในยอดรวมตู้)</td></tr>
+<tr><td>ใบรับของมี Block ของตู้อื่นปนอยู่ด้วย</td><td class="no">ระบบข้ามใบรับของนั้นและแจ้งเตือน ต้องทำ Landed Cost เองด้วยมือ (ผลจากการทดสอบอัตโนมัติ)</td></tr>
+<tr><td>ตู้มี Block แค่บางส่วนในใบรับของ</td><td class="ok">ระบบลงเฉพาะสัดส่วนคิวของ Block ในตู้นั้น</td></tr>
+<tr><td>Block ถูกตัดหรือขายไปแล้วก่อนบิลมา</td><td class="no">ส่วนของสต็อกที่ออกไปแล้วเข้าต้นทุนขาย (COGS) ของงวดที่ลงบิล ลูกค้ายอมรับแบบนี้ไปก่อน รอฝ่ายบัญชียืนยัน</td></tr></table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม</th><th>ตอนนี้</th></tr>
+<tr><td>ผูกบิลกับตู้ได้ใบเดียว</td><td class="ok">ผูกได้หลายใบ ยอดรวมทุกใบ</td></tr>
+<tr><td>บิล USD ถูกอ่านเป็นบาท (500 USD กลายเป็น 500 บาท)</td><td class="ok">แปลงตามอัตราจริงเป็นบาท</td></tr>
+<tr><td>ค่าขนส่งแสดงบนตู้ แต่ไม่เข้ามูลค่า Block ที่รับด้วยใบรับของ ต้นทุน Slab จึงไม่รวมค่าขนส่ง</td><td class="ok">กดปุ่มแล้วเข้ามูลค่า Block และต้นทุน Slab</td></tr>
+<tr><td>ไม่มีเอกสารให้ตรวจย้อนว่าต้นทุนเพิ่มมาจากบิลไหน</td><td class="ok">มี Landed Cost ต่อบิล อ้างถึงบิลและใบรับของ</td></tr></table>
+
+<h2>7. คำถามที่พบบ่อย</h2>
+<p><strong>ถามว่า ต้องรอบิลครบก่อนกดไหม?</strong> ไม่ต้อง กดเมื่อมีบิลใหม่ได้ทุกครั้ง ระบบลงเฉพาะบิลที่ยังไม่ได้ลง</p>
+<p><strong>ถามว่า ทำไมตู้เก่าที่มีบิลอยู่แล้วต้นทุนยังไม่เข้า?</strong> ตู้ที่ผูกบิลไว้ก่อนระบบนี้ ต้นทุนยังไม่เข้ามูลค่า Block ให้เปิดตู้แล้วกดปุ่มหนึ่งครั้ง (ตู้ LCT-CNT-01 ทำแล้ว) ระบบย้ายบิลเดิมมาเก็บในช่องใหม่ให้อัตโนมัติ แต่ไม่ลงต้นทุนเอง</p>
+<p><strong>ถามว่า อยากแบ่งตามน้ำหนักหรือมูลค่าแทนคิวได้ไหม?</strong> ตอนนี้แบ่งตามคิวอย่างเดียว ตามที่ลูกค้ายืนยัน</p>
+<p><strong>ถามว่า ค่าขนส่งในเอกสารรับของ (Receipt) ไม่เห็นเลขต้นทุน?</strong> หน้าใบรับของและ Moves ไม่แสดงมูลค่า ให้ดูที่ Landed Costs → Valuation Adjustments</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>เพิ่ม Block เข้าตู้ <strong>หลัง</strong> ที่ลงต้นทุนไปแล้ว ระบบไม่ลงต้นทุนย้อนหลังให้ Block ใหม่อัตโนมัติ ยังไม่ได้ทดลอง</li>
+<li>ใบรับของที่มี Block หลายตู้ปนกัน ต้องทำ Landed Cost เองด้วยมือ</li>
+<li>บิลที่มาหลัง Block ถูกตัดหรือขายแล้ว ส่วนนั้นเข้า COGS ไม่ย้อนไปแก้ต้นทุน Slab ที่ตัดไปแล้ว รอฝ่ายบัญชีของลูกค้ายืนยัน</li>
+<li>ต้นทุน Slab ที่รวมค่าขนส่ง ยืนยันด้วยชุดทดสอบอัตโนมัติ ยังไม่ได้เดินหน้าจอจริงตั้งแต่ตัดจนขาย</li>
+<li>แบ่งตามคิวอย่างเดียว ไม่มีตัวเลือกแบ่งตามน้ำหนักหรือมูลค่า</li>
+</ul>
+<div class="media-note">อ้างอิงทางเทคนิค: ADR-084 (Block เข้าด้วยใบรับของ), ADR-087 (Slab = Lot/Serial) · ทดลองบน eg-tst เมื่อ 2026-10-08 ด้วย stone_slab_inventory 2.109.1 (ตู้ LCT-CNT-01, บิล BILL/2026/10/0001 และ 0002, ใบรับของ EG01/IN/00079, LC/2026/0008 และ 0009) · commit 9363721</div>
+<hr/>
+</div>
+</div>
+<div class="chapter-nav">
+  <a href="32-fg.html"><span class="dir">← ก่อนหน้า</span>32. FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
