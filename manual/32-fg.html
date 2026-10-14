@@ -73,7 +73,7 @@
     <h1><span class="chapter-num">32</span> FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
   </div>
   <div class="page-content">
-<p class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 + boq_estimation 1.24.0 · ภาพหน้าจอ: หน้าใบสั่งขาย (A.1, A.4, A.5, B.1, B.3, B.4) ถ่ายใหม่เมื่อ 14 ตุลาคม 2569 เพราะใบสั่งขายมีคอลัมน์ใหม่ (หนา (ซม.), เตือนกำไร) ส่วนภาพอื่นถ่ายเมื่อ 11 ตุลาคม 2569 และหน้าจอไม่ได้เปลี่ยน (ตรวจเทียบแล้วเมื่อ 14 ตุลาคม) · ตัวเลขตัวอย่างทดลองรันซ้ำบนเวอร์ชันล่าสุดแล้ว ผลเท่าเดิม (ใบเสนอราคา 45,720 บาท ใช้ Slab 2 แผ่น ต้นทุน 2,430 บาท) · การแก้ระบบ 3 จุดเมื่อ 11 ตุลาคม (ตัดแถว Slab ตามสูตรที่ไม่ได้ใช้ออกจาก Components, ใบส่งของ FG จอง Lot ของใบสั่งผลิตของบรรทัดนั้นก่อน, ปุ่ม "คัดลอกแผนเป็นขนาดจริง" ในใบตัดหิน) commit และติดตั้งบนระบบทดสอบทั้งสองฐานแล้ว ดู Golden Path ชุดใหม่ TC-GP-FGS-01 ถึง 18</p>
+<p class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 + boq_estimation 1.24.0 · รันขั้นตอนทั้งเส้นทาง A และ B ใหม่บนระบบทดสอบเมื่อ 14 ตุลาคม 2569 และถ่ายภาพหน้าจอใหม่ทั้งหมด (ยกเว้นภาพการนำเข้า Cut List/BOQ ในหัวข้อ B.0 ซึ่งเป็นของ 11 ตุลาคม) ตัวเลขทุกจุดตรงกับการทดลองเดิม: ใบเสนอราคา 45,720 บาท, ต้นทุน FG 1,153.44 บาท, ค่าแรงเติม 19,378.56 บาท, ต้นทุน Serial เจดีย์บัว 1,502.10 บาท (ใบแจ้งหนี้ 160,500 บาท ต้นทุนขาย 4,506.30 บาท) · การแก้ระบบ 3 จุดเมื่อ 11 ตุลาคม (ตัดแถว Slab ตามสูตรที่ไม่ได้ใช้ออกจาก Components, ใบส่งของ FG จอง Lot ของใบสั่งผลิตของบรรทัดนั้นก่อน, ปุ่ม "คัดลอกแผนเป็นขนาดจริง" ในใบตัดหิน) ติดตั้งบนระบบทดสอบทั้งสองฐานแล้ว ดู Golden Path ชุดใหม่ TC-GP-FGS-01 ถึง 18</p>
 <style>
 .doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
 .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
@@ -101,7 +101,7 @@ table.cond td.no{background:#fdeeee}
 <tr><td>ซื้อขายเป็น</td><td>ตร.ม. ของพื้นที่ชิ้นงานรวม (3.48 ตร.ม. × 12,000)</td><td>ชิ้น</td></tr>
 <tr><td>วัตถุดิบ</td><td>Slab ของวัสดุเดียว ระบบเลือกให้</td><td>Slab หลายชนิด + วัสดุสิ้นเปลือง ตาม <strong>สูตร</strong> ที่โหลดจาก BOQ</td></tr>
 <tr><td>ใบสั่งผลิต</td><td>1 ใบ (FG Production)</td><td>หลายใบ: ใบตัดหิน (Cutting Plan) ต่อชนิดหิน + งานประกอบ (Assembly)</td></tr>
-<tr><td>สิ่งที่ได้</td><td>FG Lot ต่อชิ้น (ตามขนาด) + เศษหินเป็น Lot</td><td><strong>Serial 1 เลขต่อ 1 ชิ้น</strong> (CB-00022 …)</td></tr>
+<tr><td>สิ่งที่ได้</td><td>FG Lot ต่อชิ้น (ตามขนาด) + เศษหินเป็น Lot</td><td><strong>Serial 1 เลขต่อ 1 ชิ้น</strong> (CB-00028 …)</td></tr>
 <tr><td>ที่เก็บ</td><td colspan="2">โซน <strong>EG01/Stock/Stone FG</strong> (แยกจากคลัง Slab) จนกว่าจะส่งของ</td></tr></table>
 <div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">Slab ขายเป็นแผ่น FG ขายเป็นงานที่ผลิตแล้ว</span></div><div class="callout-body">เส้นทางถูกเลือกจากตัวสินค้า: สินค้า FG ที่ผูกกับวัสดุ = เส้นทาง A สินค้าที่ติ๊ก "เป็น Custom FG" (ไม่ผูกวัสดุเดียว) = เส้นทาง B</div></div>
 
@@ -179,7 +179,7 @@ table.cond td.no{background:#fdeeee}
 <h4>A.6 ใบสั่งผลิต — ระบบเลือก Slab ให้</h4>
 <p>กดสมาร์ทปุ่ม <strong>FG Production</strong> เปิดแท็บ <strong>Slab ที่จะตัด</strong></p>
 <figure class="screenshot"><img src="assets/fg-a06-mo-sources.webp" alt="ใบสั่งผลิตและ Slab ที่ระบบเลือกให้"/></figure>
-<p>ใบสั่งผลิต <code>EG01/STFG/00058</code> (Draft) พื้นที่งาน 3.48 ตร.ม. ต้องใช้รวมเผื่อเสีย <strong>3.83 ตร.ม.</strong> (เผื่อเสีย 10%) ระบบเลือก Slab ให้เอง 2 แผ่น (<code>BLK-26-0006-21</code> และ <code>-22</code> แผ่นละ 3.75 ตร.ม.) รวม 7.50 ตร.ม.</p>
+<p>ใบสั่งผลิต <code>EG01/STFG/00146</code> (Draft) พื้นที่งาน 3.48 ตร.ม. ต้องใช้รวมเผื่อเสีย <strong>3.83 ตร.ม.</strong> (เผื่อเสีย 10%) ระบบเลือก Slab ให้เอง 2 แผ่น (<code>BLK-26-0006-31</code> และ <code>-32</code> แผ่นละ 3.75 ตร.ม.) รวม 7.50 ตร.ม.</p>
 <p>หน้าใบสั่งผลิตจัดเป็นขั้นตอน: การ์ดสรุปด้านบน (สินค้า, ต้องใช้กี่ ตร.ม., Slab ที่เลือกพอหรือไม่) → <strong>ขั้นตอนที่ 1 ตรวจ Slab ต้นทาง</strong> (มีปุ่ม <strong>เลือก Slab อัตโนมัติ</strong> และข้อความสีแดงถ้า Slab ไม่พอ) → <strong>ขั้นตอนที่ 2 ย้ายไปสถานีตัด แล้ว Confirm</strong> → <strong>ขั้นตอนที่ 3 หลังตัดเสร็จ</strong> และมีส่วน "ผูกกับใบขาย (ระบบใส่ให้)" แท็บ ผลผลิต FG, Slab ที่จะตัด และเศษที่เหลือ อยู่ก่อนแท็บ Components</p>
 <div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">จำนวนในแท็บ Components ตอนเป็น Draft เป็นแค่ค่าตั้งต้นจากสูตร</span></div><div class="callout-body">หน้าจอมีกล่องข้อความอธิบายไว้ จำนวนจะตรงกับ Slab ที่เลือกจริงหลัง Confirm</div></div>
 
@@ -187,21 +187,21 @@ table.cond td.no{background:#fdeeee}
 <p>กดปุ่ม <strong>ย้ายไปสถานีตัด</strong> (เดิมชื่อ "ย้ายด่วน") ระบบแจ้งสีเขียวว่าย้าย 2 lot ไป Stone Production แล้ว (ข้อความแจ้งเตือนค้างอยู่จนกว่าจะกดปิด) จากนั้นกด <strong>Confirm</strong></p>
 <figure class="screenshot"><img src="assets/fg-a07-move.webp" alt="ย้ายไปสถานีตัด"/></figure>
 <figure class="screenshot"><img src="assets/fg-a08-mo-confirmed.webp" alt="ใบสั่งผลิต Confirmed"/></figure>
-<p>หลัง Confirm แท็บ <strong>Components</strong> แสดงเฉพาะ Slab ที่ระบบเลือกจริง (<code>GP Block Marble - Slab (Polished, 2 cm)</code> 2.00 Units สถานะ Available) แถว Slab ตามสูตรผลิตที่ไม่ได้ใช้ เช่น Honed 3 cm ถูกตัดออกให้ (ตั้งแต่ 11 ต.ค. ก่อนแก้จะค้างเป็นแถวแดง Not Available ทำให้ลูกค้าเข้าใจผิดว่าของไม่พอ) ภาพนี้ถ่ายก่อนแก้ จึงยังเห็น Component Status เป็น Not Available</p>
+<p>หลัง Confirm แท็บ <strong>Components</strong> แสดงเฉพาะ Slab ที่ระบบเลือกจริง (<code>GP Block Marble - Slab (Polished, 2 cm)</code> 2.00 Units สถานะ Available) แถว Slab ตามสูตรผลิตที่ไม่ได้ใช้ เช่น Honed 3 cm ถูกตัดออกให้ (ตั้งแต่ 11 ต.ค. ก่อนแก้จะค้างเป็นแถวแดง Not Available ทำให้ลูกค้าเข้าใจผิดว่าของไม่พอ)</p>
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ต้อง Confirm ก่อนจึงกด "ผลิต FG เสร็จ" ได้</span></div><div class="callout-body">ถ้าใบสั่งผลิตยังเป็น Draft ระบบไม่ให้ปิดงาน (กันการได้ FG ฟรีโดยไม่ตัด Slab) · ขั้นตอนบนแท็บ Work Orders (ตัด → ขอบ → เจาะ → ตรวจ) ไม่ต้องกด Start ทีละขั้นก็ปิดงานได้ ส่วนจับเวลาไม่ได้ทดลองในบทนี้</div></div>
 
 <h4>A.8 ตรวจรายการชิ้นที่ตัดได้ (ผลผลิต FG) และบันทึกเศษ</h4>
 <p>แท็บ <strong>ผลผลิต FG</strong> ถูกเติมจากชิ้นงานในใบสั่งขาย พร้อมหมายเหตุงานแปรรูปให้ช่างอ่านตอนตัด ถ้าตัดได้ขนาดต่างจากที่สั่ง แก้ Width / Length / Qty ในแถวนั้น (ความหนา 0.00 ไม่ต้องกรอก ระบบใช้ความหนาของ Slab)</p>
 <figure class="screenshot"><img src="assets/fg-a09-fg-output.webp" alt="แท็บ ผลผลิต FG"/></figure>
-<p>แท็บ <strong>เศษที่เหลือ</strong> กด Add a line เลือก Slab ต้นทาง ใส่กว้าง ยาว จำนวน ตัวอย่าง: เศษจาก <code>BLK-26-0006-22</code> ขนาด 1.20 × 1.20 และเศษจาก <code>BLK-26-0006-21</code> ขนาด 2.00 × 1.25 (1.44 + 2.50 = 3.94 ตร.ม.)</p>
+<p>แท็บ <strong>เศษที่เหลือ</strong> กด Add a line เลือก Slab ต้นทาง ใส่กว้าง ยาว จำนวน ตัวอย่าง: เศษจาก <code>BLK-26-0006-32</code> ขนาด 1.20 × 1.20 และเศษจาก <code>BLK-26-0006-31</code> ขนาด 2.00 × 1.25 (1.44 + 2.50 = 3.94 ตร.ม.)</p>
 <figure class="screenshot"><img src="assets/fg-a10-offcut-entry.webp" alt="บันทึกเศษ"/></figure>
 
 <h4>A.9 ผลิต FG เสร็จ (Complete FG Production)</h4>
 <figure class="screenshot"><img src="assets/fg-a11-mo-done.webp" alt="ปิดงานผลิตสำเร็จ"/></figure>
-<p>ใบสั่งผลิตขึ้น Done ได้ FG 3 Lot ตามขนาดชิ้น (<code>FG-EG01/STFG/00058-01</code> ถึง <code>-03</code>) เข้าโซน <strong>EG01/Stock/Stone FG</strong> ต้นทุนวัสดุ <strong>1,153.44 บาท</strong> (331.45 ต่อ ตร.ม.) = ค่า Slab 2,430.00 หักส่วนของเศษ 1,276.56 และเศษแต่ละก้อนได้ Lot ของตัวเอง (<code>OC-EG01/STFG/00058-01</code> ต้นทุน 466.56, <code>-02</code> ต้นทุน 810.00)</p>
+<p>ใบสั่งผลิตขึ้น Done ได้ FG 3 Lot ตามขนาดชิ้น (<code>FG-EG01/STFG/00146-01</code> ถึง <code>-03</code>) เข้าโซน <strong>EG01/Stock/Stone FG</strong> ต้นทุนวัสดุ <strong>1,153.44 บาท</strong> (331.45 ต่อ ตร.ม.) = ค่า Slab 2,430.00 หักส่วนของเศษ 1,276.56 และเศษแต่ละก้อนได้ Lot ของตัวเอง (<code>OC-EG01/STFG/00146-01</code> ต้นทุน 466.56, <code>-02</code> ต้นทุน 810.00)</p>
 
 <h4>A.10 ตรวจเศษแล้วนำกลับไปขาย</h4>
-<p>ไปที่ <strong>Stone Slab → Slabs → Slabs Pending Inspection</strong> ค้นหา <code>OC-EG01/STFG/00058</code> เศษ 1.20 × 1.20 × 0.02 ม. = 1.44 ตร.ม. สถานะ <strong>Returned - Pending Inspection</strong> ต้นทุน 466.56 (ก้อนที่ 2 ขนาด 2.00 × 1.25 ต้นทุน 810.00)</p>
+<p>ไปที่ <strong>Stone Slab → Slabs → Slabs Pending Inspection</strong> ค้นหา <code>OC-EG01/STFG/00146</code> เศษ 1.20 × 1.20 × 0.02 ม. = 1.44 ตร.ม. สถานะ <strong>Returned - Pending Inspection</strong> ต้นทุน 466.56 (ก้อนที่ 2 ขนาด 2.00 × 1.25 ต้นทุน 810.00)</p>
 <figure class="screenshot"><img src="assets/fg-a12-offcut-pending.webp" alt="เศษรอตรวจ"/></figure>
 <p>เปิดหน้าเศษ กดปุ่ม <strong>ตรวจแล้ว — นำกลับไปขาย</strong> ทำซ้ำกับก้อนที่เหลือ สถานะเป็น Available อยู่ที่ Stone Available ต้นทุนเท่าเดิม ขายเป็น Slab ขนาดเล็กได้ (ถ้าเศษแตก ใช้ปุ่ม "ชำรุด — ตัดทิ้ง (Scrap)" ซึ่งยังไม่ได้ทดลอง)</p>
 <figure class="screenshot"><img src="assets/fg-a13-offcut-ok-642.webp" alt="เศษตรวจแล้ว Available"/></figure>
@@ -209,7 +209,7 @@ table.cond td.no{background:#fdeeee}
 <h4>A.11 ส่งของ</h4>
 <p>ที่ Sales Order กดสมาร์ทปุ่ม <strong>Delivery</strong> (ถ้ายังไม่จอง กด Check Availability) แล้ว Details</p>
 <figure class="screenshot"><img src="assets/fg-a14-delivery-details.webp" alt="ใบส่งของจอง FG Lot ให้"/></figure>
-<p>ใบส่งของ <code>EG01/OUT/00106</code> ระบุ Lot ครบ 3 แถวจากโซน Stone FG: <code>-01</code> (1.56), <code>-02</code> (0.72), <code>-03</code> (1.20) รวม 3.48 ตร.ม. ตรงกับที่สั่ง (ปกติไม่ต้องสแกน แต่ให้ตรวจแถว Lot ตามหมายเหตุด้านล่างก่อน) กด <strong>Validate</strong> ใบส่งของขึ้น Done และมีปุ่ม Traceability ย้อนดูถึง Slab ต้นทาง</p>
+<p>ใบส่งของ <code>EG01/OUT/00318</code> ระบุ Lot ครบ 3 แถวจากโซน Stone FG: <code>-01</code> (1.56), <code>-02</code> (0.72), <code>-03</code> (1.20) รวม 3.48 ตร.ม. ตรงกับที่สั่ง (ปกติไม่ต้องสแกน แต่ให้ตรวจแถว Lot ตามหมายเหตุด้านล่างก่อน) กด <strong>Validate</strong> ใบส่งของขึ้น Done และมีปุ่ม Traceability ย้อนดูถึง Slab ต้นทาง</p>
 <div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ใบส่งของ Countertop จอง Lot ของใบสั่งผลิตของบรรทัดนี้ก่อน (แก้ 11 ต.ค. 2569) — ยังควรเปิด Details ตรวจก่อน Validate</span></div><div class="callout-body">เดิมใบส่งของ Countertop จองจากสต็อก FG ของสินค้าเดียวกันในโซน Stone FG โดยไม่ผูกกับงานนี้ ในการทดลองวันที่ 11 ต.ค. โซน Stone FG ยังมี FG เศษจากการทดสอบก่อนหน้า (<code>STFG/00051</code> ชิ้น 0.56 และ 0.50 ตร.ม.) ระบบจึงจองชิ้นเล็กสองชิ้นนั้นมาก่อนชิ้น C (1.20 ตร.ม.) ได้ยอดจอง 3.34 จาก 3.48 และสถานะ Not Available ต้องเปิด Details ลบแถวผิดแล้ว Add a line เลือก <code>-03</code> เอง (ภาพด้านบนเป็นหลังแก้ด้วยมือรอบนั้น) · หลังแก้ ระบบจองเฉพาะ Lot ที่ใบสั่งผลิตของบรรทัดนี้ผลิตให้ครบเอง รันซ้ำแล้ว: ใบ <code>S00216</code> ได้ใบส่งของ <code>EG01/OUT/00110</code> จอง <code>STFG/00061-01</code> ถึง <code>-03</code> ครบ 3.48 ตร.ม. ไม่มี Lot ของงานอื่นปน และ Validate ผ่านโดยไม่ต้องแก้ · ถ้าสินค้าไม่มีใบสั่งผลิตผูกกับบรรทัด (เช่น FG ที่ซื้อ/รับเข้าตรง) ระบบยังจองตามปกติของ Odoo จึงควรเปิด Details ตรวจก่อน Validate เสมอ</div></div>
 <figure class="screenshot"><img src="assets/fg-a15-delivery-done.webp" alt="ใบส่งของ Done"/></figure>
 
@@ -217,7 +217,7 @@ table.cond td.no{background:#fdeeee}
 <p>ที่ Sales Order กด Create Invoice → Regular invoice → Create Draft แล้ว Confirm ใบแจ้งหนี้</p>
 <figure class="screenshot"><img src="assets/fg-a16-invoice-draft.webp" alt="ใบแจ้งหนี้ฉบับร่าง"/></figure>
 <figure class="screenshot"><img src="assets/fg-a17-invoice-posted.webp" alt="ใบแจ้งหนี้ Posted"/></figure>
-<p>ใบแจ้งหนี้ <code>INV/2026/00023</code> 4 บรรทัดตรงกับ Sales Order รวม 45,720.00 + VAT 3,200.40 = <strong>48,920.40</strong> บาท บัญชีบันทึกรายได้ 45,720.00 และต้นทุนขาย 1,153.44 เท่ากับต้นทุน FG ที่ตัดออกจากคลัง บรรทัดหินติดแท็ก Analytic ทำให้รายงานอ้างอิงกลับไปถึง Block ต้นทางได้</p>
+<p>ใบแจ้งหนี้ <code>INV/2026/00028</code> 4 บรรทัดตรงกับ Sales Order รวม 45,720.00 + VAT 3,200.40 = <strong>48,920.40</strong> บาท บัญชีบันทึกรายได้ 45,720.00 และต้นทุนขาย 1,153.44 เท่ากับต้นทุน FG ที่ตัดออกจากคลัง บรรทัดหินติดแท็ก Analytic ทำให้รายงานอ้างอิงกลับไปถึง Block ต้นทางได้</p>
 
 <h3>เส้นทาง B — Custom FG (เจดีย์บัว)</h3>
 <p>ตัวอย่าง: ลูกค้า A-test-customer สั่งเจดีย์บัว 3 ชิ้น ราคา 50,000 ต่อชิ้น ประกอบจากหิน 2 ชนิด (NERO RUSTENBURG และ GP Block Marble) กับกาวและซีลแลนท์ โดยมี BOQ ที่เตรียมสูตรไว้แล้ว</p>
@@ -259,19 +259,19 @@ table.cond td.no{background:#fdeeee}
 <h4>B.3 Confirm — ระบบสร้างใบสั่งผลิตให้ครบ</h4>
 <p>กด <strong>Confirm</strong> แล้วกดสมาร์ทปุ่ม FG Production</p>
 <figure class="screenshot"><img src="assets/fg-b04-so-confirmed.webp" alt="ใบสั่งขาย Confirm แล้ว"/></figure>
-<p>ระบบสร้างใบสั่งผลิตฉบับร่าง 3 ใบ: <strong>งานประกอบ</strong> <code>EG01/STFG/00059</code> (เจดีย์บัว 3 ชิ้น) + <strong>ใบตัดหิน NERO</strong> <code>EG01/STCPL/00018</code> (6 ชิ้น) + <strong>ใบตัดหิน GP</strong> <code>EG01/STCPL/00019</code> (3 ชิ้น) จำนวนชิ้นตัด = ชิ้นต่อ 1 หน่วย × 3 หน่วย</p>
+<p>ระบบสร้างใบสั่งผลิตฉบับร่าง 3 ใบ: <strong>งานประกอบ</strong> <code>EG01/STFG/00147</code> (เจดีย์บัว 3 ชิ้น) + <strong>ใบตัดหิน NERO</strong> <code>EG01/STCPL/00113</code> (6 ชิ้น) + <strong>ใบตัดหิน GP</strong> <code>EG01/STCPL/00114</code> (3 ชิ้น) จำนวนชิ้นตัด = ชิ้นต่อ 1 หน่วย × 3 หน่วย</p>
 <div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">Confirm ผ่านเสมอแม้หินไม่พอ แต่บรรทัดที่ไม่มีสูตรผ่านไม่ได้</span></div><div class="callout-body">ถ้าหินในสต็อกไม่พอ ใบสั่งผลิตค้างเป็นฉบับร่างพร้อมเตือน แต่ถ้าบรรทัด Custom FG ไม่ได้โหลดสูตร ระบบไม่ให้ Confirm</div></div>
 
 <h4>B.4 ตัดหินทีละชนิด (Cutting Plan)</h4>
-<p>เปิดใบตัดหิน <code>EG01/STCPL/00018</code> (NERO) ผลผลิตคือ "Cutting Plan WIP" 6 ชิ้น ผูกกับงานประกอบ (ช่อง <strong>ป้อนให้งานประกอบ</strong>) ใบตัดหินใช้หน้าจอแบบขั้นตอนเหมือน FG: ขั้นตอนที่ 1 ตั้งค่างานถอดแบบ / เลือก Slab ต้นทาง (ระบบเลือก Slab ให้ 1 แผ่น และมีปุ่ม <strong>เลือก Slab อัตโนมัติ</strong>) → ขั้นตอนที่ 2 ใส่ชิ้นงานแล้ว Confirm → ขั้นตอนที่ 3 หลังตัดเสร็จ ช่อง "ไม่มีการประกอบต่อ" ใช้เมื่อชิ้นที่ได้ไม่ต้องไปประกอบ (ส่งมอบเป็นชิ้นสำเร็จ) ในตัวอย่างนี้ไม่ติ๊ก</p>
+<p>เปิดใบตัดหิน <code>EG01/STCPL/00113</code> (NERO) ผลผลิตคือ "Cutting Plan WIP" 6 ชิ้น ผูกกับงานประกอบ (ช่อง <strong>ป้อนให้งานประกอบ</strong>) ใบตัดหินใช้หน้าจอแบบขั้นตอนเหมือน FG: ขั้นตอนที่ 1 ตั้งค่างานถอดแบบ / เลือก Slab ต้นทาง (ระบบเลือก Slab ให้ 1 แผ่น และมีปุ่ม <strong>เลือก Slab อัตโนมัติ</strong>) → ขั้นตอนที่ 2 ใส่ชิ้นงานแล้ว Confirm → ขั้นตอนที่ 3 หลังตัดเสร็จ ช่อง "ไม่มีการประกอบต่อ" ใช้เมื่อชิ้นที่ได้ไม่ต้องไปประกอบ (ส่งมอบเป็นชิ้นสำเร็จ) ในตัวอย่างนี้ไม่ติ๊ก</p>
 <figure class="screenshot"><img src="assets/fg-b05-cp-draft-nero.webp" alt="ใบตัดหิน Draft"/></figure>
 <p><strong>ย้ายไปสถานีตัด → Confirm</strong> (ถ้าหินยังอยู่ที่ Stone Available) ใบตัดหินใช้ Slab จริง 1 แผ่นต่อชนิดหิน</p>
 <figure class="screenshot"><img src="assets/fg-b06-cp-moved-nero.webp" alt="ย้ายหินเข้าไลน์ผลิต"/></figure>
 <figure class="screenshot"><img src="assets/fg-b07-cp-confirmed-nero.webp" alt="ใบตัดหิน Confirmed"/></figure>
-<p>เปิดแท็บ <strong>ชิ้นงาน (แผน/จริง)</strong> ระบบใส่ขนาดแผนให้ครบแล้ว ถ้าตัดได้ตรงแบบ กดปุ่ม <strong>คัดลอกแผนเป็นขนาดจริง</strong> เหนือตาราง ระบบเติม จริง L / จริง H / จริง ความหนา จากแผนให้ทุกแถวที่ยังว่างในครั้งเดียว (ปุ่มเพิ่มเมื่อ 11 ต.ค. 2569 ภาพด้านล่างถ่ายก่อนเพิ่มปุ่ม ซึ่งกรอกทีละช่อง) แล้วแก้เฉพาะชิ้นที่ตัดได้ไม่ตรงแบบ ค่าที่กรอกไว้แล้วไม่ถูกทับ (ตัวอย่างตัดได้ตรงแบบ 0.30 × 0.60 ม. หนา 0.02 ม. ทั้ง 6 ชิ้น) จากนั้นกด <strong>ถอดแบบเสร็จ</strong> (เดิมชื่อ Complete Cutting Plan)</p>
+<p>เปิดแท็บ <strong>ชิ้นงาน (แผน/จริง)</strong> ระบบใส่ขนาดแผนให้ครบแล้ว ถ้าตัดได้ตรงแบบ กดปุ่ม <strong>คัดลอกแผนเป็นขนาดจริง</strong> เหนือตาราง ระบบเติม จริง L / จริง H / จริง ความหนา จากแผนให้ทุกแถวที่ยังว่างในครั้งเดียว (ปุ่มเพิ่มเมื่อ 11 ต.ค. 2569 ภาพด้านล่างถ่ายหลังกดปุ่มแล้ว) แล้วแก้เฉพาะชิ้นที่ตัดได้ไม่ตรงแบบ ค่าที่กรอกไว้แล้วไม่ถูกทับ (ตัวอย่างตัดได้ตรงแบบ 0.30 × 0.60 ม. หนา 0.02 ม. ทั้ง 6 ชิ้น) จากนั้นกด <strong>ถอดแบบเสร็จ</strong> (เดิมชื่อ Complete Cutting Plan)</p>
 <figure class="screenshot"><img src="assets/fg-b08-cp-pieces-nero.webp" alt="กรอกขนาดจริง"/></figure>
 <figure class="screenshot"><img src="assets/fg-b09-cp-done-nero.webp" alt="ใบตัดหิน Done"/></figure>
-<p>ได้ <strong>WIP Lot</strong> <code>CUT-EG01/STCPL/00018</code> รวม 6 ชิ้น มูลค่า <strong>2,899.80</strong> (ต้นทุน Slab 1 แผ่น) ที่ Stone Production ทำแบบเดียวกันกับใบตัดหิน GP (<code>STCPL/00019</code>: 0.60 × 0.90 ม. 3 ชิ้น ได้ WIP Lot มูลค่า 1,215.00)</p>
+<p>ได้ <strong>WIP Lot</strong> <code>CUT-EG01/STCPL/00113</code> รวม 6 ชิ้น มูลค่า <strong>2,899.80</strong> (ต้นทุน Slab 1 แผ่น) ที่ Stone Production ทำแบบเดียวกันกับใบตัดหิน GP (<code>STCPL/00114</code>: 0.60 × 0.90 ม. 3 ชิ้น ได้ WIP Lot มูลค่า 1,215.00)</p>
 <figure class="screenshot"><img src="assets/fg-b09-cp-done-gp.webp" alt="ใบตัดหิน GP Done"/></figure>
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">Draft กด "ถอดแบบเสร็จ" ไม่ได้</span></div><div class="callout-body">ตอนยังเป็น Draft แท็บ Components แสดงจำนวน 6 ตามสูตร แต่หลัง Confirm ระบบใช้ Slab จริง 1 แผ่นต่อชนิดหิน (มีกล่องข้อความอธิบาย) และต้อง Confirm ก่อนจึงกด Complete ได้</div></div>
 
@@ -281,18 +281,18 @@ table.cond td.no{background:#fdeeee}
 <figure class="screenshot"><img src="assets/fg-b11-asm-confirmed.webp" alt="งานประกอบ Confirmed"/></figure>
 <p>กดปุ่ม <strong>Produce All</strong></p>
 <figure class="screenshot"><img src="assets/fg-b12-asm-done.webp" alt="งานประกอบ Done ได้ Serial"/></figure>
-<p>งานประกอบขึ้น Done Quantity 3.00 / 3.00 ได้ <strong>Serial 3 ตัว</strong> (<code>CB-00022</code>, <code>CB-00023</code>, <code>CB-00024</code>) อยู่ที่ <strong>EG01/Stock/Stone FG</strong> วัสดุทุกรายการถูกใช้ครบ</p>
+<p>งานประกอบขึ้น Done Quantity 3.00 / 3.00 ได้ <strong>Serial 3 ตัว</strong> (<code>CB-00028</code>, <code>CB-00029</code>, <code>CB-00030</code>) อยู่ที่ <strong>EG01/Stock/Stone FG</strong> วัสดุทุกรายการถูกใช้ครบ</p>
 <div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้นทุน</span><span class="callout-title">ต้นทุน Serial = (WIP + วัสดุสิ้นเปลือง) ÷ จำนวนชิ้น</span></div><div class="callout-body">(WIP 4,114.80 + วัสดุสิ้นเปลือง 391.50) ÷ 3 = <strong>1,502.10 บาทต่อ Serial</strong> แบ่งเท่ากันทุกชิ้น · กาวและซีลแลนท์ต้องมีสต็อกที่ Stone Production ถ้าไม่มี ต้นทุนส่วนนี้จะไม่เข้า Serial</div></div>
 
 <h4>B.6 ส่งของและเก็บเงิน</h4>
 <p>ที่ Sales Order กดสมาร์ทปุ่ม Delivery แล้ว Details ระบบจอง Serial ของงานนี้ให้เอง</p>
 <figure class="screenshot"><img src="assets/fg-b13-delivery-details.webp" alt="ใบส่งของจอง Serial"/></figure>
-<p>ใบส่งของ <code>EG01/OUT/00108</code> ระบุ Serial ครบ 3 แถว (<code>CB-00022</code> ถึง <code>-24</code>) จากโซน Stone FG ไม่ต้องสแกนเอง Serial ที่ผลิตให้ใบขายใบไหนจะผูกกับใบส่งของของใบขายนั้น ใบส่งของของใบขายอื่นที่ค้างอยู่ไม่หยิบไป กด <strong>Validate</strong></p>
+<p>ใบส่งของ <code>EG01/OUT/00319</code> ระบุ Serial ครบ 3 แถว (<code>CB-00028</code> ถึง <code>-24</code>) จากโซน Stone FG ไม่ต้องสแกนเอง Serial ที่ผลิตให้ใบขายใบไหนจะผูกกับใบส่งของของใบขายนั้น ใบส่งของของใบขายอื่นที่ค้างอยู่ไม่หยิบไป กด <strong>Validate</strong></p>
 <figure class="screenshot"><img src="assets/fg-b14-delivery-done.webp" alt="ใบส่งของ Done"/></figure>
 <p>จากนั้น Create Invoice → Regular invoice → Create Draft แล้ว Confirm</p>
 <figure class="screenshot"><img src="assets/fg-b15-invoice-draft.webp" alt="ใบแจ้งหนี้ฉบับร่าง"/></figure>
 <figure class="screenshot"><img src="assets/fg-b16-invoice-posted.webp" alt="ใบแจ้งหนี้ Posted"/></figure>
-<p>ใบแจ้งหนี้ <code>INV/2026/00024</code> เจดีย์บัว 3 ชิ้น × 50,000 = 150,000.00 + VAT 10,500.00 = <strong>160,500.00</strong> บาท บัญชีบันทึกรายได้ 150,000.00 และต้นทุนขาย 4,506.30 (= ต้นทุน Serial 3 ตัว)</p>
+<p>ใบแจ้งหนี้ <code>INV/2026/00029</code> เจดีย์บัว 3 ชิ้น × 50,000 = 150,000.00 + VAT 10,500.00 = <strong>160,500.00</strong> บาท บัญชีบันทึกรายได้ 150,000.00 และต้นทุนขาย 4,506.30 (= ต้นทุน Serial 3 ตัว)</p>
 
 <h2>5. สรุปเงื่อนไขทั้งหมด</h2>
 <h3>5.1 ใบสั่งขาย</h3>
@@ -385,7 +385,7 @@ table.cond td.no{background:#fdeeee}
 <li>Custom FG: ต้นทุน Slab ถูกแบ่งเท่ากันทุกชิ้น และวัสดุสิ้นเปลืองต้องมีสต็อกที่ Stone Production จึงจะเข้าต้นทุน</li>
 <li>การแก้หรือยกเลิกใบสั่งขายหลัง Confirm ว่ามีผลกับใบสั่งผลิตที่สร้างไว้อย่างไร และการจอง Slab ข้ามใบขาย ยังไม่ได้ทดลอง</li>
 </ul>
-<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-087 (Slab = Lot/Serial) และ plan-custom-fg-redesign-2026-10-06 — claude-knowledge vault · ทดลองบน eg-tst เมื่อ 2026-10-11 ด้วย stone_slab_inventory 2.109.12 + boq_estimation 1.24.0 (ชุดตัวอย่างรอบ 11 ต.ค.: Countertop S00212 → STFG/00058 → OUT/00106 → INV/2026/00023, Custom FG S00214 → STFG/00059 + STCPL/00018, 00019 → CB-00022..24 → OUT/00108 → INV/2026/00024 · รันซ้ำหลังแก้: Countertop S00216 → STFG/00061 → OUT/00110 → INV/2026/00026, Custom FG BOQ0024 → S00217 → STFG/00062 + STCPL/00020, 00021 → CB-00025..27 → OUT/00111 → INV/2026/00027 · ชุดเดิมวันที่ 6 ต.ค. คือ TC-GP-FG-01 ถึง 32 บน 2.108.0 · Golden Path ชุดใหม่: TC-GP-FGS-01 ถึง 18)</div>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-087 (Slab = Lot/Serial) และ plan-custom-fg-redesign-2026-10-06 — claude-knowledge vault · ทดลองบน eg-tst เมื่อ 2026-10-11 ด้วย stone_slab_inventory 2.109.12 + boq_estimation 1.24.0 (ชุดตัวอย่างของภาพในบทนี้ (รันใหม่ทั้งบทเมื่อ 14 ต.ค. บน 2.109.24): Countertop S00614 → STFG/00146 → OUT/00318 → INV/2026/00028, Custom FG S00615 → STFG/00147 + STCPL/00113, 00114 → CB-00028..30 → OUT/00319 → INV/2026/00029 · ชุดรอบ 11 ต.ค. ที่เคยใช้: Countertop S00212 → STFG/00058 → OUT/00106 → INV/2026/00023, Custom FG S00214 → STFG/00059 + STCPL/00018, 00019 → CB-00022..24 → OUT/00108 → INV/2026/00024 · รันซ้ำหลังแก้: Countertop S00216 → STFG/00061 → OUT/00110 → INV/2026/00026, Custom FG BOQ0024 → S00217 → STFG/00062 + STCPL/00020, 00021 → CB-00025..27 → OUT/00111 → INV/2026/00027 · ชุดเดิมวันที่ 6 ต.ค. คือ TC-GP-FG-01 ถึง 32 บน 2.108.0 · Golden Path ชุดใหม่: TC-GP-FGS-01 ถึง 18)</div>
 <hr/>
   </div>
 </div>
