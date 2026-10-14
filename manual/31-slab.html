@@ -131,12 +131,12 @@ table.cond td.no{background:#fdeeee}
 <h3>4.1 ได้แผ่นจากการตัด Block (Cut Order)</h3>
 <p>ทางที่หนึ่ง: ตัด Block ที่มีอยู่ในคลังให้เป็นแผ่น ไปที่ <strong>Manufacturing → Operations → Manufacturing Orders → New</strong> แล้วเลือก <strong>Stone Block</strong> ที่จะตัด</p>
 <figure class="screenshot"><img src="assets/slab-01-cut-order-block.webp" alt="ใบตัดเลือก Block"/></figure>
-<p>ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ที่แท็บ <strong>Slab ที่ตัดได้ (แผน/จริง)</strong> ตัวอย่างนี้ Block 6.00 ลบ.ม. ตัดได้ 80 แผ่นพอดี (แถวละ 1 แผ่น)</p>
+<p>ระบบเติมขนาดแผ่นที่จะตัดให้เอง (กว้าง 3.00 × สูง 1.25 ม. หนา 2 ซม.) และคำนวณจำนวนแผ่นที่คาดว่าจะได้ไว้ที่แท็บ <strong>Slab ที่ตัดได้ (แผน/จริง)</strong> ตัวอย่างนี้ Block 6.00 ลบ.ม. ตัดได้ 80 แผ่นพอดี (แถวละ 1 แผ่น) โดยตั้ง % สูญเสียจากการเลื่อยของ Block เป็น 0 เพื่อให้ตัวเลขกลมเท่ากับชุดตัวอย่างนี้ (ปกติระบบคิดสูญเสีย 15% จำนวนแผ่นจะน้อยลง) ภาพ 3 ภาพแรกของหัวข้อ 4.1 (ก่อนตัดเสร็จ) ถ่ายจาก Block ใหม่ BLK-26-0341 ซึ่งมีขนาดและข้อมูลเหมือน BLK-26-0036 ทุกอย่าง</p>
 <p><strong>ขั้นที่ 1: ย้าย Block ไปสถานีตัด</strong> หลังกด Save แล้วกดปุ่ม <strong>ย้ายไปสถานีตัด</strong></p>
 <figure class="screenshot"><img src="assets/slab-02-move-to-production.webp" alt="ย้าย Block ไปสถานีตัด"/></figure>
 <p>ระบบแจ้งสีเขียวว่า Block ย้ายไป Stone Production แล้ว (ย้ายจาก Stone Available ไปสถานีตัด) แล้วกด Confirm ได้เลย</p>
 <div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แถบเตือนสีส้ม "ขั้นตอนถัดไป: กดปุ่ม ย้ายไปสถานีตัด" อาจยังค้างอยู่ จนกว่าจะเปิดหน้านี้ใหม่</span></div><div class="callout-body">เป็นแค่ข้อความบนหน้าจอ ไม่กระทบการทำงาน เมื่อพร้อมแล้วระบบจะขึ้นแถบเขียว "พร้อมแล้ว: ตรวจสอบขนาดและจำนวนด้านล่าง แล้วกด Confirm" (ถ้ามีคำเตือนขนาดหรือ variant ขึ้นอยู่ จะไม่แสดงแถบเขียว)</div></div>
-<p><strong>ขั้นที่ 2: เลือกเหตุผลแล้ว Confirm</strong> ใบตัดที่ไม่ผูกกับใบสั่งขาย ต้องเลือกช่อง <strong>เหตุผล (กรณีไม่มี SO)</strong> (ในกลุ่ม "ขั้นตอนที่ 3 — ผูกกับ Sale Order หรือระบุเหตุผล") ก่อนเสมอ ถ้าตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)" แล้ว Save และ Confirm ใบตัดเปลี่ยนเป็น In Progress</p>
+<p><strong>ขั้นที่ 2: เลือกเหตุผลแล้ว Confirm</strong> ใบตัดที่ไม่ผูกกับใบสั่งขาย ต้องเลือกช่อง <strong>เหตุผล (กรณีไม่มี SO)</strong> (ในกลุ่ม "ขั้นตอนที่ 3 — ผูกกับ Sale Order หรือระบุเหตุผล") ก่อนเสมอ ถ้าตัดเข้าสต็อกทั่วไปให้เลือก "อื่นๆ (Other)" แล้ว Save และ Confirm ใบตัดเปลี่ยนเป็น Confirmed</p>
 <figure class="screenshot"><img src="assets/slab-03-confirm-reason.webp" alt="เลือกเหตุผลและ Confirm ใบตัด"/></figure>
 <p><strong>ขั้นที่ 3: ตัดเสร็จ กด ตัดเสร็จ</strong> ถ้าหน้างานตัดได้ขนาดจริงต่างจากแผน ให้แก้คอลัมน์ <strong>จริง L / จริง H / จริง ความหนา</strong> ที่แท็บ Slab ที่ตัดได้ (แผน/จริง) ก่อนกดปุ่ม</p>
 <figure class="screenshot"><img src="assets/slab-04-complete-cut.webp" alt="ใบตัดที่ Done แล้ว ได้ 80 แผ่น"/></figure>
@@ -193,7 +193,7 @@ table.cond td.no{background:#fdeeee}
 <p>ได้บรรทัดสินค้า "Slab (Polished, 2 cm)" ราคา 4,500 บาท/ตร.ม. ตอนนี้ยอดยังเป็นราคาตามขนาดมาตรฐาน (3.00 × 1.60 = 4.80 ตร.ม. → 21,600 บาท) ยอดจริงจะคำนวณใหม่เมื่อเลือกแผ่นในขั้นถัดไป</p>
 <p><strong>เลือกแผ่นที่จะขาย:</strong> ที่ท้ายบรรทัดสินค้า กดปุ่มไอคอนรายการ <strong>เลือก Slab / Select Slabs</strong> ในหน้าต่างกด <strong>Add a line</strong> แล้วเลือก Slab ทีละแผ่น (พิมพ์ชื่อแล้วเลือก) ทำซ้ำจนครบ แล้วกด <strong>ยืนยันการเลือก</strong></p>
 <figure class="screenshot"><img src="assets/slab-10-select-slabs.webp" alt="หน้าต่างเลือก Slab / Lot"/></figure>
-<p>หน้าต่างแสดงขนาด จำนวนที่ว่าง และ ตร.ม. ของแต่ละแผ่น ตัวอย่างเลือก 4 แผ่น (<code>BLK-26-0036-1</code> ถึง <code>-4</code>) พื้นที่รวม 15.00 ตร.ม. พอยืนยัน บรรทัดสินค้าเปลี่ยนเป็น <strong>"4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม."</strong> ยอดก่อน VAT 67,500 บาท, VAT 4,725, รวม 72,225</p>
+<p>หน้าต่างแสดงขนาด จำนวนที่ว่าง และ ตร.ม. ของแต่ละแผ่น ตัวอย่างเลือก 4 แผ่น (ในภาพคือ <code>BLK-26-0036-11</code> ถึง <code>-14</code>) พื้นที่รวม 15.00 ตร.ม. พอยืนยัน บรรทัดสินค้าเปลี่ยนเป็น <strong>"4 แผ่น = 15.00 ตร.ม. · 4,500 ฿/ตร.ม."</strong> ยอดก่อน VAT 67,500 บาท, VAT 4,725, รวม 72,225</p>
 <p><strong>กด Confirm ใบสั่งขาย:</strong> สถานะเป็น Sales Order มีสมาร์ทปุ่ม Delivery 1 ใบ และ Slabs 4 แผ่น</p>
 <figure class="screenshot"><img src="assets/slab-11-so-confirmed.webp" alt="ใบสั่งขาย Confirm แล้ว"/></figure>
 <div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">แถบสีแดง "ขนาดแผ่นจริงต่างจากที่เสนอลูกค้า" คือคำเตือน ไม่ใช่ข้อผิดพลาด</span></div><div class="callout-body">ใบเสนอราคาใช้ขนาดมาตรฐาน 3.00 × 1.60 (4.80 ตร.ม./แผ่น) แต่แผ่นจริงที่เลือกคือ 3.75 ตร.ม./แผ่น ระบบ <strong>ล็อกยอดไว้ที่ 67,500</strong> และเตือนเซลล์ให้แจ้งลูกค้า เป็นพฤติกรรมตามออกแบบ (ADR-079, 085) ไม่ห้ามการ Confirm</div></div>
@@ -284,7 +284,7 @@ table.cond td.no{background:#fdeeee}
 <li>การขายข้ามบริษัท (EG↔ES) และการซื้อ Slab สำเร็จรูปแล้วออกใบแจ้งหนี้ผู้ขาย ยังไม่ได้เดินจริงหลังรอบ Slab = Lot (ดูบทที่ 08)</li>
 <li>เศษหินที่เหลือจากใบตัดยังไม่ถูกบันทึกกลับเข้าสต็อกเป็นแผ่น/เศษ</li>
 </ul>
-<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-087 (Slab = Lot/Serial), ADR-079/085 (ล็อกยอดและเตือนขนาดต่าง), ADR-084 (รับผ่านใบรับของ) — claude-knowledge vault · ทดลองบน eg-tst เมื่อ 2026-10-05 (ชุดตัวอย่าง TC-GP-SLB-01 ถึง 18)</div>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-087 (Slab = Lot/Serial), ADR-079/085 (ล็อกยอดและเตือนขนาดต่าง), ADR-084 (รับผ่านใบรับของ) — claude-knowledge vault · ทดลองบน eg-tst เมื่อ 2026-10-05 (ชุดตัวอย่าง TC-GP-SLB-01 ถึง 18) · ภาพใบตัด (4.1) และใบสั่งขาย/เลือก Slab (4.6) ถ่ายใหม่เมื่อ 14 ตุลาคม 2569 บน v19.0.2.109.23 ส่วนภาพอื่น (รับของ Slab สำเร็จรูป, ส่งของ, ใบแจ้งหนี้, คืนของ) ยังเป็นของ 11 ตุลาคม 2569 เพราะหน้าจอส่วนนั้นไม่ได้เปลี่ยน</div>
 <hr/>
   </div>
 </div>
