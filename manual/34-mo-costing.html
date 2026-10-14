@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>34. การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี) — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 34 / 34</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 34 บท</div>
+    <div class="nav-section">ภาพรวม</div>
+    <a href="01-overview.html" class="nav-link"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link active"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="05-sell-fabrication.html" class="nav-link"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="08-intercompany.html" class="nav-link"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="14-cut-to-order.html" class="nav-link"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ส่งของ & ต้นทุน</div>
+    <a href="06-delivery.html" class="nav-link"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <div class="nav-section">ฟีเจอร์เสริม</div>
+    <a href="09-ecommerce-catalog.html" class="nav-link"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="16-quote-plain-stone.html" class="nav-link"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">คืนสินค้า</div>
+    <a href="23-returns-rma.html" class="nav-link"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+  </nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">34</span> การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ตรวจกับโค้ด stone_slab_inventory เวอร์ชัน 19.0.2.109.25 · ตัวเลขและรายการบัญชีทุกรายการอ่านจากเอกสารจริงบนระบบทดสอบ eg-tst (ใบผลิต EG01/STFG/00146, EG01/STFG/00147, EG01/STCUT/00028) · ภาพหน้าจอถ่ายจากระบบทดสอบเมื่อ 6 ตุลาคม 2569 (หน้าจอใบผลิตปรับหน้าตาเล็กน้อยหลังรอบ 8 ตุลาคม)</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+table.je{border-collapse:collapse;width:100%;margin:.6em 0 1.2em;font-size:.93em}
+table.je th,table.je td{border:1px solid #ddd6c6;padding:6px 10px;vertical-align:top;text-align:left}
+table.je th{background:#f4f1ea}
+table.je td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+table.je tr.tot td{background:#faf7ef;font-weight:700}
+.je-title{margin:1.1em 0 .2em;font-weight:700}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายเรื่อง <strong>ใบสั่งผลิต (MO)</strong> และ <strong>ต้นทุน</strong> ว่าเมื่อโรงงานผลิตงานหนึ่งชิ้น ระบบเก็บต้นทุนอย่างไร และ <strong>ลงบัญชีอย่างไร</strong> ไล่ตั้งแต่ใบสั่งขายสร้างใบผลิต การเลือกสถานีที่งานจะผ่าน จนถึงรายการบัญชีที่เกิดขึ้นตอนผลิตเสร็จ ทุกตัวเลขในบทนี้มาจากเอกสารที่ผลิตเสร็จแล้วบนระบบทดสอบ ไม่ใช่ตัวเลขสมมติ</p>
+
+<h2>1. ใบสั่งผลิต (MO) และต้นทุนคืออะไร</h2>
+<p><strong>MO (Manufacturing Order) คือใบสั่งให้โรงงานทำงานหนึ่งงาน</strong> เช่น ตัด Block เป็น Slab หรือตัด Slab เป็นเคาน์เตอร์ ในใบผลิตมีสองสิ่งที่ต้องรู้: <strong>วัตถุดิบ</strong> ที่ใช้ และ <strong>สถานี</strong> ที่งานต้องผ่าน (เช่น เลื่อย ขัดขอบ เจาะช่อง ตรวจคุณภาพ) ระบบเก็บต้นทุนของงานเป็น 2 ก้อนที่ลงบัญชีคนละแบบ</p>
+<div class="kv">
+<div>MO 1 ใบ</div><div>= งานผลิต 1 งาน มีสถานีได้หลายสถานี</div>
+<div>ประเภทงาน</div><div>ตัด Block เป็น Slab · ผลิต FG จาก Slab · ถอดแบบ (Cutting Plan) · ทำผิว Slab ใหม่ · งานกำหนดเอง</div>
+<div>สถานี</div><div>คือขั้นตอนที่งานต้องผ่าน แต่ละสถานีมีค่าแรงต่อชั่วโมงของตัวเอง (ระบบทดสอบตั้งไว้สถานีละ 500 ฿/ชม.)</div>
+<div>ต้นทุนก้อนที่ 1: วัสดุ</div><div>มูลค่าของ Block หรือ Slab ที่ใช้จริง → <strong>เข้ามูลค่าสินค้าที่ผลิตได้</strong></div>
+<div>ต้นทุนก้อนที่ 2: แรงงาน และวัสดุสิ้นเปลือง</div><div>เป็นยอด<strong>ประมาณการ</strong> → <strong>ลงเป็นค่าใช้จ่ายทันที</strong> ไม่เข้ามูลค่าสินค้า และค้างเป็น "ค่าใช้จ่ายค้างจ่าย" ให้นักบัญชีไปเคลียร์ภายหลัง</div>
+<div>ลงบัญชีเมื่อไร</div><div>ตอนกด Done (ผลิตเสร็จ)</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">วัสดุ "ติดตัวสินค้า" แต่ค่าแรง "ลงค่าใช้จ่ายเลย"</span></div><div class="callout-body">ผลิตเคาน์เตอร์เสร็จ สินค้าในสต็อกมีมูลค่าเท่าวัสดุที่ใช้ ส่วนค่าแรงถูกบันทึกเป็นต้นทุนขายต่างหากในวันที่ผลิตเสร็จ</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>ใบสั่งขายยืนยันแล้ว ระบบสร้างใบผลิตเป็นฉบับร่าง (Draft) ให้เท่านั้น</strong> ระบบไม่ยืนยันให้เอง คนในโรงงาน/แอดมินต้องเปิดดูและกด Confirm เอง เพราะต้องย้ายของไปสถานีผลิตจริงก่อน</li>
+<li><strong>สถานีเลือกได้ก่อน Confirm</strong> ระบบใส่สถานีมาตรฐานให้ตามประเภทงาน (เช่น Cut Order ได้ Move-to-Station กับ Gangsaw) ผู้ใช้ลบหรือเพิ่มสถานีในแท็บ Work Orders ของใบผลิตฉบับร่างได้</li>
+<li><strong>ต้นทุนวัสดุ = มูลค่าของที่ใช้จริง</strong> Block หรือ Slab ที่ถูกใช้ มูลค่าเท่าไรก็ย้ายไปเป็นมูลค่าของสินค้าใหม่ (หักส่วนของเศษหินที่เก็บกลับเข้าสต็อก)</li>
+<li><strong>แรงงานและวัสดุสิ้นเปลืองเป็นยอดประมาณการ</strong> ลงเป็นค่าใช้จ่าย (COGS - FG Production) เครดิตเข้า "ค่าใช้จ่ายค้างจ่าย (Accrued Expenses)" เพื่อให้นักบัญชีเคลียร์กับบิลเงินเดือนจริง</li>
+<li><strong>วิธีคิดค่าแรงต่างกันตามประเภทงาน</strong> ใบตัด Block: ค่าแรงต่อชั่วโมงของสถานี × เวลาที่บันทึกจริง (สถานีมีผลต่อต้นทุน) ส่วน FG: อัตราคงที่ต่อหมวดสินค้า × จำนวน และเติมให้ถึงเกณฑ์ขั้นต่ำ (สถานีไม่มีผลต่อต้นทุน)</li>
+<li><strong>ระบบปิดการคิดค่าแรงด้วย Work Order แบบมาตรฐานของ Odoo ไว้สำหรับใบผลิตงานหิน</strong> (ดูตัวอย่างวิธีมาตรฐานที่หัวข้อ 4.6) เพราะเคยทำให้ค่าแรงถูกบันทึกซ้ำสองรอบ (ทดสอบพบเมื่อ 31 สิงหาคม 2569 ก่อนมีการใช้งานจริง) ค่าแรงจึงมาจากรายการประมาณการของระบบเพียงทางเดียว</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. ใบสั่งขาย Confirm</b>ระบบสร้างใบผลิตฉบับร่าง</div><div class="ar">→</div>
+<div class="st hl"><b>2. เลือกสถานี</b>เพิ่ม/ลบในแท็บ Work Orders</div><div class="ar">→</div>
+<div class="st"><b>3. ย้ายของ + Confirm</b>ย้าย Block/Slab ไปสถานีผลิต แล้วกด Confirm</div><div class="ar">→</div>
+<div class="st"><b>4. ผลิต</b>ทำงานและบันทึกเวลา</div><div class="ar">→</div>
+<div class="st hl"><b>5. Done + ลงบัญชี</b>วัสดุย้ายเข้าสินค้า · ค่าแรง/วัสดุสิ้นเปลืองลงค่าใช้จ่าย</div>
+</div>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+
+<h3>4.1 เปิดใบผลิตฉบับร่างจากใบสั่งขาย</h3>
+<p>จากใบสั่งขาย กดปุ่มที่ลิงก์ไปยังใบผลิต หรือเข้าเมนู Manufacturing ใบผลิตจะแสดงประเภทงาน วัตถุดิบ และสถานีที่ระบบใส่ให้ตามหมวดสินค้า ในใบผลิตที่ผลิตเคาน์เตอร์ (FG) ระบบใส่ 4 สถานี: Cutting, Edge, Cut-out, QC</p>
+<figure class="screenshot"><img src="assets/mo-cost-01-mo-work-orders.webp" alt="ใบผลิต FG มีแท็บ Work Orders"/></figure>
+<p class="media-note">ภาพตัวอย่างคือใบผลิต FG ใบอื่น (EG01/STFG/00046) เพื่อแสดงหน้าจอและแท็บ Work Orders ส่วนตัวเลขในหัวข้อ 4.4 มาจากใบ EG01/STFG/00146</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แท็บ Work Orders ต้องเปิดสิทธิ์ "Work Orders" ให้ผู้ใช้</span></div><div class="callout-body">ผู้ใช้ทดสอบ emgdemo บน eg-tst เห็นแท็บนี้ แต่ฐาน mbx-ee-dev ยังไม่เปิดสิทธิ์ จึงไม่เห็นแท็บ หากผู้ใช้จริงไม่เห็นแท็บ ให้ผู้ดูแลระบบเปิดสิทธิ์นี้ให้</div></div>
+
+<h3>4.2 เลือกสถานีที่งานจะผ่าน</h3>
+<p>ในแท็บ Work Orders ของใบผลิตฉบับร่าง ลบสถานีที่ไม่ต้องการ หรือกดเพิ่มสถานีที่ต้องการ แล้วกด Confirm ระบบจะสร้างงานตามสถานีที่เหลืออยู่ ผลที่ทดลองบน eg-tst เมื่อ 14 ตุลาคม 2569 (ลองแล้ว rollback ไม่เก็บข้อมูล):</p>
+<table class="cond"><tr><th>ที่ทำ</th><th>ผลหลังกด Confirm</th></tr>
+<tr><td>ใบตัด Block: ลบ Move-to-Station แล้วเพิ่ม Cutting</td><td class="ok">เหลือ Gangsaw กับ Cutting ตามที่เลือก Move-to-Station ไม่กลับมา</td></tr>
+<tr><td>ใบผลิต FG: ลบ Edge และ QC</td><td class="ok">เหลือ Cutting กับ Cut-out ตามที่เลือก</td></tr>
+<tr><td>ใบถอดแบบ (Cutting Plan): ลบสถานีเดียวที่มี (Cutting Plan) แล้วเพิ่ม Edge</td><td class="no">สถานี Cutting Plan กลับมาให้ ได้ Edge กับ Cutting Plan (ถ้าลบสถานีมาตรฐานจนไม่เหลือ ระบบสร้างให้ใหม่)</td></tr>
+</table>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">เลือกสถานีไม่ได้ทำให้ผลผลิตเปลี่ยนผิวหรือสินค้า</span></div><div class="callout-body">สถานีเป็นเพียงขั้นตอนงานและที่บันทึกเวลา ไม่มีสถานีไหนผูกกับผิวหิน (ไม่มี "สถานีเผาไฟ" ที่สร้าง Slab ผิวเผาไฟให้) ผิวของ Slab ที่ได้กำหนดที่ช่อง "ผิวเป้าหมาย" ของใบตัด ถ้า Material นั้นไม่มีผิวนี้ ระบบเตือนสีแดงและกด Confirm ไม่ผ่านจนกว่าจะเลือกผิวที่มี หรือผู้ดูแลเพิ่มผิวนั้นที่สินค้า Slab ของ Material (ทดลองแล้วทั้งใบตัด Block และใบทำผิว Slab ใหม่)</div></div>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ใบผลิตที่ผูกกับใบสั่งขาย สินค้าในใบสั่งขายมาก่อนผิวที่เลือก</span></div><div class="callout-body">ถ้าใบตัดผูกกับบรรทัดใบสั่งขายที่ขาย Slab ผิวขัดเงา แล้วผู้ใช้เลือกผิวเป้าหมายเป็นผิวอื่น ระบบตัดตามสินค้าในใบสั่งขาย ตอนนี้มีแถบเตือนสีเหลืองบอกว่าผิวที่เลือกไม่ตรงกับใบสั่งขาย ถ้าต้องการผิวอื่นให้เปลี่ยนสินค้าในใบสั่งขายก่อน</div></div>
+
+<h3>4.3 Confirm และผลิต</h3>
+<p>ก่อน Confirm ต้องย้าย Block/Slab ไปสถานีผลิตให้เรียบร้อย (ปุ่ม "ย้ายด่วน" หรือใบโอนย้าย) ถ้ายังไม่ย้าย ระบบแจ้งว่า Slab ยังไม่อยู่ที่ Stone Production และไม่ให้ Confirm หลัง Confirm ผู้ปฏิบัติงานทำงานตามสถานี บันทึกเวลา และเมื่อเสร็จกด Complete/Done ซึ่งเป็นจุดที่ระบบลงบัญชี</p>
+
+<h3>4.4 ตัวอย่าง ก: ผลิตเคาน์เตอร์ (FG) — ใบผลิต EG01/STFG/00146</h3>
+<p>ข้อมูลจริง: เคาน์เตอร์ GP Block Marble ขาย <strong>3.48 ตร.ม. × 12,000 = 41,760 ฿</strong> ใช้ Slab 2 แผ่น (มูลค่ารวม 2,430 ฿) ได้เศษหินเก็บกลับ 2 ก้อน (1.44 ตร.ม. และ 2.5 ตร.ม.) ใบผลิตมี 4 สถานี สถานีละ 240 นาที</p>
+
+<div class="je-title">ชุดที่ 1: วัสดุ — ย้ายมูลค่า Slab ไปเป็น FG (รายการบัญชีกลุ่ม STJ/2026/10/0141–0144)</div>
+<table class="je"><tr><th>ส่วนของมูลค่า Slab 2,430 ฿</th><th>ไปที่</th><th class="n">฿</th></tr>
+<tr><td>เข้าเป็นมูลค่าเคาน์เตอร์ (FG)</td><td>Inventory - Stone FG (Finished Goods) 113150</td><td class="n">1,153.44</td></tr>
+<tr><td>เศษหินก้อน 1.44 ตร.ม. (เก็บกลับเป็นสต็อก)</td><td>Inventory - Stone Slabs 113120</td><td class="n">466.56</td></tr>
+<tr><td>เศษหินก้อน 2.5 ตร.ม. (เก็บกลับเป็นสต็อก)</td><td>Inventory - Stone Slabs 113120</td><td class="n">810.00</td></tr>
+<tr class="tot"><td colspan="2">รวม (เท่ากับมูลค่า Slab ที่ใช้)</td><td class="n">2,430.00</td></tr></table>
+<p>บัญชี Inventory - Stone FG เพิ่ม 1,153.44 และบัญชี Inventory - Stone Slabs ลด 1,153.44 (ส่วนเศษหินยังอยู่ในบัญชี Slabs เหมือนเดิม จึงเห็นเป็นรายการ Dr/Cr บัญชีเดียวกันในสมุดรายวัน)</p>
+
+<div class="je-title">ชุดที่ 2: วัสดุสิ้นเปลือง — MISC/2026/10/0030 (ประมาณการ: 100 ฿ × 3.48 ตร.ม.)</div>
+<table class="je"><tr><th>บัญชี</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+<tr><td>511130 COGS - FG Production (Consumables)</td><td class="n">348.00</td><td class="n"></td></tr>
+<tr><td>212300 Accrued Expenses</td><td class="n"></td><td class="n">348.00</td></tr></table>
+
+<div class="je-title">ชุดที่ 3: แรงงาน — MISC/2026/10/0029 (ประมาณการ)</div>
+<table class="je"><tr><th>บัญชี</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+<tr><td>511120 COGS - FG Production (Fabrication)</td><td class="n">19,378.56</td><td class="n"></td></tr>
+<tr><td>212300 Accrued Expenses</td><td class="n"></td><td class="n">19,378.56</td></tr></table>
+<figure class="screenshot"><img src="assets/mo-cost-02-labor-entry.webp" alt="รายการบัญชีค่าแรง FG (ตัวอย่างใบ STFG/00046)"/></figure>
+<p class="media-note">ภาพข้างบนคือหน้าจอรายการบัญชีค่าแรงของใบผลิต FG อีกใบ (EG01/STFG/00046) เพื่อแสดงหน้าตาจริงของรายการ — มีแท็กโครงการ (Analytic) ติดที่บรรทัดค่าใช้จ่าย</p>
+
+<h4>ทำไมค่าแรงเป็น 19,378.56 ไม่ใช่ 5,220</h4>
+<p>อัตรามาตรฐานของหมวด "Stone FG - Countertop" คือ 1,500 ฿/ตร.ม. × 3.48 = <strong>5,220 ฿</strong> แต่ระบบมีกฎของเจ้าของ (ตั้งไว้ 6 ตุลาคม 2569): <strong>ต้นทุนรวมของสินค้าต้องไม่ต่ำกว่า 50% ของราคาขาย</strong> (ปรับได้ที่พารามิเตอร์ระบบ) เพราะ "ค่าแรงและการแปรรูปคือสิ่งที่ทำให้หินราคาถูกกลายเป็นสินค้าสำเร็จรูป" จึงคิดดังนี้</p>
+<table class="je"><tr><th>ขั้นคำนวณ</th><th class="n">฿</th></tr>
+<tr><td>ราคาขายรวม</td><td class="n">41,760.00</td></tr>
+<tr><td>เกณฑ์ขั้นต่ำ 50% ของราคาขาย</td><td class="n">20,880.00</td></tr>
+<tr><td>หัก วัสดุที่เข้าสินค้า</td><td class="n">− 1,153.44</td></tr>
+<tr><td>หัก วัสดุสิ้นเปลือง</td><td class="n">− 348.00</td></tr>
+<tr class="tot"><td>ค่าแรงที่ต้องลง (มากกว่า 5,220 จึงใช้ตัวนี้)</td><td class="n">19,378.56</td></tr></table>
+<p>ผลคือต้นทุนรวม = 1,153.44 + 348.00 + 19,378.56 = <strong>20,880 ฿ พอดี 50% ของราคาขาย</strong> และสถานีที่เลือก (4 สถานี สถานีละ 240 นาที) <strong>ไม่ได้ถูกนำมาคิด</strong> ถ้าตัดสถานีทิ้งหมด ตัวเลขนี้ไม่เปลี่ยน</p>
+
+<h4>มูลค่าสินค้าในสต็อกหลังผลิต FG</h4>
+<p>สต็อก FG ขึ้นมูลค่า <strong>1,153.44 ฿</strong> เท่านั้น ส่วนค่าแรงและวัสดุสิ้นเปลือง (19,726.56 ฿) ลงเป็นค่าใช้จ่ายไปแล้วตั้งแต่วันผลิตเสร็จ</p>
+
+<h3>4.5 ตัวอย่าง ข: ใบตัด Block — ใบผลิต EG01/STCUT/00028</h3>
+<p>ใบตัด Block ผลิต Slab 50 แผ่น ใช้ Block มูลค่า 15,876 ฿</p>
+<div class="je-title">ชุดที่ 1: วัสดุ — STJ/2026/10/0078</div>
+<table class="je"><tr><th>บัญชี</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+<tr><td>Inventory - Stone Slabs (Block ออก)</td><td class="n"></td><td class="n">15,876.00</td></tr>
+<tr><td>Inventory - Stone Slabs (Slab เข้า)</td><td class="n">15,876.00</td><td class="n"></td></tr></table>
+<p>Block ออกและ Slab เข้าอยู่ในบัญชีเดียวกัน มูลค่าสุทธิของบัญชีไม่เปลี่ยน มูลค่าย้ายจาก Block ไปเป็น Slab (แบ่งตามปริมาตรจริงของแต่ละแผ่น)</p>
+<div class="je-title">ชุดที่ 2: แรงงาน — MISC/2026/10/0010 (ประมาณการ: ค่าแรงสถานี × เวลาที่บันทึก)</div>
+<table class="je"><tr><th>สถานี</th><th class="n">เวลาที่บันทึก (นาที)</th><th class="n">ค่าแรง 500 ฿/ชม.</th></tr>
+<tr><td>Move-to-Station</td><td class="n">3,000</td><td class="n">25,000.00</td></tr>
+<tr><td>Gangsaw</td><td class="n">0.57</td><td class="n">4.75</td></tr>
+<tr class="tot"><td colspan="2">รวม</td><td class="n">25,004.75</td></tr></table>
+<table class="je"><tr><th>บัญชี</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+<tr><td>COGS - FG Production (Fabrication)</td><td class="n">25,004.75</td><td class="n"></td></tr>
+<tr><td>Accrued Expenses</td><td class="n"></td><td class="n">25,004.75</td></tr></table>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">เวลา 3,000 นาทีของ Move-to-Station เป็นค่าในข้อมูลทดสอบ</span></div><div class="callout-body">เวลา 50 ชั่วโมงของสถานีนี้เป็นค่าที่ใส่ไว้ตอนทดสอบ ไม่ใช่เวลางานจริง ตัวอย่างนี้ใช้เพื่อให้เห็นว่า <strong>ค่าแรงของใบตัด Block ตามเวลาที่บันทึกไว้ในแต่ละสถานี</strong> ถ้าเวลาไม่ถูกบันทึกจริง ตัวเลขก็ไม่สะท้อนความจริง ค่าแรงของใบตัด Block ลงบัญชีก็ต่อเมื่อใบผลิตผูกกับใบสั่งขายหรือระบุโครงการ (Analytic Account) ไว้</div></div>
+
+<h3>4.6 MO ที่ใช้ Work Order คิดต้นทุน (วิธีมาตรฐานของ Odoo)</h3>
+<p>Odoo มีวิธีคิดต้นทุนจาก Work Order ในตัวเองอยู่แล้ว เรียกว่าวิธีมาตรฐาน ระบบ EMG-O <strong>ปิดวิธีนี้ไว้สำหรับใบผลิตงานหิน</strong> (ข้อ 6 ในแนวคิดหลัก) แต่เพื่อให้เห็นภาพว่า "ถ้าใช้ Work Order คิดต้นทุนจริงๆ จะเป็นอย่างไร" ผมลองผลิตสินค้าทดสอบที่ไม่ใช่งานหินบนระบบทดสอบ แล้วยกเลิกข้อมูลทิ้งหลังดูผล (14 ตุลาคม 2569)</p>
+
+<h4>หลักคิด: 3 ตัวเลขที่ทำให้ได้ค่าแรง</h4>
+<div class="kv">
+<div>ค่าแรงต่อชั่วโมงของสถานี</div><div>ตั้งที่ Work Center (ระบบทดสอบตั้งไว้ 500 ฿/ชม.)</div>
+<div>เวลา</div><div>ถ้ามีการบันทึกเวลาจริงของสถานี (กดเริ่ม/จบงาน หรือกรอกเวลาจริง) ใช้เวลาจริง ถ้าไม่มีการบันทึกเวลาเลย ใช้ <strong>เวลาคาดการณ์</strong> ที่ตั้งไว้ในขั้นตอนของสูตรผลิต (BoM)</div>
+<div>ค่าแรงของสถานี</div><div>= เวลา (ชั่วโมง) × ค่าแรงต่อชั่วโมง รวมทุกสถานีของใบผลิต</div>
+</div>
+
+<h4>ตัวอย่างจริง: สินค้าทดสอบ ใช้กาว/epoxy 2 หน่วย + สถานี Edge 60 นาที</h4>
+<p>วัตถุดิบ: กาว/epoxy ราคา 120 ฿/หน่วย × 2 = <strong>240 ฿</strong> · สถานี Edge ตั้งเวลาคาดการณ์ 60 นาที ไม่ได้บันทึกเวลาจริง ที่ 500 ฿/ชม. = <strong>500 ฿</strong> ผลิตเสร็จ 1 ชิ้น มูลค่าสินค้าที่ได้ = 240 + 500 = <strong>740 ฿</strong></p>
+<table class="je"><tr><th>รายการบัญชี</th><th>บัญชี</th><th class="n">Dr</th><th class="n">Cr</th></tr>
+<tr><td rowspan="2">วัสดุใช้ไป (STJ/2026/10/0153)</td><td>Inventory - Stone Slabs 113120</td><td class="n">240.00</td><td class="n"></td></tr>
+<tr><td>Consumables 113300</td><td class="n"></td><td class="n">240.00</td></tr>
+<tr><td rowspan="2">ได้สินค้า (STJ/2026/10/0154)</td><td>Inventory - Stone FG 113150</td><td class="n">740.00</td><td class="n"></td></tr>
+<tr><td>Inventory - Stone Slabs 113120</td><td class="n"></td><td class="n">740.00</td></tr>
+<tr><td rowspan="2">ค่าแรง (STJ/2026/10/0155 "Labour")</td><td>Inventory - Stone Slabs 113120</td><td class="n">500.00</td><td class="n"></td></tr>
+<tr><td>COGS - Stone Sales 511110</td><td class="n"></td><td class="n">500.00</td></tr></table>
+<p>ความหมายของรายการค่าแรง: ระบบ<strong>บวกค่าแรง 500 ฿ เข้ามูลค่าสินค้า</strong> (จึงเป็น 740 ไม่ใช่ 240) และ<strong>เครดิตค่าใช้จ่าย</strong>เพื่อไม่ให้ต้นทุนซ้ำ ค่าแรงจึงไปอยู่ในสต็อกและเป็นต้นทุนขายเมื่อขายสินค้าออกไป</p>
+
+<h4>เทียบ 3 วิธี</h4>
+<table class="cond"><tr><th></th><th>วิธีมาตรฐาน Odoo (Work Order)</th><th>ใบตัด Block (EMG-O)</th><th>FG (EMG-O)</th></tr>
+<tr><td>ค่าแรงคิดจาก</td><td>เวลาสถานี × ค่าแรงต่อชม. (เวลาจริง ถ้าไม่มีใช้เวลาคาดการณ์)</td><td>เวลาที่บันทึกจริงของสถานี × ค่าแรงต่อชม.</td><td>อัตราต่อหมวดสินค้า × จำนวน (เติมถึง 50% ของราคาขาย)</td></tr>
+<tr><td>เข้ามูลค่าสินค้าหรือไม่</td><td class="ok">เข้า (740 = 240 + 500)</td><td class="no">ไม่เข้า ลงค่าใช้จ่ายเลย</td><td class="no">ไม่เข้า ลงค่าใช้จ่ายเลย</td></tr>
+<tr><td>สถานี/เวลามีผลต่อต้นทุน</td><td class="ok">มี</td><td class="ok">มี</td><td class="no">ไม่มี</td></tr>
+<tr><td>บัญชีฝั่งเครดิต</td><td>COGS (ล้างค่าใช้จ่าย)</td><td>Accrued Expenses (ค้างจ่าย)</td><td>Accrued Expenses (ค้างจ่าย)</td></tr>
+<tr><td>ใช้กับงานหินตอนนี้</td><td class="no">ปิดไว้</td><td class="ok">ใช้</td><td class="ok">ใช้</td></tr></table>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ต้องตัดสินใจ</span><span class="callout-title">จะให้ค่าแรงเข้ามูลค่าสินค้า (ตามสถานี) หรือลงค่าใช้จ่ายเลย</span></div><div class="callout-body">วิธี Work Order มาตรฐานทำให้ต้นทุนสินค้าสะท้อนการผ่านสถานีจริง และกำไรตามเดือนที่ขาย ส่วนวิธีที่ใช้อยู่ตอนนี้ลงค่าแรงทั้งก้อนตอนผลิตเสร็จ เป็นเรื่องที่ควรคุยกับนักบัญชีก่อนว่าต้องการแบบไหน ตอนนี้ยังไม่ได้เปลี่ยนอะไรในระบบ</div></div>
+
+<h2>5. สรุปเงื่อนไข</h2>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>ลบสถานีออกจากใบผลิตฉบับร่าง (ใบตัด Block / FG)</td><td class="ok">สถานีที่ลบไม่กลับมา ใช้ตามที่เลือก (ทดลองแล้ว)</td></tr>
+<tr><td>ลบสถานีมาตรฐานทั้งหมดของใบผลิต (เช่น ใบถอดแบบที่มีสถานีเดียว)</td><td class="no">ระบบสร้างสถานีมาตรฐานให้ใหม่ตอน Confirm</td></tr>
+<tr><td>เพิ่มสถานีที่ไม่อยู่ในสถานีมาตรฐาน</td><td class="ok">เพิ่มได้ และคงอยู่หลัง Confirm (ทดลองแล้ว)</td></tr>
+<tr><td>เลือกผิวเป้าหมายที่ Material ไม่มี Slab ผิวนั้น</td><td class="no">แจ้งเตือนสีแดง กด Confirm ไม่ผ่าน (ใบตัด Block และใบทำผิวใหม่)</td></tr>
+<tr><td>ใบตัดผูกกับใบสั่งขาย แต่เลือกผิวเป้าหมายไม่ตรงกับสินค้าในใบสั่งขาย</td><td class="ok">ตัดตามสินค้าในใบสั่งขาย + แถบเตือนสีเหลือง</td></tr>
+<tr><td>ใบตัด Block ไม่ผูกใบสั่งขายและไม่ระบุโครงการ</td><td class="no">ไม่ลงค่าแรง (ลงเฉพาะต้นทุนวัสดุ)</td></tr>
+<tr><td>FG ที่ต้นทุนรวมต่ำกว่า 50% ของราคาขาย</td><td class="ok">เติมค่าแรงให้ถึง 50%</td></tr>
+<tr><td>บริษัทยังไม่มีบัญชี COGS - FG Production หรือ Accrued Expenses</td><td class="no">ระบบข้ามการลงค่าแรง/วัสดุสิ้นเปลืองโดยไม่แจ้ง ต้องสร้างบัญชีให้ครบก่อนใช้งานจริง</td></tr>
+<tr><td>เปลี่ยนสถานี/เวลาของใบผลิต FG</td><td class="ok">ต้นทุนไม่เปลี่ยน (คิดจากหมวดสินค้า × จำนวน)</td></tr>
+<tr><td>เปลี่ยนสถานี/เวลาของใบตัด Block</td><td class="ok">ค่าแรงเปลี่ยนตามเวลาของแต่ละสถานี</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เรื่อง</th><th>เดิม</th><th>ตอนนี้</th></tr>
+<tr><td>เลือกสถานีของใบผลิต</td><td>สถานีที่ลบออกถูกระบบสร้างกลับมาตอน Confirm (ใบตัด Block)</td><td>ลบ/เพิ่มสถานีในใบผลิตฉบับร่างได้ (14 ต.ค. 2569)</td></tr>
+<tr><td>ผิวไม่ตรงกับใบสั่งขาย</td><td>ตัดตามสินค้าในใบสั่งขายโดยไม่บอก</td><td>มีแถบเตือนสีเหลืองบนใบตัด</td></tr>
+<tr><td>ต้นทุน Slab จากใบตัด</td><td>แบ่งเท่ากันทุกแผ่น</td><td>แบ่งตามปริมาตรจริงของแต่ละแผ่น (13 ต.ค. 2569)</td></tr>
+<tr><td>ค่าแรงจากระบบ Odoo มาตรฐาน</td><td>เสี่ยงบันทึกซ้ำกับค่าแรงของระบบ</td><td>ปิดไว้ ค่าแรงมาจากรายการประมาณการเพียงทางเดียว</td></tr>
+</table>
+
+<h2>7. คำถามที่พบบ่อย</h2>
+<p><strong>ทำไมสินค้า FG ในสต็อกมีมูลค่าน้อยกว่าราคาขายมาก (1,153.44 เทียบกับ 41,760)</strong><br/>เพราะสินค้าในสต็อกมีมูลค่าเท่าวัสดุเท่านั้น ค่าแรงและวัสดุสิ้นเปลืองลงเป็นต้นทุนขายตั้งแต่วันผลิตเสร็จ ไม่ได้บวกเข้าสินค้า</p>
+<p><strong>Accrued Expenses (212300) คืออะไร</strong><br/>เป็นหนี้ค้างจ่ายที่ระบบตั้งไว้เป็นคู่กับค่าแรงประมาณการ เมื่อมีบิลหรือเงินเดือนจริง นักบัญชีเคลียร์ยอดนี้กับรายการจริง</p>
+<p><strong>เพิ่มสถานีแล้วต้นทุนเปลี่ยนไหม</strong><br/>ใบตัด Block เปลี่ยน (ตามเวลาที่บันทึกของสถานีนั้น) ใบผลิต FG ไม่เปลี่ยน</p>
+<p><strong>ถ้าอยากให้ FG คิดค่าแรงตามสถานีและเวลาจริง ทำได้ไหม</strong><br/>ทำได้ แต่ต้องเปลี่ยนวิธีคิดของ FG ซึ่งเป็นการตัดสินใจเรื่องบัญชี ควรคุยกับนักบัญชีก่อน ตอนนี้ยังไม่ได้เปลี่ยน</p>
+<p><strong>เลือกสถานี "เผาไฟ" แล้วจะได้ Slab ผิวเผาไฟไหม</strong><br/>ไม่ได้ ผิวของ Slab กำหนดที่ช่อง "ผิวเป้าหมาย" และต้องมีสินค้า Slab ผิวนั้นอยู่ที่ Material ก่อน สถานีไม่เกี่ยวกับผิวหิน</p>
+
+<p><strong>MO ที่คิดต้นทุนจาก Work Order จริงๆ หน้าตาเป็นอย่างไร</strong><br/>ดูหัวข้อ 4.6: ค่าแรง = เวลา × ค่าแรงต่อชั่วโมงของสถานี บวกเข้ามูลค่าสินค้า (ตัวอย่าง 240 + 500 = 740) ระบบ EMG-O ปิดวิธีนี้ไว้กับงานหิน</p>
+<p><strong>ถ้าไม่ได้บันทึกเวลาจริง ค่าแรงเป็นเท่าไร</strong><br/>วิธีมาตรฐานใช้เวลาคาดการณ์ของสถานีในสูตรผลิต (ตัวอย่าง 60 นาที = 500 ฿) ส่วนใบตัด Block ของ EMG-O ใช้เฉพาะเวลาที่บันทึกไว้จริง</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>การลบสถานีใช้ได้กับใบตัด Block และใบผลิต FG ที่ทดลองแล้ว ใบถอดแบบ (Cutting Plan) ที่มีสถานีมาตรฐานเพียงสถานีเดียว ลบสถานีนั้นไม่ได้ (ระบบสร้างให้ใหม่)</li>
+<li>ค่าแรงของใบถอดแบบ (Cutting Plan) และใบทำผิว Slab ใหม่ ยังไม่ได้ตรวจว่าลงบัญชีอย่างไร จึงไม่อธิบายในบทนี้</li>
+<li>ตัวอย่างใบตัด Block (EG01/STCUT/00028) มีเวลาสถานีที่เป็นค่าทดสอบ ยังไม่มีตัวอย่างใบตัดที่บันทึกเวลาตามการทำงานจริง</li>
+<li>กฎ "ต้นทุนไม่ต่ำกว่า 50% ของราคาขาย" และการลงค่าแรงเป็นต้นทุนขายทั้งก้อนตอนผลิตเสร็จ <strong>รอนักบัญชียืนยัน</strong> เพราะอาจทำให้กำไรขาดทุนเดือนที่ผลิตกับเดือนที่ขายไม่ตรงกัน</li>
+<li>ตัวอย่างวิธีมาตรฐาน Odoo ในหัวข้อ 4.6 เป็นสินค้าทดสอบที่ไม่ใช่งานหิน (ผลิต 1 ชิ้น ไม่ได้บันทึกเวลาจริง) ทดลองแล้วยกเลิกข้อมูลทิ้ง ยังไม่ได้ลองกรณีบันทึกเวลาจริงผ่านจอ Shop Floor</li>
+<li>ฟีเจอร์เลือกสถานี (ลบ/เพิ่ม) ทดลองบน eg-tst เวอร์ชัน 19.0.2.109.25 แล้ว ยังรอ commit และเปิดใช้งานกับระบบจริง</li>
+<li>ภาพหน้าจอใบผลิตถ่ายเมื่อ 6 ตุลาคม 2569 หน้าตาอาจต่างจากปัจจุบันเล็กน้อย</li>
+</ul>
+<div class="media-note">อ้างอิงทางเทคนิค: decisions.md ADR-047 (Slab COGS-parity: Block → Slab ลงบัญชี), ADR-032 (ผลิตไม่ผูกใบสั่งขาย ต้องมีเหตุผล/โครงการ), ADR-073 (วัสดุสิ้นเปลืองมาตรฐานต่อหมวด FG), กฎเจ้าของ 6 ต.ค. 2569 (ต้นทุน FG ≥ 50% ของราคาขาย), ทดสอบการลบสถานี ผิวไม่มี variant และวิธี Work Order มาตรฐานบน eg-tst เมื่อ 14 ต.ค. 2569 — ตัวเลขทุกตัวอ่านจากเอกสารที่ผลิตเสร็จแล้ว</div>
+<hr/>
+
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="33-landed-cost.html"><span class="dir">← ก่อนหน้า</span>33. Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
