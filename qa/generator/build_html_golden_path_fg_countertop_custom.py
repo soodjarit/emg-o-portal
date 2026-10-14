@@ -6,13 +6,21 @@ def steps_html(steps):
 def note_html(note):
     return ('<div class="note">%s</div>' % note) if note else ''
 
+def new_html(new):
+    return ('<div class="upd"><b>แก้/เพิ่ม</b> %s</div>' % new) if new else ''
+
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
     return '<span class="prio-badge %s">%s</span>' % (cls, p)
 
-def shot_html(shot):
+def shot_html(shot, shot2=None):
     if not shot:
         return '-'
+    if shot2:
+        return _shot_one(shot) + '<div style="height:6px"></div>' + _shot_one(shot2)
+    return _shot_one(shot)
+
+def _shot_one(shot):
     return '<a class="tc-shot-link" href="%s" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="%s" loading="lazy"></a>' % (shot, shot)
 
 sidebar_items = []
@@ -33,13 +41,13 @@ for c in CATEGORIES:
     for tc in c['cases']:
         rows.append(f'''        <tr>
           <td class="col-id"><span class="tc-id">{tc['id']}</span></td>
-          <td class="col-scenario">{tc['scenario']}{note_html(tc.get('note'))}</td>
+          <td class="col-scenario">{tc['scenario']}{new_html(tc.get('new'))}{note_html(tc.get('note'))}</td>
           <td class="col-pre">{tc['pre']}</td>
           <td class="col-steps">{steps_html(tc['steps'])}</td>
           <td class="col-sample">{tc['sample']}</td>
           <td class="col-expected">{tc['expected']}</td>
           <td class="col-prio">{prio_badge(tc['prio'])}</td>
-          <td class="col-shot">{shot_html(tc.get('shot'))}</td>
+          <td class="col-shot">{shot_html(tc.get('shot'), tc.get('shot2'))}</td>
         </tr>''')
     rows_joined = '\n'.join(rows)
     category_blocks.append(f'''  <div class="category" id="{c['cat_id']}">
@@ -135,13 +143,13 @@ PAGE = '''<!doctype html>
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
   table.tc-table tbody tr:hover{background:#F5EFE6;}
   .col-id{width:76px;}
-  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
   .col-pre{width:150px;color:#6B6E70;}
   .col-steps{width:230px;}
   .col-steps ol{margin:0;padding-left:18px;}
@@ -155,6 +163,11 @@ PAGE = '''<!doctype html>
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -182,8 +195,8 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — FG: Countertop และ Custom FG (เจดีย์บัว) ขายถึงเก็บเงิน</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.12 + การแก้ 3 จุดระหว่างทดสอบ (ยังไม่ commit)</div>
-    <div class="sub">สองเส้นทางของสินค้า FG เดินครบวงจรหนึ่งครั้ง: <b>A Countertop</b> ขายเป็น ตร.ม. ใส่ชิ้นงานและงานขอบ/เจาะในใบขาย ระบบเลือก Slab ให้ ตัด ส่งของ เก็บเงิน &rarr; <b>B/C Custom FG เจดีย์บัว</b> ขายเป็นชิ้น เตรียมสูตรจาก BOQ (นำเข้า Cut List) ตัดหินทีละชนิด ประกอบ ส่งของ เก็บเงิน · รันจริงโดยผู้ใช้บน eg-tst เมื่อ 11 ต.ค. 2569 · ชุดเก่า (6 ต.ค.) ยังเก็บไว้ เพราะหน้าจอและชื่อปุ่มเปลี่ยนไปแล้ว</div>
+    <div class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 · รันใหม่ทั้งชุดบน eg-tst</div>
+    <div class="sub">สองเส้นทางของสินค้า FG เดินครบวงจรหนึ่งครั้ง: <b>A Countertop</b> ขายเป็น ตร.ม. ใส่ชิ้นงานและงานขอบ/เจาะในใบขาย ระบบเลือก Slab ให้ ตัด ส่งของ เก็บเงิน &rarr; <b>B/C Custom FG เจดีย์บัว</b> ขายเป็นชิ้น เตรียมสูตรจาก BOQ (นำเข้า Cut List) ตัดหินทีละชนิด ประกอบ ส่งของ เก็บเงิน · รันใหม่ทั้งชุดบน eg-tst เมื่อ 14 ต.ค. 2569 (ต่อจากรอบ 11 ต.ค. ที่ผู้ใช้เดินเอง) · ชุดเก่า (6 ต.ค.) ยังเก็บไว้ เพราะหน้าจอและชื่อปุ่มเปลี่ยนไปแล้ว</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -193,11 +206,21 @@ PAGE = '''<!doctype html>
     </div>
   </header>
 
+  <div class="changes">
+    <h3>จุดที่ยืนยัน/แก้ในรอบนี้ (ป้ายเขียว "แก้/เพิ่ม" ในแต่ละเคส)</h3>
+    <ul>
+      <li><b>รันซ้ำทั้งสองเส้นทางบน v109.24 ตัวเลขเงินทุกจุดเท่าเดิม</b> ต้นทุน FG 2,430.00 / WIP 2,899.80 + 1,215.00 / FG เจดีย์บัว 4,506.30 / ค่าแรง 70,493.70</li>
+      <li><b>การแก้ 3 จุดเมื่อ 11 ต.ค. ถูก commit และ deploy แล้ว</b> (ตัดแถว BoM ค้าง, ใบส่งของจอง Lot ของตัวเอง, ปุ่มคัดลอกแผนเป็นขนาดจริง) และผ่านการรันซ้ำ — TC-GP-FGS-05, 07, 13, 15</li>
+      <li><b>ปริมาณบนใบแจ้งหนี้แสดง 3 ตำแหน่ง</b> (3.480 ตร.ม.) จากรอบ Block — TC-GP-FGS-08, 17</li>
+      <li>ขั้นนำเข้า Cut List (TC-GP-FGS-09) ไม่ได้ถ่ายใหม่ เพราะหน้าจอไม่เปลี่ยน ยังใช้ภาพ 11 ต.ค.</li>
+    </ul>
+  </div>
+
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 11 ต.ค. 2569, ผู้ใช้ emgdemo):</b><br>
-    <b>A</b> S00215 (GP Block Marble 3.48 ตร.ม. + ขอบ + เจาะ = 48,920.40) &rarr; ใบสั่งผลิต EG01/STFG/00060 (Slab BLK-26-0006-24, -25) &rarr; FG 3 Lot &rarr; ส่งของ EG01/OUT/00109 &rarr; INV/2026/00025 · รันซ้ำหลังแก้โค้ดเป็น S00216 &rarr; EG01/STFG/00061 &rarr; EG01/OUT/00110 &rarr; INV/2026/00026<br>
-    <b>B/C</b> BOQ0024 (นำเข้าจาก Cut List 14 แถว ต้นทุน 3,906.92/ชิ้น) &rarr; S00217 (เจดีย์บัว 3 ชิ้น 160,500) &rarr; งานประกอบ EG01/STFG/00062 + ใบตัดหิน EG01/STCPL/00020 (NERO) และ 00021 (GP) &rarr; ส่งของ EG01/OUT/00111 (Serial CB-00025 ถึง -27) &rarr; INV/2026/00027<br><br>
-    <b>ข้อสังเกตจากการรันจริง:</b> (1) เส้นทาง A รอบแรกพบแถวแดง Not Available ใน Components และใบส่งของจอง FG งานเก่าปน แก้แล้วและรันซ้ำผ่าน — ดู TC-GP-FGS-05, 07 (2) เพิ่มปุ่ม \"คัดลอกแผนเป็นขนาดจริง\" ในใบตัดหิน — ดู TC-GP-FGS-13, 14 (3) ต้นทุนที่ลงบัญชีของ Custom FG ถูกกติกาต้นทุนขั้นต่ำ 50% ครอบ ไม่ตรงกับประมาณการ BOQ — ดู TC-GP-FGS-18 (ควรถามลูกค้า)<br>
+    <b>เส้นทางที่รันจริง (eg-tst, 14 ต.ค. 2569, v109.24):</b><br>
+    <b>A</b> S00626 (GP Block Marble 3.48 ตร.ม. + ขอบ + เจาะ = 48,920.40) &rarr; ใบสั่งผลิต EG01/STFG/00156 (Slab BLK-26-0006-34, -35) &rarr; FG 3 Lot &rarr; ส่งของ EG01/OUT/00333 &rarr; INV/2026/00032<br>
+    <b>B/C</b> BOQ0024 (นำเข้าจาก Cut List 14 แถว ต้นทุน 3,906.92/ชิ้น) &rarr; S00627 (เจดีย์บัว 3 ชิ้น 160,500) &rarr; งานประกอบ EG01/STFG/00157 + ใบตัดหิน EG01/STCPL/00115 (NERO) และ 00116 (GP) &rarr; ส่งของ EG01/OUT/00334 (Serial CB-00031 ถึง -33) &rarr; INV/2026/00033 &rarr; ค่าแรง MISC/2026/10/0034<br><br>
+    <b>ข้อสังเกต:</b> (1) เส้นทาง A รอบนี้ไม่พบแถวแดงใน Components และใบส่งของจองเฉพาะ Lot ของตัวเอง — ดู TC-GP-FGS-05, 07 (2) ต้นทุนที่ลงบัญชีของ Custom FG ถูกกติกาต้นทุนขั้นต่ำ 50% ครอบ ไม่ตรงกับประมาณการ BOQ — ดู TC-GP-FGS-18 (ควรถามลูกค้า)<br>
     <b>ยังไม่ครอบคลุมใน Golden Path นี้:</b> การบันทึกเศษที่เหลือ (ใบสั่งผลิต A และใบตัดหิน) · ตรวจเศษแล้วนำกลับไปขาย · Unbuild · สินค้า Custom Product 01 · การแก้ขนาดชิ้นหลัง Confirm · กรณีผิดพลาด (ตามหลัก Golden Path ไม่รวมเคสดักข้อผิดพลาด)
   </div>
 

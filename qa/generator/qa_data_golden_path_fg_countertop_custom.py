@@ -5,21 +5,18 @@
 # whole-piece reservation). This one follows both FG paths once, end to end, in the order a user clicks,
 # and keeps the older doc as is.
 #
-# Data provenance: real run by the user (login emgdemo, company Empire Granite) on `eg-tst`, 2026-10-11 21:10-22:41,
-# walked step by step with Claude (screenshots are the user's own, browser bar cropped). Module stone_slab_inventory
-# v19.0.2.109.12 plus three small changes made DURING the run (local, not yet committed / version-bumped):
-#   1) the cancelled BoM slab row is removed from the FG order's Components tab,
-#   2) a delivery of a made-to-order FG reserves the lots of its own FG order first,
-#   3) new button "คัดลอกแผนเป็นขนาดจริง" on the Cutting Plan pieces tab.
-# Path A was run twice: round 1 (S00215 -> EG01/STFG/00060 -> EG01/OUT/00109 -> INV/2026/00025) exposed the red row and
-# the wrong-lot reservation; round 2 (S00216 -> EG01/STFG/00061 -> EG01/OUT/00110 -> INV/2026/00026) re-ran it after
-# the fixes. Numbers in this doc are the scripted ones (round 1 sizes/prices); the round-2 tester picked different edge
-# sides (3.05 m, total 48,714.43) which changes only the edge line.
-# Path B: BOQ0024 (imported from the cut-list Excel) -> S00217 -> EG01/STFG/00062 + EG01/STCPL/00020, 00021 ->
-# EG01/OUT/00111 (serials CB-00025..27) -> INV/2026/00027.
+# Data provenance: re-run end to end on `eg-tst`, 2026-10-14 (v19.0.2.109.24, branch test/emg-erp-ee), driven by
+# Playwright as admin, company Empire Granite. Supersedes the 11 Oct run done by the user. The three small changes made
+# during that run (cancelled BoM slab row removed, delivery reserves its own FG lots, "คัดลอกแผนเป็นขนาดจริง" button) are
+# now committed and deployed (commit eda9559), so this run verifies them.
+# Path A: S00626 -> EG01/STFG/00156 (Slab BLK-26-0006-34, -35) -> EG01/OUT/00333 -> INV/2026/00032.
+# Path B: BOQ0024 (imported from the cut-list Excel on 11 Oct; the import screen is unchanged so TC-GP-FGS-09 keeps its
+# 11 Oct screenshot) -> S00627 -> EG01/STFG/00157 + EG01/STCPL/00115 (NERO, Slab BLK-26-0002-25), 00116 (GP, BLK-26-0006-36)
+# -> EG01/OUT/00334 (serials CB-00031..33) -> INV/2026/00033 -> MISC/2026/10/0034.
+# All money numbers are identical to the 11 Oct run.
 #
 # Golden Path discipline: happy path only, no validation/error cases, plain language.
-# Column model per case: id, scenario, note (optional callout), pre, steps (list), sample, expected, prio, shot.
+# Column model per case: id, scenario, note (optional callout), new (green 'changed this round' callout), pre, steps (list), sample, expected, prio, shot.
 
 SHOT = "assets/golden-path-fg-countertop-custom/"
 
@@ -34,7 +31,7 @@ CATEGORIES = [
                 "เลือก Customer",
                 "กด \"Add a product\" เลือก GP Block Marble แล้วกด Save"],
          sample="Customer = Demo Hotel Customer<br>สินค้า = GP Block Marble (12,000 บาท/ตร.ม.)",
-         expected="บรรทัดสินค้า จำนวน 1.00 หน่วย ตร.ม. ราคา 12,000.00 · ยอดก่อน VAT 12,000.00 VAT 7% 840.00 · ท้ายบรรทัดมีไอคอนรายชิ้นงาน (ตัวอย่างจริง S00215)",
+         expected="บรรทัดสินค้า จำนวน 1.00 หน่วย ตร.ม. ราคา 12,000.00 · ยอดก่อน VAT 12,000.00 VAT 7% 840.00 · ท้ายบรรทัดมีไอคอนรายชิ้นงาน (ตัวอย่างจริง S00626)",
          prio="High", shot=SHOT + "gp-fgs-01-quote.webp"),
     dict(id="TC-GP-FGS-02", scenario="ใส่รายการชิ้นงาน 3 ชิ้น",
          note="กด Save ทุกชิ้นก่อนเพิ่มชิ้นต่อไป · จำนวนในใบขายที่เป็น 1.00 ไว้ก่อน จะถูกแทนที่ด้วยพื้นที่รวมของชิ้นงานเอง",
@@ -46,7 +43,7 @@ CATEGORIES = [
          expected="พื้นที่ 1.56 / 0.72 / 1.20 ตร.ม. รวม 3.48 ตร.ม. · จำนวนในบรรทัดใบขายเปลี่ยนเป็น 3.48 เอง",
          prio="High", shot=SHOT + "gp-fgs-02-pieces.webp"),
     dict(id="TC-GP-FGS-03", scenario="เพิ่มงานขอบและงานเจาะ แล้วตรวจใบเสนอราคา",
-         note="ขอบของชิ้นงานเรียก A, B, C, D มองจากด้านบน: A = ด้านกว้างบน, B = ด้านยาวขวา, C = ด้านกว้างล่าง, D = ด้านยาวซ้าย · ระบบคำนวณความยาวขอบให้เอง เลือกด้านไหนความยาวก็ตามด้านนั้น (ตอนรันรอบ 2 ผู้ทดสอบเลือกด้านต่างไป ได้ขอบ 3.05 ม. ยอดรวม 48,714.43 บาท ส่วนอื่นเหมือนกัน)",
+         note="ขอบของชิ้นงานเรียก A, B, C, D มองจากด้านบน: A = ด้านกว้างบน, B = ด้านยาวขวา, C = ด้านกว้างล่าง, D = ด้านยาวซ้าย · ระบบคำนวณความยาวขอบให้เอง เลือกด้านไหนความยาวก็ตามด้านนั้น (ตอนรันรอบ 2 ของ 11 ต.ค. ผู้ทดสอบเลือกด้านต่างไป ได้ขอบ 3.05 ม. ยอดรวม 48,714.43 บาท ส่วนอื่นเหมือนกัน)",
          pre="ทำ TC-GP-FGS-02 เสร็จแล้ว",
          steps=["ที่แถวชิ้นท็อปครัว กดไอคอนประแจ กด Add a line เลือก \"งานขอบโค้งมน\" ติ๊กขอบ A แล้วเพิ่ม \"ตัดช่องเตา\" 1 จุด กด Save",
                 "ชิ้นเกาะกลาง: ประแจ &gt; \"งานขอบโค้งมน\" ติ๊กขอบ A กด Save",
@@ -61,7 +58,7 @@ CATEGORIES = [
                 "กดสมาร์ทปุ่ม FG Production",
                 "ดูการ์ดสรุปด้านบน และแท็บ \"ผลผลิต FG\""],
          sample="-",
-         expected="ใบสั่งผลิตสถานะ Draft ชื่อแนว EG01/STFG/xxxxx (ตัวอย่างจริง EG01/STFG/00060) ป้าย \"ผลิต FG จาก Slab\" ผูกกับบรรทัดใบขาย · การ์ดแสดง \"ต้องใช้ 3.83 ตร.ม.\" และ \"Slab ที่เลือก 7.50 ตร.ม.\" ป้ายเขียว \"พอ\" · แถบเหลืองบอกให้กด \"ย้ายไปสถานีตัด\" ก่อน Confirm · แท็บผลผลิต FG มี 3 แถว (2.40 × 0.65, 1.20 × 0.60, 2.00 × 0.60) พร้อมหมายเหตุงานขอบและงานเจาะให้ช่างอ่าน",
+         expected="ใบสั่งผลิตสถานะ Draft ชื่อแนว EG01/STFG/xxxxx (ตัวอย่างจริง EG01/STFG/00156) ป้าย \"ผลิต FG จาก Slab\" ผูกกับบรรทัดใบขาย · การ์ดแสดง \"ต้องใช้ 3.83 ตร.ม.\" และ \"Slab ที่เลือก 7.50 ตร.ม.\" ป้ายเขียว \"พอ\" · แถบเหลืองบอกให้กด \"ย้ายไปสถานีตัด\" ก่อน Confirm · แท็บผลผลิต FG มี 3 แถว (2.40 × 0.65, 1.20 × 0.60, 2.00 × 0.60) พร้อมหมายเหตุงานขอบและงานเจาะให้ช่างอ่าน",
          prio="High", shot=SHOT + "gp-fgs-04-mo-draft.webp"),
     dict(id="TC-GP-FGS-05", scenario="ย้าย Slab ไปสถานีตัด แล้ว Confirm ใบสั่งผลิต",
          note="ตั้งแต่ 11 ต.ค. 2569 แท็บ Components แสดงเฉพาะ Slab ที่ระบบเลือกจริง (Polished, 2 cm) — ก่อนแก้ จะมีแถว \"Honed, 3 cm\" ป้ายแดง Not Available ค้างอยู่ ซึ่งลูกค้าเห็นแล้วเข้าใจผิดว่าของไม่พอ",
@@ -69,8 +66,9 @@ CATEGORIES = [
          steps=["เปิดแท็บ \"Slab ที่จะตัด\" ตรวจว่ามี Slab ของ GP Block Marble ครบ (ถ้ายังไม่มี กด \"เลือก Slab อัตโนมัติ\")",
                 "กดปุ่ม \"ย้ายไปสถานีตัด\" แล้วดูข้อความมุมจอ",
                 "กด Confirm แล้วเปิดแท็บ Components"],
-         sample="Slab ที่ระบบเลือก = BLK-26-0006-24 และ -25 (แผ่นละ 3.00 × 1.25 ม. รวม 7.50 ตร.ม.)",
+         sample="Slab ที่ระบบเลือก = BLK-26-0006-34 และ -35 (แผ่นละ 3.00 × 1.25 ม. รวม 7.50 ตร.ม.)",
          expected="ข้อความ \"ย้ายสำเร็จ ... ย้าย 2 lot ไป Stone Production แล้ว — กด Confirm ได้เลย\" · สถานะ Confirmed ปุ่มเปลี่ยนเป็น \"ผลิต FG เสร็จ\" · Components มีแถวเดียว Slab (Polished, 2 cm) 2.00 Units ป้ายเขียว Available",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — รันซ้ำแล้ว: แถว Components แสดงเฉพาะ Slab ที่เลือกจริง ป้ายเขียว Available (การแก้เมื่อ 11 ต.ค. ถูก commit และ deploy แล้ว)",
          prio="High", shot=SHOT + "gp-fgs-05-mo-components.webp"),
     dict(id="TC-GP-FGS-06", scenario="ผลิต FG เสร็จ (Complete FG Production)",
          note="แท็บ \"เศษที่เหลือ\" กรอกได้ (Slab ต้นทาง ขนาด จำนวน) เพื่อให้เศษได้ Lot ของตัวเองและหักต้นทุนส่วนเศษออกจาก FG — ในการรันจริงไม่ได้กรอกเศษ ต้นทุน Slab ทั้งแผ่นจึงเข้า FG ทั้งหมด (ยังไม่ได้ทดสอบกรณีมีเศษในรอบนี้ ดูผลของเดิมในบท 32 หัวข้อ A.8–A.10)",
@@ -79,7 +77,7 @@ CATEGORIES = [
                 "กดปุ่ม \"ผลิต FG เสร็จ\"",
                 "ดูสถานะและสมาร์ทปุ่ม"],
          sample="ไม่กรอกเศษ",
-         expected="ข้อความ \"Complete FG Production สำเร็จ ... ผลิตสำเร็จ 3.48 หน่วย\" · สถานะ Done · ได้ FG 3 Lot (ตัวอย่าง FG-EG01/STFG/00061-01 = 2.40 × 0.65 · -02 = 1.20 × 0.60 · -03 = 2.00 × 0.60) อยู่ที่ EG01/Stock/Stone FG รวม 3.48 ตร.ม. · มูลค่าวัสดุ FG 2,430.00 บาท (Slab 2 แผ่น) · มีสมาร์ทปุ่ม Traceability / Product Moves",
+         expected="ข้อความ \"Complete FG Production สำเร็จ ... ผลิตสำเร็จ 3.48 หน่วย\" · สถานะ Done · ได้ FG 3 Lot (ตัวอย่าง FG-EG01/STFG/00156-01 = 2.40 × 0.65 · -02 = 1.20 × 0.60 · -03 = 2.00 × 0.60) อยู่ที่ EG01/Stock/Stone FG รวม 3.48 ตร.ม. · มูลค่าวัสดุ FG 2,430.00 บาท (Slab 2 แผ่น) · มีสมาร์ทปุ่ม Traceability / Product Moves",
          prio="High", shot=SHOT + "gp-fgs-06-mo-done.webp"),
     dict(id="TC-GP-FGS-07", scenario="ส่งของ — ตรวจ Lot แล้ว Validate",
          note="⚠ ก่อนแก้ (11 ต.ค. 2569) ใบส่งของ Countertop อาจจอง FG ของงานเก่าปน แล้วขึ้นป้ายแดง Not Available ต้องลบแถวผิดและเพิ่ม Lot ที่ถูกเอง · หลังแก้ ระบบจองเฉพาะ Lot ที่ใบสั่งผลิตของบรรทัดนี้ผลิตให้ครบเอง แต่ยังควรเปิด Details ดูก่อน Validate ทุกครั้ง · ต้องส่งของ (Done) ก่อนจึงออกใบแจ้งหนี้ได้ ถ้ากด Create Invoice ก่อน ระบบแจ้ง \"No items are available to invoice\"",
@@ -88,7 +86,8 @@ CATEGORIES = [
                 "กด Details ที่แถวสินค้า ตรวจแถว Lot ว่าเป็นของใบสั่งผลิตนี้ครบ 3 แถว",
                 "กด Validate"],
          sample="-",
-         expected="Details แสดง 3 แถวจาก Stone FG: -01 (1.56), -02 (0.72), -03 (1.20) รวม 3.48 ตร.ม. ไม่มี Lot ของงานอื่น · ใบส่งของเป็น Done Demand 3.48 Quantity 3.48 ตร.ม. และใบขายคอลัมน์ Delivered เป็น 3.48 (ตัวอย่างจริง EG01/OUT/00110)",
+         expected="Details แสดง 3 แถวจาก Stone FG: -01 (1.56), -02 (0.72), -03 (1.20) รวม 3.48 ตร.ม. ไม่มี Lot ของงานอื่น · ใบส่งของเป็น Done Demand 3.48 Quantity 3.48 ตร.ม. และใบขายคอลัมน์ Delivered เป็น 3.48 (ตัวอย่างจริง EG01/OUT/00333)",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — รันซ้ำแล้ว: ใบส่งของจองเฉพาะ Lot ของใบสั่งผลิตนี้ (3 แถว) ไม่มี Lot งานอื่นปน (การแก้เมื่อ 11 ต.ค. ถูก commit และ deploy แล้ว)",
          prio="High", shot=SHOT + "gp-fgs-07-delivery-done.webp"),
     dict(id="TC-GP-FGS-08", scenario="ออกใบแจ้งหนี้ Confirm และตรวจรายการบัญชี",
          pre="ทำ TC-GP-FGS-07 เสร็จแล้ว (ใบส่งของ Done)",
@@ -96,7 +95,8 @@ CATEGORIES = [
                 "กด Confirm บนใบแจ้งหนี้",
                 "เปิดแท็บ Journal Items"],
          sample="-",
-         expected="ใบแจ้งหนี้ Posted ยอดก่อน VAT 45,720.00, VAT 3,200.40, รวม 48,920.40 · เครดิต 411100 รายได้ 4 บรรทัด (41,760 / 1,260 / 1,500 / 1,200) · เครดิต 213200 ภาษีขาย 3,200.40 · เดบิต 112100 ลูกหนี้ 48,920.40 · เดบิต 511110 ต้นทุนขาย 2,430.00 เครดิต 113150 สินค้าคงเหลือ Stone FG 2,430.00 (ตรงกับต้นทุน FG) (ตัวอย่างจริง INV/2026/00025)",
+         expected="ใบแจ้งหนี้ Posted ยอดก่อน VAT 45,720.00, VAT 3,200.40, รวม 48,920.40 · เครดิต 411100 รายได้ 4 บรรทัด (41,760 / 1,260 / 1,500 / 1,200) · เครดิต 213200 ภาษีขาย 3,200.40 · เดบิต 112100 ลูกหนี้ 48,920.40 · เดบิต 511110 ต้นทุนขาย 2,430.00 เครดิต 113150 สินค้าคงเหลือ Stone FG 2,430.00 (ตรงกับต้นทุน FG) (ตัวอย่างจริง INV/2026/00032)",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — ปริมาณบนบรรทัดใบแจ้งหนี้แสดง 3 ตำแหน่ง (เช่น 3.480 ตร.ม., 3.600 ม.) เพราะรอบ Block ตั้งทศนิยมบรรทัดบิลเป็น 3 ตำแหน่งทั้งระบบ ยอดเงินไม่เปลี่ยน",
          prio="High", shot=SHOT + "gp-fgs-08-invoice-journal.webp"),
   ]),
   dict(cat_id="B", title="B. Custom FG (เจดีย์บัว) — เตรียมสูตรจาก BOQ แล้วขายเป็นชิ้น",
@@ -119,7 +119,7 @@ CATEGORIES = [
                 "กด \"Add a product\" เลือก เจดีย์บัว ใส่จำนวน 3",
                 "กด Save"],
          sample="Customer = A-test-customer<br>สินค้า = เจดีย์บัว<br>จำนวน = 3 ชิ้น × 50,000",
-         expected="ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · บรรทัดสินค้ามีไอคอน \"โหลด BOQ\" และ \"ดูสูตร\" · ต้นทุน/ชิ้น (ประมาณ) ยังเป็น 0.00 เพราะยังไม่ได้โหลดสูตร (ตัวอย่างจริง S00217)",
+         expected="ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · บรรทัดสินค้ามีไอคอน \"โหลด BOQ\" และ \"ดูสูตร\" · ต้นทุน/ชิ้น (ประมาณ) ยังเป็น 0.00 เพราะยังไม่ได้โหลดสูตร (ตัวอย่างจริง S00627)",
          prio="High", shot=SHOT + "gp-fgs-10-quote-custom.webp"),
     dict(id="TC-GP-FGS-11", scenario="โหลด BOQ เป็นสูตรของบรรทัด",
          note="สูตรเป็นสำเนาจาก BOQ ณ ตอนโหลด แก้ BOQ ภายหลังไม่กระทบ และหลัง Confirm สูตรถูกล็อก",
@@ -137,7 +137,7 @@ CATEGORIES = [
                 "กดสมาร์ทปุ่ม FG Production เปิดใบงานประกอบ ดูแท็บ Components",
                 "กดสมาร์ทปุ่ม \"แผนตัด\" บนใบงานประกอบ"],
          sample="-",
-         expected="ได้ใบสั่งผลิต 3 ใบ สถานะ Draft: งานประกอบ EG01/STFG/00062 (3.00 Units, ป้าย \"งานกำหนดเอง (Custom)\") · ใบตัดหิน NERO EG01/STCPL/00020 (12 ชิ้น = 4 × 3) · ใบตัดหิน GP EG01/STCPL/00021 (18 ชิ้น = 6 × 3) · Components ของงานประกอบมี กาว/epoxy 2.70 ตร.ม. และ ซีลแลนท์ 2.70 ตร.ม. ป้ายเขียว Available",
+         expected="ได้ใบสั่งผลิต 3 ใบ สถานะ Draft: งานประกอบ EG01/STFG/00157 (3.00 Units, ป้าย \"งานกำหนดเอง (Custom)\") · ใบตัดหิน NERO EG01/STCPL/00115 (12 ชิ้น = 4 × 3) · ใบตัดหิน GP EG01/STCPL/00116 (18 ชิ้น = 6 × 3) · Components ของงานประกอบมี กาว/epoxy 2.70 ตร.ม. และ ซีลแลนท์ 2.70 ตร.ม. ป้ายเขียว Available",
          prio="High", shot=SHOT + "gp-fgs-12-mo-draft-components.webp"),
   ]),
   dict(cat_id="C", title="C. Custom FG — ตัดหินทีละชนิด ประกอบ ส่งมอบ และเก็บเงิน",
@@ -146,31 +146,34 @@ CATEGORIES = [
     dict(id="TC-GP-FGS-13", scenario="ใบตัดหิน NERO — ย้ายไปสถานีตัด Confirm กรอกขนาดจริง แล้วถอดแบบเสร็จ",
          note="ปุ่ม \"คัดลอกแผนเป็นขนาดจริง\" (เพิ่มเมื่อ 11 ต.ค. 2569) เติมขนาดจริงจากแผนให้ทุกแถวที่ยังว่างในครั้งเดียว แล้วช่างแก้เฉพาะชิ้นที่ตัดไม่ตรงแบบ ค่าที่กรอกไว้แล้วไม่ถูกทับ · ไม่ได้บันทึกเศษที่เหลือ ต้นทุน Slab ทั้งแผ่นจึงเข้า WIP ทั้งหมด (2,899.80 สูงกว่าประมาณการสูตร 579.96 × 3 = 1,739.88)",
          pre="ทำ TC-GP-FGS-12 เสร็จแล้ว",
-         steps=["ที่ใบงานประกอบ กดสมาร์ทปุ่ม \"แผนตัด\" เปิด EG01/STCPL/00020 (NERO)",
+         steps=["ที่ใบงานประกอบ กดสมาร์ทปุ่ม \"แผนตัด\" เปิด EG01/STCPL/00115 (NERO)",
                 "ตรวจแท็บ \"Slab ที่จะตัด\" กดปุ่ม \"ย้ายไปสถานีตัด\" แล้ว Confirm",
                 "เปิดแท็บ \"ชิ้นงาน (แผน/จริง)\" กดปุ่ม \"คัดลอกแผนเป็นขนาดจริง\"",
                 "กดปุ่ม \"ถอดแบบเสร็จ\""],
-         sample="Slab ที่ระบบเลือก = BLK-26-0002-23 (2.00 × 0.90 ม.)<br>ชิ้นงาน 12 ชิ้น: 0.45 × 0.30 และ 0.30 × 0.15 หนา 0.02 อย่างละ 6 ชิ้น",
-         expected="ข้อความ \"ย้ายสำเร็จ 1 lot ไป Stone Production\" · หลังกดปุ่มคัดลอก ช่อง \"จริง L / จริง H / จริง ความหนา\" ครบทุกแถวเท่าแผน · ใบเป็น Done การ์ด \"แผน 1.08 ตร.ม. ตัดได้จริง 1.08 ตร.ม.\" · ได้ WIP Lot CUT-EG01/STCPL/00020 จำนวน 12 ชิ้น ที่ Stone Production มูลค่า 2,899.80 บาท · ช่อง \"ป้อนให้งานประกอบ\" = EG01/STFG/00062",
+         sample="Slab ที่ระบบเลือก = BLK-26-0002-25 (2.00 × 0.90 ม.)<br>ชิ้นงาน 12 ชิ้น: 0.45 × 0.30 และ 0.30 × 0.15 หนา 0.02 อย่างละ 6 ชิ้น",
+         expected="ข้อความ \"ย้ายสำเร็จ 1 lot ไป Stone Production\" · หลังกดปุ่มคัดลอก ช่อง \"จริง L / จริง H / จริง ความหนา\" ครบทุกแถวเท่าแผน · ใบเป็น Done การ์ด \"แผน 1.08 ตร.ม. ตัดได้จริง 1.08 ตร.ม.\" · ได้ WIP Lot CUT-EG01/STCPL/00115 จำนวน 12 ชิ้น ที่ Stone Production มูลค่า 2,899.80 บาท · ช่อง \"ป้อนให้งานประกอบ\" = EG01/STFG/00157",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — รันซ้ำแล้ว: ปุ่ม \"คัดลอกแผนเป็นขนาดจริง\" ใช้งานได้ใน v109.24 (commit และ deploy แล้ว) ตัวเลข WIP 2,899.80 เท่าเดิม",
          prio="High", shot=SHOT + "gp-fgs-13-cp-nero-done.webp"),
     dict(id="TC-GP-FGS-14", scenario="ใบตัดหิน GP Block Marble — ทำแบบเดียวกัน",
          note="ปุ่มคัดลอกเติมเฉพาะช่องที่ว่าง — ถ้าแก้แถวหนึ่งเอง ปุ่มไม่ทับค่านั้น (ทดสอบแล้ว) · ถ้าช่างพิมพ์ขนาดจริงใหญ่กว่าแผน การ์ด \"ตัดได้จริง\" จะสูงกว่าแผน แต่ต้นทุนไม่เปลี่ยน เพราะต้นทุนคิดจาก Slab ที่ใช้จริง",
          pre="ทำ TC-GP-FGS-13 เสร็จแล้ว",
-         steps=["กลับที่ใบงานประกอบ กดสมาร์ทปุ่ม \"แผนตัด\" เปิด EG01/STCPL/00021 (GP)",
+         steps=["กลับที่ใบงานประกอบ กดสมาร์ทปุ่ม \"แผนตัด\" เปิด EG01/STCPL/00116 (GP)",
                 "ย้ายไปสถานีตัด และ Confirm",
                 "แท็บ \"ชิ้นงาน (แผน/จริง)\" กดปุ่ม \"คัดลอกแผนเป็นขนาดจริง\"",
                 "กดปุ่ม \"ถอดแบบเสร็จ\""],
-         sample="Slab ที่ระบบเลือก = BLK-26-0006-28<br>ชิ้นงาน 18 ชิ้น: 0.20 × 0.45 (12 ชิ้น) และ 0.30 × 0.30 (6 ชิ้น) หนา 0.02",
-         expected="ใบเป็น Done จำนวน 18.00 · แผน 1.62 ตร.ม. · ได้ WIP Lot CUT-EG01/STCPL/00021 จำนวน 18 ชิ้น ที่ Stone Production มูลค่า 1,215.00 บาท (Slab ทั้งแผ่น)",
+         sample="Slab ที่ระบบเลือก = BLK-26-0006-36<br>ชิ้นงาน 18 ชิ้น: 0.20 × 0.45 (12 ชิ้น) และ 0.30 × 0.30 (6 ชิ้น) หนา 0.02",
+         expected="ใบเป็น Done จำนวน 18.00 · แผน 1.62 ตร.ม. · ได้ WIP Lot CUT-EG01/STCPL/00116 จำนวน 18 ชิ้น ที่ Stone Production มูลค่า 1,215.00 บาท (Slab ทั้งแผ่น)",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — รันซ้ำแล้ว: WIP 1,215.00 เท่าเดิม",
          prio="High", shot=SHOT + "gp-fgs-14-cp-gp-done.webp"),
     dict(id="TC-GP-FGS-15", scenario="Confirm งานประกอบ แล้ว Produce All",
          note="Confirm งานประกอบไม่ได้จนกว่าใบตัดหินที่ผูกกันทุกใบจะ Done · ใบงานประกอบที่ Done แล้วมีปุ่ม Unbuild (ยังไม่ได้ทดลอง)",
          pre="ทำ TC-GP-FGS-14 เสร็จแล้ว (ใบตัดหินทั้ง 2 ใบ Done)",
-         steps=["เปิดใบงานประกอบ EG01/STFG/00062 กด Confirm",
+         steps=["เปิดใบงานประกอบ EG01/STFG/00157 กด Confirm",
                 "ตรวจแท็บ Components",
                 "กดปุ่ม \"Produce All\""],
          sample="-",
-         expected="Component Status = Available · ช่อง \"Lot จาก Cutting Plan\" แสดง CUT-EG01/STCPL/00020 และ 00021 · Components: กาว/epoxy 2.70 ตร.ม., ซีลแลนท์ 2.70 ตร.ม., WIP NERO 12, WIP GP 18 · หลัง Produce All สถานะ Done Quantity 3.00 / 3.00 มีสมาร์ทปุ่ม Serial Numbers 3 · ได้ FG เจดีย์บัว 3 ชิ้น (Serial ตัวอย่าง CB-00025 ถึง -27) มูลค่าวัสดุ 4,506.30 บาท (= 2,899.80 + 1,215.00 + 324.00 + 67.50) ชิ้นละ 1,502.10",
+         expected="Component Status = Available · ช่อง \"Lot จาก Cutting Plan\" แสดง CUT-EG01/STCPL/00115 และ 00116 · Components: กาว/epoxy 2.70 ตร.ม., ซีลแลนท์ 2.70 ตร.ม., WIP NERO 12, WIP GP 18 · หลัง Produce All สถานะ Done Quantity 3.00 / 3.00 มีสมาร์ทปุ่ม Serial Numbers 3 · ได้ FG เจดีย์บัว 3 ชิ้น (Serial ตัวอย่าง CB-00031 ถึง -33) มูลค่าวัสดุ 4,506.30 บาท (= 2,899.80 + 1,215.00 + 324.00 + 67.50) ชิ้นละ 1,502.10",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — รันซ้ำแล้ว: Component Status = Available หลัง Confirm งานประกอบ มูลค่า FG 4,506.30 เท่าเดิม",
          prio="High", shot=SHOT + "gp-fgs-15-assembly-done.webp"),
     dict(id="TC-GP-FGS-16", scenario="ส่งของ Custom FG ตาม Serial",
          note="ถ้ากด Create Invoice ก่อนส่งของ ระบบแจ้ง \"Cannot create an invoice. No items are available to invoice\" ให้ Validate ใบส่งของให้เป็น Done ก่อน",
@@ -179,7 +182,7 @@ CATEGORIES = [
                 "กด Details ตรวจ Serial ทั้ง 3 ตัว",
                 "กด Validate"],
          sample="-",
-         expected="Details แสดง Serial 3 ตัวจาก EG01/Stock/Stone FG ตัวละ 1.00 Units (ไม่มี FG ของงานอื่นปน) · ใบส่งของ Done Demand 3.00 Quantity 3.00 Units (ตัวอย่างจริง EG01/OUT/00111) · ใบขาย Delivered = 3.00",
+         expected="Details แสดง Serial 3 ตัวจาก EG01/Stock/Stone FG ตัวละ 1.00 Units (ไม่มี FG ของงานอื่นปน) · ใบส่งของ Done Demand 3.00 Quantity 3.00 Units (ตัวอย่างจริง EG01/OUT/00334) · ใบขาย Delivered = 3.00",
          prio="High", shot=SHOT + "gp-fgs-16-delivery-done.webp"),
     dict(id="TC-GP-FGS-17", scenario="ออกใบแจ้งหนี้ Confirm และตรวจรายการบัญชี",
          pre="ทำ TC-GP-FGS-16 เสร็จแล้ว",
@@ -187,16 +190,17 @@ CATEGORIES = [
                 "กด Confirm บนใบแจ้งหนี้",
                 "เปิดแท็บ Journal Items"],
          sample="-",
-         expected="ใบแจ้งหนี้ Posted ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · เครดิต 411100 รายได้ 150,000.00 · เครดิต 213200 ภาษีขาย 10,500.00 · เดบิต 112100 ลูกหนี้ 160,500.00 · เดบิต 511110 ต้นทุนขาย 4,506.30 เครดิต 113150 สินค้าคงเหลือ Stone FG 4,506.30 (ต้นทุนวัสดุของ FG ไม่รวมค่าแรง) (ตัวอย่างจริง INV/2026/00027)",
+         expected="ใบแจ้งหนี้ Posted ยอดก่อน VAT 150,000.00, VAT 7% 10,500.00, รวม 160,500.00 · เครดิต 411100 รายได้ 150,000.00 · เครดิต 213200 ภาษีขาย 10,500.00 · เดบิต 112100 ลูกหนี้ 160,500.00 · เดบิต 511110 ต้นทุนขาย 4,506.30 เครดิต 113150 สินค้าคงเหลือ Stone FG 4,506.30 (ต้นทุนวัสดุของ FG ไม่รวมค่าแรง) (ตัวอย่างจริง INV/2026/00033)",
+         new="รอบ 14 ต.ค. 2569 (v109.24) — ปริมาณบนบรรทัดใบแจ้งหนี้แสดง 3 ตำแหน่ง ยอดเงินไม่เปลี่ยน",
          prio="High", shot=SHOT + "gp-fgs-17-invoice-journal.webp"),
     dict(id="TC-GP-FGS-18", scenario="ตรวจรายการบัญชีค่าแรงของงานประกอบ",
          note="⚠ ข้อสังเกตที่ควรถามลูกค้า: ต้นทุนรวมที่ลงบัญชี 75,000 บาท (วัสดุ 4,506.30 + ค่าแรง 70,493.70) ต่างจากประมาณการ BOQ 11,720.76 (3,906.92 × 3) มาก เพราะระบบมีกติกาต้นทุนไม่ต่ำกว่า 50% ของรายได้ แล้วเติมส่วนต่างเป็นค่าแรง แถวค่าแรงและวัสดุสิ้นเปลือง (ที่ไม่มีสินค้า) ใน BOQ ไม่ถูกนำไปลงบัญชีเลย ใช้เป็นประมาณการในสูตรเท่านั้น · กติกา 50% เป็นการออกแบบเดิมของระบบ (ตั้งค่าได้) ไม่ใช่ความผิดพลาดของการรัน",
          pre="ทำ TC-GP-FGS-15 เสร็จแล้ว",
          steps=["เปิดแอป Accounting &gt; Accounting &gt; Journal Entries",
-                "ค้นหา \"FG Production Labor\" ของงานประกอบ EG01/STFG/00062",
+                "ค้นหา \"FG Production Labor\" ของงานประกอบ EG01/STFG/00157",
                 "เปิดรายการ ดูเดบิตและเครดิต"],
          sample="รายได้บรรทัดงาน = 150,000 · วัสดุ FG = 4,506.30 · ต้นทุนขั้นต่ำ 50%",
-         expected="รายการ MISC/2026/10/0026 \"FG Production Labor — EG01/STFG/00062\" เดบิต 511120 ค่าแรง 70,493.70 เครดิต 212300 (บัญชีค้างจ่ายค่าแรง) 70,493.70 (= 50% × 150,000 − 4,506.30) · ค่าแรงนี้ไม่รวมอยู่ในต้นทุนขาย 4,506.30 ของใบแจ้งหนี้",
-         prio="Medium", shot=None),
+         expected="รายการ MISC/2026/10/0034 \"FG Production Labor — EG01/STFG/00157\" เดบิต 511120 ค่าแรง 70,493.70 เครดิต 212300 (บัญชีค้างจ่ายค่าแรง) 70,493.70 (= 50% × 150,000 − 4,506.30) · ค่าแรงนี้ไม่รวมอยู่ในต้นทุนขาย 4,506.30 ของใบแจ้งหนี้",
+         prio="Medium", shot=SHOT + "gp-fgs-18-labour-entry.webp"),
   ]),
 ]
