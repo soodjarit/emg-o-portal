@@ -6,13 +6,21 @@ def steps_html(steps):
 def note_html(note):
     return ('<div class="note">%s</div>' % note) if note else ''
 
+def new_html(new):
+    return ('<div class="upd"><b>แก้/เพิ่ม</b> %s</div>' % new) if new else ''
+
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
     return '<span class="prio-badge %s">%s</span>' % (cls, p)
 
-def shot_html(shot):
+def shot_html(shot, shot2=None):
     if not shot:
         return '-'
+    if shot2:
+        return _shot_one(shot) + '<div style="height:6px"></div>' + _shot_one(shot2)
+    return _shot_one(shot)
+
+def _shot_one(shot):
     return '<a class="tc-shot-link" href="%s" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="%s" loading="lazy"></a>' % (shot, shot)
 
 sidebar_items = []
@@ -33,13 +41,13 @@ for c in CATEGORIES:
     for tc in c['cases']:
         rows.append(f'''        <tr>
           <td class="col-id"><span class="tc-id">{tc['id']}</span></td>
-          <td class="col-scenario">{tc['scenario']}{note_html(tc.get('note'))}</td>
+          <td class="col-scenario">{tc['scenario']}{new_html(tc.get('new'))}{note_html(tc.get('note'))}</td>
           <td class="col-pre">{tc['pre']}</td>
           <td class="col-steps">{steps_html(tc['steps'])}</td>
           <td class="col-sample">{tc['sample']}</td>
           <td class="col-expected">{tc['expected']}</td>
           <td class="col-prio">{prio_badge(tc['prio'])}</td>
-          <td class="col-shot">{shot_html(tc.get('shot'))}</td>
+          <td class="col-shot">{shot_html(tc.get('shot'), tc.get('shot2'))}</td>
         </tr>''')
     rows_joined = '\n'.join(rows)
     category_blocks.append(f'''  <div class="category" id="{c['cat_id']}">
@@ -135,13 +143,13 @@ PAGE = '''<!doctype html>
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
   table.tc-table tbody tr:hover{background:#F5EFE6;}
   .col-id{width:76px;}
-  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
   .col-pre{width:150px;color:#6B6E70;}
   .col-steps{width:230px;}
   .col-steps ol{margin:0;padding-left:18px;}
@@ -155,6 +163,11 @@ PAGE = '''<!doctype html>
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -182,8 +195,8 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — Slab: ตัดจาก Block ขาย ส่ง เก็บเงิน รับคืน ตรวจ และตัดทิ้ง</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.11</div>
-    <div class="sub">เรื่องราวของ Slab หนึ่งชุดตั้งแต่ Block เข้าคลังจนถึงแผ่นสุดท้าย: ซื้อ Block &rarr; ตัดเป็น Slab 60 แผ่น &rarr; ขาย 10 แผ่น &rarr; ส่งของโดยสแกน Serial &rarr; ใบแจ้งหนี้ &rarr; ลูกค้าคืน 2 แผ่น &rarr; ตรวจรับ 1 แผ่น ตัดทิ้ง 1 แผ่น · รันจริงโดยผู้ใช้บน eg-tst เมื่อ 11 ต.ค. 2569 · ชุดเก่า (5 ต.ค.) ยังเก็บไว้ เพราะหน้าจอเปลี่ยนไปมาก</div>
+    <div class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 · รันใหม่ทั้งชุดบน eg-tst</div>
+    <div class="sub">เรื่องราวของ Slab หนึ่งชุดตั้งแต่ Block เข้าคลังจนถึงแผ่นสุดท้าย: ซื้อ Block &rarr; ตัดเป็น Slab 51 แผ่น &rarr; ขาย 10 แผ่น &rarr; ส่งของโดยสแกน Serial &rarr; ใบแจ้งหนี้ &rarr; ลูกค้าคืน 2 แผ่น &rarr; ตรวจรับ 1 แผ่น ตัดทิ้ง 1 แผ่น · รันใหม่ทั้งชุดบน eg-tst เมื่อ 14 ต.ค. 2569 (ต่อจากรอบ 11 ต.ค. ที่ผู้ใช้เดินเอง) · ชุดเก่า (5 ต.ค.) ยังเก็บไว้ เพราะหน้าจอเปลี่ยนไปมาก</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -193,10 +206,21 @@ PAGE = '''<!doctype html>
     </div>
   </header>
 
+  <div class="changes">
+    <h3>จุดที่แก้/เพิ่มในรอบนี้ (ป้ายเขียว "แก้/เพิ่ม" ในแต่ละเคส)</h3>
+    <ul>
+      <li><b>% สูญเสียจากการเลื่อย</b> (ค่าเริ่มต้น 15%) ลดจำนวนแผ่น: ตัดได้ 51 แผ่น / 114.75 ตร.ม. แทน 60 / 135.00 — TC-GP-SCS-03, 05, 15</li>
+      <li><b>ต้นทุนแผ่นมาจากต้นทุน Block ก้อนนั้นเอง</b> (ตันตามใบส่งของ × ราคาต่อตัน หารตามแผ่น/CBM) ได้ 1,431.37 บาท/แผ่น ต้นทุนขาย 14,313.73 — TC-GP-SCS-02, 05, 10, 13</li>
+      <li><b>ใบรับของมีช่อง "ตันตามใบส่งของ"</b> และการ์ด Block มี QC Note / % สูญเสีย — TC-GP-SCS-02</li>
+      <li><b>ใบขายมีคอลัมน์ความหนา (ซม.) และเตือนกำไร</b> ราคาตามความหนา — TC-GP-SCS-06</li>
+      <li><b>ปริมาณบนใบแจ้งหนี้แสดง 3 ตำแหน่ง</b> — TC-GP-SCS-09 · <b>ใบรับคืนถาม Backorder</b> ให้เลือก No Backorder — TC-GP-SCS-11</li>
+    </ul>
+  </div>
+
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 11 ต.ค. 2569, ผู้ใช้ emgdemo):</b> PO P00094 (7.29 ตัน = 2.70 ลบ.ม. @ 27,000/ลบ.ม., 72,900 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00096 &rarr; Block BLK-26-0037 (2.50 × 1.20 × 0.90) &rarr; ใบสั่งตัด EG01/STCUT/00050 Polished 2 ซม. ได้ Slab 60 แผ่น (BLK-26-0037-1 ถึง -60) แผ่นละ 2.25 ตร.ม. รวม 135 ตร.ม. ต้นทุน 540/ตร.ม. &rarr; SO S00213 ขาย 10 แผ่น 22.50 ตร.ม. @ 4,000 (90,000 + VAT 6,300 = 96,300) &rarr; ส่งของ EG01/OUT/00107 &rarr; ใบแจ้งหนี้ INV/2026/00022 (ต้นทุนขาย 12,150) &rarr; รับคืน EG01/IN/00097 (2 แผ่น) &rarr; BLK-26-0037-9 ตรวจแล้วกลับไปขาย · BLK-26-0037-10 ตัดทิ้ง (SP/00008)<br><br>
-    <b>ยอดคงเหลือของ Block นี้หลังจบ:</b> Available 51 แผ่น (114.75 ตร.ม.) · Sold 8 แผ่น (18.00 ตร.ม.) · ตัดทิ้ง 1 แผ่น (2.25 ตร.ม.)<br><br>
-    <b>ข้อสังเกตจากการรันจริง:</b> (1) การ์ด Block ประมาณจำนวนแผ่น 28 แผ่น แต่ตัดจริง 60 แผ่น — ดู TC-GP-SCS-02 (2) แถบแดงบนใบสั่งขายขึ้นได้ปกติเมื่อขนาดแผ่นจริงต่างจากขนาดมาตรฐานที่เสนอ ยอดไม่เปลี่ยน — ดู TC-GP-SCS-07 (3) แรงตัดที่การ์ดแสดงไม่รวมในต้นทุนขาย — ดู TC-GP-SCS-13 (4) การตัดทิ้งยังไม่ได้ตรวจรายการบัญชี — ดู TC-GP-SCS-14<br><br>
+    <b>เส้นทางที่รันจริง (eg-tst, 14 ต.ค. 2569, v109.24):</b> PO P00308 (7.29 ตัน = 2.70 ลบ.ม. @ 27,000/ลบ.ม., 72,900 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00376 &rarr; Block BLK-26-0431 (2.50 × 1.20 × 0.90, ตันตามใบส่งของ 7.30) &rarr; ใบสั่งตัด EG01/STCUT/00229 Polished 2 ซม. ได้ Slab 51 แผ่น (BLK-26-0431-1 ถึง -51) แผ่นละ 2.25 ตร.ม. รวม 114.75 ตร.ม. ต้นทุน 1,431.37/แผ่น &rarr; SO S00625 ขาย 10 แผ่น 22.50 ตร.ม. @ 4,000 (90,000 + VAT 6,300 = 96,300) &rarr; ส่งของ EG01/OUT/00332 &rarr; ใบแจ้งหนี้ INV/2026/00031 (ต้นทุนขาย 14,313.73) &rarr; รับคืน EG01/IN/00377 (2 แผ่น) &rarr; BLK-26-0431-9 ตรวจแล้วกลับไปขาย · BLK-26-0431-10 ตัดทิ้ง (SP/00018) · ใบรับคืนใบที่สอง EG01/IN/00378 (-7, -8) ค้างรอตรวจไว้<br><br>
+    <b>ยอดคงเหลือของ Block นี้หลังจบ:</b> Available 42 แผ่น (94.50 ตร.ม.) · Sold 6 แผ่น (13.50 ตร.ม.) · รอตรวจ 2 แผ่น (4.50 ตร.ม.) · ตัดทิ้ง 1 แผ่น (2.25 ตร.ม.)<br><br>
+    <b>ข้อสังเกต:</b> (1) การ์ด Block ประมาณจำนวนแผ่น 28 แผ่น แต่ตัดจริง 51 แผ่น — ดู TC-GP-SCS-02 (2) แถบแดงบนใบสั่งขายขึ้นได้ปกติเมื่อขนาดแผ่นจริงต่างจากขนาดมาตรฐานที่เสนอ ยอดไม่เปลี่ยน — ดู TC-GP-SCS-07 (3) แรงตัดที่การ์ดแสดงไม่รวมในต้นทุนขาย — ดู TC-GP-SCS-13 (4) การตัดทิ้งยังไม่ได้ตรวจรายการบัญชี — ดู TC-GP-SCS-14<br><br>
     <b>ยังไม่ครอบคลุมใน Golden Path นี้:</b> ซื้อ Slab สำเร็จรูปจากผู้ขาย (ดูชุดเก่า S2 หรือบท 31 หัวข้อ 4.4) · แก้ขนาด Slab · การจัดการกรณีผิดพลาด (ตามหลัก Golden Path ไม่รวมเคสดักข้อผิดพลาด)
   </div>
 
