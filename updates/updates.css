@@ -34,3 +34,16 @@ td.num,th.num{text-align:right;white-space:nowrap;}
   .page{padding:24px 16px 80px;}
   table{font-size:13px;display:block;overflow-x:auto;}
 }
+
+.st{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;}
+.st-wait{background:#FFF1DA;color:#8A5300;}
+.st-new{background:#E3EEF8;color:#1F4E79;}
+.st-done{background:#E4F3E6;color:#2A6B34;}
+table.track td:nth-child(3){white-space:nowrap;}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 8px;}
+.card-sum{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;border-top:4px solid var(--copper);}
+.card-sum .n{font-family:Cambria,serif;font-size:32px;font-weight:700;color:var(--charcoal);line-height:1.1;}
+.card-sum .t{font-size:13px;color:var(--muted);margin-top:4px;}
+.card-sum.c-new{border-top-color:#2C5A80;} .card-sum.c-wait{border-top-color:#C9822B;} .card-sum.c-done{border-top-color:#3C8D4A;}
+@media (max-width:700px){.cards{grid-template-columns:repeat(2,1fr);}}
