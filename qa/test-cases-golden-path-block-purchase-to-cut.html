@@ -63,13 +63,13 @@
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
   table.tc-table tbody tr:hover{background:#F5EFE6;}
   .col-id{width:76px;}
-  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
   .col-pre{width:150px;color:#6B6E70;}
   .col-steps{width:230px;}
   .col-steps ol{margin:0;padding-left:18px;}
@@ -83,6 +83,11 @@
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -110,21 +115,32 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — Block: ซื้อ รับ เก็บเงิน แก้ขนาด ตัด คืน และขายทั้งก้อน</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.11</div>
-    <div class="sub">เรื่องราวของ Block อีกด้านหนึ่ง: สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน → ดู Block → บิลผู้ขายตามที่รับจริง → แก้ขนาดที่วัดผิด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · รันจริงโดยผู้ใช้บน eg-tst เมื่อ 11 ต.ค. 2569</div>
+    <div class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 · รันใหม่ทั้งชุดบน eg-tst</div>
+    <div class="sub">เรื่องราวของ Block อีกด้านหนึ่ง: สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน → ดู Block → บิลผู้ขายตามที่รับจริง → แก้ขนาดที่วัดผิด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · รันใหม่ทั้งชุดบน eg-tst เมื่อ 14 ต.ค. 2569 (ต่อจากรอบ 11 ต.ค. ที่ผู้ใช้เดินเอง)</div>
     <div class="stat-row">
-      <div class="stat-pill"><b>11</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>14</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>7</b>หมวด</div>
-      <div class="stat-pill"><b style="color:var(--red)">10</b>High Priority</div>
-      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--red)">11</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">3</b>Medium Priority</div>
       <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
     </div>
   </header>
 
+  <div class="changes">
+    <h3>จุดที่แก้/เพิ่มในรอบนี้ (ป้ายเขียว "แก้/เพิ่ม" ในแต่ละเคส)</h3>
+    <ul>
+      <li><b>บิลผู้ขายเป็นหน่วยตัน</b> ตามตันตามใบส่งของ (v109.21, .23) — TC-GP-BPC-02, 04, 14</li>
+      <li><b>ใบรับของมีช่อง "ตันตามใบส่งของ" + QC Note + เตือนตันคลาดเกิน 5%</b> (v109.13–.19) — TC-GP-BPC-02, 12, 13</li>
+      <li><b>% สูญเสียจากการเลื่อย</b> (ค่าเริ่มต้น 15%) ลดจำนวนแผ่นที่ตัดได้ — TC-GP-BPC-03, 05, 06, 07</li>
+      <li><b>Block ตีมูลค่าราย Lot</b> ตัด/ขาย/คืนใช้ต้นทุนของก้อนนั้นเอง ไม่ใช่ชั้น FIFO เก่าสุด (v109.20, .22) — TC-GP-BPC-07, 08, 11</li>
+      <li><b>แก้บั๊ก 2 จุดที่เจอตอนรันใหม่ (v109.24):</b> กด No Backorder แล้วฟ้อง "กรุณากรอก ยาว × กว้าง × สูง" และบรรทัดบิลแสดง Qty (Ton)/Price per Ton เพี้ยน — TC-GP-BPC-02, 04</li>
+    </ul>
+  </div>
+
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 11 ต.ค. 2569, ผู้ใช้ emgdemo):</b> PO P00086 (37.80 ตัน = 14.00 ลบ.ม. @ 27,000/ลบ.ม., 378,000 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00086 กรอก 2 ก้อน (BLK-26-0029 6.96 ลบ.ม., BLK-26-0030 6.18 ลบ.ม.) รับรวม 13.14 ลบ.ม. = 35.48 ตัน (No Backorder) &rarr; บิลผู้ขาย BILL/2026/10/0003 (13.14 × 27,000 = 354,780 + VAT 24,834.60 = 379,614.60) &rarr; แก้ขนาด BLK-26-0029 สูง 1.50&rarr;1.45 (6.96&rarr;6.73 ลบ.ม.) &rarr; ใบตัด EG01/STCUT/00047 ตัด BLK-26-0030 เป็นแผ่น Polished 2 ซม. ได้ 77 แผ่น เหลือ 0.04 ลบ.ม. &rarr; คืน Block: PO P00090 &rarr; EG01/IN/00090 (BLK-26-0034) &rarr; ใบคืน EG01/OUT/00102 &rarr; ขายทั้งก้อน: SO S00209 (BLK-26-0029 6.73 ลบ.ม. = 18.17 ตัน @ 70,200, 472,446 + VAT 33,071.22) &rarr; ส่งของ EG01/OUT/00103 &rarr; ใบแจ้งหนี้ INV/2026/00020 (ต้นทุนขาย 181,710)<br><br>
-    <b>ของที่เหลือไว้:</b> BLK-26-0029 (6.73 ลบ.ม.) ยังไม่ได้ตัด · Slab 77 แผ่นจาก BLK-26-0030 พร้อมขายใน Stone Available<br><br>
-    <b>ข้อสังเกตจากการรันจริง:</b> (1) ตันที่หาร 2.7 ไม่ลงตัวเคยแสดงเพี้ยน (10 ตัน เป็น 9.99) แก้แล้ว — ดู TC-GP-BPC-01 (2) จำนวนแผ่นที่ตัดได้เป็นค่าสูงสุดตามทฤษฎี ไม่หักเนื้อหินที่หายไปกับใบเลื่อย — ดู TC-GP-BPC-06 (3) ใบคืน Block เคยไม่จองก้อนเดิมให้ แก้แล้ว — ดู TC-GP-BPC-08 (4) หลังกด ย้ายไปสถานีตัด แถบเหลืองไม่หายจนกว่ารีเฟรช (ข้อมูลถูกต้อง) — ดู TC-GP-BPC-07
+    <b>เส้นทางที่รันจริง (eg-tst, 14 ต.ค. 2569, v109.24):</b> PO P00295 (37.80 ตัน = 14.00 ลบ.ม. @ 27,000/ลบ.ม., 378,000 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00360 กรอก 2 ก้อนพร้อมตันตามใบส่งของ (BLK-26-0385 6.96 ลบ.ม. 18.80 ตัน, BLK-26-0386 6.18 ลบ.ม. 16.70 ตัน) รวม 35.50 ตัน (No Backorder) &rarr; บิลผู้ขาย BILL/2026/10/0006 (35.500 ตัน × 10,000 = 355,000 + VAT 24,850 = 379,850) &rarr; แก้ขนาด BLK-26-0385 สูง 1.50&rarr;1.45 (6.96&rarr;6.73 ลบ.ม.) &rarr; ใบตัด EG01/STCUT/00214 ตัด BLK-26-0386 เป็นแผ่น Polished 2 ซม. ได้ 65 แผ่น (สูญเสียเลื่อย 15%) เหลือ 0.08 ลบ.ม. &rarr; คืน Block: PO P00296 &rarr; EG01/IN/00361 (BLK-26-0387) &rarr; ใบคืน EG01/OUT/00320 (มูลค่า 55,000) &rarr; ใบลดหนี้ RBILL/2026/10/0001 (5.500 ตัน, 58,850) &rarr; ขายทั้งก้อน: SO S00616 (BLK-26-0385 6.73 ลบ.ม. @ 70,200, 472,446 + VAT 33,071.22) &rarr; ส่งของ EG01/OUT/00321 &rarr; ใบแจ้งหนี้ INV/2026/00030 (ต้นทุนขาย 181,787.36)<br><br>
+    <b>ของที่เหลือไว้:</b> Slab 65 แผ่นจาก BLK-26-0386 พร้อมขายใน Stone Available (มี QC Note) · BLK-26-0388 (PO P00297) จากเคสตันคลาด<br><br>
+    <b>ข้อสังเกต:</b> (1) ช่อง Qty (Ton) บนใบคืนและใบสั่งขายแสดงตันที่คำนวณจาก CBM (5.40 / 18.17) ซึ่งต่างจากตันตามใบส่งของ (5.50 / 18.80) ที่ใช้คิดมูลค่าและบิล — เป็นการแสดงผลเท่านั้น (2) ต้นทุนแผ่นรวมส่วนที่เสียไปกับใบเลื่อยแล้ว จึงสูงกว่าต้นทุนต่อ ตร.ม. ของรอบ 11 ต.ค.
   </div>
 
   <div class="category" id="A">
@@ -151,11 +167,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-01</span></td>
-          <td class="col-scenario">สร้างใบสั่งซื้อ (PO) Block เป็นตัน แล้ว Confirm<div class="note">ช่อง "จำนวน" บน PO คือปริมาณโดยประมาณที่สั่ง ไม่ใช่จำนวนก้อน ขนาดจริงของแต่ละก้อนจะกรอกตอนรับของ · ✅ ตัวเลขตันที่หาร 2.7 ไม่ลงตัว (เช่น 10 ตัน) เคยแสดงเพี้ยนเป็น 9.99 ตัน แก้แล้ว (11 ต.ค. 2569) แต่ยอดเงินอาจต่างประมาณ 0.10 บาท จึงใช้ตันที่หาร 2.7 ลงตัวในตัวอย่าง</div></td>
+          <td class="col-scenario">สร้างใบสั่งซื้อ (PO) Block เป็นตัน แล้ว Confirm<div class="note">ช่อง "จำนวน" บน PO คือปริมาณโดยประมาณที่สั่ง ไม่ใช่จำนวนก้อน ขนาดจริงของแต่ละก้อนจะกรอกตอนรับของ</div></td>
           <td class="col-pre">เข้าระบบเป็น Empire Granite ได้แล้ว · มีผู้ขายและหินชนิดดำชานตง (SHANDONG BLACK) พร้อมสินค้า Block ในระบบ</td>
           <td class="col-steps"><ol><li>เปิดแอป Purchase &gt; Orders &gt; Requests for Quotation &gt; New</li><li>เลือก Vendor แล้วกด "Add a product" เลือก "SHANDONG BLACK - Block"</li><li>กรอก Qty (Ton) และ Unit Price — ช่อง Quantity (ลบ.ม.) และ Price / Ton คำนวณให้เอง</li><li>กด Confirm Order</li></ol></td>
           <td class="col-sample">Vendor = A-Test-Vender<br>Qty (Ton) = 37.80<br>Unit Price = 27,000 บาท ต่อ ลบ.ม.</td>
-          <td class="col-expected">PO ขึ้นสถานะ Purchase Order — Quantity 14.00 ลบ.ม., Price / Ton 10,000.00, ยอดก่อน VAT 378,000.00 บาท และมีปุ่มสมาร์ท Receipt 1 ใบ (ตัวอย่างจริง P00086)</td>
+          <td class="col-expected">PO ขึ้นสถานะ Purchase Order — Quantity 14.00 ลบ.ม., Price / Ton 10,000.00, ยอดก่อน VAT 378,000.00 บาท และมีปุ่มสมาร์ท Receipt 1 ใบ (ตัวอย่างจริง P00295)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-01-po.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-01-po.webp" loading="lazy"></a></td>
         </tr>
@@ -167,7 +183,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">B. รับ Block เข้าคลัง (Receipt)</div>
-        <div class="category-sub">1 แถว = 1 ก้อนจริง กรอกขนาดแล้ว Validate ระบบสร้างเอกสาร Block ให้เอง · 2 test cases</div>
+        <div class="category-sub">1 แถว = 1 ก้อนจริง กรอกขนาดและตันตามใบส่งของ แล้ว Validate ระบบสร้างเอกสาร Block ให้เอง · 4 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -187,23 +203,43 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-02</span></td>
-          <td class="col-scenario">รับ Block 2 ก้อน กรอกขนาดรายก้อน แล้ว Validate<div class="note">รับน้อยกว่าที่สั่ง (13.14 จาก 14.00) ระบบถามเรื่อง Backorder ให้เลือก No Backorder เพราะผู้ขายส่งครบแล้ว · หลัง Validate มีข้อความมุมจอทีละก้อน (ปิดด้วยปุ่ม x ได้)</div></td>
+          <td class="col-scenario">รับ Block 2 ก้อน กรอกขนาดและตันตามใบส่งของรายก้อน แล้ว Validate<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — เพิ่มช่อง "ตันตามใบส่งของ" และช่อง QC Note ในหน้า Details · ตันที่กรอกกลายเป็นตันของ Block ก้อนนั้น (ใช้คิดมูลค่าสต็อกและบิลผู้ขาย) · แก้บั๊ก: เคยกด No Backorder แล้วระบบฟ้อง "กรุณากรอก ยาว × กว้าง × สูง" ตอนนี้ผ่านปกติ</div><div class="note">รับน้อยกว่าที่สั่ง (13.14 จาก 14.00) ระบบถามเรื่อง Backorder ให้เลือก No Backorder เพราะผู้ขายส่งครบแล้ว · ใบรับของถูกแยกเป็น 2 แถว (1 แถวต่อก้อน) แถวแรก Demand 7.82 Quantity 6.96 แถวที่สอง 6.18 / 6.18 รวมเท่า Demand เดิม 14.00 · หลัง Validate มีข้อความมุมจอทีละก้อน (ปิดด้วยปุ่ม x ได้) · ช่องตันตามใบส่งของเว้นว่างได้ ระบบจะใช้ ลบ.ม. × 2.7 แทน</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-01 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>ที่ PO กดปุ่ม Receipt เพื่อเปิดใบรับของ</li><li>กดคำว่า Details ที่แถว Block</li><li>แถวแรกกรอก ยาว / กว้าง / สูง แล้วกด Add a line เพิ่มแถวที่สอง กรอกขนาดก้อนที่สอง</li><li>กด Save แล้วกด Validate</li><li>เมื่อถาม Backorder เลือก No Backorder</li></ol></td>
-          <td class="col-sample">ก้อนที่ 1 = 2.90 × 1.60 × 1.50 ม.<br>ก้อนที่ 2 = 2.75 × 1.55 × 1.45 ม.</td>
-          <td class="col-expected">ใบรับของเป็น Done — ปลายทาง Stone Inventory/Stone Available, Quantity 13.14 ลบ.ม. (6.96 + 6.18), Qty (Ton) 35.48 ระบบสร้าง Block 2 เอกสาร: BLK-26-0029 (6.96 ลบ.ม.) และ BLK-26-0030 (6.18 ลบ.ม.)</td>
+          <td class="col-steps"><ol><li>ที่ PO กดปุ่ม Receipt เพื่อเปิดใบรับของ</li><li>กดคำว่า Details ที่แถว Block</li><li>แถวแรกกรอก ยาว / กว้าง / สูง และ ตันตามใบส่งของ แล้วกด Add a line เพิ่มแถวที่สอง กรอกก้อนที่สอง</li><li>กด Save แล้วกด Validate</li><li>เมื่อถาม Backorder เลือก No Backorder</li></ol></td>
+          <td class="col-sample">ก้อนที่ 1 = 2.90 × 1.60 × 1.50 ม. · 18.800 ตัน<br>ก้อนที่ 2 = 2.75 × 1.55 × 1.45 ม. · 16.700 ตัน</td>
+          <td class="col-expected">ใบรับของเป็น Done — ปลายทาง Stone Inventory/Stone Available, Quantity 13.14 ลบ.ม. (6.96 + 6.18) ระบบสร้าง Block 2 เอกสาร: BLK-26-0385 (6.96 ลบ.ม. · 18.80 ตัน) และ BLK-26-0386 (6.18 ลบ.ม. · 16.70 ตัน) รวม 35.50 ตัน (ตัวอย่างจริง EG01/IN/00360) · ไม่มี error ตอนกด No Backorder</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-02-receipt-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-02-receipt-done.webp" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-02-receipt-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-02-receipt-done.webp" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-02b-details-ton.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-02b-details-ton.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BPC-12</span></td>
+          <td class="col-scenario">ตันตามใบส่งของไม่ตรงกับ CBM ที่วัด (เกิน 5%) — ระบบเตือนและบันทึก QC Note<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ฟีเจอร์ใหม่จากการประชุม 12 ต.ค. (QC Note บนใบรับของ + เตือนตันคลาด ±5%)</div><div class="note">ระบบไม่ขวางการรับของ แค่ขึ้นแถบเหลืองบนใบรับของและเขียนข้อความลง QC Note ของ Block ให้ ฝ่ายคลังตามไปตรวจขนาดก้อนหรือใบส่งของได้ทีหลัง · แสดงทั้งที่ใบรับของ, PO และหน้า Block (ตัวกรอง "มี QC Note")</div></td>
+          <td class="col-pre">ทำ TC-GP-BPC-01 เสร็จแล้ว (ใช้ PO แยกอีกใบ ไม่ใช่ใบเดียวกับ BPC-02)</td>
+          <td class="col-steps"><ol><li>ที่ PO ใบใหม่กด Receipt แล้วกด Details</li><li>กรอกขนาดก้อนและ ตันตามใบส่งของ ที่ต่างจาก CBM × 2.7 เกิน 5%</li><li>กด Save แล้วกด Validate</li><li>ดูแถบเหลืองด้านบนใบรับของ แล้วเปิด Block ที่เพิ่งสร้าง</li></ol></td>
+          <td class="col-sample">PO = 1.00 ลบ.ม.<br>Block = 1.00 × 1.00 × 1.00 ม. (CBM × 2.7 = 2.70 ตัน)<br>ตันตามใบส่งของ = 3.000 ตัน (+11%)</td>
+          <td class="col-expected">ใบรับของ Done แถบเหลือง 2 แถบ: "ตันตามใบส่งของไม่ตรงกับ CBM ที่วัด (เกิน 5%) — ตรวจขนาดก้อนหรือใบส่งของ" และ "มี QC Note" · Block ที่สร้าง (ตัวอย่างจริง BLK-26-0388) มี QC Note บันทึกข้อความเตือนไว้ (ตัวอย่างจริง P00297 → EG01/IN/00362)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-02f-ton-warning.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-02f-ton-warning.webp" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-03</span></td>
-          <td class="col-scenario">ดู Block ที่เพิ่งรับเข้าคลัง</td>
+          <td class="col-scenario">ดู Block ที่เพิ่งรับเข้าคลัง<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — การ์ดสรุปใช้ตันตามใบส่งของ (18.80 ไม่ใช่ 18.79) · มีส่วน "% สูญเสียจากการเลื่อย" และช่อง QC Note ด้านบน · จำนวนแผ่นโดยประมาณหักสูญเสียเลื่อยแล้ว</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Blocks</li><li>ค้นหา BLK-26-0029 เปิดดูรายละเอียด</li><li>ดูการ์ดสรุปด้านบนและลองคลิกแท็บต่างๆ</li></ol></td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Blocks</li><li>ค้นหา BLK-26-0385 เปิดดูรายละเอียด</li><li>ดูการ์ดสรุปด้านบนและลองคลิกแท็บต่างๆ</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">การ์ดสรุปแสดง ขนาดก้อน 2.90 × 1.60 × 1.50 = 6.96 CBM · 18.79 ตัน, คงเหลือ 6.96 CBM, ราคาขายเป็นบาท/ตัน, ผลการตัด "ยังไม่ได้ตัด" พร้อมจำนวนแผ่นโดยประมาณ, ต้นทุน 10,000 บาท/ตัน และเลข PO (P00086) ช่องขนาดเป็นสีเทา แก้ตรงๆ ไม่ได้</td>
+          <td class="col-expected">การ์ดสรุปแสดง ขนาดก้อน 2.90 × 1.60 × 1.50 = 6.96 CBM · 18.80 ตัน, คงเหลือ 6.96 CBM, ราคาขาย 26,000 บาท/ตัน (70,200 บาท/CBM), ผลการตัด "ยังไม่ได้ตัด" ประมาณ 72 แผ่น / 348.00 ตร.ม., ต้นทุน 10,000 บาท/ตัน (27,000 บาท/CBM) และเลข PO (P00295) · ด้านบนมี % สูญเสียที่ใช้ 15.00 (ค่าเริ่มต้นของบริษัท) · ช่องขนาดเป็นสีเทา แก้ตรงๆ ไม่ได้</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-03-block-form.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-03-block-form.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BPC-13</span></td>
+          <td class="col-scenario">เพิ่มหรือแก้ QC Note ของ Block หลังรับของแล้ว<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ฟีเจอร์ใหม่จากการประชุม 12 ต.ค.</div><div class="note">QC Note แก้ได้ตลอดแม้ใบรับของ Done แล้ว · ระบบเก็บชื่อผู้แก้และเวลาให้ และขึ้นแถบเหลือง "มี QC Note" บนหน้า Block</div></td>
+          <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Blocks &gt; BLK-26-0386</li><li>ช่อง QC Note ด้านบนพิมพ์หมายเหตุ</li><li>กด Save</li></ol></td>
+          <td class="col-sample">QC Note = มีรอยร้าวเส้นผมด้านข้าง 1 จุด สีเข้มกว่าก้อนอื่นเล็กน้อย</td>
+          <td class="col-expected">หน้า Block ขึ้นแถบเหลือง "มี QC Note — แก้ล่าสุดโดย Administrator เมื่อ …" และข้อความที่พิมพ์แสดงในช่อง QC Note</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-03b-block-qc.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-03b-block-qc.webp" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -213,7 +249,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">C. เก็บเงิน (Vendor Bill)</div>
-        <div class="category-sub">บิลผู้ขายคิดตามที่รับจริง ไม่ใช่ตามที่สั่ง · 1 test case</div>
+        <div class="category-sub">บิลผู้ขายเป็นหน่วยตัน ตามตันที่รับจริง ไม่ใช่ตามที่สั่ง · 1 test case</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -233,11 +269,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-04</span></td>
-          <td class="col-scenario">สร้างบิลผู้ขายจากใบสั่งซื้อ แล้ว Confirm<div class="note">บิลดึงปริมาณตามที่รับจริง (13.14) ไม่ใช่ที่สั่ง (14.00) · บรรทัดบิลแสดง Qty (Ton) หน้า Quantity และ Price / Ton หลัง Price (เพิ่ม 11 ต.ค. 2569)</div></td>
+          <td class="col-scenario">สร้างบิลผู้ขายจากใบสั่งซื้อ แล้ว Confirm<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — บิลผู้ขายของ Block เป็น "ตัน" (หน่วย ตัน (2.7 ตัน/ลบ.ม.)) = ตันตามใบส่งของ × ราคาต่อตัน แทนที่จะเป็น ลบ.ม. × ราคาต่อ ลบ.ม. เดิม · ปริมาณแสดง 3 ตำแหน่ง · แก้บั๊ก: บรรทัดบิลเคยแสดง Qty (Ton) และ Price / Ton เพี้ยน (เช่น 27.81 และ 3,703.70) เพราะแปลงหน่วยซ้ำ</div><div class="note">บิลดึงตันที่รับจริง (35.500) ไม่ใช่ที่สั่ง (37.800) · ต้องกรอก Bill Date ก่อน Confirm (ช่องแดงถ้ายังว่าง) · ยอดเงินต่างจากคิดตาม ลบ.ม. เดิมเล็กน้อย (355,000 แทน 354,780) เพราะตันตามใบส่งของ 35.50 ต่างจากตันที่คำนวณจาก CBM 35.478</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Vendors &gt; Bills &gt; New</li><li>เลือก Vendor ที่ช่อง Auto-Complete เลือกใบสั่งซื้อ</li><li>ตรวจรายการที่ระบบดึงมา แล้วกด Confirm</li></ol></td>
-          <td class="col-sample">Vendor = A-Test-Vender<br>Auto-Complete = P00086</td>
-          <td class="col-expected">บรรทัด Block: Qty (Ton) 35.48 · Quantity 13.14 ลบ.ม. · Price 27,000.00 · Price / Ton 10,000.00 · Amount 354,780.00 บาท ท้ายบิล VAT 7% 24,834.60, Total 379,614.60 บาท สถานะ Posted และมีปุ่ม Purchases P00086 ที่หัวบิล (ตัวอย่างจริง BILL/2026/10/0003)</td>
+          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Vendors &gt; Bills &gt; New</li><li>เลือก Vendor ที่ช่อง Auto-Complete เลือกใบสั่งซื้อ</li><li>กรอก Bill Date ตรวจรายการที่ระบบดึงมา แล้วกด Confirm</li></ol></td>
+          <td class="col-sample">Vendor = A-Test-Vender<br>Auto-Complete = P00295</td>
+          <td class="col-expected">บรรทัด Block: Qty (Ton) 35.50 · Quantity 35.500 หน่วย ตัน (2.7 ตัน/ลบ.ม.) · Price 10,000.00 · Price / Ton 10,000.00 · Amount 355,000.00 บาท ท้ายบิล VAT 7% 24,850.00, Total 379,850.00 บาท สถานะ Posted และมีปุ่ม Purchases P00295 ที่หัวบิล (ตัวอย่างจริง BILL/2026/10/0006)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-04-bill.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-04-bill.webp" loading="lazy"></a></td>
         </tr>
@@ -269,11 +305,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-05</span></td>
-          <td class="col-scenario">แก้ความสูงของ Block ที่วัดผิด พร้อมเหตุผล<div class="note">บิลผู้ขายที่ Posted ไปแล้วไม่เปลี่ยน (ยังเป็น 13.14) เพราะคิดจากที่รับตอนรับของ</div></td>
+          <td class="col-scenario">แก้ความสูงของ Block ที่วัดผิด พร้อมเหตุผล<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ตันตามใบส่งของของ Block ไม่เปลี่ยนตามขนาดใหม่ (ยังเป็น 18.80) · ผลการตัดโดยประมาณปรับตามขนาดใหม่และหักสูญเสียเลื่อย</div><div class="note">บิลผู้ขายที่ Posted ไปแล้วไม่เปลี่ยน (ยังเป็น 35.500 ตัน) เพราะคิดจากที่รับตอนรับของ</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว · ผู้ใช้เป็น Inventory Administrator (ถ้าไม่เห็นปุ่ม แก้ขนาด แปลว่ายังไม่มีสิทธิ์)</td>
-          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Blocks &gt; BLK-26-0029</li><li>กดปุ่ม แก้ขนาด (มุมซ้ายบน)</li><li>ช่อง สูงใหม่ (ม.) กรอกค่าใหม่ ช่องเหตุผลที่แก้ไข กรอกเหตุผล</li><li>กดปุ่ม แก้ขนาด ในหน้าต่าง</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด Stone Slab &gt; Blocks &gt; BLK-26-0385</li><li>กดปุ่ม แก้ขนาด (มุมซ้ายบน)</li><li>ช่อง สูงใหม่ (ม.) กรอกค่าใหม่ ช่องเหตุผลที่แก้ไข กรอกเหตุผล</li><li>กดปุ่ม แก้ขนาด ในหน้าต่าง</li></ol></td>
           <td class="col-sample">สูงใหม่ = 1.45 ม. (เดิม 1.50)<br>เหตุผล = วัดซ้ำที่ลาน สูงจริง 1.45 ม.</td>
-          <td class="col-expected">การ์ดสรุปเปลี่ยนเป็น 2.90 × 1.60 × 1.45 = 6.73 CBM · 18.17 ตัน คงเหลือ 6.73 CBM และมีแท็บ ประวัติแก้ขนาด (แท็บสุดท้าย) 1 แถว: สูง 1.500 → 1.450, ปริมาตร 6.96 → 6.73, ปรับสต็อก -0.23, เหตุผล และชื่อผู้แก้</td>
+          <td class="col-expected">การ์ดสรุปเปลี่ยนเป็น 2.90 × 1.60 × 1.45 = 6.73 CBM · 18.80 ตัน คงเหลือ 6.73 CBM (ประมาณ 70 แผ่น / 336.40 ตร.ม.) และมีแท็บ ประวัติแก้ขนาด (แท็บสุดท้าย) 1 แถว: สูง 1.500 → 1.450, ปริมาตร 6.9600 → 6.7280, ปรับสต็อก -0.23, เหตุผล และชื่อผู้แก้</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-05-resized-block.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-05-resized-block.webp" loading="lazy"></a></td>
         </tr>
@@ -305,21 +341,21 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-06</span></td>
-          <td class="col-scenario">สร้างใบตัดจาก Block (ผิวขัดมัน หนา 2 ซม.)<div class="note">จำนวนแผ่นที่ระบบคำนวณเป็นค่าสูงสุดตามทฤษฎี (ความกว้างก้อน ÷ ความหนา) ไม่หักเนื้อหินที่หายไปกับใบเลื่อย ของจริงอาจได้น้อยกว่า (รอตกลงกับลูกค้า) · ใบตัดไม่มี SO ต้องเลือกเหตุผลก่อน Confirm</div></td>
-          <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว (ใช้ BLK-26-0030 ซึ่งยังไม่เคยตัด)</td>
+          <td class="col-scenario">สร้างใบตัดจาก Block (ผิวขัดมัน หนา 2 ซม.)<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — จำนวนแผ่นและ CBM ที่ใช้หัก "% สูญเสียจากการเลื่อย" แล้ว (ค่าเริ่มต้นบริษัท 15% ปรับเป็นรายก้อนได้) จึงได้ 65 แผ่น ไม่ใช่ 77 แผ่นเหมือนรอบก่อน</div><div class="note">ข้อความสีเขียวบอกว่า "แผนใช้ 6.10 CBM (รวมสูญเสียเลื่อย 15%) พอ" · ใบตัดไม่มี SO ต้องเลือกเหตุผลก่อน Confirm</div></td>
+          <td class="col-pre">ทำ TC-GP-BPC-02 เสร็จแล้ว (ใช้ BLK-26-0386 ซึ่งยังไม่เคยตัด)</td>
           <td class="col-steps"><ol><li>เปิดแอป Manufacturing &gt; Operations &gt; Manufacturing Orders &gt; New</li><li>ขั้นตอนที่ 1: เลือก Block ที่จะตัด</li><li>ขั้นตอนที่ 2: ตรวจขนาดแผ่น L × H เลือกผิวหน้า (Finish) และความหนา</li><li>ขั้นตอนที่ 3: เลือกเหตุผล (กรณีไม่มีใบขาย)</li><li>กด Save</li></ol></td>
-          <td class="col-sample">Block = BLK-26-0030<br>ขนาดแผ่น = 2.75 × 1.45 ม.<br>Finish = Polished · ความหนา = 2 cm<br>เหตุผล = งานเพิ่ม (Extra work)</td>
-          <td class="col-expected">ขึ้นการ์ดสรุป "ตัด Slab จาก Block": Block เหลือ 6.18 CBM, ขนาดเป้าหมาย 2.75 × 1.45, Polished หนา 0.02, ประมาณ 77 แผ่น / 307.04 ตร.ม., ผูกกับ งานเพิ่ม และข้อความสีเขียว "แผนใช้ 6.14 CBM พอ" (ตัวอย่างจริง EG01/STCUT/00047)</td>
+          <td class="col-sample">Block = BLK-26-0386<br>ขนาดแผ่น = 2.75 × 1.45 ม.<br>Finish = Polished · ความหนา = 2 cm<br>เหตุผล = งานเพิ่ม (Extra work)</td>
+          <td class="col-expected">ขึ้นการ์ดสรุป "ตัด Slab จาก Block": Block เหลือ 6.18 CBM, ขนาดเป้าหมาย 2.75 × 1.45, Polished หนา 0.02, ประมาณ 65 แผ่น / 259.19 ตร.ม., ผูกกับ งานเพิ่ม และข้อความสีเขียว "แผนใช้ 6.10 CBM (รวมสูญเสียเลื่อย 15%) พอ" (ตัวอย่างจริง EG01/STCUT/00214)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-06-cut-order.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-06-cut-order.webp" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-07</span></td>
-          <td class="col-scenario">ย้าย Block ไปสถานีตัด แล้ว Confirm และ Complete Cut<div class="note">หลังกด ย้ายไปสถานีตัด แถบเหลืองเตือนอาจยังค้างอยู่ ให้รีเฟรชหน้า (บั๊กการแสดงผลที่จดไว้ ข้อมูลถูกต้อง)</div></td>
+          <td class="col-scenario">ย้าย Block ไปสถานีตัด แล้ว Confirm และ Complete Cut<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ต้นทุนแผ่นแบ่งตามต้นทุนของ Block ก้อนนั้นเอง (ตันตามใบส่งของ × ราคาต่อตัน) ตามปริมาตรที่ใช้จริง รวมส่วนที่เสียไปกับใบเลื่อย</div><div class="note">หลังกด ย้ายไปสถานีตัด ให้รีเฟรชหน้าแล้วกด Confirm · ปุ่ม Complete Cut ชื่อ "ตัดเสร็จ"</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-06 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กดปุ่ม ย้ายไปสถานีตัด (ระบบย้าย Block จากคลังไป Stone Production)</li><li>รีเฟรชหน้า แล้วกด Confirm</li><li>กด Complete Cut และยืนยันตามหน้าต่างที่ขึ้น</li></ol></td>
+          <td class="col-steps"><ol><li>กดปุ่ม ย้ายไปสถานีตัด (ระบบย้าย Block จากคลังไป Stone Production)</li><li>รีเฟรชหน้า แล้วกด Confirm</li><li>กด ตัดเสร็จ (Complete Cut)</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบตัดเป็น Done — ตัดได้จริง 77 แผ่น / 307.04 ตร.ม. (100% ของแผน), Block ใช้ 6.14 ลบ.ม. เหลือ 0.04 ลบ.ม., ได้ Lot ของแผ่น 77 ใบ (ปุ่ม Serial Numbers ขึ้น 77) อยู่ใน Stone Available</td>
+          <td class="col-expected">ใบตัดเป็น Done — ตัดได้จริง 65 แผ่น / 259.19 ตร.ม. (100% ของแผน), Block ใช้ 6.10 ลบ.ม. เหลือ 0.08 ลบ.ม., ได้ Lot ของแผ่น 65 ใบ (ปุ่ม Serial Numbers ขึ้น 65) อยู่ใน Stone Available · มูลค่าที่ย้ายจาก Block เป็น Slab 164,838.19 บาท (แผ่นละ 2,535.97)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-07-cut-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-07-cut-done.webp" loading="lazy"></a></td>
         </tr>
@@ -331,7 +367,7 @@
     <div class="category-header">
       <div>
         <div class="category-title">F. คืน Block ให้ผู้ขาย</div>
-        <div class="category-sub">ใบคืนจองก้อนเดิมให้เอง และเลือกก้อนอื่นไม่ได้ · 1 test case</div>
+        <div class="category-sub">ใบคืนจองก้อนเดิมให้เอง · มูลค่าคืนตามใบรับของเดิม · ใบลดหนี้เป็นตัน · 2 test cases</div>
       </div>
     </div>
     <div class="table-scroll">
@@ -351,13 +387,23 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-08</span></td>
-          <td class="col-scenario">คืน Block ทั้งก้อนที่ได้รับผิดให้ผู้ขาย<div class="note">✅ แก้แล้ว 11 ต.ค. 2569: ใบคืน Block ขึ้น Ready พร้อมก้อนเดิมให้เองและเลือกได้เฉพาะก้อนของใบรับของเดิม (ก่อนแก้ใบคืนค้าง Waiting ต้องเลือกก้อนและกรอกขนาดเอง) · คืนได้เฉพาะ Block ที่ยังไม่ถูกตัด Block ที่ตัดบางส่วนแล้วยังไม่ได้ทดลอง</div></td>
-          <td class="col-pre">มี PO และใบรับของที่ Done ของ Block 1 ก้อนที่ยังไม่ถูกตัด (ทดสอบด้วย PO แยกต่างหาก ไม่ใช่ P00086)</td>
+          <td class="col-scenario">คืน Block ทั้งก้อนที่ได้รับผิดให้ผู้ขาย<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ใบคืนตีมูลค่าเท่าใบรับของเดิมของก้อนนั้น (55,000 ตามตัน 5.50 × 10,000) ไม่ใช่ราคา FIFO ชั้นเก่าสุด · ตัวอย่างนี้สร้างบิลผู้ขายไว้ก่อนคืนเพื่อใช้ต่อใน TC-GP-BPC-14</div><div class="note">ใบคืน Block ขึ้น Ready พร้อมก้อนเดิมให้เองและเลือกได้เฉพาะก้อนของใบรับของเดิม · คืนได้เฉพาะ Block ที่ยังไม่ถูกตัด · คอลัมน์ Qty (Ton) บนใบคืนแสดง 5.40 (คำนวณจาก CBM) ต่างจากตันตามใบส่งของ 5.50 แต่มูลค่าและใบลดหนี้ใช้ 5.50</div></td>
+          <td class="col-pre">มี PO และใบรับของที่ Done ของ Block 1 ก้อนที่ยังไม่ถูกตัด และมีบิลผู้ขายที่ Posted (ทดสอบด้วย PO แยกต่างหาก ไม่ใช่ P00295)</td>
           <td class="col-steps"><ol><li>เปิดใบรับของที่ Done กดปุ่ม Return</li><li>กด Return All (ช่อง Quantity ตอนเปิดเป็น 0.00 เป็นปกติ) แล้วกด Return</li><li>ใบคืนขึ้นสถานะ Ready — ตรวจว่าเป็น Block ก้อนเดิม แล้วกด Validate</li><li>เปิดหน้า Block ของก้อนนั้นดูผล</li></ol></td>
-          <td class="col-sample">PO ทดสอบ = P00090 (Qty (Ton) 5.40 = 2.00 ลบ.ม. @ 27,000 ต่อ ลบ.ม.)<br>Block = 2.00 × 1.00 × 1.00 ม. (BLK-26-0034)</td>
-          <td class="col-expected">ใบคืน Done Quantity 2.00 ลบ.ม. (5.40 ตัน) · ช่อง Received ของ PO กลับเป็น 0.00 · เอกสาร Block ยังอยู่เป็นประวัติ ขึ้นป้าย "ใช้หมดแล้ว" คงเหลือ 0.00 CBM (ตัวอย่างจริง EG01/OUT/00102)</td>
+          <td class="col-sample">PO ทดสอบ = P00296 (2.00 ลบ.ม. @ 27,000 ต่อ ลบ.ม.)<br>Block = 2.00 × 1.00 × 1.00 ม. · ตันตามใบส่งของ 5.500 (BLK-26-0387)<br>บิลผู้ขาย = BILL/2026/10/0007 (5.500 ตัน × 10,000 = 55,000)</td>
+          <td class="col-expected">ใบคืน Done Quantity 2.00 ลบ.ม. · มูลค่าสต็อกที่ตัดออก 55,000.00 (เท่าตอนรับ) · ช่อง Received ของ PO กลับเป็น 0.00 · เอกสาร Block ยังอยู่เป็นประวัติ ขึ้นป้าย "ใช้หมดแล้ว" คงเหลือ 0.00 CBM (ตัวอย่างจริง EG01/IN/00361 → ใบคืน EG01/OUT/00320)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-08-return-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-08-return-done.webp" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-08-return-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-08-return-done.webp" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-08b-block-after-return.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-08b-block-after-return.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BPC-14</span></td>
+          <td class="col-scenario">ออกใบลดหนี้ผู้ขายหลังคืน Block (เป็นตัน)<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ใบลดหนี้ของ Block เขียนเป็นตัน ตรงกับบิลเดิม (Quantity 5.500 ตัน ไม่แปลงเป็น ลบ.ม.) จึงตัดยอดบิลได้พอดี</div><div class="note">ใบลดหนี้ที่สร้างจากบิลเดิมด้วยปุ่ม Credit Note ถูกจับคู่กับบิลเดิมให้เอง ยอดคงค้างเป็น 0</div></td>
+          <td class="col-pre">ทำ TC-GP-BPC-08 เสร็จแล้ว (มีบิลผู้ขาย BILL/2026/10/0007 และใบคืนที่ Done)</td>
+          <td class="col-steps"><ol><li>เปิดบิลผู้ขายของ PO ที่คืน (BILL/2026/10/0007)</li><li>กดปุ่ม Credit Note แล้วกด Reverse ในหน้าต่าง</li><li>ตรวจบรรทัดสินค้าในใบลดหนี้ แล้วกด Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบลดหนี้ผู้ขาย RBILL/2026/10/0001: Qty (Ton) 5.50 · Quantity 5.500 ตัน · Price / Ton 10,000.00 · Amount 55,000.00 · VAT 7% 3,850.00 · Total 58,850.00 บาท สถานะ Posted ขึ้นป้าย PAID Amount Due 0.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-08c-credit-note.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-08c-credit-note.webp" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>
@@ -387,11 +433,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-09</span></td>
-          <td class="col-scenario">สร้างใบสั่งขาย Block ทั้งก้อน<div class="note">Block ขายเป็นลูกบาศก์เมตร ช่อง Qty (Ton) อยู่หน้า Quantity ให้ดูน้ำหนักประกอบ · ขายสินค้า Block (ลงท้าย - Block) ไม่ใช่สินค้า FG · ขนาดที่ขายคือขนาดล่าสุดของก้อน (หลังแก้ขนาดแล้ว)</div></td>
-          <td class="col-pre">ทำ TC-GP-BPC-05 เสร็จแล้ว (BLK-26-0029 แก้ขนาดเป็น 6.73 ลบ.ม.) และยังไม่ถูกขายหรือตัด · มีลูกค้าในระบบ</td>
-          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New</li><li>เลือก Customer แล้วกด "Add a product" เลือก "SHANDONG BLACK - Block"</li><li>กดปุ่ม "Sell Whole Block" ที่บรรทัดสินค้า แล้วเลือก BLK-26-0029</li><li>ใส่ราคาต่อ ลบ.ม. ตรวจจำนวนและยอดรวม แล้วกด Confirm</li></ol></td>
-          <td class="col-sample">Customer = Demo Hotel Customer<br>Block = BLK-26-0029<br>Unit Price = 70,200 บาท ต่อ ลบ.ม.</td>
-          <td class="col-expected">บรรทัดขายขึ้น Qty (Ton) 18.17, Quantity 6.73 ลบ.ม., ราคา 70,200 · ยอดก่อน VAT 472,446.00, VAT 7% 33,071.22 บาท · หลัง Confirm เป็น Sales Order และมีปุ่มสมาร์ท Delivery 1 ใบ (ตัวอย่างจริง S00209)</td>
+          <td class="col-scenario">สร้างใบสั่งขาย Block ทั้งก้อน<div class="note">Block ขายเป็นลูกบาศก์เมตร ช่อง Qty (Ton) อยู่หน้า Quantity ให้ดูน้ำหนักประกอบ (18.17 คำนวณจาก CBM ใหม่ ต่างจากตันของ Block 18.80 ซึ่งใช้คิดต้นทุน) · ขายสินค้า Block (ลงท้าย - Block) ไม่ใช่สินค้า FG · ขนาดที่ขายคือขนาดล่าสุดของก้อน (หลังแก้ขนาดแล้ว) · คอลัมน์เสริม (ขนาด/ราคา, หนา, เตือนกำไร, Slabs) ถูกซ่อนในภาพ</div></td>
+          <td class="col-pre">ทำ TC-GP-BPC-05 เสร็จแล้ว (BLK-26-0385 แก้ขนาดเป็น 6.73 ลบ.ม.) และยังไม่ถูกขายหรือตัด · มีลูกค้าในระบบ</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New</li><li>เลือก Customer แล้วกด "Add a product" เลือก "SHANDONG BLACK - Block" แล้วกด Save</li><li>กดปุ่ม "Sell Whole Block" ที่บรรทัดสินค้า แล้วเลือก BLK-26-0385</li><li>ใส่ราคาต่อ ลบ.ม. ตรวจจำนวนและยอดรวม แล้วกด Confirm</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer<br>Block = BLK-26-0385<br>Unit Price = 70,200 บาท ต่อ ลบ.ม.</td>
+          <td class="col-expected">บรรทัดขายขึ้น Qty (Ton) 18.17, Quantity 6.73 ลบ.ม., ราคา 70,200 · ยอดก่อน VAT 472,446.00, VAT 7% 33,071.22 บาท · หลัง Confirm เป็น Sales Order และมีปุ่มสมาร์ท Delivery 1 ใบ (ตัวอย่างจริง S00616)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-09-so-whole-block.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-09-so-whole-block.webp" loading="lazy"></a></td>
         </tr>
@@ -401,17 +447,17 @@
           <td class="col-pre">ทำ TC-GP-BPC-09 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดปุ่มสมาร์ท Delivery</li><li>ตรวจว่า Quantity เท่ากับ Demand แล้วกด Validate</li><li>เปิดหน้า Block ของก้อนนั้นดูสต็อก</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบส่งของ Done — Source Location Stone Inventory/Stone Available, Demand 6.73 = Quantity 6.73 ลบ.ม., Qty (Ton) 18.17 · BLK-26-0029 คงเหลือ 0.00 ลบ.ม. (ตัวอย่างจริง EG01/OUT/00103)</td>
+          <td class="col-expected">ใบส่งของ Done — Source Location Stone Inventory/Stone Available, Demand 6.73 = Quantity 6.73 ลบ.ม., Qty (Ton) 18.17 · BLK-26-0385 คงเหลือ 0.00 ลบ.ม. (ตัวอย่างจริง EG01/OUT/00321)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-10-delivery-done.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-10-delivery-done.webp" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BPC-11</span></td>
-          <td class="col-scenario">ออกใบแจ้งหนี้ลูกค้า และตรวจรายการบัญชี<div class="note">ต้นทุนขายมาจากราคาซื้อจริง 27,000 × 6.73 = 181,710 (ไม่ใช่ราคาขาย) · ฝ่ายบัญชีตรวจได้จากแท็บ Journal Items</div></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ลูกค้า และตรวจรายการบัญชี<div class="upd"><b>แก้/เพิ่ม</b> รอบ 14 ต.ค. 2569 (v109.24) — ต้นทุนขายคือต้นทุนของ Block ก้อนนั้นเอง (ซื้อ 18.80 ตัน × 10,000 = 188,000 หักส่วนที่ปรับลดตอนแก้ขนาด) ไม่ใช่ชั้น FIFO เก่าสุดหรือ ตัน × 10,000 ที่คำนวณใหม่</div><div class="note">ต้นทุนขาย 181,787.36 มาจากราคาซื้อจริงของก้อนนี้ (ไม่ใช่ราคาขาย) · ฝ่ายบัญชีตรวจได้จากแท็บ Journal Items · ส่วนต่างจาก 188,000 คือ 6,212.64 จากการปรับสต็อก -0.23 ลบ.ม. ตอนแก้ขนาด (TC-GP-BPC-05)</div></td>
           <td class="col-pre">ทำ TC-GP-BPC-10 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft</li><li>ตรวจรายการสินค้า แล้วกด Confirm</li><li>เปิดแท็บ Journal Items</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบแจ้งหนี้ Posted ยอดก่อน VAT 472,446.00, VAT 33,071.22, รวม 505,517.22 · Journal Items: Credit 411100 รายได้ 472,446.00, Credit 113120 สต็อก 181,710.00 คู่กับ Debit 511110 ต้นทุนขาย 181,710.00, Credit 213200 VAT 33,071.22 (ตัวอย่างจริง INV/2026/00020)</td>
+          <td class="col-expected">ใบแจ้งหนี้ Posted ยอดก่อน VAT 472,446.00, VAT 33,071.22, รวม 505,517.22 · Journal Items: Credit 411100 รายได้ 472,446.00, Credit 113120 สต็อก 181,787.36 คู่กับ Debit 511110 ต้นทุนขาย 181,787.36, Credit 213200 VAT 33,071.22 (ตัวอย่างจริง INV/2026/00030)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-block-purchase-to-cut/gp-bp-11-invoice-journal.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-block-purchase-to-cut/gp-bp-11-invoice-journal.webp" loading="lazy"></a></td>
         </tr>

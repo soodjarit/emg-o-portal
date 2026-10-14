@@ -94,7 +94,7 @@ for c in CATEGORIES:
             plain(tc['sample']),
             plain(tc['expected']),
             tc['prio'],
-            plain(tc.get('note', '') or ''),
+            plain(((('[แก้/เพิ่ม] ' + tc['new'] + '\n') if tc.get('new') else '') + (tc.get('note', '') or ''))),
             '', '', '', '',
         ]
         for idx, val in enumerate(values, start=1):

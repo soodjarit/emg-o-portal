@@ -6,13 +6,21 @@ def steps_html(steps):
 def note_html(note):
     return ('<div class="note">%s</div>' % note) if note else ''
 
+def new_html(new):
+    return ('<div class="upd"><b>แก้/เพิ่ม</b> %s</div>' % new) if new else ''
+
 def prio_badge(p):
     cls = {'High': 'prio-high', 'Medium': 'prio-med', 'Low': 'prio-low'}[p]
     return '<span class="prio-badge %s">%s</span>' % (cls, p)
 
-def shot_html(shot):
+def shot_html(shot, shot2=None):
     if not shot:
         return '-'
+    if shot2:
+        return _shot_one(shot) + '<div style="height:6px"></div>' + _shot_one(shot2)
+    return _shot_one(shot)
+
+def _shot_one(shot):
     return '<a class="tc-shot-link" href="%s" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="%s" loading="lazy"></a>' % (shot, shot)
 
 sidebar_items = []
@@ -33,13 +41,13 @@ for c in CATEGORIES:
     for tc in c['cases']:
         rows.append(f'''        <tr>
           <td class="col-id"><span class="tc-id">{tc['id']}</span></td>
-          <td class="col-scenario">{tc['scenario']}{note_html(tc.get('note'))}</td>
+          <td class="col-scenario">{tc['scenario']}{new_html(tc.get('new'))}{note_html(tc.get('note'))}</td>
           <td class="col-pre">{tc['pre']}</td>
           <td class="col-steps">{steps_html(tc['steps'])}</td>
           <td class="col-sample">{tc['sample']}</td>
           <td class="col-expected">{tc['expected']}</td>
           <td class="col-prio">{prio_badge(tc['prio'])}</td>
-          <td class="col-shot">{shot_html(tc.get('shot'))}</td>
+          <td class="col-shot">{shot_html(tc.get('shot'), tc.get('shot2'))}</td>
         </tr>''')
     rows_joined = '\n'.join(rows)
     category_blocks.append(f'''  <div class="category" id="{c['cat_id']}">
@@ -135,13 +143,13 @@ PAGE = '''<!doctype html>
   .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
 
   .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
-  table.tc-table{border-collapse:collapse;width:100%;min-width:1260px;font-size:13px;}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
   table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
   table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
   table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
   table.tc-table tbody tr:hover{background:#F5EFE6;}
   .col-id{width:76px;}
-  .col-scenario{width:200px;font-weight:600;color:var(--charcoal);}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
   .col-pre{width:150px;color:#6B6E70;}
   .col-steps{width:230px;}
   .col-steps ol{margin:0;padding-left:18px;}
@@ -155,6 +163,11 @@ PAGE = '''<!doctype html>
   .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
   .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
   .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
   .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
   .prio-high{background:var(--red-bg);color:var(--red);}
   .prio-med{background:var(--amber-bg);color:var(--amber);}
@@ -182,8 +195,8 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — Block: ซื้อ รับ เก็บเงิน แก้ขนาด ตัด คืน และขายทั้งก้อน</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 11 ตุลาคม 2569 (2026-10-11) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.11</div>
-    <div class="sub">เรื่องราวของ Block อีกด้านหนึ่ง: สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน → ดู Block → บิลผู้ขายตามที่รับจริง → แก้ขนาดที่วัดผิด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · รันจริงโดยผู้ใช้บน eg-tst เมื่อ 11 ต.ค. 2569</div>
+    <div class="doc-date">อัปเดตล่าสุด: 14 ตุลาคม 2569 (2026-10-14) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.24 · รันใหม่ทั้งชุดบน eg-tst</div>
+    <div class="sub">เรื่องราวของ Block อีกด้านหนึ่ง: สั่งซื้อเป็นตัน → รับของกรอกขนาดรายก้อน → ดู Block → บิลผู้ขายตามที่รับจริง → แก้ขนาดที่วัดผิด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · รันใหม่ทั้งชุดบน eg-tst เมื่อ 14 ต.ค. 2569 (ต่อจากรอบ 11 ต.ค. ที่ผู้ใช้เดินเอง)</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -193,10 +206,21 @@ PAGE = '''<!doctype html>
     </div>
   </header>
 
+  <div class="changes">
+    <h3>จุดที่แก้/เพิ่มในรอบนี้ (ป้ายเขียว "แก้/เพิ่ม" ในแต่ละเคส)</h3>
+    <ul>
+      <li><b>บิลผู้ขายเป็นหน่วยตัน</b> ตามตันตามใบส่งของ (v109.21, .23) — TC-GP-BPC-02, 04, 14</li>
+      <li><b>ใบรับของมีช่อง "ตันตามใบส่งของ" + QC Note + เตือนตันคลาดเกิน 5%</b> (v109.13–.19) — TC-GP-BPC-02, 12, 13</li>
+      <li><b>% สูญเสียจากการเลื่อย</b> (ค่าเริ่มต้น 15%) ลดจำนวนแผ่นที่ตัดได้ — TC-GP-BPC-03, 05, 06, 07</li>
+      <li><b>Block ตีมูลค่าราย Lot</b> ตัด/ขาย/คืนใช้ต้นทุนของก้อนนั้นเอง ไม่ใช่ชั้น FIFO เก่าสุด (v109.20, .22) — TC-GP-BPC-07, 08, 11</li>
+      <li><b>แก้บั๊ก 2 จุดที่เจอตอนรันใหม่ (v109.24):</b> กด No Backorder แล้วฟ้อง "กรุณากรอก ยาว × กว้าง × สูง" และบรรทัดบิลแสดง Qty (Ton)/Price per Ton เพี้ยน — TC-GP-BPC-02, 04</li>
+    </ul>
+  </div>
+
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 11 ต.ค. 2569, ผู้ใช้ emgdemo):</b> PO P00086 (37.80 ตัน = 14.00 ลบ.ม. @ 27,000/ลบ.ม., 378,000 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00086 กรอก 2 ก้อน (BLK-26-0029 6.96 ลบ.ม., BLK-26-0030 6.18 ลบ.ม.) รับรวม 13.14 ลบ.ม. = 35.48 ตัน (No Backorder) &rarr; บิลผู้ขาย BILL/2026/10/0003 (13.14 × 27,000 = 354,780 + VAT 24,834.60 = 379,614.60) &rarr; แก้ขนาด BLK-26-0029 สูง 1.50&rarr;1.45 (6.96&rarr;6.73 ลบ.ม.) &rarr; ใบตัด EG01/STCUT/00047 ตัด BLK-26-0030 เป็นแผ่น Polished 2 ซม. ได้ 77 แผ่น เหลือ 0.04 ลบ.ม. &rarr; คืน Block: PO P00090 &rarr; EG01/IN/00090 (BLK-26-0034) &rarr; ใบคืน EG01/OUT/00102 &rarr; ขายทั้งก้อน: SO S00209 (BLK-26-0029 6.73 ลบ.ม. = 18.17 ตัน @ 70,200, 472,446 + VAT 33,071.22) &rarr; ส่งของ EG01/OUT/00103 &rarr; ใบแจ้งหนี้ INV/2026/00020 (ต้นทุนขาย 181,710)<br><br>
-    <b>ของที่เหลือไว้:</b> BLK-26-0029 (6.73 ลบ.ม.) ยังไม่ได้ตัด · Slab 77 แผ่นจาก BLK-26-0030 พร้อมขายใน Stone Available<br><br>
-    <b>ข้อสังเกตจากการรันจริง:</b> (1) ตันที่หาร 2.7 ไม่ลงตัวเคยแสดงเพี้ยน (10 ตัน เป็น 9.99) แก้แล้ว — ดู TC-GP-BPC-01 (2) จำนวนแผ่นที่ตัดได้เป็นค่าสูงสุดตามทฤษฎี ไม่หักเนื้อหินที่หายไปกับใบเลื่อย — ดู TC-GP-BPC-06 (3) ใบคืน Block เคยไม่จองก้อนเดิมให้ แก้แล้ว — ดู TC-GP-BPC-08 (4) หลังกด ย้ายไปสถานีตัด แถบเหลืองไม่หายจนกว่ารีเฟรช (ข้อมูลถูกต้อง) — ดู TC-GP-BPC-07
+    <b>เส้นทางที่รันจริง (eg-tst, 14 ต.ค. 2569, v109.24):</b> PO P00295 (37.80 ตัน = 14.00 ลบ.ม. @ 27,000/ลบ.ม., 378,000 ก่อน VAT) &rarr; ใบรับของ EG01/IN/00360 กรอก 2 ก้อนพร้อมตันตามใบส่งของ (BLK-26-0385 6.96 ลบ.ม. 18.80 ตัน, BLK-26-0386 6.18 ลบ.ม. 16.70 ตัน) รวม 35.50 ตัน (No Backorder) &rarr; บิลผู้ขาย BILL/2026/10/0006 (35.500 ตัน × 10,000 = 355,000 + VAT 24,850 = 379,850) &rarr; แก้ขนาด BLK-26-0385 สูง 1.50&rarr;1.45 (6.96&rarr;6.73 ลบ.ม.) &rarr; ใบตัด EG01/STCUT/00214 ตัด BLK-26-0386 เป็นแผ่น Polished 2 ซม. ได้ 65 แผ่น (สูญเสียเลื่อย 15%) เหลือ 0.08 ลบ.ม. &rarr; คืน Block: PO P00296 &rarr; EG01/IN/00361 (BLK-26-0387) &rarr; ใบคืน EG01/OUT/00320 (มูลค่า 55,000) &rarr; ใบลดหนี้ RBILL/2026/10/0001 (5.500 ตัน, 58,850) &rarr; ขายทั้งก้อน: SO S00616 (BLK-26-0385 6.73 ลบ.ม. @ 70,200, 472,446 + VAT 33,071.22) &rarr; ส่งของ EG01/OUT/00321 &rarr; ใบแจ้งหนี้ INV/2026/00030 (ต้นทุนขาย 181,787.36)<br><br>
+    <b>ของที่เหลือไว้:</b> Slab 65 แผ่นจาก BLK-26-0386 พร้อมขายใน Stone Available (มี QC Note) · BLK-26-0388 (PO P00297) จากเคสตันคลาด<br><br>
+    <b>ข้อสังเกต:</b> (1) ช่อง Qty (Ton) บนใบคืนและใบสั่งขายแสดงตันที่คำนวณจาก CBM (5.40 / 18.17) ซึ่งต่างจากตันตามใบส่งของ (5.50 / 18.80) ที่ใช้คิดมูลค่าและบิล — เป็นการแสดงผลเท่านั้น (2) ต้นทุนแผ่นรวมส่วนที่เสียไปกับใบเลื่อยแล้ว จึงสูงกว่าต้นทุนต่อ ตร.ม. ของรอบ 11 ต.ค.
   </div>
 
 __CATEGORY_BLOCKS__
