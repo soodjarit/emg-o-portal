@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Test Case: รอบ Feedback WIP 16 ต.ค.</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-wip-16-oct.xlsx" download="EMG-O Test Case - Feedback WIP 16 ต.ค..xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>ใบสั่งซื้อ (PO) และใบรับของ Slab</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>นำเข้าขนาด Slab จาก Excel</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>Dashboard และผิวสินค้าสำเร็จรูป (FG)</a></li><li class="tree-doc"><a href="#D"><span class="tree-doc-tag">D</span>ต้นทุนใบสั่งงานและบัญชีสต็อก Block / Slab</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Test Case เฉพาะจุดที่แก้ — รอบ Feedback จากการทดสอบ (WIP 16 ต.ค.)</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 19 ตุลาคม 2569 (2026-10-19) · ระบบ stone_slab_inventory เวอร์ชัน 19.0.2.109.34 · รันจริงบน eg-tst (บริษัท Empire Granite) ทุกเคส พร้อมภาพหน้าจอจริง</div>
+    <div class="sub">ชุดเคสนี้ตรวจเฉพาะสิ่งที่เราแก้หลังลูกค้าทดสอบเมื่อ 16 ต.ค. ตามที่สรุปไว้ในหน้า "ประเด็นนำเสนอและหารือกับลูกค้า" ส่วนบนสุด (7 เรื่อง) ทุกเคสเป็นเส้นทางปกติ ผู้ใช้ทั่วไปทำตามเองได้ ไม่รวมเคสกรอกผิด รายการที่ยังรอข้อมูลลูกค้าอยู่ท้ายหน้า</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>12</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">10</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">2</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>สิ่งที่พบระหว่างรันจริงรอบนี้ (ควรรู้ก่อนสาธิต)</h3>
+    <ul>
+      <li><b>ค่าแรงต่อ ตร.ม. ลงบัญชีเฉพาะใบตัดที่ผูก Sale Order หรือกรอก Project (No SO)</b> ใบตัดที่ไม่ผูกอะไรเลยไม่มีรายการค่าแรง และไม่มีข้อความเตือน — TC-W16-10</li>
+      <li><b>Slab แบบ Serial รับเป็น 1 แถวต่อ 1 แผ่น</b> (ไม่ใช่ 1 แถวต่อขนาด) ใบรับของไม่มีแถวว่างซ้ำ และปริมาณไม่เกินที่สั่ง — TC-W16-03, 06</li>
+      <li><b>% สูญเสียจากการเลื่อยของ Empire Granite บน eg-tst ตั้งเป็น 0</b> (บริษัทอื่นเป็น 15) จึงตัดได้ 60 แผ่น ไม่ใช่ 51 แผ่นเหมือนเอกสาร Golden Path เดิม</li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>ระบบทดสอบ:</b> https://eg-tst.mx-erp.com (Empire Granite) · <b>เอกสารตัวอย่างที่ทำไว้แล้วบนระบบ:</b> PO P00485-P00490 · ใบรับของ EG01/IN/00590-00592 · ใบตัด EG01/STCUT/00336, 00337 · รายการบัญชี MISC/2026/10/0039, STJ/2026/10/0171<br>
+    <b>ยังรอข้อมูลลูกค้า (ไม่มีเคสในหน้านี้):</b> (1) เลขที่ PO / ใบรับของที่เห็น Demand 296 (2) ผิวสินค้าของ Q-GREY, GP Block Marble, Custom Product 01, ซุ้มบัว, เจดีย์บัว (3) รายชื่อสถานีตัดจริงและอัตราบาทต่อ ตร.ม. (4) PO ค่าใช้จ่ายนำเข้า 1 ใบ ครอบคลุมหลายตู้หรือไม่ (5) การเก็บเลขแผ่นของ supplier และการอ่าน Packing List จริง (6) นักบัญชียืนยันการแยกบัญชี Block / Slab (Q2)
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. ใบสั่งซื้อ (PO) และใบรับของ Slab</div>
+        <div class="category-sub">ช่อง ตร.ม. กับ จำนวนแผ่นแยกกัน · รับ Slab หลายขนาดในใบเดียว · เลือกตู้ Container ที่หัว PO · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-01</span></td>
+          <td class="col-scenario">PO Slab: กรอก ตร.ม. แล้วจำนวนแผ่นต้องไม่เปลี่ยนตาม<div class="note">ตอนพิมพ์ชื่อสินค้า อย่ากดบรรทัด "Create ..." ใน dropdown เพราะจะสร้างสินค้าซ้ำ · ถ้ายังไม่กรอก ตร.ม. เอง ระบบยังประมาณให้ = จำนวนแผ่น × ขนาดมาตรฐาน</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีผู้ขายและสินค้า Slab "GP Block Marble - Slab (Honed, 3 cm)"</td>
+          <td class="col-steps"><ol><li>เปิดแอป Purchase &gt; Orders &gt; Requests for Quotation &gt; New</li><li>เลือก Vendor แล้วกด "Add a product" เลือก Slab</li><li>กรอก Price / Sq.M แล้วกรอก Qty (Sq.M) (ถ้าไม่เห็นคอลัมน์ ติ๊กที่ปุ่มตั้งค่าคอลัมน์ท้ายตาราง)</li><li>ดูช่อง Quantity (จำนวนแผ่น) และยอดรวมบรรทัด</li></ol></td>
+          <td class="col-sample">Vendor = UI-TEST Slab Import vendor<br>Price / Sq.M = 1,200<br>Qty (Sq.M) = 214.43</td>
+          <td class="col-expected">Qty (Sq.M) = 214.4300 · <b>Quantity (จำนวนแผ่น) ยังเป็น 1.0000 ไม่เด้งตาม</b> · ยอดบรรทัด 257,316.00 บาท (214.43 × 1,200) · VAT 7% 18,012.12 · รวม 275,328.12 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-01-po-sqm.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-01-po-sqm.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-02</span></td>
+          <td class="col-scenario">PO Slab: กรอกจำนวนแผ่นที่รับจริง แล้ว ตร.ม. ต้องไม่ถูกเขียนทับ<div class="note">ราคาต่อแผ่น (Unit Price) จะเปลี่ยนเป็น 8,041.125 เพราะยอดรวมคงเดิมแล้วหารด้วยจำนวนแผ่น — เป็นเรื่องปกติ ไม่ใช่ราคาที่ตกลงกับผู้ขาย · PO ที่เปิดไว้ก่อนหน้านี้ไม่ถูกแก้</div></td>
+          <td class="col-pre">ทำ TC-W16-01 เสร็จแล้ว (ยังอยู่หน้า PO เดิม)</td>
+          <td class="col-steps"><ol><li>ที่บรรทัดเดิม แก้ช่อง Quantity เป็นจำนวนแผ่นที่รับจริง</li><li>ดู Qty (Sq.M) และยอดรวม</li><li>กด Save แล้วกด Confirm Order</li></ol></td>
+          <td class="col-sample">Quantity = 32</td>
+          <td class="col-expected">Quantity = 32.0000 · <b>Qty (Sq.M) ยังเป็น 214.4300</b> ไม่ถูกเขียนทับ · ยอดบรรทัดยัง 257,316.00 บาท · หลัง Confirm มีปุ่ม Receipt 1 ใบ ที่ขอรับ 32 แผ่น (ตัวอย่างจริง P00485 → EG01/IN/00590)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-02-po-pieces.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-02-po-pieces.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-03</span></td>
+          <td class="col-scenario">รับ Slab หลายขนาดในใบรับของเดียว แล้ว Validate<div class="note">Slab เป็นแบบ Serial: ระบบแยก 1 แถว = 1 แผ่น (ไม่ใช่ 1 แถวต่อขนาด) ใบรับของจึงมี 5 แถว แถวละ 1 แผ่น ตรงตามจำนวนที่รับ ไม่มีแถวว่างซ้ำ · ถ้ากรอกแต่ ตร.ม. ที่ PO ใบรับของจะรอแค่ 1 แผ่น ต้องกรอกจำนวนแผ่นด้วย</div></td>
+          <td class="col-pre">มี PO Slab ที่ Confirm แล้ว (สั่ง 5 แผ่น กรอกจำนวนแผ่น 5 ไว้ที่ PO)</td>
+          <td class="col-steps"><ol><li>ที่ PO กดปุ่ม Receipt</li><li>กด Details ที่แถวสินค้า แล้วกรอก กว้าง / ยาว / หนา ของแต่ละแผ่น (หน่วยเมตร)</li><li>กด Save แล้วกด Validate</li><li>ดูใบรับของ และกลับไปดูช่อง Received ที่ PO</li></ol></td>
+          <td class="col-sample">PO = 5 แผ่น, 14 ตร.ม., 1,000 บาท/ตร.ม.<br>แผ่น 1-3 = 1.60 × 2.80 × 0.03<br>แผ่น 4-5 = 1.50 × 2.70 × 0.03</td>
+          <td class="col-expected">ใบรับของเป็น Done (EG01/IN/00591) มี 5 แถว แถวละ Demand 1.00 / Quantity 1.00 · ไม่มีแถวว่างหรือแถวซ้ำ · ที่ PO ช่อง Received = 5.00 ตรงกับที่สั่ง ไม่เกิน · ได้ Slab 5 แผ่น (SLB-26-0286 ถึง 0290) ขนาดตรงที่กรอก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03-details.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03-details.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03c-receipt-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03c-receipt-done.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03b-po-received.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03b-po-received.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-04</span></td>
+          <td class="col-scenario">PO ค่าใช้จ่ายนำเข้า: เลือกตู้ที่หัว PO ครั้งเดียว<div class="note">บรรทัด Slab/Block ไม่ถูกใส่ analytic ของตู้ (กันนับต้นทุนซ้ำ เพราะต้นทุนหินนับที่ฝั่งขายอยู่แล้ว) · เวอร์ชันนี้ 1 PO = 1 ตู้ · แก้ analytic รายบรรทัดเองได้เสมอ</div></td>
+          <td class="col-pre">มี Container (ตัวอย่าง E3978 และ E2222) ในระบบแล้ว</td>
+          <td class="col-steps"><ol><li>เปิด Purchase &gt; Orders &gt; Requests for Quotation &gt; New เลือก Vendor</li><li>ที่ช่อง Container / Import Group (ใต้ช่อง Vendor) เลือกตู้</li><li>เพิ่มบรรทัดบริการ (ค่าขนส่ง ค่าอากร) และบรรทัด Slab</li><li>ดูคอลัมน์ Analytic Distribution ของทุกบรรทัด</li></ol></td>
+          <td class="col-sample">Container = E3978<br>บรรทัด 1: ค่าขนส่งระหว่างประเทศ (Freight) 50,000<br>บรรทัด 2: ค่าอากรนำเข้า (Duty) 30,000<br>บรรทัด 3: GP Block Marble Slab 10 ตร.ม. × 1,000</td>
+          <td class="col-expected">บรรทัดค่าขนส่งและค่าอากร มี analytic <b>E3978</b> เองโดยไม่ต้องใส่ทีละบรรทัด · บรรทัด Slab <b>ไม่มี</b> analytic · ยอดก่อน VAT 90,000.00 บาท (ตัวอย่างจริง P00487)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-04-container-tag.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-04-container-tag.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-05</span></td>
+          <td class="col-scenario">เปลี่ยนตู้ที่หัว PO แล้วแท็กย้ายตาม และบรรทัดที่เพิ่มทีหลังก็ได้แท็ก</td>
+          <td class="col-pre">ทำ TC-W16-04 เสร็จแล้ว (ยังอยู่หน้า PO เดิม)</td>
+          <td class="col-steps"><ol><li>เปลี่ยนช่อง Container / Import Group เป็นตู้อื่น</li><li>ดู Analytic Distribution ของบรรทัดค่าใช้จ่าย</li><li>กด Add a product เพิ่มบรรทัดค่าใช้จ่ายอีก 1 บรรทัด แล้วดู Analytic Distribution ของบรรทัดใหม่</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Container เปลี่ยนเป็น E2222<br>บรรทัดใหม่: ค่าขนส่งในประเทศ 2,000</td>
+          <td class="col-expected">บรรทัดค่าขนส่งและค่าอากรเปลี่ยน analytic จาก E3978 เป็น <b>E2222</b> ตามทันที · บรรทัด Slab ยังไม่มี analytic · บรรทัดค่าขนส่งในประเทศที่เพิ่มทีหลังได้ analytic E2222 เอง (ตัวอย่างจริง P00487)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-05-container-change.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-05-container-change.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. นำเข้าขนาด Slab จาก Excel</div>
+        <div class="category-sub">แทนการกรอกทีละแถวในใบรับของ · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-06</span></td>
+          <td class="col-scenario">ดาวน์โหลด template กรอกขนาดเป็น ซม. อัปโหลด ตรวจไฟล์ ยืนยันนำเข้า แล้ว Validate<div class="note">ขนาดกรอกเป็น <b>เซนติเมตร</b> ระบบแปลงเป็นเมตรเอง (160 ซม. = 1.600 ม.) · สินค้าเลือกจาก dropdown ในไฟล์เท่านั้น · ไฟล์ตัวอย่างที่ใช้รอบนี้: <a href="assets/golden-path-wip-16-oct/slab-import-example.xlsx">slab-import-example.xlsx</a> · ยังไม่รองรับการอ่าน Packing List ของ supplier โดยตรง</div></td>
+          <td class="col-pre">มี PO Slab ที่ Confirm แล้ว และใบรับของที่ยังไม่ Validate (ตัวอย่าง PO สั่ง 4 แผ่น)</td>
+          <td class="col-steps"><ol><li>เปิดใบรับของจาก PO (Inventory &gt; Operations &gt; Receipts) แล้วกดปุ่ม "Import Slab จาก Excel"</li><li>กด "ดาวน์โหลด template" เปิดไฟล์ กรอก 1 แถวต่อ 1 แผ่น (หรือ 1 lot ที่ขนาดเท่ากัน): สินค้า กว้าง ยาว หนา (ซม.) จำนวนชิ้น</li><li>กลับมาที่หน้าต่างเดิม กด Upload your file เลือกไฟล์ แล้วกด "ตรวจไฟล์" ดูตัวอย่างและสรุปจำนวนแผ่น/ตร.ม.</li><li>กด "ยืนยันนำเข้า" แล้วเปิด Details ตรวจแต่ละแถว</li><li>กด Save แล้วกด Validate</li></ol></td>
+          <td class="col-sample">แถว 1: GP Block Marble Slab (Honed, 3 cm) 160 × 280 × 3 ซม. จำนวน 2 ชิ้น<br>แถว 2: ตัวเดิม 150 × 270 × 3 ซม. จำนวน 2 ชิ้น</td>
+          <td class="col-expected">ตัวอย่างหลัง "ตรวจไฟล์": "4 แผ่น, 17.06 ตร.ม. (PO สั่ง 4 แผ่น)" (8.960 + 8.100 ตร.ม.) · หลัง "ยืนยันนำเข้า" มีข้อความ "สร้าง 4 แถวในใบรับของ" และ Details มี 4 แถวขนาด 1.600 × 2.800 × 0.030 (2 แถว) และ 1.500 × 2.700 × 0.030 (2 แถว) · หลัง Validate ใบรับของ Done (EG01/IN/00592) ได้ Slab 4 แผ่น SLB-26-0291 ถึง 0294 ขนาดตรงไฟล์ (ตัวอย่างจริง P00488)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-06a-import-dialog.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-06a-import-dialog.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-06b-import-preview.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-06b-import-preview.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-06d-details.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-06d-details.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. Dashboard และผิวสินค้าสำเร็จรูป (FG)</div>
+        <div class="category-sub">เห็น FG ที่รับเข้าคลัง · เลือกผิว (Finish) ได้ในสินค้า FG · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-07</span></td>
+          <td class="col-scenario">Dashboard: ช่อง Finished Goods มีบรรทัด "ในสต็อก N รายการ"<div class="note">ช่องนี้เดิมนับเฉพาะ "ใบสั่งผลิตที่เสร็จใน 30 วัน" จึงไม่นับ FG ที่รับเข้าตรงๆ · ตัวเลขจะต่างจากนี้ตามสต็อกจริงของแต่ละวัน</div></td>
+          <td class="col-pre">มี FG อยู่ในสต็อก (ทั้งที่ผลิตเองและรับเข้าตรงๆ)</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Dashboard (รอให้โหลดสักครู่)</li><li>ดูช่อง Finished Goods (STAGE 4) บรรทัดล่างสุด</li><li>กดที่บรรทัด "ในสต็อก ..." นั้น</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ช่อง Finished Goods มีป้าย <b>"ในสต็อก 23 รายการ (3 สินค้า)"</b> · กดแล้วเปิดรายการสต็อก FG 23 แถว (เจดีย์บัว, GP Block Marble ฯลฯ) พร้อม Location Lot และจำนวน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-07a-dashboard.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-07a-dashboard.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-07b-fg-stock-list.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-07b-fg-stock-list.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-08</span></td>
+          <td class="col-scenario">สินค้า FG มีตัวเลือกผิว (Finish)<div class="note">ตั้งผิวให้ FG แล้ว 48 จาก 53 รายการ · ยังเหลือ 5 รายการที่รอข้อมูลลูกค้า (Q-GREY, GP Block Marble, Custom Product 01, ซุ้มบัว, เจดีย์บัว) จึงไม่อยู่ในเคสนี้</div></td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>เปิดแอป Inventory &gt; Products เลือกสินค้า FG เช่น ดำไทย/THAI BLACK (สินค้าที่ไม่มีคำว่า Slab หรือ Block ต่อท้าย)</li><li>เปิดแท็บ Attributes &amp; Variants</li></ol></td>
+          <td class="col-sample">สินค้า = ดำไทย/THAI BLACK</td>
+          <td class="col-expected">มีแถว <b>Finish</b> พร้อมค่า Polished, Honed, Brushed, Sandblasted, Water Blasted, Flame Blasted, Flame and Brushed (หินแกรนิตมีผิวเปลวไฟเพิ่ม)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-08-fg-finish.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-08-fg-finish.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-09</span></td>
+          <td class="col-scenario">ใบเสนอราคา: เลือกสินค้า FG แล้วเลือกผิวได้</td>
+          <td class="col-pre">ทำ TC-W16-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Sales &gt; Orders &gt; Quotations &gt; New เลือกลูกค้า</li><li>กด Add a product เลือก "ดำไทย/THAI BLACK"</li><li>ในหน้าต่าง Configure your product เลือก Finish แล้วกด Confirm</li></ol></td>
+          <td class="col-sample">ลูกค้า = A-test-customer<br>Finish = Honed</td>
+          <td class="col-expected">ขึ้นหน้าต่างให้เลือก Finish ครบ 7 ผิว · เลือก Honed แล้วบรรทัดสินค้าเป็น "ดำไทย/THAI BLACK (Honed)" ราคา 12,000.00 บาท/ตร.ม.</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-09-quote-finish.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-09-quote-finish.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D. ต้นทุนใบสั่งงานและบัญชีสต็อก Block / Slab</div>
+        <div class="category-sub">ค่าแรงคิดเป็นบาทต่อ ตร.ม. · Block กับ Slab แยกบัญชีสต็อก · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-10</span></td>
+          <td class="col-scenario">ค่าแรงใบตัด = ผลรวมอัตราบาทต่อ ตร.ม. ของสถานี × ตร.ม. ที่ตัดได้<div class="note">⚠ <b>ค่าแรงจะลงบัญชีก็ต่อเมื่อใบตัดผูกกับ Sale Order หรือกรอกช่อง "Project (No SO)"</b> ไม่เช่นนั้นระบบข้ามไปเงียบๆ ไม่มีรายการและไม่มีข้อความเตือน (ใบตัด EG01/STCUT/00336 ที่ไม่ผูก Project ไม่มีรายการค่าแรง) — เอกสารอัปเดตยังไม่ได้บอกเงื่อนไขนี้ · อัตราในตัวอย่าง (Gangsaw 100, Move-to-Station 20) เป็นค่าทดสอบ ไม่ใช่อัตราจริง · % สูญเสียจากการเลื่อยของ Empire Granite บน eg-tst ตั้งเป็น 0 จึงได้ 60 แผ่น</div></td>
+          <td class="col-pre">Work Center Gangsaw และ Move-to-Station ตั้ง Cost per Sq.M (Output) ไว้แล้ว · มี Block ใหม่ในคลัง (ตัวอย่าง BLK-26-0785 ขนาด 2.50 × 1.20 × 0.90 ม.)</td>
+          <td class="col-steps"><ol><li>เปิด Manufacturing &gt; Configuration &gt; Work Centers เปิดสถานี Gangsaw ดูช่อง Cost per Sq.M (Output) ใต้ Cost per hour</li><li>เปิด Manufacturing &gt; Operations &gt; Manufacturing Orders &gt; New เลือก Block ที่จะตัด เลือก Finish ช่อง "เหตุผล (กรณีไม่มี SO)" และช่อง Project (No SO) แล้ว Save</li><li>กด "ย้ายไปสถานีตัด" แล้วกด Confirm จากนั้นกด "ตัดเสร็จ"</li><li>ไปที่ Accounting &gt; Accounting &gt; Journal Entries ค้น "Stone Cutting Labor"</li></ol></td>
+          <td class="col-sample">Gangsaw = 100 บาท/ตร.ม.<br>Move-to-Station = 20 บาท/ตร.ม.<br>Block = BLK-26-0785, Finish = Polished, เหตุผล = งานเพิ่ม, Project = UI-TEST Cut Labour</td>
+          <td class="col-expected">ใบตัด EG01/STCUT/00337 ตัดได้ 60 แผ่น (135.00 ตร.ม.) · รายการ <b>MISC/2026/10/0039</b> "Stone Cutting Labor — EG01/STCUT/00337" เดบิต 511120 COGS - FG Production (Fabrication) / เครดิต 212300 Accrued Expenses <b>16,200.00 บาท</b> = (100 + 20) × 135 ตร.ม. · แท็ก analytic ที่บรรทัดเดบิตเป็น Project ที่เลือก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-10a-workcenter.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-10a-workcenter.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-10b-labour-je.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-10b-labour-je.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-11</span></td>
+          <td class="col-scenario">สินค้า Block อยู่หมวด "Stone - Block"<div class="note">Block ที่รับไว้ก่อนการเปลี่ยนนี้ยังบันทึกอยู่บัญชีเดิม ไม่ได้ย้ายมูลค่าย้อนหลัง · ถ้าผังบัญชีฉบับสมบูรณ์เปลี่ยนเลขบัญชี แก้ที่หมวดเท่านั้น</div></td>
+          <td class="col-pre">-</td>
+          <td class="col-steps"><ol><li>เปิด Inventory &gt; Products เลือกสินค้า Block เช่น ดำชานตง/SHANDONG BLACK - Block</li><li>ดูช่อง Category ในแท็บ General Information</li></ol></td>
+          <td class="col-sample">สินค้า = ดำชานตง/SHANDONG BLACK - Block</td>
+          <td class="col-expected">Category = <b>Stone - Block</b> (สินค้า Block ทุกตัว 50 รายการบน eg-tst อยู่หมวดนี้) · Slab อยู่หมวด "Stone"</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-11-block-category.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-11-block-category.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-W16-12</span></td>
+          <td class="col-scenario">ตัด Block เป็น Slab แล้วมูลค่าย้ายจากบัญชี Block ไปบัญชี Slab<div class="note">เพื่อให้นักบัญชียืนยัน (คำถาม Q2) · ใบตัดมีรายการ Inventory Valuation 2 ใบ ใบที่ 2 (STJ/2026/10/0172) เดบิต/เครดิตบัญชี Slab 113120 เท่ากัน เป็นการปรับระหว่างขั้นตอน ไม่กระทบยอดรวม</div></td>
+          <td class="col-pre">ทำ TC-W16-10 เสร็จแล้ว (Block BLK-26-0785 ซื้อ 7.29 ตัน × 10,000 = 73,000 บาท)</td>
+          <td class="col-steps"><ol><li>ไปที่ Accounting &gt; Accounting &gt; Journal Entries ค้นเลขใบตัด (EG01/STCUT/00337)</li><li>เปิดรายการ Journal = Inventory Valuation (STJ/...) ใบแรก ดูบัญชีและยอด</li></ol></td>
+          <td class="col-sample">ใบตัด = EG01/STCUT/00337</td>
+          <td class="col-expected">STJ/2026/10/0171: <b>เครดิต 113110 Inventory - Stone Blocks (Raw) 73,000.00</b> / <b>เดบิต 113120 Inventory - Stone Slabs (Ready-Made) 73,000.00</b> · 73,000 = 7.3 ตัน × 10,000 บาท</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-12-valuation-je.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-12-valuation-je.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
