@@ -124,10 +124,17 @@
     <div class="sidebar-title">เอกสารทั้งหมด</div>
     <ul class="tree" id="doc-tree">
 
-      <details class="tree-cat" data-section="updates-questions" open>
-        <summary>เอกสาร คำถาม และแจ้งความคืบหน้า</summary>
+      <details class="tree-cat" data-section="updates-progress" open>
+        <summary>แจ้งความคืบหน้า</summary>
         <ul class="tree-docs">
+          <li class="tree-doc"><a href="updates/2026-10-26-wip-feedback.html"><span class="tree-doc-tag">F</span>Feedback จากประชุม WIP 26 ต.ค. 2026 — ให้ลูกค้าตรวจว่าเก็บครบ</a></li>
           <li class="tree-doc"><a href="updates/2026-10-13-progress.html"><span class="tree-doc-tag">P</span>ประเด็นนำเสนอและหารือกับลูกค้า — ต่อเนื่องจากประชุม 12 และ 16 ต.ค.</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="updates-questions" open>
+        <summary>เอกสารคำถาม</summary>
+        <ul class="tree-docs">
           <li class="tree-doc"><a href="updates/accountant-questions.html"><span class="tree-doc-tag">Q</span>คำถามถึงนักบัญชี — รวมทุกเรื่อง (รอถาม 11 · ตอบแล้ว 2)</a></li>
           <li class="tree-doc"><a href="updates/cost-flow-to-accounting.html"><span class="tree-doc-tag">Q</span>ต้นทุนจากต้นทางถึงบัญชี: ซื้อ · ผลิต · ขาย (เตรียมคุยทีมบัญชี)</a></li>
         </ul>
@@ -259,21 +266,37 @@
     <div class="sub">รวมคู่มือการใช้งานและสไลด์อบรมทั้งหมดไว้ที่เดียว จัดหมวดตามขั้นตอนงาน — สำหรับเจาะลึกเฉพาะเรื่อง ถ้าอยากรู้ว่าตอนนี้ควรดูอะไรก่อน ดูที่ <a href="index.html" style="color:var(--copper-dark);font-weight:700;">หน้าแรก</a> · เอกสารที่ถูกแทนที่แล้วย้ายไปไว้ที่ <a href="archived.html" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
   </header>
 
-  <div class="category" id="updates-questions">
+  <div class="category" id="updates-progress">
     <div class="category-header">
-      <div class="category-title">เอกสาร คำถาม และแจ้งความคืบหน้า</div>
-      <div class="category-sub">อัปเดตล่าสุดของงาน สิ่งที่ปรับในระบบ และคำถามที่รอคำตอบ — ดูก่อนเป็นอันดับแรก</div>
+      <div class="category-title">แจ้งความคืบหน้า</div>
+      <div class="category-sub">เอกสารหลักสำหรับแจ้งลูกค้า — อัปเดตทุกครั้งที่มีงานเสร็จ รอบใหม่อยู่บนสุด พร้อมวิธีตรวจในระบบ</div>
     </div>
+    <a class="card" href="updates/2026-10-26-wip-feedback.html">
+      <div class="icon">F</div>
+      <div>
+        <div class="card-title">Feedback จากประชุม WIP 26 ต.ค. 2026</div>
+        <div class="card-desc">ประเด็นที่ลูกค้าแจ้งในประชุม 16 ข้อ 3 กลุ่ม (BOQ/ใบเสนอราคา, MO/คลัง, การแสดงผล) พร้อมผลวิเคราะห์ทีละข้อ และหัวข้อ "ทำไมต้องมี BOQ" — ให้ตรวจว่าเก็บครบและแนวทางใช่ไหม</div>
+        <div class="card-meta"><span class="card-date">27 ต.ค. 2026</span><span class="status-badge finding">รอลูกค้าตรวจ</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card pinned" href="updates/2026-10-13-progress.html">
       <span class="pin-badge">ล่าสุด</span>
       <div class="icon">P</div>
       <div>
         <div class="card-title">ประเด็นนำเสนอและหารือกับลูกค้า — ต่อเนื่องจากประชุม 12 และ 16 ต.ค.</div>
         <div class="card-desc">QC Note ตอนรับ Block, ต้นทุนแผ่นตามปริมาตรจริง + % สูญเสียจากการเลื่อย, ราคาตามความหนา, รับ Block เป็นตัน และ 7 เรื่องจาก WIP 16 ต.ค. (จำนวนแผ่นบน PO, Dashboard FG, Container/Analytic, Excel Import, ผิวสินค้า, ต้นทุนต่อ ตร.ม., แยกบัญชี Block/Slab) — แต่ละเรื่องบอกว่าเปลี่ยนอะไร กดตรงไหน พร้อมตัวอย่างตัวเลข และสิ่งที่ยังไม่ทำ</div>
-        <div class="card-meta"><span class="card-date">18 ต.ค. 2026</span><span class="status-badge built">สร้างแล้ว (ระบบทดสอบ)</span></div>
+        <div class="card-meta"><span class="card-date">27 ต.ค. 2026</span><span class="status-badge built">สร้างแล้ว (ระบบทดสอบ)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
+  </div>
+
+  <div class="category" id="updates-questions">
+    <div class="category-header">
+      <div class="category-title">เอกสารคำถาม</div>
+      <div class="category-sub">คำถามที่รอคำตอบจากนักบัญชีและทีมที่เกี่ยวข้อง — เพิ่มคำถามใหม่ต่อท้ายหน้าเดิม</div>
+    </div>
     <a class="card" href="updates/accountant-questions.html">
       <div class="icon">Q</div>
       <div>

@@ -51,10 +51,13 @@ table.track td:nth-child(3){white-space:nowrap;}
 /* 2026-10-18: tracker table of a feedback round (progress page): 4 fixed-width columns with step lists */
 table.track.wip{table-layout:fixed;}
 table.track.wip td:nth-child(3){white-space:normal;}
-table.track.wip th:nth-child(1){width:23%;}
-table.track.wip th:nth-child(2){width:25%;}
-table.track.wip th:nth-child(3){width:32%;}
+table.track.wip th:nth-child(1){width:19%;}
+table.track.wip th:nth-child(2){width:22%;}
+table.track.wip th:nth-child(3){width:28%;}
 table.track.wip th:nth-child(4){width:20%;}
+table.track.wip th:nth-child(5){width:11%;}
+table.track td.mt{white-space:nowrap;vertical-align:top;}
+table.track td.mt .sub{white-space:normal;}
 table.track.wip ol{margin:0;padding-left:18px;}
 table.track.wip li{margin:2px 0;}
 table.track.wip .sub{display:block;margin-top:4px;color:#555;font-size:13px;}
@@ -62,3 +65,20 @@ table.track.wip .need{display:block;margin-top:8px;font-size:13px;color:#444;}
 table.track.wip .ex{display:block;margin-top:6px;font-size:12.5px;color:#7A4A12;background:#FFF6E8;border-radius:6px;padding:4px 7px;}
 .sysbox{background:#F3F8FC;border:1px solid #CFE0EE;border-radius:10px;padding:10px 14px;margin:10px 0 14px;font-size:14px;}
 @media (max-width:700px){table.track.wip{table-layout:auto;}}
+.st-none{background:#ECECEC;color:#555;}
+.cards.six{grid-template-columns:repeat(3,1fr);}
+table.track.fb{table-layout:fixed;}
+table.track.fb td:nth-child(3){white-space:normal;}
+table.track.fb th:nth-child(1){width:6%;}
+table.track.fb th:nth-child(2){width:27%;}
+table.track.fb th:nth-child(3){width:47%;}
+table.track.fb th:nth-child(4){width:20%;}
+table.track.fb4{table-layout:fixed;}
+table.track.fb4 td:nth-child(3){white-space:normal;}
+table.track.fb ul,table.track.fb ol,table.track.fb4 ul,table.track.fb4 ol{margin:6px 0;padding-left:18px;}
+table.track.fb td:nth-child(3) ul{margin:6px 0;}
+@media (max-width:700px){table.track.fb,table.track.fb4{table-layout:auto;}.cards.six{grid-template-columns:repeat(2,1fr);}}
+table.track.fb4 th:nth-child(1){width:6%;}
+table.track.fb4 th:nth-child(2){width:22%;}
+table.track.fb4 th:nth-child(3){width:40%;}
+table.track.fb4 th:nth-child(4){width:32%;}
