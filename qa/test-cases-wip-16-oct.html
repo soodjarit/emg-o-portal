@@ -162,7 +162,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr id="tc-w16-01">
           <td class="col-id"><span class="tc-id">TC-W16-01</span></td>
           <td class="col-scenario">PO Slab: กรอก ตร.ม. แล้วจำนวนแผ่นต้องไม่เปลี่ยนตาม<div class="note">ตอนพิมพ์ชื่อสินค้า อย่ากดบรรทัด "Create ..." ใน dropdown เพราะจะสร้างสินค้าซ้ำ · ถ้ายังไม่กรอก ตร.ม. เอง ระบบยังประมาณให้ = จำนวนแผ่น × ขนาดมาตรฐาน</div></td>
           <td class="col-pre">เข้าระบบเป็น Empire Granite · มีผู้ขายและสินค้า Slab "GP Block Marble - Slab (Honed, 3 cm)"</td>
@@ -172,7 +172,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-01-po-sqm.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-01-po-sqm.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-02">
           <td class="col-id"><span class="tc-id">TC-W16-02</span></td>
           <td class="col-scenario">PO Slab: กรอกจำนวนแผ่นที่รับจริง แล้ว ตร.ม. ต้องไม่ถูกเขียนทับ<div class="note">ราคาต่อแผ่น (Unit Price) จะเปลี่ยนเป็น 8,041.125 เพราะยอดรวมคงเดิมแล้วหารด้วยจำนวนแผ่น — เป็นเรื่องปกติ ไม่ใช่ราคาที่ตกลงกับผู้ขาย · PO ที่เปิดไว้ก่อนหน้านี้ไม่ถูกแก้</div></td>
           <td class="col-pre">ทำ TC-W16-01 เสร็จแล้ว (ยังอยู่หน้า PO เดิม)</td>
@@ -182,7 +182,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-02-po-pieces.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-02-po-pieces.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-03">
           <td class="col-id"><span class="tc-id">TC-W16-03</span></td>
           <td class="col-scenario">รับ Slab หลายขนาดในใบรับของเดียว แล้ว Validate<div class="note">Slab เป็นแบบ Serial: ระบบแยก 1 แถว = 1 แผ่น (ไม่ใช่ 1 แถวต่อขนาด) ใบรับของจึงมี 5 แถว แถวละ 1 แผ่น ตรงตามจำนวนที่รับ ไม่มีแถวว่างซ้ำ · ถ้ากรอกแต่ ตร.ม. ที่ PO ใบรับของจะรอแค่ 1 แผ่น ต้องกรอกจำนวนแผ่นด้วย</div></td>
           <td class="col-pre">มี PO Slab ที่ Confirm แล้ว (สั่ง 5 แผ่น กรอกจำนวนแผ่น 5 ไว้ที่ PO)</td>
@@ -192,7 +192,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03-details.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03-details.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03c-receipt-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03c-receipt-done.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-03b-po-received.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-03b-po-received.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-04">
           <td class="col-id"><span class="tc-id">TC-W16-04</span></td>
           <td class="col-scenario">PO ค่าใช้จ่ายนำเข้า: เลือกตู้ที่หัว PO ครั้งเดียว<div class="note">บรรทัด Slab/Block ไม่ถูกใส่ analytic ของตู้ (กันนับต้นทุนซ้ำ เพราะต้นทุนหินนับที่ฝั่งขายอยู่แล้ว) · เวอร์ชันนี้ 1 PO = 1 ตู้ · แก้ analytic รายบรรทัดเองได้เสมอ</div></td>
           <td class="col-pre">มี Container (ตัวอย่าง E3978 และ E2222) ในระบบแล้ว</td>
@@ -202,7 +202,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-04-container-tag.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-04-container-tag.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-05">
           <td class="col-id"><span class="tc-id">TC-W16-05</span></td>
           <td class="col-scenario">เปลี่ยนตู้ที่หัว PO แล้วแท็กย้ายตาม และบรรทัดที่เพิ่มทีหลังก็ได้แท็ก</td>
           <td class="col-pre">ทำ TC-W16-04 เสร็จแล้ว (ยังอยู่หน้า PO เดิม)</td>
@@ -238,7 +238,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr id="tc-w16-06">
           <td class="col-id"><span class="tc-id">TC-W16-06</span></td>
           <td class="col-scenario">ดาวน์โหลด template กรอกขนาดเป็น ซม. อัปโหลด ตรวจไฟล์ ยืนยันนำเข้า แล้ว Validate<div class="note">ขนาดกรอกเป็น <b>เซนติเมตร</b> ระบบแปลงเป็นเมตรเอง (160 ซม. = 1.600 ม.) · สินค้าเลือกจาก dropdown ในไฟล์เท่านั้น · ไฟล์ตัวอย่างที่ใช้รอบนี้: <a href="assets/golden-path-wip-16-oct/slab-import-example.xlsx">slab-import-example.xlsx</a> · ยังไม่รองรับการอ่าน Packing List ของ supplier โดยตรง</div></td>
           <td class="col-pre">มี PO Slab ที่ Confirm แล้ว และใบรับของที่ยังไม่ Validate (ตัวอย่าง PO สั่ง 4 แผ่น)</td>
@@ -274,7 +274,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr id="tc-w16-07">
           <td class="col-id"><span class="tc-id">TC-W16-07</span></td>
           <td class="col-scenario">Dashboard: ช่อง Finished Goods มีบรรทัด "ในสต็อก N รายการ"<div class="note">ช่องนี้เดิมนับเฉพาะ "ใบสั่งผลิตที่เสร็จใน 30 วัน" จึงไม่นับ FG ที่รับเข้าตรงๆ · ตัวเลขจะต่างจากนี้ตามสต็อกจริงของแต่ละวัน</div></td>
           <td class="col-pre">มี FG อยู่ในสต็อก (ทั้งที่ผลิตเองและรับเข้าตรงๆ)</td>
@@ -284,7 +284,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-07a-dashboard.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-07a-dashboard.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-07b-fg-stock-list.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-07b-fg-stock-list.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-08">
           <td class="col-id"><span class="tc-id">TC-W16-08</span></td>
           <td class="col-scenario">สินค้า FG มีตัวเลือกผิว (Finish)<div class="note">ตั้งผิวให้ FG แล้ว 48 จาก 53 รายการ · ยังเหลือ 5 รายการที่รอข้อมูลลูกค้า (Q-GREY, GP Block Marble, Custom Product 01, ซุ้มบัว, เจดีย์บัว) จึงไม่อยู่ในเคสนี้</div></td>
           <td class="col-pre">-</td>
@@ -294,7 +294,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-08-fg-finish.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-08-fg-finish.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-09">
           <td class="col-id"><span class="tc-id">TC-W16-09</span></td>
           <td class="col-scenario">ใบเสนอราคา: เลือกสินค้า FG แล้วเลือกผิวได้</td>
           <td class="col-pre">ทำ TC-W16-08 เสร็จแล้ว</td>
@@ -330,7 +330,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr id="tc-w16-10">
           <td class="col-id"><span class="tc-id">TC-W16-10</span></td>
           <td class="col-scenario">ค่าแรงใบตัด = ผลรวมอัตราบาทต่อ ตร.ม. ของสถานี × ตร.ม. ที่ตัดได้<div class="note">⚠ <b>ค่าแรงจะลงบัญชีก็ต่อเมื่อใบตัดผูกกับ Sale Order หรือกรอกช่อง "Project (No SO)"</b> ไม่เช่นนั้นระบบข้ามไปเงียบๆ ไม่มีรายการและไม่มีข้อความเตือน (ใบตัด EG01/STCUT/00336 ที่ไม่ผูก Project ไม่มีรายการค่าแรง) — เอกสารอัปเดตยังไม่ได้บอกเงื่อนไขนี้ · อัตราในตัวอย่าง (Gangsaw 100, Move-to-Station 20) เป็นค่าทดสอบ ไม่ใช่อัตราจริง · % สูญเสียจากการเลื่อยของ Empire Granite บน eg-tst ตั้งเป็น 0 จึงได้ 60 แผ่น</div></td>
           <td class="col-pre">Work Center Gangsaw และ Move-to-Station ตั้ง Cost per Sq.M (Output) ไว้แล้ว · มี Block ใหม่ในคลัง (ตัวอย่าง BLK-26-0785 ขนาด 2.50 × 1.20 × 0.90 ม.)</td>
@@ -340,7 +340,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-10a-workcenter.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-10a-workcenter.png" loading="lazy"></a><div style="height:6px"></div><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-10b-labour-je.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-10b-labour-je.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-11">
           <td class="col-id"><span class="tc-id">TC-W16-11</span></td>
           <td class="col-scenario">สินค้า Block อยู่หมวด "Stone - Block"<div class="note">Block ที่รับไว้ก่อนการเปลี่ยนนี้ยังบันทึกอยู่บัญชีเดิม ไม่ได้ย้ายมูลค่าย้อนหลัง · ถ้าผังบัญชีฉบับสมบูรณ์เปลี่ยนเลขบัญชี แก้ที่หมวดเท่านั้น</div></td>
           <td class="col-pre">-</td>
@@ -350,7 +350,7 @@
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-wip-16-oct/w16-11-block-category.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-wip-16-oct/w16-11-block-category.png" loading="lazy"></a></td>
         </tr>
-        <tr>
+        <tr id="tc-w16-12">
           <td class="col-id"><span class="tc-id">TC-W16-12</span></td>
           <td class="col-scenario">ตัด Block เป็น Slab แล้วมูลค่าย้ายจากบัญชี Block ไปบัญชี Slab<div class="note">เพื่อให้นักบัญชียืนยัน (คำถาม Q2) · ใบตัดมีรายการ Inventory Valuation 2 ใบ ใบที่ 2 (STJ/2026/10/0172) เดบิต/เครดิตบัญชี Slab 113120 เท่ากัน เป็นการปรับระหว่างขั้นตอน ไม่กระทบยอดรวม</div></td>
           <td class="col-pre">ทำ TC-W16-10 เสร็จแล้ว (Block BLK-26-0785 ซื้อ 7.29 ตัน × 10,000 = 73,000 บาท)</td>
