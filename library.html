@@ -130,6 +130,7 @@
         <summary>สำหรับทดสอบ (For Test)</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="test-boq.html">BOQ</a></li>
+          <li class="tree-doc"><a href="test-custom-fg.html">Custom FG (เจดีย์บัว/โคม)</a></li>
           <li class="tree-doc"><a href="test-block.html">Block</a></li>
           <li class="tree-doc"><a href="test-slab.html">Slab</a></li>
           <li class="tree-doc"><a href="test-fg.html">FG</a></li>
@@ -142,6 +143,7 @@
         <summary>แจ้งความคืบหน้า</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="updates/2026-10-26-wip-feedback.html"><span class="tree-doc-tag">F</span>Feedback จากประชุม WIP 26 ต.ค. 2026 — ให้ลูกค้าตรวจว่าเก็บครบ</a></li>
+          <li class="tree-doc"><a href="updates/EMG-O-MO-Loop-Test-20261028.html"><span class="tree-doc-tag">T</span>ผลทดสอบ MO 1 รอบ — ตอบข้อ 2.6 (สต็อกก่อน/หลัง)</a></li>
           <li class="tree-doc"><a href="updates/2026-10-13-progress.html"><span class="tree-doc-tag">P</span>ประเด็นนำเสนอและหารือกับลูกค้า — ต่อเนื่องจากประชุม 12 และ 16 ต.ค.</a></li>
         </ul>
       </details>
@@ -163,6 +165,7 @@
           <li class="tree-doc"><a href="manual/33-landed-cost.html"><span class="tree-doc-tag">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="manual/34-mo-costing.html"><span class="tree-doc-tag">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a></li>
           <li class="tree-doc"><a href="manual/35-boq-vs-cutlist.html"><span class="tree-doc-tag">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร</a></li>
+          <li class="tree-doc"><a href="manual/36-custom-fg.html"><span class="tree-doc-tag">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="presentations/eg-321-production-line.html"><span class="tree-doc-tag">EG</span>EG-321 Production Line — เจาะรายละเอียดสายการผลิต + Odoo MRP</a></li>
         </ul>
       </details>
@@ -242,7 +245,7 @@
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (35 บท)</a></li>
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (36 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
           <div class="tree-subgroup-label">BOQ Estimation</div>
@@ -274,6 +277,15 @@
         <div class="card-title">BOQ</div>
         <div class="card-desc">นำเข้า Excel ถึงต้นทุนและ P&amp;L — Test Case · คู่มือกดตาม · ไฟล์ตัวอย่าง</div>
         <div class="card-meta"><span class="card-date">5 เอกสาร</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="test-custom-fg.html">
+      <div class="icon">+</div>
+      <div>
+        <div class="card-title">Custom FG — เจดีย์บัว และ โคม</div>
+        <div class="card-desc">ไฟล์ BOQ + Cut List ตัวอย่าง (ซม.) สำหรับสินค้าสั่งทำราคาคงที่ — โหลดเข้าระบบแล้วได้ใบสั่งผลิตส่งโรงงาน</div>
+        <div class="card-meta"><span class="card-date">2 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -422,6 +434,15 @@
       <div>
         <div class="card-title">บทที่ 35 · BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร</div>
         <div class="card-desc">นิยาม BOQ (ขายอะไรกี่บาท) กับ Cut List (ตัดชิ้นไหนขนาดไหน) · Import Excel vs นำเข้า Cut List · ขนาดที่ติดจาก BOQ ถึงใบสั่งผลิต · เทียบ ตร.ม. · ต้นทุนจริงและ P&amp;L ของ BOQ ใบนี้ · ภาพหน้าจอจริงจาก eg-tst</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="manual/36-custom-fg.html">
+      <div class="icon">36</div>
+      <div>
+        <div class="card-title">บทที่ 36 · Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต</div>
+        <div class="card-desc">สินค้าสั่งทำที่ขายเป็นราคาต่อชิ้น: BOQ บอกขายกี่ชิ้นกี่บาท Cut List บอกชิ้นหินของ 1 ชิ้น พอ Confirm ระบบสร้างใบสั่งตัดและใบประกอบให้โรงงานเอง · รันจริงบน eg-tst 28 ต.ค. 2569 (ใบสั่งผลิต 9 ใบ) · ใช้ไฟล์ตัวอย่างจากหมวด สำหรับทดสอบ → Custom FG</div>
         <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span></div>
       </div>
       <div class="arrow">→</div>
@@ -711,7 +732,7 @@
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (35 บท)</div>
+        <div class="card-title">คู่มือฉบับเต็ม (36 บท)</div>
         <div class="card-desc">ทุกโหมดการขาย (1-5), การจัดซื้อ, BOQ, Intercompany, Scan Station, WHT — แยกไฟล์รายบท พร้อม screenshot ทุกขั้นตอน</div>
         <div class="card-meta"><span class="card-date">20 ส.ค. 2026</span></div>
       </div>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>36. Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 36 / 36</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 36 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="36-custom-fg.html" class="nav-link active"><span class="nav-num">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">36</span> Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · ภาพหน้าจอถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569 (boq_estimation 19.0.1.54.0)</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายสินค้าสั่งทำที่ขายเป็น <strong>ราคาต่อชิ้น</strong> อย่างเจดีย์บัวและโคมหินอ่อน (เรียกว่า Custom FG) ว่าเดินจากไฟล์ BOQ ไปถึงใบสั่งผลิตส่งโรงงานได้อย่างไร และไฟล์ Cut List เข้ามามีบทบาทตรงไหน ใช้ไฟล์ตัวอย่างชุดเดียวกับที่ให้ดาวน์โหลดใน Library หมวด "สำหรับทดสอบ → Custom FG" ส่วนความต่างระหว่าง BOQ กับ Cut List โดยทั่วไป อ่านบทที่ 35</p>
+
+<h2>1. Custom FG คืออะไร</h2>
+<p><strong>Custom FG</strong> คือสินค้าสำเร็จรูปที่ประกอบจากชิ้นหินหลายชิ้น หลายชนิด และขายเป็น <em>ชิ้น</em> ในราคาคงที่ ไม่ได้ขายเป็น ตร.ม. เหมือนพื้นหรือผนัง ในระบบตอนนี้มี 2 รายการ คือ <strong>เจดีย์บัว</strong> (ตั้งราคา 50,000 บาทต่อชิ้น) และ <strong>โคมหินอ่อน</strong> (25,000 บาทต่อชิ้น)</p>
+<div class="kv">
+<div>ขายเป็นหน่วยอะไร</div><div><strong>ชิ้น</strong> ราคาคงที่ต่อชิ้น (ตัวอย่างจริง: เจดีย์บัว 2 ชิ้น = 100,000)</div>
+<div>1 ชิ้นประกอบจากอะไร</div><div>ชิ้นหินหลายชิ้น หลายชนิด (ตัวอย่าง: เจดีย์บัว 1 ชิ้น = NERO 4 ชิ้น + GP Block Marble 6 ชิ้น = 10 ชิ้นหิน)</div>
+<div>BOQ บอกอะไร</div><div>ขายอะไร กี่ชิ้น ราคาเท่าไร และอยู่ในโซนไหน (1 บรรทัด = 1 สินค้า ตั้งชื่อโซนเอง)</div>
+<div>Cut List บอกอะไร</div><div>ชิ้นหินทุกชิ้นของสินค้า <strong>1 ชิ้น</strong> ขนาดกี่ ซม. ชนิดหินอะไร (ฝั่งโรงงาน)</div>
+<div>ใบสั่งผลิตที่ได้</div><div>ใบประกอบ 1 ใบต่อสินค้า + ใบสั่งตัด 1 ใบต่อชนิดหิน</div>
+<div>ต้นทุน</div><div>ใบเสนอราคาแสดง <strong>ต้นทุนประมาณการ</strong> ต่อชิ้น ส่วนต้นทุนจริงมาจากใบสั่งผลิตหลังผลิตเสร็จ</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">BOQ = ขายกี่ชิ้นกี่บาท · Cut List = หินของ 1 ชิ้นมีกี่แผ่นขนาดไหน</span></div><div class="callout-body">ราคาไม่เปลี่ยนตาม Cut List ลูกค้าจ่าย 50,000 ต่อเจดีย์บัว 1 ชิ้นเสมอ ไม่ว่าชิ้นหินข้างในจะใช้กี่ ตร.ม. Cut List มีไว้ให้โรงงานรู้ว่าต้องตัดอะไร และให้ระบบประมาณต้นทุน</div></div>
+
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">ต่างจาก Countertop</span><span class="callout-title">Countertop ขายเป็น ตร.ม. ตามขนาดแผ่น · Custom FG ขายเป็นชิ้น ราคาคงที่</span></div><div class="callout-body">ถ้าลูกค้าสั่ง "พื้นหิน 9 ตร.ม." ใช้ Import Excel แบบบทที่ 35 (รายการงานเป็น ตร.ม. มีกว้าง ยาว หนา) ถ้าสั่ง "เจดีย์บัว 2 ชิ้น" ใช้แนวทางในบทนี้ สองแบบอยู่ใน BOQ ใบเดียวกันได้</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>1 บรรทัด BOQ = 1 สินค้า Custom FG</strong> ใส่จำนวนชิ้นและราคาต่อชิ้น และตั้งชื่อโซนเอง (เช่น เจดีย์บัว, โคมประตูซ้าย, โคมประตูขวา)</li>
+<li><strong>ชื่อโซนคือตัวเชื่อม BOQ กับ Cut List</strong> โซนใน Cut List ต้องตรงกับโซนใน BOQ ทุกตัวอักษร (ในเทมเพลต Cut List ช่องโซนเป็น dropdown ที่ดึงจาก BOQ ให้ จึงเลือกแทนการพิมพ์ได้)</li>
+<li><strong>Cut List ใส่ชิ้นหินของ 1 ชิ้นเท่านั้น</strong> ระบบคูณตามจำนวนที่ขายเอง เจดีย์บัว 2 ชิ้นจึงตัด NERO 8 ชิ้น (4 × 2) และ GP 12 ชิ้น (6 × 2)</li>
+<li><strong>ชิ้นหินจาก Cut List ไม่ขึ้นใบเสนอราคา</strong> ระบบเก็บเป็น "บรรทัดสูตร" เบื้องหลัง ไม่เพิ่มยอด ไม่ขึ้น PDF ไม่ทำให้ราคาเปลี่ยน</li>
+<li><strong>ไม่ต้องรอ Cut List เพื่อขาย</strong> ออกใบเสนอราคาและ Confirm จาก BOQ ได้เลย Cut List มาตามหลังเมื่อได้แบบ (ดูตารางเงื่อนไข หัวข้อ 5)</li>
+<li><strong>ต้นทุนในใบเสนอราคาเป็นค่าประมาณ</strong> ใช้เตือนกำไรก่อนขาย ต้นทุนจริงเกิดตอนผลิต</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. Import Excel</b>BOQ: เจดีย์บัว/โคม ราคาต่อชิ้น</div><div class="ar">→</div>
+<div class="st hl"><b>2. นำเข้า Cut List</b>ชิ้นหินของ 1 ชิ้น ตามโซน</div><div class="ar">→</div>
+<div class="st"><b>3. ใบเสนอราคา</b>ยอดเท่า BOQ + ต้นทุนประมาณ</div><div class="ar">→</div>
+<div class="st hl"><b>4. Confirm</b>ระบบสร้างใบสั่งผลิต ส่งโรงงาน</div><div class="ar">→</div>
+<div class="st"><b>5. ตัด ประกอบ ส่งของ</b>ต้นทุนจริงจากใบสั่งผลิต</div>
+</div>
+<p>กล่องสีเหลืองคือจุดที่ต่างจากงานพื้น/ผนัง ขั้น 2 ใช้ Cut List เป็น "สูตร" ของสินค้า และขั้น 4 ได้ใบสั่งผลิตครบชุดโดยที่ไม่ต้องสร้างเอง</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 นำเข้า BOQ ของเจดีย์บัวและโคม (Import Excel)</h3>
+<p>ไปที่ <strong>BOQ Estimation → BOQ Documents → Import Excel</strong> เลือกลูกค้า เลือกไฟล์ <strong>boq-import-example-custom-fg.xlsx</strong> (โหลดได้จาก Library หมวด สำหรับทดสอบ → Custom FG) แล้วกด <strong>อ่านไฟล์</strong> ไฟล์มี 3 บรรทัด คอลัมน์ "สินค้าหิน" เลือกชื่อสินค้า Custom FG จาก dropdown ได้เหมือนสินค้า FG อื่น (กว้าง ยาว หนา เว้นว่าง เพราะขายเป็นชิ้น)</p>
+<table class="cond"><tr><th>โซน</th><th>สินค้า</th><th>จำนวน</th><th>ราคา/ชิ้น</th><th>รวม</th></tr>
+<tr><td>เจดีย์บัว</td><td>เจดีย์บัว</td><td>2 ชิ้น</td><td>50,000</td><td>100,000</td></tr>
+<tr><td>โคมประตูซ้าย</td><td>โคมหินอ่อน</td><td>1 ชิ้น</td><td>25,000</td><td>25,000</td></tr>
+<tr><td>โคมประตูขวา</td><td>โคมหินอ่อน</td><td>1 ชิ้น</td><td>25,000</td><td>25,000</td></tr></table>
+<p>หน้าตัวอย่างแสดงจำนวนรายการ 3 · วัสดุรวม 150,000.00 · Overhead รวม 0.00 · รวม 150,000.00 กด <strong>สร้าง BOQ</strong> ได้ BOQ ใบใหม่ (ในการทดลองคือ BOQ1115)</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ตั้ง Overhead % เป็น 0 ในไฟล์ ไม่งั้นราคาขายจะสูงกว่าราคาต่อชิ้น</span></div><div class="callout-body">ถ้าช่อง Overhead % ในไฟล์ว่าง ระบบใช้ค่าตั้งต้นของ BOQ (10%) แล้วบวกเข้าราคา เจดีย์บัวจะกลายเป็น 55,000 ต่อชิ้นแทนที่จะเป็น 50,000 (ลองจริงแล้วยอดรวมเป็น 165,000 แทน 150,000) ไฟล์ตัวอย่างจึงใส่ 0 ไว้ทุกบรรทัด</div></div>
+
+<h3>4.2 นำเข้า Cut List ของชิ้นหิน</h3>
+<p>เปิด BOQ ที่เพิ่งสร้าง ไปแท็บ <strong>③ Cut List</strong> ที่ช่อง "รายการที่ใช้ในโปรเจกต์นี้" เลือกสินค้าหินที่จะใช้ตัด 2 รายการ คือ <strong>เทาดำอัฟริกา/NERO RUSTENBURG (Polished)</strong> และ <strong>GP Block Marble</strong> (เลือกสินค้า FG ไม่ใช่ Block หรือ Slab) แล้วกด <strong>นำเข้า Cut List</strong> เลือกไฟล์ <strong>cutlist-import-example-custom-fg-cm.xlsx</strong> กด <strong>อ่านไฟล์</strong> ระบบจับคู่ชิ้นหินเข้ากับโซนให้ทันที</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-02-cutlist-preview.webp" alt="หน้าตัวอย่างก่อนนำเข้า Cut List ของเจดีย์บัวและโคม"/></figure>
+<p>หน้าตัวอย่างสรุปเป็น 6 กลุ่ม (โซน × ชนิดหิน) ผลจับคู่ของทุกกลุ่มเป็น <strong>"สูตรของ เจดีย์บัว"</strong> หรือ <strong>"สูตรของ โคมหินอ่อน"</strong> แปลว่าระบบรู้ว่าโซนนี้เป็นสินค้า Custom FG จึงสร้าง "บรรทัดสูตร" (ไม่ขึ้นใบเสนอราคา) ตัวเลข ตร.ม. ที่ระบบรวมให้ตรงกับที่คำนวณเอง</p>
+<table class="cond"><tr><th>โซน</th><th>NERO (ชิ้น · ตร.ม.)</th><th>GP Block Marble (ชิ้น · ตร.ม.)</th></tr>
+<tr><td>เจดีย์บัว (ต่อ 1 ชิ้น)</td><td>4 · 0.3600</td><td>6 · 0.5400</td></tr>
+<tr><td>โคมประตูซ้าย</td><td>2 · 0.1250</td><td>5 · 0.2800</td></tr>
+<tr><td>โคมประตูขวา</td><td>2 · 0.1800</td><td>5 · 0.3025</td></tr></table>
+<p>กด <strong>ยืนยันนำเข้า</strong> ระบบแจ้ง "เติมชิ้นงานเข้าบรรทัดเดิมแล้ว" และสร้างบรรทัดสูตร 6 บรรทัดในแท็บ ① ยอดรวมของ BOQ ยังเป็น <strong>150,000.00</strong> เท่าเดิม</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-01-boq-lines.webp" alt="แท็บ ① ของ BOQ หลังนำเข้า Cut List: บรรทัดสูตร 6 บรรทัด ยอดรวมยังเท่าเดิม"/></figure>
+<p>ในภาพ บรรทัดสูตรของแต่ละโซนมีปุ่ม "รายชิ้น" ให้ดูขนาดทุกชิ้น และช่อง "รวม" เป็น 0.00 เพราะไม่ใช่ของที่ขาย ราคาต่อ ตร.ม. ที่เห็นในบรรทัดสูตรใช้ประเมินต้นทุนเท่านั้น ไม่เข้ายอดใบเสนอราคา</p>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">"รายการที่ใช้ในโปรเจกต์นี้" ใส่เฉพาะสินค้าหิน อย่าใส่เจดีย์บัว/โคม</span></div><div class="callout-body">ช่องนี้คือรายชื่อหินที่ dropdown ในเทมเพลต Cut List ให้เลือก ถ้าใส่เจดีย์บัวหรือโคมลงไป ไฟล์จะจับคู่ผิด ผู้ใช้เคยเลือกผิดมาแล้วหนึ่งครั้งในการทดลอง 25 ต.ค.</div></div>
+
+<h3>4.3 ออกใบเสนอราคา</h3>
+<p>กด <strong>สร้างใบเสนอราคา</strong> ที่ BOQ ได้ใบเสนอราคา (ในการทดลองคือ S01605) 3 บรรทัดตามที่ขาย ยอดก่อนภาษี <strong>150,000.00</strong> VAT 7% 10,500.00 รวม 160,500.00 บรรทัดสูตรไม่ปรากฏในใบเสนอราคาและ PDF</p>
+<p>ที่บรรทัดของ Custom FG มีคอลัมน์ <strong>ต้นทุน/ชิ้น (ประมาณ)</strong> และ <strong>Margin/ชิ้น (ประมาณ)</strong> เพิ่มให้ (ก่อน Confirm ในการทดลองแสดงต้นทุนเจดีย์บัว 8,758.16 · โคมซ้าย 4,793.22 · โคมขวา 4,889.61 ต่อชิ้น) ตัวเลขนี้ <strong>คำนวณจากสูตรที่โหลดมา เป็นค่าประมาณ</strong> ไม่ใช่ต้นทุนจริง ใช้ดูว่าราคาที่เสนอยังมีกำไรหรือไม่ ถ้าต้นทุนประมาณสูงกว่าราคาขาย ระบบเตือนตอน Confirm</p>
+
+<h3>4.4 Confirm แล้วได้ใบสั่งผลิตให้โรงงาน</h3>
+<p>กด <strong>Confirm</strong> ที่ใบเสนอราคา ระบบสร้างใบสั่งผลิตให้เองทั้งชุด ไม่ต้องกดสร้างทีละใบ ที่ใบขายจะมีปุ่ม <strong>FG Production</strong> แสดงจำนวนใบสั่งผลิต และมีปุ่ม <strong>นำเข้า Cut List</strong> กับ <strong>เทียบ ตร.ม. Cut List</strong> อยู่ที่ใบขายด้วย</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-03-so-confirmed.webp" alt="ใบขายหลัง Confirm: ปุ่ม FG Production และปุ่ม Cut List"/></figure>
+<p>ในการทดลอง (ใบขาย S01605) ได้ใบสั่งผลิตรวม <strong>9 ใบ</strong> ทุกใบมีสถานะ Draft รอโรงงานดำเนินการต่อ</p>
+<table class="cond"><tr><th>สินค้า / โซน</th><th>ใบประกอบ</th><th>ใบสั่งตัด NERO</th><th>ใบสั่งตัด GP Block Marble</th></tr>
+<tr><td>เจดีย์บัว 2 ชิ้น</td><td>1 ใบ (จำนวน 2)</td><td>8 ชิ้น</td><td>12 ชิ้น</td></tr>
+<tr><td>โคมประตูซ้าย 1 ชิ้น</td><td>1 ใบ (จำนวน 1)</td><td>2 ชิ้น</td><td>5 ชิ้น</td></tr>
+<tr><td>โคมประตูขวา 1 ชิ้น</td><td>1 ใบ (จำนวน 1)</td><td>2 ชิ้น</td><td>5 ชิ้น</td></tr></table>
+<figure class="screenshot"><img src="assets/custom-fg-concept-04-mo-list.webp" alt="รายการใบสั่งผลิต 9 ใบที่ระบบสร้างจากใบขาย S01605"/></figure>
+<p>จำนวนที่ตัดคือจำนวนชิ้นใน Cut List คูณจำนวนที่ขาย เจดีย์บัว 2 ชิ้น จึงตัด NERO 4 × 2 = 8 และ GP 6 × 2 = 12 ส่วนใบประกอบผูกกับบรรทัดในใบขายและเห็นปุ่ม "แผนตัด" ที่นับใบสั่งตัดของตัวเอง (เจดีย์บัวมี 2 ใบ) ขั้นตอนหลัง Confirm ที่ทดลองต่อจนจบ อยู่ที่หัวข้อ 4.5 ถึง 4.9</p>
+
+<h3>4.5 ใบสั่งตัดที่โรงงานได้รับ</h3>
+<p>เปิดใบสั่งตัด (ตัวอย่าง NERO ของเจดีย์บัว) จะเห็นประเภทงาน "ถอดแบบ / Cutting Plan" แผน <strong>0.72 ตร.ม.</strong> (NERO 0.36 × 2 ชิ้น) ระบบเลือก Slab ต้นทางให้แล้ว (ที่แท็บ "Slab ที่จะตัด" มีปุ่ม <strong>เลือก Slab อัตโนมัติ</strong>) และลงรายการชิ้นงานให้ครบที่แท็บ <strong>ชิ้นงาน (แผน/จริง)</strong> ตามรหัสและขนาดใน Cut List ของจริง เจดีย์บัว 2 ชิ้นจึงได้ N-01 #1 ถึง N-04 #1 และ N-01 #2 ถึง N-04 #2 รวม 8 ชิ้น (หน้าจอฝั่งโรงงานแสดงขนาดเป็นเมตร)</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-06-pieces.webp" alt="แท็บชิ้นงาน (แผน/จริง) ของใบสั่งตัด NERO หลังตัดเสร็จ: 8 ชิ้น แผนเท่าจริง"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">ใบสั่งตัดหลายใบอาจถูกเลือก Slab แผ่นเดียวกัน — ใบที่สองต้องกดเลือกใหม่</span></div><div class="callout-body">ในการทดลอง ใบสั่งตัด NERO ของเจดีย์บัวและของโคมซ้ายถูกเลือก Slab แผ่นเดียวกัน (BLK-26-0015-36) พอใบแรกตัดเสร็จและใช้ Slab นั้นไปแล้ว ใบที่สองกด "ย้ายไปสถานีตัด" ได้ข้อความ "ไม่พบสต็อกของ Slab ที่เลือกที่ Stone Available" ต้องลบแถว Slab เดิมแล้วกด <strong>เลือก Slab อัตโนมัติ</strong> ใหม่ ระบบจึงเลือกแผ่นถัดไป (BLK-26-0015-37) ให้</div></div>
+
+<h3>4.6 ตัดหิน</h3>
+<p>แต่ละใบสั่งตัดทำ 4 ขั้น: ① <strong>ย้ายไปสถานีตัด</strong> (ระบบย้าย Slab เข้าสถานีตัด ขึ้นข้อความ "ย้ายสำเร็จ") ② <strong>Confirm</strong> ③ แท็บชิ้นงาน กด <strong>คัดลอกแผนเป็นขนาดจริง</strong> (ถ้าตัดได้ตรงแบบ ไม่ต้องแก้ทีละชิ้น) ④ <strong>ถอดแบบเสร็จ</strong> สถานะเป็น Done และยอด "ตัดได้จริง" เป็น 0.72 ตร.ม. ทำครบทั้ง 6 ใบสั่งตัด (NERO 3 ใบ GP 3 ใบ) ได้ชิ้นหินกึ่งสำเร็จ (Cutting Plan WIP) เข้าสต็อก</p>
+
+<h3>4.7 ประกอบ</h3>
+<p>ใบประกอบ (ตัวอย่าง โคมประตูซ้าย) ผูกกับใบสั่งตัดของโคมนั้นอยู่แล้ว (ช่อง "Lot จาก Cutting Plan" ขึ้น CUT-EG01/STCPL/00372 และ 00373) และเมื่อกด <strong>Confirm</strong> ที่แท็บ Components จะมีชิ้นหินกึ่งสำเร็จมาให้ครบ (GP 5 ชิ้น + NERO 2 ชิ้น) สถานะ Available ต่อไปกด <strong>Generate Serial</strong> เพื่อสร้างเลขซีเรียลของสินค้า แล้วกด <strong>Produce All</strong> สถานะเป็น Done</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-08-assembly.webp" alt="ใบประกอบโคมหินอ่อนหลังผลิตเสร็จ: ผูกกับใบสั่งตัดและมีบัญชีของใบสั่งนี้"/></figure>
+<h3>4.8 ส่งของและใบแจ้งหนี้</h3>
+<p>ที่ใบขาย S01605 มีใบส่งของ EG01/OUT/00679 สถานะ Ready เมื่อผลิตเสร็จ (เจดีย์บัว 2 ชิ้น โคมหินอ่อน 2 ชิ้น Available) กด <strong>Validate</strong> ได้ทันที สถานะเป็น Done จากนั้นที่ใบขาย <strong>Create Invoice → Create Draft → Confirm</strong> ได้ใบแจ้งหนี้ <strong>INV/2026/00042</strong> ยอดก่อนภาษี 150,000.00 รวม VAT 160,500.00 ตรงกับใบเสนอราคา</p>
+<div class="callout callout-success"><div class="callout-head"><span class="callout-tag">รายละเอียดที่พิมพ์</span><span class="callout-title">รายละเอียดงานแสดงในเอกสารทุกใบ ใช้สินค้า Custom FG ตัวเดียวแยกงานได้</span></div><div class="callout-body">ข้อความที่พิมพ์ในช่อง "รายละเอียด" ของ BOQ (เช่น "เจดีย์บัว ประดับทางเข้า") แสดงบนใบเสนอราคา (ทั้ง 2 แบบ) ใบแจ้งหนี้ และใบส่งของทั้ง 3 แบบ (Delivery Slip, ใบส่งของภาษาไทย, Proof of Delivery) ตรวจจาก PDF ของใบขาย S01605 จริง ใบส่งของเพิ่งปรับให้แสดงเมื่อ 28 ต.ค. 2569 (เดิมแสดงแค่ชื่อสินค้า) และแถวของงานที่รายละเอียดต่างกันจะไม่ถูกรวมเป็นแถวเดียว ถ้าพิมพ์รายละเอียดขึ้นต้นด้วยชื่อสินค้า (เช่น "โคมหินอ่อน ประตูซ้าย") ใบส่งของภาษาไทยและ Proof of Delivery พิมพ์เฉพาะส่วนต่อท้าย ("ประตูซ้าย") ส่วนบรรทัดที่ไม่ได้พิมพ์รายละเอียดเพิ่มจากชื่อสินค้า หน้าตาเหมือนเดิม</div></div>
+
+<h3>4.9 ต้นทุนจริงของ Custom FG</h3>
+<p>ต้นทุนจริงดูได้ที่แท็บ <strong>รายการบัญชี</strong> ของใบประกอบ แสดงทั้งมูลค่าหินจากสต็อกและค่าแรงผลิต</p>
+<figure class="screenshot"><img src="assets/custom-fg-concept-07-accounting.webp" alt="แท็บรายการบัญชีของใบประกอบเจดีย์บัว: ต้นทุนหิน 6,064.20 และค่าแรงผลิต 43,935.80"/></figure>
+<table class="cond"><tr><th>สินค้า</th><th>รายได้</th><th>ต้นทุนหิน</th><th>ค่าแรงผลิต</th><th>ต้นทุนรวม</th><th>สัดส่วนต่อรายได้</th></tr>
+<tr><td>เจดีย์บัว 2 ชิ้น</td><td>100,000.00</td><td>6,064.20</td><td>43,935.80</td><td>50,000.00</td><td>50.0%</td></tr>
+<tr><td>โคมประตูซ้าย</td><td>25,000.00</td><td>5,753.70</td><td>10,000.00</td><td>15,753.70</td><td>63.0%</td></tr>
+<tr><td>โคมประตูขวา</td><td>25,000.00</td><td>5,753.70</td><td>10,000.00</td><td>15,753.70</td><td>63.0%</td></tr>
+<tr><td><strong>รวม</strong></td><td><strong>150,000.00</strong></td><td><strong>17,571.60</strong></td><td><strong>63,935.80</strong></td><td><strong>81,507.40</strong></td><td><strong>54.3%</strong></td></tr></table>
+<p>กำไรขั้นต้นก่อนภาษี = 150,000.00 − 81,507.40 = <strong>68,492.60</strong> สองข้อที่ควรรู้:</p>
+<ul>
+<li><strong>ค่าแรงผลิตเป็นค่ามาตรฐานต่อชิ้น แต่ถูกเติมให้ต้นทุนรวมถึง 50% ของรายได้</strong> เจดีย์บัว (ค่าแรงมาตรฐานรวม 20,000 สำหรับ 2 ชิ้น ต่ำกว่าส่วนที่ต้องเติม) จึงถูกเติมเป็น 43,935.80 จนต้นทุนรวมเป็น 50,000 พอดี ส่วนโคมได้ค่าแรงมาตรฐาน 10,000 ต่อชิ้น ซึ่งเกินส่วนที่ต้องเติมแล้ว (ส่วนเติมขั้นต่ำคือ 6,746.30) ตั้งค่าได้ที่ system parameter fg_min_cost_ratio</li>
+<li><strong>ต้นทุนหินสูงกว่าที่ใช้จริง เพราะไม่ได้บันทึกเศษ</strong> ใบสั่งตัด NERO ใช้งานเพียง 0.72 ตร.ม. แต่ Slab ที่ตัดทั้งแผ่น 3.36 ตร.ม. ราคา 5,443.20 ถูกนับเป็นต้นทุนของชิ้นงานทั้งหมด เพราะแท็บ "เศษที่เหลือ" ว่าง ถ้าโรงงานบันทึกเศษที่เหลือเข้าสต็อก ต้นทุนหินของสินค้าจะลดลง (ยังไม่ได้ทดลองกรณีบันทึกเศษ)</li>
+</ul>
+<p>ที่ใบแจ้งหนี้ ต้นทุนขาย (COGS) ตัดตามมูลค่าหินเท่านั้น <strong>17,571.60</strong> ส่วนค่าแรงผลิตลงบัญชีแยกไว้แล้วตอนผลิตเสร็จ (รายการ "FG Production Labor") ไม่ซ้ำกับต้นทุนขาย</p>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<table class="cond">
+<tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>ออกใบเสนอราคาและ Confirm โดยยังไม่มี Cut List</td><td class="ok">ทำได้ ราคาคงที่ตาม BOQ แต่ยังไม่มีสูตร จึงยังไม่มีต้นทุนประมาณและยังไม่มีใบสั่งตัด (ตามการออกแบบ ยังไม่ได้ทดลองซ้ำในรอบนี้)</td></tr>
+<tr><td>นำเข้า Cut List ก่อน Confirm (ที่ BOQ)</td><td class="ok">ได้บรรทัดสูตร และตอน Confirm ระบบสร้างใบสั่งผลิตครบชุด (ทดลองจริง 28 ต.ค.)</td></tr>
+<tr><td>นำเข้า Cut List หลัง Confirm แล้ว (ที่ใบขาย)</td><td class="ok">ตามการทดลอง 25 ต.ค. ระบบสร้างใบสั่งตัดและใบประกอบให้ในตอนนั้น ยังไม่ได้ทดลองซ้ำในรอบนี้</td></tr>
+<tr><td>Cut List หลังออกใบเสนอราคาแล้ว</td><td class="ok">เติมชิ้นเข้าบรรทัดเดิมของโซนเท่านั้น ราคาและจำนวนที่เสนอไปไม่เปลี่ยน</td></tr>
+<tr><td>ชื่อโซนใน Cut List ไม่ตรงกับ BOQ</td><td class="no">ระบบจับคู่ไม่ได้ แถวนั้นไม่ถูกนำเข้า ให้เลือกโซนจาก dropdown ในเทมเพลต</td></tr>
+<tr><td>ใส่เจดีย์บัว/โคมในช่อง "รายการที่ใช้ในโปรเจกต์นี้"</td><td class="no">ผิดที่ ช่องนี้ใส่ได้เฉพาะสินค้าหิน (NERO, GP ฯลฯ)</td></tr>
+<tr><td>ช่อง Overhead % ในไฟล์ BOQ ว่าง</td><td class="no">ระบบใช้ค่าตั้งต้น 10% บวกเข้าราคา ราคาต่อชิ้นจะสูงกว่าที่ตั้งไว้ ให้ใส่ 0</td></tr>
+<tr><td>ขายหลายชิ้น (เช่น เจดีย์บัว 2 ชิ้น)</td><td class="ok">Cut List ใส่ของ 1 ชิ้น ระบบคูณจำนวนให้ทั้งใบสั่งตัดและใบประกอบ</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม (ก่อน 27 ต.ค. 2569)</th><th>ตอนนี้</th></tr>
+<tr><td>เจดีย์บัว/โคมมาจาก Rate Library (บรรทัด "เจดีย์บัว - standard") และต้องตั้ง Rate ของหินล่วงหน้า</td><td class="ok">ไม่มี Rate Library เลือกสินค้า Custom FG ใน BOQ ตรงๆ และหินใน Cut List เลือกจากสินค้า FG ที่ระบุในแท็บ ③</td></tr>
+<tr><td>ขนาดชิ้นใน Cut List เป็นมิลลิเมตร</td><td class="ok">เป็นเซนติเมตร (ไฟล์เก่าที่หัวคอลัมน์เป็น mm ระบบยังอ่านและแปลงให้)</td></tr>
+<tr><td>ไฟล์ Cut List ตัวอย่างเก่า 4 ไฟล์</td><td class="ok">ย้ายไป Archived ใช้ไฟล์ชุดใหม่ใน Library หมวด สำหรับทดสอบ → Custom FG</td></tr></table>
+
+<h2>7. FAQ</h2>
+<p><strong>ต้องใส่ชิ้นหินของทุกชิ้นที่ขายไหม</strong><br/>ไม่ต้อง ใส่ของ 1 ชิ้นต่อโซน ระบบคูณจำนวนให้เอง</p>
+<p><strong>Cut List เปลี่ยนราคาขายไหม</strong><br/>ไม่เปลี่ยน ราคาขายมาจาก BOQ เท่านั้น Cut List เพิ่มเฉพาะบรรทัดสูตรที่ไม่ขึ้นใบเสนอราคา</p>
+<p><strong>โคมซ้ายกับโคมขวาขนาดไม่เท่ากัน ทำอย่างไร</strong><br/>ตั้งเป็น 2 โซน (โคมประตูซ้าย, โคมประตูขวา) แต่ละโซนมี Cut List ของตัวเอง ตามไฟล์ตัวอย่าง</p>
+<p><strong>จะใช้ Cut List ของลูกค้าที่เป็นไฟล์เดิมได้ไหม</strong><br/>ถ้าลูกค้าส่งไฟล์รูปแบบอื่น ให้ย้ายข้อมูลลงเทมเพลตที่ระบบดาวน์โหลดให้ (มี dropdown โซนและรายการ) เพื่อให้จับคู่ได้ถูก</p>
+<p><strong>ดูไฟล์ตัวอย่างได้ที่ไหน</strong><br/>Library → สำหรับทดสอบ → Custom FG (เจดีย์บัว/โคม) มี 2 ไฟล์ คือ BOQ และ Cut List</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>รอบ 28 ต.ค. ทดลองครบถึงใบแจ้งหนี้ แต่ใช้ใบขายที่ไม่ได้ติ๊ก Sold as Project จึงไม่ได้ดู P&amp;L แยกตาม BOQ ของงานนี้ (ถ้าต้องการ ให้ติ๊ก Sold as Project ที่ใบเสนอราคา ตามบทที่ 35)</li>
+<li>ไม่ได้ทดลองการบันทึก "เศษที่เหลือ" ของ Slab ต้นทุนหินในตารางหัวข้อ 4.9 จึงรวมค่าทั้งแผ่นของ NERO ที่ใช้ไปเพียง 0.72 ตร.ม. เป็นต้นทุนของสินค้า</li>
+<li>การเลือก Slab อัตโนมัติอาจเลือกแผ่นเดียวกันซ้ำให้หลายใบสั่งตัด (ดูหัวข้อ 4.5) โรงงานต้องกดเลือกใหม่ในใบถัดไป</li>
+<li>ไม่ได้ทดลองกรณี Slab ของหินนั้นหมดคลัง ส่งของบางส่วน หรือรับคืน</li>
+<li>กรณีนำเข้า Cut List หลัง Confirm (ที่ใบขาย) เขียนตามผลทดลอง 25 ต.ค. ไม่ได้ทดลองซ้ำ</li>
+<li>วิธีคำนวณ "ต้นทุน/ชิ้น (ประมาณ)" ในใบเสนอราคา (เจดีย์บัว 8,758.16 ต่อชิ้น) ต่างจากต้นทุนจริงต่อชิ้น (25,000.00) มาก เพราะค่าแรงผลิตและต้นทุนหินทั้งแผ่นไม่อยู่ในค่าประมาณ ตัวเลขประมาณจึงใช้บอกแนวโน้มเท่านั้น</li>
+<li>หน้าจอฝั่งโรงงาน (ใบสั่งตัด ขนาดชิ้นงาน) ยังแสดงเป็นเมตร ส่วนไฟล์ BOQ/Cut List กรอกเป็น ซม.</li>
+<li>ตัวอย่างขนาดชิ้นหินเป็นตัวเลขสมมุติ ปรับตามแบบจริง</li>
+<li>ไฟล์ตัวอย่างที่ให้ดาวน์โหลดต่างจากไฟล์ที่ทดลองเพียงหัวข้อและชีตคำอธิบาย ยังไม่ได้นำเข้าซ้ำ</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo (BOQ1115 → ใบขาย S01605 → ใบสั่งผลิต EG01/STFG/00397-00399 และ EG01/STCPL/00370-00375 → ใบส่งของ EG01/OUT/00679 → ใบแจ้งหนี้ INV/2026/00042) ผลต้นทุนจริงตรงกับรอบ 2026-10-25 (S01229) ที่ 50,000 ต่อเจดีย์บัว 2 ชิ้นเท่าเดิม ออกแบบตามกลไก Custom FG recipe (boq_estimation 1.50)</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="35-boq-vs-cutlist.html"><span class="dir">← ก่อนหน้า</span>35. BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
