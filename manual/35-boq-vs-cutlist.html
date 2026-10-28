@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>35. BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข — คู่มือ EMG-O</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 35 / 35</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 35 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link active"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">35</span> BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · ภาพหน้าจอ BOQ/ใบเสนอราคา/ใบสั่งผลิต/P&amp;L ถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569 (stone_slab_inventory / boq_estimation รอบ 27 ต.ค.) ภาพ Cut List ถ่ายเมื่อ 25 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายความต่างระหว่าง <strong>BOQ</strong> กับ <strong>Cut List</strong> ว่าแต่ละอย่างคืออะไร อยู่ตรงไหนของงาน และมาต่อกันอย่างไร เพราะทั้งสองอย่างเป็นไฟล์ Excel และมีปุ่มนำเข้าเหมือนกัน จึงสับสนกันง่าย ภาพหน้าจอส่วนของ BOQ (4.1–4.3, 4.6) มาจากการรันจริงบน eg-tst เมื่อ 28 ตุลาคม 2569 ส่วนของ Cut List (4.4–4.5) เป็นภาพจากรอบ 25 ตุลาคม 2569 อ่านคู่กับ <a href="22-boq-estimation.html">บทที่ 22 BOQ Estimation</a> ได้ แต่บทที่ 22 ยังเขียนตามแบบเดิมที่มี Rate Library (ดูหัวข้อ 6)</p>
+
+<h2>1. BOQ กับ Cut List คืออะไร</h2>
+<p><strong>BOQ</strong> คือรายการงานที่ฝั่งขายเสนอลูกค้า 1 แถว = 1 งาน เช่น "พื้นล็อบบี้ 9 ตร.ม." มีราคา ค่าแรง และยอดรวม ส่วน <strong>Cut List</strong> คือรายชิ้นหินตามแบบที่โรงงานต้องตัด 1 แถว = 1 ชิ้น (หรือกลุ่มชิ้นขนาดเท่ากัน) แยกตามโซน</p>
+<div class="kv">
+<div>BOQ ตอบเรื่อง</div><div><strong>ขายอะไร จำนวนเท่าไร ราคาเท่าไร</strong> (ฝั่งราคา ระดับงาน)</div>
+<div>Cut List ตอบเรื่อง</div><div><strong>ตัดชิ้นอะไร ขนาดไหน กี่ชิ้น</strong> (ฝั่งโรงงาน ระดับชิ้น)</div>
+<div>ไฟล์ BOQ 1 แถว</div><div>= 1 รายการงาน (ตัวอย่างจริง: พื้นล็อบบี้ 9.00 ตร.ม. ขนาดแผ่น 50 × 90 × 2 ซม.)</div>
+<div>ไฟล์ Cut List 1 แถว</div><div>= 1 ชิ้นหรือ 1 กลุ่มชิ้นที่ขนาดเท่ากัน มีกว้าง ยาว จำนวน และชื่อโซน</div>
+<div>ปุ่มนำเข้า BOQ</div><div><strong>Import Excel</strong> ที่หน้ารายการ BOQ Documents → ได้ BOQ <strong>ใบใหม่</strong></div>
+<div>ปุ่มนำเข้า Cut List</div><div><strong>นำเข้า Cut List</strong> ในฟอร์ม BOQ แท็บ ③ → ใส่ข้อมูลเข้า BOQ <strong>ที่มีอยู่แล้ว</strong></div>
+<div>ต้องมีทั้งสองอย่างไหม</div><div>ไม่ต้อง BOQ อย่างเดียวก็ออกใบเสนอราคาและผลิตได้ (รันจริงในบทนี้) Cut List จะตามมาทีหลังเมื่อได้แบบ</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">BOQ = ขายอะไรกี่บาท · Cut List = ตัดชิ้นไหนขนาดไหน</span></div><div class="callout-body">สองไฟล์เชื่อมกันด้วย <strong>ชื่อโซน</strong> ถ้าโซนในไฟล์ไม่ตรงกับโซนใน BOQ ระบบจับคู่ชิ้นงานเข้าบรรทัดไม่ได้</div></div>
+
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">ตัวอย่างอธิบาย</span><span class="callout-title">โรงแรมเดียวกัน ดูสองไฟล์เทียบกัน (ตัวเลขสมมุติ ไม่ใช่ข้อมูลที่ทดลอง)</span></div><div class="callout-body">
+<strong>BOQ</strong> (ระดับงาน 2 บรรทัด)
+<table class="cond"><tr><th>โซน</th><th>รายการ</th><th>ขนาดแผ่น</th><th>จำนวน</th></tr>
+<tr><td>ล็อบบี้</td><td>พื้นล็อบบี้ หินดำ</td><td>50 × 90 × 2 ซม.</td><td>9 ตร.ม.</td></tr>
+<tr><td>ผนังลิฟต์</td><td>ผนังลิฟต์ชั้น 1 หินดำ</td><td>60 × 120 × 2 ซม.</td><td>14.4 ตร.ม.</td></tr></table>
+<strong>Cut List</strong> (ระดับชิ้น แยกตามโซนเดียวกัน)
+<table class="cond"><tr><th>โซน</th><th>ชิ้น</th><th>กว้าง × ยาว (ซม.)</th><th>จำนวน</th></tr>
+<tr><td>ล็อบบี้</td><td>พื้นชิ้นมาตรฐาน</td><td>50 × 90</td><td>18</td></tr>
+<tr><td>ล็อบบี้</td><td>พื้นชิ้นริมผนัง</td><td>50 × 45</td><td>2</td></tr>
+<tr><td>ล็อบบี้</td><td>พื้นชิ้นตัดมุมเสา</td><td>30 × 30</td><td>4</td></tr></table>
+BOQ บอกพื้นล็อบบี้ 9 ตร.ม. แต่ Cut List รวมจริงได้ 8.91 ตร.ม. (8.10 + 0.45 + 0.36) สองเลขนี้ต่างกันได้ ระบบมีปุ่มเทียบให้ดู (หัวข้อ 4.5)</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>BOQ ตอบเรื่องราคา Cut List ตอบเรื่องการตัด</strong> ฝ่ายขายใช้ BOQ ออกใบเสนอราคา โรงงานใช้ Cut List รู้ว่าต้องตัดชิ้นไหน</li>
+<li><strong>Import Excel สร้าง BOQ ใบใหม่เสมอ</strong> ไม่ทับหรือเติมเข้า BOQ เดิม ส่วน นำเข้า Cut List ใส่ข้อมูลเข้า BOQ ที่มีอยู่</li>
+<li><strong>ไม่ต้องรอ Cut List</strong> ออกใบเสนอราคา Confirm และผลิตจาก BOQ ได้เลย (หน้าจอแท็บ ③ เขียนไว้ว่า "ยังไม่มี Cut List? ไม่เป็นไร ข้ามได้")</li>
+<li><strong>ขนาดใน BOQ เดินทางต่อไปเอง</strong> ขนาดและจำนวนชิ้นจาก BOQ ไปอยู่บนบรรทัดใบเสนอราคาและใบสั่งผลิต FG ไม่ต้องกรอกซ้ำ</li>
+<li><strong>Cut List มาทีหลังได้ แม้ขายแล้ว</strong> แต่หลังออกใบเสนอราคา Cut List เติมได้เฉพาะชิ้นงานเข้าบรรทัดเดิม ไม่เปลี่ยน ตร.ม. และราคาที่เสนอไป</li>
+<li><strong>ยอดใน BOQ ไม่ใช่ต้นทุนจริง</strong> "Direct Cost" ใน BOQ คือวัสดุ + ค่าแรงที่ตั้งราคาขาย ต้นทุนจริงของโรงงานมาจากใบสั่งผลิตหลังผลิตเสร็จ</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st hl"><b>1. Import Excel</b>ไฟล์รายการงาน → BOQ ใบใหม่</div><div class="ar">→</div>
+<div class="st"><b>2. ใบเสนอราคา</b>ขนาด/จำนวนชิ้นติดมาด้วย</div><div class="ar">→</div>
+<div class="st"><b>3. Confirm</b>ระบบสร้างใบสั่งผลิต FG</div><div class="ar">→</div>
+<div class="st hl"><b>4. Cut List (ถ้ามี)</b>นำเข้าทีหลัง เทียบ ตร.ม.</div><div class="ar">→</div>
+<div class="st"><b>5. ผลิต ส่งของ เก็บเงิน</b>ต้นทุนจริงและ P&amp;L</div>
+</div>
+<p>กล่องสีเหลืองคือสองจุดที่มักสับสน ขั้น 1 เป็นของ BOQ ส่วนขั้น 4 เป็นของ Cut List และขั้น 4 ข้ามได้ถ้ายังไม่มีแบบ</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 นำเข้า BOQ จากไฟล์ Excel (Import Excel)</h3>
+<p>ไปที่ <strong>BOQ Estimation → BOQ Documents → Import Excel</strong> เลือกลูกค้า (ต้องเลือกก่อน ไม่งั้นปุ่มดาวน์โหลดเทมเพลตไม่ทำงาน) เลือกไฟล์ แล้วกด <strong>อ่านไฟล์</strong> ไฟล์ที่ใช้ในการรันมี 2 บรรทัด: พื้นล็อบบี้หินดำ NERO RUSTENBURG (Polished) ขนาด 50 × 90 ซม. หนา 2 ซม. รวม 9 ตร.ม. ค่าแรง 800/ตร.ม. กับค่าขนส่งและติดตั้ง 15,000 บาท (บรรทัดบริการไม่ต้องเลือกสินค้า)</p>
+<figure class="screenshot"><img src="assets/boq-concept-01-import-preview.webp" alt="หน้าตัวอย่างก่อนสร้าง BOQ"/></figure>
+<p>หน้าตัวอย่างแสดง จำนวนรายการ 2 · วัสดุรวม 123,000.00 · ค่าแรงรวม 7,200.00 · Overhead รวม 13,020.00 · รวม 143,220.00 ถ้ามีแถวผิดจะแสดงข้อผิดพลาดตรงแถวนั้นและยังสร้าง BOQ ไม่ได้ กด <strong>สร้าง BOQ</strong> เมื่อพร้อม</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">หน่วย</span><span class="callout-title">กว้าง ยาว หนา ทุกช่องที่กรอก ใช้ เซนติเมตร (ซม.) หน่วยเดียว</span></div><div class="callout-body">ใช้ตรงกับ Cut List ของลูกค้า (หน่วย ซม.) ทั้งใน Import Excel, ฟอร์ม BOQ, เทมเพลต Cut List และรายชิ้นในใบเสนอราคา ถ้ากรอกค่าที่ดูผิดหน่วย (กว้างหรือยาวเกิน 400 ซม. หรือหนาเกิน 20 ซม.) ระบบเตือน ไฟล์เก่าที่หัวคอลัมน์ยังเป็น (mm) ระบบอ่านแล้วแปลงเป็น ซม. ให้ ส่วนหน้าจอฝั่งโรงงาน (ใบสั่งผลิต สต็อก Slab) ยังแสดงเป็นเมตร</div></div>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">คอลัมน์สินค้าหินรับเฉพาะสินค้า FG</span></div><div class="callout-body">เลือกจาก dropdown ในเทมเพลต (ห้ามพิมพ์เอง) รับสินค้า FG แผ่นตัดตามขนาด และ FG ราคาคงที่ (เช่น เจดีย์บัว) ไม่รับ Slab หรือ Block แผ่นตัดตามขนาดต้องกรอก กว้าง ยาว หนา ครบ</div></div>
+
+<h3>4.2 BOQ ที่ได้</h3>
+<p>ได้ BOQ ใบใหม่ (ตัวอย่าง BOQ0876) ลูกค้า Demo Hotel Customer 2 บรรทัดโซนล็อบบี้</p>
+<figure class="screenshot"><img src="assets/boq-concept-02-boq-form.webp" alt="ฟอร์ม BOQ หลังนำเข้า"/></figure>
+<div class="kv">
+<div>พื้นล็อบบี้</div><div>9.00 ตร.ม. · วัสดุ 12,000 + ค่าแรง 800 = 12,800 ต่อตร.ม. · รวม 115,200</div>
+<div>ค่าขนส่งและติดตั้ง</div><div>1 ชิ้น · 15,000</div>
+<div>Direct Cost</div><div>130,200.00 (วัสดุ + ค่าแรงที่ตั้งราคา)</div>
+<div>Overhead &amp; Profit (10%)</div><div>13,020.00</div>
+<div>ยอดรวม BOQ (Total)</div><div>143,220.00</div>
+</div>
+
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">เพิ่มบรรทัดเองในฟอร์ม BOQ: รายละเอียดต้องพิมพ์เอง</span></div><div class="callout-body">ถ้าไม่ใช้ Import Excel แต่กด Add a line ในแท็บ ① เลือกสินค้าแล้วระบบใส่ <strong>หน่วย</strong> และ <strong>ราคาวัสดุตั้งต้น</strong> ให้ แต่ช่อง <strong>รายละเอียด</strong> (ชื่องาน เช่น "พื้นล็อบบี้") ต้องพิมพ์เอง ระบบไม่เขียนชื่อสินค้าทับให้ ถ้าพิมพ์ไว้ก่อนแล้วเลือกสินค้า ข้อความที่พิมพ์ก็ไม่ถูกแก้ (ปรับเมื่อ 28 ต.ค. 2569) ส่วน Import Excel ถ้าไฟล์ไม่ใส่ชื่อรายการ ระบบเอาชื่อสินค้าใส่ให้</div></div>
+
+<h3>4.3 ใบเสนอราคา และขนาดที่ติดมาจาก BOQ</h3>
+<p>กด <strong>สร้างใบเสนอราคา</strong> ที่ BOQ ได้ใบเสนอราคาที่ยอดก่อน VAT 143,220.00 รวม VAT 151,284.00 บรรทัดพื้นมีไอคอน <strong>รายชิ้น</strong> กดเปิดดูได้</p>
+<figure class="screenshot"><img src="assets/boq-concept-03-quote-pieces.webp" alt="รายชิ้นของบรรทัดพื้นที่มาจาก BOQ"/></figure>
+<p>รายชิ้นมี 1 แถว กว้าง 50.00 ซม. ยาว 90.00 ซม. จำนวน 20 ชิ้น รวม 9.00 ตร.ม. ระบบคำนวณเองจาก 9 ตร.ม. ÷ พื้นที่แผ่นละ 0.45 ตร.ม. ขนาดนี้ต่อไปถึงใบสั่งผลิต FG ด้วย (ผลรันจริง: ใบสั่งผลิตได้ 20 ชิ้น หน้าจอฝั่งโรงงานแสดงเป็นเมตร 0.50 × 0.90 × 0.02)</p>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">ถ้า ตร.ม. หารด้วยพื้นที่แผ่นละไม่ลงตัว ระบบไม่สร้างรายชิ้น</span></div><div class="callout-body">ราคาและ ตร.ม. ของใบเสนอราคาไม่เปลี่ยน หน้าตัวอย่างตอนนำเข้าแสดงหมายเหตุให้ ฝ่ายขายต้องกำหนดจำนวนชิ้นเอง</div></div>
+
+<h3>4.4 นำเข้า Cut List (เมื่อได้แบบ)</h3>
+<p>เปิด BOQ ที่มีอยู่ แท็บ <strong>③ Cut List (ถ้ามี)</strong> มี 3 ปุ่ม: <strong>นำเข้า Cut List</strong>, <strong>เทียบ ตร.ม.</strong> และ <strong>ดาวน์โหลดเทมเพลต Cut List</strong> (ได้รายการโซนให้เลือก)</p>
+<figure class="screenshot"><img src="assets/boq-concept-04-cutlist-tab.webp" alt="แท็บ Cut List ใน BOQ"/></figure>
+<p>ข้อความในแท็บบอกว่า ถ้ายังไม่มี Cut List ไม่เป็นไร ข้ามได้ ออกใบเสนอราคาและยืนยันขายได้เลย ได้ Cut List ทีหลังค่อยกด "นำเข้า Cut List" ระบบเติมชิ้นงานเข้าบรรทัดโซนเดียวกัน และส่งต่อถึงใบขายกับใบสั่งผลิต FG โดย ตร.ม./ราคาที่เสนอไว้ไม่เปลี่ยน ชื่อโซนในไฟล์ต้องตรงกับโซนใน BOQ</p>
+<p>ลองได้ด้วยไฟล์ตัวอย่างใน Library: <a href="../client-docs/example-boq/boq-import-example-hotel.xlsx">BOQ โรงแรม</a> นำเข้าด้วย Import Excel ก่อน แล้วใช้ <a href="../client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx">Cut List โรงแรม</a> (48 ชิ้น 2 โซน ชื่อโซนตรงกัน) ใส่สินค้า NERO RUSTENBURG (Polished) และ SHANDONG BLACK (Polished) ใน "รายการที่ใช้ในโปรเจกต์นี้" ของ BOQ ก่อน ผลที่ได้จริง: เติมชิ้นงานเข้า 2 บรรทัดเดิม ล็อบบี้ Cut List 8.91 ตร.ม. (BOQ เสนอ 9.00) ผนังลิฟต์ 14.04 ตร.ม. (BOQ เสนอ 14.40) ยอดที่เสนอไม่เปลี่ยน</p>
+<p>เลือกวิธีนำเข้าได้ 2 แบบ (ตามหน้าจอนำเข้า):</p>
+<ul>
+<li><strong>สร้างบรรทัดใหม่จากชิ้นงาน</strong> ใช้ก่อนออกใบเสนอราคา เมื่อ BOQ ยังไม่มีบรรทัดของโซนนั้น</li>
+<li><strong>เติมชิ้นงานเข้าบรรทัดเดิมตามโซน</strong> ใช้เมื่อ BOQ มีบรรทัดโซนนั้นอยู่แล้ว มีตัวเลือกติ๊ก "ปรับ ตร.ม. ตาม Cut List" ถ้าไม่ติ๊ก ระบบเก็บ ตร.ม. ที่ประเมินไว้แล้วแค่เติมชิ้นงาน</li>
+</ul>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">หลังออกใบเสนอราคาแล้ว Cut List เติมได้แค่แบบเดียว</span></div><div class="callout-body">เติมชิ้นงานเข้าบรรทัดโซนเดิมเท่านั้น สร้างบรรทัดใหม่ไม่ได้และ ตร.ม. ไม่เปลี่ยน โซนในไฟล์ที่ไม่มีใน BOQ ถูกข้าม ระบบแจ้งข้อความหลังนำเข้า</div></div>
+
+<h3>4.5 เทียบ ตร.ม. — Cut List / ใบเสนอราคา / Slab</h3>
+<p>กดปุ่ม <strong>เทียบ ตร.ม.</strong> ระบบเทียบรายโซน: ตร.ม. ที่เสนอ กับ ตร.ม. จาก Cut List และ ตร.ม. ของ Slab ที่เลือกไว้ (ดูอย่างเดียว ไม่แก้ข้อมูล)</p>
+<figure class="screenshot"><img src="assets/boq-concept-05-compare.webp" alt="หน้าเทียบ ตร.ม. รายโซน"/></figure>
+<p>ตัวอย่างจากภาพ: zone A เสนอ 20.00 ตร.ม. แต่ Cut List รวมได้ 13.00 ตร.ม. ต่างกัน −7.00 ระบบขึ้น "Cut List น้อยกว่าใบเสนอราคา" และบอกว่า Slab ที่เลือกไว้ 24.00 ตร.ม. พอ (เหลือ 11.00)</p>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">ข้อมูล</span><span class="callout-title">ตร.ม. ต่างจากใบเสนอราคา จะทำอย่างไร</span></div><div class="callout-body">ตามข้อความในหน้าจอ: ถ้าลูกค้า<strong>ยอมจ่ายเพิ่ม/ปรับยอด</strong> กด "สร้าง BOQ ฉบับใหม่ตาม Cut List" แล้วออกใบเสนอราคาใบใหม่ทั้งใบ (ใบเดิมไม่ถูกแก้) ถ้าลูกค้า<strong>ไม่ยอม</strong> ไม่ต้องทำอะไร ราคาที่ตกลงไว้คงเดิม ส่วนต่างเป็นต้นทุนของโครงการ</div></div>
+
+<h3>4.6 ต้นทุนที่เกิดจาก BOQ ใบนี้ และ P&amp;L</h3>
+<p>ยอดใน BOQ เป็นยอดประมาณการตั้งราคา ต้นทุนจริงเกิดหลังผลิตเสร็จ ดูที่ใบสั่งผลิต แท็บ <strong>รายการบัญชี</strong></p>
+<figure class="screenshot"><img src="assets/boq-concept-06-mo-cost.webp" alt="รายการบัญชีของใบสั่งผลิต"/></figure>
+<div class="kv">
+<div>ค่า Slab ที่ใช้ตัด</div><div>16,329.60 (Inventory Valuation)</div>
+<div>FG Production Labor</div><div>40,370.40</div>
+<div>FG Production Consumables</div><div>900.00</div>
+<div>ต้นทุนรวม</div><div>57,600.00 = 6,400 ต่อตร.ม. × 9 ตร.ม.</div>
+</div>
+<p>ค่าแรงถูกเติมให้ต้นทุน FG ไม่ต่ำกว่า 50% ของรายได้บรรทัดนั้น (กฎเจ้าของ) ต้นทุนของงานนี้จึงเท่ากับ 50% ของรายได้พื้น 115,200 พอดี ดู P&amp;L ของ BOQ ใบนี้ที่ <strong>Accounting → Reporting → Profit and Loss</strong> กดปุ่ม Analytic แล้วเลือกบัญชีของ BOQ ใบนั้น (ใช้ได้เมื่อใบขายติ๊ก Sold as Project)</p>
+<figure class="screenshot"><img src="assets/boq-concept-07-pnl.webp" alt="P&amp;L ของ BOQ ใบนี้"/></figure>
+<p>ผลรัน: รายได้ 143,220.00 · ต้นทุน 57,600.00 · กำไรขั้นต้น 85,620.00 ตรงกับใบแจ้งหนี้และใบสั่งผลิต</p>
+
+<h2>5. สรุปเงื่อนไข</h2>
+<table class="cond">
+<thead><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr></thead>
+<tbody>
+<tr><td>Import Excel (ผ่านทุกแถว)</td><td class="ok">สร้าง BOQ ใบใหม่ทุกครั้ง ไม่ทับหรือเติมเข้า BOQ เดิม</td></tr>
+<tr><td>แถวงานบริการ ไม่เลือกสินค้า (ขนส่ง ติดตั้ง)</td><td class="ok">นำเข้าได้ พิมพ์ชื่อและราคาเอง</td></tr>
+<tr><td>จำนวนเว้นว่าง แต่กรอก กว้าง × ยาว</td><td class="ok">ระบบคิดพื้นที่ 1 ชิ้นเป็น ตร.ม. ให้</td></tr>
+<tr><td>แผ่นตัดตามขนาด แต่ไม่กรอก กว้าง/ยาว/หนา ให้ครบ</td><td class="no">ไม่สร้าง BOQ จนกว่าทุกแถวถูก ข้อความบอกว่าขาดช่องไหน</td></tr>
+<tr><td>สินค้าในไฟล์เป็น Slab หรือ Block</td><td class="no">ไม่รับ ขึ้นข้อความว่าไม่ใช่สินค้า FG ที่นำเข้าได้</td></tr>
+<tr><td>ตร.ม. หารด้วยพื้นที่แผ่นละไม่ลงตัว</td><td class="ok">ราคา/ตร.ม. ไม่เปลี่ยน แต่ไม่สร้างรายชิ้น และมีหมายเหตุ</td></tr>
+<tr><td>นำเข้า Cut List ก่อนออกใบเสนอราคา</td><td class="ok">เลือกสร้างบรรทัดใหม่ หรือเติมชิ้นงานเข้าบรรทัดเดิมตามโซน</td></tr>
+<tr><td>นำเข้า Cut List หลังออกใบเสนอราคา</td><td class="ok">เติมชิ้นงานเข้าบรรทัดโซนเดิมเท่านั้น ราคาและ ตร.ม. ที่เสนอไม่เปลี่ยน</td></tr>
+<tr><td>โซนใน Cut List ไม่มีใน BOQ (หลังออกใบแล้ว)</td><td class="no">ข้ามโซนนั้น และแจ้งข้อความหลังนำเข้า</td></tr>
+<tr><td>ตร.ม. ใน Cut List ต่างจากที่เสนอ</td><td class="ok">ไม่แก้ราคาเดิม มีปุ่มเทียบ ถ้าลูกค้ายอมจ่ายเพิ่มให้สร้าง BOQ ฉบับใหม่แล้วออกใบเสนอราคาใหม่</td></tr>
+</tbody></table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond">
+<thead><tr><th>เดิม</th><th>ตอนนี้ (รอบ 25–27 ต.ค. 2569)</th></tr></thead>
+<tbody>
+<tr><td>กว้าง/ยาวใน BOQ และ Cut List เป็น มม. (หนาเป็น ซม.) ผู้ใช้สับสนกับ Cut List ของลูกค้าที่เป็น ซม.</td><td>กว้าง ยาว หนา เป็น <strong>ซม.</strong> ทั้งหมด (28 ต.ค. 2569) ข้อมูลเก่าถูกแปลงให้แล้ว</td></tr>
+<tr><td>เลือกสินค้าใน BOQ แล้วระบบเขียนชื่อสินค้าทับช่องรายละเอียดทุกครั้ง</td><td>ไม่เขียนทับแล้ว ใส่ให้เฉพาะหน่วยและราคาตั้งต้น รายละเอียดพิมพ์เอง</td></tr>
+<tr><td>เลือก Rate จาก Rate Library ในแต่ละบรรทัด BOQ</td><td>ไม่มี Rate Library แล้ว นำรายการเข้าด้วย Import Excel (เฉพาะสินค้า FG) หรือพิมพ์ใน BOQ</td></tr>
+<tr><td>ขนาดต้องกรอกซ้ำที่ใบเสนอราคาและใบสั่งผลิต</td><td>ขนาดและจำนวนชิ้นจาก BOQ ติดไปถึงใบเสนอราคาและใบสั่งผลิต FG</td></tr>
+<tr><td>สต็อก FG เช็คแค่จำนวน</td><td>เช็คตามขนาดที่สั่ง ส่งของจองเฉพาะ FG Lot ที่ขนาดตรง (ตามการออกแบบรอบ 27 ต.ค. ในบทนี้ทดลองเฉพาะกรณีส่งครบ)</td></tr>
+</tbody></table>
+<p>หมายเหตุ: บทที่ 22 และคู่มือเก่าบางฉบับยังอธิบายตามแบบเดิม (Rate Library) ให้ถือบทนี้เป็นหลักสำหรับเรื่อง BOQ นำเข้าจาก Excel</p>
+
+<h2>7. FAQ</h2>
+<p><strong>ต้องมี Cut List ก่อนไหมถึงจะออกใบเสนอราคาได้</strong><br/>ไม่ต้องครับ BOQ อย่างเดียวพอ ที่รันในบทนี้ (4.1–4.6) ไม่มี Cut List เลย</p>
+<p><strong>Import Excel กับ นำเข้า Cut List ต่างกันอย่างไร</strong><br/>Import Excel สร้าง BOQ ใบใหม่จากรายการงาน นำเข้า Cut List เติมรายชิ้นเข้า BOQ ที่มีอยู่ ไฟล์คนละแบบ ปุ่มอยู่คนละที่</p>
+<p><strong>ทำไม "Direct Cost" ใน BOQ ไม่ตรงกับต้นทุนจริง</strong><br/>Direct Cost คือวัสดุ + ค่าแรงที่ตั้งราคาขาย (ตัวอย่าง 130,200) ส่วนต้นทุนจริงมาจากใบสั่งผลิต (ตัวอย่าง 57,600)</p>
+<p><strong>ชื่อโซนพิมพ์ไม่ตรงกับใน BOQ จะเป็นอย่างไร</strong><br/>ระบบจับคู่ชิ้นงานกับบรรทัดไม่ได้ หลังออกใบเสนอราคาแล้วโซนนั้นถูกข้าม ก่อนออกใบ ระบบสร้างบรรทัดใหม่จากไฟล์ให้ ใช้ปุ่ม "ดาวน์โหลดเทมเพลต Cut List" เพื่อได้รายการโซนให้เลือก</p>
+<p><strong>เลือกสินค้าใน BOQ แล้วทำไมช่องรายละเอียดไม่ขึ้นชื่อสินค้า</strong><br/>ตั้งใจให้เป็นแบบนั้น ช่องรายละเอียดคือชื่อ<em>งาน</em> (เช่น "พื้นล็อบบี้ ชั้น 1") ไม่ใช่ชื่อสินค้า ซึ่งแสดงอยู่ในช่องสินค้าแล้ว ต้องพิมพ์เองทุกบรรทัด (เป็นช่องบังคับกรอก)</p>
+<p><strong>ดูกำไรของงานนี้ได้ที่ไหน</strong><br/>Profit and Loss แล้วกรองด้วย Analytic ของ BOQ (ต้องติ๊ก Sold as Project ที่ใบเสนอราคา) ดูหัวข้อ 4.6</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>ส่วน Cut List (4.4–4.5) ใช้ภาพและข้อความจากรอบ 25 ตุลาคม 2569 ยังไม่ได้รันซ้ำหลังรอบ 27 ต.ค. ตัวอย่างโรงแรมในหัวข้อ 1 เป็นตัวเลขสมมุติเพื่ออธิบาย</li>
+<li>ต้นทุนของ FG ราคาคงที่ (เจดีย์บัว/โคม) ผ่าน Cut List ยังไม่ได้ทดลองบน eg-tst ในรอบนี้</li>
+<li>ปุ่ม "ดาวน์โหลดเทมเพลต" ใน Import Excel ใช้ไม่ได้ถ้ายังไม่เลือกลูกค้า (ขึ้น Missing required fields)</li>
+<li>หน่วย ซม. ใช้กับช่องที่ผู้ใช้กรอก (BOQ, Import Excel, Cut List, รายชิ้นในใบเสนอราคา) หน้าจอฝั่งโรงงานและสต็อก (ใบสั่งผลิต ขนาด Slab/Block) ยังเป็นเมตร และใบสั่งงานผลิต FG ที่พิมพ์ออก ยังแสดงขนาดชิ้นเป็นเมตร</li>
+<li>P&amp;L แยกตาม BOQ ทดลองเฉพาะใบขายที่ติ๊ก Sold as Project ไม่ได้ทดลองใบขายที่ไม่ติ๊ก</li>
+<li>ส่งของบางส่วนและรับคืนตามขนาด ไม่ได้ทดลองในรอบ 28 ต.ค.</li>
+<li>ค่าแรงที่เติมเพื่อให้ต้นทุน FG ถึง 50% ของรายได้ ตั้งค่าได้ที่ system parameter fg_min_cost_ratio (ปรับแล้วต้นทุนของทุกงานเปลี่ยนตาม)</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo (BOQ0876 → ใบขาย S01438 → ใบสั่งผลิต EG01/STFG/00347 → ใบส่งของ EG01/OUT/00630 → ใบแจ้งหนี้ INV/2026/00041) ชุด test case: qa/test-cases-golden-path-boq-import.html · ภาพ 4.4–4.5 ถ่ายเมื่อ 2026-10-25 (BOQ0631) · โค้ด boq_estimation (boq_item_import, boq_cutlist_import)</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="34-mo-costing.html"><span class="dir">← ก่อนหน้า</span>34. การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>

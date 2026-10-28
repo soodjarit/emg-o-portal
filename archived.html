@@ -249,8 +249,8 @@
         <div class="card-desc">13 test case สาธิตทั้ง 2 สวิตช์<b>ใช้ร่วมกัน</b> เริ่มจาก Cutting List จริง (ไฟล์เดียวกับดีล THE ONE BANGKOK แต่ตั้งชื่อลูกค้าทดสอบแยกเป็น "THE TWO BANGKOK") → นำเข้าไฟล์ → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project → Confirm → ตรวจ Task + Milestone ที่สร้างอัตโนมัติ ให้ผู้ใช้ทดสอบเองตามขั้นตอน (ยังไม่ได้รันจริง ไม่มีภาพหน้าจอ — มีช่องติ๊กผ่าน/ไม่ผ่าน+จดหมายเหตุในตัวเอกสาร)</div>
         <div class="card-meta"><span class="card-date">22 ก.ย. 2026</span><span class="status-badge design">รอผู้ใช้ทดสอบเอง</span></div>
         <div class="archive-note">
-          <b>เหตุผลที่ย้ายมาที่นี่:</b> ไม่ได้เกิดจากเนื้อหาล้าสมัย — จัดระเบียบหน้า "คลังเอกสารทั้งหมด" ตามคำขอผู้ใช้ ให้เหลือเฉพาะเอกสารภาพรวม/setup/design หมวดชุดทดสอบ (Golden Path, Day-in-the-Life, QA, E2E) ย้ายมาเก็บที่นี่แทน — เนื้อหายังเป็นเวอร์ชันล่าสุดที่ใช้งานจริงอยู่
-          <span class="archived-on">ย้ายเข้า Archived: 26 ก.ย. 2026</span>
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เขียนไว้ 22 ก.ย. ก่อนรอบ redesign 25 ต.ค. และรอบ 27 ต.ค. — Rate Library ถูกลบแล้ว, BOQ เปลี่ยนเป็นนำเข้าด้วย Import Excel (เฉพาะ FG), ขนาดจาก BOQ ส่งต่อไปใบเสนอราคา/ใบสั่งผลิต และสต็อก FG นับตามขนาด — ใช้เอกสาร Golden Path BOQ ฉบับใหม่แทน
+          <span class="archived-on">ย้ายเข้า Archived: 28 ต.ค. 2026</span>
         </div>
       </div>
     </div>
@@ -308,6 +308,18 @@
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> ขั้นตอน "Select Slabs" และการเลือกแผ่นที่เอกสารนี้ใช้ ถูกแทนที่ด้วย wizard เลือก Lot เดียวหลังแนวคิด Slab = Lot (ADR-087, 4–5 ต.ค. 2026) และโมเดล stone.slab ถูกลบแล้ว หน้าจอและตัวเลขตัวอย่างไม่ตรงระบบปัจจุบัน
           <span class="archived-on">ย้ายเข้า Archived: 5 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">GP6</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/guide-boq-lobby-lamps-2026-10-25.html">คู่มือกดตาม — BOQ พื้น + โคม (Self-Test)</a>
+        <div class="card-desc">พื้นหินอ่อน lobby 20 ตร.ม. + โคมประตู 2 ตัวที่ Cut List ต่างกัน: สร้าง BOQ → ออกใบเสนอราคา → นำเข้า Cut List ทีหลัง → ตรวจต้นทุนและใบสั่งตัด/ประกอบ · <a href="qa/guide-boq-lobby-lamps-2026-10-25.pdf">PDF</a></div>
+        <div class="card-meta"><span class="card-date">25 ต.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เขียนก่อนรอบ 27 ต.ค. — ยังอ้าง Rate Library ที่ถูกลบแล้ว (เลือก Rate, CB-FG-NERO / CB-FG-GP), สร้าง BOQ ทีละบรรทัดแทน Import Excel และไม่มีเรื่องขนาดที่ติดไปกับใบเสนอราคา/ใบสั่งผลิต กับสต็อก FG ตามขนาด จะเขียนใหม่ในรอบเจดีย์บัว/โคม (Cut List → ต้นทุน) หลังรันบน eg-tst
+          <span class="archived-on">ย้ายเข้า Archived: 28 ต.ค. 2026</span>
         </div>
       </div>
     </div>
@@ -407,6 +419,283 @@
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> เอกสารนี้เป็นข้อเสนอที่ยัง "รอลูกค้ายืนยัน" แต่ตอนนี้ฟีเจอร์ถูกออกแบบและ build จริงแล้ว — ซื้อเป็นตันตรงที่ PO (ADR-040) และเช็คสต็อกเหลือเป็นตันได้เลย (ADR-041) ทดสอบผ่านเบราว์เซอร์จริงครบทุกจุดแล้ว ดูฉบับที่ใช้งานจริงได้ที่ <a href="presentations/workflow-design/block-density-weight-explainer.html">D4: CBM → ตัน — ความหนาแน่นตามประเภทหิน →</a>
           <span class="archived-on">ย้ายเข้า Archived: 30 ส.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">1</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/inventory-overview.html">การจัดการสต็อก (Inventory)</a>
+        <div class="card-desc">ตัดแผ่น → ดูภาพรวม Kanban → เช็ค/ย้ายสต็อกด้วย Scan Station → รับคืนสินค้า</div>
+        <div class="card-meta"><span class="card-date">1 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ทำก่อนระบบ Slab ถูกปรับเป็น Lot (ADR-087, ต.ค. 2569) เมนูและขั้นตอนบางส่วนเปลี่ยนแล้ว ฉบับปัจจุบันดูคู่มือบท 03 (ตัดแผ่นและจัดการสต็อก) และบท 11 (Scan Station) ผู้ใช้ตัดสินใจเลิกดูแลชุดสไลด์นี้เพื่อลดภาระ (ยังไม่ได้ออกแบบเอกสารชุดใหม่)
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category" id="management-accounting">
+    <div class="category-header">
+      <div class="category-title">Management &amp; Accounting</div>
+      <div class="category-sub">บริหารจัดการ, ต้นทุน, กำไร, บัญชี</div>
+    </div>
+    <div class="card">
+      <div class="icon">1</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/analytic-accounting.html">กำไรรายโครงการ (Analytic Accounting)</a>
+        <div class="card-desc">ผูก Analytic Account เข้ากับ Bundle ครั้งเดียว — ต้นทุนและรายได้ทั้งโครงการรวมที่เดียว</div>
+        <div class="card-meta"><span class="card-date">1 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ทำเมื่อต้น ส.ค. 2569 ยังเรียก "Bundle" ซึ่งปัจจุบันคือ Block และกลไก Analytic/ต้นทุนเปลี่ยนไปหลายรอบ (ต้นทุนต่อ ตร.ม., แยกบัญชี Block/Slab) ฉบับปัจจุบันดูคู่มือบท 12 และบท 34 ผู้ใช้ตัดสินใจเลิกดูแลชุดสไลด์นี้
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">2</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/stone-cost-landed-cost.html">ต้นทุนหินก้อน + Landed Cost</a>
+        <div class="card-desc">รู้ต้นทุนจริงตั้งแต่วันนำเข้า ไม่ต้องรอตัดแผ่น</div>
+        <div class="card-meta"><span class="card-date">2 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ทำก่อนการปรับต้นทุนใหญ่เดือน ต.ค. 2569 (รับ Block เป็นตัน, ต้นทุนแผ่นตามปริมาตรจริง + สูญเสียเลื่อย, ลงบัญชีตามกติกาใหม่) ฉบับปัจจุบันดูคู่มือบท 33 (Landed Cost) และบท 34 (MO และต้นทุน) ผู้ใช้ตัดสินใจเลิกดูแลชุดสไลด์นี้
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="category" id="manual-obsolete">
+    <div class="category-header">
+      <div class="category-title">คู่มือ — บทที่ล้าสมัย</div>
+      <div class="category-sub">บทที่อธิบายตามโมเดลเดิม (Select Slabs / Hold / stone.slab) ก่อน ADR-087 — ไฟล์ยังเปิดได้ มีแถบ "ฉบับเก่า" บนหน้า</div>
+    </div>
+    <div class="card">
+      <div class="icon">01</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/01-overview.html">บท 01 — ภาพรวมระบบ</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อธิบายสถานะแผ่น Available/Hold/Consigned/Sold และ Select Slabs ซึ่งเปลี่ยนเป็น Lot ตาม ADR-087 (ต.ค. 2569) · ฉบับปัจจุบัน: <a href="manual/30-block.html">บท 30</a>, <a href="manual/31-slab.html">31</a>, <a href="manual/32-fg.html">32</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">05</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/05-sell-fabrication.html">บท 05 — ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ขั้นตอนเริ่มจาก Select Slabs และการ hold แผ่น ซึ่งไม่ใช้แล้ว · ฉบับปัจจุบัน: <a href="manual/32-fg.html">บท 32</a> (งานแปรรูปของ FG)
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">06</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/06-delivery.html">บท 06 — ส่งของและยืนยันการรับ</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ใช้สถานะแผ่น Hold → Sold และ Stone Hold ซึ่งเปลี่ยนไปแล้ว · ฉบับปัจจุบัน: <a href="manual/31-slab.html">บท 31 หัวข้อ 4.7</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">07</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/07-costing.html">บท 07 — ต้นทุนสินค้า</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ต้นทุนเปลี่ยนใหญ่ช่วง ต.ค. 2569 (ต้นทุนแผ่นตามปริมาตรจริง, ลงบัญชีตามกติกาใหม่) และอ้างขั้นตอน Add Slab Line ที่เลิกแล้ว · ฉบับปัจจุบัน: <a href="manual/34-mo-costing.html">บท 34</a> และ <a href="manual/33-landed-cost.html">บท 33</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">08</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/08-intercompany.html">บท 08 — ขายข้ามบริษัท (EG↔ES)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ขั้นตอนเลือกแผ่นเป็น Select Slabs wizard ซึ่งเปลี่ยนแล้ว · ฉบับปัจจุบัน: ยังไม่มีฉบับใหม่ — ใช้เป็นข้อมูลอ้างอิงได้ แต่ขั้นตอนเลือกแผ่นต้องอ่านร่วมกับ <a href="manual/04-sell-slab.html">บท 04</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">09</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/09-ecommerce-catalog.html">บท 09 — eCommerce Catalog (/stone-catalog)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อธิบายการ hold แผ่นจาก Catalog และ Select Slabs ซึ่งเปลี่ยนแล้ว · ฉบับปัจจุบัน: ยังไม่มีฉบับใหม่ — ใช้เป็นข้อมูลอ้างอิงได้
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">11</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/11-scan-station.html">บท 11 — Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อธิบายการย้ายแผ่นระหว่างสถานะ Available/Hold/Consigned ตามโมเดลเดิม · ฉบับปัจจุบัน: ยังไม่มีฉบับใหม่ — ใช้เป็นข้อมูลอ้างอิงได้
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">12</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/12-analytic-accounting.html">บท 12 — กำไรรายโครงการ (Analytic Accounting)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อ้างขั้นตอน Select Slabs และเรียก Block ว่า Bundle · ฉบับปัจจุบัน: <a href="manual/34-mo-costing.html">บท 34</a> และ <a href="manual/30-block.html">บท 30</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">14</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/14-cut-to-order.html">บท 14 — ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ปุ่ม Select Slabs / Cut to Order ถูกถอดออก ระบบสร้างใบสั่งตัดตอน Confirm · ฉบับปัจจุบัน: <a href="manual/03-cutting-stock.html">บท 03</a>, <a href="manual/31-slab.html">บท 31 หัวข้อ 4.1</a> และ <a href="manual/32-fg.html">บท 32</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">16</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/16-quote-plain-stone.html">บท 16 — ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เดินด้วยปุ่ม Select Slabs / Hold ซึ่งเปลี่ยนแล้ว (ตัวเลขตัวอย่างจากไฟล์ Excel ลูกค้ายังใช้เป็นอ้างอิงได้) · ฉบับปัจจุบัน: <a href="manual/04-sell-slab.html">บท 04</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">17</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/17-quote-slab-cutting-fee.html">บท 17 — ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เดินด้วยปุ่ม Select Slabs ซึ่งเปลี่ยนแล้ว · ฉบับปัจจุบัน: <a href="manual/04-sell-slab.html">บท 04</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">20</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/20-quote-polish-per-meter.html">บท 20 — ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เดินด้วยปุ่ม Select Slabs ซึ่งเปลี่ยนแล้ว · ฉบับปัจจุบัน: <a href="manual/04-sell-slab.html">บท 04</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">23</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/23-returns-rma.html">บท 23 — การคืนสินค้า (Returns / RMA)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อธิบายด้วยสถานะ stone.slab.status ซึ่งถูกลบแล้ว (Slab เป็น Lot ตาม ADR-087) · ฉบับปัจจุบัน: <a href="manual/31-slab.html">บท 31 หัวข้อ 4.9</a> และ <a href="manual/30-block.html">บท 30 หัวข้อ 4.7</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">24</div>
+      <div class="card-body">
+        <a class="card-title" href="manual/24-quote-stone-labor-skylounge.html">บท 24 — ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+        
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เดินด้วยปุ่ม Select Slabs ซึ่งเปลี่ยนแล้ว · ฉบับปัจจุบัน: <a href="manual/04-sell-slab.html">บท 04</a>
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category" id="decks-obsolete">
+    <div class="category-header">
+      <div class="category-title">เด็ค — ที่ล้าสมัย (ต.ค. 2569)</div>
+      <div class="category-sub">เด็คที่ผู้ใช้ตัดสินใจเลิกดูแล เพื่อรอออกแบบเอกสารชุดใหม่</div>
+    </div>
+    <div class="card">
+      <div class="icon">FW</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/factory-worklist-explainer.html">Factory Worklist: Explainer</a>
+        <div class="card-meta"><span class="card-date">16 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อธิบายปุ่ม Cut to Order / Produce FG / Sell Whole Block ตามโหมด 1, 3, 5 ซึ่งกลไกเปลี่ยนแล้ว (ดูบท 32)
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">E2</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/e2e-mode2-lot-stock.html">E2E — Select Lot Stock (Mode 2) + Register Payment</a>
+        <div class="card-meta"><span class="card-date">21 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> เด็ค E2E แบบโหมดที่เหลือตัวสุดท้าย ตัวพี่น้องย้ายหมดแล้ว ขายแบบ Lot ดูบท 04
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">CF</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/client-feedback-tracker.html">ติดตาม Feedback ลูกค้า (คุณไบรท์)</a>
+        <div class="card-meta"><span class="card-date">30 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ติดตามถึง 30 ก.ย. ถูกแทนด้วยหน้า "ประเด็นนำเสนอและหารือกับลูกค้า"
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">B2</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/boq-quickstart-sales.html">BOQ Quickstart — สำหรับทีมขายมือใหม่</a>
+        <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ฟอร์ม BOQ เปลี่ยนเป็นขั้นตอน ① → ④ แล้ว (ภาพหน้าจอเป็นรุ่นเดิม มีสไลด์เทียบแท็บเก่า-ใหม่ไว้) ดูบท 22
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">B4</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/boq-quickstart-setup.html">BOQ Quickstart — เตรียมระบบให้ทีมขาย</a>
+        <div class="card-meta"><span class="card-date">17 ส.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> ฟอร์ม BOQ เปลี่ยนเป็นขั้นตอนแล้ว และอ้างปุ่ม Select Slabs ซึ่งเปลี่ยนแล้ว ดูบท 22
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">D8</div>
+      <div class="card-body">
+        <a class="card-title" href="presentations/workflow-design/labor-cost-explainer.html">ค่าแรง 4 สถานการณ์ — ใครทำงาน คิดต้นทุนแบบไหน</a>
+        <div class="card-meta"><span class="card-date">29 ก.ย. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> อ้างจับคู่ Slab กับ Sale Order (Hold) เพื่อคิดค่าแรงประมาณ ซึ่งกลไก Hold เปลี่ยนแล้ว ผมยังไม่ได้เทียบส่วนอื่นของเด็ค
+          <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
         </div>
       </div>
     </div>

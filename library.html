@@ -148,6 +148,7 @@
           <li class="tree-doc"><a href="manual/32-fg.html"><span class="tree-doc-tag">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="manual/33-landed-cost.html"><span class="tree-doc-tag">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a></li>
           <li class="tree-doc"><a href="manual/34-mo-costing.html"><span class="tree-doc-tag">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a></li>
+          <li class="tree-doc"><a href="manual/35-boq-vs-cutlist.html"><span class="tree-doc-tag">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร</a></li>
           <li class="tree-doc"><a href="presentations/eg-321-production-line.html"><span class="tree-doc-tag">EG</span>EG-321 Production Line — เจาะรายละเอียดสายการผลิต + Odoo MRP</a></li>
         </ul>
       </details>
@@ -177,10 +178,10 @@
           <li class="tree-doc"><a href="qa/test-cases-golden-path-slab-cut-to-scrap.html"><span class="tree-doc-tag">2</span>Golden Path — Slab: ตัด ขาย คืน ตัดทิ้ง (รันใหม่ 14 ต.ค.)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-fg-countertop-custom.html"><span class="tree-doc-tag">3</span>Golden Path — FG: Countertop และ Custom FG ขายถึงเก็บเงิน (รันใหม่ 14 ต.ค.)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project-combo.html"><span class="tree-doc-tag">5</span>Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-import.html"><span class="tree-doc-tag">5</span>Golden Path — BOQ: นำเข้า Excel ถึงต้นทุนและ P&amp;L</a></li>
           <li class="tree-doc"><a href="qa/test-cases-wip-16-oct.html"><span class="tree-doc-tag">6</span>Test Case เฉพาะจุดที่แก้ — Feedback WIP 16 ต.ค. (รันจริง 19 ต.ค.)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-lobby-lamps-2026-10-25.html"><span class="tree-doc-tag">7</span>คู่มือกดตาม — BOQ พื้น + โคม (Cut List มาทีหลัง Confirm) · Self-Test 25 ต.ค. 2569</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-lobby-lamps-2026-10-25.pdf"><span class="tree-doc-tag">PDF</span>คู่มือกดตาม — BOQ พื้น + โคม (ไฟล์ PDF)</a></li>
+          <li class="tree-doc"><a href="qa/guide-boq-import-excel-2026-10-28.html"><span class="tree-doc-tag">7</span>คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (Self-Test)</a></li>
+          <li class="tree-doc"><a href="qa/guide-boq-import-excel-2026-10-28.pdf"><span class="tree-doc-tag">PDF</span>คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (ไฟล์ PDF)</a></li>
         </ul>
       </details>
 
@@ -202,6 +203,8 @@
           <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000003-material-quotation.pdf"><span class="tree-doc-tag">M</span>ใบเสนอราคา — Material</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000004-labor-quotation.pdf"><span class="tree-doc-tag">L</span>ใบเสนอราคา — Labor</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-combined-quotation.pdf"><span class="tree-doc-tag">C</span>ใบเสนอราคารวม 2 คอลัมน์</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/boq-import-example-hotel.xlsx"><span class="tree-doc-tag">BQ</span>ตัวอย่างไฟล์ BOQ สำหรับ Import Excel — โรงแรม (ซม.)</a></li>
+          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — โรงแรม (ซม. ใช้คู่กับไฟล์ BOQ ข้างบน)</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-lift-lobby.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List (นำเข้า BOQ)</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-marine-hotel.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — Marine Hotel (Golden Path สวิตช์ BOQ)</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-chedi-bua-recipe.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — เจดีย์บัว (ชิ้นหิน 10 ชิ้น · Rate เจดีย์บัว ราคาคงที่ 50,000)</a></li>
@@ -245,7 +248,7 @@
       <details class="tree-cat" data-section="draft-document" open>
         <summary>Draft Document</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (34 บท)</a></li>
+          <li class="tree-doc"><a href="manual/index.html"><span class="tree-doc-tag">M</span>คู่มือฉบับเต็ม (35 บท)</a></li>
         </ul>
         <div class="tree-subgroup">
           <div class="tree-subgroup-label">BOQ Estimation</div>
@@ -355,6 +358,16 @@
         <div class="card-title">การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</div>
         <div class="card-desc">ใบสั่งผลิต (MO) เก็บต้นทุนอย่างไร: ต้นทุนวัสดุเข้ามูลค่าสินค้า ค่าแรงและวัสดุสิ้นเปลืองลงเป็นค่าใช้จ่ายประมาณการ พร้อมรายการบัญชีจริงจากใบผลิต FG และใบตัด Block และวิธีเลือกสถานีที่งานจะผ่านก่อน Confirm</div>
         <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="manual/35-boq-vs-cutlist.html">
+      <div class="icon">35</div>
+      <div>
+        <div class="card-title">บทที่ 35 · BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร</div>
+        <div class="card-desc">นิยาม BOQ (ขายอะไรกี่บาท) กับ Cut List (ตัดชิ้นไหนขนาดไหน) · Import Excel vs นำเข้า Cut List · ขนาดที่ติดจาก BOQ ถึงใบสั่งผลิต · เทียบ ตร.ม. · ต้นทุนจริงและ P&amp;L ของ BOQ ใบนี้ · ภาพหน้าจอจริงจาก eg-tst</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -494,22 +507,23 @@
       <div class="arrow">→</div>
     </a>
 
-    <a class="card" href="qa/test-cases-golden-path-boq-project-combo.html">
+    <a class="card" href="qa/test-cases-golden-path-boq-import.html">
       <div class="icon">5</div>
       <div>
-        <div class="card-title">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</div>
-        <div class="card-desc">2 สวิตช์ (BOQ / Project) พิสูจน์แล้วว่าเป็นอิสระต่อกันในเอกสารสวิตช์ทั้ง 2 ข้างต้น — เอกสารนี้สาธิตเมื่อใช้ร่วมกันแบบที่ลูกค้าจริงต้องการ: เริ่มจาก Cutting List จริงที่ลูกค้าส่งมา → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project เพื่อติดตามงานเป็น Task ต่อ Zone พร้อม Milestone เก็บเงิน (13 test cases)</div>
-        <div class="card-meta"><span class="card-date">22 ก.ย. 2026</span><span class="status-badge design">ให้ผู้ใช้ทดสอบเอง — ยังไม่ได้รันจริงผ่านหน้าจอ</span></div>
+        <div class="card-title">Golden Path — BOQ: นำเข้า Excel ถึงต้นทุนและ P&amp;L</div>
+        <div class="card-desc">14 เคส · นำเข้า BOQ จาก Excel → ใบเสนอราคา (ขนาดและจำนวนชิ้นติดมาด้วย) → ผลิต FG → ส่งของตามขนาด → ใบแจ้งหนี้ → ต้นทุนจริงจากใบสั่งผลิต → P&amp;L ของ BOQ ใบนี้ · เอกสารเดียวสำหรับเรื่อง BOQ แทนชุดเก่า 3 ฉบับที่ย้ายไป Archived · มีปุ่ม Export Excel และภาพหน้าจอจริงทุกเคส</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
 
-    <a class="card" href="qa/guide-boq-lobby-lamps-2026-10-25.html">
+
+    <a class="card" href="qa/guide-boq-import-excel-2026-10-28.html">
       <div class="icon">7</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ พื้น + โคม (Self-Test)</div>
-        <div class="card-desc">พื้นหินอ่อน lobby 20 ตร.ม. + โคมประตู 2 ตัวที่ Cut List ต่างกัน: สร้าง BOQ → ออกใบเสนอราคา → Confirm ก่อนมี Cut List → นำเข้า Cut List ทีหลัง ระบบโหลดสูตร ประเมินต้นทุน และสร้างใบสั่งตัด/ประกอบให้เอง ทุกขั้นมีช่อง ผ่าน/ไม่ผ่าน (มีไฟล์ PDF คู่ และไฟล์ Cut List ตัวอย่างในหมวด "ตัวอย่างเอกสารจากระบบ")</div>
-        <div class="card-meta"><span class="card-date">25 ต.ค. 2026</span><span class="status-badge design">ให้ผู้ใช้ทดสอบเอง — ยังไม่ได้กดตามคู่มือจริง</span></div>
+        <div class="card-title">คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (Self-Test)</div>
+        <div class="card-desc">ให้ผู้ใช้กดตามเอง 5 ตอน: นำเข้า BOQ จาก Excel → ใบเสนอราคา → ผลิต FG → ส่งของและใบแจ้งหนี้ → ต้นทุนจริงและ P&amp;L · มีช่องติ๊กผ่าน/ไม่ผ่านทุกขั้น · ไฟล์ Excel ตัวอย่างแนบ · มี PDF คู่</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -599,6 +613,24 @@
       <div>
         <div class="card-title">ใบเสนอราคารวม 2 คอลัมน์ — Material + Labor (Combined)</div>
         <div class="card-desc">Material กับ Labor วางเทียบกันในเอกสารเดียว — ตรงกับฟีเจอร์ Split Quotation ใน ADR-031</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/boq-import-example-hotel.xlsx">
+      <div class="icon">BQ</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ BOQ สำหรับ Import Excel — โรงแรม (ล็อบบี้ + ผนังลิฟต์)</div>
+        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>Import Excel</b> (BOQ Estimation → BOQ Documents) ใช้สินค้า FG ที่ตั้งข้อมูลครบและมี Slab ในคลัง eg-tst: พื้นล็อบบี้ NERO RUSTENBURG (Polished) 50 × 90 × 2 ซม. 9 ตร.ม. · ค่าขนส่งและติดตั้ง 15,000 · ผนังลิฟต์ SHANDONG BLACK (Polished) 60 × 120 × 2 ซม. 14.4 ตร.ม. · ลูกค้าตัวอย่าง Demo Hotel Customer · ขนาดทุกช่องเป็น ซม. · ผลนำเข้าจริง: วัสดุรวม 295,800 ค่าแรง 20,160 Overhead 31,596 รวม 347,556</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ Cut List — โรงแรม (ซม. ใช้คู่กับไฟล์ BOQ ตัวอย่าง)</div>
+        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>นำเข้า Cut List</b> (ใน BOQ แท็บ ③) 48 ชิ้น 2 โซน ชื่อโซนตรงกับไฟล์ BOQ ตัวอย่าง: ล็อบบี้ 24 ชิ้น = 8.91 ตร.ม. (BOQ เสนอ 9.00) · ผนังลิฟต์ 24 ชิ้น = 14.04 ตร.ม. (BOQ เสนอ 14.40) จึงเห็นการเทียบ ตร.ม. ได้ · ทำจากเทมเพลต Cut List ของระบบเอง ขนาดเป็น ซม. · ก่อนนำเข้า ให้ใส่ NERO RUSTENBURG (Polished) กับ SHANDONG BLACK (Polished) ใน "รายการที่ใช้ในโปรเจกต์นี้" แท็บ ③ ของ BOQ · ผลนำเข้าจริง: เติมชิ้นงานเข้า 2 บรรทัดเดิม ยอดประเมินคงเดิม</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -742,7 +774,7 @@
     <a class="card" href="manual/index.html">
       <div class="icon">M</div>
       <div>
-        <div class="card-title">คู่มือฉบับเต็ม (34 บท)</div>
+        <div class="card-title">คู่มือฉบับเต็ม (35 บท)</div>
         <div class="card-desc">ทุกโหมดการขาย (1-5), การจัดซื้อ, BOQ, Intercompany, Scan Station, WHT — แยกไฟล์รายบท พร้อม screenshot ทุกขั้นตอน</div>
         <div class="card-meta"><span class="card-date">20 ส.ค. 2026</span></div>
       </div>
