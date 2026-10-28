@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>38. ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 38 / 39</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 39 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="36-custom-fg.html" class="nav-link"><span class="nav-num">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="37-purchase-fg.html" class="nav-link"><span class="nav-num">37</span>ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="38-fg-without-sale.html" class="nav-link active"><span class="nav-num">38</span>ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="39-block-cut.html" class="nav-link active"><span class="nav-num">39</span>ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">38</span> ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · โมดูล stone_slab_inventory 19.0.2.109.46 · ภาพหน้าจอถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายการ <strong>เริ่มงานผลิตเอง โดยไม่ผ่านใบขาย</strong> เช่น ผลิต FG (แผ่นตัดตามขนาด) เก็บสต็อกไว้ขาย ระบบมีทางเข้าเดียวคือปุ่ม <strong>"สร้างงานผลิต"</strong> ให้เลือกก่อนว่าจะทำงานอะไร แล้วหน้าใบสั่งผลิตจะบอกขั้นตอนทีละข้อ ตอนนี้ <strong>งาน "ทำ FG" (บทนี้) และ "ตัด Block เป็น Slab" (บทที่ 39) มีหน้านำทางแล้ว</strong> ส่วน "ทำผิว Slab ใหม่" ยังเปิดเป็นใบสั่งผลิตเปล่าแบบเดิม</p>
+
+<h2>1. สร้างงานผลิตคืออะไร</h2>
+<p><strong>สร้างงานผลิต</strong> คือหน้าต่างเลือกประเภทงานก่อนเข้าไปกรอกใบสั่งผลิต (MO) ระบบไม่ได้สร้างเอกสารอะไรในขั้นนี้ แค่เปิดใบสั่งผลิตที่ตั้งค่าไว้ให้ตามงานที่เลือก ใบสั่งผลิตเพิ่งถูกสร้างจริงตอนกดบันทึก</p>
+<div class="kv">
+<div>ปุ่ม/เมนูที่ใช้</div><div>ปุ่ม <strong>สร้างงานผลิต</strong> ที่หน้า Manufacturing Orders (ข้างปุ่ม New) หรือเมนู <strong>Manufacturing → Operations → สร้างงานผลิต (เลือกประเภทงาน)</strong> และ <strong>Stone Slab → สร้างงานผลิต</strong> ปุ่ม New แบบเดิมยังอยู่ ไว้ให้ผู้ใช้ขั้นสูง</div>
+<div>ประเภทงาน</div><div>ทำ FG (แผ่นตัดตามขนาด) จาก Slab · ตัด Block เป็น Slab · ทำผิว Slab ใหม่</div>
+<div>"เบิก" Slab อยู่ตรงไหน</div><div>ไม่มีเมนูเบิกแยก การเบิกคือ <strong>2 ปุ่มในใบสั่งผลิต</strong> ได้แก่ "เลือก Slab อัตโนมัติ" (แท็บ Slab ที่จะตัด) แล้ว "ย้ายไปสถานีตัด" (ปุ่มด้านบน)</div>
+<div>พื้นที่รวม (ตร.ม.)</div><div>ระบบ<strong>รวมจากแถวชิ้นงานให้เอง</strong> ไม่ต้องกรอก Quantity</div>
+<div>ผลที่ได้</div><div>Slab ถูกใช้ทั้งแผ่น FG เข้า Stone FG เป็น Lot ใหม่ต่อ 1 แถวชิ้นงาน (มีขนาดและจำนวนชิ้นบน Lot)</div>
+<div>ต้นทุน</div><div>ต้นทุนของ Slab ที่ใช้ทั้งหมดไปรวมที่ FG</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">สร้างงานผลิต → ใส่ชิ้นงาน → เลือก Slab → ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ</span></div><div class="callout-body">หน้าใบสั่งผลิตมีกล่อง "ทำ FG ตามลำดับนี้" ไว้ด้านบนตลอดจนกว่าจะเลือก Slab</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>เลือกประเภทงานก่อนเสมอ</strong> งาน FG ต้องเริ่มจาก "สร้างงานผลิต" แล้วเลือก FG ที่จะทำ ระบบจะเปิดใบสั่งผลิตให้พร้อมกล่องนำทาง</li>
+<li><strong>เบิก Slab = เลือก Lot ในแท็บ "Slab ที่จะตัด"</strong> แล้วกด "ย้ายไปสถานีตัด" ระบบย้าย Slab จากโซนว่างไป Stone Production ให้ ไม่ต้องทำใบโอนเอง</li>
+<li><strong>พื้นที่งานมาจากแถวชิ้นงาน</strong> ใส่กว้าง ยาว หนา จำนวนชิ้นในแท็บ "ผลผลิต FG" ระบบรวมเป็น ตร.ม. และใส่ในช่อง Quantity ให้ (ช่องนี้แก้เองไม่ได้เมื่อมีแถวชิ้นงาน) ถ้ายังไม่มีแถวชิ้นงาน กรอก Quantity เองได้</li>
+<li><strong>ระบบเผื่อเสีย</strong> พื้นที่ที่ต้องใช้ = พื้นที่งาน + เผื่อเสีย (ตัวอย่าง 4.50 เป็น 4.95 คือเผื่อ 10%) ต้องเลือก Slab ให้ครบพื้นที่นี้ ถึงจะขึ้นป้าย "พอ"</li>
+<li><strong>Slab ถูกใช้ทั้งแผ่น</strong> ส่วนที่เหลือที่ไม่ได้บันทึกในแท็บ "เศษที่เหลือ" จะไม่กลับเข้าสต็อก และต้นทุนทั้งแผ่นไปอยู่ที่ FG</li>
+<li><strong>ไม่ต้องมีใบขาย และไม่ต้องใส่เหตุผล</strong> สำหรับ FG ที่เป็นแผ่นตัดตามขนาด (ช่องเหตุผลบังคับเฉพาะงานตัด Block)</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st hl"><b>1. สร้างงานผลิต</b>เลือก "ทำ FG" และ FG ที่จะทำ</div><div class="ar">→</div>
+<div class="st"><b>2. ชิ้นงาน</b>กรอกขนาดและจำนวนชิ้น พื้นที่รวมคำนวณให้</div><div class="ar">→</div>
+<div class="st hl"><b>3. เลือก Slab</b>กด เลือก Slab อัตโนมัติ จนขึ้น "พอ"</div><div class="ar">→</div>
+<div class="st hl"><b>4. ย้ายไปสถานีตัด</b>แล้ว Confirm</div><div class="ar">→</div>
+<div class="st"><b>5. ผลิต FG เสร็จ</b>ได้ Lot FG ที่ Stone FG</div>
+</div>
+<p>กล่องสีเหลืองคือจุดที่ทำพลาดบ่อย: เลือกประเภทงานให้ถูก และต้องกด "ย้ายไปสถานีตัด" ก่อน Confirm</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<p>ตัวอย่างที่ใช้: ผลิต <strong>เทาดำอัฟริกา/NERO RUSTENBURG (Polished)</strong> ขนาด 50 × 90 ซม. หนา 2 ซม. จำนวน 10 ชิ้น = <strong>4.50 ตร.ม.</strong> (ทดลองบน eg-tst ผู้ใช้ emgdemo บริษัท Empire Granite ใบสั่งผลิต EG01/STFG/00416)</p>
+
+<h3>4.1 เลือกประเภทงาน</h3>
+<p>ที่หน้า <strong>Manufacturing → Operations → Manufacturing Orders</strong> กดปุ่ม <strong>สร้างงานผลิต</strong> ที่อยู่ข้างปุ่ม New (หรือใช้เมนู Manufacturing → Operations → สร้างงานผลิต (เลือกประเภทงาน) / Stone Slab → สร้างงานผลิต) เลือก <strong>ทำ FG (แผ่นตัดตามขนาด) จาก Slab</strong> แล้วเลือก FG ที่ช่อง "FG ที่จะทำ" (พิมพ์ชื่อหิน เช่น NERO RUSTENBURG แล้วเลือกรายการที่ลงท้าย (Polished)) กด <strong>เริ่มงาน</strong> หน้าต่างสรุปขั้นตอนทั้ง 5 ข้อให้ดูก่อน</p>
+<figure class="screenshot"><img src="assets/fg-nosale-00-button.webp" alt="หน้า Manufacturing Orders มีปุ่มสร้างงานผลิตอยู่ข้างปุ่ม New"/></figure>
+<figure class="screenshot"><img src="assets/fg-nosale-01.webp" alt="หน้าต่างสร้างงานผลิต เลือกทำ FG และ NERO RUSTENBURG (Polished) พร้อมสรุปขั้นตอน"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">รายการ FG ที่เลือกได้</span></div><div class="callout-body">เลือกได้เฉพาะ FG แผ่นตัดตามขนาดที่ผูกกับวัสดุหิน เจดีย์บัว ซุ้มบัว และโคม ผลิตจากใบขายหรือ BOQ จึงไม่อยู่ในรายการนี้</div></div>
+
+<h3>4.2 ใส่ชิ้นงาน พื้นที่รวมคำนวณให้เอง</h3>
+<p>ระบบเปิดใบสั่งผลิตที่มี Product และสูตรการผลิต (Bill of Material) ให้แล้ว ด้านบนมีกล่อง <strong>"ทำ FG ตามลำดับนี้"</strong> ไปแท็บ <strong>ผลผลิต FG</strong> กด Add a line ใส่ Width 0.50, Length 0.90, Thickness 0.02, Qty 10 ช่อง <strong>Quantity เปลี่ยนเป็น 4.50 เอง</strong> (เป็นสีเทา แก้ไม่ได้) และกล่องด้านบนแสดง "พื้นที่รวม 4.50 ตร.ม." เมื่อเพิ่มหรือแก้แถว ตัวเลขเปลี่ยนตาม</p>
+<figure class="screenshot"><img src="assets/fg-nosale-02.webp" alt="ใบสั่งผลิตที่เปิดจากสร้างงานผลิต: กล่องทำ FG ตามลำดับนี้ Quantity 4.50 คำนวณจากแถวชิ้นงาน"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">แท็บ ผลผลิต FG กรอกเป็นเมตร</span></div><div class="callout-body">ช่อง Width/Length/Thickness ในแท็บนี้เป็น <strong>เมตร</strong> (ใส่ 0.50 ไม่ใช่ 50) ต่างจากหน้าอื่นที่กรอกเป็น ซม. เพราะหน้าจอฝั่งโรงงานยังเป็นเมตร ตามที่ตกลงไว้</div></div>
+
+<h3>4.3 เลือก Slab (นี่คือขั้น "เบิก")</h3>
+<p>ไปแท็บ <strong>Slab ที่จะตัด</strong> จะเห็น พื้นที่งาน 4.50, ต้องใช้รวมเผื่อเสีย 4.95 และ แผ่นที่เลือก 0.00 กดปุ่ม <strong>เลือก Slab อัตโนมัติ</strong> ระบบเลือก Slab ว่างให้จนพอ (ตัวอย่างได้ 2 แผ่น แผ่นละ 3.36 ตร.ม. รวม 6.72) หน้าจอเปลี่ยนเป็นการ์ดสรุป "ต้องใช้ 4.95 ตร.ม. · Slab ที่เลือก 6.72 ตร.ม. · <strong>พอ</strong>" และกล่องนำทางหายไป ถ้าอยากเลือกแผ่นเอง ให้ลบแถวแล้วกด Add a line เลือก Lot และจำนวนชิ้นเอง</p>
+<figure class="screenshot"><img src="assets/fg-nosale-04.webp" alt="หลังเลือก Slab อัตโนมัติ: การ์ดสรุปต้องใช้ 4.95 ตร.ม. Slab ที่เลือก 6.72 ตร.ม. ป้ายพอ และข้อความขั้นตอนถัดไป"/></figure>
+
+<h3>4.4 ถ้าลืม "ย้ายไปสถานีตัด" Confirm ไม่ผ่าน</h3>
+<p>ถ้ากด Confirm ทันที ระบบเด้งข้อความ "Slab ... ยังไม่ได้ย้ายไปสถานีผลิต (Stone Production) — กดปุ่ม ย้ายไปสถานีตัด ด้านบน (หรือย้ายด้วย Transfer) ก่อน Confirm" ให้กลับไปกดปุ่ม <strong>ย้ายไปสถานีตัด</strong> ที่แถบปุ่มด้านบน</p>
+<figure class="screenshot"><img src="assets/fg-nosale-03.webp" alt="ข้อความเตือนเมื่อกด Confirm ก่อนย้าย Slab ไปสถานีตัด"/></figure>
+
+<h3>4.5 ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ</h3>
+<p>กดปุ่ม <strong>ย้ายไปสถานีตัด</strong> ระบบแจ้ง "ย้ายสำเร็จ ย้าย 2 lot ไป Stone Production แล้ว — กด Confirm ได้เลย" กด <strong>Confirm</strong> แล้วกด <strong>ผลิต FG เสร็จ</strong> (ในการทดลองกดได้เลยโดยไม่ต้องกด Start) ระบบแจ้ง "Complete FG Production สำเร็จ ผลิตสำเร็จ 4.50 หน่วย" และสถานะเป็น Done</p>
+<figure class="screenshot"><img src="assets/fg-nosale-05.webp" alt="ใบสั่งผลิต EG01/STFG/00416 สถานะ Done พร้อมข้อความย้ายสำเร็จและผลิตสำเร็จ 4.50"/></figure>
+
+<h3>4.6 ผลที่ได้ในสต็อก</h3>
+<table class="cond"><tr><th>รายการ</th><th>ผลที่ตรวจในระบบ</th></tr>
+<tr><td>FG ที่ได้</td><td class="ok">Lot <strong>FG-EG01/STFG/00416-01</strong> ขนาด 0.50 × 0.90 ม. จำนวน 10 ชิ้น คงเหลือ 4.50 ตร.ม. ที่ <strong>EG01/Stock/Stone FG</strong></td></tr>
+<tr><td>Slab ที่ใช้</td><td class="ok">2 แผ่น ใช้ครบทั้งแผ่น ไม่เหลือในสต็อก</td></tr>
+<tr><td>ต้นทุน</td><td class="ok">ต้นทุน Slab 2 แผ่นรวม 10,886.40 บาท ไปรวมที่ FG 4.50 ตร.ม. (ประมาณ 2,419 บาท/ตร.ม.) ซึ่งสูงกว่าต้นทุนต่อ ตร.ม. ของ Slab เพราะส่วนที่เหลือ 2.22 ตร.ม. ไม่ได้บันทึกเป็นเศษ</td></tr>
+<tr><td>เศษที่เหลือ</td><td class="no">ไม่มี (ไม่ได้กรอกแท็บ "เศษที่เหลือ" ในการทดลองนี้)</td></tr></table>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>เริ่มจาก สร้างงานผลิต → ทำ FG โดยไม่เลือก FG</td><td class="no">ไม่ให้เริ่ม ต้องเลือก FG ก่อน (ทดลองด้วยสคริปต์)</td></tr>
+<tr><td>เลือก ตัด Block เป็น Slab</td><td>ต้องเลือก Block แล้วเปิดใบสั่งตัดพร้อมกล่องนำทาง (ดูบทที่ 39)</td></tr>
+<tr><td>เลือก ทำผิว Slab ใหม่</td><td>เปิดใบสั่งผลิตเปล่าแบบเดิม ยังไม่มีหน้านำทาง</td></tr>
+<tr><td>สร้าง MO ของ FG แผ่นตัดโดยไม่มีใบขาย</td><td class="ok">ทำได้ ไม่ต้องใส่เหตุผล</td></tr>
+<tr><td>เพิ่ม/แก้/ลบแถวชิ้นงาน (ผลผลิต FG) ขณะ Draft</td><td class="ok">Quantity และ พื้นที่งาน เปลี่ยนตามผลรวมของแถว (ทดลอง 4.5 → 5.7 → 6.9 → 4.5)</td></tr>
+<tr><td>ยังไม่มีแถวชิ้นงาน</td><td>Quantity กรอกเองได้ (ค่าเริ่มต้น 1.00)</td></tr>
+<tr><td>กรอกแถวชิ้นงานแล้วพยายามแก้ Quantity</td><td class="no">แก้ไม่ได้ (ช่องเป็นสีเทา)</td></tr>
+<tr><td>กด Confirm ก่อน "ย้ายไปสถานีตัด"</td><td class="no">ไม่ผ่าน มีข้อความเตือนที่เรียกชื่อปุ่มถูกต้อง</td></tr>
+<tr><td>กด ย้ายไปสถานีตัด แล้ว Confirm แล้ว ผลิต FG เสร็จ</td><td class="ok">ได้ Lot FG ต่อ 1 แถวชิ้นงาน เข้า Stone FG ใช้ Slab ทั้งแผ่น</td></tr>
+<tr><td>ใบสั่งผลิตที่มาจากใบขาย</td><td>ไม่เปลี่ยน พื้นที่งานยังมาจากรายการชิ้นในใบขายเหมือนเดิม</td></tr>
+<tr><td>Slab ที่เลือกไม่พอ</td><td>การ์ดแสดงป้าย "ยังไม่พอ" และแจ้งให้เพิ่ม Slab (ยังไม่ได้ทดลองกด Confirm ตอนไม่พอ)</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม (ก่อน 28 ต.ค. 2569 ช่วงค่ำ)</th><th>ตอนนี้</th></tr>
+<tr><td>เปิดใบสั่งผลิตเปล่าหน้าเดียวสำหรับทุกงาน ผู้ใช้ต้องเดาว่าต้องกรอกอะไร</td><td class="ok">เริ่มจาก "สร้างงานผลิต" เลือกประเภทงาน (ปุ่ม New เดิมยังอยู่) งาน FG มีกล่องนำทาง 5 ขั้น</td></tr>
+<tr><td>ต้องรวมพื้นที่ชิ้นงานเองแล้วกรอกใน Quantity ถ้าเลือก Slab ก่อน ช่อง Quantity หาย และพื้นที่ค้างที่ 1.00 ตร.ม.</td><td class="ok">ระบบรวมจากแถวชิ้นงานให้ ช่อง Quantity แสดงผลรวมและแก้เองไม่ได้ ลำดับการกรอกไม่มีผล</td></tr>
+<tr><td>ข้อความเตือนบอกให้กด "ย้ายด่วน" ซึ่งไม่มีปุ่มชื่อนี้</td><td class="ok">เรียกชื่อปุ่ม "ย้ายไปสถานีตัด" ถูกต้อง</td></tr>
+<tr><td>หลังกด ย้ายไปสถานีตัด หน้าจอไม่รีเฟรช ต้องรีเฟรชเอง</td><td class="ok">รีเฟรชอัตโนมัติ</td></tr>
+<tr><td>ไม่มีคำอธิบายใต้ช่อง Quantity</td><td class="ok">มีคำอธิบายว่าเป็นพื้นที่รวมของทุกชิ้น (ตร.ม.)</td></tr></table>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แท็บ ผลผลิต FG ยังเป็นเมตร</span></div><div class="callout-body">คงเป็นเมตรไว้ก่อนให้ลูกค้าดูหน้าจอตามที่ตกลง ถ้าลูกค้าต้องการ ซม. จะเปลี่ยนในรอบถัดไป</div></div>
+
+<h2>7. FAQ</h2>
+<p><strong>ต้องมีใบขายไหม</strong><br/>ไม่ต้อง สำหรับ FG แผ่นตัดตามขนาด สร้างจากเมนู สร้างงานผลิต ได้เลย</p>
+<p><strong>ปุ่ม New ที่หน้ารายการ Manufacturing Orders ยังใช้ได้ไหม</strong><br/>ใช้ได้ เปิดใบสั่งผลิตเปล่าเหมือนเดิม ถ้าเลือก FG เองที่ช่อง Product กล่อง "ทำ FG ตามลำดับนี้" ก็ขึ้นเหมือนกัน</p>
+<p><strong>เมนู "Finished Goods" ใน Stone Slab ใช้ทำอะไร</strong><br/>เป็นรายการดูใบสั่งผลิต FG ที่มี Slab ที่เลือกไว้แล้ว การสร้างใบใหม่ให้ใช้ สร้างงานผลิต</p>
+<p><strong>เลือก Slab เองแทนอัตโนมัติได้ไหม</strong><br/>ได้ ที่แท็บ Slab ที่จะตัด กด Add a line เลือก Lot และจำนวนชิ้น (Lot ที่เลือกได้เป็น Slab ของหินชนิดเดียวกับ FG เท่านั้น)</p>
+<p><strong>เศษที่เหลือบันทึกที่ไหน</strong><br/>แท็บ "เศษที่เหลือ" ก่อนกด ผลิต FG เสร็จ (ตารางกว้าง ยาว จำนวนชิ้น ต้นทุน) ยังไม่ได้ทดลองบันทึกเศษในรอบนี้</p>
+<p><strong>แถวชิ้นงานหลายแถวได้ไหม</strong><br/>ได้ พื้นที่รวมคือผลรวมทุกแถว (ทดลองรวมหลายแถวด้วยสคริปต์ ส่วนการผลิตจนจบทดลองผ่านหน้าจอเฉพาะ 1 แถว)</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>หน้านำทางทำแล้วสำหรับงาน "ทำ FG" และ "ตัด Block เป็น Slab" ส่วน "ทำผิว Slab ใหม่" ยังเป็นใบสั่งผลิตเปล่าแบบเดิม</li>
+<li>ทดลองผ่านหน้าจอครบเส้นทางเฉพาะกรณี 1 แถวชิ้นงาน หินชนิดเดียว และเลือก Slab อัตโนมัติ</li>
+<li>ไม่ได้ทดลอง: เลือก Slab เอง, Slab ไม่พอแล้ว Confirm, หลายแถวชิ้นงานจนผลิตเสร็จ, การบันทึกเศษ, การยกเลิก MO หลังย้าย Slab และการ Unreserve</li>
+<li>พื้นที่รวมตามแถวชิ้นงานใช้กับใบสั่งผลิตที่สร้างเองสถานะ Draft เท่านั้น ใบที่ Confirm แล้วไม่เปลี่ยนตามการแก้แถว</li>
+<li>ยังไม่ได้ทำข้อเสนอที่ 4 (เตือนเมื่อพื้นที่แถวไม่ตรงกับ Quantity) เพราะ Quantity ตามแถวอัตโนมัติแล้ว</li>
+<li>เปอร์เซ็นต์เผื่อเสียอ่านจากตัวอย่าง (4.50 → 4.95 = 10%) ค่าจริงตั้งที่บริษัท</li>
+<li>ข้อมูลทดลองบน eg-tst: ใบสั่งผลิต EG01/STFG/00415 และ 00416 (Done ใช้ Slab 4 แผ่นหมดสต็อก) และ 00414 กับอีกหลายใบที่เป็น Draft จากการทดสอบ</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo ตามคำถามผู้ใช้ "ถ้าจะทำ FG โดยไม่ผ่านการขาย ต้องเบิก Slab อย่างไร ตรง menu ไหน" และข้อเสนอให้แยกตามประเภทงาน (ใบสั่งผลิต EG01/STFG/00416 โมดูล 19.0.2.109.42; ภาพ 4.4 ถ่ายจากอีกใบที่ตั้งใจไม่กดย้าย Slab)</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="37-purchase-fg.html"><span class="dir">← ก่อนหน้า</span>37. ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <a class="next" href="39-block-cut.html"><span class="dir">ถัดไป →</span>39. ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น</a>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>

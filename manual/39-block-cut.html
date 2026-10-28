@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>39. ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 39 / 39</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 39 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="36-custom-fg.html" class="nav-link"><span class="nav-num">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="37-purchase-fg.html" class="nav-link"><span class="nav-num">37</span>ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="38-fg-without-sale.html" class="nav-link"><span class="nav-num">38</span>ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="39-block-cut.html" class="nav-link active"><span class="nav-num">39</span>ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">39</span> ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · โมดูล stone_slab_inventory 19.0.2.109.46 · ภาพหน้าจอถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายการ <strong>ตัด Block เป็น Slab</strong> (ใบสั่งตัด หรือ Cut Order) ที่เริ่มจากปุ่ม <strong>"สร้างงานผลิต"</strong> ซึ่งเป็นทางเข้าเดียวกับงาน FG (บทที่ 38) เมื่อเลือกงานนี้ ใบสั่งผลิตจะมีกล่อง "ตัด Block เป็น Slab ตามลำดับนี้" ที่ติ๊ก ✅ ให้ทีละข้อเมื่อทำครบ จึงดูได้ตลอดว่าทำถึงขั้นไหน</p>
+
+<h2>1. ตัด Block เป็น Slab คืออะไร</h2>
+<p><strong>ตัด Block เป็น Slab</strong> คือการนำหินก้อน (Block) ไปเลื่อยเป็นแผ่น (Slab) ตามขนาดที่กำหนด ระบบสร้างใบสั่งผลิต (MO) ให้ ตัดสต็อก Block ออก และสร้าง Slab เป็น Lot ใหม่ แผ่นละ 1 Lot เก็บที่ Stone Available</p>
+<div class="kv">
+<div>ปุ่ม/เมนูที่ใช้</div><div>ปุ่ม <strong>สร้างงานผลิต</strong> ที่หน้า Manufacturing Orders (หรือเมนู <strong>Manufacturing → Operations → สร้างงานผลิต (เลือกประเภทงาน)</strong>) เลือก "ตัด Block เป็น Slab" แล้วเลือก Block (ปุ่ม New แบบเดิมยังใช้ได้ และกล่องนำทางก็ขึ้นเหมือนกัน เมื่อเลือก Block ที่ช่อง "Block ที่จะตัด")</div>
+<div>ต้องกรอกอะไร</div><div>Block · ขนาดแผ่น (L × H) · ความหนา · ผิวหน้า (ถ้ามี) · ใบขาย หรือเหตุผลกรณีไม่มีใบขาย</div>
+<div>ระบบคำนวณให้</div><div>จำนวนแผ่นที่คาดว่าจะได้ (แท็บ "Slab ที่ตัดได้ (แผน/จริง)") และ ตร.ม. รวม</div>
+<div>ผลที่ได้</div><div>Slab 1 Lot ต่อ 1 แผ่นที่ตัดได้จริง Block ส่วนที่ไม่ได้ใช้คงเหลือในสต็อก</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">เลือก Block → ระบุขนาดแผ่น → ผูกใบขายหรือเหตุผล → ย้ายไปสถานีตัด → Confirm → ตัดจริง → ตัดเสร็จ</span></div><div class="callout-body">ทุกขั้นอยู่ในกล่องสีฟ้าด้านบนใบสั่งผลิต ติ๊ก ✅ เมื่อทำแล้ว ⬜ คือยังไม่ได้ทำ</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>1 ใบสั่งตัด = 1 Block</strong> ใบสั่งตัดผูกกับ Block เดียว ตัดได้หลายแผ่นในใบเดียว</li>
+<li><strong>ระบบสร้าง "แผน" ให้ครั้งเดียว</strong> ตอนเลือก Block ระบบคำนวณจำนวนแผ่นจากปริมาตร Block ÷ ปริมาตรแผ่นหนึ่งแผ่น และสร้างตารางแผน ถ้าเปลี่ยนขนาดแผ่นหรือความหนาทีหลัง <strong>แผนไม่เปลี่ยนตาม</strong> ต้องกด "สร้างแผนใหม่" (ระบบมีกล่องเตือนพร้อมปุ่มให้ ดูหัวข้อ 4.3)</li>
+<li><strong>ต้องมีใบขายหรือเหตุผล</strong> ถ้าตัดโดยไม่มีใบขาย ต้องเลือก "เหตุผล (กรณีไม่มี SO)" ตัวเลือกคือ ปกติ, งานเพิ่ม, ตัดซ่อม, วัตถุดิบสำหรับ FG, อื่นๆ</li>
+<li><strong>ย้าย Block ไปสถานีตัดก่อน Confirm</strong> ปุ่ม "ย้ายไปสถานีตัด" ย้าย Block จากโซนว่างไป Stone Production ให้ ไม่ต้องทำใบโอนเอง</li>
+<li><strong>ตัดจริงอาจไม่เท่าแผน</strong> ตารางมีคอลัมน์ "จริง" (L, H, ความหนา) ค่าเริ่มต้นเท่าแผน แก้ได้ก่อนกด "ตัดเสร็จ" ระบบสร้าง Slab ตามขนาดจริง</li>
+<li><strong>ขนาดในตารางแผนเป็นเมตร</strong> (2.80 ไม่ใช่ 280) ส่วนความหนาในขั้นที่ 2 กรอกเป็น ซม. เมื่อเลือก Other</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st hl"><b>1. สร้างงานผลิต</b>เลือก "ตัด Block เป็น Slab" + Block</div><div class="ar">→</div>
+<div class="st"><b>2. ขนาดแผ่น</b>L × H ความหนา ผิวหน้า</div><div class="ar">→</div>
+<div class="st"><b>3. ใบขาย/เหตุผล</b>เลือกอย่างใดอย่างหนึ่ง</div><div class="ar">→</div>
+<div class="st hl"><b>4. ย้ายไปสถานีตัด</b>แล้ว Confirm</div><div class="ar">→</div>
+<div class="st hl"><b>5. ตัดจริง</b>ตรวจขนาดจริง แล้วกด ตัดเสร็จ</div>
+</div>
+<p>กล่องสีเหลืองคือจุดที่ทำพลาดบ่อย: แผนไม่ตามขนาดที่เปลี่ยนทีหลัง และลืมย้ายไปสถานีตัด</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<p>ตัวอย่างที่ใช้: ตัด <strong>Block BLK-26-0007</strong> (5.04 ลบ.ม. ขนาด 2.80 × 1.50 × 1.20 ม. หิน GP Block Marble) เป็น Slab ขนาด <strong>2.80 × 1.20 ม. หนา 20 ซม. ผิว Polished</strong> ไม่มีใบขาย เหตุผล "อื่นๆ" (ทดลองบน eg-tst ผู้ใช้ emgdemo บริษัท Empire Granite ใบสั่งตัด EG01/STCUT/00409)</p>
+
+<h3>4.1 เลือกประเภทงานและ Block</h3>
+<p>ที่หน้า <strong>Manufacturing → Operations → Manufacturing Orders</strong> กดปุ่ม <strong>สร้างงานผลิต</strong> ข้างปุ่ม New (หรือใช้เมนู Manufacturing → Operations → สร้างงานผลิต / Stone Slab → สร้างงานผลิต) เลือก <strong>ตัด Block เป็น Slab</strong> แล้วเลือก Block ที่ช่อง "Block ที่จะตัด" กด <strong>เริ่มงาน</strong> หน้าต่างสรุปขั้นตอนทั้ง 7 ข้อให้ดู</p>
+<figure class="screenshot"><img src="assets/block-cut-01.webp" alt="หน้าต่างสร้างงานผลิต เลือกตัด Block เป็น Slab และ BLK-26-0007"/></figure>
+
+<h3>4.2 ใบสั่งตัดเปิดขึ้นพร้อมกล่องนำทาง</h3>
+<p>ระบบเปิดใบสั่งตัดที่เลือก Block ไว้แล้ว และใส่ขนาดแผ่น L × H เริ่มต้นจากขนาด Block ให้ (ตัวอย่าง 2.80 × 1.20 ม.) ด้านบนมี <strong>กล่อง "ตัด Block เป็น Slab ตามลำดับนี้"</strong> ✅ ① และ ② ติ๊กแล้ว ⬜ ③–⑦ ยังไม่ได้ทำ การ์ดสรุปแสดง Block, ขนาดเป้าหมาย, จำนวนแผ่นโดยประมาณ</p>
+<figure class="screenshot"><img src="assets/block-cut-02.webp" alt="ใบสั่งตัดที่เปิดจากสร้างงานผลิต: การ์ดสรุปและกล่องตัด Block เป็น Slab ตามลำดับนี้"/></figure>
+<p>ถ้ากด Confirm ตอนยังกรอกไม่ครบ ระบบเตือนครั้งเดียวว่าขาดอะไรบ้าง (เดิมเตือนทีละข้อ ต้องกดหลายรอบ)</p>
+<figure class="screenshot"><img src="assets/block-cut-03.webp" alt="ข้อความเตือนรวมเมื่อกด Confirm ก่อนกรอกครบ: ต้องเลือกใบขายหรือเหตุผล"/></figure>
+
+<h3>4.3 ระบุขนาดแผ่น ความหนา ผิวหน้า และเหตุผล</h3>
+<p>ในกลุ่ม "ขั้นตอนที่ 2" เลือก <strong>ผิวหน้า (Polished)</strong> และ <strong>ความหนาที่ต้องการ = Other</strong> แล้วกรอก <strong>ความหนา (ซม.) = 20</strong> ในกลุ่ม "ขั้นตอนที่ 3" เลือก <strong>เหตุผล (กรณีไม่มี SO) = อื่นๆ</strong> ✅ ③ ติ๊กแล้ว</p>
+<p>จุดสำคัญ: ตารางแผนถูกสร้างไว้ตอนเลือก Block (ตัวอย่าง 75 แผ่น หนา 2 ซม.) พอเปลี่ยนความหนาเป็น 20 ซม. แผนยังเป็นของเดิม ระบบจึงขึ้น <strong>กล่องเตือนสีเหลือง "แผนในแท็บ Slab ที่ตัดได้ ยังเป็นขนาดเดิม"</strong> พร้อมปุ่ม <strong>สร้างแผนใหม่</strong> กดปุ่มนี้ (ยืนยัน) แผนเปลี่ยนเป็น <strong>7 แผ่น (23.52 ตร.ม.)</strong> และกล่องเตือนหายไป</p>
+<figure class="screenshot"><img src="assets/block-cut-04.webp" alt="กล่องเตือนแผนยังเป็นขนาดเดิมหลังเปลี่ยนความหนา พร้อมปุ่มสร้างแผนใหม่"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">เปลี่ยนความหนาหรือขนาดแผ่นทีหลัง ต้องกด "สร้างแผนใหม่" ทุกครั้ง</span></div><div class="callout-body">ถ้าไม่กด ระบบจะตัดตามแผนเดิม ในการทดลองก่อนแก้ ตั้งความหนา 20 ซม. แต่ไม่กดสร้างแผนใหม่ ได้ Slab หนา 2 ซม. จำนวน 73 แผ่น (ใบสั่งตัด EG01/STCUT/00408) ทั้งที่การ์ดบนหน้าจอเขียนว่า 20 ซม. ตอนนี้ระบบเตือนให้แล้ว แต่ยังไม่บังคับ เพราะบางงานแก้แผนเองทีละแผ่นโดยตั้งใจ</div></div>
+
+<h3>4.4 ย้ายไปสถานีตัด</h3>
+<p>กดปุ่ม <strong>ย้ายไปสถานีตัด</strong> ที่แถบปุ่มด้านบน ระบบแจ้ง "ย้ายสำเร็จ Block BLK-26-0007 ย้ายไป Stone Production แล้ว 5.040 หน่วย — กด Confirm ได้เลย" หน้าจอรีเฟรชเอง ✅ ④ ติ๊ก และขึ้นแถบสีเขียว "พร้อมแล้ว"</p>
+<figure class="screenshot"><img src="assets/block-cut-05.webp" alt="หลังกดย้ายไปสถานีตัด: ติ๊ก ④ และแถบพร้อมแล้ว"/></figure>
+
+<h3>4.5 Confirm แล้วตัดเสร็จ</h3>
+<p>กด <strong>Confirm</strong> ใบสั่งตัดเป็น In Progress ไปแท็บ <strong>Slab ที่ตัดได้ (แผน/จริง)</strong> ตรวจขนาด "จริง" ของแต่ละแผ่น (ค่าเริ่มต้นเท่าแผน แก้ได้) แล้วกด <strong>ตัดเสร็จ</strong> ระบบสร้าง Slab ตามขนาดจริง แจ้ง "Complete Cut สำเร็จ ตัดได้ 7 แผ่นจาก BLK-26-0007" และสถานะเป็น Done การ์ดแสดง "ตัดได้จริง 7 แผ่น 23.52 ตร.ม. (100% ของแผน)"</p>
+<figure class="screenshot"><img src="assets/block-cut-06.webp" alt="ใบสั่งตัด EG01/STCUT/00409 สถานะ Done ตัดได้จริง 7 แผ่น 100% ของแผน"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">งานหลายสิบแผ่นใช้เวลาหลายวินาที</span></div><div class="callout-body">หลังกด ตัดเสร็จ ถ้ามีแผนหลายสิบแผ่น (ทดลอง 73 แผ่น) หน้าจออาจค้างครู่หนึ่งกว่าจะเปลี่ยนเป็น Done อย่ากดซ้ำ</div></div>
+
+<h3>4.6 ผลที่ได้ในสต็อก</h3>
+<table class="cond"><tr><th>รายการ</th><th>ผลที่ตรวจในระบบ</th></tr>
+<tr><td>Slab ที่ได้</td><td class="ok">7 Lot (แผ่นละ 1 Lot) ขนาด 2.80 × 1.20 ม. หนา 0.20 ม. ตรงกับขนาดที่กรอก</td></tr>
+<tr><td>Block ที่ใช้</td><td class="ok">ใช้ไป 4.70 ลบ.ม. (7 แผ่น × 0.672) เหลือ 0.34 ลบ.ม. อยู่ที่ Stone Available (การ์ดแสดง "เหลือ 0.34 CBM")</td></tr></table>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>เริ่มจาก สร้างงานผลิต → ตัด Block เป็น Slab โดยไม่เลือก Block</td><td class="no">ตามการออกแบบ ไม่ให้เริ่ม ต้องเลือก Block ก่อน (ยังไม่ได้ทดลอง)</td></tr>
+<tr><td>กด Confirm โดยยังไม่มีใบขายหรือเหตุผล</td><td class="no">ไม่ผ่าน มีข้อความเดียวบอกสิ่งที่ยังขาด (ทดลองแล้ว)</td></tr>
+<tr><td>เปลี่ยนขนาดแผ่น/ความหนาหลังมีแผนแล้ว</td><td class="no">แผนไม่เปลี่ยนเอง แต่ขึ้นกล่องเตือนพร้อมปุ่ม "สร้างแผนใหม่" (ทดลองแล้ว)</td></tr>
+<tr><td>กด "สร้างแผนใหม่"</td><td class="ok">แผนถูกแทนที่ด้วยแผนคำนวณใหม่ (ตัวอย่าง 75 → 7 แผ่น) ต้องยืนยันก่อน</td></tr>
+<tr><td>กด ย้ายไปสถานีตัด</td><td class="ok">Block ย้ายไป Stone Production หน้าจอรีเฟรช ติ๊ก ④</td></tr>
+<tr><td>กด Confirm ก่อนย้าย Block</td><td class="no">ตามการออกแบบ ระบบไม่ผ่านและให้ย้ายก่อน (ทดลองกรณีนี้กับงาน FG แล้ว ยังไม่ได้ทดลองซ้ำกับงานตัด Block)</td></tr>
+<tr><td>กด ตัดเสร็จ</td><td class="ok">ได้ Slab ตามขนาดจริง 1 Lot ต่อแผ่น Block ที่เหลือคงอยู่ในสต็อก</td></tr>
+<tr><td>แผนใช้ปริมาตรเกินที่ Block เหลือ</td><td>ตามการออกแบบ ระบบไม่ให้ Confirm และบอกว่าต้องการเท่าไร เหลือเท่าไร (ยังไม่ได้ทดลอง)</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม (ก่อน 28 ต.ค. 2569 ช่วงค่ำ)</th><th>ตอนนี้</th></tr>
+<tr><td>เปิดใบสั่งผลิตเปล่า ต้องเดาว่าต้องกรอกอะไรก่อนหลัง</td><td class="ok">เริ่มจาก "สร้างงานผลิต" และมีกล่องนำทาง 7 ขั้นที่ติ๊กให้เอง</td></tr>
+<tr><td>กด Confirm แล้วเตือนทีละข้อ ต้องกดหลายรอบ</td><td class="ok">เตือนรวมครั้งเดียว บอกครบว่าขาดอะไร</td></tr>
+<tr><td>เปลี่ยนความหนาแล้วแผนไม่เปลี่ยน ไม่มีอะไรเตือน ได้ Slab 2 ซม. 73 แผ่นทั้งที่ตั้งไว้ 20 ซม.</td><td class="ok">ขึ้นกล่องเตือนพร้อมปุ่ม "สร้างแผนใหม่"</td></tr>
+<tr><td>ช่องความหนา (ซม.) ไม่ถูกนำไปใช้จนกว่าจะบันทึก (การ์ด คำเตือน และแผนยังอ่านค่าเก่า)</td><td class="ok">ใช้ค่าที่พิมพ์ทันที</td></tr>
+<tr><td>หลังกด ย้ายไปสถานีตัด หน้าจอยังแสดงว่ายังไม่ได้ย้าย ต้องรีเฟรชเอง</td><td class="ok">หน้าจอรีเฟรชอัตโนมัติ (ใช้กับงาน FG ด้วย)</td></tr></table>
+
+<h2>7. FAQ</h2>
+<p><strong>ต้องมีใบขายไหม</strong><br/>ไม่ต้อง เลือก "เหตุผล (กรณีไม่มี SO)" แทน ถ้ามีใบขาย ให้เลือกบรรทัดใบขายที่ขั้นที่ 3</p>
+<p><strong>ตัด Block ไม่หมดก้อนได้ไหม</strong><br/>ได้ ที่เหลือคงอยู่ในสต็อก (ตัวอย่างเหลือ 0.34 ลบ.ม.) ลดจำนวนแผ่นได้โดยลบแถวในตารางแผนก่อน Confirm (ยังไม่ได้ทดลองลบแถวเอง)</p>
+<p><strong>ปุ่ม "สร้างแผนใหม่" จะลบสิ่งที่แก้ในตารางไหม</strong><br/>ใช่ แผนเดิมถูกแทนที่ทั้งหมด ระบบถามยืนยันก่อน</p>
+<p><strong>ผิวหน้าจำเป็นไหม</strong><br/>ตัวอย่างเลือก Polished ถ้าไม่เลือก ตามการออกแบบระบบใช้ Slab ทั่วไปของวัสดุนั้น (ยังไม่ได้ทดลองกรณีไม่เลือก)</p>
+<p><strong>ทำผิว Slab ใหม่ (Re-finish) ใช้อะไร</strong><br/>เลือก "ทำผิว Slab ใหม่" ที่ สร้างงานผลิต แต่หน้านำทางของงานนี้ยังไม่มี (เปิดใบสั่งผลิตเปล่าแบบเดิม)</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>ทดลองผ่านหน้าจอครบเส้นทางเฉพาะกรณีไม่มีใบขาย (เหตุผล "อื่นๆ") เลือกผิว Polished และความหนา Other 20 ซม.</li>
+<li>ไม่ได้ทดลอง: ตัดจากใบขาย, ไม่เลือกผิวหน้า, แก้ขนาด "จริง" ให้ต่างจากแผน, ลบแถวในแผนเอง, แผนเกินปริมาตร Block, Confirm ก่อนย้าย Block, การยกเลิกใบสั่งตัดหลังย้าย Block</li>
+<li>ระบบเตือนเมื่อแผนไม่ตรงกับขนาดที่ระบุ แต่ไม่บังคับ และไม่สร้างแผนใหม่ให้เองเพื่อไม่ทับการแก้ด้วยมือ</li>
+<li>"ทำผิว Slab ใหม่" ยังไม่มีหน้านำทาง</li>
+<li>ตารางแผน/จริงยังเป็นเมตร</li>
+<li>ข้อมูลทดลองบน eg-tst: ใบสั่งตัด EG01/STCUT/00408 (73 แผ่น หนา 2 ซม. จาก BLK-26-0016) และ 00409 (7 แผ่น หนา 20 ซม. จาก BLK-26-0007) สร้าง Slab จริงในสต็อก และมีใบสั่งตัด Draft ค้างจากการทดสอบอีกหลายใบ</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo ต่อจากบทที่ 38 ตามข้อเสนอให้แยกตามประเภทงาน (ใบสั่งตัด EG01/STCUT/00409 โมดูล 19.0.2.109.45; ตัวอย่างบั๊กความหนาจาก EG01/STCUT/00408 โมดูล 19.0.2.109.43 ก่อนแก้)</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="38-fg-without-sale.html"><span class="dir">← ก่อนหน้า</span>38. ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
