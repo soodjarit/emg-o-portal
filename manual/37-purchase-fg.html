@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>37. ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 37 / 37</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 37 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="36-custom-fg.html" class="nav-link"><span class="nav-num">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="37-purchase-fg.html" class="nav-link active"><span class="nav-num">37</span>ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">37</span> ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · โมดูล stone_slab_inventory 19.0.2.109.41 · ภาพหน้าจอถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายการ <strong>ซื้อสินค้าสำเร็จรูป (FG) จากผู้ขายภายนอก</strong> เช่น แผ่นตัดสำเร็จที่ซื้อมาขายต่อ โดยไม่ได้ผลิตเอง ว่าสั่งซื้อได้ไหม รับของเข้าคลังอย่างไร และต่างจาก FG ที่ผลิตเองตรงไหน</p>
+
+<h2>1. ซื้อ FG คืออะไร</h2>
+<p><strong>การซื้อ FG</strong> คือการสั่งซื้อแผ่นหินที่ตัดเสร็จตามขนาดแล้วจากผู้ขาย แล้วรับเข้าสต็อกเป็น FG โดยตรง ไม่ผ่านใบสั่งผลิตและไม่มี Slab ต้นทาง ระบบเก็บขนาดและจำนวนชิ้นไว้ที่ Lot เหมือน FG ที่ผลิตเอง เพื่อให้ขายแบบระบุขนาดได้ตามปกติ</p>
+<div class="kv">
+<div>FG ที่ซื้อได้</div><div>FG แผ่นตัดตามขนาด (Countertop) ที่นับเป็น <strong>ตร.ม.</strong> และติดตามเป็น Lot ซึ่งสร้างจากหน้า Material Setup (ในระบบทดสอบ eg-tst: 49 จาก 54 รายการ)</div>
+<div>FG ที่ซื้อไม่ได้</div><div>สินค้าสั่งทำนับเป็น <strong>ชิ้น</strong> ติดตามเป็น Serial ได้แก่ เจดีย์บัว ซุ้มบัว โคมหินอ่อน (ปิดการสั่งซื้อไว้ เพราะผลิตเองอย่างเดียว) รวมถึง Custom Product 01 และ GP Block Marble</div>
+<div>สั่งซื้อเป็นหน่วยอะไร</div><div><strong>ตร.ม.</strong> ราคาเป็น <strong>บาทต่อ ตร.ม.</strong></div>
+<div>รับเข้าสต็อกเป็นหน่วยอะไร</div><div><strong>ตร.ม.</strong> (หน่วยเดียวกับใบสั่งซื้อ) แต่ต้องกรอกขนาดและจำนวนชิ้นตอนรับของ</div>
+<div>เก็บที่ไหน</div><div>โซน <strong>Stone FG</strong> ของคลัง (ที่เดียวกับ FG ที่ผลิตเอง)</div>
+<div>ต้นทุน</div><div>ราคาซื้อต่อ ตร.ม. × จำนวน ตร.ม. ที่รับ (ไม่ได้มาจากต้นทุน Slab เหมือน FG ที่ผลิตเอง)</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">สั่งเป็น ตร.ม. · รับเป็น "กว้าง × ยาว × จำนวนชิ้น" · เก็บที่ Stone FG</span></div><div class="callout-body">ตอนสั่งซื้อไม่ต้องรู้ขนาดแผ่น แต่ตอนรับของต้องกรอกขนาดและจำนวนชิ้นทุกแถว ระบบคำนวณ ตร.ม. ให้เอง ถ้าไม่กรอก กดยืนยันรับของไม่ได้</div></div>
+
+<h2>2. แนวคิดหลัก 6 ข้อ</h2>
+<ol>
+<li><strong>ซื้อได้เฉพาะ FG ที่นับเป็น ตร.ม.</strong> FG ที่นับเป็นชิ้น (เจดีย์บัว ซุ้มบัว โคม) ปิดการสั่งซื้อไว้</li>
+<li><strong>ใบสั่งซื้อไม่ต้องรู้ขนาด</strong> ใส่จำนวนเป็น ตร.ม. และราคาต่อ ตร.ม. เหมือนซื้อสินค้าทั่วไป</li>
+<li><strong>ขนาดกรอกตอนรับของ</strong> ที่หน้ารายละเอียดใบรับของ (Detailed Operations) 1 แถว = 1 Lot ที่ขนาดเท่ากัน ช่องที่กรอกคือ ชื่อ Lot, กว้าง, ยาว, หนา (ซม.) และจำนวนชิ้น</li>
+<li><strong>ตร.ม. ที่รับคำนวณจากขนาด</strong> = กว้าง × ยาว × จำนวนชิ้น ปัดเศษแบบตัดทิ้ง 2 ตำแหน่ง เหมือนใบส่งของลูกค้า แก้ตัวเลข Quantity เองไม่ได้</li>
+<li><strong>ขนาดไปอยู่ที่ Lot</strong> พอยืนยันรับของ ระบบเขียนกว้าง ยาว หนา และจำนวนชิ้นลง Lot ให้ ไม่ต้องไปแก้ที่ฟอร์ม Lot ทีหลัง</li>
+<li><strong>ต้นทุนเป็นราคาซื้อ</strong> Lot ที่ซื้อมาไม่มีใบสั่งผลิตและไม่มี Slab ต้นทาง ดูย้อนรอยไปถึงแผ่นหินที่ถูกตัดไม่ได้</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st"><b>1. ใบสั่งซื้อ</b>FG เป็น ตร.ม. ราคา บาท/ตร.ม.</div><div class="ar">→</div>
+<div class="st"><b>2. Confirm</b>ได้ใบรับของ ปลายทาง Stone FG</div><div class="ar">→</div>
+<div class="st hl"><b>3. กรอกขนาด</b>ชื่อ Lot, กว้าง, ยาว, หนา, จำนวนชิ้น</div><div class="ar">→</div>
+<div class="st hl"><b>4. Validate</b>ระบบตรวจว่ากรอกครบ</div><div class="ar">→</div>
+<div class="st"><b>5. สต็อกและ Lot</b>ตร.ม. + ขนาด + จำนวนชิ้น + ต้นทุน</div>
+</div>
+<p>กล่องสีเหลืองคือจุดที่ต่างจากการซื้อสินค้าทั่วไป คือต้องกรอกขนาดและจำนวนชิ้นก่อนรับของ</p>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<p>ตัวอย่างที่ใช้ตลอดบทนี้: ซื้อ <strong>คอสมิคแบล็ค/COSMIC BLACK (Polished)</strong> จากผู้ขาย A-test-customer จำนวน <strong>18 ตร.ม.</strong> ราคา <strong>36 บาท/ตร.ม.</strong> แผ่นขนาด 60 × 60 ซม. หนา 2 ซม. จำนวน 50 แผ่น (ทดลองบน eg-tst ผู้ใช้ emgdemo บริษัท Empire Granite)</p>
+
+<h3>4.1 สร้างและ Confirm ใบสั่งซื้อ</h3>
+<p>ไปที่ <strong>Purchase → Orders → Requests for Quotation → New</strong> เลือก Vendor กด Add a product ค้นหาชื่อหิน (พิมพ์ชื่อหิน เช่น COSMIC BLACK แล้วเลือกรายการที่ลงท้าย (Polished) ไม่ใช่ Block หรือ Slab) ใส่ Quantity เป็น <strong>18</strong> หน่วย m² และ Unit Price เป็น <strong>36</strong> แล้วกด <strong>Confirm Order</strong> ได้ใบสั่งซื้อ P00601 ยอดก่อนภาษี 648.00 บาท (VAT 7% = 45.36, รวม 693.36)</p>
+<figure class="screenshot"><img src="assets/fg-purchase-01.webp" alt="ใบสั่งซื้อ P00601 หลัง Confirm: FG 18 ตร.ม. ราคา 36 บาท/ตร.ม. มีปุ่ม Receipt"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">คอลัมน์ Qty (Ton) และ Qty (Sq.M) ในใบสั่งซื้อว่างเปล่าสำหรับ FG</span></div><div class="callout-body">สองคอลัมน์นี้ใช้กับ Block และ Slab เท่านั้น FG ไม่ต้องกรอก ใช้ช่อง Quantity (ตร.ม.) และ Unit Price (บาท/ตร.ม.) ตามปกติ</div></div>
+
+<h3>4.2 เปิดใบรับของและดูรายละเอียด (Detailed Operations)</h3>
+<p>กดปุ่ม <strong>Receipt</strong> ที่ใบสั่งซื้อ จะเห็นใบรับของ (เช่น EG01/IN/00723) ช่อง <strong>Destination Location</strong> เป็น <strong>EG01/Stock/Stone FG</strong> อัตโนมัติ แล้วกด <strong>Details</strong> ที่แถวสินค้า จะเห็นตารางที่มีคอลัมน์ใหม่ <strong>กว้าง (ซม.) · ยาว (ซม.) · หนา (ซม.) · จำนวนชิ้น</strong> ค่าเริ่มต้นเป็น 0 และ Quantity เป็น 18.00 ตามใบสั่งซื้อ</p>
+<figure class="screenshot"><img src="assets/fg-purchase-02.webp" alt="หน้า Detailed Operations ของใบรับ FG: มีคอลัมน์ กว้าง ยาว หนา จำนวนชิ้น ปลายทาง Stone FG"/></figure>
+
+<h3>4.3 กรอกชื่อ Lot ขนาด และจำนวนชิ้น</h3>
+<p>กรอก <strong>Lot/Serial Number</strong> (ตัวอย่าง CB-60X60-T1) กว้าง <strong>60</strong> ยาว <strong>60</strong> หนา <strong>2</strong> (ซม.) และจำนวนชิ้น <strong>50</strong> ช่อง Quantity เปลี่ยนเป็น <strong>18.00</strong> ให้เอง (0.60 × 0.60 × 50 = 18.00) แล้วกด Save ถ้ารับหลายขนาดในใบเดียว ให้เพิ่มแถวใหม่ (Add a line) แถวละ 1 ขนาด และตั้งชื่อ Lot ต่างกัน</p>
+<figure class="screenshot"><img src="assets/fg-purchase-03.webp" alt="กรอกขนาด 60×60×2 ซม. จำนวน 50 ชิ้น Quantity คำนวณเป็น 18.00 ตร.ม."/></figure>
+<div class="callout callout-tip"><div class="callout-head"><span class="callout-tag">เคล็ดลับ</span><span class="callout-title">ตร.ม. ที่รับไม่จำเป็นต้องเท่ากับที่สั่ง</span></div><div class="callout-body">ถ้าผู้ขายส่งมาน้อยหรือมากกว่าที่สั่ง ให้กรอกจำนวนชิ้นที่รับจริง ระบบคำนวณ ตร.ม. ตามที่รับ และใบสั่งซื้อจะแสดงยอดรับตามจริง (การรับบางส่วนและ Backorder ยังไม่ได้ทดลอง ดูหัวข้อ 8)</div></div>
+
+<h3>4.4 ถ้าไม่กรอกขนาด ระบบไม่ให้ผ่าน</h3>
+<p>ทดลองกด <strong>Validate</strong> โดยกรอกแค่ชื่อ Lot ระบบเด้งข้อความ "กรุณากรอก กว้าง × ยาว (ซม.) และจำนวนชิ้น ของ FG ทุกแถว ก่อน Validate" และยังไม่รับของเข้าสต็อก ต้องกลับไปกรอกให้ครบก่อน</p>
+<figure class="screenshot"><img src="assets/fg-purchase-04.webp" alt="ข้อความเตือนเมื่อกด Validate โดยไม่กรอกขนาดและจำนวนชิ้น"/></figure>
+
+<h3>4.5 Validate แล้วได้อะไร</h3>
+<p>กด <strong>Validate</strong> ใบรับของเป็นสถานะ Done ปลายทางยังเป็น Stone FG ใบสั่งซื้อแสดง <strong>Received 18.00</strong></p>
+<figure class="screenshot"><img src="assets/fg-purchase-05.webp" alt="ใบรับของ EG01/IN/00723 สถานะ Done ปลายทาง EG01/Stock/Stone FG"/></figure>
+
+<h3>4.6 ดูผลที่ Lot</h3>
+<p>ไปที่ <strong>Inventory → Products → Lots/Serial Numbers</strong> เปิด Lot ที่รับ จะเห็น On Hand <strong>18.00 ตร.ม.</strong> ที่ <strong>EG01/Stock/Stone FG</strong> Total Value <strong>648.00 บาท</strong> (18 × 36) ต้นทุนเฉลี่ย 36.00 บาท และในส่วน Stone Slab ขึ้น Pieces <strong>50</strong> กว้าง 0.600 ยาว 0.600 หนา 0.020 เมตร สรุปเป็น "0.60 × 0.60 × 0.020 ม. = 0.36 ตร.ม. × 50 ชิ้น"</p>
+<figure class="screenshot"><img src="assets/fg-purchase-06.webp" alt="ฟอร์ม Lot CB-60X60-T1: 18 ตร.ม. มูลค่า 648 บาท 50 ชิ้น ขนาด 0.60×0.60×0.020 ม."/></figure>
+
+<h3>4.7 ขาย FG ที่ซื้อมา</h3>
+<p>บรรทัด FG ในใบเสนอราคาที่ระบุขนาด 60 × 60 ซม. หนา 2 ซม. มองเห็นสต็อกของ Lot นี้ ช่องหมายเหตุสต็อกแสดง <strong>"ตรงขนาด 18.00 ตร.ม."</strong> (ผลจากการทดลองด้วยสคริปต์บน eg-tst ยังไม่ได้ถ่ายภาพหน้าจอ และยังไม่ได้ทดลองส่งของจนจบ)</p>
+
+<h2>5. สรุปเงื่อนไขทั้งหมด</h2>
+<table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>สั่งซื้อ FG แผ่นตัด (นับเป็น ตร.ม.)</td><td class="ok">ทำได้ ใบรับของปลายทางเป็น Stone FG</td></tr>
+<tr><td>สั่งซื้อเจดีย์บัว ซุ้มบัว โคมหินอ่อน (นับเป็นชิ้น)</td><td class="no">ซื้อไม่ได้ ปิดการสั่งซื้อไว้ ผลิตเองอย่างเดียว</td></tr>
+<tr><td>กด Validate โดยไม่กรอก กว้าง ยาว หรือจำนวนชิ้น</td><td class="no">ไม่ผ่าน มีข้อความเตือน (ทดลองแล้ว)</td></tr>
+<tr><td>กรอกขนาดและจำนวนชิ้นครบ</td><td class="ok">Quantity = กว้าง × ยาว × ชิ้น (ตัดทิ้ง 2 ตำแหน่ง) รับเข้า Stone FG และเขียนขนาด จำนวนชิ้นลง Lot</td></tr>
+<tr><td>ไม่กรอกความหนา</td><td class="ok">ตามการออกแบบ ระบบใช้ความหนาจาก variant ของสินค้า ถ้า variant ไม่มีความหนา ระบบให้กรอกเอง (ยังไม่ได้ทดลองกรณีไม่กรอก)</td></tr>
+<tr><td>ใช้ชื่อ Lot เดิมที่มีขนาดอื่นอยู่แล้ว</td><td class="no">ตามการออกแบบ ระบบไม่ให้ผ่าน ให้ตั้งชื่อ Lot ใหม่สำหรับขนาดใหม่ (ยังไม่ได้ทดลอง)</td></tr>
+<tr><td>แก้ช่อง Quantity เองในแถว FG ที่ซื้อ</td><td class="no">แก้ไม่ได้ ต้องแก้ที่ขนาดหรือจำนวนชิ้น</td></tr>
+<tr><td>ขายแบบระบุขนาดตรงกับ Lot ที่ซื้อมา</td><td class="ok">เห็นสต็อก "ตรงขนาด" (ทดลองด้วยสคริปต์)</td></tr>
+<tr><td>ต้นทุนของ Lot ที่ซื้อ</td><td class="ok">ราคาซื้อ × ตร.ม. ที่รับ (18 × 36 = 648.00 ทดลองแล้ว)</td></tr>
+<tr><td>ย้อนรอย Lot ที่ซื้อไปหา Slab ต้นทาง</td><td class="no">ไม่มี เพราะไม่ได้ผลิตเอง</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond"><tr><th>เดิม (ก่อน 28 ต.ค. 2569)</th><th>ตอนนี้</th></tr>
+<tr><td>FG ที่ซื้อเข้ามารับเป็นสินค้าทั่วไป เข้าโซน Stock ปกติ ไม่ใช่ Stone FG</td><td class="ok">เข้าโซน Stone FG เหมือน FG ที่ผลิตเอง</td></tr>
+<tr><td>ตอนรับของไม่มีช่องกรอกขนาด Lot ที่ได้ไม่มีขนาด ต้องไปกรอกที่ฟอร์ม Lot เอง ถ้าลืม การขายแบบระบุขนาดมองไม่เห็นสต็อก</td><td class="ok">กรอกขนาดตอนรับของ ระบบเขียนลง Lot ให้ และบังคับกรอกก่อน Validate</td></tr>
+<tr><td>Lot ที่รับก่อนหน้านี้ (เช่น E2222-60X60 จากใบสั่งซื้อ P00310) ไม่มีจำนวนชิ้นบน Lot</td><td class="ok">Lot ใหม่มีจำนวนชิ้นทุก Lot Lot เก่าไม่ถูกแก้ ถ้าต้องการจำนวนชิ้น ให้กรอกที่ฟอร์ม Lot เอง</td></tr>
+</table>
+
+<h2>7. FAQ</h2>
+<p><strong>ทำไมสั่งซื้อไม่ต้องกรอกขนาดแผ่น</strong><br/>เพราะตอนสั่งผู้ขายมักยังไม่ได้ตัด ขนาดจริงรู้ตอนของมาถึง จึงกรอกตอนรับของ</p>
+<p><strong>ซื้อเป็นแผ่นแต่ใบสั่งซื้อเป็น ตร.ม. ได้ไหม</strong><br/>ใบสั่งซื้อใช้ ตร.ม. เท่านั้น ถ้าผู้ขายเสนอเป็นแผ่น ให้แปลงเป็น ตร.ม. ก่อนใส่ใบสั่งซื้อ จำนวนแผ่นจริงกรอกตอนรับของ</p>
+<p><strong>รับหลายขนาดในใบรับเดียวได้ไหม</strong><br/>ได้ เพิ่มแถวใน Detailed Operations แถวละ 1 ขนาด ตั้งชื่อ Lot ไม่ซ้ำกัน (ทดลองเฉพาะกรณีขนาดเดียว)</p>
+<p><strong>อยากซื้อเจดีย์บัวหรือโคมจากข้างนอก ทำได้ไหม</strong><br/>ตอนนี้ปิดไว้ เพราะสินค้ากลุ่มนี้นับเป็นชิ้นและติดตามเป็น Serial ซึ่งยังไม่มีช่องกรอกตอนรับของ หากต้องการ ต้องขอเพิ่มเป็นงานแยก</p>
+<p><strong>ใบแจ้งหนี้ผู้ขาย (Vendor Bill) คิดอย่างไร</strong><br/>เป็นไปตามใบสั่งซื้อ คือ ตร.ม. × บาท/ตร.ม. ยังไม่ได้ทดลองออก Vendor Bill</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>ทดลองด้วยหน้าจอจริงเฉพาะกรณีรับครบในใบเดียว ขนาดเดียว หนึ่ง Lot และผู้ขายหนึ่งราย</li>
+<li>ไม่ได้ทดลองรับบางส่วน (Backorder) รับหลายขนาดในใบเดียว รับเกินจำนวนที่สั่ง การคืนของให้ผู้ขาย และ Vendor Bill</li>
+<li>ไม่ได้ทดลองกรณีไม่กรอกความหนา และกรณีใช้ชื่อ Lot ซ้ำกับ Lot เดิมที่ขนาดต่างกัน (เขียนตามการออกแบบ)</li>
+<li>การขายแบบระบุขนาดทดลองด้วยสคริปต์เท่านั้น ไม่ได้ถ่ายภาพหน้าจอ และไม่ได้ทดลองส่งของจนจบ</li>
+<li>ขนาดต้องกรอกทุกแถว ไม่มีทางผ่านสำหรับ FG ที่ไม่ระบุขนาด</li>
+<li>ยังไม่มีไฟล์ Excel นำเข้าขนาดตอนรับ FG เหมือนที่มีสำหรับ Slab สำเร็จรูป</li>
+<li>FG ที่นับเป็นชิ้น (Serial) ยังซื้อไม่ได้</li>
+<li>ข้อมูลในใบสั่งซื้อ P00601 / Lot CB-60X60-T1 เป็นข้อมูลทดลองบน eg-tst</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo (ใบสั่งซื้อ P00601 → ใบรับของ EG01/IN/00723 → Lot CB-60X60-T1) สร้างต่อจากการตรวจพบว่ามีการซื้อ FG จริงแล้ว 1 ครั้ง (ใบสั่งซื้อ P00310) ที่ระบบเดิมไม่มีช่องกรอกขนาดตอนรับของ</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="36-custom-fg.html"><span class="dir">← ก่อนหน้า</span>36. Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>
