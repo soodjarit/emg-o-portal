@@ -128,16 +128,14 @@
 
       <details class="tree-cat" data-section="for-test" open>
         <summary>สำหรับทดสอบ (For Test)</summary>
-        <div class="tree-subgroup">
-          <div class="tree-subgroup-label">BOQ</div>
-          <ul class="tree-docs">
-            <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-import.html"><span class="tree-doc-tag">1</span>Golden Path (Test Case)</a></li>
-            <li class="tree-doc"><a href="qa/guide-boq-import-excel-2026-10-28.html"><span class="tree-doc-tag">2</span>คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (Self-Test)</a></li>
-            <li class="tree-doc"><a href="qa/guide-boq-import-excel-2026-10-28.pdf"><span class="tree-doc-tag">PDF</span>คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (ไฟล์ PDF)</a></li>
-            <li class="tree-doc"><a href="client-docs/example-boq/boq-import-example-hotel.xlsx"><span class="tree-doc-tag">BQ</span>ตัวอย่างไฟล์ BOQ สำหรับ Import Excel — โรงแรม (ซม.)</a></li>
-            <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — โรงแรม (ซม. ใช้คู่กับไฟล์ BOQ ข้างบน)</a></li>
-          </ul>
-        </div>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="test-boq.html">BOQ</a></li>
+          <li class="tree-doc"><a href="test-block.html">Block</a></li>
+          <li class="tree-doc"><a href="test-slab.html">Slab</a></li>
+          <li class="tree-doc"><a href="test-fg.html">FG</a></li>
+          <li class="tree-doc"><a href="test-switch-project.html">สวิตช์ Project (EG-321)</a></li>
+          <li class="tree-doc"><a href="test-wip-16-oct.html">Feedback WIP 16 ต.ค.</a></li>
+        </ul>
       </details>
 
       <details class="tree-cat" data-section="updates-progress" open>
@@ -187,17 +185,6 @@
         </ul>
       </details>
 
-      <details class="tree-cat" data-section="golden-path-test-cases" open>
-        <summary>Golden Path Test Case</summary>
-        <ul class="tree-docs">
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-block-purchase-to-cut.html"><span class="tree-doc-tag">1</span>Golden Path — Block: ซื้อ ตัด คืน (ชุดที่ 1 จาก 3)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-slab-cut-to-scrap.html"><span class="tree-doc-tag">2</span>Golden Path — Slab: ตัด ขาย คืน ตัดทิ้ง (รันใหม่ 14 ต.ค.)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-fg-countertop-custom.html"><span class="tree-doc-tag">3</span>Golden Path — FG: Countertop และ Custom FG ขายถึงเก็บเงิน (รันใหม่ 14 ต.ค.)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-switch-project.html"><span class="tree-doc-tag">4</span>Golden Path — สวิตช์ Project (EG-321)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-wip-16-oct.html"><span class="tree-doc-tag">6</span>Test Case เฉพาะจุดที่แก้ — Feedback WIP 16 ต.ค. (รันจริง 19 ต.ค.)</a></li>
-        </ul>
-      </details>
-
       <details class="tree-cat" data-section="client-documents" open>
         <summary>เอกสารจากลูกค้า</summary>
         <ul class="tree-docs">
@@ -216,10 +203,6 @@
           <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000003-material-quotation.pdf"><span class="tree-doc-tag">M</span>ใบเสนอราคา — Material</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/EGQ0000004-labor-quotation.pdf"><span class="tree-doc-tag">L</span>ใบเสนอราคา — Labor</a></li>
           <li class="tree-doc"><a href="client-docs/example-boq/BOQ0008-combined-quotation.pdf"><span class="tree-doc-tag">C</span>ใบเสนอราคารวม 2 คอลัมน์</a></li>
-          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-lift-lobby.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List (นำเข้า BOQ)</a></li>
-          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-marine-hotel.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — Marine Hotel (Golden Path สวิตช์ BOQ)</a></li>
-          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-chedi-bua-recipe.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — เจดีย์บัว (ชิ้นหิน 10 ชิ้น · Rate เจดีย์บัว ราคาคงที่ 50,000)</a></li>
-          <li class="tree-doc"><a href="client-docs/example-boq/cutlist-import-example-lobby-lamps-recipe.xlsx"><span class="tree-doc-tag">CL</span>ตัวอย่างไฟล์ Cut List — โคมประตูซ้าย/ขวา (เฉพาะชิ้นหิน เป็นสูตรของโคม, 25 ต.ค. 2569)</a></li>
         </ul>
       </details>
 
@@ -283,51 +266,59 @@
   <div class="category" id="for-test">
     <div class="category-header">
       <div class="category-title">สำหรับทดสอบ (For Test)</div>
-      <div class="category-sub">ทุกอย่างที่ผู้ใช้ต้องใช้เวลาทดสอบ รวมไว้ที่เดียว แยกเป็นหมวดย่อยตามเรื่อง — เอกสาร Test Case · คู่มือกดตาม · ไฟล์ Excel ตัวอย่างสำหรับโหลดเข้าระบบ</div>
+      <div class="category-sub">ทุกอย่างที่ผู้ใช้ต้องใช้เวลาทดสอบ รวมไว้ที่เดียว แยกเป็นหมวดย่อยตามเรื่อง คลิกเข้าไปดูเอกสารของแต่ละเรื่อง — เอกสาร Test Case · คู่มือกดตาม · ไฟล์ Excel ตัวอย่างสำหรับโหลดเข้าระบบ</div>
     </div>
-    <div class="subcat-title" id="for-test-boq">BOQ — นำเข้า Excel และ Cut List</div>
-    <div class="subcat-sub">ลำดับแนะนำ: ① ดาวน์โหลดไฟล์ตัวอย่าง (2 ไฟล์ล่างสุด) → ② เปิดคู่มือกดตามแล้วทำทีละขั้น → ③ ใช้ Test Case ตรวจผลและบันทึกผ่าน/ไม่ผ่าน</div>
-    <a class="card" href="qa/test-cases-golden-path-boq-import.html">
+    <a class="card" href="test-boq.html">
       <div class="icon">1</div>
       <div>
-        <div class="card-title">Golden Path — BOQ: นำเข้า Excel ถึงต้นทุนและ P&amp;L</div>
-        <div class="card-desc">14 เคส · นำเข้า BOQ จาก Excel → ใบเสนอราคา (ขนาดและจำนวนชิ้นติดมาด้วย) → ผลิต FG → ส่งของตามขนาด → ใบแจ้งหนี้ → ต้นทุนจริงจากใบสั่งผลิต → P&amp;L ของ BOQ ใบนี้ · เอกสารเดียวสำหรับเรื่อง BOQ แทนชุดเก่า 3 ฉบับที่ย้ายไป Archived · มีปุ่ม Export Excel และภาพหน้าจอจริงทุกเคส</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+        <div class="card-title">BOQ</div>
+        <div class="card-desc">นำเข้า Excel ถึงต้นทุนและ P&amp;L — Test Case · คู่มือกดตาม · ไฟล์ตัวอย่าง</div>
+        <div class="card-meta"><span class="card-date">5 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/guide-boq-import-excel-2026-10-28.html">
+    <a class="card" href="test-block.html">
       <div class="icon">2</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (Self-Test)</div>
-        <div class="card-desc">ให้ผู้ใช้กดตามเอง 5 ตอน: นำเข้า BOQ จาก Excel → ใบเสนอราคา → ผลิต FG → ส่งของและใบแจ้งหนี้ → ต้นทุนจริงและ P&amp;L · มีช่องติ๊กผ่าน/ไม่ผ่านทุกขั้น · ไฟล์ Excel ตัวอย่างแนบ · มี PDF คู่</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+        <div class="card-title">Block</div>
+        <div class="card-desc">ซื้อ รับ ตัด และคืน Block</div>
+        <div class="card-meta"><span class="card-date">1 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/guide-boq-import-excel-2026-10-28.pdf">
-      <div class="icon">PDF</div>
+    <a class="card" href="test-slab.html">
+      <div class="icon">3</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (ไฟล์ PDF)</div>
-        <div class="card-desc">ฉบับพิมพ์ของคู่มือกดตามข้างบน 9 หน้า — พิมพ์ให้ผู้ทดสอบติ๊กผ่าน/ไม่ผ่านบนกระดาษได้</div>
+        <div class="card-title">Slab</div>
+        <div class="card-desc">ตัด ขาย คืน ตัดทิ้ง Slab</div>
+        <div class="card-meta"><span class="card-date">1 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="client-docs/example-boq/boq-import-example-hotel.xlsx">
-      <div class="icon">BQ</div>
+    <a class="card" href="test-fg.html">
+      <div class="icon">4</div>
       <div>
-        <div class="card-title">ตัวอย่างไฟล์ BOQ สำหรับ Import Excel — โรงแรม (ล็อบบี้ + ผนังลิฟต์)</div>
-        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>Import Excel</b> (BOQ Estimation → BOQ Documents) ใช้สินค้า FG ที่ตั้งข้อมูลครบและมี Slab ในคลัง eg-tst: พื้นล็อบบี้ NERO RUSTENBURG (Polished) 50 × 90 × 2 ซม. 9 ตร.ม. · ค่าขนส่งและติดตั้ง 15,000 · ผนังลิฟต์ SHANDONG BLACK (Polished) 60 × 120 × 2 ซม. 14.4 ตร.ม. · ลูกค้าตัวอย่าง Demo Hotel Customer · ขนาดทุกช่องเป็น ซม. · ผลนำเข้าจริง: วัสดุรวม 295,800 ค่าแรง 20,160 Overhead 31,596 รวม 347,556</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
+        <div class="card-title">FG</div>
+        <div class="card-desc">Countertop และ Custom FG ขายถึงเก็บเงิน</div>
+        <div class="card-meta"><span class="card-date">1 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx">
-      <div class="icon">CL</div>
+    <a class="card" href="test-switch-project.html">
+      <div class="icon">5</div>
       <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List — โรงแรม (ซม. ใช้คู่กับไฟล์ BOQ ตัวอย่าง)</div>
-        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>นำเข้า Cut List</b> (ใน BOQ แท็บ ③) 48 ชิ้น 2 โซน ชื่อโซนตรงกับไฟล์ BOQ ตัวอย่าง: ล็อบบี้ 24 ชิ้น = 8.91 ตร.ม. (BOQ เสนอ 9.00) · ผนังลิฟต์ 24 ชิ้น = 14.04 ตร.ม. (BOQ เสนอ 14.40) จึงเห็นการเทียบ ตร.ม. ได้ · ทำจากเทมเพลต Cut List ของระบบเอง ขนาดเป็น ซม. · ก่อนนำเข้า ให้ใส่ NERO RUSTENBURG (Polished) กับ SHANDONG BLACK (Polished) ใน "รายการที่ใช้ในโปรเจกต์นี้" แท็บ ③ ของ BOQ · ผลนำเข้าจริง: เติมชิ้นงานเข้า 2 บรรทัดเดิม ยอดประเมินคงเดิม</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
+        <div class="card-title">สวิตช์ Project (EG-321)</div>
+        <div class="card-desc">สวิตช์ Project: Task + เก็บเงินเป็นงวด</div>
+        <div class="card-meta"><span class="card-date">1 เอกสาร</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="test-wip-16-oct.html">
+      <div class="icon">6</div>
+      <div>
+        <div class="card-title">Feedback WIP 16 ต.ค.</div>
+        <div class="card-desc">Test Case เฉพาะจุดที่แก้จาก Feedback WIP 16 ต.ค.</div>
+        <div class="card-meta"><span class="card-date">1 เอกสาร</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -521,61 +512,6 @@
     </a>
   </div>
 
-  <div class="category" id="golden-path-test-cases">
-    <div class="category-header">
-      <div class="category-title">Golden Path Test Case</div>
-      <div class="category-sub">เดินเรื่องราวเดียวต่อเนื่องจนจบ full lifecycle ต่อ 1 จุดขาย/สวิตช์ ตามแนวคิด EG-321 — ไม่มี field-validation/error case เลย เขียนให้ non-technical user เดินตามได้เอง (แยกหมวดจาก QA/Test Cases ด้านบนซึ่งครอบคลุมฟีเจอร์/edge case ด้วย)</div>
-    </div>
-
-    <a class="card" href="qa/test-cases-golden-path-block-purchase-to-cut.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">Golden Path — Block: ซื้อ รับ เก็บเงิน แก้ขนาด ตัด และคืน (ชุดที่ 1 จาก 3: Block → Slab → FG)</div>
-        <div class="card-desc">สั่งซื้อเป็นตัน → รับของกรอกขนาด → บิลผู้ขายตามที่รับจริง → แก้ขนาด → ตัดเป็นแผ่น (Cut Order) → คืน Block ให้ผู้ขาย · 8 เคส รันจริงโดยผู้ใช้บน eg-tst 11 ต.ค. 2569 · อัปเดต 14 ต.ค. 2569 (v109.24): บิลเป็นตัน, QC Note, สูญเสียเลื่อย, ใบลดหนี้ — เคสที่แก้มีป้ายเขียว</div>
-        <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-    <a class="card" href="qa/test-cases-golden-path-slab-cut-to-scrap.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">Golden Path — Slab: ตัด ขาย คืน ตัดทิ้ง (รันใหม่ 11 ต.ค. 2569)</div>
-        <div class="card-desc">Block → ใบสั่งตัด 60 แผ่น → ขาย 10 แผ่นพร้อมเลือกแผ่น → ส่งของสแกน Serial → ใบแจ้งหนี้และรายการบัญชี → ลูกค้าคืน 2 แผ่น → ตรวจรับ 1 แผ่น ตัดทิ้ง 1 แผ่น — 15 test cases รันจริงบน eg-tst พร้อมภาพหน้าจอและ Export Excel (หน้าจอล่าสุด v19.0.2.109.11) · อัปเดต 14 ต.ค. 2569 (v109.24): สูญเสียเลื่อย 15%, ต้นทุนแผ่นจากต้นทุน Block, ราคาตามความหนา — เคสที่แก้มีป้ายเขียว</div>
-        <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-
-
-
-
-    <a class="card" href="qa/test-cases-golden-path-fg-countertop-custom.html">
-      <div class="icon">3</div>
-      <div>
-        <div class="card-title">Golden Path — FG: Countertop และ Custom FG ขายถึงเก็บเงิน (รันใหม่ 11 ต.ค. 2569)</div>
-        <div class="card-desc">18 เคส · A Countertop: ใบขายใส่ชิ้นงานและงานขอบ/เจาะ → ใบสั่งผลิต FG เลือก Slab ให้ → ผลิตเสร็จ → ส่งของ → ใบแจ้งหนี้ · B/C เจดีย์บัว: นำเข้า Cut List เป็น BOQ → โหลดสูตร → ใบตัดหิน 2 ชนิด (ปุ่มคัดลอกแผน) → งานประกอบ → ส่งของ → ใบแจ้งหนี้ และตรวจต้นทุนค่าแรง · รันจริงบน eg-tst พร้อมภาพหน้าจอ · อัปเดต 14 ต.ค. 2569 (v109.24): รันซ้ำทั้งสองเส้นทาง ตัวเลขเท่าเดิม — เคสที่ยืนยัน/แก้มีป้ายเขียว</div>
-        <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-    <a class="card" href="qa/test-cases-golden-path-switch-project.html">
-      <div class="icon">4</div>
-      <div>
-        <div class="card-title">Golden Path — สวิตช์ Project (EG-321)</div>
-        <div class="card-desc">เดิมเรียก "Mode 4 (Sold-as-Project)" — ตามแนวคิด EG-321 ไม่ใช่จุดขายที่ 4 แต่เป็นสวิตช์ที่แปะกับใบสั่งขายจุดขายไหนก็ได้ (Block/Slab/FG) เพื่อเปิดการติดตามงานเป็น Task + เก็บเงินเป็นงวดผ่าน Milestone (ADR-021, ปรับกลไก Milestone ใหม่ ADR-069) สาธิตด้วยสินค้าบริการ "Protection Works" แต่สวิตช์นี้ใช้ได้กับสินค้าจริงประเภทไหนก็ได้ ไม่ต้องมี BOQ ก็เปิดใช้ได้ — เดินสดผ่าน Playwright (6 test cases)</div>
-        <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge built">Build + Test ผ่านแล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-
-
-
-  </div>
-
   <div class="category" id="client-documents">
     <div class="category-header">
       <div class="category-title">เอกสารจากลูกค้า</div>
@@ -659,33 +595,6 @@
       <div>
         <div class="card-title">ใบเสนอราคารวม 2 คอลัมน์ — Material + Labor (Combined)</div>
         <div class="card-desc">Material กับ Labor วางเทียบกันในเอกสารเดียว — ตรงกับฟีเจอร์ Split Quotation ใน ADR-031</div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-example-lift-lobby.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List สำหรับนำเข้า BOQ (Lift Lobby)</div>
-        <div class="card-desc">ไฟล์นี้เป็นไฟล์<b>นำเข้า</b> ไม่ใช่เอกสารพิมพ์ออกจากระบบเหมือนตัวอย่างอื่นในหมวดนี้ — generate จากปุ่มจริง "สร้างเทมเพลต Cut List" บนฟอร์ม BOQ Document แล้วกรอกข้อมูลจริงลงไป (ไม่ใช่ไฟล์พิมพ์มือแบบเดิม) มี Rate ผสมกัน 3 แบบในไฟล์เดียว (ผนัง SPIDER GREEN, ผนัง ABSOLUTE BLACK แถบ accent, พื้น SPIDER GREEN) เพื่อโชว์ว่าระบบจับคู่ Rate ให้อัตโนมัติทีละแบบตาม dropdown ที่เลือกไว้ในแต่ละแถว รวม 190 ชิ้น 60.06 ตร.ม. แบ่งเป็น 5 กลุ่ม (2 Elevation × ผนัง 2 สี + พื้น 1 กลุ่ม) — verified ผ่าน wizard จริงบน eg-tst แล้ว ใช้ประกอบเอกสาร Golden Path "BOQ + Project ทำงานร่วมกัน" (TC-BP-03)</div>
-        <div class="card-meta"><span class="card-date">30 ก.ย. 2026</span><span class="status-badge built">Verified — parse ผ่านจริง</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-example-marine-hotel.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List สำหรับนำเข้า BOQ (Marine Hotel)</div>
-        <div class="card-desc">ไฟล์ตัวอย่างขนาดเล็กสำหรับ Golden Path "สวิตช์ BOQ ครบวงจร" — 2 Rate (ผนัง/พื้น SPIDER GREEN) 2 โซน รวม 30 ชิ้น ผนัง 12.00 ตร.ม. + พื้น 18.00 ตร.ม. ตัวเลขกลมๆ ตรวจง่าย — parse ผ่านจริงบน eg-tst</div>
-        <div class="card-meta"><span class="card-date">1 ต.ค. 2026</span><span class="status-badge built">Verified — parse ผ่านจริง</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-example-chedi-bua-recipe.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List สำหรับนำเข้า BOQ (เจดีย์บัว — Custom FG)</div>
-        <div class="card-desc">ไฟล์ Excel (.xlsx) ชิ้นหินของเจดีย์บัว <b>1 ชิ้น</b> ใช้กับ BOQ ที่เลือก Rate "เจดีย์บัว - standard" (ราคาคงที่ 50,000 บาท/ชิ้น) ในโซน "เจดีย์บัว" — มีเฉพาะชิ้นหิน 10 แถว: NERO RUSTENBURG 4 ชิ้น 0.36 ตร.ม. (ฐาน) + GP Block Marble 6 ชิ้น 0.54 ตร.ม. (ตัวเรือน + ยอด) ไม่ต้องใส่ Rate ล่วงหน้า ระบบจับคู่ CB-FG-NERO / CB-FG-GP เอง สร้างใบเสนอราคาและ Confirm ได้ก่อนมี Cut List · เมื่อนำเข้า ระบบสร้างบรรทัดสูตร ประเมินต้นทุน (หิน + วัสดุสิ้นเปลือง 675 + ค่าแรง 2,477 จาก Rate) แล้วสร้างใบสั่งตัด 2 ใบ + ใบประกอบ 1 ใบ · รูปแบบเดียวกับตัวอย่างโคม (คู่มือ Golden Path #7)</div>
-        <div class="card-meta"><span class="card-date">25 ต.ค. 2026</span><span class="status-badge built">Verified — ทดสอบ rollback บน eg-tst (ใบขาย 2 ชิ้น: ตัด 8+12 ชิ้น)</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

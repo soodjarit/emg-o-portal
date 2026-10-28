@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สำหรับทดสอบ — Slab</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  .topnav{background:var(--charcoal);padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .topnav-brand{color:#fff;font-family:Cambria,serif;font-weight:700;font-size:17px;padding:16px 0;}
+  .topnav-brand span{color:#9AA0A4;font-family:Calibri,Arial,sans-serif;font-weight:400;font-size:13px;margin-left:8px;}
+  .topnav-links{display:flex;gap:4px;}
+  .tn-link{padding:16px 16px;font-size:14px;color:#C9CDCF;text-decoration:none;border-bottom:3px solid transparent;font-weight:600;}
+  .tn-link:hover{color:#fff;}
+  .tn-link.active{color:#fff;border-bottom-color:var(--copper);}
+
+  .layout{max-width:1220px;margin:0 auto;padding:44px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree, .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-cat{margin-bottom:2px;border-radius:6px;}
+  .tree-cat > summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--charcoal);padding:7px 8px;border-radius:6px;list-style:none;display:flex;align-items:center;gap:7px;user-select:none;}
+  .tree-cat > summary::-webkit-details-marker{display:none;}
+  .tree-cat > summary::before{content:'▸';color:var(--copper);font-size:10px;flex-shrink:0;transition:transform .15s ease;}
+  .tree-cat[open] > summary::before{transform:rotate(90deg);}
+  .tree-cat > summary:hover{background:rgba(0,0,0,.04);}
+  .tree-cat.current-section > summary{color:var(--copper-dark);}
+
+  .tree-docs{margin:2px 0 10px 17px;padding-left:12px;border-left:2px solid var(--border);}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:16px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .tree-subgroup{margin:8px 0 8px 17px;padding-left:12px;border-left:2px solid var(--border);}
+  .tree-subgroup-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#9A9D9F;font-weight:700;margin-bottom:2px;padding:0 8px;}
+  .tree-subgroup .tree-docs{margin:2px 0 0 0;padding-left:0;border-left:none;}
+
+  .main{flex:1;min-width:0;max-width:880px;}
+  header{margin-bottom:48px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:32px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .sub{font-size:15.5px;color:#6B6E70;line-height:1.6;max-width:620px;}
+
+  .group{margin-bottom:40px;}
+  .group-title{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:14px;}
+
+  .category{margin-bottom:56px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:23px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:14px;color:#9A9D9F;}
+  .subcat-title{font-size:17px;font-weight:700;color:var(--copper-dark);margin:4px 0 4px;}
+  .subcat-sub{font-size:13px;color:#6B6E70;margin-bottom:14px;line-height:1.5;}
+  .category-empty{font-size:14px;color:#9A9D9F;font-style:italic;padding:4px 0 0;}
+  .tree-cat-empty{font-size:11.5px;color:#9A9D9F;font-style:italic;padding:4px 8px 8px;}
+
+  .subgroup{margin:22px 0 4px 0;padding-left:16px;border-left:3px solid var(--copper);}
+  .subgroup-title{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--copper-dark);font-weight:700;margin-bottom:12px;}
+  .subgroup-sub{font-size:12.5px;color:#9A9D9F;font-weight:400;text-transform:none;letter-spacing:0;margin-left:6px;}
+  .subgroup.team{border-left-color:#8A8D8F;}
+  .subgroup.team .subgroup-title{color:#6B6E70;}
+
+  .card{
+    display:flex;align-items:center;gap:18px;position:relative;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;text-decoration:none;color:inherit;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}
+  .card.pinned{border-color:var(--copper);}
+  .pin-badge{position:absolute;top:-9px;right:16px;background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.3px;padding:3px 9px;border-radius:99px;text-transform:uppercase;}
+  .card-version{font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .icon{
+    flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--copper);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:700;font-family:Cambria,serif;
+  }
+  .subgroup .icon{background:var(--charcoal);}
+  .subgroup.team .icon{background:#8A8D8F;}
+  .card-title{font-size:17px;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
+  .card-desc{font-size:14px;color:#787B7D;line-height:1.5;}
+  .card-meta{display:flex;gap:10px;align-items:center;margin-top:8px;}
+  .card-date{font-size:11.5px;color:#9A9D9F;}
+  .status-badge{font-size:10.5px;font-weight:700;letter-spacing:.3px;padding:2px 10px;border-radius:10px;text-transform:uppercase;}
+  .status-badge.design{background:#FBF1E7;color:#8F5A2C;}
+  .status-badge.confirmed{background:#EAF3EA;color:#3D7A45;}
+  .status-badge.built{background:#E7EEF5;color:#2C5A80;}
+  .status-badge.finding{background:#FBEAE7;color:#A6432D;}
+  .arrow{margin-left:auto;color:var(--copper);font-size:20px;flex-shrink:0;}
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:24px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+    .main{max-width:100%;}
+  }
+</style>
+<link rel="stylesheet" href="assets/sidebar-resize.css">
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-brand">EMG-O <span>Project Portal</span></div>
+  <div class="topnav-links">
+    <a href="index.html" class="tn-link">หน้าแรก</a>
+    <a href="decisions.html" class="tn-link">บันทึกการตัดสินใจ</a>
+    <a href="library.html" class="tn-link active">คลังเอกสารทั้งหมด</a>
+    <a href="archived.html" class="tn-link">เอกสารเก่า (Archived)</a>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="main">
+  <header>
+    <div class="eyebrow"><a href="library.html#for-test" style="color:var(--copper);text-decoration:none">← สำหรับทดสอบ (For Test)</a></div>
+    <h1>Slab</h1>
+    <div class="sub">ตัด ขาย คืน ตัดทิ้ง Slab</div>
+  </header>
+  <div class="category">
+    <a class="card" href="qa/test-cases-golden-path-slab-cut-to-scrap.html">
+      <div class="icon">1</div>
+      <div>
+        <div class="card-title">Golden Path — Slab: ตัด ขาย คืน ตัดทิ้ง (รันใหม่ 11 ต.ค. 2569)</div>
+        <div class="card-desc">Block → ใบสั่งตัด 60 แผ่น → ขาย 10 แผ่นพร้อมเลือกแผ่น → ส่งของสแกน Serial → ใบแจ้งหนี้และรายการบัญชี → ลูกค้าคืน 2 แผ่น → ตรวจรับ 1 แผ่น ตัดทิ้ง 1 แผ่น — 15 test cases รันจริงบน eg-tst พร้อมภาพหน้าจอและ Export Excel (หน้าจอล่าสุด v19.0.2.109.11) · อัปเดต 14 ต.ค. 2569 (v109.24): สูญเสียเลื่อย 15%, ต้นทุนแผ่นจากต้นทุน Block, ราคาตามความหนา — เคสที่แก้มีป้ายเขียว</div>
+        <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+  <footer>EMG-O Project Portal</footer>
+  </div>
+</div>
+</body>
+</html>
