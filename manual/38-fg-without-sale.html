@@ -11,7 +11,7 @@
 <div class="topbar">
   <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
-  <span class="chapter-crumb">บทที่ 38 / 39</span>
+  <span class="chapter-crumb">บทที่ 38 / 40</span>
 </div>
 <div class="wrap">
   <nav class="sidebar">
@@ -19,7 +19,7 @@
       <div class="brand-mark">EG</div>
       <div class="brand-name">EMG-O</div>
     </div>
-    <div class="brand-sub">คู่มือฉบับเต็ม — 39 บท</div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 40 บท</div>
     <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
     <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
@@ -31,6 +31,7 @@
     <a href="37-purchase-fg.html" class="nav-link"><span class="nav-num">37</span>ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="38-fg-without-sale.html" class="nav-link active"><span class="nav-num">38</span>ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="39-block-cut.html" class="nav-link active"><span class="nav-num">39</span>ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="40-refinish.html" class="nav-link"><span class="nav-num">40</span>ทำผิว Slab ใหม่ (Re-finish) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน เงื่อนไข ข้อจำกัด</a>
     <div class="nav-section">รับสินค้า & สต็อก</div>
     <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
     <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
@@ -95,7 +96,7 @@ table.cond td.no{background:#fdeeee}
 @media(max-width:640px){.kv{grid-template-columns:1fr}}
 </style>
 
-<p>บทนี้อธิบายการ <strong>เริ่มงานผลิตเอง โดยไม่ผ่านใบขาย</strong> เช่น ผลิต FG (แผ่นตัดตามขนาด) เก็บสต็อกไว้ขาย ระบบมีทางเข้าเดียวคือปุ่ม <strong>"สร้างงานผลิต"</strong> ให้เลือกก่อนว่าจะทำงานอะไร แล้วหน้าใบสั่งผลิตจะบอกขั้นตอนทีละข้อ ตอนนี้ <strong>งาน "ทำ FG" (บทนี้) และ "ตัด Block เป็น Slab" (บทที่ 39) มีหน้านำทางแล้ว</strong> ส่วน "ทำผิว Slab ใหม่" ยังเปิดเป็นใบสั่งผลิตเปล่าแบบเดิม</p>
+<p>บทนี้อธิบายการ <strong>เริ่มงานผลิตเอง โดยไม่ผ่านใบขาย</strong> เช่น ผลิต FG (แผ่นตัดตามขนาด) เก็บสต็อกไว้ขาย ระบบมีทางเข้าเดียวคือปุ่ม <strong>"สร้างงานผลิต"</strong> ให้เลือกก่อนว่าจะทำงานอะไร แล้วหน้าใบสั่งผลิตจะบอกขั้นตอนทีละข้อ ตอนนี้ <strong>ทั้ง 3 ประเภทงานมีหน้านำทางแล้ว</strong> คือ "ทำ FG" (บทนี้) "ตัด Block เป็น Slab" (บทที่ 39) และ "ทำผิว Slab ใหม่" (บทที่ 40)</p>
 
 <h2>1. สร้างงานผลิตคืออะไร</h2>
 <p><strong>สร้างงานผลิต</strong> คือหน้าต่างเลือกประเภทงานก่อนเข้าไปกรอกใบสั่งผลิต (MO) ระบบไม่ได้สร้างเอกสารอะไรในขั้นนี้ แค่เปิดใบสั่งผลิตที่ตั้งค่าไว้ให้ตามงานที่เลือก ใบสั่งผลิตเพิ่งถูกสร้างจริงตอนกดบันทึก</p>
@@ -166,7 +167,7 @@ table.cond td.no{background:#fdeeee}
 <table class="cond"><tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
 <tr><td>เริ่มจาก สร้างงานผลิต → ทำ FG โดยไม่เลือก FG</td><td class="no">ไม่ให้เริ่ม ต้องเลือก FG ก่อน (ทดลองด้วยสคริปต์)</td></tr>
 <tr><td>เลือก ตัด Block เป็น Slab</td><td>ต้องเลือก Block แล้วเปิดใบสั่งตัดพร้อมกล่องนำทาง (ดูบทที่ 39)</td></tr>
-<tr><td>เลือก ทำผิว Slab ใหม่</td><td>เปิดใบสั่งผลิตเปล่าแบบเดิม ยังไม่มีหน้านำทาง</td></tr>
+<tr><td>เลือก ทำผิว Slab ใหม่</td><td>เลือกผิวปลายทางแล้วเปิดใบสั่งผลิตพร้อมกล่องขั้นตอน (ดูบทที่ 40)</td></tr>
 <tr><td>สร้าง MO ของ FG แผ่นตัดโดยไม่มีใบขาย</td><td class="ok">ทำได้ ไม่ต้องใส่เหตุผล</td></tr>
 <tr><td>เพิ่ม/แก้/ลบแถวชิ้นงาน (ผลผลิต FG) ขณะ Draft</td><td class="ok">Quantity และ พื้นที่งาน เปลี่ยนตามผลรวมของแถว (ทดลอง 4.5 → 5.7 → 6.9 → 4.5)</td></tr>
 <tr><td>ยังไม่มีแถวชิ้นงาน</td><td>Quantity กรอกเองได้ (ค่าเริ่มต้น 1.00)</td></tr>
@@ -196,7 +197,7 @@ table.cond td.no{background:#fdeeee}
 
 <h2>8. ข้อจำกัดที่ทราบ</h2>
 <ul>
-<li>หน้านำทางทำแล้วสำหรับงาน "ทำ FG" และ "ตัด Block เป็น Slab" ส่วน "ทำผิว Slab ใหม่" ยังเป็นใบสั่งผลิตเปล่าแบบเดิม</li>
+<li>หน้านำทางทำครบทั้ง 3 ประเภทงานแล้ว (ทำผิว Slab ใหม่ ดูบทที่ 40)</li>
 <li>ทดลองผ่านหน้าจอครบเส้นทางเฉพาะกรณี 1 แถวชิ้นงาน หินชนิดเดียว และเลือก Slab อัตโนมัติ</li>
 <li>ไม่ได้ทดลอง: เลือก Slab เอง, Slab ไม่พอแล้ว Confirm, หลายแถวชิ้นงานจนผลิตเสร็จ, การบันทึกเศษ, การยกเลิก MO หลังย้าย Slab และการ Unreserve</li>
 <li>พื้นที่รวมตามแถวชิ้นงานใช้กับใบสั่งผลิตที่สร้างเองสถานะ Draft เท่านั้น ใบที่ Confirm แล้วไม่เปลี่ยนตามการแก้แถว</li>

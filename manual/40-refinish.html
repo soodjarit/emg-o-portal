@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40. ทำผิว Slab ใหม่ (Re-finish) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน เงื่อนไข ข้อจำกัด</title>
+<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="../assets/sidebar-resize.css">
+</head>
+<body>
+<div class="topbar">
+  <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+  <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
+  <span class="chapter-crumb">บทที่ 40 / 40</span>
+</div>
+<div class="wrap">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EG</div>
+      <div class="brand-name">EMG-O</div>
+    </div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 40 บท</div>
+    <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
+    <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="32-fg.html" class="nav-link"><span class="nav-num">32</span>FG — Countertop และ Custom FG: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="33-landed-cost.html" class="nav-link"><span class="nav-num">33</span>Landed Cost — ต้นทุนนำเข้าของหินก้อนและตู้คอนเทนเนอร์: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="34-mo-costing.html" class="nav-link"><span class="nav-num">34</span>การผลิต (MO) และต้นทุน — นิยาม แนวคิด ขั้นตอน และเงื่อนไข (รวมการลงบัญชี)</a>
+    <a href="35-boq-vs-cutlist.html" class="nav-link"><span class="nav-num">35</span>BOQ และ Cut List — ต่างกันอย่างไร และมาต่อกันอย่างไร: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="36-custom-fg.html" class="nav-link"><span class="nav-num">36</span>Custom FG (เจดีย์บัว/โคม) — จาก BOQ และ Cut List ถึงใบสั่งผลิต: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="37-purchase-fg.html" class="nav-link"><span class="nav-num">37</span>ซื้อ FG จากผู้ขาย — รับของเข้า Stone FG พร้อมขนาดและจำนวนชิ้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="38-fg-without-sale.html" class="nav-link"><span class="nav-num">38</span>ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="39-block-cut.html" class="nav-link"><span class="nav-num">39</span>ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+    <a href="40-refinish.html" class="nav-link active"><span class="nav-num">40</span>ทำผิว Slab ใหม่ (Re-finish) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน เงื่อนไข ข้อจำกัด</a>
+    <div class="nav-section">รับสินค้า & สต็อก</div>
+    <a href="02-receiving.html" class="nav-link"><span class="nav-num">02</span>รับสินค้าเข้าคลัง</a>
+    <a href="03-cutting-stock.html" class="nav-link"><span class="nav-num">03</span>ตัดแผ่นและจัดการสต็อก</a>
+    <div class="nav-section">โหมดการขาย</div>
+    <a href="04-sell-slab.html" class="nav-link"><span class="nav-num">04</span>ขายเป็นแผ่น (ไม่แปรรูป)</a>
+    <a href="13-product-concepts.html" class="nav-link"><span class="nav-num">13</span>4 ประเภทสินค้า/โหมดการขาย (Product Concepts)</a>
+    <a href="29-fg-production.html" class="nav-link"><span class="nav-num">29</span>ผลิตสินค้าสำเร็จรูป (FG Production)</a>
+    <div class="nav-section">ข้อจำกัด</div>
+    <a href="10-known-limitations.html" class="nav-link"><span class="nav-num">10</span>ข้อจำกัดและบั๊กที่ทราบ</a>
+    <div class="nav-section">การจัดซื้อ</div>
+    <a href="15-purchasing.html" class="nav-link"><span class="nav-num">15</span>การจัดซื้อ</a>
+    <div class="nav-section">BOQ & ใบเสนอราคาตัวอย่าง</div>
+    <a href="18-quote-labor-lumpsum-cira.html" class="nav-link"><span class="nav-num">18</span>ตัวอย่างใบเสนอราคา — ไฟล์ 4: ค่าแรง ที่มีรายละเอียดแต่ทำแบบเหมารวม (CIRA Residences)</a>
+    <a href="19-quote-labor-only.html" class="nav-link"><span class="nav-num">19</span>ตัวอย่างใบเสนอราคา — ไฟล์ 5: ค่าแรงอย่างเดียว</a>
+    <a href="21-quote-split-invoice-terms.html" class="nav-link"><span class="nav-num">21</span>ตัวอย่าง — แยกใบแจ้งหนี้ ตั้ง Payment Term คนละอัตรากันในใบเสนอราคาเดียว</a>
+    <a href="22-boq-estimation.html" class="nav-link"><span class="nav-num">22</span>BOQ Estimation — จำลอง BOQ จริงจาก Excel จนกดเป็นใบเสนอราคา</a>
+    <a href="25-quote-signage.html" class="nav-link"><span class="nav-num">25</span>ตัวอย่างใบเสนอราคา — ไฟล์ 9: งานป้าย (VIA ARI)</a>
+    <a href="28-cost-components-split-quotation.html" class="nav-link"><span class="nav-num">28</span>ต้นทุนหลาย Bucket และใบเสนอราคาแยกวัสดุ/แรงงาน</a>
+    <div class="nav-section">CRM & ลูกค้า</div>
+    <a href="26-crm.html" class="nav-link"><span class="nav-num">26</span>ติดต่อลูกค้าและ CRM (Website → Contact → Sales Pipeline)</a>
+    <div class="nav-section">บัญชี & ภาษี</div>
+    <a href="27-wht-certificate.html" class="nav-link"><span class="nav-num">27</span>ใบรับรองหัก ณ ที่จ่าย (WHT Certificate)</a>
+    <div class="nav-section">เอกสารเก่า (Archived)</div>
+    <a href="01-overview.html" class="nav-link" style="opacity:.6"><span class="nav-num">01</span>ภาพรวมระบบ</a>
+    <a href="05-sell-fabrication.html" class="nav-link" style="opacity:.6"><span class="nav-num">05</span>ขายพร้อมแปรรูป (เจาะช่องอ่างล้างหน้า)</a>
+    <a href="06-delivery.html" class="nav-link" style="opacity:.6"><span class="nav-num">06</span>ส่งของและยืนยันการรับ</a>
+    <a href="07-costing.html" class="nav-link" style="opacity:.6"><span class="nav-num">07</span>ต้นทุนสินค้า</a>
+    <a href="08-intercompany.html" class="nav-link" style="opacity:.6"><span class="nav-num">08</span>ขายข้ามบริษัท (EG↔ES)</a>
+    <a href="09-ecommerce-catalog.html" class="nav-link" style="opacity:.6"><span class="nav-num">09</span>eCommerce Catalog (<code>/stone-catalog</code>)</a>
+    <a href="11-scan-station.html" class="nav-link" style="opacity:.6"><span class="nav-num">11</span>Scan Station — เช็คสต็อก + ย้ายสต็อก</a>
+    <a href="12-analytic-accounting.html" class="nav-link" style="opacity:.6"><span class="nav-num">12</span>กำไรรายโครงการ (Analytic Accounting)</a>
+    <a href="14-cut-to-order.html" class="nav-link" style="opacity:.6"><span class="nav-num">14</span>ผลิตตามสั่ง (Cut-to-Order / MRP)</a>
+    <a href="16-quote-plain-stone.html" class="nav-link" style="opacity:.6"><span class="nav-num">16</span>ตัวอย่างใบเสนอราคา — ไฟล์ 2: ค่าหิน แบบธรรมดา</a>
+    <a href="17-quote-slab-cutting-fee.html" class="nav-link" style="opacity:.6"><span class="nav-num">17</span>ตัวอย่างใบเสนอราคา — ไฟล์ 3: ค่าหิน+ค่าแรง ซื้อสแลป มีค่าจ้างตัด</a>
+    <a href="20-quote-polish-per-meter.html" class="nav-link" style="opacity:.6"><span class="nav-num">20</span>ตัวอย่างใบเสนอราคา — ไฟล์ 8: ใบเสนอราคาที่มีค่าขัดด้วย คิดเป็นเมตร</a>
+    <a href="23-returns-rma.html" class="nav-link" style="opacity:.6"><span class="nav-num">23</span>การคืนสินค้า (Returns / RMA)</a>
+    <a href="24-quote-stone-labor-skylounge.html" class="nav-link" style="opacity:.6"><span class="nav-num">24</span>ตัวอย่างใบเสนอราคา — ไฟล์ 1: ค่าหิน + ค่าแรง (Sky Lounge)</a>
+</nav>
+  <main>
+  <div class="page-main">
+  <div class="page-hero">
+    <div class="hero-eyebrow">EMG-O — คู่มือการใช้งาน</div>
+    <h1><span class="chapter-num">40</span> ทำผิว Slab ใหม่ (Re-finish) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน เงื่อนไข ข้อจำกัด</h1>
+  </div>
+  <div class="page-content">
+<p class="doc-date">อัปเดตล่าสุด: 28 ตุลาคม 2569 (2026-10-28) · โมดูล stone_slab_inventory 19.0.2.109.47 · ภาพหน้าจอถ่ายจากระบบทดสอบ eg-tst เมื่อ 28 ตุลาคม 2569</p>
+<style>
+.doc-date{color:#6b7280;font-size:.9em;margin-bottom:1.2em}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:1.2em 0}
+.flow .st{flex:1 1 130px;background:#f4f1ea;border:1px solid #d9d2c3;border-radius:10px;padding:10px 12px;font-size:.92em;line-height:1.45}
+.flow .st b{display:block;margin-bottom:2px}
+.flow .st.hl{background:#fff4d6;border-color:#e3b93c}
+.flow .ar{align-self:center;color:#a39b87;font-weight:700}
+table.cond{border-collapse:collapse;width:100%;margin:.8em 0 1.2em;font-size:.95em}
+table.cond th,table.cond td{border:1px solid #ddd6c6;padding:7px 10px;vertical-align:top;text-align:left}
+table.cond th{background:#f4f1ea}
+table.cond td.ok{background:#eef7ee}
+table.cond td.no{background:#fdeeee}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:0;border:1px solid #ddd6c6;border-radius:8px;overflow:hidden;margin:.8em 0 1.2em}
+.kv div{padding:8px 12px;border-bottom:1px solid #ece6d8}
+.kv div:nth-child(odd){background:#f4f1ea;font-weight:600}
+@media(max-width:640px){.kv{grid-template-columns:1fr}}
+</style>
+
+<p>บทนี้อธิบายการ <strong>ตัด Block เป็น Slab</strong> (ใบสั่งตัด หรือ Cut Order) ที่เริ่มจากปุ่ม <strong>"สร้างงานผลิต"</strong> ซึ่งเป็นทางเข้าเดียวกับงาน FG (บทที่ 38) เมื่อเลือกงานนี้ ใบสั่งผลิตจะมีกล่อง "ตัด Block เป็น Slab ตามลำดับนี้" ที่ติ๊ก ✅ ให้ทีละข้อเมื่อทำครบ จึงดูได้ตลอดว่าทำถึงขั้นไหน</p>
+
+<p>บทนี้อธิบายการ <strong>ทำผิว Slab ใหม่ (Re-finish)</strong> คือนำ Slab ที่อยู่ในสต็อกอยู่แล้วไปเปลี่ยนผิวหน้า เช่น จาก Polished เป็น Honed โดยเริ่มจากปุ่ม <strong>"สร้างงานผลิต"</strong> เหมือนบทที่ 38 และ 39 ตอนนี้ทั้ง 3 ประเภทงานมีหน้านำทางแล้ว</p>
+
+<h2>1. ทำผิว Slab ใหม่คืออะไร</h2>
+<p>Slab เดิมแต่ละแผ่นที่ส่งไปทำผิวจะ<strong>ถูกใช้หมด</strong> แล้วได้ <strong>Slab ใหม่ 1 แผ่น (Serial ใหม่)</strong> ที่ผิวใหม่ ขนาดและความหนาเท่าเดิม ระบบจำไว้ว่าแผ่นใหม่มาจากแผ่นไหน และอยู่ใน Block เดิม</p>
+<div class="kv">
+<div>ปุ่ม/เมนูที่ใช้</div><div>ปุ่ม <strong>สร้างงานผลิต</strong> ที่หน้า Manufacturing Orders แล้วเลือก "ทำผิว Slab ใหม่"</div>
+<div>ต้องกรอกอะไร</div><div>ผิวปลายทาง (เลือกในหน้าต่างแรก) · Slab ต้นทางที่จะทำ (เพิ่มในแท็บ "Slab ต้นทาง")</div>
+<div>ระบบทำให้</div><div>หาสูตรการผลิตและสินค้าปลายทางตามผิวที่เลือก · จำนวน = จำนวน Slab ที่เพิ่ม</div>
+<div>ผลที่ได้</div><div>Slab ใหม่ 1 Lot ต่อแผ่น อยู่ในคลัง Available พร้อมขายหรือใช้ต่อ</div>
+</div>
+<div class="callout callout-info"><div class="callout-head"><span class="callout-tag">จำง่ายๆ</span><span class="callout-title">เลือกผิวใหม่ → เพิ่ม Slab ต้นทาง → Confirm → ทำผิวเสร็จ</span></div></div>
+
+<h2>2. แนวคิดหลัก 5 ข้อ</h2>
+<ol>
+<li><strong>1 ใบสั่ง = 1 ผิวปลายทาง</strong> Slab ทุกแผ่นในใบจะเปลี่ยนไปเป็นผิวเดียวกัน</li>
+<li><strong>Slab ต้นทางต้องผิวเดิมเหมือนกันทุกแผ่น</strong> ถ้าเริ่มจากคนละผิว ให้แยกเป็นคนละใบ</li>
+<li><strong>เลือกได้เฉพาะ Slab ที่ยังอยู่ในคลัง Available</strong> ช่องเลือกจะแสดงเฉพาะ Slab ที่มีสต็อกในคลัง Available แต่ถ้าแผ่นไหนถูกจองหรือถูกเลือกไว้ในใบเสนอราคา ระบบจะไม่ยอมให้ Confirm และบอกชื่อแผ่นนั้น</li>
+<li><strong>ผิวปลายทางต้องมีใน Material</strong> ที่ความหนาเดียวกับแผ่นต้นทาง ถ้าไม่มี ระบบเตือนให้ไปเพิ่ม variant ที่ Material ก่อน</li>
+<li><strong>แผ่นใหม่ไม่ได้ใช้ Serial เดิม</strong> เพราะเปลี่ยนสินค้า (ผิวต่างกัน) ระบบตั้งชื่อ Lot ใหม่ต่อท้ายด้วย -RF1, -RF2 ตามลำดับ</li>
+</ol>
+
+<h2>3. ภาพรวมขั้นตอน</h2>
+<div class="flow">
+<div class="st hl"><b>1. สร้างงานผลิต</b>เลือก "ทำผิว Slab ใหม่" + ผิวปลายทาง</div><div class="ar">→</div>
+<div class="st"><b>2. Slab ต้นทาง</b>เพิ่มในแท็บ Slab ต้นทาง</div><div class="ar">→</div>
+<div class="st hl"><b>3. Confirm</b>ไม่ต้องย้ายไปสถานีตัด</div><div class="ar">→</div>
+<div class="st"><b>4. จับเวลา</b>ไม่บังคับ</div><div class="ar">→</div>
+<div class="st hl"><b>5. ทำผิวเสร็จ</b>ได้ Slab ใหม่</div>
+</div>
+
+<h2>4. ขั้นตอนทีละหน้าจอ</h2>
+<h3>4.1 เลือกประเภทงานและผิวปลายทาง</h3>
+<p>กดปุ่ม "สร้างงานผลิต" เลือก "ทำผิว Slab ใหม่" แล้วเลือกผิวปลายทางที่ช่อง "ผิวปลายทาง" จากนั้นกด "เริ่มงาน"</p>
+<figure class="screenshot"><img src="assets/refinish-01.webp" alt="หน้าต่างสร้างงานผลิต เลือกทำผิว Slab ใหม่ และผิวปลายทาง Honed"/></figure>
+
+<h3>4.2 ใบสั่งผลิตเปิดพร้อมกล่องขั้นตอน</h3>
+<p>ใบสั่งผลิตเปิดขึ้นพร้อมผิวปลายทางที่เลือกไว้ และกล่อง "ทำผิว Slab ใหม่ตามลำดับนี้" ขั้นที่ทำแล้วขึ้น ✅ ขั้นที่ยังไม่ทำขึ้น ⬜</p>
+<figure class="screenshot"><img src="assets/refinish-02.webp" alt="ใบสั่งผลิตทำผิว Slab ใหม่ กล่องขั้นตอนและแท็บ Slab ต้นทาง"/></figure>
+
+<h3>4.3 เพิ่ม Slab ต้นทาง</h3>
+<p>ไปแท็บ "Slab ต้นทาง" กด "Add a line" แล้วพิมพ์ชื่อ Slab ที่ต้องการ ช่องแสดงเฉพาะ Slab ที่อยู่ในคลัง Available เมื่อเพิ่มแล้วขั้นที่ ② ขึ้น ✅ และจำนวนในใบเท่ากับจำนวนแถว</p>
+<figure class="screenshot"><img src="assets/refinish-03.webp" alt="เพิ่ม Slab ต้นทาง BLK-26-0007-7 ขั้นที่ 1 และ 2 ขึ้นเครื่องหมายถูก"/></figure>
+<div class="callout callout-warning"><div class="callout-head"><span class="callout-tag">ระวัง</span><span class="callout-title">Slab ที่ถูกจองจะผ่านช่องเลือก แต่ไม่ผ่านตอน Confirm</span></div><p>ช่องเลือกกรองจากคลังที่แผ่นอยู่ (เร็ว) ส่วนการเช็กว่าแผ่นถูกจองหรือผูกใบเสนอราคาหรือไม่ ทำตอน Confirm เพราะการเช็กทุกแผ่นตอนพิมพ์ช้ามาก (ราว 9 วินาที) ข้อความที่ขึ้นบอกชื่อแผ่นและวิธีแก้ คือเอาแถวนั้นออกหรือปล่อยการจองก่อน</p></div>
+
+<h3>4.4 Confirm</h3>
+<p>กด Confirm ได้เลย ไม่ต้องย้ายไปสถานีตัด เพราะงานนี้ใช้ Slab ที่ตั้งอยู่ในคลัง Available เดิม ขั้นที่ ③ ขึ้น ✅ และปุ่ม "ทำผิวเสร็จ" โผล่ที่แถบปุ่มด้านบน</p>
+<figure class="screenshot"><img src="assets/refinish-04.webp" alt="หลัง Confirm สถานะ In Progress มีปุ่มทำผิวเสร็จ"/></figure>
+<div class="callout callout-note"><div class="callout-head"><span class="callout-tag">หมายเหตุ</span><span class="callout-title">แท็บ Work Orders ไม่บังคับ</span></div><p>ทดลองกด "ทำผิวเสร็จ" โดยไม่เริ่ม Work Order เลย ปิดงานได้ปกติ แท็บ Work Orders ใช้จับเวลาทำงานเท่านั้น</p></div>
+
+<h3>4.5 ทำผิวเสร็จ</h3>
+<p>กด "ทำผิวเสร็จ" ใบสั่งเป็น Done กล่องขั้นตอนหายไป Slab เดิมถูกใช้หมด ได้ Slab ใหม่ผิวใหม่เข้าคลัง Available</p>
+<figure class="screenshot"><img src="assets/refinish-05.webp" alt="ใบสั่งผลิตทำผิว Slab ใหม่เสร็จแล้ว สถานะ Done"/></figure>
+
+<h2>5. สรุปเงื่อนไข</h2>
+<table class="cond">
+<tr><th>สถานการณ์</th><th>ระบบทำอย่างไร</th></tr>
+<tr><td>Confirm โดยไม่มี Slab ต้นทาง</td><td class="no">แจ้งให้เพิ่มอย่างน้อย 1 แผ่น</td></tr>
+<tr><td>Slab ถูกจอง/ผูกใบเสนอราคา/ไม่อยู่ใน Available</td><td class="no">ไม่ให้ Confirm บอกชื่อแผ่น และวิธีแก้</td></tr>
+<tr><td>Slab ต้นทางมีผิวเดิมต่างกัน</td><td class="no">ไม่ให้ Confirm ให้แยกเป็นคนละใบ</td></tr>
+<tr><td>ผิวปลายทางเหมือนผิวเดิม</td><td class="no">ไม่ให้ Confirm เพราะไม่มีอะไรต้องเปลี่ยน</td></tr>
+<tr><td>Material ไม่มี variant ของผิวนี้ที่ความหนาเดียวกัน</td><td class="no">เตือนตั้งแต่เลือก Slab และไม่ให้ Confirm</td></tr>
+<tr><td>กดทำผิวเสร็จ</td><td class="ok">ได้ Slab ใหม่ 1 แผ่นต่อ 1 แผ่นต้นทาง ขนาดเท่าเดิม เข้า Available</td></tr>
+</table>
+
+<h2>6. สิ่งที่เปลี่ยนจากเดิม</h2>
+<table class="cond">
+<tr><th>เดิม</th><th>ตอนนี้</th></tr>
+<tr><td>เลือก "ทำผิว Slab ใหม่" แล้วได้ใบสั่งผลิตเปล่า ต้องรู้เองว่าต้องกรอกอะไร</td><td>เลือกผิวปลายทางตั้งแต่หน้าต่างแรก ใบสั่งมีกล่อง 5 ขั้นให้ติ๊ก</td></tr>
+<tr><td>ช่อง Source Slab เลือกได้ทุก Lot ในระบบ</td><td>แสดงเฉพาะ Slab ที่มีสต็อกในคลัง Available</td></tr>
+<tr><td>ข้อความ "ไม่ได้อยู่ในสถานะ Available" สั้น ไม่บอกสาเหตุ</td><td>บอกสาเหตุที่เป็นไปได้ (ถูกจอง ผูกใบเสนอราคา หรือไม่ได้อยู่ใน Available) และวิธีแก้</td></tr>
+</table>
+
+<h2>7. คำถามที่พบบ่อย</h2>
+<p><strong>ต้องย้าย Slab ไปสถานีตัดก่อนไหม</strong><br/>ไม่ต้อง งานนี้ไม่มีปุ่มย้ายไปสถานีตัด Confirm ได้ทันที</p>
+<p><strong>ทำผิวหลายแผ่นพร้อมกันได้ไหม</strong><br/>ได้ เพิ่มหลายแถวในใบเดียว ขอเพียงผิวเดิมเหมือนกันทุกแผ่น</p>
+<p><strong>แผ่นที่ได้ขนาดเท่าเดิมเสมอไหม</strong><br/>ใช่ ระบบคัดลอกความกว้าง ความยาว ความหนา และ Block จากแผ่นเดิม</p>
+<p><strong>คอลัมน์ Result (ดี/เสียหาย) และ Notes ใช้ทำอะไร</strong><br/>ใช้จดบันทึกเอง ตอนนี้ระบบยังไม่ใช้ค่านี้ในการตัดสินว่าแผ่นใหม่จะเป็นแผ่นเสียหรือไม่ ทุกแถวได้แผ่นใหม่ปกติ</p>
+
+<h2>8. ข้อจำกัดที่ทราบ</h2>
+<ul>
+<li>ทดลองจริง 1 รอบ: 1 แผ่น (BLK-26-0007-7) จาก Polished เป็น Honed สำเร็จ ได้ Lot EG01/STCUT/00411-RF1 <strong>หลายแผ่นพร้อมกัน แผ่นที่ถูกจอง และผิวที่ Material ไม่มี ยังไม่ได้ทดลองหน้าจอ</strong> (ตามที่ออกแบบไว้ในโค้ด)</li>
+<li>แท็บ Work Orders ของงานนี้ยังแสดงขั้นตอน Move-to-Station และ Gangsaw ซึ่งชื่อไม่ตรงกับงานทำผิว ยังไม่ได้ตรวจว่ามาจากไหน (ไม่กระทบการปิดงาน)</li>
+<li>ช่องเลือกยังเห็น Slab ที่ถูกจองในใบเสนอราคาได้ (ตรวจตอน Confirm)</li>
+<li>ข้อมูลความหนาของแผ่นทดลอง BLK-26-0007 เป็น 0.2 ม. (ตามข้อมูลเก่า) แผ่นใหม่คัดลอกค่าเดิมมา</li>
+</ul>
+<div class="media-note">อ้างอิง: ทดลองบน eg-tst เมื่อ 2026-10-28 ด้วยผู้ใช้ emgdemo ต่อจากบทที่ 38 และ 39 ตามข้อเสนอให้แยกตามประเภทงาน</div>
+<hr/>
+  </div>
+</div>
+<div class="chapter-nav">
+  <a href="39-block-cut.html"><span class="dir">← ก่อนหน้า</span>39. ตัด Block เป็น Slab (ใบสั่งตัด) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
+  <span></span>
+</div>
+  </main>
+</div>
+<script src="../assets/sidebar-resize.js" defer></script>
+</body>
+</html>

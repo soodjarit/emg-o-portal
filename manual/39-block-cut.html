@@ -11,7 +11,7 @@
 <div class="topbar">
   <a id="home-btn" class="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
   <a class="toc-link" href="index.html">📖 สารบัญคู่มือ</a>
-  <span class="chapter-crumb">บทที่ 39 / 39</span>
+  <span class="chapter-crumb">บทที่ 39 / 40</span>
 </div>
 <div class="wrap">
   <nav class="sidebar">
@@ -19,7 +19,7 @@
       <div class="brand-mark">EG</div>
       <div class="brand-name">EMG-O</div>
     </div>
-    <div class="brand-sub">คู่มือฉบับเต็ม — 39 บท</div>
+    <div class="brand-sub">คู่มือฉบับเต็ม — 40 บท</div>
     <div class="nav-section">นิยาม แนวคิด ขั้นตอน และเงื่อนไข</div>
     <a href="30-block.html" class="nav-link"><span class="nav-num">30</span>Block — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
     <a href="31-slab.html" class="nav-link"><span class="nav-num">31</span>Slab — นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
@@ -185,14 +185,13 @@ table.cond td.no{background:#fdeeee}
 <p><strong>ตัด Block ไม่หมดก้อนได้ไหม</strong><br/>ได้ ที่เหลือคงอยู่ในสต็อก (ตัวอย่างเหลือ 0.34 ลบ.ม.) ลดจำนวนแผ่นได้โดยลบแถวในตารางแผนก่อน Confirm (ยังไม่ได้ทดลองลบแถวเอง)</p>
 <p><strong>ปุ่ม "สร้างแผนใหม่" จะลบสิ่งที่แก้ในตารางไหม</strong><br/>ใช่ แผนเดิมถูกแทนที่ทั้งหมด ระบบถามยืนยันก่อน</p>
 <p><strong>ผิวหน้าจำเป็นไหม</strong><br/>ตัวอย่างเลือก Polished ถ้าไม่เลือก ตามการออกแบบระบบใช้ Slab ทั่วไปของวัสดุนั้น (ยังไม่ได้ทดลองกรณีไม่เลือก)</p>
-<p><strong>ทำผิว Slab ใหม่ (Re-finish) ใช้อะไร</strong><br/>เลือก "ทำผิว Slab ใหม่" ที่ สร้างงานผลิต แต่หน้านำทางของงานนี้ยังไม่มี (เปิดใบสั่งผลิตเปล่าแบบเดิม)</p>
+<p><strong>ทำผิว Slab ใหม่ (Re-finish) ใช้อะไร</strong><br/>เลือก "ทำผิว Slab ใหม่" ที่ สร้างงานผลิต ดูขั้นตอนในบทที่ 40</p>
 
 <h2>8. ข้อจำกัดที่ทราบ</h2>
 <ul>
 <li>ทดลองผ่านหน้าจอครบเส้นทางเฉพาะกรณีไม่มีใบขาย (เหตุผล "อื่นๆ") เลือกผิว Polished และความหนา Other 20 ซม.</li>
 <li>ไม่ได้ทดลอง: ตัดจากใบขาย, ไม่เลือกผิวหน้า, แก้ขนาด "จริง" ให้ต่างจากแผน, ลบแถวในแผนเอง, แผนเกินปริมาตร Block, Confirm ก่อนย้าย Block, การยกเลิกใบสั่งตัดหลังย้าย Block</li>
 <li>ระบบเตือนเมื่อแผนไม่ตรงกับขนาดที่ระบุ แต่ไม่บังคับ และไม่สร้างแผนใหม่ให้เองเพื่อไม่ทับการแก้ด้วยมือ</li>
-<li>"ทำผิว Slab ใหม่" ยังไม่มีหน้านำทาง</li>
 <li>ตารางแผน/จริงยังเป็นเมตร</li>
 <li>ข้อมูลทดลองบน eg-tst: ใบสั่งตัด EG01/STCUT/00408 (73 แผ่น หนา 2 ซม. จาก BLK-26-0016) และ 00409 (7 แผ่น หนา 20 ซม. จาก BLK-26-0007) สร้าง Slab จริงในสต็อก และมีใบสั่งตัด Draft ค้างจากการทดสอบอีกหลายใบ</li>
 </ul>
@@ -202,7 +201,7 @@ table.cond td.no{background:#fdeeee}
 </div>
 <div class="chapter-nav">
   <a href="38-fg-without-sale.html"><span class="dir">← ก่อนหน้า</span>38. ผลิต FG โดยไม่ผ่านใบขาย — เบิก Slab ย้ายไปสถานีตัด และปิดงาน: นิยาม แนวคิด ขั้นตอน และเงื่อนไข</a>
-  <span></span>
+  <a class="next" href="40-refinish.html"><span class="dir">ถัดไป →</span>40. ทำผิว Slab ใหม่ (Re-finish) — เริ่มจากสร้างงานผลิต ติ๊กทีละขั้น: นิยาม แนวคิด ขั้นตอน เงื่อนไข ข้อจำกัด</a>
 </div>
   </main>
 </div>
