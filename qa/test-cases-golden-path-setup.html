@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: Setup ระบบ</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-setup.xlsx" download="EMG-O Golden Path - Setup ระบบ.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>ตั้งค่าระบบ</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — Setup ระบบ: ตั้งค่าแล้วใช้กับ BOQ และใบเสนอราคา</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 1 พฤศจิกายน 2569 (2026-11-01) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="sub">เอกสารเดียวสำหรับเรื่อง Setup: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรงสำหรับ BOQ · แล้วทดสอบว่าค่าที่ตั้งไปทำงานจริงใน BOQ และใบเสนอราคา ทุกเคสเขียนให้ผู้ใช้ไม่เทคนิคทำตามได้ ไม่รวมเคสกรอกผิดหรือดักข้อผิดพลาด ข้อมูลตัวอย่างทั้งหมดขึ้นต้นด้วย ZZ</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>5</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>2</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">5</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">0</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>เอกสารนี้แทนส่วน Setup ของ test-cases-product-setup (ฉบับเก่า)</h3>
+    <ul>
+      <li>ฉบับเก่ายังพูดถึง Rate Library ตัวเลือก "มุม" และปุ่มสร้าง Block จากบรรทัด PO ซึ่งไม่มีในระบบแล้ว — ไม่ได้แก้ไฟล์เก่า</li>
+      <li>ทำตามทีละขั้นด้วยคู่มือ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> (มีเหตุผลของแต่ละค่าที่กรอก) · เอกสารนี้ใช้ตรวจผล</li>
+      <li>ขอบเขต 5 เคส: ตั้งค่า 3 เคส + ใช้ค่าที่ตั้งกับ BOQ/ใบเสนอราคา 2 เคส</li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 1 พ.ย. 2569):</b><br>
+    หมวด FG ZZ Guide FG - Countertop &rarr; หิน ZZ2 GUIDE MARBLE (Slab / Block / FG / ตารางราคา 5 ความหนา) &rarr; ชุดวัสดุและชุดค่าแรง &rarr; BOQ1118 (Direct Cost 47,500) &rarr; ใบเสนอราคา S01691 (ก่อน VAT 52,250.00)<br>
+    <b>ข้อสังเกตจากการรัน:</b> (1) ฟอร์มหมวด FG ไม่มีช่องต้นทุนวัสดุสิ้นเปลือง (2) ช่องชุดวัสดุ/ชุดค่าแรงในแถวโซนของ BOQ แสดงว่างแม้คิดราคาด้วยชุดตั้งต้นถูกต้อง (3) บัญชีค่าใช้จ่ายของสินค้า Landed Cost บน eg-tst ยังว่าง<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ซื้อและรับ Block / ตัด Slab / ผลิต FG ด้วยหินตัวอย่าง ZZ และดู P&amp;L ตาม Analytic ของหินนี้ — ดูที่ <a href="test-cases-golden-path-block-purchase-to-cut.html">Golden Path ซื้อ Block ถึงตัด</a> · <a href="test-cases-golden-path-block-slab-fg.html">Block → Slab → FG</a> · <a href="test-cases-golden-path-boq-import.html">BOQ นำเข้า Excel ถึง P&amp;L</a> · Setup FG แบบกำหนดเอง (เจดีย์บัว โคม) และตั้งบัญชี Landed Cost
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. ตั้งค่าระบบ</div>
+        <div class="category-sub">ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรง · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SET-01</span></td>
+          <td class="col-scenario">ตั้งหมวดสินค้าสำเร็จรูป (FG) พร้อมค่าแรงและขั้นตอนผลิต<div class="note">หมวด FG ต้องตั้งก่อนตั้งสินค้าหิน เพราะตอนตั้งหินต้องเลือกหมวดนี้ · ฟอร์มหมวดยังไม่มีช่องต้นทุนวัสดุสิ้นเปลือง (ระบบมีช่องในข้อมูล แต่หน้าจอไม่แสดง) ต้นทุนส่วนนี้จึงเป็น 0</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสิทธิ์เข้าเมนู Inventory &gt; Configuration</td>
+          <td class="col-steps"><ol><li>เปิดแอป Inventory &gt; Configuration &gt; Categories แล้วกด New</li><li>พิมพ์ชื่อหมวด คง FG Tracking เป็น Lot กรอก FG Standard Labor Cost ตั้ง Costing Method เป็น FIFO และ Inventory Valuation เป็น Perpetual แล้วเลือกบัญชี Expense และ Stock</li><li>แท็บ FG Production Operations กด Add a line พิมพ์ขั้นตอนที่ 1 กด Enter แล้วพิมพ์ขั้นตอนที่ 2 จากนั้นกด Save</li></ol></td>
+          <td class="col-sample">ชื่อ ZZ Guide FG - Countertop · FG Tracking = Lot · ค่าแรงมาตรฐาน 1500 · Costing Method = FIFO · Inventory Valuation = Perpetual (at invoicing) · Expense Account = 511110 · Stock Account = 113150 · ขั้นตอน: Cutting (ตัดตามแบบ), Edge (ทำขอบ)</td>
+          <td class="col-expected">บันทึกสำเร็จ ชื่อหมวดขึ้นที่แถบนำทาง · FG Tracking = Lot · FG Standard Labor Cost = 1,500.00 · Costing Method = FIFO และ Inventory Valuation = Perpetual · บัญชี 511110 และ 113150 · ตารางขั้นตอนมี 2 แถวตามลำดับที่พิมพ์</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-01-category.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-01-category.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SET-02</span></td>
+          <td class="col-scenario">ตั้งสินค้าหินด้วย Quick Material Setup ให้ได้ Slab, Block และ FG ในครั้งเดียว<div class="note">Setup Mode ใช้ "สร้าง Material ใหม่" · ขนาดแผ่นมาตรฐานกรอกเป็นเมตร ส่วนความหนาเป็น ซม. · ระบบสร้างสินค้าให้ 4 ตัว (Slab, Block, FG และสินค้าภายใน Cutting Plan WIP) · ผิวอื่นนอกจากผิวแรกได้รหัสต่อท้าย เช่น Honed = -SL-HON</div></td>
+          <td class="col-pre">ทำ TC-GP-SET-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Tools &gt; Quick Material Setup</li><li>กรอกข้อมูลหิน: ชื่อ หมวด รหัสฐาน Density แล้วกรอกส่วน Slab: ราคาขายฐานต่อ CBM ราคาขายต่อ ตร.ม. และต้นทุนต่อ ตร.ม. คงขนาดแผ่นและผิว Polished กับ Honed ไว้</li><li>ติ๊ก BLOCK PRODUCT กรอกราคาขายและต้นทุนต่อตัน แล้วติ๊ก FINISHED GOOD เลือกหมวด FG จาก TC-GP-SET-01 (เลือกจากรายการ ห้ามพิมพ์หมวดใหม่) กรอกชื่อ ราคาขาย และต้นทุน</li><li>กด Create All</li></ol></td>
+          <td class="col-sample">ZZ2 GUIDE MARBLE · หมวด Marble · Serial · รหัสฐาน ZZ2G · Density 2.65 · ราคาฐาน 125,000 ต่อ CBM · Slab 2,500 / ต้นทุน 1,300 ต่อ ตร.ม. · แผ่น 3.000 × 1.600 ม. หนา 2 ซม. · Block 15,800 / ต้นทุน 12,000 บาทต่อตัน · FG 3,800 / ต้นทุน 2,000</td>
+          <td class="col-expected">เปิดหน้า Material ZZ2 GUIDE MARBLE สถานะใช้งาน · Slab Product [ZZ2G-SL] (Variant Polished และ ZZ2G-SL-HON) · Block Product [ZZ2G-BL] ราคาขาย 41,870 ต่อ ลบ.ม. (15,800 × 2.65) · FG [ZZ2G-FG] 3,800 ต่อ ตร.ม. อยู่ในหมวด ZZ Guide FG - Countertop · ตารางราคาตามความหนา 5 แถว: 1.5 / 2 / 2.5 / 3 / 5 ซม. = 1,875 / 2,500 / 3,125 / 3,750 / 6,250 ต่อ ตร.ม. · ได้ Analytic ใหม่ 1 ตัวระดับวัสดุ (ระดับหมวด Marble ใช้ตัวเดิมร่วมกัน)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-02-material.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-02-material.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SET-03</span></td>
+          <td class="col-scenario">ตั้งชุดวัสดุสิ้นเปลืองและชุดค่าแรงติดตั้งสำหรับ BOQ<div class="note">สินค้าในชุดต้องมีหน่วย ตร.ม. (m²) · ราคาและต้นทุนของแต่ละบรรทัดดึงจากสินค้าอัตโนมัติ · ถ้า Company ว่างคือใช้ร่วมทุกบริษัท</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite</td>
+          <td class="col-steps"><ol><li>เปิดแอป Inventory &gt; Products &gt; Products กด New สร้างสินค้ากาว (Goods ไม่ติ๊ก Track Inventory) และสินค้าค่าแรง (Service) ตั้งหน่วยเป็น m² ทั้งสองตัว แล้ว Save</li><li>เปิดแอป BOQ Estimation &gt; Consumable Sets กด New สร้างชุดวัสดุ: ตั้งชื่อ เลือก Type วัสดุสิ้นเปลือง เพิ่มสินค้ากาว แล้ว Save</li><li>กด New อีกครั้งสร้างชุดค่าแรง: ตั้งชื่อ เลือก Type ค่าแรงติดตั้งหน้างาน เพิ่มสินค้าค่าแรง แล้ว Save</li></ol></td>
+          <td class="col-sample">สินค้า ZZ กาวและปูนยาแนวปูพื้น ขาย 150 ทุน 90 ต่อ ตร.ม. · ZZ ค่าแรงติดตั้งพื้น ขาย 800 ทุน 500 ต่อ ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน · ชุด ZZ ชุดค่าแรงติดตั้งพื้น</td>
+          <td class="col-expected">ชุดวัสดุ: แถวสินค้า หน่วย m² Price 150.00 Cost 90.00 · Total / m² = 150.00 · ชุดค่าแรง: Price 800.00 Cost 500.00 · Total / m² = 800.00 · ทั้งสองชุดบันทึกสำเร็จ ชื่อขึ้นที่แถบนำทาง</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-03-sets.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-03-sets.webp" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา</div>
+        <div class="category-sub">เลือกชุดตั้งต้นที่ BOQ ให้ระบบคิดค่าแรงและวัสดุ · ออกใบเสนอราคาแล้วตรวจยอด · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SET-04</span></td>
+          <td class="col-scenario">สร้าง BOQ แล้วให้ระบบคิดวัสดุสิ้นเปลืองและค่าแรงจากชุดตั้งต้น<div class="note">รายละเอียดของบรรทัดต้องพิมพ์เอง (ช่องบังคับ ระบบไม่เติมให้) · ปุ่ม "ดึงโซนจาก BOQ" บันทึก BOQ ให้อัตโนมัติ · ช่องชุดวัสดุ/ชุดค่าแรงในแถวโซนอาจแสดงว่างแม้ระบบคิดด้วยชุดตั้งต้นแล้ว (ตัวเลข 150 และ 800 ต่อ ตร.ม. ถูกต้อง)</div></td>
+          <td class="col-pre">ทำ TC-GP-SET-02 และ TC-GP-SET-03 เสร็จแล้ว · มีลูกค้า Demo Hotel Customer</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents กด New เลือกลูกค้า</li><li>แท็บ "① ประเมินพื้นที่" กด Add a line กรอกโซน รายละเอียด เลือกสินค้า FG และจำนวน ตร.ม.</li><li>แท็บ "② ค่าแรง &amp; วัสดุ" เลือกชุดวัสดุสิ้นเปลืองตั้งต้นและชุดค่าแรงตั้งต้น แล้วกด "ดึงโซนจาก BOQ" และ "สร้างค่าแรง/วัสดุ"</li><li>ดูยอดสรุปด้านล่างของฟอร์ม</li></ol></td>
+          <td class="col-sample">ลูกค้า Demo Hotel Customer · โซน ล็อบบี้ ZZ · พื้นล็อบบี้ หินอ่อน ZZ ขัดมัน · สินค้า ZZ2 GUIDE MARBLE Countertop 10 ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน และ ZZ ชุดค่าแรงติดตั้งพื้น</td>
+          <td class="col-expected">บรรทัดพื้น 10.00 ตร.ม. ราคา 3,800.00 รวม 38,000.00 · แถวโซนล็อบบี้ ZZ พื้นที่ 10.00 · วัสดุ 150.00 ต่อ ตร.ม. · ค่าแรง 800.00 ต่อ ตร.ม. · ยอดสรุป: วัสดุ 38,000.00 + วัสดุสิ้นเปลือง 1,500.00 + ค่าแรง 8,000.00 = Direct Cost 47,500.00 · Overhead &amp; Profit 10% = 4,750.00 · Total 52,250.00 (BOQ1118)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-04-boq-sets.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-04-boq-sets.webp" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-SET-05</span></td>
+          <td class="col-scenario">ออกใบเสนอราคาจาก BOQ แล้วตรวจว่าวัสดุและค่าแรงจากชุดไปอยู่ครบ</td>
+          <td class="col-pre">ทำ TC-GP-SET-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กดปุ่ม "สร้างใบเสนอราคา"</li><li>ดูบรรทัดในแท็บ Order Lines และยอดรวมด้านล่าง</li></ol></td>
+          <td class="col-sample">BOQ1118</td>
+          <td class="col-expected">ได้ใบเสนอราคา S01691 สถานะ Quotation · ช่อง BOQ Document ชี้ BOQ1118 · หมวดโซน "ล็อบบี้ ZZ" มี 3 บรรทัด: FG 10.00 ตร.ม. × 3,800 = 38,000 · วัสดุสิ้นเปลือง 10.00 ตร.ม. × 150 = 1,500 · ค่าแรงติดตั้งหน้างาน 10.00 ตร.ม. × 800 = 8,000 · หมวด "ค่าบริหารโครงการและอื่นๆ" 1 บรรทัด: ค่าบริหารโครงการ (10% ของยอดงานรวม) 4,750 · ก่อน VAT 52,250.00 · VAT 7% 3,657.50 · รวม 55,907.50</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-05-quotation.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-05-quotation.webp" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

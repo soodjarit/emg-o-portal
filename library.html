@@ -238,7 +238,26 @@
 
       <details class="tree-cat" data-section="qa-test-cases" open>
         <summary>QA / Test Cases</summary>
-        <div class="tree-cat-empty">ยังไม่มีเอกสาร</div>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-setup.html"><span class="tree-doc-tag">GP</span>Golden Path — Setup ระบบ</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-container.html"><span class="tree-doc-tag">GP</span>Golden Path — ตู้คอนเทนเนอร์</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-block.html"><span class="tree-doc-tag">GP</span>Golden Path — Block (ซื้อ · รับ · แก้ขนาด · ตัด)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-slab-lifecycle.html"><span class="tree-doc-tag">GP</span>Golden Path — Slab (ซื้อ · ขาย · ส่งของ · ใบแจ้งหนี้)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-fg-cut.html"><span class="tree-doc-tag">GP</span>Golden Path — FG (ขายแผ่นตัดตามขนาด · ผลิต · ส่งของ · ใบแจ้งหนี้)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-custom-fg.html"><span class="tree-doc-tag">GP</span>Golden Path — Custom FG เจดีย์บัว (BOQ · Cut List · ตัดและประกอบ · ส่งของ)</a></li>
+        </ul>
+      </details>
+
+      <details class="tree-cat" data-section="click-guides" open>
+        <summary>คู่มือกดตาม</summary>
+        <ul class="tree-docs">
+          <li class="tree-doc"><a href="qa/guide-setup-2026-11-01.html"><span class="tree-doc-tag">G1</span>Setup ระบบ (หมวด FG · สินค้าหิน · ชุด BOQ · ต้นทุน)</a></li>
+          <li class="tree-doc"><a href="qa/guide-container-2026-11-01.html"><span class="tree-doc-tag">G2</span>ตู้คอนเทนเนอร์ (สร้างตู้ · รับ Block · ค่าขนส่ง · ต้นทุน)</a></li>
+          <li class="tree-doc"><a href="qa/guide-block-2026-11-01.html"><span class="tree-doc-tag">G3</span>Block (สั่งซื้อ · รับของ · แก้ขนาด · ตัดเป็น Slab)</a></li>
+          <li class="tree-doc"><a href="qa/guide-slab-2026-11-01.html"><span class="tree-doc-tag">G4</span>Slab (ดูแผ่นที่ตัดได้ · ซื้อ · ขาย · ส่งของ · ใบแจ้งหนี้)</a></li>
+          <li class="tree-doc"><a href="qa/guide-fg-2026-11-01.html"><span class="tree-doc-tag">G5</span>FG (ใบเสนอราคารายชิ้น · งานผลิต · ส่งของ · ใบแจ้งหนี้)</a></li>
+          <li class="tree-doc"><a href="qa/guide-custom-fg-2026-11-01.html"><span class="tree-doc-tag">G6</span>Custom FG เจดีย์บัว (ตั้งสินค้า · BOQ · Cut List · ตัดและประกอบ · ส่งของ)</a></li>
+        </ul>
       </details>
 
       <details class="tree-cat" data-section="e2e-walkthroughs" open>
@@ -753,7 +772,122 @@
       <div class="category-title">QA / Test Cases</div>
       <div class="category-sub">เอกสารทดสอบระบบแบบครอบคลุมฟีเจอร์ + edge case/validation — ใช้ตรวจสอบ regression ก่อนส่งมอบแต่ละรอบ</div>
     </div>
-    <div class="category-empty">ยังไม่มีเอกสารในหมวดนี้ — ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#qa-test-cases" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
+        <a class="card" href="qa/test-cases-golden-path-setup.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — Setup ระบบ</div>
+        <div class="card-desc">5 เคส: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรง · ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา · มีปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-container.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — ตู้คอนเทนเนอร์</div>
+        <div class="card-desc">7 เคส: สร้างตู้ · สั่งซื้อและรับ Block · ผูก Block เข้าตู้ · ใบแจ้งหนี้ค่าขนส่งและลงต้นทุนเข้า Block · ดูต้นทุนและรายการบัญชี · ปิดตู้ · มีปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-block.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — Block (รูปแบบใหม่)</div>
+        <div class="card-desc">6 เคส: สั่งซื้อ Block เป็นตัน · รับของและกรอกขนาด · ตรวจต้นทุนในหน้า Block · ใบแจ้งหนี้ผู้ขาย · แก้ขนาดที่วัดผิด · ตัดเป็น Slab · มีปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-slab-lifecycle.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — Slab (รูปแบบใหม่)</div>
+        <div class="card-desc">6 เคส: ดู Slab ที่ตัดได้ · ซื้อ Slab สำเร็จรูป · รับของกรอกขนาดทีละแผ่น · ขายโดยเลือกแผ่น · ส่งของสแกน Serial · ใบแจ้งหนี้และต้นทุนขาย · มีปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-fg-cut.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — FG แผ่นตัดตามขนาด (รูปแบบใหม่)</div>
+        <div class="card-desc">6 เคส: ใบเสนอราคาระบุรายชิ้น · ยืนยันและเตรียมงานผลิต · ผลิตเสร็จ · ส่งของ · ใบแจ้งหนี้และต้นทุนขาย (รันจริงบน eg-tst ข้อมูล ZZ2)</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-custom-fg.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — Custom FG เจดีย์บัว (รูปแบบใหม่)</div>
+        <div class="card-desc">8 เคส: ตั้งสินค้า · นำเข้า BOQ และ Cut List · ใบเสนอราคาและสั่งผลิต · ตัดหิน · ประกอบ · ส่งของ · ใบแจ้งหนี้และต้นทุน (รันจริงบน eg-tst ข้อมูล ZZ2)</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <div class="category-empty">ฉบับก่อนหน้าย้ายไปไว้ที่ <a href="archived.html#qa-test-cases" style="color:var(--copper-dark);font-weight:700;">เอกสารเก่า (Archived) →</a></div>
+  </div>
+
+  <div class="category" id="click-guides">
+    <div class="category-header">
+      <div class="category-title">คู่มือกดตาม</div>
+      <div class="category-sub">ทำตามทีละขั้นด้วยข้อมูลตัวอย่าง — บอกว่ากรอกอะไร ใส่ไปทำไม และควรเห็นอะไรบนจอ</div>
+    </div>
+    <a class="card" href="qa/guide-setup-2026-11-01.html">
+      <div class="icon">G1</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — Setup ระบบ</div>
+        <div class="card-desc">4 ตอน: ตั้งหมวด FG → ตั้งสินค้าหินด้วย Quick Material Setup → ตั้งชุดวัสดุ/ค่าแรงสำหรับ BOQ → ดูการตั้งค่าต้นทุนและ Analytic</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/guide-container-2026-11-01.html">
+      <div class="icon">G2</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — ตู้คอนเทนเนอร์</div>
+        <div class="card-desc">5 ตอน: สร้างตู้ → สั่งซื้อและรับ Block แล้วผูกเข้าตู้ → บันทึกค่าขนส่งและลงต้นทุนเข้า Block → ดูต้นทุนและรายการบัญชี → ปิดตู้</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/guide-block-2026-11-01.html">
+      <div class="icon">G3</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — Block</div>
+        <div class="card-desc">5 ตอน: สั่งซื้อ Block → รับของและกรอกขนาด → ดูต้นทุนในหน้า Block → ใบแจ้งหนี้และแก้ขนาดที่วัดผิด → ตัดเป็น Slab</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/guide-slab-2026-11-01.html">
+      <div class="icon">G4</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — Slab</div>
+        <div class="card-desc">4 ตอน: ดู Slab ที่ตัดได้ → ซื้อ Slab สำเร็จรูปและรับของ → ขายโดยเลือกแผ่น → ส่งของสแกน Serial แล้วออกใบแจ้งหนี้</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/guide-fg-2026-11-01.html">
+      <div class="icon">G5</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — FG</div>
+        <div class="card-desc">5 ตอน: ใบเสนอราคาระบุรายชิ้น → ยืนยันและเตรียมงานผลิต → ผลิตเสร็จ → ส่งของ → ใบแจ้งหนี้และต้นทุน</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/guide-custom-fg-2026-11-01.html">
+      <div class="icon">G6</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — Custom FG เจดีย์บัว</div>
+        <div class="card-desc">6 ตอน: ตั้งสินค้า → นำเข้า BOQ → นำเข้า Cut List → ใบเสนอราคาและยืนยัน → ตัดหินและประกอบ → ส่งของ ใบแจ้งหนี้ และต้นทุน</div>
+        <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="category" id="e2e-walkthroughs">
