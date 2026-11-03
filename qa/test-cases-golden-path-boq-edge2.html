@@ -119,7 +119,7 @@
     <div class="sub">เคสที่ <a href="test-cases-golden-path-boq-edge.html">ชุดกรณีพิเศษชุดแรก</a> ระบุว่ายังไม่ครอบคลุม: Cut List ก่อนออกใบเสนอราคา · นำเข้าซ้ำ · ตัดเศษทิ้ง · คืนของบางส่วน · คืนหลังจ่ายเงิน · ส่งโคมทีละใบ · ยกเลิกใบขาย Project</div>
     <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
       <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อนหรือยังไม่แก้ โปรดยืนยันหรือแจ้งให้ปรับ) · เรื่อง Project/Task หลังยกเลิกใบขาย ตัดสินใจแล้วว่าปล่อยไว้ ผู้ใช้จัดการเอง (TC-EX2-10)
-      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>บัญชีสำหรับตัดเศษทิ้ง</b> — เดิมตัดทิ้งแล้วไม่มีรายการบัญชี เพราะที่เก็บ Scrap/Inventory adjustment ไม่ได้ตั้งบัญชี ผู้จัดทำตั้ง Inventory Write-down (511300) ให้บน eg-tst แล้วและตรวจซ้ำ (TC-EX2-05) ขอให้ฝ่ายบัญชียืนยันบัญชีก่อนใช้จริง และตั้งค่าเดียวกันบนระบบจริง</li><li><b>คืนของบางจำนวนของ lot ได้ แต่ส่งแบ่ง lot ไม่ได้</b> — ขอยืนยันว่าต้องการให้คืนแบ่งได้ (TC-EX2-06)</li><li><b>Credit Note ของใบที่ชำระแล้ว</b> — ใบเดิมแสดงยอดค้าง 28,617.52 หลังหัก Credit Note 29,830.42 ผู้จัดทำอธิบายยอดนี้ไม่ได้ ขอให้บัญชีตรวจและกำหนดวิธีคืนเงินลูกค้า (TC-EX2-07)</li><li><b>ค่าบริหารโครงการเรียกเก็บเต็มในใบแรกของการส่งบางส่วน</b> — เหมือนชุดแรก (TC-EX2-09)</li></ol>
+      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>บัญชีสำหรับตัดเศษทิ้ง</b> — เดิมตัดทิ้งแล้วไม่มีรายการบัญชี เพราะที่เก็บ Scrap/Inventory adjustment ไม่ได้ตั้งบัญชี ผู้จัดทำตั้ง Inventory Write-down (511300) ให้บน eg-tst แล้วและตรวจซ้ำ (TC-EX2-05) ขอให้ฝ่ายบัญชียืนยันบัญชีก่อนใช้จริง และตั้งค่าเดียวกันบนระบบจริง</li><li><b>คืนของบางจำนวนของ lot ได้ แต่ส่งแบ่ง lot ไม่ได้</b> — ขอยืนยันว่าต้องการให้คืนแบ่งได้ (TC-EX2-06)</li><li><b>บัญชี Outstanding Receipts/Payments ของ Bank</b> — ที่ Manual Payment ของ Bank (EG และ ES) ยังว่าง ทำให้รับชำระแล้วไม่ลงบัญชี ผู้จัดทำตั้ง 111204 Outstanding Receipts และ 111205 Outstanding Payments ให้บน eg-tst แล้ว (ตรวจซ้ำใน TC-EX2-07) ขอให้บัญชียืนยัน และตั้งค่าเดียวกันบนระบบจริง · การคืนเงินลูกค้าต้องกด Pay บน Credit Note เอง ระบบไม่คืนให้ ขอยืนยันว่าตรงกับวิธีทำงานจริง</li><li><b>ค่าบริหารโครงการเรียกเก็บเต็มในใบแรกของการส่งบางส่วน</b> — เหมือนชุดแรก (TC-EX2-09)</li></ol>
     </div>
     <div class="stat-row">
       <div class="stat-pill"><b>10</b>Test Case ทั้งหมด</div>
@@ -141,12 +141,13 @@
 
   <div class="flow-banner">
     <b>ข้อมูลที่รันจริง (eg-tst, 3 พ.ย. 2569) ใช้ 4 ชุด:</b><br>
-    <b>ชุด C:</b> BOQ ว่าง + cutlist-import-zz2-meeting.xlsx &rarr; BOQ1232 &rarr; S01810 &rarr; ใบสั่งผลิต EG01/STFG/00494 (เศษ OC-EG01/STFG/00494-01 ตัดทิ้ง) และ 00495 &rarr; ใบส่งของ EG01/OUT/00778 &rarr; INV/2026/00023 (ชำระแล้ว) &rarr; ใบรับคืน EG01/IN/00749 &rarr; Credit Note RINV/2026/00002<br>
+    <b>ชุด C:</b> BOQ ว่าง + cutlist-import-zz2-meeting.xlsx &rarr; BOQ1232 &rarr; S01810 &rarr; ใบสั่งผลิต EG01/STFG/00494 (เศษ OC-EG01/STFG/00494-01 ตัดทิ้ง) และ 00495 &rarr; ใบส่งของ EG01/OUT/00778 &rarr; INV/2026/00023<br>
+    <b>ชุด C3:</b> S01831 &rarr; EG01/OUT/00788 &rarr; INV/2026/00025 (ชำระ PBNK1/2026/00001) &rarr; ใบรับคืน EG01/IN/00750 (3.000) &rarr; Credit Note RINV/2026/00003 (15,087.00) &rarr; คืนเงิน PBNK1/2026/00002<br>
     <b>ชุด D:</b> BOQ1234 (โคม 2 ใบ) &rarr; S01812 &rarr; Cut List หลังขาย &rarr; ใบประกอบ EG01/STFG/00497 และ 00498 &rarr; ส่งใบแรก EG01/OUT/00780 + ใบค้างส่ง 00781 &rarr; INV/2026/00024 (30,000.00)<br>
     <b>ชุด C2 (ตัดเศษทิ้งหลังตั้งบัญชี):</b> BOQ1236 &rarr; S01831 &rarr; ใบสั่งผลิต EG01/STFG/00505 &rarr; เศษ OC-EG01/STFG/00505-01 &rarr; STJ/2026/11/0092 (224.71)<br>
     <b>ชุด E:</b> boq-import-zz2-reception.xlsx &rarr; BOQ1235 &rarr; S01830 (Sold as Project) &rarr; Cancel<br>
-    <b>ตัวเลขหลัก:</b> Cut List ก่อนขาย 54,624.24 · เศษชำรุด 0.24 ตร.ม. ต้นทุน 224.80 · Credit Note บางส่วน 29,830.42 รวม VAT · โคมใบแรก 30,000.00 ก่อน VAT<br>
-    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ใบแจ้งหนี้ของโคมใบที่สองและการคืนโคม · ตัดเศษทิ้งหลายชิ้นพร้อมกัน · การคืนเงินลูกค้าหลังออก Credit Note · ยกเลิกหลังส่งของ หรือหลังเริ่มผลิต<br>
+    <b>ตัวเลขหลัก:</b> Cut List ก่อนขาย 54,624.24 · เศษชำรุด 0.24 ตร.ม. ต้นทุน 224.80 · Credit Note บางส่วน 15,087.00 รวม VAT · โคมใบแรก 30,000.00 ก่อน VAT<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ใบแจ้งหนี้ของโคมใบที่สองและการคืนโคม · ตัดเศษทิ้งหลายชิ้นพร้อมกัน · ยกเลิกหลังส่งของ หรือหลังเริ่มผลิต<br>
     <b>คำถามค้างลูกค้า/บัญชี:</b> บัญชีขาดทุนจากสต็อกที่ใช้จริงสำหรับตัดเศษทิ้ง (ตอนนี้ใช้ 511300 Inventory Write-down) · วิธีคืนเงินหลังลดหนี้ใบที่ชำระแล้ว
   </div>
 
@@ -276,23 +277,23 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-EX2-06</span></td>
-          <td class="col-scenario">คืน FG บางส่วนของใบส่งของ (บางบรรทัด และบางจำนวนของ lot)<div class="note">ต่างจากการส่ง (ที่ lot เดียวต้องส่งทั้งชิ้น) การรับคืนระบบยอมให้คืนบางจำนวนของ lot ได้ · lot FG-EG01/STFG/00494-01 (4.320) ถูกแบ่งเป็น 3.000 อยู่ EG01/Stock และ 1.320 ยังอยู่กับลูกค้า</div></td>
-          <td class="col-pre">ส่งของ EG01/OUT/00778 ครบ (ห้องประชุม 8.700 และห้องน้ำ 4.320) แล้วออกใบแจ้งหนี้ INV/2026/00023 (54,624.24 ก่อน VAT) และชำระครบ</td>
-          <td class="col-steps"><ol><li>เปิดใบส่งของ EG01/OUT/00778 กด Return</li><li>แก้ Quantity ของแถวแรกเป็น 3 แถวที่สองเป็น 4.32 กด Return แล้วเปิดใบรับคืน (EG01/IN/00749) กด Validate</li></ol></td>
-          <td class="col-sample">คืน 3.000 ของห้องประชุม และ 4.320 ของห้องน้ำ (ทั้ง lot)</td>
-          <td class="col-expected">ได้ใบรับคืน EG01/IN/00749 สองบรรทัด 3.000 และ 4.320 ปลายทาง EG01/Stock · Validate ผ่านเป็น Done ไม่มีข้อความห้ามแบ่ง</td>
+          <td class="col-scenario">คืน FG บางจำนวนของใบส่งของ<div class="note">ต่างจากการส่ง (ที่ lot เดียวต้องส่งทั้งชิ้น) การรับคืนระบบยอมให้คืนบางจำนวนของ lot ได้ · ส่ง 7.200 แล้วคืน 3.000 อีก 4.200 ยังอยู่กับลูกค้า</div></td>
+          <td class="col-pre">ใบสั่งขาย S01831 (เคาน์เตอร์ห้องรับรอง 7.200 ตร.ม. 4,700 ต่อ ตร.ม.) ผลิตแล้ว ส่งของ EG01/OUT/00788 ครบ 7.200 ออกใบแจ้งหนี้ INV/2026/00025 (46,024.00 ก่อน VAT รวม 49,245.68) และรับชำระครบแล้วโดย PBNK1/2026/00001 (ดู TC-EX2-07)</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ EG01/OUT/00788 กด Return</li><li>แก้ Quantity เป็น 3 กด Return แล้วเปิดใบรับคืน (EG01/IN/00750) กด Validate</li></ol></td>
+          <td class="col-sample">คืน 3.000 จาก 7.200 ตร.ม.</td>
+          <td class="col-expected">ได้ใบรับคืน EG01/IN/00750 บรรทัดเดียว 3.000 ปลายทาง EG01/Stock · Validate ผ่านเป็น Done ไม่มีข้อความห้ามแบ่ง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/h3-01-return-wizard-partial.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/h3-01-return-wizard-partial.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/p2-01-return-wizard-partial.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/p2-01-return-wizard-partial.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-EX2-07</span></td>
-          <td class="col-scenario">ออก Credit Note เฉพาะส่วนที่คืน ของใบแจ้งหนี้ที่ชำระแล้ว<div class="note">ใบแจ้งหนี้เดิมยอดรวม 58,447.94 ชำระแล้ว หลัง Credit Note 29,830.42 ใบเดิมแสดงยอดค้าง 28,617.52 ทั้งที่จ่ายเต็ม และ Credit Note แสดง Paid · ผู้จัดทำยังอธิบายยอดนี้ไม่ได้ ขอให้ฝ่ายบัญชีตรวจว่าเงินส่วนที่ต้องคืนลูกค้าอยู่ตรงไหน · ระบบไม่คืนเงินให้เอง</div></td>
-          <td class="col-pre">ทำ TC-EX2-06 เสร็จแล้ว · ใบแจ้งหนี้ INV/2026/00023 ลงทะเบียนชำระแล้ว (Pay → Create Payment 58,447.94)</td>
-          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ INV/2026/00023 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง</li><li>แก้จำนวนบรรทัดห้องประชุมจาก 8.700 เป็น 3.000 ลบบรรทัดค่าบริหารโครงการ (ห้องน้ำ 4.320 คงเดิม) แล้ว Confirm</li></ol></td>
-          <td class="col-sample">ห้องประชุม 3.000 × 3,820.965517 = 11,462.90 · ห้องน้ำ 4.320 × 3,800.00 = 16,416.00</td>
-          <td class="col-expected">RINV/2026/00002 Posted ก่อน VAT 27,878.90 · VAT 1,951.52 · รวม 29,830.42 · แสดง Paid · ใบ INV/2026/00023 ยอดค้าง 28,617.52 (ตรวจโดยบัญชี) · ไม่มีการคืนเงินอัตโนมัติ</td>
+          <td class="col-scenario">ชำระเงิน ออก Credit Note เฉพาะส่วนที่คืน และคืนเงินลูกค้า<div class="note">ระบบไม่คืนเงินให้เอง ต้องกด Pay บน Credit Note · Credit Note ใช้ยอดเต็มของแต่ละบรรทัดที่ยกมา ต้องลบบรรทัดที่ไม่ได้คืน (ค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ) ออกเอง · ต้องตั้งบัญชี Outstanding Receipts/Payments ที่ Manual Payment ของ Bank ก่อน (ดูคู่มือ Setup) ไม่เช่นนั้นการชำระจะไม่ลงบัญชี ใบแจ้งหนี้ไม่ถูกตัดยอด และสถานะ In Payment หลอกว่าจ่ายแล้ว (รอบแรกของเคสนี้เจอเรื่องนี้ ยอดค้าง 28,617.52 ที่เคยรายงานไว้คือผลจากสาเหตุนี้ ไม่ใช่ความผิดปกติของ Credit Note)</div></td>
+          <td class="col-pre">ใบแจ้งหนี้ INV/2026/00025 Posted · Bank ของบริษัทตั้ง Outstanding Receipts และ Outstanding Payments แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด INV/2026/00025 กด Pay → Create Payment (49,245.68) ได้ PBNK1/2026/00001 ใบแจ้งหนี้ยอดค้าง 0</li><li>ทำ TC-EX2-06 (คืน 3.000) แล้วเปิด INV/2026/00025 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง</li><li>แก้จำนวนบรรทัดเคาน์เตอร์จาก 7.200 เป็น 3.000 ลบบรรทัดค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ แล้ว Confirm</li><li>บน Credit Note กด Pay → Create Payment (ยอด 15,087.00) เพื่อคืนเงินลูกค้า</li></ol></td>
+          <td class="col-sample">เคาน์เตอร์ 3.000 × 4,700.00 = 14,100.00 · VAT 7% = 987.00 · รวม 15,087.00</td>
+          <td class="col-expected">RINV/2026/00003 Posted ก่อน VAT 14,100.00 · VAT 987.00 · รวม 15,087.00 ยอดค้าง 15,087.00 (ยังไม่ Paid จนกว่าจะคืนเงิน) · ตอน Confirm ระบบลงกลับต้นทุนขาย 3,300.37 (เดบิต Inventory - Stone FG เครดิต COGS) · หลังกด Pay ได้ PBNK1/2026/00002 (ขาออก 15,087.00) แสดง In Payment ยอดค้าง 0 · ใบแจ้งหนี้เดิมยังยอดค้าง 0</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/h5-02-credit-note-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/h5-02-credit-note-posted.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/p5-03-credit-note-refunded.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/p5-03-credit-note-refunded.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>

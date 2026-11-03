@@ -2,17 +2,20 @@
 #
 # Data provenance: every case was run on `eg-tst`, 2026-11-03, driven by Playwright as emgdemo (company Empire Granite), on boq_estimation 19.0.1.54.3 /
 # stone_slab_inventory 19.0.2.109.68 (TC-EX2-10 after the fix; the other cases ran on 109.67).
-# Fixture C (Cut List before the quotation, re-import, offcut scrap, partial return, credit note after payment): blank BOQ + cutlist-import-zz2-meeting.xlsx
-#   -> BOQ1232 -> S01810 (warning on Confirm) -> MO EG01/STFG/00494 (offcut OC-EG01/STFG/00494-01, scrapped) + 00495 -> EG01/OUT/00778 -> INV/2026/00023 (paid)
-#   -> return EG01/IN/00749 (3.000 + 4.320) -> credit note RINV/2026/00002 (27,878.90 + VAT 1,951.52).
+# Fixture C (Cut List before the quotation, re-import, offcut scrap): blank BOQ + cutlist-import-zz2-meeting.xlsx
+#   -> BOQ1232 -> S01810 (warning on Confirm) -> MO EG01/STFG/00494 (offcut OC-EG01/STFG/00494-01, scrapped) + 00495 -> EG01/OUT/00778 -> INV/2026/00023.
+#   (Its payment PAY00002 never posted: the Bank journal had no Outstanding Receipts account, see TC-EX2-07. The old credit note RINV/2026/00002 is superseded evidence.)
+# Fixture C3 (partial return, credit note after payment, refund; Outstanding accounts set on the Bank journal): fixture C2's S01831 -> EG01/OUT/00788 (7.200)
+#   -> INV/2026/00025 (46,024.00 + VAT 3,221.68 = 49,245.68) paid by PBNK1/2026/00001 -> return EG01/IN/00750 (3.000) -> credit note RINV/2026/00003 (14,100.00 + VAT 987.00 = 15,087.00)
+#   -> refunded by PBNK1/2026/00002.
 # Fixture C2 (scrap with the loss account set on the Scrap / Inventory adjustment locations): boq-import-zz2-reception.xlsx -> BOQ1236 -> S01831 -> MO EG01/STFG/00505 -> offcut OC-EG01/STFG/00505-01 scrapped -> STJ/2026/11/0092.
 # Fixture D (lamps delivered one at a time): BOQ1234 (2 lamps) -> S01812 -> Cut List after the sale -> assemblies EG01/STFG/00497 + 00498 -> EG01/OUT/00780 (lamp 1)
 #   + backorder 00781 -> INV/2026/00024 (30,000.00).
 # Fixture E (cancel a confirmed Project sale): boq-import-zz2-reception.xlsx -> BOQ1235 -> S01830 (Sold as Project) -> cancelled. The first run of this case (BOQ1233 / S01811, on 109.67)
 #   left the draft production EG01/STFG/00496 behind holding two Slabs; that is the bug fixed in 109.68 and the production was cancelled by hand afterwards.
 #
-# Scope: error and exception paths. Not covered: the second lamp's invoice and a lamp return, scrapping several offcuts at once, refunding the money after a
-# credit note, cancelling after delivery, (the project/tasks after a cancel are left alone on purpose, decided 3 Nov 2026).
+# Scope: error and exception paths. Not covered: the second lamp's invoice and a lamp return, scrapping several offcuts at once,
+# cancelling after delivery, (the project/tasks after a cancel are left alone on purpose, decided 3 Nov 2026).
 # Column model per case: id, scenario, note (optional callout), pre, steps (list), sample, expected, prio, shot.
 
 SHOT = "assets/boq-ex2/"
@@ -70,22 +73,24 @@ CATEGORIES = [
   dict(cat_id="C", title="C. คืนของบางส่วนและคืนหลังจ่ายเงินแล้ว",
        subtitle="คืนเฉพาะบางชิ้นหรือบางจำนวน · Credit Note บางส่วนของใบแจ้งหนี้ที่ชำระแล้ว · 2 test cases",
        cases=[
-    dict(id="TC-EX2-06", scenario="คืน FG บางส่วนของใบส่งของ (บางบรรทัด และบางจำนวนของ lot)",
-         note="ต่างจากการส่ง (ที่ lot เดียวต้องส่งทั้งชิ้น) การรับคืนระบบยอมให้คืนบางจำนวนของ lot ได้ · lot FG-EG01/STFG/00494-01 (4.320) ถูกแบ่งเป็น 3.000 อยู่ EG01/Stock และ 1.320 ยังอยู่กับลูกค้า",
-         pre="ส่งของ EG01/OUT/00778 ครบ (ห้องประชุม 8.700 และห้องน้ำ 4.320) แล้วออกใบแจ้งหนี้ INV/2026/00023 (54,624.24 ก่อน VAT) และชำระครบ",
-         steps=["เปิดใบส่งของ EG01/OUT/00778 กด Return",
-                "แก้ Quantity ของแถวแรกเป็น 3 แถวที่สองเป็น 4.32 กด Return แล้วเปิดใบรับคืน (EG01/IN/00749) กด Validate"],
-         sample="คืน 3.000 ของห้องประชุม และ 4.320 ของห้องน้ำ (ทั้ง lot)",
-         expected="ได้ใบรับคืน EG01/IN/00749 สองบรรทัด 3.000 และ 4.320 ปลายทาง EG01/Stock · Validate ผ่านเป็น Done ไม่มีข้อความห้ามแบ่ง",
-         prio="High", shot=SHOT + "h3-01-return-wizard-partial.png"),
-    dict(id="TC-EX2-07", scenario="ออก Credit Note เฉพาะส่วนที่คืน ของใบแจ้งหนี้ที่ชำระแล้ว",
-         note="ใบแจ้งหนี้เดิมยอดรวม 58,447.94 ชำระแล้ว หลัง Credit Note 29,830.42 ใบเดิมแสดงยอดค้าง 28,617.52 ทั้งที่จ่ายเต็ม และ Credit Note แสดง Paid · ผู้จัดทำยังอธิบายยอดนี้ไม่ได้ ขอให้ฝ่ายบัญชีตรวจว่าเงินส่วนที่ต้องคืนลูกค้าอยู่ตรงไหน · ระบบไม่คืนเงินให้เอง",
-         pre="ทำ TC-EX2-06 เสร็จแล้ว · ใบแจ้งหนี้ INV/2026/00023 ลงทะเบียนชำระแล้ว (Pay → Create Payment 58,447.94)",
-         steps=["เปิดใบแจ้งหนี้ INV/2026/00023 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง",
-                "แก้จำนวนบรรทัดห้องประชุมจาก 8.700 เป็น 3.000 ลบบรรทัดค่าบริหารโครงการ (ห้องน้ำ 4.320 คงเดิม) แล้ว Confirm"],
-         sample="ห้องประชุม 3.000 × 3,820.965517 = 11,462.90 · ห้องน้ำ 4.320 × 3,800.00 = 16,416.00",
-         expected="RINV/2026/00002 Posted ก่อน VAT 27,878.90 · VAT 1,951.52 · รวม 29,830.42 · แสดง Paid · ใบ INV/2026/00023 ยอดค้าง 28,617.52 (ตรวจโดยบัญชี) · ไม่มีการคืนเงินอัตโนมัติ",
-         prio="High", shot=SHOT + "h5-02-credit-note-posted.png"),
+    dict(id="TC-EX2-06", scenario="คืน FG บางจำนวนของใบส่งของ",
+         note="ต่างจากการส่ง (ที่ lot เดียวต้องส่งทั้งชิ้น) การรับคืนระบบยอมให้คืนบางจำนวนของ lot ได้ · ส่ง 7.200 แล้วคืน 3.000 อีก 4.200 ยังอยู่กับลูกค้า",
+         pre="ใบสั่งขาย S01831 (เคาน์เตอร์ห้องรับรอง 7.200 ตร.ม. 4,700 ต่อ ตร.ม.) ผลิตแล้ว ส่งของ EG01/OUT/00788 ครบ 7.200 ออกใบแจ้งหนี้ INV/2026/00025 (46,024.00 ก่อน VAT รวม 49,245.68) และรับชำระครบแล้วโดย PBNK1/2026/00001 (ดู TC-EX2-07)",
+         steps=["เปิดใบส่งของ EG01/OUT/00788 กด Return",
+                "แก้ Quantity เป็น 3 กด Return แล้วเปิดใบรับคืน (EG01/IN/00750) กด Validate"],
+         sample="คืน 3.000 จาก 7.200 ตร.ม.",
+         expected="ได้ใบรับคืน EG01/IN/00750 บรรทัดเดียว 3.000 ปลายทาง EG01/Stock · Validate ผ่านเป็น Done ไม่มีข้อความห้ามแบ่ง",
+         prio="High", shot=SHOT + "p2-01-return-wizard-partial.png"),
+    dict(id="TC-EX2-07", scenario="ชำระเงิน ออก Credit Note เฉพาะส่วนที่คืน และคืนเงินลูกค้า",
+         note="ระบบไม่คืนเงินให้เอง ต้องกด Pay บน Credit Note · Credit Note ใช้ยอดเต็มของแต่ละบรรทัดที่ยกมา ต้องลบบรรทัดที่ไม่ได้คืน (ค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ) ออกเอง · ต้องตั้งบัญชี Outstanding Receipts/Payments ที่ Manual Payment ของ Bank ก่อน (ดูคู่มือ Setup) ไม่เช่นนั้นการชำระจะไม่ลงบัญชี ใบแจ้งหนี้ไม่ถูกตัดยอด และสถานะ In Payment หลอกว่าจ่ายแล้ว (รอบแรกของเคสนี้เจอเรื่องนี้ ยอดค้าง 28,617.52 ที่เคยรายงานไว้คือผลจากสาเหตุนี้ ไม่ใช่ความผิดปกติของ Credit Note)",
+         pre="ใบแจ้งหนี้ INV/2026/00025 Posted · Bank ของบริษัทตั้ง Outstanding Receipts และ Outstanding Payments แล้ว",
+         steps=["เปิด INV/2026/00025 กด Pay → Create Payment (49,245.68) ได้ PBNK1/2026/00001 ใบแจ้งหนี้ยอดค้าง 0",
+                "ทำ TC-EX2-06 (คืน 3.000) แล้วเปิด INV/2026/00025 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง",
+                "แก้จำนวนบรรทัดเคาน์เตอร์จาก 7.200 เป็น 3.000 ลบบรรทัดค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ แล้ว Confirm",
+                "บน Credit Note กด Pay → Create Payment (ยอด 15,087.00) เพื่อคืนเงินลูกค้า"],
+         sample="เคาน์เตอร์ 3.000 × 4,700.00 = 14,100.00 · VAT 7% = 987.00 · รวม 15,087.00",
+         expected="RINV/2026/00003 Posted ก่อน VAT 14,100.00 · VAT 987.00 · รวม 15,087.00 ยอดค้าง 15,087.00 (ยังไม่ Paid จนกว่าจะคืนเงิน) · ตอน Confirm ระบบลงกลับต้นทุนขาย 3,300.37 (เดบิต Inventory - Stone FG เครดิต COGS) · หลังกด Pay ได้ PBNK1/2026/00002 (ขาออก 15,087.00) แสดง In Payment ยอดค้าง 0 · ใบแจ้งหนี้เดิมยังยอดค้าง 0",
+         prio="High", shot=SHOT + "p5-03-credit-note-refunded.png"),
   ]),
   dict(cat_id="D", title="D. ส่งโคม (Custom FG ซีเรียล) ทีละใบ",
        subtitle="โคมแต่ละใบมีซีเรียลของตัวเอง ส่งแยกได้ต่างจากพื้นที่เป็น lot เดียว · 2 test cases",
