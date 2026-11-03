@@ -126,10 +126,10 @@
   <header>
     <div class="eyebrow"><a href="library.html#for-test" style="color:var(--copper);text-decoration:none">← สำหรับทดสอบ (For Test)</a></div>
     <h1>BOQ</h1>
-    <div class="sub">คู่มือกดตาม · Golden Path Test Case · ไฟล์ตัวอย่าง (เส้นทางหลัก 3: นำเข้า Excel · Cut List หลังขาย · สร้างเอง · เส้นทางเสริม: BOQ + Project)</div>
+    <div class="sub">คู่มือกดตาม · Golden Path Test Case · ไฟล์ตัวอย่าง (เส้นทางหลัก 3: นำเข้า Excel · Cut List หลังขาย · สร้างเอง · เส้นทางเสริม: BOQ + Project · Custom FG โคมไฟ)</div>
   </header>
   <div class="category">
-    <div class="subcat-sub">เส้นทางหลักทั้ง 3 และเส้นทาง 4 (BOQ + Project) ลงแล้ว (3 พ.ย. 2569) · ชุดเดิมย้ายไป <a href="archived.html#qa-boq" style="color:var(--copper)">เอกสารเก่า (Archived)</a> แล้ว · ไฟล์ตัวอย่างโรงแรมด้านล่างเป็นของรุ่นเดิม ใช้อ้างอิงได้แต่ควรตรวจกับระบบรุ่นปัจจุบันก่อน</div>
+    <div class="subcat-sub">เส้นทางหลักทั้ง 3 เส้นทาง 4 (BOQ + Project) และเส้นทาง 5 (Custom FG โคมไฟ) ลงแล้ว (3 พ.ย. 2569) · ชุดเดิมย้ายไป <a href="archived.html#qa-boq" style="color:var(--copper)">เอกสารเก่า (Archived)</a> แล้ว · ไฟล์ตัวอย่างโรงแรมด้านล่างเป็นของรุ่นเดิม ใช้อ้างอิงได้แต่ควรตรวจกับระบบรุ่นปัจจุบันก่อน</div>
     <a class="card" href="qa/guide-boq-excel-2026-11-03.html">
       <div class="icon">1</div>
       <div>
@@ -166,6 +166,15 @@
       </div>
       <div class="arrow">→</div>
     </a>
+    <a class="card" href="qa/guide-boq-lamps-2026-11-03.html">
+      <div class="icon">5</div>
+      <div>
+        <div class="card-title">คู่มือกดตาม — Custom FG โคมไฟ + พื้น</div>
+        <div class="card-desc">6 ตอน: ตั้งสินค้าโคม → BOQ พื้นและโคม → ยืนยันขายก่อนมี Cut List → Cut List ของโคมหลังขาย → ตัดหินและประกอบโคม → ผลิตพื้น ส่งของ ใบแจ้งหนี้</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
     <a class="card" href="qa/test-cases-golden-path-boq-manual.html">
       <div class="icon">GP</div>
       <div>
@@ -180,6 +189,15 @@
       <div>
         <div class="card-title">Golden Path — BOQ เส้นทาง 4: BOQ + Project</div>
         <div class="card-desc">20 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="qa/test-cases-golden-path-boq-lamps.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">Golden Path — BOQ เส้นทาง 5: Custom FG โคมไฟ + พื้น</div>
+        <div class="card-desc">14 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
@@ -216,6 +234,15 @@
       <div>
         <div class="card-title">ตัวอย่างไฟล์ Cut List — ห้องประชุมและห้องน้ำ (ใช้กับคู่มือกดตามเส้นทาง 2)</div>
         <div class="card-desc">ไฟล์สำหรับปุ่ม <b>นำเข้า Cut List</b> (BOQ แท็บ ③) 18 ชิ้น 2 โซน (ห้องประชุม 12 ชิ้น ห้องน้ำ 6 ชิ้น) · ใช้คู่กับ <a href="client-docs/example-boq/boq-import-zz2-meeting.xlsx">boq-import-zz2-meeting.xlsx</a></div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/cutlist-import-zz2-lamps.xlsx">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ Cut List — โคมประตูซ้าย/ขวา (ใช้กับคู่มือกดตามเส้นทาง 5)</div>
+        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>นำเข้า Cut List</b> (BOQ แท็บ ③) หลังขาย 16 ชิ้น 2 โซน (โคมประตูซ้าย 8 ชิ้น โคมประตูขวา 8 ชิ้น รวม 1.33 ตร.ม.)</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
       </div>
       <div class="arrow">→</div>
