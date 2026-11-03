@@ -10,11 +10,12 @@
 #   -> refunded by PBNK1/2026/00002.
 # Fixture C2 (scrap with the loss account set on the Scrap / Inventory adjustment locations): boq-import-zz2-reception.xlsx -> BOQ1236 -> S01831 -> MO EG01/STFG/00505 -> offcut OC-EG01/STFG/00505-01 scrapped -> STJ/2026/11/0092.
 # Fixture D (lamps delivered one at a time): BOQ1234 (2 lamps) -> S01812 -> Cut List after the sale -> assemblies EG01/STFG/00497 + 00498 -> EG01/OUT/00780 (lamp 1)
-#   + backorder 00781 -> INV/2026/00024 (30,000.00).
+#   + backorder 00781 (lamp 2). First invoice INV/2026/00024 (30,000.00, fee billed in full, before fix d) was cancelled; on BOQ 1.54.4: INV/2026/00026 (lamp 1 + half the fee = 27,500.00)
+#   and INV/2026/00027 (lamp 2 + the other half = 27,500.00).
 # Fixture E (cancel a confirmed Project sale): boq-import-zz2-reception.xlsx -> BOQ1235 -> S01830 (Sold as Project) -> cancelled. The first run of this case (BOQ1233 / S01811, on 109.67)
 #   left the draft production EG01/STFG/00496 behind holding two Slabs; that is the bug fixed in 109.68 and the production was cancelled by hand afterwards.
 #
-# Scope: error and exception paths. Not covered: the second lamp's invoice and a lamp return, scrapping several offcuts at once,
+# Scope: error and exception paths. Not covered: a lamp return, scrapping several offcuts at once,
 # cancelling after delivery, (the project/tasks after a cancel are left alone on purpose, decided 3 Nov 2026).
 # Column model per case: id, scenario, note (optional callout), pre, steps (list), sample, expected, prio, shot.
 
@@ -103,13 +104,14 @@ CATEGORIES = [
          sample="บรรทัด 1 ส่ง 1.000 · บรรทัด 2 ส่ง 0 (จาก 1.000)",
          expected="หน้าต่าง Create Backorder? ขึ้น · หลังกด ใบ EG01/OUT/00780 Done 1.000 หน่วย (โคมใบแรก) · เกิด EG01/OUT/00781 Ready อีก 1 หน่วย อ้างอิง Back Order of EG01/OUT/00780",
          prio="High", shot=SHOT + "m3-03-dialog.png"),
-    dict(id="TC-EX2-09", scenario="ออกใบแจ้งหนี้ตามที่ส่ง (โคมใบเดียว)",
-         note="ค่าบริหารโครงการ 5,000 ถูกเรียกเก็บเต็มจำนวนในใบแรก (เหมือน TC-EX-12) ไม่แบ่งตามสัดส่วน · ใบที่สองจะมีแต่โคมใบที่สอง 25,000",
-         pre="ทำ TC-EX2-08 เสร็จแล้ว",
-         steps=["ที่ใบสั่งขาย S01812 กด Create Invoice → Create Draft → Confirm"],
-         sample="-",
-         expected="INV/2026/00024 Posted: โคมประตูซ้าย 1.000 × 25,000.00 · ค่าบริหารโครงการ 5,000.00 · ก่อน VAT 30,000.00 · VAT 2,100.00 · รวม 32,100.00 · ไม่มีบรรทัดโคมขวา",
-         prio="High", shot=SHOT + "m4-02-invoice-one-lamp.png"),
+    dict(id="TC-EX2-09", scenario="ออกใบแจ้งหนี้ตามที่ส่ง ค่าบริหารโครงการเรียกตามสัดส่วนมูลค่าที่ส่ง (ใบโคมใบแรก และใบโคมใบที่สอง)",
+         note="ผลหลังแก้ (BOQ 1.54.4): ค่าบริหารโครงการ 5,000 เรียกตามสัดส่วนมูลค่าสินค้าที่ส่ง · โคมใบแรก (ครึ่งหนึ่งของมูลค่า) เรียกค่าบริหาร 0.500 = 2,500 โคมใบที่สองเรียกอีก 0.500 = 2,500 รวมครบ 5,000 · ก่อนแก้ (รอบแรก INV/2026/00024) ใบแรกเรียกเต็ม 5,000 ใบนั้นถูกยกเลิกและออกใหม่ · ถ้าสินค้าไม่ถูกส่งเลย ค่าบริหารยังไม่ถูกเรียกเก็บ",
+         pre="ทำ TC-EX2-08 เสร็จแล้ว (ส่งโคมใบแรกแล้ว ใบที่สองยังอยู่ที่ใบค้างส่ง EG01/OUT/00781)",
+         steps=["ที่ใบสั่งขาย S01812 กด Create Invoice → Create Draft → Confirm ได้ใบของโคมใบแรก",
+                "ส่งโคมใบที่สอง (EG01/OUT/00781 กด Validate) แล้วกลับมาที่ S01812 กด Create Invoice → Create Draft → Confirm"],
+         sample="โคม 25,000 × 2 ใบ · ค่าบริหารโครงการ 5,000 · ใบละครึ่ง",
+         expected="INV/2026/00026 Posted: โคมประตูซ้าย 1.000 × 25,000.00 · ค่าบริหารโครงการ 0.500 × 5,000.00 = 2,500.00 · ก่อน VAT 27,500.00 · VAT 1,925.00 · รวม 29,425.00 · INV/2026/00027 Posted: โคมประตูขวา 25,000.00 · ค่าบริหารโครงการ 2,500.00 · รวม 29,425.00 · สองใบรวมค่าบริหารครบ 5,000.00",
+         prio="High", shot=SHOT + "q1-02-invoice-one-lamp.png"),
   ]),
   dict(cat_id="E", title="E. ยกเลิกใบสั่งขายที่ยืนยันเป็น Project แล้ว",
        subtitle="Cancel ที่ใบสั่งขายหลังยืนยัน · สิ่งที่ถูกยกเลิกและสิ่งที่ค้าง · 1 test case",
