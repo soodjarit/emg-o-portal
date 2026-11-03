@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: BOQ สร้างเองในฟอร์ม</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-project.xlsx" download="EMG-O Golden Path - BOQ + Project.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>BOQ พร้อมระยะเวลาและ Milestone</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>ขายเป็นโปรเจกต์</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>วางแผนงวดเก็บเงิน และผลิต</a></li><li class="tree-doc"><a href="#D"><span class="tree-doc-tag">D</span>ความคืบหน้า และเก็บเงินงวดแรก</a></li><li class="tree-doc"><a href="#E"><span class="tree-doc-tag">E</span>ติดตั้ง ปิดงาน และเก็บเงินงวดสุดท้าย</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — BOQ เส้นทาง 4: BOQ + Project</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="sub">งานที่ขายเป็นโปรเจกต์: ระยะเวลาและ Milestone ใน BOQ · Sold as Project · Project และ Task · ผลิต · เก็บเงินตามงวดความคืบหน้า · ค่าแรงติดตั้ง · ปิดงาน · ใบแจ้งหนี้สุดท้าย · P&amp;L ต่อโปรเจกต์ · เฉพาะ happy path</div>
+    <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
+      <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อน โปรดยืนยันหรือแจ้งให้ปรับ)
+      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>ยอดเรียกเก็บงวดแรก (Down Payment) ต้องกรอกรวม VAT</b> — ช่องยอดที่ควรวางบิลงวดนี้เป็นก่อน VAT (8,208.00) แต่ช่อง Down Payment รับยอดรวม VAT จึงกรอก 8,208 × 1.07 = 8,782.56 ขอยืนยันว่าต้องการแบบนี้ หรืออยากให้ช่องแนะนำแสดงรวม VAT</li><li><b>ช่อง Billed So Far นับก่อน VAT</b> — เดิมนับรวม VAT เทียบกับมูลค่าก่อน VAT จึงคลาดเคลื่อน แก้แล้ว (stone_slab_inventory 19.0.2.109.66) ขอยืนยัน</li><li><b>ค่าแรงติดตั้งหน้างาน 1,200 บาทต่อวัน</b> — บริษัทยังไม่มีอัตรานี้และยังไม่มีบัญชี COGS - Site Installation Labor ผมตั้งอัตรา 1,200 ต่อวันและสร้างบัญชี 511140 บน eg-tst ขอยืนยันอัตราและรหัสบัญชีจริง</li><li><b>ห้ามใช้ชุดค่าแรงติดตั้งใน BOQ ซ้อนกับค่าแรงติดตั้งที่ Task</b> — ลงต้นทุนค่าแรงติดตั้งสองครั้ง เส้นทางนี้ใช้เฉพาะที่ Task ขอยืนยันว่าโปรเจกต์ใช้วิธีที่ Task</li><li><b>ปุ่ม Tasks ที่ใบสั่งขายแสดง 0</b> — Task ผูกกับบรรทัดขาย ปุ่มจึงนับ 0 แม้มี 2 Task ยังไม่ได้แก้ ขอยืนยันว่ายอมรับได้หรืออยากให้นับ</li><li><b>ค่าบริหารโครงการ 10% ไม่อยู่ในงวดเก็บเงินของ Task</b> — เก็บในใบแจ้งหนี้สุดท้าย ขอยืนยันว่าต้องการแบบนี้</li><li><b>Slab ห้ามซ้ำระหว่างใบสั่งผลิตที่ยังไม่เสร็จ</b> — ระบบเลือกให้คนละแผ่น และไม่ให้บันทึกถ้าเลือกซ้ำด้วยมือ</li></ol>
+    </div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>20</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">19</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>เอกสารชุดใหม่ของ BOQ — เส้นทาง 4 (แทนชุดเดิมที่ย้ายเข้า Archived แล้ว)</h3>
+    <ul>
+      <li>ทำตามทีละขั้นด้วย <a href="guide-boq-project-2026-11-03.html">คู่มือกดตาม BOQ + Project</a> · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
+      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน (สินค้า ZZ2 GUIDE MARBLE Countertop) ตั้งอัตราค่าแรงติดตั้งต่อวันที่บริษัท มีบัญชี COGS - Site Installation Labor และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 3 แผ่น</li>
+      <li>ขอบเขต 20 เคส: BOQ และใบเสนอราคา 3 · ขายเป็นโปรเจกต์ 3 · งวดเก็บเงินและผลิต 3 · ความคืบหน้าและเก็บเงินงวดแรก 5 · ติดตั้ง ปิดงาน เก็บเงินสุดท้าย P&amp;L 6</li>
+      <li>เส้นทาง 1–3 เป็นชุดแยก ดู <a href="test-cases-golden-path-boq-excel.html">เส้นทาง 1</a> · <a href="test-cases-golden-path-boq-cutlist.html">เส้นทาง 2</a> · <a href="test-cases-golden-path-boq-manual.html">เส้นทาง 3</a></li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
+    BOQ1184 (2 โซน ห้องอาหาร 5 วัน / ทางเดิน 3 วัน พร้อม Milestone) &rarr; ใบเสนอราคา S01748 + Sold as Project &rarr; Confirm ได้ Project (Task 2 · Milestone 2) &rarr; ใบสั่งผลิต EG01/STFG/00467 (Slab BLK-26-1482-35, -36) และ 00468 (-37) &rarr; ลงเวลา 30% &rarr; ใบแจ้งหนี้งวดแรก INV/2026/00016 &rarr; ส่งของ EG01/OUT/00754 &rarr; ลงเวลา 100% &rarr; ค่าแรงติดตั้ง &rarr; ปิด Task &rarr; ใบแจ้งหนี้สุดท้าย INV/2026/00017 &rarr; P&amp;L โปรเจกต์<br>
+    <b>ตัวเลขหลัก:</b> ใบเสนอราคา 45,144.00 ก่อน VAT (ห้องอาหาร 27,360.00 · ทางเดิน 13,680.00 · ค่าบริหารโครงการ 4,104.00) · งวด 1 = 8,208.00 ก่อน VAT (8,782.56 รวม VAT) · ใบแจ้งหนี้สุดท้าย 36,936.00 ก่อน VAT (39,521.52 รวม VAT) · ต้นทุน 32,023.68 (Slab 12,223.68 + ค่าแรงโรงงาน 16,200.00 + ค่าแรงติดตั้ง 3,600.00) · กำไรขั้นต้น 13,120.32<br>
+    <b>บั๊กที่เจอและแก้แล้วระหว่างทำ:</b> ช่อง Billed So Far ของงวดเก็บเงินนับยอดรวม VAT เทียบกับมูลค่าก่อน VAT แก้แล้วให้นับก่อน VAT และตรวจซ้ำ (TC-GP-BQ4-13)<br>
+    <b>ยังไม่ได้แก้:</b> ปุ่ม Tasks ที่ใบสั่งขายแสดง 0 (TC-GP-BQ4-05) · ช่องยอดแนะนำของงวดเป็นก่อน VAT แต่ Down Payment รับรวม VAT (TC-GP-BQ4-12)<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> Apply Template (Sub-task) · ผู้รับเหมาช่วงด้วย Purchase Order · สร้าง Task จาก BOQ ก่อนมีใบเสนอราคา · เชื่อมกับ Project เดิม · Task หลายใบต่อบรรทัด · แจ้งเตือนชั่วโมงเกิน · รับชำระเงินงวด<br>
+    <b>คำถามค้างลูกค้า/บัญชี:</b> อัตราค่าแรงติดตั้งต่อวันและรหัสบัญชี · งวดเก็บเงินควรคิดตามชั่วโมงที่ลงหรือแบบอื่น · ค่าบริหารโครงการควรเก็บในงวดแรกหรือใบสุดท้าย
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. BOQ พร้อมระยะเวลาและ Milestone</div>
+        <div class="category-sub">เปิด BOQ ใหม่ · เปิดคอลัมน์ Duration/Milestone · ใส่ 2 โซน · บันทึกและออกใบเสนอราคา · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-01</span></td>
+          <td class="col-scenario">เปิด BOQ ใหม่ และเปิดคอลัมน์ขนาด ระยะเวลา และ Milestone<div class="note">คอลัมน์ขนาด Duration Milestone และ Milestone Name ซ่อนไว้ตั้งต้น ต้องเปิดจากไอคอนตัวเลือกคอลัมน์ที่หัวตาราง</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสินค้า ZZ2 GUIDE MARBLE Countertop · มีลูกค้า Demo Hotel Customer</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents แล้วกด New</li><li>ช่อง Customer เลือก Demo Hotel Customer</li><li>กดไอคอนตัวเลือกคอลัมน์ ติ๊ก กว้าง ยาว หนา (ซม.) Duration (days) Milestone และ Milestone Name</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer</td>
+          <td class="col-expected">ฟอร์ม BOQ ใหม่ แถบขั้น ① ประเมินพื้นที่ → ② ค่าแรง + วัสดุสิ้นเปลือง → ③ Cut List → ④ ออกใบเสนอราคาแล้ว · หัวตารางมีคอลัมน์ขนาด Duration Milestone และ Milestone Name</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-01-new-boq.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-01-new-boq.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-02</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดหิน 2 โซน พร้อมระยะเวลาและ Milestone แล้วบันทึก<div class="note">รายละเอียด (ชื่องาน) ต้องพิมพ์เอง ระบบไม่เขียนทับให้ · คลิกทีละช่องแล้วพิมพ์ อย่ากด Enter หรือ Tab ข้ามช่อง · ขนาดชิ้นทำให้ระบบแตกรายชิ้นให้เองตอนออกใบเสนอราคา</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Add a line กรอก โซน ห้องอาหาร · รายละเอียด เคาน์เตอร์ห้องอาหาร หินขาว ขัดมัน · สินค้า ZZ2G-FG · ปริมาณ 7.2 · กว้าง 60 · ยาว 120 · หนา 2 · Duration 5 · ติ๊ก Milestone · Milestone Name ปูพื้นห้องอาหารเสร็จ</li><li>ทำซ้ำสำหรับโซน ทางเดิน เคาน์เตอร์ทางเดิน หินขาว ขัดมัน · 3.6 · 60 × 120 × 2 · Duration 3 · Milestone ปูพื้นทางเดินเสร็จ</li><li>กด Save</li></ol></td>
+          <td class="col-sample">ห้องอาหาร 7.2 ตร.ม. 5 วัน · ทางเดิน 3.6 ตร.ม. 3 วัน · ราคา 3,800 ต่อ ตร.ม.</td>
+          <td class="col-expected">ห้องอาหาร รวม 27,360.00 · ทางเดิน รวม 13,680.00 · Amount Direct Cost 41,040.00 · Overhead &amp; Profit 4,104.00 · Amount Total 45,144.00 · ได้เลข BOQ (รอบทดสอบ BOQ1184)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-03-lines-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-03-lines-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-03</span></td>
+          <td class="col-scenario">ออกใบเสนอราคาจาก BOQ<div class="note">ขนาด ราคา โซน และระยะเวลาติดมาจาก BOQ ไม่ต้องกรอกซ้ำ</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กด สร้างใบเสนอราคา</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบเสนอราคา (รอบทดสอบ S01748) ช่อง BOQ Document ชี้ BOQ1184 · จัดหมวดตามโซน ห้องอาหาร 7.200 m² × 3,800.00 ขนาด 60 × 120 ซม. × 10 ชิ้น · ทางเดิน 3.600 m² × 3,800.00 × 5 ชิ้น · ค่าบริหารโครงการ 4,104.00 · ก่อน VAT 45,144.00 · รวม VAT 48,304.08</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-04-quote.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-04-quote.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. ขายเป็นโปรเจกต์</div>
+        <div class="category-sub">ติ๊ก Sold as Project · Confirm · Project และ Task ที่ระบบสร้าง · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-04</span></td>
+          <td class="col-scenario">ติ๊ก Sold as Project ก่อนยืนยัน<div class="note">ต้องติ๊กและ Save ก่อน Confirm · ถ้าลืม ใบที่ Confirm แล้วจะไม่ได้ Project (พบจากการเดินจริง) · การติ๊กหลังยืนยันแล้วยังไม่ได้ทดลอง</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบเสนอราคา ติ๊กช่อง Sold as Project</li><li>กด Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ช่อง Sold as Project มีเครื่องหมายถูก · เกิดช่อง Project และ Link to Existing Project · คอลัมน์ Zone / Schedule ขึ้นในตารางบรรทัด</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-05-sold-as-project.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-05-sold-as-project.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-05</span></td>
+          <td class="col-scenario">Confirm แล้วได้ Project ใบสั่งผลิตและใบส่งของ<div class="note">ปุ่ม Tasks ที่ใบสั่งขายแสดง 0 ทั้งที่มี Task 2 ใบ เพราะ Task ผูกกับบรรทัดขาย ไม่ใช่ใบสั่งขาย (ยังไม่ได้แก้ อยู่ในประเด็นที่ต้องยืนยัน)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-04 เสร็จแล้ว · มี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 3 แผ่น</td>
+          <td class="col-steps"><ol><li>กด Confirm</li><li>รีเฟรชหน้า (F5) แล้วดูปุ่มสมาร์ทด้านบน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งขาย (S01748) · ปุ่มสมาร์ท Projects 1 · Tasks 0 · Delivery 1 · FG Production 2 · ยอดเดิม 45,144.00 / 48,304.08</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-06-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-06-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-06</span></td>
+          <td class="col-scenario">ดู Project และ Task ที่ระบบสร้าง<div class="note">ข้อมูลจาก BOQ (โซน มูลค่า Milestone วันที่) ติดมาที่ Task ครบ ไม่ต้องกรอกซ้ำ</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Project เลือกโปรเจกต์ Demo Hotel Customer - S01748</li><li>ดูรายการ Task แล้วเปิด Task ห้องอาหาร</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">2 Task ในคอลัมน์ To Do: เคาน์เตอร์ห้องอาหาร และ เคาน์เตอร์ทางเดิน · Task ห้องอาหาร: Zone ห้องอาหาร · Origin Sale Line Value 27,360.00 · Progress % 0 · Milestone ปูพื้นห้องอาหารเสร็จ · Planned Date ห่างกัน 5 วัน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-08-task-form.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-08-task-form.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. วางแผนงวดเก็บเงิน และผลิต</div>
+        <div class="category-sub">Allocated Time และ Billing Stages · ผลิต 2 ใบสั่งผลิต · Slab ไม่ซ้ำกัน · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-07</span></td>
+          <td class="col-scenario">ตั้ง Allocated Time และงวดเก็บเงิน 2 งวด<div class="note">Progress ของ Task = ชั่วโมงที่ลงเวลา ÷ Allocated Time · ยอดที่ควรวางบิลงวดนี้เป็นยอดก่อน VAT</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ Task ห้องอาหาร ช่อง Allocated Time พิมพ์ 10</li><li>แท็บ Billing Stages กด Add a line: งวดที่ 1 (มัดจำ 30%) 30 · งวดที่ 2 (ส่งมอบ 100%) 100</li><li>กด Save</li></ol></td>
+          <td class="col-sample">Allocated Time 10 ชั่วโมง · งวด 30% และ 100%</td>
+          <td class="col-expected">ยอดที่ควรวางบิลงวดนี้: งวด 1 = 8,208.00 (30% × 27,360) · งวด 2 = 19,152.00 · รวม 27,360.00 พอดี · สถานะ ยังไม่ได้ออกบิล ทั้งสองงวด</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-09-billing-stages.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-09-billing-stages.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-08</span></td>
+          <td class="col-scenario">ใบสั่งผลิตสองใบ ระบบเลือก Slab คนละแผ่น<div class="note">เคยเป็นบั๊ก (Slab ซ้ำ) แก้แล้วในเส้นทาง 3 · ที่นี่ใช้ตรวจซ้ำกับงานแบบโปรเจกต์</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม FG Production</li><li>เปิดใบห้องอาหาร แล้วเปิดแท็บ Slab ที่จะตัด จากนั้นดูใบทางเดิน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบห้องอาหาร (EG01/STFG/00467) Draft แผ่นที่เลือก BLK-26-1482-35 และ -36 (8.70 ตร.ม.) · ใบทางเดิน (00468) ได้ BLK-26-1482-37 คนละแผ่น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-10-mo-slabs.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-10-mo-slabs.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-09</span></td>
+          <td class="col-scenario">ผลิตทั้งสองใบจนเสร็จ และดูต้นทุนค่าแรงโรงงาน<div class="note">ต้องกด ย้ายไปสถานีตัด ก่อน Confirm · หลังกด ผลิต FG เสร็จ ให้รีเฟรชหน้า เพราะหน้าจออาจยังโชว์สถานะเดิมช่วงสั้นๆ</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแต่ละใบ กด ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ</li><li>รีเฟรชหน้า แล้วเปิดแท็บ รายการบัญชี</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ทั้งสองใบสถานะ Done · รายการบัญชีค่าแรง FG Production Labor 10,800.00 (7.20 × 1,500) และ 5,400.00 (3.60 × 1,500)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-11-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-11-mo-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D. ความคืบหน้า และเก็บเงินงวดแรก</div>
+        <div class="category-sub">ลงเวลา 3 ชั่วโมง = 30% · ยืนยันพร้อมเก็บเงิน · Down Payment · ผูกใบแจ้งหนี้กับงวด · ส่งของ · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-10</span></td>
+          <td class="col-scenario">ลงเวลา 3 ชั่วโมง ความคืบหน้าเป็น 30%<div class="note">ช่องพนักงานไม่ต้องกรอก ระบบใส่ให้ตอนบันทึก · ชั่วโมงทำหน้าที่เป็นคะแนนความคืบหน้า</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ Task ห้องอาหาร แท็บ Timesheets กด Add a line</li><li>รายละเอียด ปูพื้นห้องอาหาร วันที่ 1 · ชั่วโมง 3 แล้ว Save</li></ol></td>
+          <td class="col-sample">3 ชั่วโมง ÷ 10 ชั่วโมง</td>
+          <td class="col-expected">Progress % เป็น 30 · Allocated Time 10:00 (30%)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-12-timesheet-3h.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-12-timesheet-3h.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-11</span></td>
+          <td class="col-scenario">งวดที่ 1 ถึงเกณฑ์ แล้วกดยืนยันพร้อมเก็บเงิน<div class="note">การกดยืนยันไม่ได้สร้างใบแจ้งหนี้ เป็นแค่การรับทราบของผู้จัดการโปรเจกต์</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>แท็บ Billing Stages ดูงวดที่ 1</li><li>กดปุ่ม ยืนยันพร้อมเก็บเงิน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ก่อนกด: Is Reached ✓ และมีปุ่ม ยืนยันพร้อมเก็บเงิน · หลังกด: Confirmed Ready to Bill ✓ ปุ่มหาย · Chatter ขึ้นข้อความ PM ยืนยันพร้อมเก็บเงิน งวดที่ 1 · งวดที่ 2 ยังไม่ถึงเกณฑ์</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-14-stage-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-14-stage-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-12</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้งวดแรก (Down Payment รวม VAT)<div class="note">ช่อง Down Payment รับยอดรวม VAT แต่ยอดแนะนำของงวดเป็นก่อน VAT จึงกรอก 8,208 × 1.07 = 8,782.56 (อยู่ในประเด็นที่ต้องยืนยัน)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Down payment (fixed amount) พิมพ์ 8782.56</li><li>กด Create Draft แล้วกด Confirm</li></ol></td>
+          <td class="col-sample">8,782.56 บาท (รวม VAT)</td>
+          <td class="col-expected">ใบแจ้งหนี้ (รอบทดสอบ INV/2026/00016) Posted · บรรทัด Down Payment · ก่อน VAT 8,208.00 · VAT 574.56 · รวม 8,782.56</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-16-dp-invoice.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-16-dp-invoice.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-13</span></td>
+          <td class="col-scenario">ผูกใบแจ้งหนี้กับงวดที่ 1<div class="note">ระบบไม่ผูกให้เอง ต้องเลือกที่ช่อง Invoice(s) · ช่อง Billed So Far นับก่อน VAT (แก้แล้ว 19.0.2.109.66 เดิมนับรวม VAT)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กลับที่ Task ห้องอาหาร แท็บ Billing Stages</li><li>คลิกช่อง Invoice(s) ของงวดที่ 1 เลือกใบแจ้งหนี้งวดแรก แล้ว Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">งวดที่ 1: สถานะ ออกบิลแล้ว รอชำระ · Billed So Far 8,208.00 · Unbilled 19,152.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-17-stage-linked.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-17-stage-linked.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-14</span></td>
+          <td class="col-scenario">ส่งของตามใบส่งของ<div class="note">ใบส่งของใบเดียวครอบทั้งสองโซน</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Validate แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ (EG01/OUT/00754) Ready ก่อนกด · 2 บรรทัด 7.200 m² และ 3.600 m² · หลัง Validate สถานะ Done</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-19-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-19-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E. ติดตั้ง ปิดงาน และเก็บเงินงวดสุดท้าย</div>
+        <div class="category-sub">100% งวดที่ 2 · ค่าแรงติดตั้ง · ปิด Task ให้ Milestone ถึงเป้า · ใบแจ้งหนี้สุดท้าย · P&L ต่อโปรเจกต์ · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-15</span></td>
+          <td class="col-scenario">ลงเวลาที่เหลือ 7 ชั่วโมง ความคืบหน้า 100% และยืนยันงวดที่ 2<div class="note">-</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-13 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>Task ห้องอาหาร แท็บ Timesheets เพิ่มบรรทัด ปูพื้นห้องอาหาร วันที่ 2-3 ชั่วโมง 7 แล้ว Save</li><li>แท็บ Billing Stages กดปุ่ม ยืนยันพร้อมเก็บเงิน ที่งวดที่ 2</li></ol></td>
+          <td class="col-sample">3 + 7 = 10 ชั่วโมง</td>
+          <td class="col-expected">Progress % 100 · งวดที่ 2: Is Reached ✓ แล้ว Confirmed Ready to Bill ✓</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-20-stage2-reached.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-20-stage2-reached.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-16</span></td>
+          <td class="col-scenario">บันทึกค่าแรงติดตั้งหน้างาน (พนักงานบริษัทเอง)<div class="note">ต้องตั้งอัตราค่าแรงติดตั้งต่อวันที่บริษัท (ตัวอย่าง 1,200) และมีบัญชี COGS - Site Installation Labor ก่อน · ลงได้ครั้งเดียวต่อ Task · ห้ามใช้ซ้อนกับชุดค่าแรงติดตั้งใน BOQ (นับซ้ำ)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-15 เสร็จแล้ว · ตั้งอัตราค่าแรงติดตั้งต่อวันและบัญชีแล้ว</td>
+          <td class="col-steps"><ol><li>แท็บ Installation Labor ช่อง วันติดตั้งจริง พิมพ์ 2 แล้ว Save</li><li>กดปุ่ม บันทึกค่าแรงติดตั้ง</li></ol></td>
+          <td class="col-sample">2 วัน × 1,200</td>
+          <td class="col-expected">Stone Install Labor Amount 2,400.00 · หลังกดปุ่ม เปลี่ยนเป็น แก้ไข/ยกเลิกรายการ · Chatter: บันทึกค่าแรงติดตั้งแล้ว 2 วัน x 1200 = 2400 บาท (JE MISC/2026/11/0029)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-22-install-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-22-install-posted.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-17</span></td>
+          <td class="col-scenario">ปิด Task ทั้งสองใบ Milestone ถึงเป้า<div class="note">Task ทางเดิน: วันติดตั้ง 1 วัน = 1,200.00 ไม่มีงวดเก็บเงิน</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-16 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ Task ห้องอาหาร กดช่องสถานะเลือก Done</li><li>เปิด Task ทางเดิน ใส่วันติดตั้ง 1 กด บันทึกค่าแรงติดตั้ง แล้วตั้งสถานะ Done</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ทั้งสอง Task สถานะ Done · Chatter: Task done (In Progress → Done) · Milestone ปูพื้นห้องอาหารเสร็จ และ ปูพื้นทางเดินเสร็จ ถึงเป้าทั้งคู่ · ค่าแรงติดตั้ง 2,400.00 + 1,200.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-24-task-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-24-task-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-18</span></td>
+          <td class="col-scenario">ใบแจ้งหนี้สุดท้าย หัก Down Payment<div class="note">ค่าบริหารโครงการ 4,104.00 ไม่อยู่ในงวดของ Task จึงเก็บในใบนี้</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-14 และ TC-GP-BQ4-17 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้ว Create Draft</li><li>กด Confirm แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ (รอบทดสอบ INV/2026/00017) Posted · ห้องอาหาร 7.200 · ทางเดิน 3.600 · ค่าบริหารโครงการ 4,104.00 · บรรทัดหัก Down Payment −8,208.00 · ก่อน VAT 36,936.00 · VAT 2,585.52 · รวม 39,521.52</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-27-final-invoice.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-27-final-invoice.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-19</span></td>
+          <td class="col-scenario">ผูกใบแจ้งหนี้สุดท้ายกับงวดที่ 2<div class="note">รวมเก็บเงิน 8,782.56 + 39,521.52 = 48,304.08 เท่ายอดใบเสนอราคารวม VAT</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-18 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>Task ห้องอาหาร แท็บ Billing Stages ช่อง Invoice(s) ของงวดที่ 2 เลือกใบแจ้งหนี้สุดท้าย แล้ว Save</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">งวดที่ 1 และ 2 ขึ้น ออกบิลแล้ว รอชำระ ทั้งคู่</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-28-stages-billed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-28-stages-billed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ4-20</span></td>
+          <td class="col-scenario">ดูกำไรของโปรเจกต์ที่ P&L<div class="note">คอลัมน์ Total ข้างๆ คือทุกงานรวมกัน ไม่ใช่ของโปรเจกต์นี้ · ต้องติ๊ก Sold as Project ก่อน Confirm จึงแยกโปรเจกต์ได้</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ4-19 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เมนู Accounting → Reporting → Profit and Loss กดปุ่ม Analytic</li><li>ช่องค้นหาพิมพ์ BOQ1184 (ใช้เลข BOQ ของคุณ) เลือก แล้วขยาย Revenue และ Less Costs of Revenue</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">คอลัมน์ BOQ1184: Revenue 45,144.00 · COGS - Stone Sales 12,223.68 · COGS - FG Production (Fabrication) 16,200.00 · COGS - Site Installation Labor 3,600.00 · Less Costs of Revenue 32,023.68 · Gross Profit 13,120.32</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r4/r4-29-pnl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r4/r4-29-pnl.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
