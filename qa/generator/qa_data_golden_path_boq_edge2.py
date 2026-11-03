@@ -1,13 +1,14 @@
 # Single source of truth for the EMG-O test-case set "BOQ — กรณีพิเศษ ชุดที่ 2" (the items that set 1, qa_data_golden_path_boq_edge.py, listed as not covered).
 #
 # Data provenance: every case was run on `eg-tst`, 2026-11-03, driven by Playwright as emgdemo (company Empire Granite), on boq_estimation 19.0.1.54.3 /
-# stone_slab_inventory 19.0.2.109.67.
+# stone_slab_inventory 19.0.2.109.68 (TC-EX2-10 after the fix; the other cases ran on 109.67).
 # Fixture C (Cut List before the quotation, re-import, offcut scrap, partial return, credit note after payment): blank BOQ + cutlist-import-zz2-meeting.xlsx
 #   -> BOQ1232 -> S01810 (warning on Confirm) -> MO EG01/STFG/00494 (offcut OC-EG01/STFG/00494-01, scrapped) + 00495 -> EG01/OUT/00778 -> INV/2026/00023 (paid)
 #   -> return EG01/IN/00749 (3.000 + 4.320) -> credit note RINV/2026/00002 (27,878.90 + VAT 1,951.52).
 # Fixture D (lamps delivered one at a time): BOQ1234 (2 lamps) -> S01812 -> Cut List after the sale -> assemblies EG01/STFG/00497 + 00498 -> EG01/OUT/00780 (lamp 1)
 #   + backorder 00781 -> INV/2026/00024 (30,000.00).
-# Fixture E (cancel a confirmed Project sale): boq-import-zz2-reception.xlsx -> BOQ1233 -> S01811 (Sold as Project) -> cancelled.
+# Fixture E (cancel a confirmed Project sale): boq-import-zz2-reception.xlsx -> BOQ1235 -> S01830 (Sold as Project) -> cancelled. The first run of this case (BOQ1233 / S01811, on 109.67)
+#   left the draft production EG01/STFG/00496 behind holding two Slabs; that is the bug fixed in 109.68 and the production was cancelled by hand afterwards.
 #
 # Scope: error and exception paths. Not covered: the second lamp's invoice and a lamp return, scrapping several offcuts at once, refunding the money after a
 # credit note, cancelling after delivery, and what the project/tasks should do after a cancel (that needs a decision, see the box on top).
@@ -108,12 +109,12 @@ CATEGORIES = [
        subtitle="Cancel ที่ใบสั่งขายหลังยืนยัน · สิ่งที่ถูกยกเลิกและสิ่งที่ค้าง · 1 test case",
        cases=[
     dict(id="TC-EX2-10", scenario="กด Cancel ที่ใบสั่งขายที่ติ๊ก Sold as Project และยืนยันแล้ว (ยังไม่ผลิต ไม่ส่ง)",
-         note="ผลที่พบ: ใบสั่งขายและใบส่งของถูกยกเลิก แต่ใบสั่งผลิต (Draft) Project และ Task ค้างอยู่ใช้งานต่อ และใบสั่งผลิตที่ค้างยังจอง Slab ไว้ 2 แผ่น ผู้จัดทำเห็นว่าควรยกเลิกใบสั่งผลิต Draft ให้ แต่เรื่อง Project/Task ต้องให้ผู้ใช้ตัดสินใจ จึงยังไม่แก้ — อยู่ในประเด็นที่ต้องการให้ยืนยัน",
-         pre="ใบเสนอราคา S01811 จาก BOQ1233 (7.2 ตร.ม. ไฟล์ boq-import-zz2-reception.xlsx) ติ๊ก Sold as Project แล้ว Confirm · มี Project 1 Task 1 ใบส่งของ 1 ใบสั่งผลิต 1 (Draft)",
+         note="ใบสั่งขายและใบส่งของถูกยกเลิก และใบสั่งผลิตที่ยังเป็น Draft ถูกยกเลิกตามไปด้วย (แก้แล้ว stone_slab_inventory 19.0.2.109.68 เดิมใบสั่งผลิตค้างและจอง Slab ไว้ 2 แผ่น) · ใบสั่งผลิตที่ Confirm หรือเริ่มผลิตแล้วไม่ถูกยกเลิกให้ · Project และ Task ยังค้างใช้งาน ผู้จัดทำยังไม่แตะเพราะต้องให้ผู้ใช้ตัดสินใจ — อยู่ในประเด็นที่ต้องการให้ยืนยัน",
+         pre="ใบเสนอราคา S01830 จาก BOQ1235 (7.2 ตร.ม. ไฟล์ boq-import-zz2-reception.xlsx) ติ๊ก Sold as Project แล้ว Confirm · มี Project 1 Task 1 ใบส่งของ 1 ใบสั่งผลิต 1 (Draft)",
          steps=["ที่ใบสั่งขาย กด Cancel แล้วกด Ok ในหน้าต่างยืนยัน",
-                "โหลดหน้าใหม่ แล้วดูสถานะและปุ่มสมาร์ท"],
+                "โหลดหน้าใหม่ แล้วดูสถานะ ปุ่มสมาร์ท และใบสั่งผลิต"],
          sample="-",
-         expected="สถานะ Cancelled · ใบส่งของ EG01/OUT/00779 Cancelled · ปุ่มสมาร์ทยังแสดง Projects 1 · Tasks 1 · FG Production 1 · ใบสั่งผลิต EG01/STFG/00496 ยังเป็น Draft และยังมี Slab BLK-26-1486-3 และ -4 ในรายการ · Project Demo Hotel Customer - S01811 และ Task ยังใช้งาน (In Progress)",
+         expected="สถานะ Cancelled · ใบส่งของ EG01/OUT/00787 Cancelled · ใบสั่งผลิต EG01/STFG/00504 Cancelled (ปุ่ม FG Production หายจากใบสั่งขาย) · ปุ่มสมาร์ทยังแสดง Projects 1 · Tasks 1 · Project และ Task (In Progress) ยังใช้งานอยู่",
          prio="High", shot=SHOT + "k2-02-cancelled.png"),
   ]),
 ]
