@@ -217,7 +217,7 @@ PAGE = '''<!doctype html>
 
   <div class="flow-banner">
     <b>เส้นทางที่รันจริง (eg-tst, 1 พ.ย. 2569):</b><br>
-    หมวด FG ZZ Guide FG - Countertop &rarr; หิน ZZ2 GUIDE MARBLE (Slab / Block / FG / ตารางราคา 5 ความหนา) &rarr; ชุดวัสดุและชุดค่าแรง &rarr; BOQ1118 (Direct Cost 47,500) &rarr; ใบเสนอราคา S01691 (ก่อน VAT 52,250.00)<br>
+    หมวด FG ZZ Guide FG - Countertop &rarr; หิน ZZ2 GUIDE MARBLE (Slab / Block / FG / ตารางราคา 5 ความหนา) &rarr; ชุดวัสดุและชุดค่าแรง &rarr; BOQ1187 (Direct Cost 54,500) &rarr; ใบเสนอราคา S01752 (ก่อน VAT 59,950.00)<br>
     <b>ข้อสังเกตจากการรัน:</b> (1) ฟอร์มหมวด FG ไม่มีช่องต้นทุนวัสดุสิ้นเปลือง (2) ช่องชุดวัสดุ/ชุดค่าแรงในแถวโซนของ BOQ แสดงว่างแม้คิดราคาด้วยชุดตั้งต้นถูกต้อง (3) บัญชีค่าใช้จ่ายของสินค้า Landed Cost บน eg-tst ยังว่าง<br>
     <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ซื้อและรับ Block / ตัด Slab / ผลิต FG ด้วยหินตัวอย่าง ZZ และดู P&amp;L ตาม Analytic ของหินนี้ — ดูที่ <a href="test-cases-golden-path-block-purchase-to-cut.html">Golden Path ซื้อ Block ถึงตัด</a> · <a href="test-cases-golden-path-block-slab-fg.html">Block → Slab → FG</a> · <a href="test-cases-golden-path-boq-import.html">BOQ นำเข้า Excel ถึง P&amp;L</a> · Setup FG แบบกำหนดเอง (เจดีย์บัว โคม) และตั้งบัญชี Landed Cost
   </div>
