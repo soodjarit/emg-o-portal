@@ -11,7 +11,7 @@
 #   left the draft production EG01/STFG/00496 behind holding two Slabs; that is the bug fixed in 109.68 and the production was cancelled by hand afterwards.
 #
 # Scope: error and exception paths. Not covered: the second lamp's invoice and a lamp return, scrapping several offcuts at once, refunding the money after a
-# credit note, cancelling after delivery, and what the project/tasks should do after a cancel (that needs a decision, see the box on top).
+# credit note, cancelling after delivery, (the project/tasks after a cancel are left alone on purpose, decided 3 Nov 2026).
 # Column model per case: id, scenario, note (optional callout), pre, steps (list), sample, expected, prio, shot.
 
 SHOT = "assets/boq-ex2/"
@@ -109,7 +109,7 @@ CATEGORIES = [
        subtitle="Cancel ที่ใบสั่งขายหลังยืนยัน · สิ่งที่ถูกยกเลิกและสิ่งที่ค้าง · 1 test case",
        cases=[
     dict(id="TC-EX2-10", scenario="กด Cancel ที่ใบสั่งขายที่ติ๊ก Sold as Project และยืนยันแล้ว (ยังไม่ผลิต ไม่ส่ง)",
-         note="ใบสั่งขายและใบส่งของถูกยกเลิก และใบสั่งผลิตที่ยังเป็น Draft ถูกยกเลิกตามไปด้วย (แก้แล้ว stone_slab_inventory 19.0.2.109.68 เดิมใบสั่งผลิตค้างและจอง Slab ไว้ 2 แผ่น) · ใบสั่งผลิตที่ Confirm หรือเริ่มผลิตแล้วไม่ถูกยกเลิกให้ · Project และ Task ยังค้างใช้งาน ผู้จัดทำยังไม่แตะเพราะต้องให้ผู้ใช้ตัดสินใจ — อยู่ในประเด็นที่ต้องการให้ยืนยัน",
+         note="ใบสั่งขายและใบส่งของถูกยกเลิก และใบสั่งผลิตที่ยังเป็น Draft ถูกยกเลิกตามไปด้วย (แก้แล้ว stone_slab_inventory 19.0.2.109.68 เดิมใบสั่งผลิตค้างและจอง Slab ไว้ 2 แผ่น) · ใบสั่งผลิตที่ Confirm หรือเริ่มผลิตแล้วไม่ถูกยกเลิกให้ · Project และ Task ยังค้างใช้งาน ตัดสินใจแล้ว (3 พ.ย. 2569) ว่าปล่อยไว้ให้ผู้ใช้ปิดหรือเก็บเอง ระบบไม่ปิดให้",
          pre="ใบเสนอราคา S01830 จาก BOQ1235 (7.2 ตร.ม. ไฟล์ boq-import-zz2-reception.xlsx) ติ๊ก Sold as Project แล้ว Confirm · มี Project 1 Task 1 ใบส่งของ 1 ใบสั่งผลิต 1 (Draft)",
          steps=["ที่ใบสั่งขาย กด Cancel แล้วกด Ok ในหน้าต่างยืนยัน",
                 "โหลดหน้าใหม่ แล้วดูสถานะ ปุ่มสมาร์ท และใบสั่งผลิต"],
