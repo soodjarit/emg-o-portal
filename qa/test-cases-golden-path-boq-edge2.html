@@ -119,7 +119,7 @@
     <div class="sub">เคสที่ <a href="test-cases-golden-path-boq-edge.html">ชุดกรณีพิเศษชุดแรก</a> ระบุว่ายังไม่ครอบคลุม: Cut List ก่อนออกใบเสนอราคา · นำเข้าซ้ำ · ตัดเศษทิ้ง · คืนของบางส่วน · คืนหลังจ่ายเงิน · ส่งโคมทีละใบ · ยกเลิกใบขาย Project</div>
     <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
       <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อนหรือยังไม่แก้ โปรดยืนยันหรือแจ้งให้ปรับ) · เรื่อง Project/Task หลังยกเลิกใบขาย ตัดสินใจแล้วว่าปล่อยไว้ ผู้ใช้จัดการเอง (TC-EX2-10)
-      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>ตัดเศษทิ้งไม่ลงรายการบัญชี</b> — เศษมูลค่า 224.80 ย้ายไป Inventory adjustment โดยไม่มีรายการตัดสต็อก เพราะที่เก็บนี้ไม่ได้ตั้งบัญชี ขอให้ฝ่ายบัญชีกำหนดบัญชีขาดทุนจากสต็อก (TC-EX2-05)</li><li><b>คืนของบางจำนวนของ lot ได้ แต่ส่งแบ่ง lot ไม่ได้</b> — ขอยืนยันว่าต้องการให้คืนแบ่งได้ (TC-EX2-06)</li><li><b>Credit Note ของใบที่ชำระแล้ว</b> — ใบเดิมแสดงยอดค้าง 28,617.52 หลังหัก Credit Note 29,830.42 ผู้จัดทำอธิบายยอดนี้ไม่ได้ ขอให้บัญชีตรวจและกำหนดวิธีคืนเงินลูกค้า (TC-EX2-07)</li><li><b>ค่าบริหารโครงการเรียกเก็บเต็มในใบแรกของการส่งบางส่วน</b> — เหมือนชุดแรก (TC-EX2-09)</li></ol>
+      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>บัญชีสำหรับตัดเศษทิ้ง</b> — เดิมตัดทิ้งแล้วไม่มีรายการบัญชี เพราะที่เก็บ Scrap/Inventory adjustment ไม่ได้ตั้งบัญชี ผู้จัดทำตั้ง Inventory Write-down (511300) ให้บน eg-tst แล้วและตรวจซ้ำ (TC-EX2-05) ขอให้ฝ่ายบัญชียืนยันบัญชีก่อนใช้จริง และตั้งค่าเดียวกันบนระบบจริง</li><li><b>คืนของบางจำนวนของ lot ได้ แต่ส่งแบ่ง lot ไม่ได้</b> — ขอยืนยันว่าต้องการให้คืนแบ่งได้ (TC-EX2-06)</li><li><b>Credit Note ของใบที่ชำระแล้ว</b> — ใบเดิมแสดงยอดค้าง 28,617.52 หลังหัก Credit Note 29,830.42 ผู้จัดทำอธิบายยอดนี้ไม่ได้ ขอให้บัญชีตรวจและกำหนดวิธีคืนเงินลูกค้า (TC-EX2-07)</li><li><b>ค่าบริหารโครงการเรียกเก็บเต็มในใบแรกของการส่งบางส่วน</b> — เหมือนชุดแรก (TC-EX2-09)</li></ol>
     </div>
     <div class="stat-row">
       <div class="stat-pill"><b>10</b>Test Case ทั้งหมด</div>
@@ -140,13 +140,14 @@
   </div>
 
   <div class="flow-banner">
-    <b>ข้อมูลที่รันจริง (eg-tst, 3 พ.ย. 2569) ใช้ 3 ชุด:</b><br>
+    <b>ข้อมูลที่รันจริง (eg-tst, 3 พ.ย. 2569) ใช้ 4 ชุด:</b><br>
     <b>ชุด C:</b> BOQ ว่าง + cutlist-import-zz2-meeting.xlsx &rarr; BOQ1232 &rarr; S01810 &rarr; ใบสั่งผลิต EG01/STFG/00494 (เศษ OC-EG01/STFG/00494-01 ตัดทิ้ง) และ 00495 &rarr; ใบส่งของ EG01/OUT/00778 &rarr; INV/2026/00023 (ชำระแล้ว) &rarr; ใบรับคืน EG01/IN/00749 &rarr; Credit Note RINV/2026/00002<br>
     <b>ชุด D:</b> BOQ1234 (โคม 2 ใบ) &rarr; S01812 &rarr; Cut List หลังขาย &rarr; ใบประกอบ EG01/STFG/00497 และ 00498 &rarr; ส่งใบแรก EG01/OUT/00780 + ใบค้างส่ง 00781 &rarr; INV/2026/00024 (30,000.00)<br>
+    <b>ชุด C2 (ตัดเศษทิ้งหลังตั้งบัญชี):</b> BOQ1236 &rarr; S01831 &rarr; ใบสั่งผลิต EG01/STFG/00505 &rarr; เศษ OC-EG01/STFG/00505-01 &rarr; STJ/2026/11/0092 (224.71)<br>
     <b>ชุด E:</b> boq-import-zz2-reception.xlsx &rarr; BOQ1235 &rarr; S01830 (Sold as Project) &rarr; Cancel<br>
     <b>ตัวเลขหลัก:</b> Cut List ก่อนขาย 54,624.24 · เศษชำรุด 0.24 ตร.ม. ต้นทุน 224.80 · Credit Note บางส่วน 29,830.42 รวม VAT · โคมใบแรก 30,000.00 ก่อน VAT<br>
     <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ใบแจ้งหนี้ของโคมใบที่สองและการคืนโคม · ตัดเศษทิ้งหลายชิ้นพร้อมกัน · การคืนเงินลูกค้าหลังออก Credit Note · ยกเลิกหลังส่งของ หรือหลังเริ่มผลิต<br>
-    <b>คำถามค้างลูกค้า/บัญชี:</b> บัญชีรับรู้ขาดทุนเมื่อตัดเศษทิ้ง · วิธีคืนเงินหลังลดหนี้ใบที่ชำระแล้ว
+    <b>คำถามค้างลูกค้า/บัญชี:</b> บัญชีขาดทุนจากสต็อกที่ใช้จริงสำหรับตัดเศษทิ้ง (ตอนนี้ใช้ 511300 Inventory Write-down) · วิธีคืนเงินหลังลดหนี้ใบที่ชำระแล้ว
   </div>
 
   <div class="category" id="A">
@@ -239,13 +240,13 @@
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-EX2-05</span></td>
-          <td class="col-scenario">กด ชำรุด — ตัดทิ้ง (Scrap) ที่เศษ<div class="note">ข้อควรรู้: การตัดทิ้งย้าย lot ไปที่ Inventory adjustment แต่ไม่เกิดรายการบัญชีตัดสต็อก (ต้นทุน 224.80 ไม่ถูกลงเป็นค่าใช้จ่าย) เพราะที่เก็บ Scrap / Inventory adjustment ไม่ได้ตั้งบัญชี — อยู่ในประเด็นที่ต้องการให้ยืนยัน</div></td>
-          <td class="col-pre">ทำ TC-EX2-04 เสร็จแล้ว (ฟอร์ม OC-EG01/STFG/00494-01 ยังเปิดอยู่)</td>
-          <td class="col-steps"><ol><li>กด ชำรุด — ตัดทิ้ง (Scrap)</li><li>กด Ok ในหน้าต่างยืนยัน แล้วโหลดฟอร์มใหม่</li></ol></td>
+          <td class="col-scenario">กด ชำรุด — ตัดทิ้ง (Scrap) ที่เศษ แล้วตรวจรายการบัญชี<div class="note">การตัดทิ้งลงบัญชีได้ก็ต่อเมื่อที่เก็บ Scrap และ Inventory adjustment ตั้ง Stock Valuation Account ไว้ · รอบแรก (ใบ S01810 เศษ 224.80) ยังไม่ได้ตั้ง จึงไม่มีรายการบัญชีเลย ต้นทุนเศษค้างอยู่ในบัญชีสต็อก · ตั้งบัญชี Inventory Write-down (511300) ที่ 4 ที่เก็บของ Empire Granite และ Empire Stone บน eg-tst แล้ว เคสนี้รันซ้ำหลังตั้ง · บัญชีที่เลือกเป็นข้อสมมติ รอฝ่ายบัญชียืนยัน</div></td>
+          <td class="col-pre">ทำซ้ำ TC-EX2-04 บนใบเสนอราคา S01831 (BOQ1236 จาก boq-import-zz2-reception.xlsx) ใบสั่งผลิต EG01/STFG/00505 ได้เศษ OC-EG01/STFG/00505-01 ต้นทุน 224.71 · ที่เก็บ Scrap และ Inventory adjustment ของบริษัทตั้ง Stock Valuation Account = Inventory Write-down (511300)</td>
+          <td class="col-steps"><ol><li>เปิด Slabs Pending Inspection แถว OC-EG01/STFG/00505-01 กด ชำรุด — ตัดทิ้ง (Scrap)</li><li>กด Ok ในหน้าต่างยืนยัน แล้วเปิดรายการบัญชี (Accounting &gt; Journal Entries) ดูใบที่อ้างอิง SP/00026</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">หน้าต่าง Confirmation: ตัดทิ้งแผ่นนี้ออกจากสต็อก? · หลังกด Ok: ที่เก็บเป็น Inventory adjustment สถานะ Elsewhere ไม่มีปุ่มตรวจแล้วนำกลับไปขาย · ไม่มีใบสำคัญบัญชีใหม่ (SP/00025 มูลค่า 224.80 ไม่มีรายการบัญชี)</td>
+          <td class="col-expected">หน้าต่าง Confirmation: ตัดทิ้งแผ่นนี้ออกจากสต็อก? · หลังกด Ok: ที่เก็บ Inventory adjustment สถานะ Elsewhere ไม่มีปุ่มตรวจแล้วนำกลับไปขาย · ได้ใบสำคัญ STJ/2026/11/0092 อ้างอิง SP/00026 ยอด 224.71: เดบิต Inventory Write-down 224.71 เครดิต Inventory - Stone Slabs (Ready-Made) 224.71 · ถ้ายังไม่ตั้งบัญชีที่ที่เก็บ จะไม่มีใบสำคัญนี้</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
-          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/h1-03-offcut-scrapped.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/h1-03-offcut-scrapped.png" loading="lazy"></a></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex2/n3-03-offcut-scrapped.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex2/n3-03-offcut-scrapped.png" loading="lazy"></a></td>
         </tr>
       </tbody>
     </table>

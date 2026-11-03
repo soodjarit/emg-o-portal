@@ -5,6 +5,7 @@
 # Fixture C (Cut List before the quotation, re-import, offcut scrap, partial return, credit note after payment): blank BOQ + cutlist-import-zz2-meeting.xlsx
 #   -> BOQ1232 -> S01810 (warning on Confirm) -> MO EG01/STFG/00494 (offcut OC-EG01/STFG/00494-01, scrapped) + 00495 -> EG01/OUT/00778 -> INV/2026/00023 (paid)
 #   -> return EG01/IN/00749 (3.000 + 4.320) -> credit note RINV/2026/00002 (27,878.90 + VAT 1,951.52).
+# Fixture C2 (scrap with the loss account set on the Scrap / Inventory adjustment locations): boq-import-zz2-reception.xlsx -> BOQ1236 -> S01831 -> MO EG01/STFG/00505 -> offcut OC-EG01/STFG/00505-01 scrapped -> STJ/2026/11/0092.
 # Fixture D (lamps delivered one at a time): BOQ1234 (2 lamps) -> S01812 -> Cut List after the sale -> assemblies EG01/STFG/00497 + 00498 -> EG01/OUT/00780 (lamp 1)
 #   + backorder 00781 -> INV/2026/00024 (30,000.00).
 # Fixture E (cancel a confirmed Project sale): boq-import-zz2-reception.xlsx -> BOQ1235 -> S01830 (Sold as Project) -> cancelled. The first run of this case (BOQ1233 / S01811, on 109.67)
@@ -57,14 +58,14 @@ CATEGORIES = [
          sample="เศษ 0.40 × 0.60 ม. = 0.24 ตร.ม.",
          expected="ใบสั่งผลิต Done · เศษได้ Offcut Lot OC-EG01/STFG/00494-01 ต้นทุน 224.80 · ฟอร์ม Lot: สถานะ Returned - Pending Inspection ที่เก็บ Stone Inventory/Returned - Inspect ขนาด 0.400 × 0.600 × 0.030 · มีปุ่ม ตรวจแล้ว — นำกลับไปขาย และ ชำรุด — ตัดทิ้ง (Scrap)",
          prio="Medium", shot=SHOT + "h1-01-offcut-pending.png"),
-    dict(id="TC-EX2-05", scenario="กด ชำรุด — ตัดทิ้ง (Scrap) ที่เศษ",
-         note="ข้อควรรู้: การตัดทิ้งย้าย lot ไปที่ Inventory adjustment แต่ไม่เกิดรายการบัญชีตัดสต็อก (ต้นทุน 224.80 ไม่ถูกลงเป็นค่าใช้จ่าย) เพราะที่เก็บ Scrap / Inventory adjustment ไม่ได้ตั้งบัญชี — อยู่ในประเด็นที่ต้องการให้ยืนยัน",
-         pre="ทำ TC-EX2-04 เสร็จแล้ว (ฟอร์ม OC-EG01/STFG/00494-01 ยังเปิดอยู่)",
-         steps=["กด ชำรุด — ตัดทิ้ง (Scrap)",
-                "กด Ok ในหน้าต่างยืนยัน แล้วโหลดฟอร์มใหม่"],
+    dict(id="TC-EX2-05", scenario="กด ชำรุด — ตัดทิ้ง (Scrap) ที่เศษ แล้วตรวจรายการบัญชี",
+         note="การตัดทิ้งลงบัญชีได้ก็ต่อเมื่อที่เก็บ Scrap และ Inventory adjustment ตั้ง Stock Valuation Account ไว้ · รอบแรก (ใบ S01810 เศษ 224.80) ยังไม่ได้ตั้ง จึงไม่มีรายการบัญชีเลย ต้นทุนเศษค้างอยู่ในบัญชีสต็อก · ตั้งบัญชี Inventory Write-down (511300) ที่ 4 ที่เก็บของ Empire Granite และ Empire Stone บน eg-tst แล้ว เคสนี้รันซ้ำหลังตั้ง · บัญชีที่เลือกเป็นข้อสมมติ รอฝ่ายบัญชียืนยัน",
+         pre="ทำซ้ำ TC-EX2-04 บนใบเสนอราคา S01831 (BOQ1236 จาก boq-import-zz2-reception.xlsx) ใบสั่งผลิต EG01/STFG/00505 ได้เศษ OC-EG01/STFG/00505-01 ต้นทุน 224.71 · ที่เก็บ Scrap และ Inventory adjustment ของบริษัทตั้ง Stock Valuation Account = Inventory Write-down (511300)",
+         steps=["เปิด Slabs Pending Inspection แถว OC-EG01/STFG/00505-01 กด ชำรุด — ตัดทิ้ง (Scrap)",
+                "กด Ok ในหน้าต่างยืนยัน แล้วเปิดรายการบัญชี (Accounting &gt; Journal Entries) ดูใบที่อ้างอิง SP/00026"],
          sample="-",
-         expected="หน้าต่าง Confirmation: ตัดทิ้งแผ่นนี้ออกจากสต็อก? · หลังกด Ok: ที่เก็บเป็น Inventory adjustment สถานะ Elsewhere ไม่มีปุ่มตรวจแล้วนำกลับไปขาย · ไม่มีใบสำคัญบัญชีใหม่ (SP/00025 มูลค่า 224.80 ไม่มีรายการบัญชี)",
-         prio="High", shot=SHOT + "h1-03-offcut-scrapped.png"),
+         expected="หน้าต่าง Confirmation: ตัดทิ้งแผ่นนี้ออกจากสต็อก? · หลังกด Ok: ที่เก็บ Inventory adjustment สถานะ Elsewhere ไม่มีปุ่มตรวจแล้วนำกลับไปขาย · ได้ใบสำคัญ STJ/2026/11/0092 อ้างอิง SP/00026 ยอด 224.71: เดบิต Inventory Write-down 224.71 เครดิต Inventory - Stone Slabs (Ready-Made) 224.71 · ถ้ายังไม่ตั้งบัญชีที่ที่เก็บ จะไม่มีใบสำคัญนี้",
+         prio="High", shot=SHOT + "n3-03-offcut-scrapped.png"),
   ]),
   dict(cat_id="C", title="C. คืนของบางส่วนและคืนหลังจ่ายเงินแล้ว",
        subtitle="คืนเฉพาะบางชิ้นหรือบางจำนวน · Credit Note บางส่วนของใบแจ้งหนี้ที่ชำระแล้ว · 2 test cases",
