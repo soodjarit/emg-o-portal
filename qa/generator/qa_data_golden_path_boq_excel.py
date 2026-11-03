@@ -1,8 +1,8 @@
 # Single source of truth for the EMG-O Golden Path "BOQ เส้นทาง 1: นำเข้า Excel → BOQ → ใบเสนอราคา → ผลิต FG → ส่งของ → ใบแจ้งหนี้ → P&L".
 #
 # Data provenance: run end to end on `eg-tst`, 2026-11-03, driven by Playwright as emgdemo (company Empire Granite).
-# Fixture: boq-import-zz2-reception.xlsx (2 rows) -> BOQ1121 -> S01697 (Sold as Project, project id 11) -> MO EG01/STFG/00424 (Slabs BLK-26-1482-8, -9)
-# -> delivery EG01/OUT/00720 -> INV/2026/00008 (46,024.00 / VAT 3,221.68 / 49,245.68) -> P&L by analytic account "BOQ1121 - Demo Hotel Customer".
+# Fixture: boq-import-zz2-reception.xlsx (2 rows) -> BOQ1186 -> S01751 (Sold as Project, project id 15) -> MO EG01/STFG/00472 (Slabs BLK-26-1482-42, -43)
+# -> delivery EG01/OUT/00756 -> INV/2026/00019 (46,024.00 / VAT 3,221.68 / 49,245.68) -> P&L by analytic account "BOQ1186 - Demo Hotel Customer".
 # A first attempt on the same day (BOQ1120 / S01696 / STFG/00423 / INV/2026/00007) forgot to tick "Sold as Project", so it has no P&L view; it is left in place.
 # Same run produced the click-along guide guide-boq-excel-2026-11-03.html (shots shared in qa/assets/boq-r1/).
 #
@@ -31,7 +31,7 @@ CATEGORIES = [
          steps=["กด สร้าง BOQ",
                 "ดูแท็บ ① ประเมินพื้นที่ และยอดรวมท้ายฟอร์ม"],
          sample="-",
-         expected="ได้ BOQ ใหม่ (รอบทดสอบ BOQ1121) ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.20 ตร.ม. วัสดุ 3,800.00 ค่าแรง 900.00 ราคา/หน่วย 4,700.00 รวม 33,840.00 · บรรทัดขนส่งและติดตั้ง 1.00 ชิ้น 8,000.00 · Amount Direct Cost 41,840.00 · Amount Overhead Profit 4,184.00 · Amount Total 46,024.00 · แถบสถานะอยู่ที่ ①",
+         expected="ได้ BOQ ใหม่ (รอบทดสอบ BOQ1186) ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.20 ตร.ม. วัสดุ 3,800.00 ค่าแรง 900.00 ราคา/หน่วย 4,700.00 รวม 33,840.00 · บรรทัดขนส่งและติดตั้ง 1.00 ชิ้น 8,000.00 · Amount Direct Cost 41,840.00 · Amount Overhead Profit 4,184.00 · Amount Total 46,024.00 · แถบสถานะอยู่ที่ ①",
          prio="High", shot=SHOT + "r1-05-boq-form.png"),
   ]),
   dict(cat_id="B", title="B. ใบเสนอราคา",
@@ -43,7 +43,7 @@ CATEGORIES = [
          steps=["ที่ BOQ กด สร้างใบเสนอราคา",
                 "ดูบรรทัดสินค้า ขนาด/ราคา และยอดรวมท้ายใบ"],
          sample="-",
-         expected="เปิดใบเสนอราคาใหม่ (รอบทดสอบ S01697) ลูกค้า Demo Hotel Customer · ช่อง BOQ Document ชี้กลับ BOQ1121 · บรรทัดพื้น 7.200 m² × 4,700.00 = 33,840.00 · ช่องขนาด/ราคาแสดง 60 × 120 ซม. × 10 ชิ้น หนา 2 ซม. · บรรทัดขนส่งและติดตั้ง 1.000 Units 8,000.00 · บรรทัดค่าบริหารโครงการ 4,184.00 · Untaxed 46,024.00 · VAT 7% 3,221.68 · Total 49,245.68",
+         expected="เปิดใบเสนอราคาใหม่ (รอบทดสอบ S01751) ลูกค้า Demo Hotel Customer · ช่อง BOQ Document ชี้กลับ BOQ1186 · บรรทัดพื้น 7.200 m² × 4,700.00 = 33,840.00 · ช่องขนาด/ราคาแสดง 60 × 120 ซม. × 10 ชิ้น หนา 2 ซม. · บรรทัดขนส่งและติดตั้ง 1.000 Units 8,000.00 · บรรทัดค่าบริหารโครงการ 4,184.00 · Untaxed 46,024.00 · VAT 7% 3,221.68 · Total 49,245.68",
          prio="High", shot=SHOT + "r1-06-quote.png"),
     dict(id="TC-GP-BQ1-04", scenario="ตรวจรายชิ้นที่ติดมาจาก BOQ",
          note="ขนาดและจำนวนชิ้นคำนวณจาก 7.2 ตร.ม. ÷ พื้นที่แผ่นละ 0.72 ตร.ม. (60 × 120 ซม.) = 10 ชิ้นพอดี · ถ้าหารไม่ลงตัวระบบไม่สร้างรายชิ้น",
@@ -71,7 +71,7 @@ CATEGORIES = [
          steps=["ที่ใบเสนอราคา กด Confirm",
                 "ดูปุ่มสมาร์ทด้านบนใบ"],
          sample="-",
-         expected="ใบสั่งขาย (S01697) · ปุ่มสมาร์ท Projects 1 · Delivery 1 · FG Production 1 · ยอดเดิม 46,024.00 / 49,245.68",
+         expected="ใบสั่งขาย (S01751) · ปุ่มสมาร์ท Projects 1 · Delivery 1 · FG Production 1 · ยอดเดิม 46,024.00 / 49,245.68",
          prio="High", shot=SHOT + "r1-10-so-confirmed.png"),
     dict(id="TC-GP-BQ1-07", scenario="ใบสั่งผลิต: ขนาดจาก BOQ และ Slab ที่ระบบเลือกให้",
          note="พื้นที่ใช้จริง 7.92 = 7.20 + เผื่อเสีย 10% · Slab ที่เลือกต้องไม่ต่ำกว่านี้ (ป้าย พอ สีเขียว)",
@@ -79,7 +79,7 @@ CATEGORIES = [
          steps=["กดสมาร์ทปุ่ม FG Production",
                 "เปิดแท็บ ผลผลิต FG แล้วเปิดแท็บ Slab ที่จะตัด"],
          sample="-",
-         expected="ใบสั่งผลิต (EG01/STFG/00424) Draft · ต้องใช้ 7.92 ตร.ม. · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · ผลผลิต FG 1 แถว กว้าง 0.60 ยาว 1.20 หนา 0.02 (เมตร) จำนวน 10 · แท็บ Slab ที่จะตัด: พื้นที่งาน 7.20 · ต้องใช้รวมเผื่อเสีย 7.92 · แผ่นที่เลือก BLK-26-1482-8 และ -9 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)",
+         expected="ใบสั่งผลิต (EG01/STFG/00472) Draft · ต้องใช้ 7.92 ตร.ม. · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · ผลผลิต FG 1 แถว กว้าง 0.60 ยาว 1.20 หนา 0.02 (เมตร) จำนวน 10 · แท็บ Slab ที่จะตัด: พื้นที่งาน 7.20 · ต้องใช้รวมเผื่อเสีย 7.92 · แผ่นที่เลือก BLK-26-1482-42 และ -9 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)",
          prio="High", shot=SHOT + "r1-12-mo-slab-tab.png"),
     dict(id="TC-GP-BQ1-08", scenario="ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ",
          note="ต้องกด ย้ายไปสถานีตัด ก่อน Confirm ไม่เช่นนั้นของที่สถานีตัดไม่พอ · หลัง Confirm มีปุ่ม Plan/Start แต่ไม่ต้องใช้ กด ผลิต FG เสร็จ ได้เลย (ระบบปิดขั้นตัดและทำขอบให้) · หน้าจออาจยังโชว์ Confirmed จนกว่าจะรีเฟรช",
@@ -96,7 +96,7 @@ CATEGORIES = [
          steps=["ที่ใบสั่งผลิต เปิดแท็บ รายการบัญชี",
                 "ดู 3 รายการและยอดรวม"],
          sample="ค่าแรง = 7.20 ตร.ม. × 1,500 = 10,800",
-         expected="3 รายการ Posted: Inventory Valuation 8,149.12 (STJ/2026/11/0027) · Inventory Valuation 8,149.12 (STJ/2026/11/0028) · FG Production Labor 10,800.00 (MISC/2026/11/0005) · รวม 27,098.24 (Slab 2 แผ่นมูลค่ารวม 8,149.12 ตรงกับต้นทุนขายในใบแจ้งหนี้)",
+         expected="3 รายการ Posted: Inventory Valuation 8,149.12 (STJ/2026/11/0067) · Inventory Valuation 8,149.12 (STJ/2026/11/0068) · FG Production Labor 10,800.00 (MISC/2026/11/0034) · รวม 27,098.24 (Slab 2 แผ่นมูลค่ารวม 8,149.12 ตรงกับต้นทุนขายในใบแจ้งหนี้)",
          prio="High", shot=SHOT + "r1-16-mo-journal.png"),
   ]),
   dict(cat_id="D", title="D. ส่งของและเก็บเงิน",
@@ -108,7 +108,7 @@ CATEGORIES = [
          steps=["ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery",
                 "กด Validate แล้วรีเฟรชหน้า"],
          sample="-",
-         expected="ใบส่งของ (EG01/OUT/00720) Ready ก่อนกด · Demand 7.200 · Quantity 7.200 m² · หลัง Validate เป็น Done",
+         expected="ใบส่งของ (EG01/OUT/00756) Ready ก่อนกด · Demand 7.200 · Quantity 7.200 m² · หลัง Validate เป็น Done",
          prio="High", shot=SHOT + "r1-18-delivery-done.png"),
     dict(id="TC-GP-BQ1-11", scenario="ออกใบแจ้งหนี้และตรวจยอด",
          note="ใบแจ้งหนี้ออกได้หลังส่งของ · ระบบลงต้นทุนขาย 8,149.12 ให้เองในรายการบัญชี · ค่าแรง 10,800 ลงตอนผลิตเสร็จ ไม่อยู่ในใบแจ้งหนี้",
@@ -116,7 +116,7 @@ CATEGORIES = [
          steps=["ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft",
                 "กด Confirm แล้วรีเฟรชหน้า"],
          sample="-",
-         expected="ใบแจ้งหนี้ (INV/2026/00008) Posted · ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.200 m² × 4,700.00 · ก่อน VAT 46,024.00 · VAT 7% 3,221.68 · รวม 49,245.68 · Amount Due 49,245.68",
+         expected="ใบแจ้งหนี้ (INV/2026/00019) Posted · ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.200 m² × 4,700.00 · ก่อน VAT 46,024.00 · VAT 7% 3,221.68 · รวม 49,245.68 · Amount Due 49,245.68",
          prio="High", shot=SHOT + "r1-20-invoice-posted.png"),
   ]),
   dict(cat_id="E", title="E. กำไรของ BOQ ใบนี้ (P&L)",
@@ -126,10 +126,10 @@ CATEGORIES = [
          note="เลือกบัญชีวิเคราะห์ของ BOQ ได้เฉพาะใบที่ติ๊ก Sold as Project · ต้นทุนในรายงาน = ต้นทุน Slab 8,149.12 + ค่าแรงผลิต 10,800 (ค่าแรงใน BOQ 6,480 เป็นราคาที่ตั้งขาย ไม่ใช่ต้นทุนจริง)",
          pre="ทำ TC-GP-BQ1-11 เสร็จแล้ว · เข้า Accounting ได้",
          steps=["เปิดแอป Accounting &gt; Reporting &gt; Profit and Loss",
-                "กดปุ่ม Analytic แล้วค้นหา BOQ1121 เลือกบัญชี BOQ1121 - Demo Hotel Customer",
+                "กดปุ่ม Analytic แล้วค้นหา BOQ1186 เลือกบัญชี BOQ1186 - Demo Hotel Customer",
                 "กดขยายหัวข้อ Revenue และ Less Costs of Revenue"],
-         sample="บัญชีวิเคราะห์ = BOQ1121 - Demo Hotel Customer",
-         expected="คอลัมน์ BOQ1121: Revenue 46,024.00 (411100 Sales Revenue) · 511110 COGS - Stone Sales 8,149.12 · 511120 COGS - FG Production (Fabrication) 10,800.00 · Less Costs of Revenue 18,949.12 · Gross Profit 27,074.88 · Net Profit 27,074.88 · รายได้ตรงกับใบแจ้งหนี้ 46,024.00 และต้นทุนตรงกับรายการบัญชีของใบสั่งผลิต",
+         sample="บัญชีวิเคราะห์ = BOQ1186 - Demo Hotel Customer",
+         expected="คอลัมน์ BOQ1186: Revenue 46,024.00 (411100 Sales Revenue) · 511110 COGS - Stone Sales 8,149.12 · 511120 COGS - FG Production (Fabrication) 10,800.00 · Less Costs of Revenue 18,949.12 · Gross Profit 27,074.88 · Net Profit 27,074.88 · รายได้ตรงกับใบแจ้งหนี้ 46,024.00 และต้นทุนตรงกับรายการบัญชีของใบสั่งผลิต",
          prio="High", shot=SHOT + "r1-21-pnl.png"),
   ]),
 ]

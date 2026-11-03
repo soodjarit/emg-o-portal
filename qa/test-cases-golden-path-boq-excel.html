@@ -138,7 +138,7 @@
 
   <div class="flow-banner">
     <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
-    ไฟล์ boq-import-zz2-reception.xlsx &rarr; BOQ1121 &rarr; ใบเสนอราคา S01697 (ติ๊ก Sold as Project) &rarr; ใบสั่งผลิต EG01/STFG/00424 (Slab BLK-26-1482-8, -9) &rarr; ใบส่งของ EG01/OUT/00720 &rarr; ใบแจ้งหนี้ INV/2026/00008 &rarr; P&amp;L ของ BOQ1121<br>
+    ไฟล์ boq-import-zz2-reception.xlsx &rarr; BOQ1186 &rarr; ใบเสนอราคา S01751 (ติ๊ก Sold as Project) &rarr; ใบสั่งผลิต EG01/STFG/00472 (Slab BLK-26-1482-42, -43) &rarr; ใบส่งของ EG01/OUT/00756 &rarr; ใบแจ้งหนี้ INV/2026/00019 &rarr; P&amp;L ของ BOQ1186<br>
     <b>ตัวเลขหลัก:</b> ขาย 46,024.00 · VAT 3,221.68 · รวม 49,245.68 · ต้นทุน Slab 8,149.12 + ค่าแรงผลิต 10,800.00 = 18,949.12 · กำไรขั้นต้น 27,074.88<br>
     <b>ข้อสังเกตจากการรัน:</b> (1) ต้องติ๊ก Sold as Project ก่อน Confirm ไม่เช่นนั้นดู P&amp;L รายใบไม่ได้ (รอบแรกพลาดตรงนี้ จึงรันใหม่) (2) ค่าแรงที่ตั้งขายใน BOQ 900 ต่อ ตร.ม. ต่างจากค่าแรงโรงงาน 1,500 ต่อ ตร.ม. ในหมวดสินค้า (3) หลังกด ผลิต FG เสร็จ หน้าจอยังโชว์ Confirmed จนกว่าจะรีเฟรช<br>
     <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> นำเข้า Cut List · สร้าง BOQ เอง · แถวที่ผิดตอน Import · Consumable Sets · วางบิลเป็นงวด · Gantt และ Task ของโปรเจกต์ · บันทึกเศษ · คืนสินค้า<br>
@@ -183,7 +183,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-01 เสร็จแล้ว (หน้าตัวอย่างยังเปิดอยู่)</td>
           <td class="col-steps"><ol><li>กด สร้าง BOQ</li><li>ดูแท็บ ① ประเมินพื้นที่ และยอดรวมท้ายฟอร์ม</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ได้ BOQ ใหม่ (รอบทดสอบ BOQ1121) ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.20 ตร.ม. วัสดุ 3,800.00 ค่าแรง 900.00 ราคา/หน่วย 4,700.00 รวม 33,840.00 · บรรทัดขนส่งและติดตั้ง 1.00 ชิ้น 8,000.00 · Amount Direct Cost 41,840.00 · Amount Overhead Profit 4,184.00 · Amount Total 46,024.00 · แถบสถานะอยู่ที่ ①</td>
+          <td class="col-expected">ได้ BOQ ใหม่ (รอบทดสอบ BOQ1186) ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.20 ตร.ม. วัสดุ 3,800.00 ค่าแรง 900.00 ราคา/หน่วย 4,700.00 รวม 33,840.00 · บรรทัดขนส่งและติดตั้ง 1.00 ชิ้น 8,000.00 · Amount Direct Cost 41,840.00 · Amount Overhead Profit 4,184.00 · Amount Total 46,024.00 · แถบสถานะอยู่ที่ ①</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-05-boq-form.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-05-boq-form.png" loading="lazy"></a></td>
         </tr>
@@ -219,7 +219,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-02 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ BOQ กด สร้างใบเสนอราคา</li><li>ดูบรรทัดสินค้า ขนาด/ราคา และยอดรวมท้ายใบ</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">เปิดใบเสนอราคาใหม่ (รอบทดสอบ S01697) ลูกค้า Demo Hotel Customer · ช่อง BOQ Document ชี้กลับ BOQ1121 · บรรทัดพื้น 7.200 m² × 4,700.00 = 33,840.00 · ช่องขนาด/ราคาแสดง 60 × 120 ซม. × 10 ชิ้น หนา 2 ซม. · บรรทัดขนส่งและติดตั้ง 1.000 Units 8,000.00 · บรรทัดค่าบริหารโครงการ 4,184.00 · Untaxed 46,024.00 · VAT 7% 3,221.68 · Total 49,245.68</td>
+          <td class="col-expected">เปิดใบเสนอราคาใหม่ (รอบทดสอบ S01751) ลูกค้า Demo Hotel Customer · ช่อง BOQ Document ชี้กลับ BOQ1186 · บรรทัดพื้น 7.200 m² × 4,700.00 = 33,840.00 · ช่องขนาด/ราคาแสดง 60 × 120 ซม. × 10 ชิ้น หนา 2 ซม. · บรรทัดขนส่งและติดตั้ง 1.000 Units 8,000.00 · บรรทัดค่าบริหารโครงการ 4,184.00 · Untaxed 46,024.00 · VAT 7% 3,221.68 · Total 49,245.68</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-06-quote.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-06-quote.png" loading="lazy"></a></td>
         </tr>
@@ -275,7 +275,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-05 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบเสนอราคา กด Confirm</li><li>ดูปุ่มสมาร์ทด้านบนใบ</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบสั่งขาย (S01697) · ปุ่มสมาร์ท Projects 1 · Delivery 1 · FG Production 1 · ยอดเดิม 46,024.00 / 49,245.68</td>
+          <td class="col-expected">ใบสั่งขาย (S01751) · ปุ่มสมาร์ท Projects 1 · Delivery 1 · FG Production 1 · ยอดเดิม 46,024.00 / 49,245.68</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-10-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-10-so-confirmed.png" loading="lazy"></a></td>
         </tr>
@@ -285,7 +285,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-06 เสร็จแล้ว · มี Slab ZZ2 GUIDE MARBLE Available อย่างน้อย 2 แผ่น</td>
           <td class="col-steps"><ol><li>กดสมาร์ทปุ่ม FG Production</li><li>เปิดแท็บ ผลผลิต FG แล้วเปิดแท็บ Slab ที่จะตัด</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00424) Draft · ต้องใช้ 7.92 ตร.ม. · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · ผลผลิต FG 1 แถว กว้าง 0.60 ยาว 1.20 หนา 0.02 (เมตร) จำนวน 10 · แท็บ Slab ที่จะตัด: พื้นที่งาน 7.20 · ต้องใช้รวมเผื่อเสีย 7.92 · แผ่นที่เลือก BLK-26-1482-8 และ -9 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)</td>
+          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00472) Draft · ต้องใช้ 7.92 ตร.ม. · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · ผลผลิต FG 1 แถว กว้าง 0.60 ยาว 1.20 หนา 0.02 (เมตร) จำนวน 10 · แท็บ Slab ที่จะตัด: พื้นที่งาน 7.20 · ต้องใช้รวมเผื่อเสีย 7.92 · แผ่นที่เลือก BLK-26-1482-42 และ -9 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-12-mo-slab-tab.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-12-mo-slab-tab.png" loading="lazy"></a></td>
         </tr>
@@ -305,7 +305,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-08 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งผลิต เปิดแท็บ รายการบัญชี</li><li>ดู 3 รายการและยอดรวม</li></ol></td>
           <td class="col-sample">ค่าแรง = 7.20 ตร.ม. × 1,500 = 10,800</td>
-          <td class="col-expected">3 รายการ Posted: Inventory Valuation 8,149.12 (STJ/2026/11/0027) · Inventory Valuation 8,149.12 (STJ/2026/11/0028) · FG Production Labor 10,800.00 (MISC/2026/11/0005) · รวม 27,098.24 (Slab 2 แผ่นมูลค่ารวม 8,149.12 ตรงกับต้นทุนขายในใบแจ้งหนี้)</td>
+          <td class="col-expected">3 รายการ Posted: Inventory Valuation 8,149.12 (STJ/2026/11/0067) · Inventory Valuation 8,149.12 (STJ/2026/11/0068) · FG Production Labor 10,800.00 (MISC/2026/11/0034) · รวม 27,098.24 (Slab 2 แผ่นมูลค่ารวม 8,149.12 ตรงกับต้นทุนขายในใบแจ้งหนี้)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-16-mo-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-16-mo-journal.png" loading="lazy"></a></td>
         </tr>
@@ -341,7 +341,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-09 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Validate แล้วรีเฟรชหน้า</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบส่งของ (EG01/OUT/00720) Ready ก่อนกด · Demand 7.200 · Quantity 7.200 m² · หลัง Validate เป็น Done</td>
+          <td class="col-expected">ใบส่งของ (EG01/OUT/00756) Ready ก่อนกด · Demand 7.200 · Quantity 7.200 m² · หลัง Validate เป็น Done</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-18-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-18-delivery-done.png" loading="lazy"></a></td>
         </tr>
@@ -351,7 +351,7 @@
           <td class="col-pre">ทำ TC-GP-BQ1-10 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft</li><li>กด Confirm แล้วรีเฟรชหน้า</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00008) Posted · ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.200 m² × 4,700.00 · ก่อน VAT 46,024.00 · VAT 7% 3,221.68 · รวม 49,245.68 · Amount Due 49,245.68</td>
+          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00019) Posted · ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.200 m² × 4,700.00 · ก่อน VAT 46,024.00 · VAT 7% 3,221.68 · รวม 49,245.68 · Amount Due 49,245.68</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-20-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-20-invoice-posted.png" loading="lazy"></a></td>
         </tr>
@@ -385,9 +385,9 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ1-12</span></td>
           <td class="col-scenario">ดู Profit and Loss ของ BOQ ใบนี้<div class="note">เลือกบัญชีวิเคราะห์ของ BOQ ได้เฉพาะใบที่ติ๊ก Sold as Project · ต้นทุนในรายงาน = ต้นทุน Slab 8,149.12 + ค่าแรงผลิต 10,800 (ค่าแรงใน BOQ 6,480 เป็นราคาที่ตั้งขาย ไม่ใช่ต้นทุนจริง)</div></td>
           <td class="col-pre">ทำ TC-GP-BQ1-11 เสร็จแล้ว · เข้า Accounting ได้</td>
-          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Reporting &gt; Profit and Loss</li><li>กดปุ่ม Analytic แล้วค้นหา BOQ1121 เลือกบัญชี BOQ1121 - Demo Hotel Customer</li><li>กดขยายหัวข้อ Revenue และ Less Costs of Revenue</li></ol></td>
-          <td class="col-sample">บัญชีวิเคราะห์ = BOQ1121 - Demo Hotel Customer</td>
-          <td class="col-expected">คอลัมน์ BOQ1121: Revenue 46,024.00 (411100 Sales Revenue) · 511110 COGS - Stone Sales 8,149.12 · 511120 COGS - FG Production (Fabrication) 10,800.00 · Less Costs of Revenue 18,949.12 · Gross Profit 27,074.88 · Net Profit 27,074.88 · รายได้ตรงกับใบแจ้งหนี้ 46,024.00 และต้นทุนตรงกับรายการบัญชีของใบสั่งผลิต</td>
+          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Reporting &gt; Profit and Loss</li><li>กดปุ่ม Analytic แล้วค้นหา BOQ1186 เลือกบัญชี BOQ1186 - Demo Hotel Customer</li><li>กดขยายหัวข้อ Revenue และ Less Costs of Revenue</li></ol></td>
+          <td class="col-sample">บัญชีวิเคราะห์ = BOQ1186 - Demo Hotel Customer</td>
+          <td class="col-expected">คอลัมน์ BOQ1186: Revenue 46,024.00 (411100 Sales Revenue) · 511110 COGS - Stone Sales 8,149.12 · 511120 COGS - FG Production (Fabrication) 10,800.00 · Less Costs of Revenue 18,949.12 · Gross Profit 27,074.88 · Net Profit 27,074.88 · รายได้ตรงกับใบแจ้งหนี้ 46,024.00 และต้นทุนตรงกับรายการบัญชีของใบสั่งผลิต</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-21-pnl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-21-pnl.png" loading="lazy"></a></td>
         </tr>
