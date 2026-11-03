@@ -115,7 +115,7 @@
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — Setup ระบบ: ตั้งค่าแล้วใช้กับ BOQ และใบเสนอราคา</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 1 พฤศจิกายน 2569 (2026-11-01) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
     <div class="sub">เอกสารเดียวสำหรับเรื่อง Setup: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรงสำหรับ BOQ · แล้วทดสอบว่าค่าที่ตั้งไปทำงานจริงใน BOQ และใบเสนอราคา ทุกเคสเขียนให้ผู้ใช้ไม่เทคนิคทำตามได้ ไม่รวมเคสกรอกผิดหรือดักข้อผิดพลาด ข้อมูลตัวอย่างทั้งหมดขึ้นต้นด้วย ZZ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>5</b>Test Case ทั้งหมด</div>
@@ -189,8 +189,8 @@
           <td class="col-scenario">ตั้งชุดวัสดุสิ้นเปลืองและชุดค่าแรงติดตั้งสำหรับ BOQ<div class="note">สินค้าในชุดต้องมีหน่วย ตร.ม. (m²) · ราคาและต้นทุนของแต่ละบรรทัดดึงจากสินค้าอัตโนมัติ · ถ้า Company ว่างคือใช้ร่วมทุกบริษัท</div></td>
           <td class="col-pre">เข้าระบบเป็น Empire Granite</td>
           <td class="col-steps"><ol><li>เปิดแอป Inventory &gt; Products &gt; Products กด New สร้างสินค้ากาว (Goods ไม่ติ๊ก Track Inventory) และสินค้าค่าแรง (Service) ตั้งหน่วยเป็น m² ทั้งสองตัว แล้ว Save</li><li>เปิดแอป BOQ Estimation &gt; Consumable Sets กด New สร้างชุดวัสดุ: ตั้งชื่อ เลือก Type วัสดุสิ้นเปลือง เพิ่มสินค้ากาว แล้ว Save</li><li>กด New อีกครั้งสร้างชุดค่าแรง: ตั้งชื่อ เลือก Type ค่าแรงติดตั้งหน้างาน เพิ่มสินค้าค่าแรง แล้ว Save</li></ol></td>
-          <td class="col-sample">สินค้า ZZ กาวและปูนยาแนวปูพื้น ขาย 150 ทุน 90 ต่อ ตร.ม. · ZZ ค่าแรงติดตั้งพื้น ขาย 800 ทุน 500 ต่อ ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน · ชุด ZZ ชุดค่าแรงติดตั้งพื้น</td>
-          <td class="col-expected">ชุดวัสดุ: แถวสินค้า หน่วย m² Price 150.00 Cost 90.00 · Total / m² = 150.00 · ชุดค่าแรง: Price 800.00 Cost 500.00 · Total / m² = 800.00 · ทั้งสองชุดบันทึกสำเร็จ ชื่อขึ้นที่แถบนำทาง</td>
+          <td class="col-sample">สินค้า ZZ กาวและปูนยาแนวปูพื้น ขาย 150 ทุน 90 ต่อ ตร.ม. · ZZ ค่าแรงติดตั้งพื้น ขาย 1,500 ทุน 500 ต่อ ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน · ชุด ZZ ชุดค่าแรงติดตั้งพื้น</td>
+          <td class="col-expected">ชุดวัสดุ: แถวสินค้า หน่วย m² Price 150.00 Cost 90.00 · Total / m² = 150.00 · ชุดค่าแรง: Price 1,500.00 Cost 500.00 · Total / m² = 800.00 · ทั้งสองชุดบันทึกสำเร็จ ชื่อขึ้นที่แถบนำทาง</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-03-sets.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-03-sets.webp" loading="lazy"></a></td>
         </tr>
@@ -226,7 +226,7 @@
           <td class="col-pre">ทำ TC-GP-SET-02 และ TC-GP-SET-03 เสร็จแล้ว · มีลูกค้า Demo Hotel Customer</td>
           <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents กด New เลือกลูกค้า</li><li>แท็บ "① ประเมินพื้นที่" กด Add a line กรอกโซน รายละเอียด เลือกสินค้า FG และจำนวน ตร.ม.</li><li>แท็บ "② ค่าแรง &amp; วัสดุ" เลือกชุดวัสดุสิ้นเปลืองตั้งต้นและชุดค่าแรงตั้งต้น แล้วกด "ดึงโซนจาก BOQ" และ "สร้างค่าแรง/วัสดุ"</li><li>ดูยอดสรุปด้านล่างของฟอร์ม</li></ol></td>
           <td class="col-sample">ลูกค้า Demo Hotel Customer · โซน ล็อบบี้ ZZ · พื้นล็อบบี้ หินอ่อน ZZ ขัดมัน · สินค้า ZZ2 GUIDE MARBLE Countertop 10 ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน และ ZZ ชุดค่าแรงติดตั้งพื้น</td>
-          <td class="col-expected">บรรทัดพื้น 10.00 ตร.ม. ราคา 3,800.00 รวม 38,000.00 · แถวโซนล็อบบี้ ZZ พื้นที่ 10.00 · วัสดุ 150.00 ต่อ ตร.ม. · ค่าแรง 800.00 ต่อ ตร.ม. · ยอดสรุป: วัสดุ 38,000.00 + วัสดุสิ้นเปลือง 1,500.00 + ค่าแรง 8,000.00 = Direct Cost 47,500.00 · Overhead &amp; Profit 10% = 4,750.00 · Total 52,250.00 (BOQ1118)</td>
+          <td class="col-expected">บรรทัดพื้น 10.00 ตร.ม. ราคา 3,800.00 รวม 38,000.00 · แถวโซนล็อบบี้ ZZ พื้นที่ 10.00 · วัสดุ 150.00 ต่อ ตร.ม. · ค่าแรง 1,500.00 ต่อ ตร.ม. · ยอดสรุป: วัสดุ 38,000.00 + วัสดุสิ้นเปลือง 1,500.00 + ค่าแรง 15,000.00 = Direct Cost 54,500.00 · Overhead &amp; Profit 10% = 5,450.00 · Total 59,950.00 (ภาพหน้าจอรอบ BOQ1118 ถ่ายตอนค่าแรง 800: 52,250.00)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-04-boq-sets.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-04-boq-sets.webp" loading="lazy"></a></td>
         </tr>
@@ -236,7 +236,7 @@
           <td class="col-pre">ทำ TC-GP-SET-04 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ BOQ กดปุ่ม "สร้างใบเสนอราคา"</li><li>ดูบรรทัดในแท็บ Order Lines และยอดรวมด้านล่าง</li></ol></td>
           <td class="col-sample">BOQ1118</td>
-          <td class="col-expected">ได้ใบเสนอราคา S01691 สถานะ Quotation · ช่อง BOQ Document ชี้ BOQ1118 · หมวดโซน "ล็อบบี้ ZZ" มี 3 บรรทัด: FG 10.00 ตร.ม. × 3,800 = 38,000 · วัสดุสิ้นเปลือง 10.00 ตร.ม. × 150 = 1,500 · ค่าแรงติดตั้งหน้างาน 10.00 ตร.ม. × 800 = 8,000 · หมวด "ค่าบริหารโครงการและอื่นๆ" 1 บรรทัด: ค่าบริหารโครงการ (10% ของยอดงานรวม) 4,750 · ก่อน VAT 52,250.00 · VAT 7% 3,657.50 · รวม 55,907.50</td>
+          <td class="col-expected">ได้ใบเสนอราคา S01691 สถานะ Quotation · ช่อง BOQ Document ชี้ BOQ1118 · หมวดโซน "ล็อบบี้ ZZ" มี 3 บรรทัด: FG 10.00 ตร.ม. × 3,800 = 38,000 · วัสดุสิ้นเปลือง 10.00 ตร.ม. × 150 = 1,500 · ค่าแรงติดตั้งหน้างาน 10.00 ตร.ม. × 1,500 = 15,000 · หมวด "ค่าบริหารโครงการและอื่นๆ" 1 บรรทัด: ค่าบริหารโครงการ (10% ของยอดงานรวม) 5,450 · ก่อน VAT 59,950.00 · VAT 7% 4,196.50 · รวม 64,146.50 (ภาพหน้าจอรอบ S01691 ถ่ายตอนค่าแรง 800: 52,250.00 / 55,907.50)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/golden-path-setup/gp-set-05-quotation.webp" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/golden-path-setup/gp-set-05-quotation.webp" loading="lazy"></a></td>
         </tr>

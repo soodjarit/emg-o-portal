@@ -282,7 +282,7 @@
     <div class="card">
       <div class="icon">⟳</div>
       <div class="card-body">
-        <a class="card-title" href="qa/test-cases-golden-path-switch-boq.html">Golden Path — สวิตช์ BOQ</a>
+        <a class="card-title" href="qa/_archive/test-cases-golden-path-switch-boq.html">Golden Path — สวิตช์ BOQ</a>
         <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[2 สวิตช์]</div>
         <div class="card-desc">สร้างใบเสนอราคาจากเอกสารประเมินราคา (BOQ) — อิสระจากสวิตช์ Project อย่างสมบูรณ์ 4 test case รันสดบน eg-tst 17 ก.ย. 2026 (ยังเป็นเวอร์ชันย่อ ไม่มี Excel export — ดูรายละเอียดในเอกสาร)</div>
         <div class="card-meta"><span class="card-date">17 ก.ย. 2026</span><span class="status-badge confirmed">ใหม่</span></div>
@@ -295,7 +295,7 @@
     <div class="card">
       <div class="icon">⟳+</div>
       <div class="card-body">
-        <a class="card-title" href="qa/test-cases-golden-path-boq-project-combo.html">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a>
+        <a class="card-title" href="qa/_archive/test-cases-golden-path-boq-project-combo.html">Golden Path — BOQ + Project ทำงานร่วมกัน (Self-Test)</a>
         <div class="card-desc" style="font-style:italic;margin-bottom:6px;">[2 สวิตช์]</div>
         <div class="card-desc">13 test case สาธิตทั้ง 2 สวิตช์<b>ใช้ร่วมกัน</b> เริ่มจาก Cutting List จริง (ไฟล์เดียวกับดีล THE ONE BANGKOK แต่ตั้งชื่อลูกค้าทดสอบแยกเป็น "THE TWO BANGKOK") → นำเข้าไฟล์ → ประเมินราคาเป็น BOQ → ออกใบเสนอราคา → เปิดสวิตช์ Project → Confirm → ตรวจ Task + Milestone ที่สร้างอัตโนมัติ ให้ผู้ใช้ทดสอบเองตามขั้นตอน (ยังไม่ได้รันจริง ไม่มีภาพหน้าจอ — มีช่องติ๊กผ่าน/ไม่ผ่าน+จดหมายเหตุในตัวเอกสาร)</div>
         <div class="card-meta"><span class="card-date">22 ก.ย. 2026</span><span class="status-badge design">รอผู้ใช้ทดสอบเอง</span></div>
@@ -332,7 +332,7 @@
     <div class="card">
       <div class="icon">GP3</div>
       <div class="card-body">
-        <a class="card-title" href="qa/test-cases-golden-path-boq-project-hotel.html">Golden Path — BOQ + Project (SY Resort)</a>
+        <a class="card-title" href="qa/_archive/test-cases-golden-path-boq-project-hotel.html">Golden Path — BOQ + Project (SY Resort)</a>
         <div class="card-desc">สร้างใหม่ทั้งฉบับแทนที่เอกสาร "Hotel Lift Lobby" เดิม (ไม่เคยมีสต๊อกจริงตอนทำ) — ครั้งแรกที่พิสูจน์ครบวงจรจริง: เลือก Slab จริงจากสต๊อก + ปุ่มใหม่ Auto-Select Slabs, Recompute ราคา BOQ ให้ตรงต้นทุน Slab จริงแบบ bulk, ใบเสนอราคาพิมพ์แสดงขนาด Slab จริง, ปิดงานจน Milestone Reached ครบ, และ Billing Stage เวอร์ชันใหม่ที่โชว์ยอดเงินที่ควรวางบิลจริง ไม่ใช่แค่ % — เดินสดผ่าน Playwright บน eg-tst (14 test cases)</div>
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> ขั้นตอน "Select Slabs" และการเลือกแผ่นที่เอกสารนี้ใช้ ถูกแทนที่ด้วย wizard เลือก Lot เดียวหลังแนวคิด Slab = Lot (ADR-087, 4–5 ต.ค. 2026) และโมเดล stone.slab ถูกลบแล้ว หน้าจอและตัวเลขตัวอย่างไม่ตรงระบบปัจจุบัน
@@ -343,7 +343,7 @@
     <div class="card">
       <div class="icon">GP4</div>
       <div class="card-body">
-        <a class="card-title" href="qa/test-cases-golden-path-switch-boq.html">Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</a>
+        <a class="card-title" href="qa/_archive/test-cases-golden-path-switch-boq.html">Golden Path — สวิตช์ BOQ ครบวงจร (EG-321)</a>
         <div class="card-desc">เดินครบทุกขั้นของสวิตช์ BOQ: เลือก Rate → นำเข้า Cut List จริง → วัสดุสิ้นเปลือง + ค่าแรงติดตั้งหน้างานรายโซน → ใบเสนอราคา → Confirm → ล็อกราคาไม่ให้เปลี่ยนเมื่อเลือก Slab จริง + รายงานส่วนต่าง · 21 เคส self-test ตัวเลขผ่านการรันจริงด้วยโค้ดบน eg-tst</div>
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> ขั้นตอน "Select Slabs" และการเลือกแผ่นที่เอกสารนี้ใช้ ถูกแทนที่ด้วย wizard เลือก Lot เดียวหลังแนวคิด Slab = Lot (ADR-087, 4–5 ต.ค. 2026) และโมเดล stone.slab ถูกลบแล้ว หน้าจอและตัวเลขตัวอย่างไม่ตรงระบบปัจจุบัน
@@ -365,8 +365,8 @@
     <div class="card">
       <div class="icon">GP6</div>
       <div class="card-body">
-        <a class="card-title" href="qa/guide-boq-lobby-lamps-2026-10-25.html">คู่มือกดตาม — BOQ พื้น + โคม (Self-Test)</a>
-        <div class="card-desc">พื้นหินอ่อน lobby 20 ตร.ม. + โคมประตู 2 ตัวที่ Cut List ต่างกัน: สร้าง BOQ → ออกใบเสนอราคา → นำเข้า Cut List ทีหลัง → ตรวจต้นทุนและใบสั่งตัด/ประกอบ · <a href="qa/guide-boq-lobby-lamps-2026-10-25.pdf">PDF</a></div>
+        <a class="card-title" href="qa/_archive/guide-boq-lobby-lamps-2026-10-25.html">คู่มือกดตาม — BOQ พื้น + โคม (Self-Test)</a>
+        <div class="card-desc">พื้นหินอ่อน lobby 20 ตร.ม. + โคมประตู 2 ตัวที่ Cut List ต่างกัน: สร้าง BOQ → ออกใบเสนอราคา → นำเข้า Cut List ทีหลัง → ตรวจต้นทุนและใบสั่งตัด/ประกอบ · <a href="qa/_archive/guide-boq-lobby-lamps-2026-10-25.pdf">PDF</a></div>
         <div class="card-meta"><span class="card-date">25 ต.ค. 2026</span></div>
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> เขียนก่อนรอบ 27 ต.ค. — ยังอ้าง Rate Library ที่ถูกลบแล้ว (เลือก Rate, CB-FG-NERO / CB-FG-GP), สร้าง BOQ ทีละบรรทัดแทน Import Excel และไม่มีเรื่องขนาดที่ติดไปกับใบเสนอราคา/ใบสั่งผลิต กับสต็อก FG ตามขนาด จะเขียนใหม่ในรอบเจดีย์บัว/โคม (Cut List → ต้นทุน) หลังรันบน eg-tst
@@ -747,6 +747,49 @@
         <div class="archive-note">
           <b>ทำไมไม่ทันสมัยแล้ว:</b> อ้างจับคู่ Slab กับ Sale Order (Hold) เพื่อคิดค่าแรงประมาณ ซึ่งกลไก Hold เปลี่ยนแล้ว ผมยังไม่ได้เทียบส่วนอื่นของเด็ค
           <span class="archived-on">ย้ายเข้า Archived: 25 ต.ค. 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category" id="qa-boq">
+    <div class="category-header">
+      <div class="category-title">BOQ — Test Case และคู่มือกดตาม</div>
+      <div class="category-sub">ชุดเดิมก่อนทำใหม่ — ถูกแทนที่ด้วยชุด Golden Path / คู่มือกดตามรอบใหม่</div>
+    </div>
+    <div class="card">
+      <div class="icon">T</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/test-cases-golden-path-boq-import.html">Golden Path — BOQ: นำเข้า Excel ถึงต้นทุนและ P&amp;L</a>
+        <div class="card-desc">14 เคส · นำเข้า BOQ จาก Excel → ใบเสนอราคา → ผลิต FG → ส่งมอบ → P&amp;L (รันบน eg-tst 28 ต.ค. 2026)</div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> BOQ ถูกปรับหลายรอบหลังเอกสารชุดนี้ (หน่วย ซม. 28 ต.ค., เอา Rate Library ออก, ปุ่ม/ฟิลด์ใหม่) จึงไม่ตรงกับระบบปัจจุบัน — กำลังทำชุดใหม่แทน
+          <span class="archived-on">ย้ายเข้า Archived: 3 พ.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/guide-boq-import-excel-2026-10-28.html">คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L (Self-Test)</a>
+        <div class="card-desc">คู่มือกดตาม 5 ตอน · ฉบับ PDF: <a href="qa/_archive/guide-boq-import-excel-2026-10-28.pdf">เปิด PDF</a></div>
+        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> BOQ ถูกปรับหลายรอบหลังเอกสารชุดนี้ (หน่วย ซม. 28 ต.ค., เอา Rate Library ออก, ปุ่ม/ฟิลด์ใหม่) จึงไม่ตรงกับระบบปัจจุบัน — กำลังทำชุดใหม่แทน
+          <span class="archived-on">ย้ายเข้า Archived: 3 พ.ย. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="icon">G</div>
+      <div class="card-body">
+        <a class="card-title" href="qa/_archive/guide-boq-lobby-lamps-2026-10-25.html">คู่มือกดตาม — BOQ โคมล็อบบี้</a>
+        <div class="card-desc">คู่มือกดตาม BOQ รุ่นแรก · ฉบับ PDF: <a href="qa/_archive/guide-boq-lobby-lamps-2026-10-25.pdf">เปิด PDF</a></div>
+        <div class="card-meta"><span class="card-date">25 ต.ค. 2026</span></div>
+        <div class="archive-note">
+          <b>ทำไมไม่ทันสมัยแล้ว:</b> BOQ ถูกปรับหลายรอบหลังเอกสารชุดนี้ (หน่วย ซม. 28 ต.ค., เอา Rate Library ออก, ปุ่ม/ฟิลด์ใหม่) จึงไม่ตรงกับระบบปัจจุบัน — กำลังทำชุดใหม่แทน
+          <span class="archived-on">ย้ายเข้า Archived: 3 พ.ย. 2026</span>
         </div>
       </div>
     </div>

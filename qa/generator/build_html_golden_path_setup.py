@@ -195,7 +195,7 @@ PAGE = '''<!doctype html>
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
     <h1>Golden Path — Setup ระบบ: ตั้งค่าแล้วใช้กับ BOQ และใบเสนอราคา</h1>
-    <div class="doc-date">อัปเดตล่าสุด: 1 พฤศจิกายน 2569 (2026-11-01) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
     <div class="sub">เอกสารเดียวสำหรับเรื่อง Setup: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรงสำหรับ BOQ · แล้วทดสอบว่าค่าที่ตั้งไปทำงานจริงใน BOQ และใบเสนอราคา ทุกเคสเขียนให้ผู้ใช้ไม่เทคนิคทำตามได้ ไม่รวมเคสกรอกผิดหรือดักข้อผิดพลาด ข้อมูลตัวอย่างทั้งหมดขึ้นต้นด้วย ZZ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>

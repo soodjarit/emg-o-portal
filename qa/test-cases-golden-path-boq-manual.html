@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: BOQ สร้างเองในฟอร์ม</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-manual.xlsx" download="EMG-O Golden Path - BOQ สร้างเองในฟอร์ม.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>สร้าง BOQ และใส่รายการหิน</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>ค่าแรงและวัสดุสิ้นเปลือง</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>ใบเสนอราคา และไฟล์ส่งลูกค้า</a></li><li class="tree-doc"><a href="#D"><span class="tree-doc-tag">D</span>ยืนยัน ผลิต ส่งของ และเก็บเงิน</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — BOQ เส้นทาง 3: สร้าง BOQ เองในฟอร์ม</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="sub">เส้นทางที่ไม่ใช้ไฟล์ Excel: พิมพ์รายการหินทีละโซนในฟอร์ม BOQ · สร้างค่าแรงและวัสดุสิ้นเปลืองจากชุดราคา · Export Excel / พิมพ์ PDF · ใบเสนอราคา · ผลิต ส่งของ ใบแจ้งหนี้ · เฉพาะ happy path</div>
+    <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
+      <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อน โปรดยืนยันหรือแจ้งให้ปรับ)
+      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>ต้นทุนวัสดุสิ้นเปลืองและค่าแรงติดตั้งลงบัญชีตอนผลิตเสร็จ</b> — ลงเป็นต้นทุนประมาณการ ตามต้นทุนต่อ ตร.ม. ของสินค้าในชุด (วัสดุ 90 · ค่าแรงติดตั้ง 500) เดบิต COGS เครดิต Accrued Expenses ไม่ได้ลงตอนส่งของ ขอยืนยันจังหวะและบัญชี</li><li><b>ราคาขายค่าแรงติดตั้ง 1,500 ต่อ ตร.ม.</b> — ปรับขึ้นจาก 800 เพื่อไม่ให้ต่ำกว่าค่าแรงโรงงาน 1,500 (ต้นทุนรวมค่าแรง 1,500 + 500 ติดตั้ง) ขอยืนยันราคานี้</li><li><b>ค่าบริหารโครงการ 10% ของยอดงานรวม</b> — คิดตอนออก BOQ แล้วคงที่ ไม่คำนวณใหม่เมื่อยอดเปลี่ยน ขอยืนยันว่าเป็นไปตามต้องการ</li><li><b>Slab ห้ามซ้ำระหว่างใบสั่งผลิตที่ยังไม่เสร็จ</b> — ระบบเลือกให้คนละแผ่น และไม่ให้บันทึกถ้าเลือกซ้ำด้วยมือ ขอยืนยันว่าไม่มีกรณีที่ต้องใช้แผ่นเดียวกันหลายใบ</li></ol>
+    </div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>14</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>4</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">11</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">3</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>เอกสารชุดใหม่ของ BOQ — เส้นทาง 3 (แทนชุดเดิมที่ย้ายเข้า Archived แล้ว)</h3>
+    <ul>
+      <li>ทำตามทีละขั้นด้วย <a href="guide-boq-manual-2026-11-03.html">คู่มือกดตาม BOQ สร้างเองในฟอร์ม</a> · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
+      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 และส่วนชุด BOQ มาก่อน (สินค้า ZZ2 GUIDE MARBLE Countertop + ชุดวัสดุ/ชุดค่าแรง) และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 3 แผ่น</li>
+      <li>ขอบเขต 14 เคส: สร้าง BOQ และใส่รายการ 3 · ค่าแรงและวัสดุสิ้นเปลือง 2 · ใบเสนอราคาและไฟล์ส่งลูกค้า 3 · ยืนยัน ผลิต ส่งของ เก็บเงิน 6</li>
+      <li>เส้นทาง 1 (นำเข้า Excel) และ 2 (Cut List หลังขาย) เป็นชุดแยก ดู <a href="test-cases-golden-path-boq-excel.html">เส้นทาง 1</a> · <a href="test-cases-golden-path-boq-cutlist.html">เส้นทาง 2</a></li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
+    BOQ1130 (พิมพ์เอง 2 โซน) &rarr; ชุดวัสดุ/ชุดค่าแรง สร้างบรรทัดอัตโนมัติ &rarr; Export Excel และพิมพ์ PDF &rarr; ใบเสนอราคา S01704 &rarr; ใบสั่งผลิต EG01/STFG/00437 (Slab BLK-26-1482-26, -27) และ 00434 (BLK-26-1482-28) &rarr; ใบส่งของ EG01/OUT/00727 &rarr; ใบแจ้งหนี้ INV/2026/00013<br>
+    <b>ตัวเลขหลัก:</b> หิน 21,888.00 + 10,944.00 · วัสดุสิ้นเปลือง 864.00 + 432.00 · ค่าแรงติดตั้ง 8,640.00 + 4,320.00 · Direct Cost 47,088.00 · Overhead 4,708.80 · ก่อน VAT 51,796.80 · รวม VAT 55,422.58 · ใบแจ้งหนี้เท่าใบเสนอราคา<br>
+    <b>ข้อสังเกตจากการรัน:</b> (1) ✅ แก้แล้วและตรวจซ้ำ: ใบสั่งผลิต Draft สองใบเคยเลือก Slab ซ้ำกัน ตอนนี้ระบบเลือกคนละแผ่น (TC-GP-BQ3-12) (2) ✅ แก้แล้วและตรวจซ้ำ: ต้นทุนวัสดุสิ้นเปลือง (90 ต่อ ตร.ม.) และค่าแรงติดตั้ง (500 ต่อ ตร.ม.) ลงบัญชีตอนผลิตเสร็จ เป็นต้นทุนประมาณการเข้า Accrued Expenses (TC-GP-BQ3-11) รวมต้นทุนทั้งงาน 30,281.28 (3) ค่าแรงติดตั้งขายปรับจาก 800 เป็น 1,500 ต่อ ตร.ม. ให้ไม่ต่ำกว่าค่าแรงโรงงาน (4) หลังกด ผลิต FG เสร็จ หน้าจออาจโชว์สถานะเดิมช่วงสั้นๆ ให้รีเฟรช<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> แก้บรรทัดหลังออกใบเสนอราคา · ชุดค่าแรง/วัสดุคนละชุดต่อโซน · เผื่อเสีย % · ค่าเตรียมงาน/หลักประกันผลงาน · แยกใบเสนอราคาวัสดุ/ค่าแรง · สร้าง Task จาก BOQ · Sold as Project · บรรทัดงานบริการล้วน (ไม่เลือกสินค้า)<br>
+    <b>คำถามค้างลูกค้า/บัญชี:</b> ต้นทุนวัสดุสิ้นเปลืองและค่าแรงติดตั้งควรลงตอนผลิตเสร็จ (ตอนนี้) หรือตอนส่งของ และควรเครดิตเข้า Accrued Expenses หรือบัญชีอื่น · ราคาขายค่าแรงติดตั้ง 1,500 ต่อ ตร.ม. เหมาะกับต้นทุน (โรงงาน 1,500 + ติดตั้ง 500) หรือไม่
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. สร้าง BOQ และใส่รายการหิน</div>
+        <div class="category-sub">เปิด BOQ ใหม่ · เลือกลูกค้า · เพิ่มบรรทัดทีละโซน (พิมพ์รายละเอียดเอง เลือกสินค้า ใส่ ตร.ม. และขนาดชิ้น) · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-01</span></td>
+          <td class="col-scenario">เปิด BOQ ใหม่และเลือกลูกค้า<div class="note">เลือกลูกค้าก่อนเพิ่มบรรทัด · ข้อความสีฟ้าด้านบนบอกขั้นตอนถัดไปตามขั้นของ BOQ</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสินค้า ZZ2 GUIDE MARBLE Countertop · มีลูกค้า Demo Hotel Customer</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents แล้วกด New</li><li>ช่อง Customer เลือก Demo Hotel Customer</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer · Overhead &amp; Profit % ใช้ค่าตั้งต้น 10</td>
+          <td class="col-expected">ฟอร์มใหม่ มีแถบขั้น ① ประเมินพื้นที่ → ② ค่าแรง + วัสดุสิ้นเปลือง → ③ Cut List → ④ ออกใบเสนอราคาแล้ว · ข้อความสีฟ้า ขั้นที่ ① ประเมินพื้นที่ · ช่อง Company = Empire Granite · Overhead &amp; Profit % = 10.00 · ตารางแท็บ ① ว่าง · Amount Total 0.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-01-new-boq.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-01-new-boq.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-02</span></td>
+          <td class="col-scenario">เปิดคอลัมน์ขนาดชิ้น (กว้าง ยาว หนา เป็น ซม.)<div class="note">คอลัมน์ขนาดซ่อนไว้ตั้งต้น ต้องเปิดจากไอคอนตัวเลือกคอลัมน์ที่หัวตาราง · ขนาดทำให้ระบบแตกรายชิ้นให้เองตอนออกใบเสนอราคา</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-01 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดไอคอนตัวเลือกคอลัมน์ที่หัวตารางแท็บ ①</li><li>ติ๊ก หนา (ซม.) กว้าง (ซม.) และ ยาว (ซม.)</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">หัวตารางมีคอลัมน์ โซน · รายละเอียด · สินค้า · สเปก · หน่วย · ปริมาณ · วัสดุ/หน่วย · ค่าแรง/หน่วย · ราคา/หน่วย · Overhead % · รวม และเพิ่ม หนา (ซม.) · กว้าง (ซม.) · ยาว (ซม.)</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-02-columns.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-02-columns.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-03</span></td>
+          <td class="col-scenario">เพิ่มบรรทัดหิน 2 โซน แล้วบันทึก<div class="note">รายละเอียด (ชื่องาน) ต้องพิมพ์เอง ระบบไม่เขียนทับให้ · ค่าแรง/หน่วยเว้น 0 ไว้ เพราะจะให้ระบบสร้างค่าแรงจากชุดค่าแรงในแท็บ ② (ควรใส่ที่เดียว ยังไม่ได้ทดลองกรอกทั้งสองที่) · ใช้ทีละช่อง ห้ามกด Enter หรือ Tab ข้ามช่อง</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด Add a line แล้วกรอก โซน รายละเอียด สินค้า ปริมาณ กว้าง ยาว หนา ทีละช่อง (กดคลิกที่ช่องก่อนพิมพ์)</li><li>ทำซ้ำอีกบรรทัดสำหรับโซนที่สอง</li><li>กด Save (ไอคอนก้อนเมฆ)</li></ol></td>
+          <td class="col-sample">บรรทัด 1: โซน ล็อบบี้ · รายละเอียด เคาน์เตอร์ล็อบบี้ หินขาว ขัดมัน · สินค้า [ZZ2G-FG] ZZ2 GUIDE MARBLE Countertop · ปริมาณ 5.76 · กว้าง 60 · ยาว 120 · หนา 2 · บรรทัด 2: โซน ห้องน้ำชั้น 1 · รายละเอียด เคาน์เตอร์ห้องน้ำชั้น 1 หินขาว ขัดมัน · ปริมาณ 2.88 · ขนาดเท่ากัน</td>
+          <td class="col-expected">เลือกสินค้าแล้วระบบใส่ หน่วย m² และ วัสดุ/หน่วย 3,800.00 ให้ · บรรทัด 1: ราคา/หน่วย 3,800.00 · Overhead 10.00 · รวม 21,888.00 · บรรทัด 2 รวม 10,944.00 · Amount Direct Cost 32,832.00 · Overhead Profit 3,283.20 · Amount Total 36,115.20 · ได้เลข BOQ (รอบทดสอบ BOQ1130)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-05-lines-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-05-lines-done.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. ค่าแรงและวัสดุสิ้นเปลือง</div>
+        <div class="category-sub">เลือกชุดตั้งต้น · ดึงโซน · สร้างบรรทัดอัตโนมัติ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-04</span></td>
+          <td class="col-scenario">เลือกชุดวัสดุสิ้นเปลืองและชุดค่าแรง แล้วดึงโซนจาก BOQ<div class="note">ชุดราคาตั้งต้นสร้างไว้แล้วในคู่มือกดตาม Setup ระบบ (ส่วนชุด BOQ) · ถ้าโซนไหนต้องใช้ชุดอื่น เลือกชุดในตารางโซนได้</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-03 เสร็จแล้ว · มีชุด ZZ ชุดวัสดุพื้นมาตรฐาน (150 ต่อ ตร.ม.) และ ZZ ชุดค่าแรงติดตั้งพื้น (1,500 ต่อ ตร.ม.)</td>
+          <td class="col-steps"><ol><li>เปิดแท็บ ② ค่าแรง &amp; วัสดุ</li><li>ช่อง ชุดวัสดุสิ้นเปลืองตั้งต้น เลือก ZZ ชุดวัสดุพื้นมาตรฐาน · ช่อง ชุดค่าแรงตั้งต้น เลือก ZZ ชุดค่าแรงติดตั้งพื้น</li><li>กด ดึงโซนจาก BOQ</li></ol></td>
+          <td class="col-sample">ชุดวัสดุ = ZZ ชุดวัสดุพื้นมาตรฐาน · ชุดค่าแรง = ZZ ชุดค่าแรงติดตั้งพื้น</td>
+          <td class="col-expected">ตารางโซนมี 2 แถว: ล็อบบี้ พื้นที่ 5.76 เผื่อเสีย 0.00 พื้นที่รวมเผื่อ 5.76 วัสดุ/ตร.ม. 150.00 ค่าแรง/ตร.ม. 1,500.00 · ห้องน้ำชั้น 1 พื้นที่ 2.88 วัสดุ/ตร.ม. 150.00 ค่าแรง/ตร.ม. 1,500.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-07-sets-picked.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-07-sets-picked.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-05</span></td>
+          <td class="col-scenario">สร้างค่าแรง/วัสดุ แล้วตรวจบรรทัดที่เพิ่มในแท็บ ①<div class="note">ระบบเพิ่มบรรทัดวัสดุสิ้นเปลืองและค่าแรงต่อโซนให้เอง · ถ้ากดสร้างซ้ำหลังแก้พื้นที่ ระบบคิดใหม่จากพื้นที่ล่าสุด</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด สร้างค่าแรง/วัสดุ</li><li>เปิดแท็บ ① ดูบรรทัดที่เพิ่ม และยอดรวมท้ายฟอร์ม</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">แท็บ ① มี 6 บรรทัด: หิน 2 · วัสดุสิ้นเปลืองล็อบบี้ 5.76 × 150 = 864.00 · ค่าแรงติดตั้งล็อบบี้ 5.76 × 1,500 = 8,640.00 · วัสดุสิ้นเปลืองห้องน้ำ 2.88 × 150 = 432.00 · ค่าแรงติดตั้งห้องน้ำ 2.88 × 1,500 = 4,320.00 · Amount Direct Cost 47,088.00 · Overhead Profit 4,708.80 · Amount Total 51,796.80</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-10-tab1-after.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-10-tab1-after.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. ใบเสนอราคา และไฟล์ส่งลูกค้า</div>
+        <div class="category-sub">Export Excel · พิมพ์ PDF · สร้างใบเสนอราคา · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-06</span></td>
+          <td class="col-scenario">Export Excel ของ BOQ<div class="note">ไฟล์สรุปตามโซน มี Sub-Total ต่อโซน · ใช้ส่งลูกค้าตรวจ/แก้ก่อนออกใบเสนอราคาได้</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กด Export Excel</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ไฟล์ BOQ1130.xlsx แผ่น BOQ: Bill of Quantities · BOQ No. · Customer Demo Hotel Customer · Company Empire Granite · ตารางคอลัมน์ Schedule / Zone · Description · Unit · Qty · Rate / Unit · Amount · โซนล็อบบี้ 3 บรรทัด Sub-Total 31,392 · โซนห้องน้ำ 3 บรรทัด Sub-Total 15,696 · Amount Direct Cost 47,088 · Overhead &amp; Profit (10%) 4,708.80 · Total Amount 51,796.80</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-11-boq-ready.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-11-boq-ready.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-07</span></td>
+          <td class="col-scenario">พิมพ์ PDF ของ BOQ<div class="note">ภาพประกอบเป็นหน้าแรกของ PDF ที่ได้จริง</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กด พิมพ์ PDF</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ไฟล์ BOQ - BOQ1130.pdf 1 หน้า: Bill of Quantities · BOQ No. BOQ1130 · Customer Demo Hotel Customer · โซนล็อบบี้ (หิน 5.76 m² × 3,800 = 21,888.00 · วัสดุสิ้นเปลือง 864.00 · ค่าแรง 8,640.00 · Sub-Total 31,392.00) · โซนห้องน้ำ (Sub-Total 15,696.00) · Amount Direct Cost 47,088.00 · Overhead &amp; Profit (10.00%) 4,708.80 · Total Amount 51,796.80 · ท้ายหน้าบริษัท Empire Granite</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-13-boq-print-pdf.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-13-boq-print-pdf.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-08</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคาจาก BOQ<div class="note">ใบเสนอราคาจัดเป็นหมวดตามโซน มีบรรทัดค่าบริหารโครงการ 10% ท้ายใบ · ขนาด 60 × 120 ซม. แตกเป็นรายชิ้นให้เอง (5.76 ÷ 0.72 = 8 ชิ้น · 2.88 ÷ 0.72 = 4 ชิ้น)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กด สร้างใบเสนอราคา</li><li>ดูบรรทัดสินค้า ขนาด/ราคา และยอดรวม</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบเสนอราคา (รอบทดสอบ S01704) ช่อง BOQ Document ชี้ BOQ1130 · หมวดล็อบบี้: หิน 5.760 m² × 3,800.00 ขนาด 60 × 120 ซม. × 8 ชิ้น หนา 2 ซม. · วัสดุสิ้นเปลือง 5.760 × 150.00 · ค่าแรงติดตั้ง 5.760 × 1,500.00 · หมวดห้องน้ำ: หิน 2.880 × 3,800.00 × 4 ชิ้น · วัสดุสิ้นเปลือง 2.880 × 150.00 · ค่าแรงติดตั้ง 2.880 × 1,500.00 · ค่าบริหารโครงการ 4,708.80 · Untaxed 51,796.80 · VAT 7% 3,625.78 · Total 55,422.58</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-12-quote.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-12-quote.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D. ยืนยัน ผลิต ส่งของ และเก็บเงิน</div>
+        <div class="category-sub">Confirm · ผลิต FG ทั้งสองโซน · ต้นทุนวัสดุ/ค่าแรงติดตั้ง · ส่งของ · ใบแจ้งหนี้ · 6 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-09</span></td>
+          <td class="col-scenario">Confirm ใบเสนอราคา ได้ใบสั่งผลิตหนึ่งใบต่อโซน<div class="note">บรรทัดวัสดุสิ้นเปลืองและค่าแรงเป็นบริการ ไม่สร้างใบสั่งผลิต</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-08 เสร็จแล้ว · มี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 3 แผ่น</td>
+          <td class="col-steps"><ol><li>ที่ใบเสนอราคา กด Confirm แล้วดูปุ่มสมาร์ทด้านบน</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งขาย (S01704) · Delivery 1 · FG Production 2 · ยอดเดิม 51,796.80 / 55,422.58</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-14-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-14-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-10</span></td>
+          <td class="col-scenario">ใบสั่งผลิตล็อบบี้ (Draft): ขนาดจาก BOQ และ Slab ที่ระบบเลือก<div class="note">ขนาดชิ้นที่พิมพ์ใน BOQ ติดมาถึงใบสั่งผลิตโดยไม่ต้องกรอกซ้ำ</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กดสมาร์ทปุ่ม FG Production แล้วเลือกใบของล็อบบี้ (5.76 ตร.ม.)</li><li>ดูแถบสรุป แล้วเปิดแท็บ Slab ที่จะตัด</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00437) Draft · ต้องใช้ 6.34 ตร.ม. (5.76 + เผื่อเสีย 10%) · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · แท็บ Slab ที่จะตัด: พื้นที่งาน 5.76 · ต้องใช้รวมเผื่อเสีย 6.34 · แผ่นที่เลือก BLK-26-1482-26 และ -27 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-16-mo-slab-tab.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-16-mo-slab-tab.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-11</span></td>
+          <td class="col-scenario">ผลิตใบสั่งผลิตล็อบบี้จนเสร็จ และดูต้นทุน<div class="note">ต้องกด ย้ายไปสถานีตัด ก่อน Confirm · หลังกด ผลิต FG เสร็จ ให้รีเฟรชหน้า เพราะหน้าจออาจยังโชว์สถานะเดิมช่วงสั้นๆ · ค่าแรงโรงงาน 1,500 ต่อ ตร.ม. มาจากหมวดสินค้า ส่วนชุดค่าแรงของ BOQ 1,500 เป็นราคาขาย (ปรับขึ้นจาก 800 เมื่อ 3 พ.ย. 2569) · ต้นทุนวัสดุสิ้นเปลือง (90 ต่อ ตร.ม.) และค่าแรงติดตั้ง (500 ต่อ ตร.ม.) ของชุดใน BOQ ลงบัญชีตอนผลิตเสร็จ เป็นต้นทุนประมาณการ เครดิตเข้า Accrued Expenses (แก้ตอนทดสอบรอบสอง 3 พ.ย. 2569)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด ย้ายไปสถานีตัด แล้วกด Confirm</li><li>กด ผลิต FG เสร็จ แล้วรีเฟรชหน้า</li><li>เปิดแท็บ รายการบัญชี</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">หลังผลิตเสร็จ Done · รายการบัญชี Posted 5 รายการ: Inventory Valuation 8,149.12 สองรายการ (Slab 2 แผ่น) · FG Production Labor 8,640.00 (5.76 × 1,500) · BOQ Consumables 518.40 (5.76 × 90) · BOQ Install Labour 2,880.00 (5.76 × 500)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-19-mo-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-19-mo-journal.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-12</span></td>
+          <td class="col-scenario">ใบสั่งผลิตห้องน้ำ: ระบบเลือก Slab ไม่ซ้ำกับใบแรก แล้วผลิตจนเสร็จ<div class="note">เคยเป็นบั๊ก: ใบสั่งผลิต Draft สองใบได้ Slab ชุดเดียวกัน แล้ว ย้ายไปสถานีตัด ของใบที่สองล้ม · แก้แล้ว (stone_slab_inventory 19.0.2.109.64) ปุ่ม เลือก Slab อัตโนมัติ ข้ามแผ่นที่ใบ Draft อื่นรายการไว้แล้ว</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบสั่งผลิตห้องน้ำ (2.88 ตร.ม.) แล้วดูแท็บ Slab ที่จะตัด</li><li>กด ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ แล้วรีเฟรช</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">Slab ที่เลือกคือ BLK-26-1482-28 (4.35 ตร.ม. พอสำหรับ 3.17) ไม่ซ้ำกับสองแผ่นของใบล็อบบี้ · ไม่มีข้อความผิดพลาด · ใบสั่งผลิต (EG01/STFG/00438) Done · รายการบัญชี: Slab 4,074.56 สองรายการ · ค่าแรง 4,320.00 (2.88 × 1,500) · BOQ Consumables 259.20 · BOQ Install Labour 1,440.00</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-19b-mo2-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-19b-mo2-journal.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-13</span></td>
+          <td class="col-scenario">ส่งของตามใบส่งของ<div class="note">ใบส่งของใบเดียวครอบทั้งสองโซน</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Validate แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ (EG01/OUT/00727) Ready ก่อนกด · 2 บรรทัด: 5.760 m² และ 2.880 m² · หลัง Validate สถานะ Done · จำนวนที่ส่งเท่ากับที่ขายทุกบรรทัด</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-21-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-21-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ3-14</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้<div class="note">ต่างจากเส้นทาง 2 ตรงที่ไม่มีส่วนต่างพื้นที่ ใบแจ้งหนี้จึงเท่าใบเสนอราคา</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ3-13 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft</li><li>กด Confirm แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00013) Posted · หิน 5.760 และ 2.880 × 3,800.00 · วัสดุสิ้นเปลือง 864.00 และ 432.00 · ค่าแรงติดตั้ง 8,640.00 และ 4,320.00 · ค่าบริหารโครงการ 4,708.80 · ก่อน VAT 51,796.80 · VAT 7% 3,625.78 · รวม 55,422.58 (เท่าใบเสนอราคา)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r3/r3-22-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r3/r3-22-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

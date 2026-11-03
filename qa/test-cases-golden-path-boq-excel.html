@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: BOQ นำเข้า Excel ถึง P&amp;L</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-excel.xlsx" download="EMG-O Golden Path - BOQ นำเข้า Excel ถึง P&amp;L.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>นำเข้า BOQ จาก Excel</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>ใบเสนอราคา</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>ยืนยันและผลิต FG</a></li><li class="tree-doc"><a href="#D"><span class="tree-doc-tag">D</span>ส่งของและเก็บเงิน</a></li><li class="tree-doc"><a href="#E"><span class="tree-doc-tag">E</span>กำไรของ BOQ ใบนี้ (P&L)</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>Golden Path — BOQ เส้นทาง 1: นำเข้า Excel ถึง P&amp;L</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="sub">เอกสารเดียวสำหรับเส้นทางหลักของ BOQ: นำเข้ารายการจากไฟล์ Excel · ออกใบเสนอราคา · ผลิต FG ตามขนาดที่ติดมา · ส่งของ · ใบแจ้งหนี้ · ดูกำไรของ BOQ ใบนี้ · เฉพาะ happy path ไม่มีเคสกรอกผิด</div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>12</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">11</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">1</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>เอกสารชุดใหม่ของ BOQ (แทนชุดเดิมที่ย้ายเข้า Archived แล้ว)</h3>
+    <ul>
+      <li>ทำตามทีละขั้นด้วย <a href="guide-boq-excel-2026-11-03.html">คู่มือกดตาม BOQ นำเข้า Excel ถึง P&amp;L</a> (มีเหตุผลของแต่ละค่าที่กรอก) · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
+      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน (มีสินค้า ZZ2 GUIDE MARBLE Countertop และหมวด FIFO + Perpetual) และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 2 แผ่น</li>
+      <li>ขอบเขต 12 เคส: นำเข้า BOQ 2 · ใบเสนอราคา 3 · ยืนยันและผลิต FG 4 · ส่งของและเก็บเงิน 2 · P&amp;L 1</li>
+      <li>เส้นทาง 2 (Cut List หลังขาย) และเส้นทาง 3 (สร้าง BOQ เอง) เป็นชุดแยก</li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
+    ไฟล์ boq-import-zz2-reception.xlsx &rarr; BOQ1121 &rarr; ใบเสนอราคา S01697 (ติ๊ก Sold as Project) &rarr; ใบสั่งผลิต EG01/STFG/00424 (Slab BLK-26-1482-8, -9) &rarr; ใบส่งของ EG01/OUT/00720 &rarr; ใบแจ้งหนี้ INV/2026/00008 &rarr; P&amp;L ของ BOQ1121<br>
+    <b>ตัวเลขหลัก:</b> ขาย 46,024.00 · VAT 3,221.68 · รวม 49,245.68 · ต้นทุน Slab 8,149.12 + ค่าแรงผลิต 10,800.00 = 18,949.12 · กำไรขั้นต้น 27,074.88<br>
+    <b>ข้อสังเกตจากการรัน:</b> (1) ต้องติ๊ก Sold as Project ก่อน Confirm ไม่เช่นนั้นดู P&amp;L รายใบไม่ได้ (รอบแรกพลาดตรงนี้ จึงรันใหม่) (2) ค่าแรงที่ตั้งขายใน BOQ 900 ต่อ ตร.ม. ต่างจากค่าแรงโรงงาน 1,500 ต่อ ตร.ม. ในหมวดสินค้า (3) หลังกด ผลิต FG เสร็จ หน้าจอยังโชว์ Confirmed จนกว่าจะรีเฟรช<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> นำเข้า Cut List · สร้าง BOQ เอง · แถวที่ผิดตอน Import · Consumable Sets · วางบิลเป็นงวด · Gantt และ Task ของโปรเจกต์ · บันทึกเศษ · คืนสินค้า<br>
+    <b>คำถามค้างลูกค้า/บัญชี:</b> ค่าแรงขายกับค่าแรงต้นทุนต่างกัน (900 กับ 1,500) ต้องการให้ BOQ โชว์ต้นทุนจริงหรือไม่ · P&amp;L รอบนี้ไม่มีต้นทุนวัสดุสิ้นเปลือง (511130 = 0.00) เพราะไม่ได้สร้างรายการวัสดุสิ้นเปลืองใน BOQ แท็บ ②
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. นำเข้า BOQ จาก Excel</div>
+        <div class="category-sub">อัปโหลดไฟล์ อ่านไฟล์ ตรวจหน้าตัวอย่าง แล้วสร้าง BOQ · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-01</span></td>
+          <td class="col-scenario">อัปโหลดไฟล์ BOQ และตรวจหน้าตัวอย่างก่อนสร้าง<div class="note">ไฟล์ที่ใช้ควรได้จากปุ่ม ดาวน์โหลดเทมเพลต (กว้าง/ยาว/หนาเป็น ซม.) · ต้องเลือกลูกค้าก่อนปุ่มดาวน์โหลดเทมเพลตจึงทำงาน · สินค้าหินเลือกจาก dropdown ในไฟล์ ห้ามพิมพ์เอง</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite · ไฟล์ boq-import-zz2-reception.xlsx · มีสินค้า ZZ2 GUIDE MARBLE Countertop (ราคาขาย 3,800 ต่อ ตร.ม.)</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents แล้วกด Import Excel</li><li>ช่อง ลูกค้า เลือก Demo Hotel Customer · ช่อง ไฟล์ Excel อัปโหลดไฟล์ตัวอย่าง</li><li>กด อ่านไฟล์ แล้วดูหน้าตัวอย่าง</li></ol></td>
+          <td class="col-sample">Customer = Demo Hotel Customer · แถว 1: ห้องรับรอง · เคาน์เตอร์ห้องรับรอง หินขาว ขัดมัน · ZZ2 GUIDE MARBLE Countertop · 60 × 120 × 2 ซม. · 7.2 ตร.ม. · ค่าแรง 900 · แถว 2: ค่าขนส่งและติดตั้ง · 1 ชิ้น · ราคา 8,000</td>
+          <td class="col-expected">หน้าตัวอย่างไม่มีแถวแดง · จำนวนรายการ 2 · วัสดุรวม 35,360.00 · ค่าแรงรวม 6,480.00 · Overhead รวม 4,184.00 · รวม (ก่อนค่าบริหารโครงการ) 46,024.00 · แถวพื้นราคาวัสดุ/หน่วย 3,800.00 (ระบบใส่ราคาขายของสินค้าให้เพราะไฟล์เว้นว่าง)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-04-wizard-preview.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-04-wizard-preview.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-02</span></td>
+          <td class="col-scenario">สร้าง BOQ จากไฟล์ แล้วตรวจยอดในแท็บ ①<div class="note">ทุกครั้งที่นำเข้าได้ BOQ ใบใหม่ ไม่ทับหรือเติมเข้า BOQ เดิม · ยอด Direct Cost ใน BOQ เป็นราคาตั้งขาย ไม่ใช่ต้นทุนจริงของโรงงาน</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-01 เสร็จแล้ว (หน้าตัวอย่างยังเปิดอยู่)</td>
+          <td class="col-steps"><ol><li>กด สร้าง BOQ</li><li>ดูแท็บ ① ประเมินพื้นที่ และยอดรวมท้ายฟอร์ม</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ได้ BOQ ใหม่ (รอบทดสอบ BOQ1121) ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.20 ตร.ม. วัสดุ 3,800.00 ค่าแรง 900.00 ราคา/หน่วย 4,700.00 รวม 33,840.00 · บรรทัดขนส่งและติดตั้ง 1.00 ชิ้น 8,000.00 · Amount Direct Cost 41,840.00 · Amount Overhead Profit 4,184.00 · Amount Total 46,024.00 · แถบสถานะอยู่ที่ ①</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-05-boq-form.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-05-boq-form.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. ใบเสนอราคา</div>
+        <div class="category-sub">ออกใบเสนอราคาจาก BOQ · ตรวจรายชิ้น · ติ๊ก Sold as Project · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-03</span></td>
+          <td class="col-scenario">สร้างใบเสนอราคาจาก BOQ และตรวจบรรทัด/ยอด<div class="note">บรรทัดพื้นราคา 4,700 ต่อ ตร.ม. = วัสดุ 3,800 + ค่าแรง 900 · ระบบเพิ่มบรรทัด ค่าบริหารโครงการ 10% ให้เอง</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-02 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ BOQ กด สร้างใบเสนอราคา</li><li>ดูบรรทัดสินค้า ขนาด/ราคา และยอดรวมท้ายใบ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">เปิดใบเสนอราคาใหม่ (รอบทดสอบ S01697) ลูกค้า Demo Hotel Customer · ช่อง BOQ Document ชี้กลับ BOQ1121 · บรรทัดพื้น 7.200 m² × 4,700.00 = 33,840.00 · ช่องขนาด/ราคาแสดง 60 × 120 ซม. × 10 ชิ้น หนา 2 ซม. · บรรทัดขนส่งและติดตั้ง 1.000 Units 8,000.00 · บรรทัดค่าบริหารโครงการ 4,184.00 · Untaxed 46,024.00 · VAT 7% 3,221.68 · Total 49,245.68</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-06-quote.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-06-quote.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-04</span></td>
+          <td class="col-scenario">ตรวจรายชิ้นที่ติดมาจาก BOQ<div class="note">ขนาดและจำนวนชิ้นคำนวณจาก 7.2 ตร.ม. ÷ พื้นที่แผ่นละ 0.72 ตร.ม. (60 × 120 ซม.) = 10 ชิ้นพอดี · ถ้าหารไม่ลงตัวระบบไม่สร้างรายชิ้น</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-03 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่บรรทัดพื้น กดไอคอนรายการ (รายชิ้น) ที่ท้ายช่องขนาด/ราคา</li><li>ดูตารางรายชิ้น แล้วปิดหน้าต่าง</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">หน้าต่าง รายชิ้น มี 1 แถว: กว้าง 60.00 ซม. ยาว 120.00 ซม. จำนวนชิ้น 10.000 ตร.ม. 7.20 · ผลรวมท้ายตาราง 7.20</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-07-pieces.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-07-pieces.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-05</span></td>
+          <td class="col-scenario">ติ๊ก Sold as Project เพื่อให้ดูกำไรของ BOQ ใบนี้ได้<div class="note">ต้องติ๊กก่อน Confirm — ใบที่ไม่ได้ติ๊กจะไม่มีบัญชีวิเคราะห์ของโปรเจกต์ จึงเลือกดู P&L รายใบไม่ได้ (รอบทดสอบแรก BOQ1120 / S01696 พลาดตรงนี้)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-04 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบเสนอราคา ติ๊กช่อง Sold as Project</li><li>ตรวจว่าช่องถูกติ๊กแล้ว</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ช่อง Sold as Project ติ๊กอยู่ · ยอดเดิม 46,024.00 / รวม 49,245.68 ไม่เปลี่ยน</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-08-quote-sold-as-project.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-08-quote-sold-as-project.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. ยืนยันและผลิต FG</div>
+        <div class="category-sub">Confirm · ใบสั่งผลิตและ Slab ที่ระบบเลือก · ย้ายสถานีตัด · ผลิตเสร็จ · รายการบัญชีต้นทุน · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-06</span></td>
+          <td class="col-scenario">Confirm ใบเสนอราคาแล้วระบบสร้างใบสั่งผลิตและใบส่งของ<div class="note">รอบรันจริงไม่มีหน้าต่างเตือนตอน Confirm · FG ผลิตตามออเดอร์จึงยังไม่มีสต็อกตอนขาย</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-05 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบเสนอราคา กด Confirm</li><li>ดูปุ่มสมาร์ทด้านบนใบ</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งขาย (S01697) · ปุ่มสมาร์ท Projects 1 · Delivery 1 · FG Production 1 · ยอดเดิม 46,024.00 / 49,245.68</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-10-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-10-so-confirmed.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-07</span></td>
+          <td class="col-scenario">ใบสั่งผลิต: ขนาดจาก BOQ และ Slab ที่ระบบเลือกให้<div class="note">พื้นที่ใช้จริง 7.92 = 7.20 + เผื่อเสีย 10% · Slab ที่เลือกต้องไม่ต่ำกว่านี้ (ป้าย พอ สีเขียว)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-06 เสร็จแล้ว · มี Slab ZZ2 GUIDE MARBLE Available อย่างน้อย 2 แผ่น</td>
+          <td class="col-steps"><ol><li>กดสมาร์ทปุ่ม FG Production</li><li>เปิดแท็บ ผลผลิต FG แล้วเปิดแท็บ Slab ที่จะตัด</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00424) Draft · ต้องใช้ 7.92 ตร.ม. · Slab ที่เลือก 8.70 ตร.ม. ป้าย พอ · ผลผลิต FG 1 แถว กว้าง 0.60 ยาว 1.20 หนา 0.02 (เมตร) จำนวน 10 · แท็บ Slab ที่จะตัด: พื้นที่งาน 7.20 · ต้องใช้รวมเผื่อเสีย 7.92 · แผ่นที่เลือก BLK-26-1482-8 และ -9 (แผ่นละ 1.50 × 2.90 × 0.030 ม. = 4.35 ตร.ม.)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-12-mo-slab-tab.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-12-mo-slab-tab.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-08</span></td>
+          <td class="col-scenario">ย้ายไปสถานีตัด → Confirm → ผลิต FG เสร็จ<div class="note">ต้องกด ย้ายไปสถานีตัด ก่อน Confirm ไม่เช่นนั้นของที่สถานีตัดไม่พอ · หลัง Confirm มีปุ่ม Plan/Start แต่ไม่ต้องใช้ กด ผลิต FG เสร็จ ได้เลย (ระบบปิดขั้นตัดและทำขอบให้) · หน้าจออาจยังโชว์ Confirmed จนกว่าจะรีเฟรช</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>กด ย้ายไปสถานีตัด แล้วกด Confirm</li><li>เปิดแท็บ ผลผลิต FG ตรวจขนาดและจำนวน</li><li>กด ผลิต FG เสร็จ แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">หลัง Confirm: Confirmed · Component Status Available · หลังผลิตเสร็จ: Done · ผลผลิต FG ยังเป็น 0.60 × 1.20 × 10 ชิ้น</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-15-mo-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-15-mo-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-09</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีของใบสั่งผลิต (ต้นทุน Slab และค่าแรง)<div class="note">ค่าแรงโรงงาน 1,500 ต่อ ตร.ม. มาจากหมวดสินค้า ไม่ใช่ 900 ที่ตั้งขายใน BOQ · ข้อสังเกตนี้ควรถามลูกค้า/บัญชี</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-08 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งผลิต เปิดแท็บ รายการบัญชี</li><li>ดู 3 รายการและยอดรวม</li></ol></td>
+          <td class="col-sample">ค่าแรง = 7.20 ตร.ม. × 1,500 = 10,800</td>
+          <td class="col-expected">3 รายการ Posted: Inventory Valuation 8,149.12 (STJ/2026/11/0027) · Inventory Valuation 8,149.12 (STJ/2026/11/0028) · FG Production Labor 10,800.00 (MISC/2026/11/0005) · รวม 27,098.24 (Slab 2 แผ่นมูลค่ารวม 8,149.12 ตรงกับต้นทุนขายในใบแจ้งหนี้)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-16-mo-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-16-mo-journal.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D. ส่งของและเก็บเงิน</div>
+        <div class="category-sub">ส่งของ · ใบแจ้งหนี้และต้นทุนขาย · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-10</span></td>
+          <td class="col-scenario">ส่งของตามใบส่งของที่ระบบสร้างไว้<div class="note">ใบส่งของ FG ไม่ต้องเลือก Lot หรือสแกน Serial เอง ระบบจองให้ตามที่ผลิต</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-09 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Validate แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบส่งของ (EG01/OUT/00720) Ready ก่อนกด · Demand 7.200 · Quantity 7.200 m² · หลัง Validate เป็น Done</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-18-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-18-delivery-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-11</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้และตรวจยอด<div class="note">ใบแจ้งหนี้ออกได้หลังส่งของ · ระบบลงต้นทุนขาย 8,149.12 ให้เองในรายการบัญชี · ค่าแรง 10,800 ลงตอนผลิตเสร็จ ไม่อยู่ในใบแจ้งหนี้</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-10 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft</li><li>กด Confirm แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00008) Posted · ลูกค้า Demo Hotel Customer · บรรทัดพื้น 7.200 m² × 4,700.00 · ก่อน VAT 46,024.00 · VAT 7% 3,221.68 · รวม 49,245.68 · Amount Due 49,245.68</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-20-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-20-invoice-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E. กำไรของ BOQ ใบนี้ (P&L)</div>
+        <div class="category-sub">ดูรายได้ ต้นทุน และกำไรขั้นต้นรายโครงการ · 1 test case</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-GP-BQ1-12</span></td>
+          <td class="col-scenario">ดู Profit and Loss ของ BOQ ใบนี้<div class="note">เลือกบัญชีวิเคราะห์ของ BOQ ได้เฉพาะใบที่ติ๊ก Sold as Project · ต้นทุนในรายงาน = ต้นทุน Slab 8,149.12 + ค่าแรงผลิต 10,800 (ค่าแรงใน BOQ 6,480 เป็นราคาที่ตั้งขาย ไม่ใช่ต้นทุนจริง)</div></td>
+          <td class="col-pre">ทำ TC-GP-BQ1-11 เสร็จแล้ว · เข้า Accounting ได้</td>
+          <td class="col-steps"><ol><li>เปิดแอป Accounting &gt; Reporting &gt; Profit and Loss</li><li>กดปุ่ม Analytic แล้วค้นหา BOQ1121 เลือกบัญชี BOQ1121 - Demo Hotel Customer</li><li>กดขยายหัวข้อ Revenue และ Less Costs of Revenue</li></ol></td>
+          <td class="col-sample">บัญชีวิเคราะห์ = BOQ1121 - Demo Hotel Customer</td>
+          <td class="col-expected">คอลัมน์ BOQ1121: Revenue 46,024.00 (411100 Sales Revenue) · 511110 COGS - Stone Sales 8,149.12 · 511120 COGS - FG Production (Fabrication) 10,800.00 · Less Costs of Revenue 18,949.12 · Gross Profit 27,074.88 · Net Profit 27,074.88 · รายได้ตรงกับใบแจ้งหนี้ 46,024.00 และต้นทุนตรงกับรายการบัญชีของใบสั่งผลิต</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r1/r1-21-pnl.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r1/r1-21-pnl.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>
