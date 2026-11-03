@@ -9,6 +9,8 @@
 #   -> INV/2026/00025 (46,024.00 + VAT 3,221.68 = 49,245.68) paid by PBNK1/2026/00001 -> return EG01/IN/00750 (3.000) -> credit note RINV/2026/00003 (14,100.00 + VAT 987.00 = 15,087.00)
 #   -> refunded by PBNK1/2026/00002.
 # Fixture C2 (scrap with the loss account set on the Scrap / Inventory adjustment locations): boq-import-zz2-reception.xlsx -> BOQ1236 -> S01831 -> MO EG01/STFG/00505 -> offcut OC-EG01/STFG/00505-01 scrapped -> STJ/2026/11/0092.
+# Fixture C4 (FG lot split in pieces, on 109.69): BOQ1359 / S02047 (boq-import-zz2-reception.xlsx) -> MO EG01/STFG/00570 (lot FG-EG01/STFG/00570-01, 10 pieces) -> EG01/OUT/00898 (3 pieces = 2.160)
+#   + backorder 00899 (5.04) -> INV/2026/00028 -> return EG01/IN/00828 (2 pieces = 1.440). Used by TC-EX-10 (set 1) and TC-EX2-06.
 # Fixture D (lamps delivered one at a time): BOQ1234 (2 lamps) -> S01812 -> Cut List after the sale -> assemblies EG01/STFG/00497 + 00498 -> EG01/OUT/00780 (lamp 1)
 #   + backorder 00781 (lamp 2). First invoice INV/2026/00024 (30,000.00, fee billed in full, before fix d) was cancelled; on BOQ 1.54.4: INV/2026/00026 (lamp 1 + half the fee = 27,500.00)
 #   and INV/2026/00027 (lamp 2 + the other half = 27,500.00).
@@ -74,19 +76,19 @@ CATEGORIES = [
   dict(cat_id="C", title="C. คืนของบางส่วนและคืนหลังจ่ายเงินแล้ว",
        subtitle="คืนเฉพาะบางชิ้นหรือบางจำนวน · Credit Note บางส่วนของใบแจ้งหนี้ที่ชำระแล้ว · 2 test cases",
        cases=[
-    dict(id="TC-EX2-06", scenario="คืน FG บางจำนวนของใบส่งของ",
-         note="ต่างจากการส่ง (ที่ lot เดียวต้องส่งทั้งชิ้น) การรับคืนระบบยอมให้คืนบางจำนวนของ lot ได้ · ส่ง 7.200 แล้วคืน 3.000 อีก 4.200 ยังอยู่กับลูกค้า",
-         pre="ใบสั่งขาย S01831 (เคาน์เตอร์ห้องรับรอง 7.200 ตร.ม. 4,700 ต่อ ตร.ม.) ผลิตแล้ว ส่งของ EG01/OUT/00788 ครบ 7.200 ออกใบแจ้งหนี้ INV/2026/00025 (46,024.00 ก่อน VAT รวม 49,245.68) และรับชำระครบแล้วโดย PBNK1/2026/00001 (ดู TC-EX2-07)",
-         steps=["เปิดใบส่งของ EG01/OUT/00788 กด Return",
-                "แก้ Quantity เป็น 3 กด Return แล้วเปิดใบรับคืน (EG01/IN/00750) กด Validate"],
-         sample="คืน 3.000 จาก 7.200 ตร.ม.",
-         expected="ได้ใบรับคืน EG01/IN/00750 บรรทัดเดียว 3.000 ปลายทาง EG01/Stock · Validate ผ่านเป็น Done ไม่มีข้อความห้ามแบ่ง",
-         prio="High", shot=SHOT + "p2-01-return-wizard-partial.png"),
+    dict(id="TC-EX2-06", scenario="คืน FG เป็นชิ้นเต็มของใบส่งของที่ส่งบางชิ้น",
+         note="การคืนใช้กติกาเดียวกับการส่ง: ต้องเป็นจำนวนเต็มของชิ้น (ชิ้นละ 0.72 ตร.ม.) · ระบบตรวจตอนกด Return ก่อนสร้างใบรับคืน · รอบแรกของเคสนี้ (S01831 คืน 3.000 ตร.ม.) ทำก่อนมีกติกานี้ ซึ่งตอนนี้ 3.000 จะไม่ผ่านเพราะเป็น 4.17 ชิ้น (คืนได้ 2.88 หรือ 3.60)",
+         pre="ใบส่งของ EG01/OUT/00898 (S02047 ส่ง 3 ชิ้น = 2.160 จาก lot 10 ชิ้น ดู TC-EX-10) สถานะ Done",
+         steps=["เปิดใบส่งของ EG01/OUT/00898 กด Return แก้ Quantity เป็น 0.5 กด Return",
+                "แก้ Quantity เป็น 1.44 (2 ชิ้น) กด Return แล้วเปิดใบรับคืน (EG01/IN/00828) กด Validate"],
+         sample="คืน 0.50 (ไม่ลงตัว) แล้วคืน 1.44 (2 ชิ้น)",
+         expected="ใส่ 0.50: Invalid Operation หิน Lot FG-EG01/STFG/00570-01 คืนได้เป็นชิ้นเต็มเท่านั้น (ชิ้นละ 0.7200 ตร.ม.) แต่ใส่ 0.50 · ใส่ 1.44: ได้ใบรับคืน EG01/IN/00828 1.440 ปลายทาง EG01/Stock Validate ผ่านเป็น Done",
+         prio="High", shot=SHOT + "w7-01-return-not-whole-pieces.png"),
     dict(id="TC-EX2-07", scenario="ชำระเงิน ออก Credit Note เฉพาะส่วนที่คืน และคืนเงินลูกค้า",
          note="ระบบไม่คืนเงินให้เอง ต้องกด Pay บน Credit Note · Credit Note ใช้ยอดเต็มของแต่ละบรรทัดที่ยกมา ต้องลบบรรทัดที่ไม่ได้คืน (ค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ) ออกเอง · ต้องตั้งบัญชี Outstanding Receipts/Payments ที่ Manual Payment ของ Bank ก่อน (ดูคู่มือ Setup) ไม่เช่นนั้นการชำระจะไม่ลงบัญชี ใบแจ้งหนี้ไม่ถูกตัดยอด และสถานะ In Payment หลอกว่าจ่ายแล้ว (รอบแรกของเคสนี้เจอเรื่องนี้ ยอดค้าง 28,617.52 ที่เคยรายงานไว้คือผลจากสาเหตุนี้ ไม่ใช่ความผิดปกติของ Credit Note)",
-         pre="ใบแจ้งหนี้ INV/2026/00025 Posted · Bank ของบริษัทตั้ง Outstanding Receipts และ Outstanding Payments แล้ว",
+         pre="ใบแจ้งหนี้ INV/2026/00025 (S01831 ส่งเต็ม 7.200 รับคืนไป 3.000 ตามรอบแรกก่อนมีกติกาชิ้นเต็ม) Posted · Bank ของบริษัทตั้ง Outstanding Receipts และ Outstanding Payments แล้ว",
          steps=["เปิด INV/2026/00025 กด Pay → Create Payment (49,245.68) ได้ PBNK1/2026/00001 ใบแจ้งหนี้ยอดค้าง 0",
-                "ทำ TC-EX2-06 (คืน 3.000) แล้วเปิด INV/2026/00025 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง",
+                "หลังรับคืน 3.000 (EG01/IN/00750) เปิด INV/2026/00025 กด Credit Note เลือก Reverse ได้ Credit Note ฉบับร่าง",
                 "แก้จำนวนบรรทัดเคาน์เตอร์จาก 7.200 เป็น 3.000 ลบบรรทัดค่าใช้จ่ายส่วนเพิ่มของห้อง และค่าบริหารโครงการ แล้ว Confirm",
                 "บน Credit Note กด Pay → Create Payment (ยอด 15,087.00) เพื่อคืนเงินลูกค้า"],
          sample="เคาน์เตอร์ 3.000 × 4,700.00 = 14,100.00 · VAT 7% = 987.00 · รวม 15,087.00",
