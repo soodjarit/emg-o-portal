@@ -114,7 +114,7 @@
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Golden Path — BOQ เส้นทาง 2: Cut List หลังขาย</h1>
+    <h1>Golden Path — BOQ: Cut List หลังขาย</h1>
     <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
     <div class="sub">ขายและยืนยันจาก BOQ ก่อน แล้วได้ Cut List ทีหลัง: นำเข้า Cut List เข้า BOQ ที่ขายไปแล้ว · ชิ้นงานถึงใบเสนอราคาและใบสั่งผลิตโดยราคาไม่เปลี่ยน · เทียบ ตร.ม. · สร้าง BOQ ฉบับใหม่ · ผลิต ส่งของ ใบแจ้งหนี้ · เฉพาะ happy path</div>
     <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
@@ -131,10 +131,11 @@
   </header>
 
   <div class="changes">
-    <h3>เอกสารชุดใหม่ของ BOQ — เส้นทาง 2 (แทนชุดเดิมที่ย้ายเข้า Archived แล้ว)</h3>
+    <h3>ตรวจซ้ำ 3 พ.ย. 2569 (boq_estimation 1.56.1): เดินซ้ำครบทุกเคสแล้ว</h3>
     <ul>
       <li>ทำตามทีละขั้นด้วย <a href="guide-boq-cutlist-2026-11-03.html">คู่มือกดตาม BOQ Cut List หลังขาย</a> · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
-      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 5 แผ่น · วิธีนำเข้า BOQ จาก Excel อยู่ใน <a href="guide-boq-excel-2026-11-03.html">เส้นทาง 1</a></li>
+      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 5 แผ่น · วิธีนำเข้า BOQ จาก Excel อยู่ใน <a href="guide-boq-items-2026-11-03.html">คู่มือ BOQ ค่าแรง/วัสดุเป็นรายการ</a></li>
+      <li>เลขเอกสารในเอกสารนี้เป็นของรอบตรวจซ้ำ (BOQ1500 · S02157 · EG01/STFG/00614–00615 · EG01/OUT/00943 · INV/2026/00031) · เจอและแก้ 2 จุด: ผลิตห้องประชุมไม่ได้เพราะกฎชิ้นเต็ม (ชิ้น 90 × 82 ซม.) และหน้ารายชิ้นไม่มีคอลัมน์ · กับดัก: ต้องติ๊ก Picked ให้ครบก่อน Validate ใบส่งของ</li>
       <li>ขอบเขต 13 เคส: ขายก่อน 1 · เตรียมและนำเข้า Cut List 3 · ผลถึงใบเสนอราคาและใบสั่งผลิต 3 · เทียบ ตร.ม. และ BOQ ฉบับใหม่ 2 · ผลิต ส่งของ เก็บเงิน 4</li>
       <li><b>ชุดนี้รันหลังแก้บั๊กระหว่างทำเส้นทางนี้และเส้นทางถัดไป:</b> boq_estimation 19.0.1.54.3 และ stone_slab_inventory 19.0.2.109.65 (รายละเอียดในกล่องด้านล่างและในกล่องข้อสังเกตแต่ละเคส)</li>
     </ul>
@@ -142,7 +143,7 @@
 
   <div class="flow-banner">
     <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
-    BOQ1128 (2 โซน) &rarr; ใบเสนอราคา S01703 ยืนยันก่อนมี Cut List &rarr; นำเข้า Cut List 18 ชิ้น &rarr; ใบสั่งผลิต EG01/STFG/00435 และ 00436 &rarr; เทียบ ตร.ม. &rarr; BOQ1129 (ฉบับใหม่) &rarr; ใบส่งของ EG01/OUT/00726 &rarr; ใบแจ้งหนี้ INV/2026/00012<br>
+    BOQ1500 (2 โซน) &rarr; ใบเสนอราคา S02157 ยืนยันก่อนมี Cut List &rarr; นำเข้า Cut List 18 ชิ้น &rarr; ใบสั่งผลิต EG01/STFG/00614 และ 00436 &rarr; เทียบ ตร.ม. &rarr; BOQ1502 (ฉบับใหม่) &rarr; ใบส่งของ EG01/OUT/00943 &rarr; ใบแจ้งหนี้ INV/2026/00031<br>
     <b>ตัวเลขหลัก:</b> ใบเสนอราคา 67,003.20 ก่อน VAT (ห้องประชุม 8.64 · ห้องน้ำ 4.32 ตร.ม.) · Cut List ห้องประชุม 8.75 (+0.11) ห้องน้ำ 4.32 · ส่งจริงห้องประชุม 8.70 ตร.ม. · ใบแจ้งหนี้ 67,003.20 ก่อน VAT (เท่าใบเสนอราคา ไม่เรียกเก็บส่วนเกิน 0.06 ตร.ม.) · BOQ ฉบับใหม่ 67,571.90<br>
     <b>บั๊กที่เจอและแก้แล้วระหว่างทำ (2 รอบก่อนรอบนี้):</b> หลังนำเข้า Cut List แถวรายชิ้นเดิมของใบเสนอราคา และแถวรายการตัดของใบสั่งผลิต ไม่ถูกแทนที่ แต่ถูกเพิ่มซ้อน ทำให้ใบสั่งผลิตขอ Slab 19.07 ตร.ม. แทน 9.6 ตร.ม. · แก้แล้ว 2 จุด และตรวจซ้ำด้วยชุดนี้ (TC-GP-BQ2-06 และ TC-GP-BQ2-07)<br>
     <b>แก้แล้วในรอบที่สองและตรวจซ้ำด้วยชุดนี้:</b> (1) ใบสั่งผลิต Draft สองใบเคยเลือก Slab ชุดเดียวกัน ตอนนี้ระบบเลือกคนละแผ่น (TC-GP-BQ2-11) (2) ใบแจ้งหนี้เคยคิดตามพื้นที่ที่ส่งจริง สูงกว่าใบเสนอราคา 282.00 ตอนนี้ไม่เกินยอดที่เสนอ (TC-GP-BQ2-13)<br>
@@ -174,11 +175,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-01</span></td>
-          <td class="col-scenario">ยืนยันขายจาก BOQ ที่ยังไม่มี Cut List<div class="note">BOQ นี้สร้างจากไฟล์ boq-import-zz2-meeting.xlsx (วิธีนำเข้าดูเส้นทาง 1) · ใบเสนอราคาแตกชิ้นให้เองจากขนาด 60 × 120 ซม. เพราะ 8.64 ÷ 0.72 หารลงตัว 12 ชิ้น</div></td>
+          <td class="col-scenario">ยืนยันขายจาก BOQ ที่ยังไม่มี Cut List<div class="note">BOQ นี้สร้างจากไฟล์ boq-import-zz2-meeting.xlsx (วิธีนำเข้าดูคู่มือ BOQ ค่าแรง/วัสดุเป็นรายการ ตอน 2) · ใบเสนอราคาแตกชิ้นให้เองจากขนาด 60 × 120 ซม. เพราะ 8.64 ÷ 0.72 หารลงตัว 12 ชิ้น</div></td>
           <td class="col-pre">เข้าระบบเป็น Empire Granite · มีสินค้า ZZ2 GUIDE MARBLE Countertop · มี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 5 แผ่น · ไฟล์ boq-import-zz2-meeting.xlsx</td>
           <td class="col-steps"><ol><li>นำเข้า BOQ จากไฟล์ (Import Excel) แล้วกด สร้างใบเสนอราคา</li><li>ที่ใบเสนอราคา กด Confirm แล้วดูปุ่มสมาร์ทด้านบน</li></ol></td>
           <td class="col-sample">โซน ห้องประชุม: ZZ2 GUIDE MARBLE Countertop 60 × 120 × 2 ซม. 8.64 ตร.ม. · โซน ห้องน้ำ: 60 × 120 × 2 ซม. 4.32 ตร.ม. · ค่าแรง 900 ต่อ ตร.ม. ทั้งสองโซน</td>
-          <td class="col-expected">BOQ (รอบทดสอบ BOQ1128) Direct Cost 60,912.00 · Overhead 6,091.20 · Total 67,003.20 · ใบเสนอราคา (S01703) บรรทัดห้องประชุม 8.640 m² × 4,700.00 (60 × 120 ซม. × 12 ชิ้น) · ห้องน้ำ 4.320 m² × 4,700.00 (× 6 ชิ้น) · Untaxed 67,003.20 · VAT 4,690.22 · Total 71,693.42 · หลัง Confirm ปุ่มสมาร์ท Delivery 1 · FG Production 2</td>
+          <td class="col-expected">BOQ (รอบทดสอบ BOQ1500) Direct Cost 60,912.00 · Overhead 6,091.20 · Total 67,003.20 · ใบเสนอราคา (S02157) บรรทัดห้องประชุม 8.640 m² × 4,700.00 (60 × 120 ซม. × 12 ชิ้น) · ห้องน้ำ 4.320 m² × 4,700.00 (× 6 ชิ้น) · Untaxed 67,003.20 · VAT 4,690.22 · Total 71,693.42 · หลัง Confirm ปุ่มสมาร์ท Delivery 1 · FG Production 2</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-04-so-confirmed.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-04-so-confirmed.png" loading="lazy"></a></td>
         </tr>
@@ -212,9 +213,9 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-02</span></td>
           <td class="col-scenario">ระบุ รายการที่ใช้ในโปรเจกต์นี้ และดาวน์โหลดเทมเพลต Cut List<div class="note">ไฟล์ที่ได้มี dropdown โซน (ห้องประชุม/ห้องน้ำ) และ dropdown รายการ จึงพิมพ์ชื่อโซนผิดไม่ได้ · ช่องพื้นที่ (ตรม.) เป็นสูตร ไม่ต้องกรอก</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-01 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด BOQ แท็บ ③ Cut List</li><li>ที่ช่อง รายการที่ใช้ในโปรเจกต์นี้ เลือก [ZZ2G-FG] ZZ2 GUIDE MARBLE Countertop แล้วกด Save</li><li>กด ดาวน์โหลดเทมเพลต Cut List</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด BOQ แท็บ ② Cut List</li><li>ที่ช่อง รายการที่ใช้ในโปรเจกต์นี้ เลือก [ZZ2G-FG] ZZ2 GUIDE MARBLE Countertop แล้วกด Save</li><li>กด ดาวน์โหลดเทมเพลต Cut List</li></ol></td>
           <td class="col-sample">รายการ = [ZZ2G-FG] ZZ2 GUIDE MARBLE Countertop</td>
-          <td class="col-expected">ปุ่ม ดาวน์โหลดเทมเพลต Cut List ปรากฏหลังเลือกรายการ · ได้ไฟล์ CutList-Template-BOQ1128.xlsx แผ่น Cut List (คอลัมน์ Elevation / Zone · รหัสชิ้น · รายการ · กว้าง (ซม.) · สูง (ซม.) · ตรม. · หมายเหตุ) แผ่น ItemList 1 รายการ แผ่น ZoneList 2 โซน</td>
+          <td class="col-expected">ปุ่ม ดาวน์โหลดเทมเพลต Cut List ปรากฏหลังเลือกรายการ · ได้ไฟล์ CutList-Template-BOQ1500.xlsx แผ่น Cut List (คอลัมน์ Elevation / Zone · รหัสชิ้น · รายการ · กว้าง (ซม.) · สูง (ซม.) · ตรม. · หมายเหตุ) แผ่น ItemList 1 รายการ แผ่น ZoneList 2 โซน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-06-tab3-product.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-06-tab3-product.png" loading="lazy"></a></td>
         </tr>
@@ -222,7 +223,7 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-03</span></td>
           <td class="col-scenario">อัปโหลด Cut List และตรวจหน้าตัวอย่าง<div class="note">ใบเสนอราคาออกไปแล้ว จึงเติมได้เฉพาะบรรทัดเดิมของโซนเดียวกัน ไม่สร้างบรรทัดใหม่และไม่เปลี่ยน ตร.ม./ราคา · หน้าตัวอย่างแสดงส่วนต่างให้เห็นก่อนยืนยัน</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-02 เสร็จแล้ว · ไฟล์ cutlist-import-zz2-meeting.xlsx</td>
-          <td class="col-steps"><ol><li>ที่แท็บ ③ กด นำเข้า Cut List แล้วเลือกไฟล์</li><li>กด อ่านไฟล์ แล้วดูตารางตัวอย่าง</li></ol></td>
+          <td class="col-steps"><ol><li>ที่แท็บ ② กด นำเข้า Cut List แล้วเลือกไฟล์</li><li>กด อ่านไฟล์ แล้วดูตารางตัวอย่าง</li></ol></td>
           <td class="col-sample">ห้องประชุม 12 ชิ้น: M1–M6 ขนาด 60 × 120 ซม. และ M7–M12 ขนาด 90 × 82 ซม. · ห้องน้ำ 6 ชิ้น: W1–W6 ขนาด 60 × 120 ซม.</td>
           <td class="col-expected">ตารางตัวอย่าง 2 แถว: ห้องประชุม 12 แถว รวม 8.7480 · ที่ประเมินไว้ 8.64 · ส่วนต่าง 0.11 · ผลจับคู่ ต่างกัน +0.11 ตร.ม. · ห้องน้ำ 6 แถว รวม 4.3200 · ที่ประเมินไว้ 4.32 · ส่วนต่าง 0.00 · ตรงกัน · ข้อความด้านบนบอกว่าตร.ม./ราคาในใบเสนอราคาไม่เปลี่ยน</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -232,9 +233,9 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-04</span></td>
           <td class="col-scenario">ยืนยันนำเข้า และดูข้อความแจ้งผล<div class="note">ข้อความแจ้งผลเป็นแถบเหลืองค้างบนจอ (เพราะมีส่วนต่าง) อ่านให้ครบก่อนปิด</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-03 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>กด ยืนยันนำเข้า แล้วอ่านข้อความแจ้งผลมุมขวาบน</li><li>ดูแท็บ ③ ช่อง ชิ้นงานที่นำเข้าแล้ว</li></ol></td>
+          <td class="col-steps"><ol><li>กด ยืนยันนำเข้า แล้วอ่านข้อความแจ้งผลมุมขวาบน</li><li>ดูแท็บ ② ช่อง ชิ้นงานที่นำเข้าแล้ว</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ข้อความ: ห้องประชุม: ประเมิน 8.64 / Cut List 8.75 ตร.ม. (ต่างกัน +0.11 — ยังใช้ยอดประเมินเดิม) · S01703: ส่ง 12 ชิ้นถึงบรรทัดแล้ว (ยอดและจำนวนที่เสนอคงเดิม) · ห้องน้ำ: ประเมิน 4.32 / Cut List 4.32 ตร.ม. (ตรงกัน) · S01703: ส่ง 6 ชิ้นถึงบรรทัดแล้ว · ช่อง ชิ้นงานที่นำเข้าแล้ว = 18</td>
+          <td class="col-expected">ข้อความ: ห้องประชุม: ประเมิน 8.64 / Cut List 8.75 ตร.ม. (ต่างกัน +0.11 — ยังใช้ยอดประเมินเดิม) · S02157: ส่ง 12 ชิ้นถึงบรรทัดแล้ว (ยอดและจำนวนที่เสนอคงเดิม) · ห้องน้ำ: ประเมิน 4.32 / Cut List 4.32 ตร.ม. (ตรงกัน) · S02157: ส่ง 6 ชิ้นถึงบรรทัดแล้ว · ช่อง ชิ้นงานที่นำเข้าแล้ว = 18</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-11-boq-tab3-after.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-11-boq-tab3-after.png" loading="lazy"></a></td>
         </tr>
@@ -268,7 +269,7 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-05</span></td>
           <td class="col-scenario">ใบเสนอราคาได้ชิ้นจาก Cut List แต่ ตร.ม./ราคา/ยอดเดิม<div class="note">ใบเสนอราคาเปลี่ยนเฉพาะช่องขนาด/ราคา (ชิ้น) ส่วนจำนวน ราคาต่อหน่วย และยอดรวมคงเดิม</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-04 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิดใบเสนอราคา S01703 (ปุ่ม Quotations ที่ BOQ)</li><li>ดูช่องขนาด/ราคาของบรรทัดห้องประชุม และยอดรวม</li></ol></td>
+          <td class="col-steps"><ol><li>เปิดใบเสนอราคา S02157 (ปุ่ม Quotations ที่ BOQ)</li><li>ดูช่องขนาด/ราคาของบรรทัดห้องประชุม และยอดรวม</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">บรรทัดห้องประชุมแสดง 60 × 120 ซม. × 6 ชิ้น และ 90 × 82 ซม. × 6 ชิ้น (จากเดิม 60 × 120 × 12 ชิ้น) · Quantity ยัง 8.640 · ราคา 4,700.00 · บรรทัดห้องน้ำ 60 × 120 ซม. × 6 ชิ้น Quantity 4.320 · Untaxed ยัง 67,003.20 · Total 71,693.42</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -276,11 +277,11 @@
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-06</span></td>
-          <td class="col-scenario">ตรวจรายชิ้นของบรรทัดห้องประชุม<div class="note">แถวรายชิ้นเดิมที่ระบบแตกให้ตอนออกใบเสนอราคา (60 × 120 × 12) ต้องถูกแทนที่ ไม่ค้างอยู่ข้างชิ้นจาก Cut List (บั๊กนี้เจอและแก้แล้วเมื่อ 3 พ.ย. 2569)</div></td>
+          <td class="col-scenario">ตรวจรายชิ้นของบรรทัดห้องประชุม<div class="note">แถวรายชิ้นเดิมที่ระบบแตกให้ตอนออกใบเสนอราคา (60 × 120 × 12) ต้องถูกแทนที่ ไม่ค้างอยู่ข้างชิ้นจาก Cut List (บั๊กนี้เจอและแก้แล้วเมื่อ 3 พ.ย. 2569) · หน้ารายชิ้นเคยแสดงแต่คอลัมน์ ID แก้แล้วในรอบตรวจซ้ำ (boq_estimation 1.56.1)</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-05 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่บรรทัดห้องประชุม กดไอคอนรายการ (รายชิ้น)</li><li>ดูตารางรายชิ้น แล้วปิดหน้าต่าง</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ตาราง 12 แถว (1-12 / 12): M1–M6 60.00 × 120.00 จำนวน 1 ตร.ม. 0.72 ต่อชิ้น · M7–M12 90.00 × 82.00 จำนวน 1 ตร.ม. 0.73 ต่อชิ้น (ตารางพื้นที่ต่อชิ้นปัดเศษลง 2 ตำแหน่ง) · ไม่มีแถว 60 × 120 จำนวน 12 ค้างอยู่</td>
+          <td class="col-expected">ตาราง 12 แถว (1-12 / 12): คอลัมน์ รหัสชิ้น · กว้าง (ซม.) · สูง (ซม.) · ตรม. · ลงแผนตัดใน MO: M1–M6 60.00 × 120.00 ตร.ม. 0.72 · M7–M12 90.00 × 82.00 ตร.ม. 0.74 (0.738 ปัดเป็น 2 ตำแหน่ง) · ไม่มีแถว 60 × 120 จำนวน 12 ค้างอยู่</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-13-pieces-after.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-13-pieces-after.png" loading="lazy"></a></td>
         </tr>
@@ -290,7 +291,7 @@
           <td class="col-pre">ทำ TC-GP-BQ2-06 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม FG Production แล้วเลือกใบของห้องประชุม</li><li>ดูแถบสรุปด้านบน แล้วเปิดแท็บ ผลผลิต FG</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00435) Draft · ต้องใช้ 9.57 ตร.ม. (8.70 + เผื่อเสีย 10%) · Slab ที่เลือก 13.05 ตร.ม. ป้าย พอ · แท็บ ผลผลิต FG มี 12 แถว M1–M12 (6 แถว 0.60 × 1.20 และ 6 แถว 0.90 × 0.82 จำนวนแถวละ 1) · ไม่มีแถว จำนวน 12 ค้างอยู่ · ใบของห้องน้ำมี 6 แถว W1–W6</td>
+          <td class="col-expected">ใบสั่งผลิต (EG01/STFG/00614) Draft · ต้องใช้ 9.57 ตร.ม. (8.70 + เผื่อเสีย 10%) · Slab ที่เลือก 13.05 ตร.ม. ป้าย พอ · แท็บ ผลผลิต FG มี 12 แถว M1–M12 (6 แถว 0.60 × 1.20 และ 6 แถว 0.90 × 0.82 จำนวนแถวละ 1) · ไม่มีแถว จำนวน 12 ค้างอยู่ · ใบของห้องน้ำมี 6 แถว W1–W6</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-15-mo-output.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-15-mo-output.png" loading="lazy"></a></td>
         </tr>
@@ -324,7 +325,7 @@
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-08</span></td>
           <td class="col-scenario">เทียบ ตร.ม. ระหว่างใบเสนอราคา Cut List และ Slab<div class="note">หน้าต่างนี้ดูอย่างเดียว ไม่แก้ข้อมูล · ถ้าลูกค้าไม่ยอมจ่ายเพิ่ม ไม่ต้องทำอะไร ส่วนต่างเป็นต้นทุนของโครงการ</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-04 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>เปิด BOQ แท็บ ③ กด เทียบ ตร.ม.</li><li>ดูตารางรายโซนและข้อความสีเหลืองท้ายหน้าต่าง</li></ol></td>
+          <td class="col-steps"><ol><li>เปิด BOQ แท็บ ② กด เทียบ ตร.ม.</li><li>ดูตารางรายโซนและข้อความสีเหลืองท้ายหน้าต่าง</li></ol></td>
           <td class="col-sample">-</td>
           <td class="col-expected">ห้องประชุม: เสนอราคา 8.64 · Cut List 8.75 · ส่วนต่าง 0.11 · Cut List เกินใบเสนอราคา · Slab ที่เลือก 13.05 พอ (เหลือ 4.30) · ลงแผนตัด 8.75 · ห้องน้ำ: 4.32 · 4.32 · 0.00 · ตรงกัน · Slab 8.70 พอ (เหลือ 4.38) · มีปุ่ม สร้าง BOQ ฉบับใหม่ตาม Cut List และปุ่ม ปิด</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
@@ -336,7 +337,7 @@
           <td class="col-pre">ทำ TC-GP-BQ2-08 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ในหน้าต่างเทียบ กด สร้าง BOQ ฉบับใหม่ตาม Cut List</li><li>ดู BOQ ใบใหม่ที่เปิดขึ้น</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">เปิด BOQ ใบใหม่ (รอบทดสอบ BOQ1129) สถานะ Draft · ห้องประชุม 8.75 ตร.ม. รวม 41,125.00 · ห้องน้ำ 4.32 ตร.ม. รวม 20,304.00 · Amount Total 67,571.90 (BOQ1128 เดิมยัง 67,003.20 และใบเสนอราคา S01703 ไม่ถูกแก้)</td>
+          <td class="col-expected">เปิด BOQ ใบใหม่ (รอบทดสอบ BOQ1502) สถานะ Draft · ห้องประชุม 8.75 ตร.ม. รวม 41,125.00 · ห้องน้ำ 4.32 ตร.ม. รวม 20,304.00 · Amount Total 67,571.90 (BOQ1500 เดิมยัง 67,003.20 และใบเสนอราคา S02157 ไม่ถูกแก้)</td>
           <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-23-revised-boq.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-23-revised-boq.png" loading="lazy"></a></td>
         </tr>
@@ -368,11 +369,11 @@
       <tbody>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-10</span></td>
-          <td class="col-scenario">ผลิตใบสั่งผลิตห้องประชุมจนเสร็จ และดูต้นทุน<div class="note">ใบนี้ใช้ Slab 3 แผ่น เพราะพื้นที่ตาม Cut List ต้องการ 9.57 ตร.ม. เกิน 2 แผ่น (8.70) · ระบบเลือก Slab ของใบห้องน้ำให้คนละแผ่นกับใบนี้ ทั้งที่ทั้งสองใบยังเป็น Draft · ค่าแรง 1,500 ต่อ ตร.ม. คิดจากพื้นที่ผลผลิต 8.70</div></td>
+          <td class="col-scenario">ผลิตใบสั่งผลิตห้องประชุมจนเสร็จ และดูต้นทุน<div class="note">ใบนี้ใช้ Slab 3 แผ่น เพราะพื้นที่ตาม Cut List ต้องการ 9.57 ตร.ม. เกิน 2 แผ่น (8.70) · ระบบเลือก Slab ของใบห้องน้ำให้คนละแผ่นกับใบนี้ ทั้งที่ทั้งสองใบยังเป็น Draft · ค่าแรง 1,500 ต่อ ตร.ม. คิดจากพื้นที่ผลผลิต 8.70 · เคยเป็นบั๊ก: กด ผลิต FG เสร็จ แล้วขึ้น "ส่งได้เป็นชิ้นเต็มเท่านั้น" เพราะชิ้น 90 × 82 ซม. (0.738) เก็บในสต็อกปัดเป็น 0.73 · แก้แล้วและตรวจซ้ำ (stone_slab_inventory 19.0.2.109.70): ส่ง/ผลิตทั้ง Lot ผ่านได้เสมอ</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-07 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>เปิดใบสั่งผลิตห้องประชุม กด ย้ายไปสถานีตัด แล้วกด Confirm</li><li>กด ผลิต FG เสร็จ แล้วรีเฟรชหน้า</li><li>เปิดแท็บ รายการบัญชี</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Confirm แล้วสถานะ Confirmed (Slab ที่จะตัด: BLK-26-1482-21, -22, -23) · หลังผลิตเสร็จ Done · รายการบัญชี Posted 3 รายการ: Inventory Valuation 12,223.68 สองรายการ (Slab 3 แผ่น) และ FG Production Labor 13,050.00 (8.70 ตร.ม. × 1,500)</td>
+          <td class="col-expected">Confirm แล้วสถานะ Confirmed (Slab ที่จะตัด: BLK-26-1486-18, -19, -20) · หลังผลิตเสร็จ Done · รายการบัญชี Posted 3 รายการ: Inventory Valuation 12,218.38 สองรายการ (Slab 3 แผ่น) และ FG Production Labor 13,050.00 (8.70 ตร.ม. × 1,500)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-19-mo-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-19-mo-journal.png" loading="lazy"></a></td>
         </tr>
@@ -382,17 +383,17 @@
           <td class="col-pre">ทำ TC-GP-BQ2-10 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>เปิดใบสั่งผลิตห้องน้ำ แล้วดูแท็บ Slab ที่จะตัด</li><li>กด ย้ายไปสถานีตัด แล้วกด Confirm และ ผลิต FG เสร็จ</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">Slab ที่เลือก BLK-26-1482-24 และ -25 (8.70 ตร.ม. พอสำหรับ 4.75) ไม่ซ้ำกับสามแผ่นของใบห้องประชุม · ไม่มีข้อความผิดพลาด · Confirm และผลิตเสร็จผ่าน สถานะ Done · รายการบัญชี: Slab 8,149.12 สองรายการ และค่าแรง 6,480.00 (4.32 × 1,500)</td>
+          <td class="col-expected">Slab ที่เลือก BLK-26-1486-21 และ -22 (8.70 ตร.ม. พอสำหรับ 4.75) ไม่ซ้ำกับสามแผ่นของใบห้องประชุม · ไม่มีข้อความผิดพลาด · Confirm และผลิตเสร็จผ่าน สถานะ Done · รายการบัญชี: Slab 8,145.59 สองรายการ และค่าแรง 6,480.00 (4.32 × 1,500)</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-19d-mo2-slabs.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-19d-mo2-slabs.png" loading="lazy"></a></td>
         </tr>
         <tr>
           <td class="col-id"><span class="tc-id">TC-GP-BQ2-12</span></td>
-          <td class="col-scenario">ส่งของตามใบส่งของ<div class="note">ใบส่งของห้องประชุม Demand 8.640 (ตามที่ขาย) แต่ Quantity 8.700 (ตามพื้นที่ที่ผลิตได้จริงจากชิ้นใน Cut List)</div></td>
+          <td class="col-scenario">ส่งของตามใบส่งของ<div class="note">ต้องติ๊ก Picked ให้ครบก่อน Validate ไม่เช่นนั้นระบบถามเรื่อง Backorder และ No Backorder จะยกเลิกบรรทัดที่ไม่ได้ติ๊ก · ใบส่งของห้องประชุม Demand 8.640 (ตามที่ขาย) แต่ Quantity 8.700 (ตามพื้นที่ที่ผลิตได้จริงจากชิ้นใน Cut List)</div></td>
           <td class="col-pre">ทำ TC-GP-BQ2-11 เสร็จแล้ว</td>
-          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>กด Validate แล้วรีเฟรชหน้า</li></ol></td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย กดสมาร์ทปุ่ม Delivery</li><li>เปิดคอลัมน์ Picked แล้วติ๊กให้ครบทั้งสองบรรทัด กด Validate แล้วรีเฟรชหน้า</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบส่งของ (EG01/OUT/00726) Ready ก่อนกด · บรรทัดห้องประชุม Demand 8.640 Quantity 8.700 · บรรทัดห้องน้ำ Demand 4.320 Quantity 4.320 · หลัง Validate สถานะ Done</td>
+          <td class="col-expected">ใบส่งของ (EG01/OUT/00943) Ready ก่อนกด · บรรทัดห้องประชุม Demand 8.640 Quantity 8.700 · บรรทัดห้องน้ำ Demand 4.320 Quantity 4.320 · หลัง Validate สถานะ Done</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-21-delivery-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-21-delivery-done.png" loading="lazy"></a></td>
         </tr>
@@ -402,7 +403,7 @@
           <td class="col-pre">ทำ TC-GP-BQ2-12 เสร็จแล้ว</td>
           <td class="col-steps"><ol><li>ที่ใบสั่งขาย กด Create Invoice เลือก Regular invoice แล้วกด Create Draft</li><li>กด Confirm แล้วรีเฟรชหน้า</li></ol></td>
           <td class="col-sample">-</td>
-          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00012) Posted · บรรทัดห้องประชุม 8.640 × 4,700.00 = 40,608.00 · ห้องน้ำ 4.320 × 4,700.00 = 20,304.00 · ค่าบริหารโครงการ 6,091.20 · ก่อน VAT 67,003.20 (เท่าใบเสนอราคา) · VAT 4,690.22 · รวม 71,693.42</td>
+          <td class="col-expected">ใบแจ้งหนี้ (INV/2026/00031) Posted · บรรทัดห้องประชุม 8.640 × 4,700.00 = 40,608.00 · ห้องน้ำ 4.320 × 4,700.00 = 20,304.00 · ค่าบริหารโครงการ 6,091.20 · ก่อน VAT 67,003.20 (เท่าใบเสนอราคา) · VAT 4,690.22 · รวม 71,693.42</td>
           <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
           <td class="col-shot"><a class="tc-shot-link" href="assets/boq-r2/r2-22-invoice-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-r2/r2-22-invoice-posted.png" loading="lazy"></a></td>
         </tr>

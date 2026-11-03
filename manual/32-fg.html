@@ -226,9 +226,9 @@ table.cond td.no{background:#fdeeee}
 <h3>เส้นทาง B — Custom FG (เจดีย์บัว)</h3>
 <p>ตัวอย่าง: ลูกค้า A-test-customer สั่งเจดีย์บัว 2 ชิ้น ราคาคงที่ 50,000 ต่อชิ้น ประกอบจากหิน 2 ชนิด (NERO RUSTENBURG และ GP Block Marble) <strong>ใบเสนอราคาและ Confirm ทำได้ก่อนมี Cut List</strong> พอฝ่ายออกแบบส่ง Cut List มาทีหลัง ระบบจึงประเมินต้นทุนและสร้างใบสั่งผลิตให้ (ตัวเลขและภาพในหัวข้อ B.0–B.3 มาจากการรันจริงบนระบบทดสอบเมื่อ 25 ต.ค. 2569: BOQ0742 → S01229)</p>
 
-<h4>B.0 BOQ: เลือก Rate เจดีย์บัว ในโซนของมัน</h4>
+<h4>B.0 BOQ: ใส่เจดีย์บัวเป็นสินค้า Custom FG ในโซนของมัน</h4>
 <p><strong>1)</strong> ไปที่ BOQ Estimation → BOQ Documents → New เลือก Customer</p>
-<p><strong>2)</strong> เพิ่มบรรทัดจาก Rate Library เลือก Rate <strong>"เจดีย์บัว - standard"</strong> (CB-FG-001 หน่วย Units) ใส่จำนวน 2 และตั้งชื่อโซนเป็น <strong>เจดีย์บัว</strong> (ถ้ามีเจดีย์หลายแบบ ให้ตั้งโซนต่างกันได้ เช่น โคมซ้าย/โคมขวา ใน Cut List คนละชุด) Rate นี้ตั้งราคาเป็น <strong>ราคาคงที่ (Fixed Price) 50,000 บาทต่อชิ้น</strong> แก้ราคาที่บรรทัดได้ ผู้ใช้ไม่ต้องใส่ Rate หิน วัสดุสิ้นเปลือง หรือค่าแรงทีละรายการ</p>
+<p><strong>2)</strong> เพิ่มบรรทัดในแท็บ ① รายการ BOQ (หรือนำเข้าด้วย Import Excel ตามบท 36) เลือกสินค้า Custom FG <strong>เจดีย์บัว</strong> (CB-FG-001 หน่วย Units) — <em>ฉบับก่อน 27 ต.ค. เลือกจาก Rate Library ซึ่งเลิกใช้แล้ว ภาพประกอบด้านล่างยังเป็นหน้าจอรุ่นนั้น</em> ใส่จำนวน 2 และตั้งชื่อโซนเป็น <strong>เจดีย์บัว</strong> (ถ้ามีเจดีย์หลายแบบ ให้ตั้งโซนต่างกันได้ เช่น โคมซ้าย/โคมขวา ใน Cut List คนละชุด) ราคาตั้งเป็น <strong>ราคาคงที่ 50,000 บาทต่อชิ้น</strong> แก้ราคาที่บรรทัดได้ ผู้ใช้ไม่ต้องใส่ Rate หิน วัสดุสิ้นเปลือง หรือค่าแรงทีละรายการ</p>
 <p><strong>3)</strong> กดปุ่ม <strong>สร้างใบเสนอราคา</strong> ระบบสร้างใบเสนอราคาให้ทันที (ตัวอย่างนี้ BOQ0742 → S01229)</p>
 <figure class="screenshot"><img src="assets/fg-n0-boq-chedi.webp" alt="BOQ เจดีย์บัว โซน เจดีย์บัว Rate FG ราคาคงที่"/></figure>
 
@@ -242,7 +242,7 @@ table.cond td.no{background:#fdeeee}
 
 <h4>B.2.1 Cut List มาทีหลัง: นำเข้าที่ BOQ</h4>
 <p>ไฟล์ตัวอย่างอยู่ในหน้า Library: <a href="../client-docs/example-boq/cutlist-import-example-chedi-bua-recipe.xlsx">cutlist-import-example-chedi-bua-recipe.xlsx</a> (ชิ้นหิน 10 แถว: NERO 4 ชิ้น 0.36 ตร.ม. + GP Block Marble 6 ชิ้น 0.54 ตร.ม. ต่อเจดีย์ 1 ชิ้น) ไฟล์มีเฉพาะชิ้นหิน วัสดุสิ้นเปลืองและค่าแรงมากับ Rate เจดีย์บัว</p>
-<p><strong>1)</strong> เปิด BOQ เดิม → แท็บ ③ Cut List → <strong>นำเข้า Cut List</strong> เลือกไฟล์ .xlsx แล้วกด <strong>อ่านไฟล์</strong> (ระบบอ่านเฉพาะชีตชื่อ "Cut List" ไม่ต้องใส่ Rate ล่วงหน้า ระบบจับคู่ CB-FG-NERO / CB-FG-GP จาก Rate Library เอง)</p>
+<p><strong>1)</strong> เปิด BOQ เดิม → แท็บ ② Cut List → <strong>นำเข้า Cut List</strong> เลือกไฟล์ .xlsx แล้วกด <strong>อ่านไฟล์</strong> (ระบบอ่านเฉพาะชีตชื่อ "Cut List" ไม่ต้องใส่ Rate ล่วงหน้า ระบบจับคู่ CB-FG-NERO / CB-FG-GP จาก Rate Library เอง)</p>
 <figure class="screenshot"><img src="assets/fg-n2-wizard-upload.webp" alt="หน้าต่างอัปโหลด Cut List"/></figure>
 <p><strong>2)</strong> หน้า Preview ต้องเห็น 2 กลุ่มในโซน <strong>เจดีย์บัว</strong>: CB-FG-NERO 0.3600 และ CB-FG-GP 0.5400 พร้อมข้อความ "สูตรของ เจดีย์บัว: สร้างบรรทัดสูตร (ไม่ขึ้นใบเสนอราคา)" ถ้าเห็นเป็นอย่างอื่น แปลว่าชื่อโซนในไฟล์ไม่ตรงกับ BOQ ตรวจแล้วกด <strong>ยืนยันนำเข้า</strong></p>
 <figure class="screenshot"><img src="assets/fg-n3-wizard-preview.webp" alt="Preview ผลอ่าน Cut List"/></figure>

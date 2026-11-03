@@ -194,9 +194,9 @@ PAGE = '''<!doctype html>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Golden Path — Setup ระบบ: ตั้งค่าแล้วใช้กับ BOQ และใบเสนอราคา</h1>
+    <h1>Golden Path — Setup ระบบ: ตั้งหมวด หิน และสินค้าค่าแรง/วัสดุ</h1>
     <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
-    <div class="sub">เอกสารเดียวสำหรับเรื่อง Setup: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรงสำหรับ BOQ · แล้วทดสอบว่าค่าที่ตั้งไปทำงานจริงใน BOQ และใบเสนอราคา ทุกเคสเขียนให้ผู้ใช้ไม่เทคนิคทำตามได้ ไม่รวมเคสกรอกผิดหรือดักข้อผิดพลาด ข้อมูลตัวอย่างทั้งหมดขึ้นต้นด้วย ZZ</div>
+    <div class="sub">เอกสารเดียวสำหรับเรื่อง Setup: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งสินค้าค่าแรงและวัสดุสิ้นเปลืองสำหรับ BOQ (การใช้ใน BOQ และใบเสนอราคาอยู่ใน Golden Path BOQ ค่าแรง/วัสดุเป็นรายการ) ทุกเคสเขียนให้ผู้ใช้ไม่เทคนิคทำตามได้ ไม่รวมเคสกรอกผิดหรือดักข้อผิดพลาด ข้อมูลตัวอย่างทั้งหมดขึ้นต้นด้วย ZZ</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -211,15 +211,15 @@ PAGE = '''<!doctype html>
     <ul>
       <li>ฉบับเก่ายังพูดถึง Rate Library ตัวเลือก "มุม" และปุ่มสร้าง Block จากบรรทัด PO ซึ่งไม่มีในระบบแล้ว — ไม่ได้แก้ไฟล์เก่า</li>
       <li>ทำตามทีละขั้นด้วยคู่มือ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> (มีเหตุผลของแต่ละค่าที่กรอก) · เอกสารนี้ใช้ตรวจผล</li>
-      <li>ขอบเขต 5 เคส: ตั้งค่า 3 เคส + ใช้ค่าที่ตั้งกับ BOQ/ใบเสนอราคา 2 เคส</li>
+      <li>ขอบเขต 3 เคส: ตั้งหมวด FG · ตั้งหินด้วย Quick Material Setup · ตั้งสินค้าค่าแรง/วัสดุ · ส่วน "ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา" ย้ายไป <a href="test-cases-golden-path-boq-items.html">Golden Path BOQ ค่าแรง/วัสดุเป็นรายการ</a></li>
     </ul>
   </div>
 
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 1 พ.ย. 2569):</b><br>
-    หมวด FG ZZ Guide FG - Countertop &rarr; หิน ZZ2 GUIDE MARBLE (Slab / Block / FG / ตารางราคา 5 ความหนา) &rarr; ชุดวัสดุและชุดค่าแรง &rarr; BOQ1187 (Direct Cost 54,500) &rarr; ใบเสนอราคา S01752 (ก่อน VAT 59,950.00)<br>
-    <b>ข้อสังเกตจากการรัน:</b> (1) ฟอร์มหมวด FG ไม่มีช่องต้นทุนวัสดุสิ้นเปลือง (2) ช่องชุดวัสดุ/ชุดค่าแรงในแถวโซนของ BOQ แสดงว่างแม้คิดราคาด้วยชุดตั้งต้นถูกต้อง (3) บัญชีค่าใช้จ่ายของสินค้า Landed Cost บน eg-tst ยังว่าง<br>
-    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ซื้อและรับ Block / ตัด Slab / ผลิต FG ด้วยหินตัวอย่าง ZZ และดู P&amp;L ตาม Analytic ของหินนี้ — ดูที่ <a href="test-cases-golden-path-block-purchase-to-cut.html">Golden Path ซื้อ Block ถึงตัด</a> · <a href="test-cases-golden-path-block-slab-fg.html">Block → Slab → FG</a> · <a href="test-cases-golden-path-boq-import.html">BOQ นำเข้า Excel ถึง P&amp;L</a> · Setup FG แบบกำหนดเอง (เจดีย์บัว โคม) และตั้งบัญชี Landed Cost
+    <b>เส้นทางที่รันจริง (eg-tst, 1 พ.ย. 2569; สินค้าค่าแรง/วัสดุปรับ 3 พ.ย.):</b><br>
+    หมวด FG ZZ Guide FG - Countertop &rarr; หิน ZZ2 GUIDE MARBLE (Slab / Block / FG / ตารางราคา 5 ความหนา) &rarr; สินค้า ZZ กาว (วัสดุสิ้นเปลือง) และ ZZ ค่าแรงติดตั้งพื้น (ค่าแรง)<br>
+    <b>ข้อสังเกตจากการรัน:</b> (1) ฟอร์มหมวด FG ไม่มีช่องต้นทุนวัสดุสิ้นเปลือง (2) บัญชีค่าใช้จ่ายของสินค้า Landed Cost บน eg-tst ยังว่าง<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> ซื้อและรับ Block / ตัด Slab / ผลิต FG ด้วยหินตัวอย่าง ZZ และดู P&amp;L ตาม Analytic ของหินนี้ — ดูที่ <a href="test-cases-golden-path-block-purchase-to-cut.html">Golden Path ซื้อ Block ถึงตัด</a> · <a href="test-cases-golden-path-block-slab-fg.html">Block → Slab → FG</a> · <a href="test-cases-golden-path-boq-items.html">BOQ: ค่าแรง/วัสดุเป็นรายการ (นำเข้า Excel ถึง P&amp;L)</a> · Setup FG แบบกำหนดเอง (เจดีย์บัว โคม) และตั้งบัญชี Landed Cost
   </div>
 
 __CATEGORY_BLOCKS__

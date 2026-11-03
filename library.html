@@ -178,7 +178,6 @@
         <summary>Demand Generation</summary>
         <ul class="tree-docs">
           <li class="tree-doc"><a href="presentations/website-crm-lead-capture.html"><span class="tree-doc-tag">1</span>ติดต่อลูกค้าและ CRM</a></li>
-          <li class="tree-doc"><a href="presentations/boq-adr031-split-quotation.html"><span class="tree-doc-tag">2</span>BOQ Estimation อัปเดต (ADR-031)</a></li>
           <li class="tree-doc"><a href="presentations/quote-conditions-block-slab-fg.html"><span class="tree-doc-tag">3</span>เงื่อนไขการเสนอราคา Block · Slab · FG</a></li>
           <li class="tree-doc"><a href="presentations/quote-howto-block-slab-fg.html"><span class="tree-doc-tag">4</span>วิธีออกใบเสนอราคา Block · Slab · FG</a></li>
         </ul>
@@ -245,30 +244,22 @@
           <li class="tree-doc"><a href="qa/test-cases-golden-path-slab-lifecycle.html"><span class="tree-doc-tag">GP</span>Golden Path — Slab (ซื้อ · ขาย · ส่งของ · ใบแจ้งหนี้)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-fg-cut.html"><span class="tree-doc-tag">GP</span>Golden Path — FG (ขายแผ่นตัดตามขนาด · ผลิต · ส่งของ · ใบแจ้งหนี้)</a></li>
           <li class="tree-doc"><a href="qa/test-cases-golden-path-custom-fg.html"><span class="tree-doc-tag">GP</span>Golden Path — Custom FG เจดีย์บัว (BOQ · Cut List · ตัดและประกอบ · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-excel.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ เส้นทาง 1 (นำเข้า Excel · ใบเสนอราคา · ผลิต FG · ส่งของ · P&amp;L)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-cutlist.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ เส้นทาง 2 (Cut List หลังขาย · เทียบ ตร.ม. · ผลิต · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-manual.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ เส้นทาง 3 (สร้างเองในฟอร์ม · ค่าแรง/วัสดุ · ผลิต · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-project.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ เส้นทาง 4 (BOQ + Project · Task · งวดเก็บเงิน · ค่าแรงติดตั้ง · P&amp;L โปรเจกต์)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-lamps.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ เส้นทาง 5 (Custom FG โคมไฟ + พื้น · Cut List หลังขาย · ตัด ประกอบ · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-edge.html"><span class="tree-doc-tag">GP</span>ชุดทดสอบ BOQ — กรณีพิเศษและเคสผิดพลาด (ไฟล์ผิด · เศษหิน · ส่ง/วางบิลบางส่วน · คืนของ)</a></li>
-          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-edge2.html"><span class="tree-doc-tag">GP</span>ชุดทดสอบ BOQ — กรณีพิเศษ ชุดที่ 2 (Cut List ก่อนขาย · คืนบางส่วน · ส่งโคมทีละใบ · ยกเลิกใบขาย)</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-cutlist.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ: Cut List หลังขาย</a></li>
+          <li class="tree-doc"><a href="qa/test-cases-golden-path-boq-items.html"><span class="tree-doc-tag">GP</span>Golden Path — BOQ (ค่าแรง/วัสดุเป็นรายการ · นำเข้า Excel · ผลิต 2 ใบ · ต้นทุนแบ่งสัดส่วน · P&amp;L)</a></li>
         </ul>
       </details>
 
       <details class="tree-cat" data-section="click-guides" open>
         <summary>คู่มือกดตาม</summary>
         <ul class="tree-docs">
-          <li class="tree-doc"><a href="qa/guide-setup-2026-11-01.html"><span class="tree-doc-tag">G1</span>Setup ระบบ (หมวด FG · สินค้าหิน · ชุด BOQ · ต้นทุน)</a></li>
+          <li class="tree-doc"><a href="qa/guide-setup-2026-11-01.html"><span class="tree-doc-tag">G1</span>Setup ระบบ (หมวด FG · สินค้าหิน · สินค้าค่าแรง/วัสดุ · ต้นทุน)</a></li>
           <li class="tree-doc"><a href="qa/guide-container-2026-11-01.html"><span class="tree-doc-tag">G2</span>ตู้คอนเทนเนอร์ (สร้างตู้ · รับ Block · ค่าขนส่ง · ต้นทุน)</a></li>
           <li class="tree-doc"><a href="qa/guide-block-2026-11-01.html"><span class="tree-doc-tag">G3</span>Block (สั่งซื้อ · รับของ · แก้ขนาด · ตัดเป็น Slab)</a></li>
           <li class="tree-doc"><a href="qa/guide-slab-2026-11-01.html"><span class="tree-doc-tag">G4</span>Slab (ดูแผ่นที่ตัดได้ · ซื้อ · ขาย · ส่งของ · ใบแจ้งหนี้)</a></li>
           <li class="tree-doc"><a href="qa/guide-fg-2026-11-01.html"><span class="tree-doc-tag">G5</span>FG (ใบเสนอราคารายชิ้น · งานผลิต · ส่งของ · ใบแจ้งหนี้)</a></li>
           <li class="tree-doc"><a href="qa/guide-custom-fg-2026-11-01.html"><span class="tree-doc-tag">G6</span>Custom FG เจดีย์บัว (ตั้งสินค้า · BOQ · Cut List · ตัดและประกอบ · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-excel-2026-11-03.html"><span class="tree-doc-tag">G7</span>BOQ เส้นทาง 1 (นำเข้า Excel · ใบเสนอราคา · ผลิต FG · ส่งของ · P&amp;L)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-cutlist-2026-11-03.html"><span class="tree-doc-tag">G8</span>BOQ เส้นทาง 2 (Cut List หลังขาย · เทียบ ตร.ม. · ผลิต · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-manual-2026-11-03.html"><span class="tree-doc-tag">G9</span>BOQ เส้นทาง 3 (สร้างเองในฟอร์ม · ค่าแรง/วัสดุ · ผลิต · ส่งของ)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-project-2026-11-03.html"><span class="tree-doc-tag">G10</span>BOQ เส้นทาง 4 (BOQ + Project · Task · งวดเก็บเงิน · ค่าแรงติดตั้ง · P&amp;L โปรเจกต์)</a></li>
-          <li class="tree-doc"><a href="qa/guide-boq-lamps-2026-11-03.html"><span class="tree-doc-tag">G11</span>BOQ เส้นทาง 5 (Custom FG โคมไฟ + พื้น · Cut List หลังขาย · ตัด ประกอบ · ส่งของ)</a></li>
+          <li class="tree-doc"><a href="qa/guide-boq-cutlist-2026-11-03.html"><span class="tree-doc-tag">G10</span>BOQ: Cut List หลังขาย</a></li>
+          <li class="tree-doc"><a href="qa/guide-boq-items-2026-11-03.html"><span class="tree-doc-tag">G9</span>BOQ (ค่าแรง/วัสดุเป็นรายการ · นำเข้า Excel · ผลิต 2 ใบ · ต้นทุนแบ่งสัดส่วน · P&amp;L)</a></li>
         </ul>
       </details>
 
@@ -406,7 +397,7 @@
       <div class="icon">Q</div>
       <div>
         <div class="card-title">คำถามถึงนักบัญชี — รวมทุกเรื่อง</div>
-        <div class="card-desc">หน้าเดียวรวมทุกคำถาม แยกส่วน "รอถาม/รอคำตอบ" (11 ข้อ: ต้นทุน Block/Slab, ค่าแรง MO, การลงบัญชี) กับ "ได้คำตอบแล้ว" (2 ข้อ) พร้อมตัวอย่างตัวเลข เพิ่มคำถามใหม่ต่อท้ายหน้านี้</div>
+        <div class="card-desc">หน้าเดียวรวมทุกคำถาม แยกส่วน "รอถาม/รอคำตอบ" (14 ข้อ: ต้นทุน Block/Slab, ค่าแรง MO, ค่าแรง/วัสดุจาก BOQ, การลงบัญชี) กับ "ได้คำตอบแล้ว" (2 ข้อ) พร้อมตัวอย่างตัวเลข เพิ่มคำถามใหม่ต่อท้ายหน้านี้</div>
         <div class="card-meta"><span class="card-date">14 ต.ค. 2026</span><span class="status-badge finding">รอคำตอบ</span></div>
       </div>
       <div class="arrow">→</div>
@@ -541,15 +532,6 @@
         <div class="card-title">ติดต่อลูกค้าและ CRM</div>
         <div class="card-desc">ฟอร์มหน้าเว็บ → Opportunity เข้า Pipeline อัตโนมัติ → Contact สร้าง/เชื่อมให้เอง — ไม่ต้องพิมพ์ข้อมูลซ้ำ</div>
         <div class="card-meta"><span class="card-date">27 ก.ค. 2026</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="presentations/boq-adr031-split-quotation.html">
-      <div class="icon">2</div>
-      <div>
-        <div class="card-title">BOQ Estimation อัปเดต — Cost Component + ใบเสนอราคา 2 คอลัมน์</div>
-        <div class="card-desc">Cost Component Buckets ไม่จำกัดหมวด + Adder % แยกต่อหมวด + Split Material/Labor Quotation + หัก WHT อัตโนมัติ — ตรงกับเอกสาร EGQ จริงของลูกค้า (ADR-031)</div>
-        <div class="card-meta"><span class="card-date">13 ส.ค. 2026</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
@@ -788,7 +770,7 @@
       <div class="icon">GP</div>
       <div>
         <div class="card-title">Golden Path — Setup ระบบ</div>
-        <div class="card-desc">5 เคส: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งชุดวัสดุและชุดค่าแรง · ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา · มีปุ่ม Export Excel</div>
+        <div class="card-desc">3 เคส: ตั้งหมวด FG · ตั้งสินค้าหินด้วย Quick Material Setup · ตั้งสินค้าค่าแรง/วัสดุสิ้นเปลือง (ประเภทรายการ BOQ) · มีปุ่ม Export Excel</div>
         <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
@@ -838,63 +820,20 @@
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-excel.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 1: นำเข้า Excel ถึง P&amp;L</div>
-        <div class="card-desc">12 เคส: นำเข้า BOQ จาก Excel · ใบเสนอราคาและรายชิ้น · ผลิต FG · ส่งของ · ใบแจ้งหนี้ · กำไรของ BOQ ใบนั้น (ชุดใหม่แทนชุดเดิมที่ย้ายเข้า Archived)</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="qa/test-cases-golden-path-boq-cutlist.html">
       <div class="icon">GP</div>
       <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 2: Cut List หลังขาย</div>
-        <div class="card-desc">13 เคส: ขายก่อนมี Cut List · นำเข้า Cut List เข้า BOQ ที่ขายแล้ว · ชิ้นถึงใบเสนอราคาและใบสั่งผลิตโดยราคาไม่เปลี่ยน · เทียบ ตร.ม. · BOQ ฉบับใหม่ · ผลิต ส่งของ ใบแจ้งหนี้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว (หลังแก้บั๊ก 2 จุด)</span></div>
+        <div class="card-title">Golden Path — BOQ: Cut List หลังขาย</div>
+        <div class="card-desc">13 เคสพร้อมภาพและ Export Excel · ตรวจซ้ำครบทุกเคสแล้ว</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ตรวจซ้ำครบทุกตอนบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-manual.html">
+    <a class="card" href="qa/test-cases-golden-path-boq-items.html">
       <div class="icon">GP</div>
       <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 3: สร้างเองในฟอร์ม</div>
-        <div class="card-desc">14 เคส: พิมพ์รายการหินในฟอร์ม BOQ · ชุดค่าแรง/วัสดุสิ้นเปลือง · Export Excel และ PDF · ใบเสนอราคา · ผลิต ส่งของ ใบแจ้งหนี้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-project.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 4: BOQ + Project</div>
-        <div class="card-desc">20 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-lamps.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 5: Custom FG โคมไฟ + พื้น</div>
-        <div class="card-desc">14 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>    <a class="card" href="qa/test-cases-golden-path-boq-edge.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">ชุดทดสอบ BOQ — กรณีพิเศษและเคสผิดพลาด</div>
-        <div class="card-desc">16 เคส: ไฟล์นำเข้าผิด · Cut List ผิด · เศษหิน · ส่งและวางบิลบางส่วน · ลูกค้าคืนของ พร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>    <a class="card" href="qa/test-cases-golden-path-boq-edge2.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">ชุดทดสอบ BOQ — กรณีพิเศษ ชุดที่ 2</div>
-        <div class="card-desc">10 เคส: Cut List ก่อนออกใบเสนอราคา/นำเข้าซ้ำ · ตัดเศษทิ้ง · คืนบางส่วน/หลังจ่ายเงิน · ส่งโคมทีละใบ · ยกเลิกใบขาย Project พร้อมภาพจริงและปุ่ม Export Excel</div>
+        <div class="card-title">Golden Path — BOQ: ค่าแรง/วัสดุเป็นรายการ</div>
+        <div class="card-desc">16 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel · ต้นทุนค่าแรง/วัสดุแบ่งตามสัดส่วนที่ผลิตจริง</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
@@ -913,7 +852,7 @@
       <div class="icon">G1</div>
       <div>
         <div class="card-title">คู่มือกดตาม — Setup ระบบ</div>
-        <div class="card-desc">4 ตอน: ตั้งหมวด FG → ตั้งสินค้าหินด้วย Quick Material Setup → ตั้งชุดวัสดุ/ค่าแรงสำหรับ BOQ → ดูการตั้งค่าต้นทุนและ Analytic</div>
+        <div class="card-desc">4 ตอน: ตั้งหมวด FG → ตั้งสินค้าหินด้วย Quick Material Setup → ตั้งสินค้าค่าแรง/วัสดุสำหรับ BOQ → ดูการตั้งค่าต้นทุนและ Analytic</div>
         <div class="card-meta"><span class="card-date">1 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
@@ -963,47 +902,20 @@
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/guide-boq-excel-2026-11-03.html">
-      <div class="icon">G7</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — BOQ นำเข้า Excel ถึง P&amp;L</div>
-        <div class="card-desc">6 ตอน: นำเข้าไฟล์ Excel → ใบเสนอราคา → ยืนยันและผลิต FG → ต้นทุนจริงของใบสั่งผลิต → ส่งของและใบแจ้งหนี้ → ดูกำไรของ BOQ ใบนั้น</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
     <a class="card" href="qa/guide-boq-cutlist-2026-11-03.html">
-      <div class="icon">G8</div>
+      <div class="icon">G</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ Cut List หลังขาย</div>
-        <div class="card-desc">6 ตอน: ขายก่อน → เตรียมไฟล์ Cut List → นำเข้า → ตรวจว่าชิ้นถึงใบเสนอราคาและใบสั่งผลิต → เทียบ ตร.ม. → ผลิต ส่งของ ใบแจ้งหนี้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+        <div class="card-title">คู่มือกดตาม — BOQ: Cut List หลังขาย</div>
+        <div class="card-desc">ยืนยันขายก่อนมี Cut List แล้วนำเข้าชิ้นงานภายหลัง → เทียบ ตร.ม. → ผลิต · ตรวจซ้ำครบทุกตอนกับระบบหลัง 3 พ.ย. แล้ว</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ตรวจซ้ำครบทุกตอนบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/guide-boq-manual-2026-11-03.html">
+    <a class="card" href="qa/guide-boq-items-2026-11-03.html">
       <div class="icon">G9</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ สร้างเองในฟอร์ม</div>
-        <div class="card-desc">5 ตอน: สร้าง BOQ และใส่รายการหิน → ค่าแรงและวัสดุสิ้นเปลือง → ไฟล์ส่งลูกค้าและใบเสนอราคา → ยืนยันและผลิต → ส่งของและใบแจ้งหนี้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/guide-boq-project-2026-11-03.html">
-      <div class="icon">G10</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — BOQ + Project</div>
-        <div class="card-desc">7 ตอน: BOQ พร้อมระยะเวลาและ Milestone → ขายเป็นโปรเจกต์ → Project และ Task → ผลิต → เก็บเงินตามงวดความคืบหน้า → ค่าแรงติดตั้งและปิดงาน → ใบแจ้งหนี้สุดท้ายและ P&amp;L ของโปรเจกต์</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/guide-boq-lamps-2026-11-03.html">
-      <div class="icon">G11</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — Custom FG โคมไฟ + พื้น</div>
-        <div class="card-desc">6 ตอน: ตั้งสินค้าโคม → BOQ พื้นและโคม → ยืนยันขายก่อนมี Cut List → Cut List ของโคมหลังขาย → ตัดหินและประกอบโคม → ผลิตพื้น ส่งของ ใบแจ้งหนี้</div>
+        <div class="card-title">คู่มือกดตาม — BOQ ค่าแรง/วัสดุเป็นรายการ ถึง P&amp;L</div>
+        <div class="card-desc">ตั้งประเภทรายการ → นำเข้า Excel → ใบเสนอราคา → ผลิตหิน 2 ใบ → ต้นทุนแบ่งตามสัดส่วน → ส่งของ ใบแจ้งหนี้ → ดูกำไร</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>

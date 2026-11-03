@@ -126,196 +126,64 @@
   <header>
     <div class="eyebrow"><a href="library.html#for-test" style="color:var(--copper);text-decoration:none">← สำหรับทดสอบ (For Test)</a></div>
     <h1>BOQ</h1>
-    <div class="sub">คู่มือกดตาม · Golden Path Test Case · ไฟล์ตัวอย่าง (เส้นทางหลัก 3: นำเข้า Excel · Cut List หลังขาย · สร้างเอง · เส้นทางเสริม: BOQ + Project · Custom FG โคมไฟ)</div>
+    <div class="sub">คู่มือกดตาม · Golden Path Test Case · ไฟล์ตัวอย่าง (ตอนนี้มีชุดเดียวที่ตรงกับระบบปัจจุบัน: BOQ ค่าแรง/วัสดุเป็นรายการ · ชุดเดิมย้ายไปเอกสารเก่าชั่วคราว)</div>
   </header>
   <div class="category">
-    <div class="subcat-sub">เส้นทางหลักทั้ง 3 เส้นทาง 4 (BOQ + Project) และเส้นทาง 5 (Custom FG โคมไฟ) ลงแล้ว (3 พ.ย. 2569) · ชุดเดิมย้ายไป <a href="archived.html#qa-boq" style="color:var(--copper)">เอกสารเก่า (Archived)</a> แล้ว · ไฟล์ตัวอย่างโรงแรมด้านล่างเป็นของรุ่นเดิม ใช้อ้างอิงได้แต่ควรตรวจกับระบบรุ่นปัจจุบันก่อน</div>
-    <a class="card" href="qa/guide-boq-excel-2026-11-03.html">
-      <div class="icon">1</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — BOQ เส้นทาง 1: นำเข้า Excel ถึง P&amp;L</div>
-        <div class="card-desc">ทำตามทีละขั้น 6 ตอน: นำเข้า Excel → ใบเสนอราคา → ผลิต FG → ส่งของ → ใบแจ้งหนี้ → ดูกำไรของ BOQ ใบนั้น · ฉบับ PDF: <a href="qa/guide-boq-excel-2026-11-03.pdf">เปิด PDF</a></div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-excel.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 1: นำเข้า Excel ถึง P&amp;L</div>
-        <div class="card-desc">12 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/guide-boq-manual-2026-11-03.html">
+    <div class="subcat-sub">ชุดที่ตรงกับระบบหลัง 3 พ.ย. 2569 (boq_estimation 1.56.0) · ชุดเดิม (นำเข้า Excel, Cut List หลังขาย, BOQ + Project, Custom FG โคมไฟ, กรณีพิเศษ) อยู่ที่ <a href="archived.html#qa-boq" style="color:var(--copper)">เอกสารเก่า (Archived)</a> และจะทำใหม่ให้ตรงระบบทีละชุด</div>
+    <a class="card" href="qa/guide-boq-items-2026-11-03.html">
       <div class="icon">3</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ เส้นทาง 3: สร้างเองในฟอร์ม</div>
-        <div class="card-desc">ทำตามทีละขั้น 5 ตอน: พิมพ์รายการหิน → ค่าแรง/วัสดุสิ้นเปลืองจากชุด → Export Excel/PDF และใบเสนอราคา → ผลิต → ส่งของ ใบแจ้งหนี้ · ฉบับ PDF: <a href="qa/guide-boq-manual-2026-11-03.pdf">เปิด PDF</a></div>
+        <div class="card-title">คู่มือกดตาม — BOQ ค่าแรง/วัสดุเป็นรายการ ถึง P&amp;L</div>
+        <div class="card-desc">ทำตามทีละขั้น 7 ตอน: ตั้งประเภทรายการค่าแรง/วัสดุ → นำเข้า Excel → ใบเสนอราคา → ผลิตหิน 2 ใบ → ต้นทุนแบ่งตามสัดส่วน → ส่งของ ใบแจ้งหนี้ → ดูกำไร · ฉบับ PDF: <a href="qa/guide-boq-items-2026-11-03.pdf">เปิด PDF</a></div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="qa/guide-boq-project-2026-11-03.html">
-      <div class="icon">4</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — BOQ + Project</div>
-        <div class="card-desc">7 ตอน: BOQ พร้อมระยะเวลาและ Milestone → ขายเป็นโปรเจกต์ → Project และ Task → ผลิต → เก็บเงินตามงวดความคืบหน้า → ค่าแรงติดตั้งและปิดงาน → ใบแจ้งหนี้สุดท้ายและ P&amp;L ของโปรเจกต์</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/guide-boq-lamps-2026-11-03.html">
-      <div class="icon">5</div>
-      <div>
-        <div class="card-title">คู่มือกดตาม — Custom FG โคมไฟ + พื้น</div>
-        <div class="card-desc">6 ตอน: ตั้งสินค้าโคม → BOQ พื้นและโคม → ยืนยันขายก่อนมี Cut List → Cut List ของโคมหลังขาย → ตัดหินและประกอบโคม → ผลิตพื้น ส่งของ ใบแจ้งหนี้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-manual.html">
+    <a class="card" href="qa/test-cases-golden-path-boq-items.html">
       <div class="icon">GP</div>
       <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 3: สร้างเองในฟอร์ม</div>
-        <div class="card-desc">14 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-project.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 4: BOQ + Project</div>
-        <div class="card-desc">20 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="qa/test-cases-golden-path-boq-lamps.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 5: Custom FG โคมไฟ + พื้น</div>
-        <div class="card-desc">14 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>    <a class="card" href="qa/test-cases-golden-path-boq-edge.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">ชุดทดสอบ BOQ — กรณีพิเศษและเคสผิดพลาด</div>
-        <div class="card-desc">16 เคส: ไฟล์นำเข้าผิด · Cut List ผิด · เศษหิน · ส่งและวางบิลบางส่วน · ลูกค้าคืนของ พร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>    <a class="card" href="qa/test-cases-golden-path-boq-edge2.html">
-      <div class="icon">GP</div>
-      <div>
-        <div class="card-title">ชุดทดสอบ BOQ — กรณีพิเศษ ชุดที่ 2</div>
-        <div class="card-desc">10 เคส: Cut List ก่อนออกใบเสนอราคา/นำเข้าซ้ำ · ตัดเศษทิ้ง · คืนบางส่วน/หลังจ่ายเงิน · ส่งโคมทีละใบ · ยกเลิกใบขาย Project พร้อมภาพจริงและปุ่ม Export Excel</div>
+        <div class="card-title">Golden Path — BOQ: ค่าแรง/วัสดุเป็นรายการ</div>
+        <div class="card-desc">16 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel · ต้นทุนค่าแรง/วัสดุแบ่งตามสัดส่วนที่ผลิตจริง</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
 
 
-    <a class="card" href="client-docs/example-boq/boq-import-zz2-reception.xlsx">
-      <div class="icon">BQ</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ BOQ — ห้องรับรอง (ใช้กับคู่มือกดตามเส้นทาง 1)</div>
-        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>Import Excel</b> 2 แถว: เคาน์เตอร์ ZZ2 GUIDE MARBLE Countertop 60 × 120 × 2 ซม. 7.2 ตร.ม. + ค่าขนส่งและติดตั้ง 8,000 · ยอดรวม 46,024.00</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
+
     <a class="card" href="qa/guide-boq-cutlist-2026-11-03.html">
-      <div class="icon">2</div>
+      <div class="icon">G</div>
       <div>
-        <div class="card-title">คู่มือกดตาม — BOQ เส้นทาง 2: Cut List หลังขาย</div>
-        <div class="card-desc">ทำตามทีละขั้น 6 ตอน: ขายก่อน → เตรียมและนำเข้า Cut List → ตรวจชิ้นในใบเสนอราคาและใบสั่งผลิต → เทียบ ตร.ม. → ผลิต ส่งของ ใบแจ้งหนี้ · ฉบับ PDF: <a href="qa/guide-boq-cutlist-2026-11-03.pdf">เปิด PDF</a></div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ขั้นตอนตรวจจากการรันจริงบน eg-tst แล้ว</span></div>
+        <div class="card-title">คู่มือกดตาม — BOQ: Cut List หลังขาย</div>
+        <div class="card-desc">ยืนยันขายก่อนมี Cut List แล้วนำเข้าชิ้นงานภายหลัง → เทียบ ตร.ม. → ผลิต · ตรวจซ้ำครบทุกตอนกับระบบหลัง 3 พ.ย. แล้ว</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ตรวจซ้ำครบทุกตอนบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
     <a class="card" href="qa/test-cases-golden-path-boq-cutlist.html">
       <div class="icon">GP</div>
       <div>
-        <div class="card-title">Golden Path — BOQ เส้นทาง 2: Cut List หลังขาย</div>
-        <div class="card-desc">13 เคสพร้อมภาพจริงต่อเคสและปุ่ม Export Excel · รันหลังแก้บั๊ก 2 จุดที่เจอระหว่างทำ</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+        <div class="card-title">Golden Path — BOQ: Cut List หลังขาย</div>
+        <div class="card-desc">13 เคสพร้อมภาพและ Export Excel · ตรวจซ้ำครบทุกเคสแล้ว</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">ตรวจซ้ำครบทุกตอนบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-zz2-meeting.xlsx">
-      <div class="icon">CL</div>
+    <a class="card" href="client-docs/example-boq/boq-import-zz2-items.xlsx">
+      <div class="icon">BQ</div>
       <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List — ห้องประชุมและห้องน้ำ (ใช้กับคู่มือกดตามเส้นทาง 2)</div>
-        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>นำเข้า Cut List</b> (BOQ แท็บ ③) 18 ชิ้น 2 โซน (ห้องประชุม 12 ชิ้น ห้องน้ำ 6 ชิ้น) · ใช้คู่กับ <a href="client-docs/example-boq/boq-import-zz2-meeting.xlsx">boq-import-zz2-meeting.xlsx</a></div>
+        <div class="card-title">ตัวอย่างไฟล์ BOQ — ห้องรับรอง หิน 2 รายการ + ค่าแรง + วัสดุ (ใช้กับคู่มือกดตาม BOQ ค่าแรง/วัสดุเป็นรายการ)</div>
+        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>Import Excel</b> 5 แถว: เคาน์เตอร์ 7.2 ตร.ม. · ท็อปโต๊ะเสริม 5.4 ตร.ม. · ZZ ค่าแรงติดตั้งพื้น 12.6 ตร.ม. · ZZ กาวและปูนยาแนวปูพื้น 12.6 ตร.ม. · ค่าขนส่งและติดตั้ง 8,000</div>
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
       </div>
       <div class="arrow">→</div>
     </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-zz2-lamps.xlsx">
-      <div class="icon">CL</div>
+    <a class="card" href="archived.html#qa-boq">
+      <div class="icon">📦</div>
       <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List — โคมประตูซ้าย/ขวา (ใช้กับคู่มือกดตามเส้นทาง 5)</div>
-        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>นำเข้า Cut List</b> (BOQ แท็บ ③) หลังขาย 16 ชิ้น 2 โซน (โคมประตูซ้าย 8 ชิ้น โคมประตูขวา 8 ชิ้น รวม 1.33 ตร.ม.)</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>    <a class="card" href="client-docs/example-boq/boq-import-zz2-errors.xlsx">
-      <div class="icon">BQ</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ BOQ ที่ผิดโดยตั้งใจ — 5 แถวผิดคนละแบบ (ใช้กับชุดทดสอบกรณีพิเศษ TC-EX-03)</div>
-        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>Import Excel</b> ขาดขนาด ตัวเลขเป็นข้อความ สินค้าไม่มีในระบบ หน่วยผิด ไม่มีชื่อรายการ — ระบบต้องแสดงแถวแดงและไม่สร้าง BOQ</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/boq-import-zz2-no-header.xlsx">
-      <div class="icon">BQ</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ BOQ ที่ลบแถวหัวตาราง (ใช้กับ TC-EX-02)</div>
-        <div class="card-desc">เทมเพลตที่แถวหัวตารางว่าง — ระบบต้องแจ้ง ไม่พบแถวหัวตาราง</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-header-overwritten-zz2.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List ที่หัวตารางถูกเขียนทับ (ใช้กับ TC-EX-04)</div>
-        <div class="card-desc">ข้อมูลชิ้นแรกอยู่แถวที่ 5 แทนหัวตาราง — ระบบต้องแจ้ง ไม่พบข้อมูลที่จดจำได้</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-wrong-zone-zz2.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List ที่โซนไม่ตรงกับ BOQ (ใช้กับ TC-EX-05)</div>
-        <div class="card-desc">ทุกชิ้นอยู่ในโซน ห้องนอน 18 ชิ้น 13.068 ตร.ม. — ระบบต้องไม่นำเข้าเมื่อกดยืนยัน</div>
-        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-
-    <a class="card" href="client-docs/example-boq/boq-import-example-hotel.xlsx">
-      <div class="icon">BQ</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ BOQ สำหรับ Import Excel — โรงแรม (ล็อบบี้ + ผนังลิฟต์)</div>
-        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>Import Excel</b> (BOQ Estimation → BOQ Documents) ใช้สินค้า FG ที่ตั้งข้อมูลครบและมี Slab ในคลัง eg-tst: พื้นล็อบบี้ NERO RUSTENBURG (Polished) 50 × 90 × 2 ซม. 9 ตร.ม. · ค่าขนส่งและติดตั้ง 15,000 · ผนังลิฟต์ SHANDONG BLACK (Polished) 60 × 120 × 2 ซม. 14.4 ตร.ม. · ลูกค้าตัวอย่าง Demo Hotel Customer · ขนาดทุกช่องเป็น ซม. · ผลนำเข้าจริง: วัสดุรวม 295,800 ค่าแรง 20,160 Overhead 31,596 รวม 347,556</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
-      </div>
-      <div class="arrow">→</div>
-    </a>
-    <a class="card" href="client-docs/example-boq/cutlist-import-example-hotel-cm.xlsx">
-      <div class="icon">CL</div>
-      <div>
-        <div class="card-title">ตัวอย่างไฟล์ Cut List — โรงแรม (ซม. ใช้คู่กับไฟล์ BOQ ตัวอย่าง)</div>
-        <div class="card-desc">ไฟล์สำหรับทดสอบปุ่ม <b>นำเข้า Cut List</b> (ใน BOQ แท็บ ③) 48 ชิ้น 2 โซน ชื่อโซนตรงกับไฟล์ BOQ ตัวอย่าง: ล็อบบี้ 24 ชิ้น = 8.91 ตร.ม. (BOQ เสนอ 9.00) · ผนังลิฟต์ 24 ชิ้น = 14.04 ตร.ม. (BOQ เสนอ 14.40) จึงเห็นการเทียบ ตร.ม. ได้ · ทำจากเทมเพลต Cut List ของระบบเอง ขนาดเป็น ซม. · ก่อนนำเข้า ให้ใส่ NERO RUSTENBURG (Polished) กับ SHANDONG BLACK (Polished) ใน "รายการที่ใช้ในโปรเจกต์นี้" แท็บ ③ ของ BOQ · ผลนำเข้าจริง: เติมชิ้นงานเข้า 2 บรรทัดเดิม ยอดประเมินคงเดิม</div>
-        <div class="card-meta"><span class="card-date">28 ต.ค. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
+        <div class="card-title">ชุดเอกสาร BOQ เดิม (เส้นทาง 1, 2, 4, 5 และกรณีพิเศษ)</div>
+        <div class="card-desc">ย้ายไปเอกสารเก่าชั่วคราว เพราะชื่อแท็บใน BOQ และวิธีใส่ค่าแรง/วัสดุเปลี่ยนไปแล้ว จะทำใหม่ให้ตรงระบบทีละชุด ยังเปิดอ่านเป็นข้อมูลอ้างอิงได้ · ไฟล์ตัวอย่างของชุดเดิมยังอยู่ในโฟลเดอร์ client-docs/example-boq</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span></div>
       </div>
       <div class="arrow">→</div>
     </a>

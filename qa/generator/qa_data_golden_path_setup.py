@@ -8,6 +8,7 @@
 # ZZ กาวและปูนยาแนวปูพื้น / ZZ ค่าแรงติดตั้งพื้น -> sets "ZZ ชุดวัสดุพื้นมาตรฐาน" / "ZZ ชุดค่าแรงติดตั้งพื้น" -> BOQ1187 -> quotation S01752.
 # Same run produced the click-along guide guide-setup-2026-11-01.html (shots reused from qa/assets/guide-setup/).
 #
+# Updated 2026-11-03: the sets (old SET-03..05) were removed with the BOQ redesign; BOQ usage now lives in test-cases-golden-path-boq-items.html. 3 cases remain.
 # Scope note (agreed 2026-11-01): the "use the setup" half that needs real stock (buy and receive a Block, cut Slabs, produce FG,
 # P&L by the material analytic) is NOT re-run here with the ZZ stone — it is already covered by the Golden Paths linked in the
 # flow banner. 5 cases, not 8.
@@ -40,35 +41,13 @@ CATEGORIES = [
          sample="ZZ2 GUIDE MARBLE · หมวด Marble · Serial · รหัสฐาน ZZ2G · Density 2.65 · ราคาฐาน 125,000 ต่อ CBM · Slab 2,500 / ต้นทุน 1,300 ต่อ ตร.ม. · แผ่น 3.000 × 1.600 ม. หนา 2 ซม. · Block 15,800 / ต้นทุน 12,000 บาทต่อตัน · FG 3,800 / ต้นทุน 2,000",
          expected="เปิดหน้า Material ZZ2 GUIDE MARBLE สถานะใช้งาน · Slab Product [ZZ2G-SL] (Variant Polished และ ZZ2G-SL-HON) · Block Product [ZZ2G-BL] ราคาขาย 41,870 ต่อ ลบ.ม. (15,800 × 2.65) · FG [ZZ2G-FG] 3,800 ต่อ ตร.ม. อยู่ในหมวด ZZ Guide FG - Countertop · ตารางราคาตามความหนา 5 แถว: 1.5 / 2 / 2.5 / 3 / 5 ซม. = 1,875 / 2,500 / 3,125 / 3,750 / 6,250 ต่อ ตร.ม. · ได้ Analytic ใหม่ 1 ตัวระดับวัสดุ (ระดับหมวด Marble ใช้ตัวเดิมร่วมกัน)",
          prio="High", shot=SHOT + "gp-set-02-material.webp"),
-    dict(id="TC-GP-SET-03", scenario="ตั้งชุดวัสดุสิ้นเปลืองและชุดค่าแรงติดตั้งสำหรับ BOQ",
-         note="สินค้าในชุดต้องมีหน่วย ตร.ม. (m²) · ราคาและต้นทุนของแต่ละบรรทัดดึงจากสินค้าอัตโนมัติ · ถ้า Company ว่างคือใช้ร่วมทุกบริษัท",
+    dict(id="TC-GP-SET-03", scenario="ตั้งสินค้าค่าแรงและวัสดุสิ้นเปลือง และระบุประเภทรายการ BOQ",
+         note="ไม่มีชุดค่าแรง/ชุดวัสดุแล้ว (เลิกใช้ 3 พ.ย. 2569) · ค่าแรง/วัสดุเป็นสินค้าธรรมดาที่ใส่เป็นบรรทัดใน BOQ เอง · Cost ของสินค้าคือต้นทุนที่ลงบัญชีตอนผลิต",
          pre="เข้าระบบเป็น Empire Granite",
-         steps=["เปิดแอป Inventory &gt; Products &gt; Products กด New สร้างสินค้ากาว (Goods ไม่ติ๊ก Track Inventory) และสินค้าค่าแรง (Service) ตั้งหน่วยเป็น m² ทั้งสองตัว แล้ว Save",
-                "เปิดแอป BOQ Estimation &gt; Consumable Sets กด New สร้างชุดวัสดุ: ตั้งชื่อ เลือก Type วัสดุสิ้นเปลือง เพิ่มสินค้ากาว แล้ว Save",
-                "กด New อีกครั้งสร้างชุดค่าแรง: ตั้งชื่อ เลือก Type ค่าแรงติดตั้งหน้างาน เพิ่มสินค้าค่าแรง แล้ว Save"],
-         sample="สินค้า ZZ กาวและปูนยาแนวปูพื้น ขาย 150 ทุน 90 ต่อ ตร.ม. · ZZ ค่าแรงติดตั้งพื้น ขาย 1,500 ทุน 500 ต่อ ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน · ชุด ZZ ชุดค่าแรงติดตั้งพื้น",
-         expected="ชุดวัสดุ: แถวสินค้า หน่วย m² Price 150.00 Cost 90.00 · Total / m² = 150.00 · ชุดค่าแรง: Price 1,500.00 Cost 500.00 · Total / m² = 1,500.00 · ทั้งสองชุดบันทึกสำเร็จ ชื่อขึ้นที่แถบนำทาง",
-         prio="High", shot=SHOT + "gp-set-03-sets.webp"),
-  ]),
-  dict(cat_id="B", title="B. ใช้ค่าที่ตั้งกับ BOQ และใบเสนอราคา",
-       subtitle="เลือกชุดตั้งต้นที่ BOQ ให้ระบบคิดค่าแรงและวัสดุ · ออกใบเสนอราคาแล้วตรวจยอด · 2 test cases",
-       cases=[
-    dict(id="TC-GP-SET-04", scenario="สร้าง BOQ แล้วให้ระบบคิดวัสดุสิ้นเปลืองและค่าแรงจากชุดตั้งต้น",
-         note="รายละเอียดของบรรทัดต้องพิมพ์เอง (ช่องบังคับ ระบบไม่เติมให้) · ปุ่ม \"ดึงโซนจาก BOQ\" บันทึก BOQ ให้อัตโนมัติ · ช่องชุดวัสดุ/ชุดค่าแรงในแถวโซนอาจแสดงว่างแม้ระบบคิดด้วยชุดตั้งต้นแล้ว (ตัวเลข 150 และ 1,500 ต่อ ตร.ม. ถูกต้อง)",
-         pre="ทำ TC-GP-SET-02 และ TC-GP-SET-03 เสร็จแล้ว · มีลูกค้า Demo Hotel Customer",
-         steps=["เปิดแอป BOQ Estimation &gt; BOQ Documents กด New เลือกลูกค้า",
-                "แท็บ \"① ประเมินพื้นที่\" กด Add a line กรอกโซน รายละเอียด เลือกสินค้า FG และจำนวน ตร.ม.",
-                "แท็บ \"② ค่าแรง &amp; วัสดุ\" เลือกชุดวัสดุสิ้นเปลืองตั้งต้นและชุดค่าแรงตั้งต้น แล้วกด \"ดึงโซนจาก BOQ\" และ \"สร้างค่าแรง/วัสดุ\"",
-                "ดูยอดสรุปด้านล่างของฟอร์ม"],
-         sample="ลูกค้า Demo Hotel Customer · โซน ล็อบบี้ ZZ · พื้นล็อบบี้ หินอ่อน ZZ ขัดมัน · สินค้า ZZ2 GUIDE MARBLE Countertop 10 ตร.ม. · ชุด ZZ ชุดวัสดุพื้นมาตรฐาน และ ZZ ชุดค่าแรงติดตั้งพื้น",
-         expected="บรรทัดพื้น 10.00 ตร.ม. ราคา 3,800.00 รวม 38,000.00 · แถวโซนล็อบบี้ ZZ พื้นที่ 10.00 · วัสดุ 150.00 ต่อ ตร.ม. · ค่าแรง 1,500.00 ต่อ ตร.ม. · ยอดสรุป: วัสดุ 38,000.00 + วัสดุสิ้นเปลือง 1,500.00 + ค่าแรง 15,000.00 = Direct Cost 54,500.00 · Overhead &amp; Profit 10% = 5,450.00 · Total 59,950.00",
-         prio="High", shot=SHOT + "gp-set-04-boq-sets.webp"),
-    dict(id="TC-GP-SET-05", scenario="ออกใบเสนอราคาจาก BOQ แล้วตรวจว่าวัสดุและค่าแรงจากชุดไปอยู่ครบ",
-         pre="ทำ TC-GP-SET-04 เสร็จแล้ว",
-         steps=["ที่ BOQ กดปุ่ม \"สร้างใบเสนอราคา\"",
-                "ดูบรรทัดในแท็บ Order Lines และยอดรวมด้านล่าง"],
-         sample="BOQ1187",
-         expected="ได้ใบเสนอราคา S01752 สถานะ Quotation · ช่อง BOQ Document ชี้ BOQ1187 · หมวดโซน \"ล็อบบี้ ZZ\" มี 3 บรรทัด: FG 10.00 ตร.ม. × 3,800 = 38,000 · วัสดุสิ้นเปลือง 10.00 ตร.ม. × 150 = 1,500 · ค่าแรงติดตั้งหน้างาน 10.00 ตร.ม. × 1,500 = 15,000 · หมวด \"ค่าบริหารโครงการและอื่นๆ\" 1 บรรทัด: ค่าบริหารโครงการ (10% ของยอดงานรวม) 5,450 · ก่อน VAT 59,950.00 · VAT 7% 4,196.50 · รวม 64,146.50",
-         prio="High", shot=SHOT + "gp-set-05-quotation.webp"),
+         steps=["เปิดแอป Inventory &gt; Products &gt; Products กด New สร้างสินค้ากาว (Goods ไม่ติ๊ก Track Inventory) ตั้งหน่วยเป็น m² ช่อง ประเภทรายการ BOQ เลือก วัสดุสิ้นเปลือง แล้ว Save",
+                "กด New อีกครั้งสร้างสินค้าค่าแรง (Service) ตั้งหน่วยเป็น m² ช่อง ประเภทรายการ BOQ เลือก ค่าแรง แล้ว Save"],
+         sample="สินค้า ZZ กาวและปูนยาแนวปูพื้น ขาย 150 ทุน 90 ต่อ ตร.ม. (วัสดุสิ้นเปลือง) · ZZ ค่าแรงติดตั้งพื้น ขาย 1,500 ทุน 500 ต่อ ตร.ม. (ค่าแรง)",
+         expected="สินค้ากาว: ช่อง ประเภทรายการ BOQ แสดง วัสดุสิ้นเปลือง · Sales Price 150.00 · Cost 90.00 · สินค้าค่าแรง: ประเภทรายการ BOQ แสดง ค่าแรง · Sales Price 1,500.00 · Cost 500.00 · ทั้งสองบันทึกสำเร็จ · สินค้าทั้งสองจะขึ้นใน dropdown ของเทมเพลต Excel นำเข้า BOQ",
+         prio="High", shot=SHOT + "gp-set-03-items.png"),
   ]),
 ]

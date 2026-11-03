@@ -213,7 +213,7 @@ PAGE = '''<!doctype html>
   <div class="changes">
     <h3>ชุดนี้ใช้คู่กับ Golden Path เส้นทางที่ 1–5</h3>
     <ul>
-      <li>ใช้ตรวจเรื่องที่เส้นทางหลักข้ามไป · เส้นทางหลักดู <a href="guide-boq-excel-2026-11-03.html">เส้นทาง 1</a> · <a href="guide-boq-cutlist-2026-11-03.html">เส้นทาง 2</a> · <a href="guide-boq-manual-2026-11-03.html">เส้นทาง 3</a> · <a href="guide-boq-project-2026-11-03.html">เส้นทาง 4</a> · <a href="guide-boq-lamps-2026-11-03.html">เส้นทาง 5</a></li>
+      <li>ใช้ตรวจเรื่องที่เส้นทางหลักข้ามไป · เส้นทางหลักดู <a href="guide-boq-excel-2026-11-03.html">เส้นทาง 1</a> · <a href="guide-boq-cutlist-2026-11-03.html">เส้นทาง 2</a> · <a href="guide-boq-items-2026-11-03.html">เส้นทาง 3</a> · <a href="guide-boq-project-2026-11-03.html">เส้นทาง 4</a> · <a href="guide-boq-lamps-2026-11-03.html">เส้นทาง 5</a></li>
       <li>ไฟล์ตัวอย่างที่ผิดโดยตั้งใจอยู่ในหน้า <a href="../test-boq.html">ไฟล์ทดสอบ BOQ</a> (4 ไฟล์) · ต้องผ่าน <a href="guide-setup-2026-11-01.html">Setup ระบบ</a> มาก่อน และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 5 แผ่น</li>
       <li>ขอบเขต 16 เคส: นำเข้า BOQ ผิด 3 · Cut List ผิด 2 · เศษหิน 4 · ส่งและวางบิลบางส่วน 5 · ลูกค้าคืนของ 2</li>
     </ul>

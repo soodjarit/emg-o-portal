@@ -213,7 +213,7 @@ PAGE = '''<!doctype html>
   <div class="changes">
     <h3>ชุดนี้ใช้คู่กับชุดกรณีพิเศษชุดแรกและ Golden Path เส้นทาง 1–5</h3>
     <ul>
-      <li>ชุดแรก: <a href="test-cases-golden-path-boq-edge.html">ไฟล์ผิด · Cut List ผิด · เศษหิน · ส่ง/วางบิลบางส่วน · คืนของ</a> · เส้นทางหลัก <a href="guide-boq-excel-2026-11-03.html">1</a> · <a href="guide-boq-cutlist-2026-11-03.html">2</a> · <a href="guide-boq-manual-2026-11-03.html">3</a> · <a href="guide-boq-project-2026-11-03.html">4</a> · <a href="guide-boq-lamps-2026-11-03.html">5</a></li>
+      <li>ชุดแรก: <a href="test-cases-golden-path-boq-edge.html">ไฟล์ผิด · Cut List ผิด · เศษหิน · ส่ง/วางบิลบางส่วน · คืนของ</a> · เส้นทางหลัก <a href="guide-boq-excel-2026-11-03.html">1</a> · <a href="guide-boq-cutlist-2026-11-03.html">2</a> · <a href="guide-boq-items-2026-11-03.html">3</a> · <a href="guide-boq-project-2026-11-03.html">4</a> · <a href="guide-boq-lamps-2026-11-03.html">5</a></li>
       <li>ต้องผ่าน <a href="guide-setup-2026-11-01.html">Setup ระบบ</a> มาก่อน มี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 10 แผ่น และสินค้า ZZ2 โคมประตู (จากเส้นทาง 5) สำหรับเคสโคม</li>
       <li>ขอบเขต 10 เคส: Cut List ก่อนออกใบเสนอราคาและซ้ำ 3 · เศษที่ชำรุด 2 · คืนบางส่วนและหลังจ่ายเงิน 2 · ส่งโคมทีละใบ 2 · ยกเลิกใบขาย Project 1</li>
     </ul>

@@ -1,4 +1,4 @@
-from qa_data_golden_path_boq_project import CATEGORIES
+from qa_data_golden_path_boq_items import CATEGORIES
 
 def steps_html(steps):
     return '<ol>' + ''.join('<li>%s</li>' % s for s in steps) + '</ol>'
@@ -83,7 +83,7 @@ PAGE = '''<!doctype html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMG-O — Golden Path: BOQ สร้างเองในฟอร์ม</title>
+<title>EMG-O — Golden Path: BOQ ค่าแรง/วัสดุเป็นรายการ ถึง P&amp;L</title>
 <style>
   :root{
     --copper:#B8763E;
@@ -184,7 +184,7 @@ PAGE = '''<!doctype html>
 <body>
 
 <a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
-<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-project.xlsx" download="EMG-O Golden Path - BOQ + Project.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-items.xlsx" download="EMG-O Golden Path - BOQ ค่าแรง วัสดุเป็นรายการ ถึง P&amp;L.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
 
 <div class="layout">
   <aside class="sidebar">
@@ -194,13 +194,9 @@ PAGE = '''<!doctype html>
   <div class="main">
   <header>
     <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
-    <h1>Golden Path — BOQ เส้นทาง 4: BOQ + Project</h1>
+    <h1>Golden Path — BOQ ค่าแรง/วัสดุเป็นรายการ ถึง P&amp;L</h1>
     <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
-    <div class="sub">งานที่ขายเป็นโปรเจกต์: ระยะเวลาและ Milestone ใน BOQ · Sold as Project · Project และ Task · ผลิต · เก็บเงินตามงวดความคืบหน้า · ค่าแรงติดตั้ง · ปิดงาน · ใบแจ้งหนี้สุดท้าย · P&amp;L ต่อโปรเจกต์ · เฉพาะ happy path</div>
-    <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
-      <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อน โปรดยืนยันหรือแจ้งให้ปรับ)
-      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>ยอดเรียกเก็บงวดแรก (Down Payment) ต้องกรอกรวม VAT</b> — ช่องยอดที่ควรวางบิลงวดนี้เป็นก่อน VAT (8,208.00) แต่ช่อง Down Payment รับยอดรวม VAT จึงเพิ่มคอลัมน์ ยอดรวม VAT ในตารางงวดให้ (8,782.56) ให้พิมพ์ตามนั้น (แก้แล้ว 19.0.2.109.67) ขอยืนยันว่ายอมรับได้ หรืออยากให้ระบบเปิดวิซาร์ดพร้อมยอดให้เลย</li><li><b>ช่อง Billed So Far นับก่อน VAT</b> — เดิมนับรวม VAT เทียบกับมูลค่าก่อน VAT จึงคลาดเคลื่อน แก้แล้ว (stone_slab_inventory 19.0.2.109.66) ขอยืนยัน</li><li><b>ค่าแรงติดตั้งหน้างาน 1,200 บาทต่อวัน</b> — บริษัทยังไม่มีอัตรานี้และยังไม่มีบัญชี COGS - Site Installation Labor ผมตั้งอัตรา 1,200 ต่อวันและสร้างบัญชี 511140 บน eg-tst ขอยืนยันอัตราและรหัสบัญชีจริง</li><li><b>ห้ามใช้ชุดค่าแรงติดตั้งใน BOQ ซ้อนกับค่าแรงติดตั้งที่ Task</b> — ลงต้นทุนค่าแรงติดตั้งสองครั้ง เส้นทางนี้ใช้เฉพาะที่ Task ขอยืนยันว่าโปรเจกต์ใช้วิธีที่ Task</li><li><b>ปุ่ม Tasks ที่ใบสั่งขายนับ Task ที่ผูกกับบรรทัดขายแล้ว</b> — เดิมแสดง 0 ทั้งที่มี 2 Task แก้แล้ว ปุ่มนับ 2 และเปิดรายการได้ ขอยืนยันว่าพอใจ</li><li><b>ค่าบริหารโครงการ 10% ไม่อยู่ในงวดเก็บเงินของ Task</b> — เก็บในใบแจ้งหนี้สุดท้าย ขอยืนยันว่าต้องการแบบนี้</li><li><b>Slab ห้ามซ้ำระหว่างใบสั่งผลิตที่ยังไม่เสร็จ</b> — ระบบเลือกให้คนละแผ่น และไม่ให้บันทึกถ้าเลือกซ้ำด้วยมือ</li></ol>
-    </div>
+    <div class="sub">ค่าแรงติดตั้งและวัสดุสิ้นเปลืองเป็นบรรทัดของตัวเองใน BOQ (เลือกจากรายการสินค้า ไม่มีชุดค่าแรง/ชุดวัสดุแล้ว) · นำเข้า Excel · ใบเสนอราคา · ผลิตหิน 2 ใบสั่งผลิต · ต้นทุนแบ่งตามสัดส่วนที่ผลิตจริง · ส่งของ · ใบแจ้งหนี้ · กำไรของ BOQ ใบนี้ · เฉพาะ happy path ไม่มีเคสกรอกผิด</div>
     <div class="stat-row">
       <div class="stat-pill"><b>__TOTAL__</b>Test Case ทั้งหมด</div>
       <div class="stat-pill"><b>__NCAT__</b>หมวด</div>
@@ -211,23 +207,21 @@ PAGE = '''<!doctype html>
   </header>
 
   <div class="changes">
-    <h3>เอกสารชุดใหม่ของ BOQ — เส้นทาง 4 (แทนชุดเดิมที่ย้ายเข้า Archived แล้ว)</h3>
+    <h3>ชุดใหม่แทน "BOQ เส้นทาง 3: สร้าง BOQ เอง + ชุดค่าแรง/วัสดุ" (ย้ายชุดเดิมเข้า Archived แล้ว)</h3>
     <ul>
-      <li>ทำตามทีละขั้นด้วย <a href="guide-boq-project-2026-11-03.html">คู่มือกดตาม BOQ + Project</a> · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
-      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน (สินค้า ZZ2 GUIDE MARBLE Countertop) ตั้งอัตราค่าแรงติดตั้งต่อวันที่บริษัท มีบัญชี COGS - Site Installation Labor และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 3 แผ่น</li>
-      <li>ขอบเขต 20 เคส: BOQ และใบเสนอราคา 3 · ขายเป็นโปรเจกต์ 3 · งวดเก็บเงินและผลิต 3 · ความคืบหน้าและเก็บเงินงวดแรก 5 · ติดตั้ง ปิดงาน เก็บเงินสุดท้าย P&amp;L 6</li>
-      <li>เส้นทาง 1–3 เป็นชุดแยก ดู <a href="test-cases-golden-path-boq-excel.html">เส้นทาง 1</a> · <a href="test-cases-golden-path-boq-cutlist.html">เส้นทาง 2</a> · <a href="test-cases-golden-path-boq-manual.html">เส้นทาง 3</a></li>
+      <li>ทำตามทีละขั้นด้วย <a href="guide-boq-items-2026-11-03.html">คู่มือกดตาม BOQ ค่าแรง/วัสดุเป็นรายการ ถึง P&amp;L</a> (มีเหตุผลของแต่ละค่าที่กรอก) · เอกสารนี้ใช้ตรวจว่าผลตรงตามที่ควรเป็น</li>
+      <li>ต้องทำ <a href="guide-setup-2026-11-01.html">คู่มือกดตาม Setup ระบบ</a> ตอน 2 มาก่อน (มีสินค้า ZZ2 GUIDE MARBLE Countertop, ZZ ค่าแรงติดตั้งพื้น, ZZ กาวและปูนยาแนวปูพื้น และหมวด FIFO + Perpetual) และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 4 แผ่น</li>
+      <li>ขอบเขต 16 เคส: ตั้งประเภทรายการ 2 · นำเข้า BOQ 3 · ใบเสนอราคา 2 · ผลิต 3 · ต้นทุนแบ่งตามสัดส่วน 3 · ส่งของ ใบแจ้งหนี้ P&amp;L 3</li>
     </ul>
   </div>
 
   <div class="flow-banner">
-    <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569):</b><br>
-    BOQ1184 (2 โซน ห้องอาหาร 5 วัน / ทางเดิน 3 วัน พร้อม Milestone) &rarr; ใบเสนอราคา S01748 + Sold as Project &rarr; Confirm ได้ Project (Task 2 · Milestone 2) &rarr; ใบสั่งผลิต EG01/STFG/00467 (Slab BLK-26-1482-35, -36) และ 00468 (-37) &rarr; ลงเวลา 30% &rarr; ใบแจ้งหนี้งวดแรก INV/2026/00016 &rarr; ส่งของ EG01/OUT/00754 &rarr; ลงเวลา 100% &rarr; ค่าแรงติดตั้ง &rarr; ปิด Task &rarr; ใบแจ้งหนี้สุดท้าย INV/2026/00017 &rarr; P&amp;L โปรเจกต์<br>
-    <b>ตัวเลขหลัก:</b> ใบเสนอราคา 45,144.00 ก่อน VAT (ห้องอาหาร 27,360.00 · ทางเดิน 13,680.00 · ค่าบริหารโครงการ 4,104.00) · งวด 1 = 8,208.00 ก่อน VAT (8,782.56 รวม VAT) · ใบแจ้งหนี้สุดท้าย 36,936.00 ก่อน VAT (39,521.52 รวม VAT) · ต้นทุน 32,023.68 (Slab 12,223.68 + ค่าแรงโรงงาน 16,200.00 + ค่าแรงติดตั้ง 3,600.00) · กำไรขั้นต้น 13,120.32<br>
-    <b>บั๊กที่เจอและแก้แล้วระหว่างทำ:</b> ช่อง Billed So Far ของงวดเก็บเงินนับยอดรวม VAT เทียบกับมูลค่าก่อน VAT แก้แล้วให้นับก่อน VAT และตรวจซ้ำ (TC-GP-BQ4-13)<br>
-    <b>บั๊กที่แก้ภายหลัง (19.0.2.109.67):</b> ปุ่ม Tasks ที่ใบสั่งขายเคยแสดง 0 และรายการว่าง ตอนนี้นับและเปิด Task ทั้งสองใบ (TC-GP-BQ4-05) · ตารางงวดมีคอลัมน์ ยอดรวม VAT สำหรับกรอก Down Payment (TC-GP-BQ4-12)<br>
-    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> Apply Template (Sub-task) · ผู้รับเหมาช่วงด้วย Purchase Order · สร้าง Task จาก BOQ ก่อนมีใบเสนอราคา · เชื่อมกับ Project เดิม · Task หลายใบต่อบรรทัด · แจ้งเตือนชั่วโมงเกิน · รับชำระเงินงวด<br>
-    <b>คำถามค้างลูกค้า/บัญชี:</b> อัตราค่าแรงติดตั้งต่อวันและรหัสบัญชี · งวดเก็บเงินควรคิดตามชั่วโมงที่ลงหรือแบบอื่น · ค่าบริหารโครงการควรเก็บในงวดแรกหรือใบสุดท้าย
+    <b>เส้นทางที่รันจริง (eg-tst, 3 พ.ย. 2569 หลังโมดูล boq_estimation 1.56.0):</b><br>
+    ตั้งประเภทรายการสินค้า ZZ ค่าแรงติดตั้งพื้น / ZZ กาวและปูนยาแนวปูพื้น &rarr; ไฟล์ boq-import-zz2-items.xlsx (5 แถว) &rarr; BOQ1498 &rarr; ใบเสนอราคา S02155 (ติ๊ก Sold as Project) &rarr; ใบสั่งผลิต EG01/STFG/00610 (7.2 ตร.ม.) และ EG01/STFG/00611 (5.4 ตร.ม.) &rarr; ใบส่งของ EG01/OUT/00941 &rarr; ใบแจ้งหนี้ INV/2026/00029 &rarr; P&amp;L ของ BOQ1498<br>
+    <b>ตัวเลขหลัก:</b> ขาย 84,337.00 · VAT 5,903.59 · รวม 90,240.59 · ต้นทุน Slab 16,291.18 + ค่าแรงผลิต 18,900.00 + ค่าแรง BOQ 6,300.00 + วัสดุ BOQ 1,134.00 = 42,625.18 · กำไรขั้นต้น 41,711.82 · ต้นทุนแบ่ง: ค่าแรง 3,600 + 2,700 · วัสดุ 648 + 486<br>
+    <b>ข้อสังเกตจากการรัน:</b> (1) ต้นทุนค่าแรง/วัสดุของ BOQ ลงตอนผลิตเสร็จ แบ่งตามสัดส่วนพื้นที่ที่แต่ละใบสั่งผลิตผลิตได้ (57.14% และ 42.86%) ผลรวมเท่ากับ Cost × จำนวนในบรรทัดพอดี (2) กาวและปูนยาแนวเป็นสินค้า Goods ที่ไม่ติดตามสต็อก จึงขึ้นเป็นแถวในใบส่งของด้วย แต่ไม่เกิดมูลค่าสต็อกซ้ำ (3) หลังกด ผลิต FG เสร็จ หน้าจออาจยังโชว์ Confirmed จนกว่าจะรีเฟรช<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> แถวที่ผิดตอน Import (ราคาผิดช่อง · รายการไม่มีต้นทุน) · โซนค่าแรงไม่ตรงโซนหิน · Zone ที่เป็นชิ้นงาน (โคม เจดีย์) · ใบสั่งผลิตผลิตไม่ครบ · แยกใบเสนอราคา Material/Labor และ WHT · นำเข้า Cut List · วางบิลเป็นงวด · คืนสินค้า (ผลที่เขียนเกี่ยวกับโซนไม่ตรงและโซนชิ้นงานอ่านจากโค้ด ยังไม่ได้ทดสอบหน้าจอจริง)<br>
+    <b>คำถามค้างลูกค้า/บัญชี:</b> (1) ค่าแรงผลิตมาตรฐานของหมวดสินค้า (1,500 ต่อ ตร.ม.) กับค่าแรงติดตั้งหน้างานจาก BOQ (ต้นทุน 500 ต่อ ตร.ม.) ลงบัญชีเดียวกัน (511120) ตั้งใจให้บวกกันหรือไม่ (2) ค่าแรงติดตั้งหน้างานควรลง 511140 COGS - Site Installation Labor แทนหรือไม่ (3) ต้นทุนลงตอนผลิตเสร็จ ไม่ใช่ตอนส่งของ ยอมรับได้หรือไม่ (4) วัสดุสิ้นเปลืองควรตั้งเป็น Goods หรือ Service
   </div>
 
 __CATEGORY_BLOCKS__
@@ -251,6 +245,6 @@ PAGE = (PAGE
 )
 
 if __name__ == '__main__':
-    with open('../test-cases-golden-path-boq-project.html', 'w', encoding='utf-8') as f:
+    with open('../test-cases-golden-path-boq-items.html', 'w', encoding='utf-8') as f:
         f.write(PAGE)
     print('wrote', len(PAGE), 'bytes')
