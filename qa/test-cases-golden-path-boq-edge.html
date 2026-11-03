@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG-O — Golden Path: BOQ Cut List หลังขาย</title>
+<style>
+  :root{
+    --copper:#B8763E;
+    --copper-dark:#8F5A2C;
+    --charcoal:#2B2E31;
+    --text:#3A3D40;
+    --bg:#F3F1EE;
+    --card:#FFFFFF;
+    --border:#E4DFD8;
+    --red:#B8432E;
+    --red-bg:#FBEAE7;
+    --amber:#B8892E;
+    --amber-bg:#FBF2E2;
+    --green:#2E7D4F;
+    --green-bg:#E9F5EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);font-family:Calibri,Arial,sans-serif;color:var(--text);}
+  a{color:inherit;}
+
+  #home-btn{position:fixed;top:16px;left:16px;z-index:50;width:38px;height:38px;border-radius:50%;
+    background:var(--charcoal);color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #home-btn:hover{background:var(--copper);}
+
+  #export-btn{position:fixed;top:16px;right:16px;z-index:50;display:flex;align-items:center;gap:7px;
+    padding:9px 16px 9px 14px;border-radius:99px;background:var(--green);color:#fff;font-size:13px;font-weight:700;
+    text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:background .15s ease;}
+  #export-btn:hover{background:#255F3F;}
+
+  .layout{max-width:1440px;margin:0 auto;padding:76px 24px 100px;display:flex;align-items:flex-start;gap:40px;}
+  .sidebar{width:272px;flex-shrink:0;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;}
+  .sidebar-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9A9D9F;font-weight:700;margin-bottom:12px;padding-left:6px;}
+
+  .tree-docs{list-style:none;margin:0;padding:0;}
+  .tree-doc > a{display:block;font-size:12.5px;color:#6B6E70;text-decoration:none;padding:5px 8px;border-radius:5px;line-height:1.4;}
+  .tree-doc > a:hover{color:var(--charcoal);background:rgba(0,0,0,.04);}
+  .tree-doc-tag{display:inline-block;min-width:24px;color:var(--copper-dark);font-weight:700;font-size:11px;margin-right:2px;}
+
+  .main{flex:1;min-width:0;}
+  header{margin-bottom:32px;}
+  .eyebrow{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--copper);font-weight:700;margin-bottom:10px;}
+  h1{font-size:30px;margin:0 0 10px 0;color:var(--charcoal);font-weight:700;font-family:Cambria,serif;}
+  .doc-date{font-size:13px;color:#8F5A2C;font-weight:700;margin:-2px 0 12px;}
+  .sub{font-size:15px;color:#6B6E70;line-height:1.6;max-width:760px;margin-bottom:20px;}
+
+  .stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .stat-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;}
+  .stat-pill b{font-size:17px;display:block;color:var(--charcoal);font-family:Cambria,serif;}
+
+  .flow-banner{background:var(--charcoal);border-radius:14px;padding:18px 22px;margin:24px 0 36px;color:#fff;font-size:13.5px;line-height:1.7;}
+  .flow-banner b{color:var(--copper);}
+
+  .category{margin-bottom:52px;}
+  .category-header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--charcoal);}
+  .category-title{font-size:21px;font-weight:700;font-family:Cambria,serif;color:var(--charcoal);}
+  .category-sub{font-size:13px;color:#9A9D9F;margin-top:2px;}
+
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  table.tc-table{border-collapse:collapse;width:100%;min-width:1340px;font-size:13px;}
+  table.tc-table thead th{background:var(--charcoal);color:#fff;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.3px;position:sticky;top:0;}
+  table.tc-table tbody td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  table.tc-table tbody tr:nth-child(even){background:#FAF9F7;}
+  table.tc-table tbody tr:hover{background:#F5EFE6;}
+  .col-id{width:76px;}
+  .col-scenario{width:280px;font-weight:600;color:var(--charcoal);}
+  .col-pre{width:150px;color:#6B6E70;}
+  .col-steps{width:230px;}
+  .col-steps ol{margin:0;padding-left:18px;}
+  .col-steps li{margin-bottom:3px;}
+  .col-sample{width:210px;color:#5B4632;background:#FBF8F3;}
+  .col-expected{width:250px;}
+  .col-prio{width:78px;text-align:center;}
+  .col-shot{width:92px;text-align:center;}
+  .tc-shot-link{display:inline-block;}
+  .tc-shot-link img{width:76px;border-radius:6px;border:1px solid var(--border);display:block;transition:transform .15s ease,box-shadow .15s ease;}
+  .tc-shot-link:hover img{transform:scale(1.6);position:relative;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+  .tc-id{font-family:Consolas,Menlo,monospace;font-size:11.5px;color:var(--copper-dark);font-weight:700;}
+  .note{margin-top:6px;font-size:11.5px;color:var(--amber);background:var(--amber-bg);border-radius:6px;padding:4px 8px;}
+  .upd{margin-top:6px;font-size:11.5px;color:var(--green);background:var(--green-bg);border:1px solid #BFE0CD;border-radius:6px;padding:4px 8px;}
+  .upd b{background:var(--green);color:#fff;border-radius:99px;padding:1px 8px;margin-right:4px;font-size:10.5px;}
+  .changes{background:var(--green-bg);border:1px solid #BFE0CD;border-radius:14px;padding:16px 22px;margin:0 0 28px;font-size:13.5px;line-height:1.7;color:var(--charcoal);}
+  .changes h3{margin:0 0 6px;font-size:15px;color:var(--green);}
+  .changes ul{margin:4px 0 0;padding-left:20px;}
+  .prio-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 10px;border-radius:99px;}
+  .prio-high{background:var(--red-bg);color:var(--red);}
+  .prio-med{background:var(--amber-bg);color:var(--amber);}
+  .prio-low{background:var(--green-bg);color:var(--green);}
+
+  footer{margin-top:56px;font-size:13px;color:#9A9D9F;}
+
+  @media (max-width:900px){
+    .layout{flex-direction:column;padding:64px 16px 80px;gap:20px;}
+    .sidebar{position:static;width:100%;top:auto;max-height:none;overflow-y:visible;}
+  }
+</style>
+</head>
+<body>
+
+<a id="home-btn" href="../library.html" title="กลับไปหน้า Portal" aria-label="กลับไปหน้า Portal"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></a>
+<a id="export-btn" href="../client-docs/test-cases/emg-o-golden-path-boq-edge.xlsx" download="EMG-O Test Cases - BOQ กรณีพิเศษและเคสผิดพลาด.xlsx" title="ดาวน์โหลดไฟล์ Excel"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4.5 19.5h15"/></svg>Export Excel</a>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">ขั้นตอนในเรื่องราวนี้</div>
+    <ul class="tree-docs" id="doc-tree"><li class="tree-doc"><a href="#A"><span class="tree-doc-tag">A</span>นำเข้า BOQ จาก Excel ผิด</a></li><li class="tree-doc"><a href="#B"><span class="tree-doc-tag">B</span>Cut List ผิด</a></li><li class="tree-doc"><a href="#C"><span class="tree-doc-tag">C</span>เศษหินหลังตัด (Offcut)</a></li><li class="tree-doc"><a href="#D"><span class="tree-doc-tag">D</span>ส่งของและวางบิลบางส่วน</a></li><li class="tree-doc"><a href="#E"><span class="tree-doc-tag">E</span>ลูกค้าคืนของ</a></li></ul>
+  </aside>
+  <div class="main">
+  <header>
+    <div class="eyebrow">Empire Stone × Empire Granite — QA</div>
+    <h1>ชุดทดสอบ BOQ — กรณีพิเศษและเคสผิดพลาด</h1>
+    <div class="doc-date">อัปเดตล่าสุด: 3 พฤศจิกายน 2569 (2026-11-03) · รันจริงบน eg-tst ผ่านหน้าจอ ใช้ผู้ใช้ emgdemo บริษัท Empire Granite</div>
+    <div class="sub">เคสที่ Golden Path ทั้ง 5 เส้นทางไม่ได้ทดสอบ (เพราะเดินเฉพาะทางที่ถูก): ไฟล์นำเข้าผิด · Cut List ผิด · เศษหินหลังตัด · ส่งและวางบิลบางส่วน · ลูกค้าคืนของ · ทุกเคสเดินจริงและตัวเลขมาจากระบบ</div>
+    <div style="background:#FFF4DC;border:1px solid #E5B84B;border-left:6px solid #E5B84B;border-radius:12px;padding:14px 20px;margin:16px 0;font-size:13.5px;line-height:1.7;">
+      <b>ประเด็นที่ต้องการการยืนยัน</b> (ผู้จัดทำตัดสินใจแทนไปก่อน โปรดยืนยันหรือแจ้งให้ปรับ)
+      <ol style="margin:6px 0 0 18px;padding:0;"><li><b>ค่าบริหารโครงการเรียกเก็บเต็มจำนวนในใบแจ้งหนี้ใบแรกของการส่งบางส่วน</b> — ใบแรก 46,699.20 = หิน 40,608.00 (ที่ส่งแล้ว) + ค่าบริหารโครงการ 6,091.20 ทั้งก้อน ใบที่สองมีแต่หิน ขอยืนยันว่าต้องการแบบนี้ หรืออยากให้แบ่งตามสัดส่วนที่ส่ง</li><li><b>FG ที่ผลิตเป็น lot เดียวต่อบรรทัดส่งแบ่งไม่ได้</b> — ถ้าลูกค้าอยากรับของทีละงวดต้องแยกบรรทัดหรือโซนตั้งแต่ BOQ (TC-EX-10, 11) ขอยืนยันว่ารับได้</li><li><b>ใบคืนของ FG เข้า EG01/Stock ตรง ไม่ผ่านการตรวจ</b> — Slab คืนต้องผ่าน Returned - Inspect แต่ FG คืนเข้าสต็อกขายได้ทันที ขอยืนยันว่าไม่ต้องการให้ตรวจสภาพก่อน</li><li><b>การคืนของไม่ออก Credit Note ให้เอง</b> — ต้องกด Credit Note ที่ใบแจ้งหนี้แยก (TC-EX-16) ขอยืนยันว่ารับได้</li><li><b>ต้นทุนเศษคิดตามพื้นที่</b> — 1.50 ตร.ม. จาก 8.70 ตร.ม. ได้ 1,405.02 จากต้นทุน Slab 8,149.12 ไม่ได้ถ่วงตามรูปร่างหรือความเสียหาย</li></ol>
+    </div>
+    <div class="stat-row">
+      <div class="stat-pill"><b>16</b>Test Case ทั้งหมด</div>
+      <div class="stat-pill"><b>5</b>หมวด</div>
+      <div class="stat-pill"><b style="color:var(--red)">12</b>High Priority</div>
+      <div class="stat-pill"><b style="color:var(--amber)">4</b>Medium Priority</div>
+      <div class="stat-pill"><b style="color:var(--green)">0</b>Low Priority</div>
+    </div>
+  </header>
+
+  <div class="changes">
+    <h3>ชุดนี้ใช้คู่กับ Golden Path เส้นทางที่ 1–5</h3>
+    <ul>
+      <li>ใช้ตรวจเรื่องที่เส้นทางหลักข้ามไป · เส้นทางหลักดู <a href="guide-boq-excel-2026-11-03.html">เส้นทาง 1</a> · <a href="guide-boq-cutlist-2026-11-03.html">เส้นทาง 2</a> · <a href="guide-boq-manual-2026-11-03.html">เส้นทาง 3</a> · <a href="guide-boq-project-2026-11-03.html">เส้นทาง 4</a> · <a href="guide-boq-lamps-2026-11-03.html">เส้นทาง 5</a></li>
+      <li>ไฟล์ตัวอย่างที่ผิดโดยตั้งใจอยู่ในหน้า <a href="../test-boq.html">ไฟล์ทดสอบ BOQ</a> (4 ไฟล์) · ต้องผ่าน <a href="guide-setup-2026-11-01.html">Setup ระบบ</a> มาก่อน และมี Slab ZZ2 GUIDE MARBLE ที่ Available อย่างน้อย 5 แผ่น</li>
+      <li>ขอบเขต 16 เคส: นำเข้า BOQ ผิด 3 · Cut List ผิด 2 · เศษหิน 4 · ส่งและวางบิลบางส่วน 5 · ลูกค้าคืนของ 2</li>
+    </ul>
+  </div>
+
+  <div class="flow-banner">
+    <b>ข้อมูลที่รันจริง (eg-tst, 3 พ.ย. 2569) ใช้ 2 ชุด:</b><br>
+    <b>ชุด A:</b> boq-import-zz2-reception.xlsx &rarr; BOQ1228 &rarr; ใบเสนอราคา S01806 &rarr; ใบสั่งผลิต EG01/STFG/00491 (เศษ OC-EG01/STFG/00491-01) &rarr; ใบส่งของ EG01/OUT/00775 &rarr; ใบแจ้งหนี้ INV/2026/00020 &rarr; ใบรับคืน EG01/IN/00748 &rarr; Credit Note RINV/2026/00001<br>
+    <b>ชุด B:</b> boq-import-zz2-meeting.xlsx &rarr; BOQ1231 &rarr; ใบเสนอราคา S01809 (67,003.20 ก่อน VAT) &rarr; ใบสั่งผลิต EG01/STFG/00492 และ 00493 &rarr; ส่งบางส่วน EG01/OUT/00776 + ใบค้างส่ง 00777 &rarr; ใบแจ้งหนี้ INV/2026/00021 (46,699.20) และ INV/2026/00022 (20,304.00)<br>
+    <b>ตัวเลขหลัก:</b> เศษ 1.50 ตร.ม. ต้นทุน 1,405.02 · ต้นทุน Slab ลงบัญชีใน FG 6,744.10 (แทน 8,149.12) · Credit Note 49,245.68 รวม VAT ตรงใบเดิม · สองใบแจ้งหนี้รวม 67,003.20 ก่อน VAT<br>
+    <b>ผลข้างเคียงที่ควรรู้:</b> ระหว่างเปิดรายการ Slabs Pending Inspection ผู้จัดทำกดตรวจเศษเก่า OC-EG01/STFG/00418-01 (ค้างตั้งแต่ 31 ต.ค.) ให้กลับไป Available โดยไม่ตั้งใจ ไม่กระทบเอกสารชุดนี้<br>
+    <b>ยังไม่ครอบคลุมในเอกสารนี้:</b> Cut List ก่อนออกใบเสนอราคา · นำเข้า Cut List ซ้ำ · คืนของบางส่วน (บางชิ้น) · ตัดเศษทิ้ง (Scrap) · คืนของหลังจ่ายเงินแล้ว · ส่ง FG ซีเรียล (โคม) เป็นงวด · ยกเลิกงานขายที่ยืนยันเป็น Project แล้ว<br>
+    <b>คำถามค้างลูกค้า/บัญชี:</b> ค่าบริหารโครงการควรเรียกเก็บตามสัดส่วนการส่งหรือไม่ · FG คืนต้องตรวจสภาพก่อนเข้าสต็อกขายหรือไม่ · ต้องการให้ระบบออก Credit Note อัตโนมัติจากใบรับคืนหรือไม่
+  </div>
+
+  <div class="category" id="A">
+    <div class="category-header">
+      <div>
+        <div class="category-title">A. นำเข้า BOQ จาก Excel ผิด</div>
+        <div class="category-sub">ระบบต้องหยุดและบอกว่าผิดตรงไหน ไม่สร้าง BOQ ครึ่งๆ กลางๆ · 3 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-01</span></td>
+          <td class="col-scenario">กดอ่านไฟล์โดยยังไม่ได้เลือกไฟล์<div class="note">ต้องเลือกลูกค้าก่อน ปุ่มดาวน์โหลดเทมเพลตจึงทำงาน แต่ปุ่ม อ่านไฟล์ ไม่เช็คลูกค้า เช็คแค่ว่ามีไฟล์</div></td>
+          <td class="col-pre">เข้าระบบเป็น Empire Granite</td>
+          <td class="col-steps"><ol><li>เปิดแอป BOQ Estimation &gt; BOQ Documents กด Import Excel</li><li>เลือกลูกค้า Demo Hotel Customer แต่ยังไม่อัปโหลดไฟล์</li><li>กด อ่านไฟล์</li></ol></td>
+          <td class="col-sample">ลูกค้า Demo Hotel Customer · ไม่มีไฟล์</td>
+          <td class="col-expected">ขึ้นหน้าต่าง Invalid Operation ข้อความ กรุณาเลือกไฟล์ (.xlsx) ก่อน · กด Close แล้วกลับมาที่หน้าต่าง Import Excel เดิม ไม่มี BOQ ใหม่</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-01-no-file.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-01-no-file.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-02</span></td>
+          <td class="col-scenario">ไฟล์ไม่มีแถวหัวตาราง (ไม่ใช่เทมเพลต)<div class="note">ระบบหาแถวหัวตารางจากคำว่า รายการ ถ้าไฟล์ถูกลบหัวตารางทิ้งหรือไม่ใช่เทมเพลตของระบบจะอ่านไม่ได้ · แก้ด้วยการดาวน์โหลดเทมเพลตใหม่แล้วคัดลอกข้อมูลไปวาง</div></td>
+          <td class="col-pre">ไฟล์ boq-import-zz2-no-header.xlsx (เทมเพลตที่ลบแถวหัวตารางทิ้ง)</td>
+          <td class="col-steps"><ol><li>กด Import Excel เลือกลูกค้า Demo Hotel Customer อัปโหลดไฟล์ boq-import-zz2-no-header.xlsx</li><li>กด อ่านไฟล์</li></ol></td>
+          <td class="col-sample">ไฟล์เทมเพลตที่แถวที่ 4 (หัวตาราง) ว่างเปล่า</td>
+          <td class="col-expected">ขึ้น Invalid Operation: ไม่พบแถวหัวตาราง (ต้องมีคอลัมน์ รายการ) — ใช้เทมเพลตจากปุ่ม ดาวน์โหลดเทมเพลต · ยังอยู่ในหน้าต่างเดิม ไม่มีหน้าตัวอย่าง</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-02-no-header.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-02-no-header.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-03</span></td>
+          <td class="col-scenario">ไฟล์มีแถวผิดหลายแบบ — ระบบแสดงแถวแดงและไม่ให้สร้าง BOQ<div class="note">ระบบตรวจทุกแถวแล้วรายงานรวมครั้งเดียว แก้ไฟล์แล้วกด กลับไปเลือกไฟล์ ไม่มีปุ่มสร้าง BOQ ให้กดข้ามได้ · ตัวเลขสรุปด้านบนยังคำนวณจากแถวที่อ่านได้ ห้ามใช้เป็นยอดจริง</div></td>
+          <td class="col-pre">ไฟล์ boq-import-zz2-errors.xlsx (5 แถว ผิดคนละแบบ)</td>
+          <td class="col-steps"><ol><li>กด Import Excel เลือกลูกค้า Demo Hotel Customer อัปโหลดไฟล์ boq-import-zz2-errors.xlsx</li><li>กด อ่านไฟล์ แล้วอ่านคอลัมน์ ข้อผิดพลาด ทีละแถว</li><li>ดูปุ่มที่ท้ายหน้าต่าง</li></ol></td>
+          <td class="col-sample">แถว 5: พื้นไม่ใส่ขนาด · แถว 6: ยาว = หนึ่งร้อยยี่สิบ (ข้อความ) · แถว 7: ชื่อสินค้าที่ไม่มีในระบบ · แถว 8: หน่วย เที่ยว · แถว 9: ไม่มีชื่อรายการ</td>
+          <td class="col-expected">แถบแดง มี 5 แถวที่มีข้อผิดพลาด · แถว 5 FG แผ่นตัดต้องระบุขนาด ขาด กว้าง ยาว · แถว 6 ยาว ต้องเป็นตัวเลข (พบ หนึ่งร้อยยี่สิบ) · แถว 7 ไม่พบสินค้าหิน ZZ หินที่ไม่มีอยู่จริง ในระบบ · แถว 8 ไม่รู้จักหน่วย เที่ยว (ใช้ ตร.ม. / ชิ้น / ม.) · แถว 9 ไม่มีชื่อรายการ · เหลือปุ่ม กลับไปเลือกไฟล์ และ ยกเลิก เท่านั้น ไม่มีปุ่มสร้าง BOQ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-03-error-rows.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-03-error-rows.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="B">
+    <div class="category-header">
+      <div>
+        <div class="category-title">B. Cut List ผิด</div>
+        <div class="category-sub">ไฟล์ Cut List ที่อ่านไม่ได้หรือโซนไม่ตรง ต้องไม่แตะใบเสนอราคา · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-04</span></td>
+          <td class="col-scenario">หัวตารางของเทมเพลต Cut List ถูกเขียนทับ<div class="note">หัวตารางอยู่แถวที่ 5 ของแผ่น Cut List ห้ามพิมพ์ทับ ข้อมูลเริ่มแถวที่ 6 (ตรงกับข้อควรรู้ในคู่มือเส้นทาง 5)</div></td>
+          <td class="col-pre">BOQ ที่ออกใบเสนอราคาแล้ว (รอบทดสอบ BOQ1228 / S01806) · ไฟล์ cutlist-header-overwritten-zz2.xlsx · เลือกสินค้า ZZ2G-FG ที่แท็บ ③ Cut List แล้ว</td>
+          <td class="col-steps"><ol><li>เปิด BOQ แท็บ ③ Cut List กด นำเข้า Cut List</li><li>อัปโหลดไฟล์ cutlist-header-overwritten-zz2.xlsx แล้วกด อ่านไฟล์</li></ol></td>
+          <td class="col-sample">แถวที่ 5 ของไฟล์เป็นข้อมูลชิ้นแรก (ห้องประชุม · M1) แทนหัวตาราง</td>
+          <td class="col-expected">Invalid Operation: ไม่พบข้อมูลที่จดจำได้ในไฟล์นี้ — ตรวจสอบว่าเป็น Cut List ที่มีคอลัมน์ จำนวนตรม. อยู่จริง · BOQ ไม่เปลี่ยน (ชิ้นงานที่นำเข้าแล้ว 0 · Amount Total 46,024.00)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-05-parse.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-05-parse.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-05</span></td>
+          <td class="col-scenario">โซนใน Cut List ไม่มีใน BOQ ที่ขายไปแล้ว<div class="note">หลังออกใบเสนอราคา Cut List เติมได้เฉพาะบรรทัดเดิมของโซนเดียวกัน ถ้าชื่อโซนไม่ตรงต้องแก้ชื่อโซนในไฟล์หรือในตารางตรวจทานก่อนยืนยัน · หน้าตัวอย่างไม่ห้าม แต่ปุ่มยืนยันนำเข้าจะหยุด</div></td>
+          <td class="col-pre">เหมือนเคสก่อน · ไฟล์ cutlist-wrong-zone-zz2.xlsx (ทุกชิ้นอยู่ในโซน ห้องนอน ซึ่ง BOQ ไม่มี)</td>
+          <td class="col-steps"><ol><li>กด นำเข้า Cut List อัปโหลดไฟล์ cutlist-wrong-zone-zz2.xlsx กด อ่านไฟล์ แล้วดูตารางตรวจทาน</li><li>กด ยืนยันนำเข้า</li></ol></td>
+          <td class="col-sample">Cut List 18 ชิ้นในโซน ห้องนอน (13.068 ตร.ม.) · BOQ มีโซน ห้องรับรอง เท่านั้น</td>
+          <td class="col-expected">ตารางตรวจทาน: โซน ห้องนอน 18 แถว 13.0680 ตร.ม. ตร.ม. ที่ประเมิน 0.00 ผลจับคู่ ไม่พบบรรทัด… · กดยืนยันนำเข้าแล้วขึ้น Invalid Operation: ไม่พบบรรทัดเดิมในโซนเดียวกันกับ Cut List — ตรวจชื่อโซนในตาราง (ต้องตรงกับโซนใน BOQ) · ไม่มีบรรทัดหรือชิ้นงานเพิ่ม</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-06-confirm.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-06-confirm.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="C">
+    <div class="category-header">
+      <div>
+        <div class="category-title">C. เศษหินหลังตัด (Offcut)</div>
+        <div class="category-sub">ใบสั่งผลิตบันทึกเศษที่เหลือ → ต้นทุนแยกออกจาก FG → ตรวจเศษแล้วกลับเข้าสต็อก · 4 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-06</span></td>
+          <td class="col-scenario">บันทึกเศษที่เหลือที่ใบสั่งผลิตก่อนกดผลิตเสร็จ<div class="note">เศษบันทึกได้ถึงก่อนกด ผลิต FG เสร็จ (หลังเสร็จแก้ไม่ได้) · ขนาดกรอกเป็นเมตร เหมือนหน้าจอโรงงานอื่น · ช่อง From Slab เว้นว่างได้ ระบบใช้ Slab แรกในรายการ</div></td>
+          <td class="col-pre">ยืนยันใบเสนอราคาจาก BOQ ที่นำเข้าด้วยไฟล์ boq-import-zz2-reception.xlsx (7.2 ตร.ม.) แล้ว เปิดใบสั่งผลิต กด ย้ายไปสถานีตัด และ Confirm แล้ว (Slab 2 แผ่น 8.70 ตร.ม.)</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งผลิต เปิดแท็บ เศษที่เหลือ กด Add a line</li><li>กรอก กว้าง 1.5 · ยาว 1 · จำนวนชิ้น 1 · หมายเหตุ เศษปลายแผ่นที่เหลือจากการตัด แล้วบันทึก</li></ol></td>
+          <td class="col-sample">รอบทดสอบ MO EG01/STFG/00491 · เศษ 1.50 × 1.00 ม. × 1 ชิ้น (Slab ใช้ 7.92 จาก 8.70 ตร.ม.)</td>
+          <td class="col-expected">แถวเศษขึ้น กว้าง 1.500 ยาว 1.000 จำนวนชิ้น 1.000 ตร.ม. 1.50 · ช่องต้นทุนและ Offcut Lots ยังว่าง (0.00) จนกว่างานจะเสร็จ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-09-offcut-row.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-09-offcut-row.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-07</span></td>
+          <td class="col-scenario">ผลิต FG เสร็จ แล้วเศษกลายเป็น Slab ใหม่พร้อมต้นทุนส่วนของมัน<div class="note">ต้นทุนเศษ = ต้นทุน Slab ที่ใช้ตัด × พื้นที่เศษ ÷ พื้นที่ Slab ทั้งหมด (คิดตามพื้นที่) ส่วนนี้ออกจากต้นทุน FG</div></td>
+          <td class="col-pre">ทำ TC-EX-06 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งผลิต กด ผลิต FG เสร็จ</li><li>เปิดแท็บ เศษที่เหลือ ดูต้นทุนและ Offcut Lots</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">สถานะ Done · แท็บ เศษที่เหลือ: ต้นทุน 1,405.02 · Offcut Lots OC-EG01/STFG/00491-01 (ชื่อตามเลขใบสั่งผลิต ต่อท้ายลำดับ)</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-10-offcut-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-10-offcut-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-08</span></td>
+          <td class="col-scenario">ตรวจรายการบัญชีว่าต้นทุน FG ลดลงเท่าเศษ<div class="note">ต้นทุน Slab ที่ลงใน FG ของงานนี้ไม่ใช่ 8,149.12 เหมือนเส้นทาง 1 (ที่ไม่มีเศษ) แต่ 8,149.12 − 1,405.02 = 6,744.10 · ค่าแรงผลิตไม่เปลี่ยน</div></td>
+          <td class="col-pre">ทำ TC-EX-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งผลิต เปิดแท็บ รายการบัญชี</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">3 รายการ Posted: Inventory Valuation 8,149.12 (ต้นทุน Slab ที่ตัดออกจากสต็อก) · Inventory Valuation 6,744.10 (ต้นทุนที่เข้า FG) · FG Production Labor 10,800.00 · รวม 25,693.22 · ผลต่าง 1,405.02 คือต้นทุนที่ไปอยู่กับเศษ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-11-mo-journal.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-11-mo-journal.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-09</span></td>
+          <td class="col-scenario">ตรวจเศษที่ Slabs Pending Inspection แล้วนำกลับไปขาย<div class="note">เศษเข้า Location Returned - Inspect ก่อน ต้องมีคนตรวจ ถ้าชำรุดกด ชำรุด — ตัดทิ้ง (Scrap) ได้ที่ฟอร์มเดียวกัน (เคสนี้ไม่ได้ทดสอบ) · ต้องเลือกแถวให้ตรงเลข lot ของงานนี้ เพราะรายการรวมเศษของงานเก่าด้วย</div></td>
+          <td class="col-pre">ทำ TC-EX-07 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดแอป Stone Slab &gt; Slabs &gt; Slabs Pending Inspection</li><li>เปิดแถว OC-EG01/STFG/00491-01 แล้วกด ตรวจแล้ว — นำกลับไปขาย</li></ol></td>
+          <td class="col-sample">OC-EG01/STFG/00491-01 · 1.500 × 1.000 × 0.030 ม. · ต้นทุน 1,405.02</td>
+          <td class="col-expected">ก่อนกด: สถานะ Returned - Pending Inspection ที่เก็บ Returned - Inspect · หลังกด: สถานะ Available ที่เก็บ Stone Inventory/Stone Available ขนาด 1.500 × 1.000 × 0.030 ราคาขาย 3,750.00 บาท/ตร.ม. ต้นทุน 1,405.02 · ปุ่มตรวจหายไป</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-15-offcut-back-to-stock.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-15-offcut-back-to-stock.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="D">
+    <div class="category-header">
+      <div>
+        <div class="category-title">D. ส่งของและวางบิลบางส่วน</div>
+        <div class="category-sub">หินหนึ่งชิ้นต้องส่งทั้งชิ้น · ส่งทีละบรรทัดโดยมีใบค้างส่ง · ใบแจ้งหนี้ตามที่ส่งจริง · 5 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-10</span></td>
+          <td class="col-scenario">พยายามส่ง FG ไม่ครบชิ้น (แบ่งส่ง lot เดียว)<div class="note">FG ที่ผลิตเป็น lot เดียวต่อบรรทัด ส่งได้ทั้ง lot เท่านั้น แบ่งส่งครึ่งหนึ่งไม่ได้ · ถ้าอยากส่งแยกเป็นงวด ให้แยกเป็นคนละบรรทัดใบเสนอราคา (หรือคนละโซน) ตั้งแต่ตอนทำ BOQ ดูเคสถัดไป</div></td>
+          <td class="col-pre">ใบส่งของ EG01/OUT/00775 (ใบสั่งขาย S01806 บรรทัดเดียว 7.2 ตร.ม.) สถานะ Ready</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ แก้ช่อง Quantity ของ FG เป็น 4.32</li><li>กด Validate</li></ol></td>
+          <td class="col-sample">Quantity 4.32 จากทั้งหมด 7.20 ตร.ม.</td>
+          <td class="col-expected">Validation Error: หิน Lot FG-EG01/STFG/00491-01 ต้องส่งทั้งชิ้น (7.20) ห้ามแบ่งส่งหลายใบ แต่ใส่ 4.32 · ใบส่งของยังเป็น Ready ไม่ตัดสต็อก</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-18-backorder-dialog.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-18-backorder-dialog.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-11</span></td>
+          <td class="col-scenario">ส่งของบรรทัดแรกก่อน แล้วสร้างใบค้างส่ง (Backorder)<div class="note">ใช้ใบสั่งขายที่มี 2 บรรทัด (ห้องประชุม 8.64 · ห้องน้ำ 4.32 ตร.ม.) เพราะแต่ละบรรทัดมี FG คนละ lot · ตั้ง Quantity ของบรรทัดที่ยังไม่ส่งเป็น 0</div></td>
+          <td class="col-pre">BOQ1231 / S01809 ยืนยันแล้ว ผลิต FG ทั้งสองใบเสร็จ (EG01/STFG/00492 และ 00493) · ใบส่งของ EG01/OUT/00776 มี 2 บรรทัด Ready</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ แก้ Quantity ของบรรทัดที่สอง (4.320) เป็น 0</li><li>กด Validate แล้วกด Create Backorder ในหน้าต่างที่ขึ้น</li></ol></td>
+          <td class="col-sample">บรรทัด 1 ส่ง 8.640 · บรรทัด 2 ส่ง 0 (จาก 4.320)</td>
+          <td class="col-expected">หน้าต่าง Create Backorder? ขึ้น (ส่งน้อยกว่าที่สั่ง) · หลังกด Create Backorder ใบ EG01/OUT/00776 เป็น Done จำนวน 8.640 ตร.ม. เท่านั้น · เกิดใบใหม่ EG01/OUT/00777 อ้างอิง Back Order of EG01/OUT/00776 สถานะ Ready จำนวน 4.320</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-33-delivery-part-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-33-delivery-part-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-12</span></td>
+          <td class="col-scenario">ออกใบแจ้งหนี้ตามที่ส่งแล้ว<div class="note">บรรทัดหินคิดตามจำนวนที่ส่งจริง (8.640) ส่วนบรรทัดค่าบริหารโครงการ (บริการ) ถูกเรียกเก็บเต็มจำนวนทันทีในใบแรก ไม่ถูกแบ่งตามสัดส่วนการส่ง — อยู่ในประเด็นที่ต้องการให้ยืนยัน</div></td>
+          <td class="col-pre">ทำ TC-EX-11 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>ที่ใบสั่งขาย ดูคอลัมน์ Delivered และ Invoiced ของแต่ละบรรทัด</li><li>กด Create Invoice เลือก Regular invoice กด Create Draft แล้ว Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ก่อนออกใบ: ห้องประชุม ส่ง 8.640 · ห้องน้ำ ส่ง 0.000 · ใบแจ้งหนี้ INV/2026/00021 Posted: ห้องประชุม 8.640 × 4,700.00 = 40,608.00 · ค่าบริหารโครงการ 6,091.20 · ก่อน VAT 46,699.20 · VAT 3,268.94 · รวม 49,968.14 · ไม่มีบรรทัดห้องน้ำ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-36-invoice-part-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-36-invoice-part-posted.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-13</span></td>
+          <td class="col-scenario">ส่งของที่ค้าง แล้วออกใบแจ้งหนี้ส่วนที่เหลือ<div class="note">ยอดสองใบรวมต้องเท่าใบเสนอราคา: 46,699.20 + 20,304.00 = 67,003.20 ก่อน VAT</div></td>
+          <td class="col-pre">ทำ TC-EX-12 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ EG01/OUT/00777 กด Validate</li><li>กลับที่ใบสั่งขาย กด Create Invoice → Create Draft → Confirm</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">OUT/00777 เป็น Done 4.320 ตร.ม. (ไม่มีหน้าต่าง Backorder เพราะส่งครบ) · ใบแจ้งหนี้ INV/2026/00022 Posted: ห้องน้ำ 4.320 × 4,700.00 = 20,304.00 · VAT 1,421.28 · รวม 21,725.28 · ไม่มีบรรทัดค่าบริหารโครงการซ้ำ</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-40-invoice-rest-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-40-invoice-rest-posted.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-14</span></td>
+          <td class="col-scenario">ตรวจใบสั่งขายหลังส่งและวางบิลครบ<div class="note">ยอดรวมสองใบ VAT 3,268.94 + 1,421.28 = 4,690.22 เท่ากับ 7% ของ 67,003.20</div></td>
+          <td class="col-pre">ทำ TC-EX-13 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบสั่งขาย S01809 ดูปุ่มสมาร์ทด้านบนและคอลัมน์ Invoiced</li></ol></td>
+          <td class="col-sample">-</td>
+          <td class="col-expected">ปุ่มสมาร์ท Delivery 2 · Invoices 2 · ทุกบรรทัด Delivered และ Invoiced เท่าจำนวนที่สั่ง · ไม่มีบรรทัดที่ยังรอวางบิล</td>
+          <td class="col-prio"><span class="prio-badge prio-med">Medium</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-41-so-fully-invoiced.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-41-so-fully-invoiced.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="category" id="E">
+    <div class="category-header">
+      <div>
+        <div class="category-title">E. ลูกค้าคืนของ</div>
+        <div class="category-sub">รับ FG คืนเข้าคลัง · ออก Credit Note กลับรายได้และต้นทุนขาย · 2 test cases</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+    <table class="tc-table">
+      <thead>
+        <tr>
+          <th class="col-id">TC ID</th>
+          <th class="col-scenario">Scenario</th>
+          <th class="col-pre">Precondition</th>
+          <th class="col-steps">Steps</th>
+          <th class="col-sample">ข้อมูลตัวอย่าง</th>
+          <th class="col-expected">Expected Result</th>
+          <th class="col-prio">Priority</th>
+          <th class="col-shot">ภาพหน้าจอ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-15</span></td>
+          <td class="col-scenario">รับ FG คืนทั้งใบส่งของ (Return All)<div class="note">FG ที่รับคืนเข้า EG01/Stock (ที่เก็บ FG ตามปกติ) ไม่ผ่าน Returned - Inspect เหมือน Slab · กดปุ่มเล็ก Return ในหน้าต่าง Return โดยไม่ใส่จำนวนจะไม่เกิดใบรับคืน ต้องกด Return All หรือใส่จำนวนก่อน</div></td>
+          <td class="col-pre">ส่งของ S01806 แล้ว (EG01/OUT/00775 Done) ออกใบแจ้งหนี้ INV/2026/00020 แล้ว (46,024.00 ก่อน VAT)</td>
+          <td class="col-steps"><ol><li>เปิดใบส่งของ EG01/OUT/00775 กด Return แล้วกด Return All</li><li>เปิดใบรับคืนที่เกิดขึ้น (EG01/IN/00748) กด Validate</li></ol></td>
+          <td class="col-sample">คืน 7.200 ตร.ม. (ทั้งใบ) · lot FG-EG01/STFG/00491-01</td>
+          <td class="col-expected">ได้ใบ EG01/IN/00748 รับจากลูกค้า Demo Hotel Customer ปลายทาง EG01/Stock จำนวน 7.200 · Validate แล้ว Done · lot FG-EG01/STFG/00491-01 กลับมา 7.200 ตร.ม. ใน EG01/Stock</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-23-return-done.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-23-return-done.png" loading="lazy"></a></td>
+        </tr>
+        <tr>
+          <td class="col-id"><span class="tc-id">TC-EX-16</span></td>
+          <td class="col-scenario">ออก Credit Note กลับรายการใบแจ้งหนี้<div class="note">การคืนของไม่กลับใบแจ้งหนี้ให้เอง ต้องออก Credit Note แยก · Credit Note ย้อนทั้งรายได้และต้นทุนขาย (6,744.10) เพราะบัญชีต้นทุนลงตอนออกใบแจ้งหนี้</div></td>
+          <td class="col-pre">ทำ TC-EX-15 เสร็จแล้ว</td>
+          <td class="col-steps"><ol><li>เปิดใบแจ้งหนี้ INV/2026/00020 กด Credit Note เลือก Reverse แล้ว Confirm</li></ol></td>
+          <td class="col-sample">เหตุผล: เว้นว่าง · วันที่กลับรายการ: วันที่ปัจจุบัน</td>
+          <td class="col-expected">ได้ RINV/2026/00001 Posted ยอด 41,840.00 + ค่าบริหาร 4,184.00 · รวม VAT 49,245.68 เท่าใบแจ้งหนี้เดิม · สถานะ Paid (หักล้างกับใบเดิมอัตโนมัติ) · ใบ INV/2026/00020 เป็น reversed ยอดค้าง 0.00 · มีรายการต้นทุนขาย 6,744.10 กลับรายการด้วย</td>
+          <td class="col-prio"><span class="prio-badge prio-high">High</span></td>
+          <td class="col-shot"><a class="tc-shot-link" href="assets/boq-ex/ex-25-credit-note-posted.png" target="_blank" title="เปิดภาพหน้าจอจริงขนาดเต็ม"><img src="assets/boq-ex/ex-25-credit-note-posted.png" loading="lazy"></a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>Empire Stone Internal System — จัดทำโดยทีมงาน · <a href="../library.html">กลับหน้าคลังเอกสาร</a></footer>
+  </div>
+</div>
+
+</body>
+</html>

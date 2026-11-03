@@ -201,7 +201,16 @@
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
       </div>
       <div class="arrow">→</div>
+    </a>    <a class="card" href="qa/test-cases-golden-path-boq-edge.html">
+      <div class="icon">GP</div>
+      <div>
+        <div class="card-title">ชุดทดสอบ BOQ — กรณีพิเศษและเคสผิดพลาด</div>
+        <div class="card-desc">16 เคส: ไฟล์นำเข้าผิด · Cut List ผิด · เศษหิน · ส่งและวางบิลบางส่วน · ลูกค้าคืนของ พร้อมภาพจริงต่อเคสและปุ่ม Export Excel</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">รันจริงบน eg-tst แล้ว</span></div>
+      </div>
+      <div class="arrow">→</div>
     </a>
+
     <a class="card" href="client-docs/example-boq/boq-import-zz2-reception.xlsx">
       <div class="icon">BQ</div>
       <div>
@@ -246,7 +255,43 @@
         <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — นำเข้าผ่านจริงบน eg-tst</span></div>
       </div>
       <div class="arrow">→</div>
+    </a>    <a class="card" href="client-docs/example-boq/boq-import-zz2-errors.xlsx">
+      <div class="icon">BQ</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ BOQ ที่ผิดโดยตั้งใจ — 5 แถวผิดคนละแบบ (ใช้กับชุดทดสอบกรณีพิเศษ TC-EX-03)</div>
+        <div class="card-desc">ไฟล์สำหรับปุ่ม <b>Import Excel</b> ขาดขนาด ตัวเลขเป็นข้อความ สินค้าไม่มีในระบบ หน่วยผิด ไม่มีชื่อรายการ — ระบบต้องแสดงแถวแดงและไม่สร้าง BOQ</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
     </a>
+    <a class="card" href="client-docs/example-boq/boq-import-zz2-no-header.xlsx">
+      <div class="icon">BQ</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ BOQ ที่ลบแถวหัวตาราง (ใช้กับ TC-EX-02)</div>
+        <div class="card-desc">เทมเพลตที่แถวหัวตารางว่าง — ระบบต้องแจ้ง ไม่พบแถวหัวตาราง</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/cutlist-header-overwritten-zz2.xlsx">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ Cut List ที่หัวตารางถูกเขียนทับ (ใช้กับ TC-EX-04)</div>
+        <div class="card-desc">ข้อมูลชิ้นแรกอยู่แถวที่ 5 แทนหัวตาราง — ระบบต้องแจ้ง ไม่พบข้อมูลที่จดจำได้</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <a class="card" href="client-docs/example-boq/cutlist-wrong-zone-zz2.xlsx">
+      <div class="icon">CL</div>
+      <div>
+        <div class="card-title">ตัวอย่างไฟล์ Cut List ที่โซนไม่ตรงกับ BOQ (ใช้กับ TC-EX-05)</div>
+        <div class="card-desc">ทุกชิ้นอยู่ในโซน ห้องนอน 18 ชิ้น 13.068 ตร.ม. — ระบบต้องไม่นำเข้าเมื่อกดยืนยัน</div>
+        <div class="card-meta"><span class="card-date">3 พ.ย. 2026</span><span class="status-badge built">Verified — ใช้ทดสอบจริงบน eg-tst</span></div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
     <a class="card" href="client-docs/example-boq/boq-import-example-hotel.xlsx">
       <div class="icon">BQ</div>
       <div>
